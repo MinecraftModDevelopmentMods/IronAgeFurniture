@@ -1,0 +1,16 @@
+[
+{
+  "modid": "ironagefurniture",
+  "name": "Iron Age Furniture",
+  "description": "A mod to add Iron Age Furniture to Minecraft",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["SkyBlade1978", "FoxNekitsune"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
