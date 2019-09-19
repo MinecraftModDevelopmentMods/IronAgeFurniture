@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.mcmoddev.ironagefurniture.init.BlockInitialiser;
+import com.mcmoddev.ironagefurniture.init.ItemInitialiser;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
@@ -38,8 +39,10 @@ public class Ironagefurniture
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
-        // some example code
-        System.out.println("DIRT BLOCK >> "+Blocks.DIRT.getUnlocalizedName());
+    	// register renderers
+    	if(event.getSide().isClient()) {
+    		ItemInitialiser.RegisterItemRenders();
+    	}
     }
     
     @EventHandler
