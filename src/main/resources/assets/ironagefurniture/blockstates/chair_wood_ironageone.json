@@ -1,6 +1,8 @@
-  
 {
-    "variants": {
-        "normal": { "model": "ironagefurniture:chair_wood_ironageone" }
-    }
+	"variants": {
+		"facing=north": { "model": "ironagefurniture:chair_wood_ironageone" , "y": 180},
+		"facing=east":  { "model": "ironagefurniture:chair_wood_ironageone" ,"y": 270 },
+		"facing=south": { "model": "ironagefurniture:chair_wood_ironageone"  },
+		"facing=west":  { "model": "ironagefurniture:chair_wood_ironageone" , "y": 90 }
+	}
 }
