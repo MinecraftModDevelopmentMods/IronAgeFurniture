@@ -3,6 +3,8 @@ package com.mcmoddev.ironagefurniture;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.mcmoddev.ironagefurniture.Blocks.Chair;
+import com.mcmoddev.ironagefurniture.entity.Seat;
 import com.mcmoddev.ironagefurniture.init.BlockInitialiser;
 import com.mcmoddev.ironagefurniture.init.ItemInitialiser;
 
@@ -10,10 +12,12 @@ import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
 
 @Mod(modid = Ironagefurniture.MODID, version = Ironagefurniture.VERSION)
 public class Ironagefurniture
@@ -43,6 +47,8 @@ public class Ironagefurniture
     	if(event.getSide().isClient()) {
     		ItemInitialiser.RegisterItemRenders();
     	}
+    	
+    	EntityRegistry.registerModEntity(Seat.class, MODID + ":seat", 0, this, 80, 1, false);
     }
     
     @EventHandler
