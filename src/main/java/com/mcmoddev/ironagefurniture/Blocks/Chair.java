@@ -29,6 +29,7 @@ public class Chair extends BlockHBase {
 	private static final AxisAlignedBB BACKNORTH = RotateBB(Rotation.Ninty, BACKEAST);
 	private static final AxisAlignedBB BACKSOUTH = RotateBB(Rotation.OneEighty, BACKEAST);
 	private static final AxisAlignedBB BACKWEST = RotateBB(Rotation.TwoSeventy, BACKEAST);
+	private final double yOffset;
 	
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
@@ -43,7 +44,7 @@ public class Chair extends BlockHBase {
 			}
 		}
 		
-		Seat seat = new Seat(worldIn, pos.getX(), pos.getY(), pos.getZ(), 0.4375);
+		Seat seat = new Seat(worldIn, pos.getX(), pos.getY(), pos.getZ(), this.yOffset);
 		
 		worldIn.spawnEntityInWorld(seat);
 		playerIn.startRiding(seat);	
@@ -52,9 +53,13 @@ public class Chair extends BlockHBase {
 		return true;
 	}
 	
-	public Chair(Material materialIn, String name, float resistance) {
+	public Chair(Material materialIn, String name, float resistance, double yOffset) {
 		super(materialIn);
-		
+		this.yOffset = yOffset;
+		InitChair(materialIn, name, resistance);
+	}
+	
+	private void InitChair(Material materialIn, String name, float resistance) {
 		if (materialIn == Material.ROCK) {	
 			this.setSoundType(SoundType.STONE);
 			this.setHarvestLevel("pickaxe", 0);
@@ -72,6 +77,12 @@ public class Chair extends BlockHBase {
 
 		this.blockResistance = resistance;
 		this.setCreativeTab(Ironagefurniture.ironagefurnitureTab);
+	}
+	
+	public Chair(Material materialIn, String name, float resistance) {
+		super(materialIn);
+		this.yOffset = 0.3;
+		InitChair(materialIn, name, resistance);
 	}
 	
 	@Override

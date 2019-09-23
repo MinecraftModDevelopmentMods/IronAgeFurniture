@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "ironagefurniture:chair_wood_ironage_stool_tall_umbran",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "ironagefurniture:chair_wood_ironage_stool_tall_umbran",
+      "y": 270
+    },
+    "facing=south": {
+      "model": "ironagefurniture:chair_wood_ironage_stool_tall_umbran"
+    },
+    "facing=west": {
+      "model": "ironagefurniture:chair_wood_ironage_stool_tall_umbran",
+      "y": 90
+    }
+  }
+}
