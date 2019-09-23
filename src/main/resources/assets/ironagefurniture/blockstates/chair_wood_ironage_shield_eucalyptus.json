@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "ironagefurniture:chair_wood_ironage_shield_eucalyptus",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "ironagefurniture:chair_wood_ironage_shield_eucalyptus",
+      "y": 270
+    },
+    "facing=south": {
+      "model": "ironagefurniture:chair_wood_ironage_shield_eucalyptus"
+    },
+    "facing=west": {
+      "model": "ironagefurniture:chair_wood_ironage_shield_eucalyptus",
+      "y": 90
+    }
+  }
+}
