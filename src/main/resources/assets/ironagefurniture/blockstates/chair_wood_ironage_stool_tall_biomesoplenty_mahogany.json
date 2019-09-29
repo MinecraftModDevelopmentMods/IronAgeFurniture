@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "ironagefurniture:chair_wood_ironage_stool_tall_biomesoplenty_mahogany",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "ironagefurniture:chair_wood_ironage_stool_tall_biomesoplenty_mahogany",
+      "y": 270
+    },
+    "facing=south": {
+      "model": "ironagefurniture:chair_wood_ironage_stool_tall_biomesoplenty_mahogany"
+    },
+    "facing=west": {
+      "model": "ironagefurniture:chair_wood_ironage_stool_tall_biomesoplenty_mahogany",
+      "y": 90
+    }
+  }
+}
