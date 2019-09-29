@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "ironagefurniture:chair_wood_ironage_classic_natura_ghostwood",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "ironagefurniture:chair_wood_ironage_classic_natura_ghostwood",
+      "y": 270
+    },
+    "facing=south": {
+      "model": "ironagefurniture:chair_wood_ironage_classic_natura_ghostwood"
+    },
+    "facing=west": {
+      "model": "ironagefurniture:chair_wood_ironage_classic_natura_ghostwood",
+      "y": 90
+    }
+  }
+}

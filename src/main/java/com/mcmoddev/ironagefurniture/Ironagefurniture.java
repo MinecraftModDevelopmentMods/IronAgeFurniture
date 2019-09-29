@@ -53,6 +53,7 @@ public class Ironagefurniture
     
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+    	IronAgeFurnitureConfiguration.init(event);
     	BlockInitialiser.init();   	
     }
 }

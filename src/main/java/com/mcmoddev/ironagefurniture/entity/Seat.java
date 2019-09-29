@@ -25,7 +25,7 @@ public class Seat extends Entity
 		this(world);
 		
 		SeatCoordinates = new Coordinates(x, y, z);		
-		setPosition(x + 0.5D, y + y0ffset, z + 0.75D);
+		setPosition(x + 0.5D, y + y0ffset, z + 0.5D);
 	}
 
 	@Override
