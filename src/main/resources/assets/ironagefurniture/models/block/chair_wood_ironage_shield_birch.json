@@ -3,7 +3,7 @@
   "textures": {
     "0": "minecraft:blocks/log_birch",
     "1": "minecraft:blocks/planks_birch",
-    "2": "ironagefurniture/shield_chair_back",
+    "2": "ironagefurniture:blocks/shield_chair_back",
     "particle": "minecraft:blocks/log_birch"
   },
   "elements": [
