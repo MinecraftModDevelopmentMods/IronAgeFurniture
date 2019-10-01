@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "ironagefurniture:chair_wood_ironage_shield_natura_hopseed",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "ironagefurniture:chair_wood_ironage_shield_natura_hopseed",
+      "y": 270
+    },
+    "facing=south": {
+      "model": "ironagefurniture:chair_wood_ironage_shield_natura_hopseed"
+    },
+    "facing=west": {
+      "model": "ironagefurniture:chair_wood_ironage_shield_natura_hopseed",
+      "y": 90
+    }
+  }
+}
