@@ -3,7 +3,7 @@
   "textures": {
     "0": "biomesoplenty:blocks/mangrove_log",
     "1": "biomesoplenty:blocks/mangrove_planks",
-    "2": "ironagefurniture/shield_chair_back",
+    "2": "ironagefurniture:blocks/shield_chair_back",
     "particle": "biomesoplenty:blocks/mangrove_log"
   },
   "elements": [
@@ -648,7 +648,7 @@
       "to": [
         16,
         8,
-        16
+        14
       ],
       "faces": {
         "north": {
@@ -664,7 +664,7 @@
           "uv": [
             0,
             0,
-            14,
+            12,
             1
           ],
           "texture": "#0"
@@ -682,7 +682,7 @@
           "uv": [
             0,
             0,
-            14,
+            12,
             1
           ],
           "texture": "#0"
@@ -690,7 +690,7 @@
         "up": {
           "uv": [
             0,
-            0,
+            2,
             16,
             14
           ],
@@ -701,7 +701,75 @@
             0,
             0,
             16,
-            14
+            12
+          ],
+          "texture": "#0"
+        }
+      }
+    },
+    {
+      "from": [
+        2,
+        7,
+        14
+      ],
+      "to": [
+        14,
+        8,
+        16
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            12,
+            1
+          ],
+          "texture": "#0"
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            2,
+            1
+          ],
+          "texture": "#0"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            12,
+            1
+          ],
+          "texture": "#0"
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            2,
+            1
+          ],
+          "texture": "#0"
+        },
+        "up": {
+          "uv": [
+            2,
+            14,
+            14,
+            16
+          ],
+          "texture": "#0"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            12,
+            2
           ],
           "texture": "#0"
         }
@@ -1645,7 +1713,8 @@
         8
       ],
       "children": [
-        8
+        8,
+        9
       ]
     },
     {
@@ -1657,7 +1726,6 @@
       ],
       "children": []
     },
-    9,
     10,
     11,
     12,
@@ -1669,6 +1737,7 @@
     18,
     19,
     20,
-    21
+    21,
+    22
   ]
 }
