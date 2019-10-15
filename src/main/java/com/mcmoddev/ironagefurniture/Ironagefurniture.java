@@ -7,6 +7,7 @@ import com.mcmoddev.ironagefurniture.Blocks.Chair;
 import com.mcmoddev.ironagefurniture.entity.Seat;
 import com.mcmoddev.ironagefurniture.init.BlockInitialiser;
 import com.mcmoddev.ironagefurniture.init.ItemInitialiser;
+import com.mcmoddev.ironagefurniture.init.RecipeInitialiser;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
@@ -54,6 +55,7 @@ public class Ironagefurniture
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
     	IronAgeFurnitureConfiguration.init(event);
-    	BlockInitialiser.init();   	
+    	BlockInitialiser.init();
+    	RecipeInitialiser.init();
     }
 }

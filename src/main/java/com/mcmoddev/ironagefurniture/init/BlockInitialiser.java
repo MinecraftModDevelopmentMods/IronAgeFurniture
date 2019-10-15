@@ -7,7 +7,9 @@ import com.mcmoddev.ironagefurniture.Blocks.Stool;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -18,7 +20,13 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
  *
  */
 public class BlockInitialiser {
-
+	public static Block chair_wood_ironage_classic_oak;
+	public static Block chair_wood_ironage_classic_acacia;
+	public static Block chair_wood_ironage_classic_big_oak;
+	public static Block chair_wood_ironage_classic_birch;
+	public static Block chair_wood_ironage_classic_jungle;
+	public static Block chair_wood_ironage_classic_spruce;
+	
 	protected BlockInitialiser() {
 		throw new IllegalAccessError("This class cannot be instansiated");
 	}
@@ -32,12 +40,12 @@ public class BlockInitialiser {
 	
 	private static void generateChairs() {
 		if (IronAgeFurnitureConfiguration.GENERATE_CLASSIC_CHAIRS) {
-			registerBlock(new Chair(Material.WOOD, "chair_wood_ironage_classic_oak", (float)10, 1), "chair_wood_ironage_classic_oak");
-			registerBlock(new Chair(Material.WOOD, "chair_wood_ironage_classic_acacia", (float)10, 1), "chair_wood_ironage_classic_acacia");
-			registerBlock(new Chair(Material.WOOD, "chair_wood_ironage_classic_big_oak", (float)10, 1), "chair_wood_ironage_classic_big_oak");
-			registerBlock(new Chair(Material.WOOD, "chair_wood_ironage_classic_birch", (float)10, 1), "chair_wood_ironage_classic_birch");
-			registerBlock(new Chair(Material.WOOD, "chair_wood_ironage_classic_jungle", (float)10, 1), "chair_wood_ironage_classic_jungle");
-			registerBlock(new Chair(Material.WOOD, "chair_wood_ironage_classic_spruce", (float)10, 1), "chair_wood_ironage_classic_spruce");
+			chair_wood_ironage_classic_oak = registerBlock(new Chair(Material.WOOD, "chair_wood_ironage_classic_oak", (float)10, 1), "chair_wood_ironage_classic_oak");
+			chair_wood_ironage_classic_acacia = registerBlock(new Chair(Material.WOOD, "chair_wood_ironage_classic_acacia", (float)10, 1), "chair_wood_ironage_classic_acacia");
+			chair_wood_ironage_classic_big_oak = registerBlock(new Chair(Material.WOOD, "chair_wood_ironage_classic_big_oak", (float)10, 1), "chair_wood_ironage_classic_big_oak");
+			chair_wood_ironage_classic_birch = registerBlock(new Chair(Material.WOOD, "chair_wood_ironage_classic_birch", (float)10, 1), "chair_wood_ironage_classic_birch");
+			chair_wood_ironage_classic_jungle = registerBlock(new Chair(Material.WOOD, "chair_wood_ironage_classic_jungle", (float)10, 1), "chair_wood_ironage_classic_jungle");
+			chair_wood_ironage_classic_spruce = registerBlock(new Chair(Material.WOOD, "chair_wood_ironage_classic_spruce", (float)10, 1), "chair_wood_ironage_classic_spruce");
 		}
 		
 		if (IronAgeFurnitureConfiguration.GENERATE_SHIELD_CHAIRS) {
