@@ -53,13 +53,13 @@ public class Chair extends BlockHBase {
 		return true;
 	}
 	
-	public Chair(Material materialIn, String name, float resistance, double yOffset) {
+	public Chair(Material materialIn, String name, float resistance, double yOffset, float hardness) {
 		super(materialIn);
 		this.yOffset = yOffset;
-		InitChair(materialIn, name, resistance);
+		InitChair(materialIn, name, resistance, hardness);
 	}
 	
-	private void InitChair(Material materialIn, String name, float resistance) {
+	private void InitChair(Material materialIn, String name, float resistance, float hardness) {
 		if (materialIn == Material.ROCK) {	
 			this.setSoundType(SoundType.STONE);
 			this.setHarvestLevel("pickaxe", 0);
@@ -76,13 +76,14 @@ public class Chair extends BlockHBase {
 		}
 
 		this.blockResistance = resistance;
+		this.blockHardness = hardness;
 		this.setCreativeTab(Ironagefurniture.ironagefurnitureTab);
 	}
 	
-	public Chair(Material materialIn, String name, float resistance) {
+	public Chair(Material materialIn, String name, float resistance, float hardness) {
 		super(materialIn);
 		this.yOffset = 0.3;
-		InitChair(materialIn, name, resistance);
+		InitChair(materialIn, name, resistance, hardness);
 	}
 	
 	@Override

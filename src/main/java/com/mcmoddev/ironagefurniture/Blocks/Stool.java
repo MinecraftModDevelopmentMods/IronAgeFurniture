@@ -19,8 +19,8 @@ public class Stool extends Chair {
 	private static final AxisAlignedBB BBSHORT = new AxisAlignedBB(0.2, 0.0, 0.2, 0.8, 0.45, 0.8);
 	private static final AxisAlignedBB BBTALL = new AxisAlignedBB(0.2, 0.0, 0.2, 0.8, 0.8, 0.8);
 	
-	public Stool(Material materialIn, String name, float resistance, boolean tall, double yOffset) {
-		super(materialIn, name, resistance, yOffset);
+	public Stool(Material materialIn, String name, float resistance, boolean tall, double yOffset, float hardness) {
+		super(materialIn, name, resistance, yOffset, hardness);
 		this.tall = tall;
 		// TODO Auto-generated constructor stub
 	}
