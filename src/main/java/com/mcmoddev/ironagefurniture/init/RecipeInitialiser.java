@@ -4,9 +4,12 @@ import com.mcmoddev.ironagefurniture.IronAgeFurnitureConfiguration;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 public class RecipeInitialiser {
 	protected RecipeInitialiser() {
@@ -22,73 +25,133 @@ public class RecipeInitialiser {
 	
 	private static void generateChairRecipes() {
 		if (IronAgeFurnitureConfiguration.GENERATE_CLASSIC_CHAIRS) {
-			GameRegistry.addRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_oak, 1), "*  ", "***", "* *", '*', new ItemStack(Blocks.PLANKS, 1, 0));
-			GameRegistry.addRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_spruce, 1), "*  ", "***", "* *", '*', new ItemStack(Blocks.PLANKS, 1, 1));
-			GameRegistry.addRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_birch, 1), "*  ", "***", "* *", '*', new ItemStack(Blocks.PLANKS, 1, 2));
-			GameRegistry.addRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_jungle, 1), "*  ", "***", "* *", '*', new ItemStack(Blocks.PLANKS, 1, 3));
-			GameRegistry.addRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_acacia, 1), "*  ", "***", "* *", '*', new ItemStack(Blocks.PLANKS, 1, 4));
-			GameRegistry.addRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_big_oak, 1), "*  ", "***", "* *", '*', new ItemStack(Blocks.PLANKS, 1, 5));
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_oak, 1), "x  ", "xxx", "y y", 'x', new ItemStack(Blocks.PLANKS, 1, 0), 'y', "stickWood"));
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_spruce, 1), "x  ", "xxx", "y y", 'x', new ItemStack(Blocks.PLANKS, 1, 1), 'y', "stickWood"));
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_birch, 1), "x  ", "xxx", "y y", 'x', new ItemStack(Blocks.PLANKS, 1, 2), 'y', "stickWood"));
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_jungle, 1), "x  ", "xxx", "y y", 'x', new ItemStack(Blocks.PLANKS, 1, 3), 'y', "stickWood"));
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_acacia, 1), "x  ", "xxx", "y y", 'x', new ItemStack(Blocks.PLANKS, 1, 4), 'y', "stickWood"));
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_big_oak, 1), "x  ", "xxx", "y y", 'x', new ItemStack(Blocks.PLANKS, 1, 5), 'y', "stickWood"));
 		}
 		
 		if (IronAgeFurnitureConfiguration.GENERATE_SHIELD_CHAIRS) {
-					
+			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_shield_oak, 1), new ItemStack(BlockInitialiser.chair_wood_ironage_classic_oak,1), new ItemStack(Items.SHIELD,1)));
+			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_shield_spruce, 1), new ItemStack(BlockInitialiser.chair_wood_ironage_classic_oak,1), new ItemStack(Items.SHIELD,1)));
+			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_shield_birch, 1), new ItemStack(BlockInitialiser.chair_wood_ironage_classic_birch,1), new ItemStack(Items.SHIELD,1)));
+			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_shield_jungle, 1), new ItemStack(BlockInitialiser.chair_wood_ironage_classic_jungle,1), new ItemStack(Items.SHIELD,1)));
+			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_shield_acacia, 1), new ItemStack(BlockInitialiser.chair_wood_ironage_classic_acacia,1), new ItemStack(Items.SHIELD,1)));
+			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_shield_big_oak, 1), new ItemStack(BlockInitialiser.chair_wood_ironage_classic_big_oak,1), new ItemStack(Items.SHIELD,1)));
 		}
 		
 		if (IronAgeFurnitureConfiguration.GENERATE_SHORT_STOOLS) {
-			
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_short_oak, 1), " x ", "yyy", 'x', new ItemStack(Blocks.PLANKS, 1, 0), 'y', "stickWood"));
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_short_spruce, 1), " x ", "yyy", 'x', new ItemStack(Blocks.PLANKS, 1, 1), 'y', "stickWood"));
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_short_birch, 1), " x ", "yyy", 'x', new ItemStack(Blocks.PLANKS, 1, 2), 'y', "stickWood"));
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_short_jungle, 1), " x ", "yyy", 'x', new ItemStack(Blocks.PLANKS, 1, 3), 'y', "stickWood"));
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_short_acacia, 1), " x ", "yyy", 'x', new ItemStack(Blocks.PLANKS, 1, 4), 'y', "stickWood"));
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_short_big_oak, 1), " x ", "yyy", 'x', new ItemStack(Blocks.PLANKS, 1, 5), 'y', "stickWood"));
 		}
 		
 		if (IronAgeFurnitureConfiguration.GENERATE_TALL_STOOLS) {
-			
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_tall_oak, 1), " x ", "yyy","yyy", 'x', new ItemStack(Blocks.PLANKS, 1, 0), 'y', "stickWood"));
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_tall_spruce, 1), " x ", "yyy","yyy", 'x', new ItemStack(Blocks.PLANKS, 1, 1), 'y', "stickWood"));
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_tall_birch, 1), " x ", "yyy","yyy", 'x', new ItemStack(Blocks.PLANKS, 1, 2), 'y', "stickWood"));
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_tall_jungle, 1), " x ", "yyy","yyy", 'x', new ItemStack(Blocks.PLANKS, 1, 3), 'y', "stickWood"));
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_tall_acacia, 1), " x ", "yyy","yyy", 'x', new ItemStack(Blocks.PLANKS, 1, 4), 'y', "stickWood"));
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_tall_big_oak, 1), " x ", "yyy","yyy", 'x', new ItemStack(Blocks.PLANKS, 1, 5), 'y', "stickWood"));
 		}
 		
 		if (IronAgeFurnitureConfiguration.INTEGRATION_BIOMESOPLENTY && Loader.isModLoaded("BiomesOPlenty")) {
+			ItemStack SACRED_OAK = new ItemStack(Block.getBlockFromName("BiomesOPlenty:planks_0"), 1, 0);
+			ItemStack CHERRY = new ItemStack(Block.getBlockFromName("BiomesOPlenty:planks_0"), 1, 1);
+			ItemStack UMBRAN = new ItemStack(Block.getBlockFromName("BiomesOPlenty:planks_0"), 1, 2);
+			ItemStack FIR = new ItemStack(Block.getBlockFromName("BiomesOPlenty:planks_0"), 1, 3);
+			ItemStack ETHEREAL = new ItemStack(Block.getBlockFromName("BiomesOPlenty:planks_0"), 1, 4);
+			ItemStack MAGIC = new ItemStack(Block.getBlockFromName("BiomesOPlenty:planks_0"), 1, 5);
+			ItemStack MANGROVE = new ItemStack(Block.getBlockFromName("BiomesOPlenty:planks_0"), 1, 6);
+			ItemStack PALM = new ItemStack(Block.getBlockFromName("BiomesOPlenty:planks_0"), 1, 7);
+			ItemStack REDWOOD = new ItemStack(Block.getBlockFromName("BiomesOPlenty:planks_0"), 1, 8);
+			ItemStack WILLOW = new ItemStack(Block.getBlockFromName("BiomesOPlenty:planks_0"), 1, 9);
+			ItemStack PINE = new ItemStack(Block.getBlockFromName("BiomesOPlenty:planks_0"), 1, 10);
+			ItemStack HELLBARK = new ItemStack(Block.getBlockFromName("BiomesOPlenty:planks_0"), 1, 11);
+			ItemStack JACARANDA = new ItemStack(Block.getBlockFromName("BiomesOPlenty:planks_0"), 1, 12);
+			ItemStack MAHOGANY = new ItemStack(Block.getBlockFromName("BiomesOPlenty:planks_0"), 1, 13);
+			ItemStack EBONY = new ItemStack(Block.getBlockFromName("BiomesOPlenty:planks_0"), 1, 14);
+			ItemStack EUCALYPTUS = new ItemStack(Block.getBlockFromName("BiomesOPlenty:planks_0"), 1, 15);
+			
 			if (IronAgeFurnitureConfiguration.GENERATE_CLASSIC_CHAIRS) {
-				ItemStack SACRED_OAK = new ItemStack(Block.getBlockFromName("BiomesOPlenty:planks_0"), 1, 0);
-				ItemStack CHERRY = new ItemStack(Block.getBlockFromName("BiomesOPlenty:planks_0"), 1, 1);
-				ItemStack UMBRAN = new ItemStack(Block.getBlockFromName("BiomesOPlenty:planks_0"), 1, 2);
-				ItemStack FIR = new ItemStack(Block.getBlockFromName("BiomesOPlenty:planks_0"), 1, 3);
-				ItemStack ETHEREAL = new ItemStack(Block.getBlockFromName("BiomesOPlenty:planks_0"), 1, 4);
-				ItemStack MAGIC = new ItemStack(Block.getBlockFromName("BiomesOPlenty:planks_0"), 1, 5);
-				ItemStack MANGROVE = new ItemStack(Block.getBlockFromName("BiomesOPlenty:planks_0"), 1, 6);
-				ItemStack PALM = new ItemStack(Block.getBlockFromName("BiomesOPlenty:planks_0"), 1, 7);
-				ItemStack REDWOOD = new ItemStack(Block.getBlockFromName("BiomesOPlenty:planks_0"), 1, 8);
-				ItemStack WILLOW = new ItemStack(Block.getBlockFromName("BiomesOPlenty:planks_0"), 1, 9);
-				ItemStack PINE = new ItemStack(Block.getBlockFromName("BiomesOPlenty:planks_0"), 1, 10);
-				ItemStack HELLBARK = new ItemStack(Block.getBlockFromName("BiomesOPlenty:planks_0"), 1, 11);
-				ItemStack JACARANDA = new ItemStack(Block.getBlockFromName("BiomesOPlenty:planks_0"), 1, 12);
-				ItemStack MAHOGANY = new ItemStack(Block.getBlockFromName("BiomesOPlenty:planks_0"), 1, 13);
-				ItemStack EBONY = new ItemStack(Block.getBlockFromName("BiomesOPlenty:planks_0"), 1, 14);
-				ItemStack EUCALYPTUS = new ItemStack(Block.getBlockFromName("BiomesOPlenty:planks_0"), 1, 15);
-				
-				GameRegistry.addRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_cherry, 1), "*  ", "***", "* *", '*', CHERRY);
-				GameRegistry.addRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_ebony, 1), "*  ", "***", "* *", '*', EBONY);
-				GameRegistry.addRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_ethereal, 1), "*  ", "***", "* *", '*', ETHEREAL);
-				GameRegistry.addRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_eucalyptus, 1), "*  ", "***", "* *", '*', EUCALYPTUS);
-				GameRegistry.addRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_fir, 1), "*  ", "***", "* *", '*', FIR);
-				GameRegistry.addRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_hellbark, 1), "*  ", "***", "* *", '*', HELLBARK);
-				GameRegistry.addRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_jacaranda, 1), "*  ", "***", "* *", '*', JACARANDA);
-				GameRegistry.addRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_magic, 1), "*  ", "***", "* *", '*', MAGIC);
-				GameRegistry.addRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_mahogany, 1), "*  ", "***", "* *", '*', MAHOGANY);
-				GameRegistry.addRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_mangrove, 1), "*  ", "***", "* *", '*', MANGROVE);
-				GameRegistry.addRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_palm, 1), "*  ", "***", "* *", '*', PALM);
-				GameRegistry.addRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_pine, 1), "*  ", "***", "* *", '*', PINE);
-				GameRegistry.addRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_redwood, 1), "*  ", "***", "* *", '*', REDWOOD);
-				GameRegistry.addRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_sacred_oak, 1), "*  ", "***", "* *", '*', SACRED_OAK);
-				GameRegistry.addRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_umbran, 1), "*  ", "***", "* *", '*', UMBRAN);
-				GameRegistry.addRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_willow, 1), "*  ", "***", "* *", '*', WILLOW);
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_cherry, 1), "x  ", "xxx", "y y", 'x', CHERRY, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_ebony, 1), "x  ", "xxx", "y y", 'x', EBONY, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_ethereal, 1), "x  ", "xxx", "y y", 'x', ETHEREAL, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_eucalyptus, 1), "x  ", "xxx", "y y", 'x', EUCALYPTUS, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_fir, 1), "x  ", "xxx", "y y", 'x', FIR, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_hellbark, 1), "x  ", "xxx", "y y", 'x', HELLBARK, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_jacaranda, 1), "x  ", "xxx", "y y", 'x', JACARANDA, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_magic, 1), "x  ", "xxx", "y y", 'x', MAGIC, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_mahogany, 1), "x  ", "xxx", "y y", 'x', MAHOGANY, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_mangrove, 1), "x  ", "xxx", "y y", 'x', MANGROVE, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_palm, 1), "x  ", "xxx", "y y", 'x', PALM, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_pine, 1), "x  ", "xxx", "y y", 'x', PINE, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_redwood, 1), "x  ", "xxx", "y y", 'x', REDWOOD, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_sacred_oak, 1), "x  ", "xxx", "y y", 'x', SACRED_OAK, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_umbran, 1), "x  ", "xxx", "y y", 'x', UMBRAN, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_willow, 1), "x  ", "xxx", "y y", 'x', WILLOW, 'y', "stickWood"));
 			}
 			
 			if (IronAgeFurnitureConfiguration.GENERATE_SHIELD_CHAIRS) {
-				
+				GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_shield_biomesoplenty_cherry, 1), new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_cherry,1), new ItemStack(Items.SHIELD,1)));
+				GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_shield_biomesoplenty_ebony, 1), new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_ebony,1), new ItemStack(Items.SHIELD,1)));
+				GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_shield_biomesoplenty_ethereal, 1), new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_ethereal,1), new ItemStack(Items.SHIELD,1)));
+				GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_shield_biomesoplenty_eucalyptus, 1), new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_eucalyptus,1), new ItemStack(Items.SHIELD,1)));
+				GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_shield_biomesoplenty_fir, 1), new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_fir,1), new ItemStack(Items.SHIELD,1)));
+				GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_shield_biomesoplenty_hellbark , 1), new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_hellbark ,1), new ItemStack(Items.SHIELD,1)));
+				GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_shield_biomesoplenty_jacaranda, 1), new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_jacaranda,1), new ItemStack(Items.SHIELD,1)));
+				GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_shield_biomesoplenty_magic, 1), new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_magic,1), new ItemStack(Items.SHIELD,1)));
+				GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_shield_biomesoplenty_mahogany, 1), new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_mahogany,1), new ItemStack(Items.SHIELD,1)));
+				GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_shield_biomesoplenty_mangrove, 1), new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_mangrove,1), new ItemStack(Items.SHIELD,1)));
+				GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_shield_biomesoplenty_palm , 1), new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_palm ,1), new ItemStack(Items.SHIELD,1)));
+				GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_shield_biomesoplenty_pine , 1), new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_pine ,1), new ItemStack(Items.SHIELD,1)));
+				GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_shield_biomesoplenty_redwood, 1), new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_redwood,1), new ItemStack(Items.SHIELD,1)));
+				GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_shield_biomesoplenty_sacred_oak, 1), new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_sacred_oak,1), new ItemStack(Items.SHIELD,1)));
+				GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_shield_biomesoplenty_umbran, 1), new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_umbran,1), new ItemStack(Items.SHIELD,1)));
+				GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_shield_biomesoplenty_willow, 1), new ItemStack(BlockInitialiser.chair_wood_ironage_classic_biomesoplenty_willow,1), new ItemStack(Items.SHIELD,1)));
 			}
 			
 			if (IronAgeFurnitureConfiguration.GENERATE_SHORT_STOOLS) {
-				
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_short_biomesoplenty_cherry, 1), " x ", "yyy", 'x', CHERRY, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_short_biomesoplenty_ebony, 1), " x ", "yyy", 'x', EBONY, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_short_biomesoplenty_ethereal, 1), " x ", "yyy", 'x', ETHEREAL, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_short_biomesoplenty_eucalyptus, 1), " x ", "yyy", 'x', EUCALYPTUS, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_short_biomesoplenty_fir, 1), " x ", "yyy", 'x', FIR, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_short_biomesoplenty_hellbark, 1), " x ", "yyy", 'x', HELLBARK, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_short_biomesoplenty_jacaranda, 1), " x ", "yyy", 'x', JACARANDA, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_short_biomesoplenty_magic, 1), " x ", "yyy", 'x', MAGIC, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_short_biomesoplenty_mahogany, 1), " x ", "yyy", 'x', MAHOGANY, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_short_biomesoplenty_mangrove, 1), " x ", "yyy", 'x', MANGROVE, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_short_biomesoplenty_palm, 1), " x ", "yyy", 'x', PALM, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_short_biomesoplenty_pine, 1), " x ", "yyy", 'x', PINE, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_short_biomesoplenty_redwood, 1), " x ", "yyy", 'x', REDWOOD, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_short_biomesoplenty_sacred_oak, 1), " x ", "yyy", 'x', SACRED_OAK, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_short_biomesoplenty_umbran, 1), " x ", "yyy", 'x', UMBRAN, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_short_biomesoplenty_willow, 1), " x ", "yyy", 'x', WILLOW, 'y', "stickWood"));
 			}
 			
 			if (IronAgeFurnitureConfiguration.GENERATE_TALL_STOOLS) {
-				
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_tall_biomesoplenty_cherry, 1), " x ", "yyy", "yyy", 'x', CHERRY, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_tall_biomesoplenty_ebony, 1), " x ", "yyy", "yyy", 'x', EBONY, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_tall_biomesoplenty_ethereal, 1), " x ", "yyy", "yyy", 'x', ETHEREAL, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_tall_biomesoplenty_eucalyptus, 1), " x ", "yyy", "yyy", 'x', EUCALYPTUS, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_tall_biomesoplenty_fir, 1), " x ", "yyy", "yyy", 'x', FIR, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_tall_biomesoplenty_hellbark, 1), " x ", "yyy", "yyy", 'x', HELLBARK, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_tall_biomesoplenty_jacaranda, 1), " x ", "yyy", "yyy", 'x', JACARANDA, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_tall_biomesoplenty_magic, 1), " x ", "yyy", "yyy", 'x', MAGIC, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_tall_biomesoplenty_mahogany, 1), " x ", "yyy", "yyy", 'x', MAHOGANY, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_tall_biomesoplenty_mangrove, 1), " x ", "yyy", "yyy", 'x', MANGROVE, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_tall_biomesoplenty_palm, 1), " x ", "yyy", "yyy", 'x', PALM, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_tall_biomesoplenty_pine, 1), " x ", "yyy", "yyy", 'x', PINE, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_tall_biomesoplenty_redwood, 1), " x ", "yyy", "yyy", 'x', REDWOOD, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_tall_biomesoplenty_sacred_oak, 1), " x ", "yyy", "yyy", 'x', SACRED_OAK, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_tall_biomesoplenty_umbran, 1), " x ", "yyy", "yyy", 'x', UMBRAN, 'y', "stickWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_stool_tall_biomesoplenty_willow, 1), " x ", "yyy", "yyy", 'x', WILLOW, 'y', "stickWood"));
 			}
 		}
 		
