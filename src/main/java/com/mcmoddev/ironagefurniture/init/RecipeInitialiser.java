@@ -4,11 +4,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.mcmoddev.ironagefurniture.IronAgeFurnitureConfiguration;
+import com.mcmoddev.ironagefurniture.Ironagefurniture;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -161,8 +164,6 @@ public class RecipeInitialiser {
 		}
 		
 		if (IronAgeFurnitureConfiguration.INTEGRATION_NATURA && Loader.isModLoaded("natura")) {
-			logger.info("natura recipe integration");
-			
 			ItemStack MAPLE = new ItemStack(Block.getBlockFromName("natura:overworld_planks"), 1, 0);
 			ItemStack SILVERBELL = new ItemStack(Block.getBlockFromName("natura:overworld_planks"), 1, 1);
 			ItemStack AMARANTH = new ItemStack(Block.getBlockFromName("natura:overworld_planks"), 1, 2);
@@ -177,7 +178,7 @@ public class RecipeInitialiser {
 			ItemStack FUSEWOOD = new ItemStack(Block.getBlockFromName("natura:nether_planks"), 1, 3);
 			ItemStack DARKWOOD = new ItemStack(Block.getBlockFromName("natura:nether_planks"), 1, 2);
 			
-			logger.info("maple: " + MAPLE.getItem().getUnlocalizedName());
+			
 			
 			if (IronAgeFurnitureConfiguration.GENERATE_CLASSIC_CHAIRS) {
 				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockInitialiser.chair_wood_ironage_classic_natura_maple, 1), "x  ", "xxx", "y y", 'x', MAPLE, 'y', "stickWood"));

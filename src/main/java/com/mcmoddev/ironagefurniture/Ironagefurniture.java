@@ -48,12 +48,14 @@ public class Ironagefurniture
     	}
     	
     	EntityRegistry.registerModEntity(Seat.class, MODID + ":seat", 0, this, 80, 1, false);
+    	
+    	RecipeInitialiser.init();
     }
     
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
     	IronAgeFurnitureConfiguration.init(event);
     	BlockInitialiser.init();
-    	RecipeInitialiser.init();
+    	
     }
 }
