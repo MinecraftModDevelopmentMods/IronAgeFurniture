@@ -255,5 +255,38 @@ public class RecipeInitialiser {
 				AddTallStoolRecipe(DARKWOOD, BlockObjectHolder.chair_wood_ironage_stool_tall_natura_darkwood);
 			}
 		}
+		
+		if (IronAgeFurnitureConfiguration.INTEGRATION_NATURA && Loader.isModLoaded("immersiveengineering")) {
+			Block wood = Block.getBlockFromName("immersiveengineering:treatedWood");
+			
+	
+			ItemStack HORIZONTAL = new ItemStack(wood, 1, 0);
+			ItemStack VERTICAL = new ItemStack(wood, 1, 1);
+			ItemStack PACKAGED = new ItemStack(wood, 1, 2);
+			
+			if (IronAgeFurnitureConfiguration.GENERATE_CLASSIC_CHAIRS) {
+				AddClassicChairRecipe(HORIZONTAL, BlockObjectHolder.chair_wood_ironage_classic_immersiveengineering_treatedWood);
+				AddClassicChairRecipe(VERTICAL, BlockObjectHolder.chair_wood_ironage_classic_immersiveengineering_treatedWood);
+				AddClassicChairRecipe(PACKAGED, BlockObjectHolder.chair_wood_ironage_classic_immersiveengineering_treatedWood);
+				
+			}
+			
+			if (IronAgeFurnitureConfiguration.GENERATE_SHIELD_CHAIRS) {
+				AddShieldChairRecipe(BlockObjectHolder.chair_wood_ironage_classic_immersiveengineering_treatedWood, BlockObjectHolder.chair_wood_ironage_shield_immersiveengineering_treatedWood);			
+			}
+			
+			if (IronAgeFurnitureConfiguration.GENERATE_SHORT_STOOLS) {
+				AddShortStoolRecipe(HORIZONTAL, BlockObjectHolder.chair_wood_ironage_stool_short_immersiveengineering_treatedWood);
+				AddShortStoolRecipe(VERTICAL, BlockObjectHolder.chair_wood_ironage_stool_short_immersiveengineering_treatedWood);
+				AddShortStoolRecipe(PACKAGED, BlockObjectHolder.chair_wood_ironage_stool_short_immersiveengineering_treatedWood);
+				
+			}
+			
+			if (IronAgeFurnitureConfiguration.GENERATE_TALL_STOOLS) {
+				AddTallStoolRecipe(HORIZONTAL, BlockObjectHolder.chair_wood_ironage_stool_tall_immersiveengineering_treatedWood);
+				AddTallStoolRecipe(VERTICAL, BlockObjectHolder.chair_wood_ironage_stool_tall_immersiveengineering_treatedWood);
+				AddTallStoolRecipe(PACKAGED, BlockObjectHolder.chair_wood_ironage_stool_tall_immersiveengineering_treatedWood);
+			}
+		}
 	}
 }

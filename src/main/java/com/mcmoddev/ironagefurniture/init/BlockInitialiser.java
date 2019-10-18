@@ -69,6 +69,26 @@ public class BlockInitialiser {
 			BlockObjectHolder.chair_wood_ironage_stool_tall_spruce = registerBlock(new Stool(Material.WOOD, "chair_wood_ironage_stool_tall_spruce", (float)10, true, 0.6, 1), "chair_wood_ironage_stool_tall_spruce");
 		}
 		
+
+		
+		if (IronAgeFurnitureConfiguration.INTEGRATION_IMMERSIVEENGINEERING && Loader.isModLoaded("immersiveengineering")) {
+			if (IronAgeFurnitureConfiguration.GENERATE_CLASSIC_CHAIRS) {
+				BlockObjectHolder.chair_wood_ironage_classic_immersiveengineering_treatedWood = registerBlock(new Chair(Material.WOOD, "chair_wood_ironage_classic_immersiveengineering_treatedWood", (float)10, 1), "chair_wood_ironage_classic_immersiveengineering_treatedWood");			
+			}
+			
+			if (IronAgeFurnitureConfiguration.GENERATE_SHIELD_CHAIRS) {
+				BlockObjectHolder.chair_wood_ironage_shield_immersiveengineering_treatedWood = registerBlock(new Chair(Material.WOOD, "chair_wood_ironage_shield_immersiveengineering_treatedWood", (float)10, 1), "chair_wood_ironage_shield_immersiveengineering_treatedWood");
+			}
+			
+			if (IronAgeFurnitureConfiguration.GENERATE_SHORT_STOOLS) {
+				BlockObjectHolder.chair_wood_ironage_stool_short_immersiveengineering_treatedWood = registerBlock(new Stool(Material.WOOD, "chair_wood_ironage_stool_short_immersiveengineering_treatedWood", (float)10, false, 0.25, 1), "chair_wood_ironage_stool_short_immersiveengineering_treatedWood");
+			}
+			
+			if (IronAgeFurnitureConfiguration.GENERATE_TALL_STOOLS) {
+				BlockObjectHolder.chair_wood_ironage_stool_tall_immersiveengineering_treatedWood = registerBlock(new Stool(Material.WOOD, "chair_wood_ironage_stool_tall_immersiveengineering_treatedWood", (float)10, true, 0.6, 1), "chair_wood_ironage_stool_tall_immersiveengineering_treatedWood");
+			}
+		}
+		
 		if (IronAgeFurnitureConfiguration.INTEGRATION_BIOMESOPLENTY && Loader.isModLoaded("BiomesOPlenty")) {
 			if (IronAgeFurnitureConfiguration.GENERATE_CLASSIC_CHAIRS) {
 				BlockObjectHolder.chair_wood_ironage_classic_biomesoplenty_cherry         = registerBlock(new Chair(Material.WOOD, "chair_wood_ironage_classic_biomesoplenty_cherry", (float)10, 1), "chair_wood_ironage_classic_biomesoplenty_cherry");
