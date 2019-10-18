@@ -154,4 +154,13 @@ public class BlockObjectHolder {
 	public static Block chair_wood_ironage_stool_tall_natura_darkwood;
 	public static Block chair_wood_ironage_stool_tall_natura_fusewood;
 	public static Block chair_wood_ironage_stool_tall_natura_ghostwood;
+	
+	public static Block chair_wood_ironage_classic_immersiveengineering_treatedWood;
+	
+	public static Block chair_wood_ironage_shield_immersiveengineering_treatedWood;	
+	
+	public static Block chair_wood_ironage_stool_short_immersiveengineering_treatedWood;
+	
+	public static Block chair_wood_ironage_stool_tall_immersiveengineering_treatedWood;
+
 }
