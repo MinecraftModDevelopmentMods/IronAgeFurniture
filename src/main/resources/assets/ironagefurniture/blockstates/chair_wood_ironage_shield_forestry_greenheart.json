@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "ironagefurniture:chair_wood_ironage_shield_forestry_greenheart",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "ironagefurniture:chair_wood_ironage_shield_forestry_greenheart",
+      "y": 270
+    },
+    "facing=south": {
+      "model": "ironagefurniture:chair_wood_ironage_shield_forestry_greenheart"
+    },
+    "facing=west": {
+      "model": "ironagefurniture:chair_wood_ironage_shield_forestry_greenheart",
+      "y": 90
+    }
+  }
+}

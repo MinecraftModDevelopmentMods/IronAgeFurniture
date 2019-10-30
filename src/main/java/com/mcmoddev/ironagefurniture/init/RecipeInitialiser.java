@@ -288,5 +288,175 @@ public class RecipeInitialiser {
 				AddTallStoolRecipe(PACKAGED, BlockObjectHolder.chair_wood_ironage_stool_tall_immersiveengineering_treatedWood);
 			}
 		}
+		
+		if (IronAgeFurnitureConfiguration.INTEGRATION_NATURA && Loader.isModLoaded("forestry")) {
+			Block wood = Block.getBlockFromName("forestry:planks.0");
+			
+	
+			ItemStack LARCH = new ItemStack(wood, 1, 0);
+			ItemStack TEAK = new ItemStack(wood, 1, 1);
+			ItemStack ACACIA = new ItemStack(wood, 1, 2);
+			ItemStack LIME = new ItemStack(wood, 1, 3);
+			ItemStack CHESTNUT = new ItemStack(wood, 1, 4);
+			ItemStack WENGE = new ItemStack(wood, 1, 5);
+			ItemStack BAOBAB = new ItemStack(wood, 1, 6);
+			ItemStack SEQUOIA = new ItemStack(wood, 1, 7);
+			ItemStack KAPOK = new ItemStack(wood, 1, 8);
+			ItemStack EBONY = new ItemStack(wood, 1, 9);
+			ItemStack MAHOGANY = new ItemStack(wood, 1, 10);
+			ItemStack BALSA = new ItemStack(wood, 1, 11);
+			ItemStack WILLOW = new ItemStack(wood, 1, 12);
+			ItemStack WALNUT = new ItemStack(wood, 1, 13);
+			ItemStack GREENHEART = new ItemStack(wood, 1, 14);
+			ItemStack CHERRY = new ItemStack(wood, 1, 15);
+			ItemStack MAHOE = new ItemStack(wood, 1, 16);
+			ItemStack POPLAR = new ItemStack(wood, 1, 17);
+			ItemStack PALM = new ItemStack(wood, 1, 18);
+			ItemStack PAPAYA = new ItemStack(wood, 1, 19);
+			ItemStack PINE = new ItemStack(wood, 1, 20);
+			ItemStack PLUM = new ItemStack(wood, 1, 21);
+			ItemStack MAPLE = new ItemStack(wood, 1, 22);
+			ItemStack CITRUS = new ItemStack(wood, 1, 23);
+			ItemStack GIGANTEUM = new ItemStack(wood, 1, 24);
+			ItemStack IPE = new ItemStack(wood, 1, 25);
+			ItemStack PADAUK = new ItemStack(wood, 1, 26);
+			ItemStack COCOBOLO = new ItemStack(wood, 1, 27);
+			ItemStack ZEBRAWOOD = new ItemStack(wood, 1, 28);
+
+			
+			if (IronAgeFurnitureConfiguration.GENERATE_CLASSIC_CHAIRS) {
+				AddClassicChairRecipe(ACACIA, BlockObjectHolder.chair_wood_ironage_classic_forestry_acacia);
+				AddClassicChairRecipe(BALSA, BlockObjectHolder.chair_wood_ironage_classic_forestry_balsa);
+				AddClassicChairRecipe(BAOBAB, BlockObjectHolder.chair_wood_ironage_classic_forestry_baobab);
+				AddClassicChairRecipe(CHERRY, BlockObjectHolder.chair_wood_ironage_classic_forestry_cherry);
+				AddClassicChairRecipe(CHESTNUT, BlockObjectHolder.chair_wood_ironage_classic_forestry_chestnut);
+				AddClassicChairRecipe(CITRUS, BlockObjectHolder.chair_wood_ironage_classic_forestry_citrus);
+				AddClassicChairRecipe(COCOBOLO, BlockObjectHolder.chair_wood_ironage_classic_forestry_cocobolo);
+				AddClassicChairRecipe(EBONY, BlockObjectHolder.chair_wood_ironage_classic_forestry_ebony);
+				AddClassicChairRecipe(GIGANTEUM, BlockObjectHolder.chair_wood_ironage_classic_forestry_giganteum);
+				AddClassicChairRecipe(GREENHEART, BlockObjectHolder.chair_wood_ironage_classic_forestry_greenheart);
+				AddClassicChairRecipe(IPE, BlockObjectHolder.chair_wood_ironage_classic_forestry_ipe);
+				AddClassicChairRecipe(KAPOK, BlockObjectHolder.chair_wood_ironage_classic_forestry_kapok);
+				AddClassicChairRecipe(LARCH, BlockObjectHolder.chair_wood_ironage_classic_forestry_larch);
+				AddClassicChairRecipe(LIME, BlockObjectHolder.chair_wood_ironage_classic_forestry_lime);
+				AddClassicChairRecipe(MAHOE, BlockObjectHolder.chair_wood_ironage_classic_forestry_mahoe);
+				AddClassicChairRecipe(MAHOGANY, BlockObjectHolder.chair_wood_ironage_classic_forestry_mahogany);
+				AddClassicChairRecipe(MAPLE, BlockObjectHolder.chair_wood_ironage_classic_forestry_maple);
+				AddClassicChairRecipe(PADAUK, BlockObjectHolder.chair_wood_ironage_classic_forestry_padauk);
+				AddClassicChairRecipe(PALM, BlockObjectHolder.chair_wood_ironage_classic_forestry_palm);
+				AddClassicChairRecipe(PAPAYA, BlockObjectHolder.chair_wood_ironage_classic_forestry_papaya);
+				AddClassicChairRecipe(PINE, BlockObjectHolder.chair_wood_ironage_classic_forestry_pine);
+				AddClassicChairRecipe(PLUM, BlockObjectHolder.chair_wood_ironage_classic_forestry_plum);
+				AddClassicChairRecipe(POPLAR, BlockObjectHolder.chair_wood_ironage_classic_forestry_poplar);
+				AddClassicChairRecipe(SEQUOIA, BlockObjectHolder.chair_wood_ironage_classic_forestry_sequoia);
+				AddClassicChairRecipe(TEAK, BlockObjectHolder.chair_wood_ironage_classic_forestry_teak);
+				AddClassicChairRecipe(WALNUT, BlockObjectHolder.chair_wood_ironage_classic_forestry_walnut);
+				AddClassicChairRecipe(WENGE, BlockObjectHolder.chair_wood_ironage_classic_forestry_wenge);
+				AddClassicChairRecipe(WILLOW, BlockObjectHolder.chair_wood_ironage_classic_forestry_willow);
+				AddClassicChairRecipe(ZEBRAWOOD, BlockObjectHolder.chair_wood_ironage_classic_forestry_zebrawood);
+
+				
+			}
+			
+			if (IronAgeFurnitureConfiguration.GENERATE_SHIELD_CHAIRS) {
+				AddShieldChairRecipe(BlockObjectHolder.chair_wood_ironage_classic_forestry_acacia, BlockObjectHolder.chair_wood_ironage_shield_forestry_acacia);
+				AddShieldChairRecipe(BlockObjectHolder.chair_wood_ironage_classic_forestry_balsa, BlockObjectHolder.chair_wood_ironage_shield_forestry_balsa);
+				AddShieldChairRecipe(BlockObjectHolder.chair_wood_ironage_classic_forestry_baobab, BlockObjectHolder.chair_wood_ironage_shield_forestry_baobab);
+				AddShieldChairRecipe(BlockObjectHolder.chair_wood_ironage_classic_forestry_cherry, BlockObjectHolder.chair_wood_ironage_shield_forestry_cherry);
+				AddShieldChairRecipe(BlockObjectHolder.chair_wood_ironage_classic_forestry_chestnut, BlockObjectHolder.chair_wood_ironage_shield_forestry_chestnut);
+				AddShieldChairRecipe(BlockObjectHolder.chair_wood_ironage_classic_forestry_citrus, BlockObjectHolder.chair_wood_ironage_shield_forestry_citrus);
+				AddShieldChairRecipe(BlockObjectHolder.chair_wood_ironage_classic_forestry_cocobolo, BlockObjectHolder.chair_wood_ironage_shield_forestry_cocobolo);
+				AddShieldChairRecipe(BlockObjectHolder.chair_wood_ironage_classic_forestry_ebony, BlockObjectHolder.chair_wood_ironage_shield_forestry_ebony);
+				AddShieldChairRecipe(BlockObjectHolder.chair_wood_ironage_classic_forestry_giganteum, BlockObjectHolder.chair_wood_ironage_shield_forestry_giganteum);
+				AddShieldChairRecipe(BlockObjectHolder.chair_wood_ironage_classic_forestry_greenheart, BlockObjectHolder.chair_wood_ironage_shield_forestry_greenheart);
+				AddShieldChairRecipe(BlockObjectHolder.chair_wood_ironage_classic_forestry_ipe, BlockObjectHolder.chair_wood_ironage_shield_forestry_ipe);
+				AddShieldChairRecipe(BlockObjectHolder.chair_wood_ironage_classic_forestry_kapok, BlockObjectHolder.chair_wood_ironage_shield_forestry_kapok);
+				AddShieldChairRecipe(BlockObjectHolder.chair_wood_ironage_classic_forestry_larch, BlockObjectHolder.chair_wood_ironage_shield_forestry_larch);
+				AddShieldChairRecipe(BlockObjectHolder.chair_wood_ironage_classic_forestry_lime, BlockObjectHolder.chair_wood_ironage_shield_forestry_lime);
+				AddShieldChairRecipe(BlockObjectHolder.chair_wood_ironage_classic_forestry_mahoe, BlockObjectHolder.chair_wood_ironage_shield_forestry_mahoe);
+				AddShieldChairRecipe(BlockObjectHolder.chair_wood_ironage_classic_forestry_mahogany, BlockObjectHolder.chair_wood_ironage_shield_forestry_mahogany);
+				AddShieldChairRecipe(BlockObjectHolder.chair_wood_ironage_classic_forestry_maple, BlockObjectHolder.chair_wood_ironage_shield_forestry_maple);
+				AddShieldChairRecipe(BlockObjectHolder.chair_wood_ironage_classic_forestry_padauk, BlockObjectHolder.chair_wood_ironage_shield_forestry_padauk);
+				AddShieldChairRecipe(BlockObjectHolder.chair_wood_ironage_classic_forestry_palm, BlockObjectHolder.chair_wood_ironage_shield_forestry_palm);
+				AddShieldChairRecipe(BlockObjectHolder.chair_wood_ironage_classic_forestry_papaya, BlockObjectHolder.chair_wood_ironage_shield_forestry_papaya);
+				AddShieldChairRecipe(BlockObjectHolder.chair_wood_ironage_classic_forestry_pine, BlockObjectHolder.chair_wood_ironage_shield_forestry_pine);
+				AddShieldChairRecipe(BlockObjectHolder.chair_wood_ironage_classic_forestry_plum, BlockObjectHolder.chair_wood_ironage_shield_forestry_plum);
+				AddShieldChairRecipe(BlockObjectHolder.chair_wood_ironage_classic_forestry_poplar, BlockObjectHolder.chair_wood_ironage_shield_forestry_poplar);
+				AddShieldChairRecipe(BlockObjectHolder.chair_wood_ironage_classic_forestry_sequoia, BlockObjectHolder.chair_wood_ironage_shield_forestry_sequoia);
+				AddShieldChairRecipe(BlockObjectHolder.chair_wood_ironage_classic_forestry_teak, BlockObjectHolder.chair_wood_ironage_shield_forestry_teak);
+				AddShieldChairRecipe(BlockObjectHolder.chair_wood_ironage_classic_forestry_walnut, BlockObjectHolder.chair_wood_ironage_shield_forestry_walnut);
+				AddShieldChairRecipe(BlockObjectHolder.chair_wood_ironage_classic_forestry_wenge, BlockObjectHolder.chair_wood_ironage_shield_forestry_wenge);
+				AddShieldChairRecipe(BlockObjectHolder.chair_wood_ironage_classic_forestry_willow, BlockObjectHolder.chair_wood_ironage_shield_forestry_willow);
+				AddShieldChairRecipe(BlockObjectHolder.chair_wood_ironage_classic_forestry_zebrawood, BlockObjectHolder.chair_wood_ironage_shield_forestry_zebrawood);
+			
+			}
+			
+			if (IronAgeFurnitureConfiguration.GENERATE_SHORT_STOOLS) {
+				AddShortStoolRecipe(ACACIA, BlockObjectHolder.chair_wood_ironage_stool_short_forestry_acacia);
+				AddShortStoolRecipe(BALSA, BlockObjectHolder.chair_wood_ironage_stool_short_forestry_balsa);
+				AddShortStoolRecipe(BAOBAB, BlockObjectHolder.chair_wood_ironage_stool_short_forestry_baobab);
+				AddShortStoolRecipe(CHERRY, BlockObjectHolder.chair_wood_ironage_stool_short_forestry_cherry);
+				AddShortStoolRecipe(CHESTNUT, BlockObjectHolder.chair_wood_ironage_stool_short_forestry_chestnut);
+				AddShortStoolRecipe(CITRUS, BlockObjectHolder.chair_wood_ironage_stool_short_forestry_citrus);
+				AddShortStoolRecipe(COCOBOLO, BlockObjectHolder.chair_wood_ironage_stool_short_forestry_cocobolo);
+				AddShortStoolRecipe(EBONY, BlockObjectHolder.chair_wood_ironage_stool_short_forestry_ebony);
+				AddShortStoolRecipe(GIGANTEUM, BlockObjectHolder.chair_wood_ironage_stool_short_forestry_giganteum);
+				AddShortStoolRecipe(GREENHEART, BlockObjectHolder.chair_wood_ironage_stool_short_forestry_greenheart);
+				AddShortStoolRecipe(IPE, BlockObjectHolder.chair_wood_ironage_stool_short_forestry_ipe);
+				AddShortStoolRecipe(KAPOK, BlockObjectHolder.chair_wood_ironage_stool_short_forestry_kapok);
+				AddShortStoolRecipe(LARCH, BlockObjectHolder.chair_wood_ironage_stool_short_forestry_larch);
+				AddShortStoolRecipe(LIME, BlockObjectHolder.chair_wood_ironage_stool_short_forestry_lime);
+				AddShortStoolRecipe(MAHOE, BlockObjectHolder.chair_wood_ironage_stool_short_forestry_mahoe);
+				AddShortStoolRecipe(MAHOGANY, BlockObjectHolder.chair_wood_ironage_stool_short_forestry_mahogany);
+				AddShortStoolRecipe(MAPLE, BlockObjectHolder.chair_wood_ironage_stool_short_forestry_maple);
+				AddShortStoolRecipe(PADAUK, BlockObjectHolder.chair_wood_ironage_stool_short_forestry_padauk);
+				AddShortStoolRecipe(PALM, BlockObjectHolder.chair_wood_ironage_stool_short_forestry_palm);
+				AddShortStoolRecipe(PAPAYA, BlockObjectHolder.chair_wood_ironage_stool_short_forestry_papaya);
+				AddShortStoolRecipe(PINE, BlockObjectHolder.chair_wood_ironage_stool_short_forestry_pine);
+				AddShortStoolRecipe(PLUM, BlockObjectHolder.chair_wood_ironage_stool_short_forestry_plum);
+				AddShortStoolRecipe(POPLAR, BlockObjectHolder.chair_wood_ironage_stool_short_forestry_poplar);
+				AddShortStoolRecipe(SEQUOIA, BlockObjectHolder.chair_wood_ironage_stool_short_forestry_sequoia);
+				AddShortStoolRecipe(TEAK, BlockObjectHolder.chair_wood_ironage_stool_short_forestry_teak);
+				AddShortStoolRecipe(WALNUT, BlockObjectHolder.chair_wood_ironage_stool_short_forestry_walnut);
+				AddShortStoolRecipe(WENGE, BlockObjectHolder.chair_wood_ironage_stool_short_forestry_wenge);
+				AddShortStoolRecipe(WILLOW, BlockObjectHolder.chair_wood_ironage_stool_short_forestry_willow);
+				AddShortStoolRecipe(ZEBRAWOOD, BlockObjectHolder.chair_wood_ironage_stool_short_forestry_zebrawood);
+
+				
+			}
+			
+			if (IronAgeFurnitureConfiguration.GENERATE_TALL_STOOLS) {
+				AddTallStoolRecipe(ACACIA, BlockObjectHolder.chair_wood_ironage_stool_tall_forestry_acacia);
+				AddTallStoolRecipe(BALSA, BlockObjectHolder.chair_wood_ironage_stool_tall_forestry_balsa);
+				AddTallStoolRecipe(BAOBAB, BlockObjectHolder.chair_wood_ironage_stool_tall_forestry_baobab);
+				AddTallStoolRecipe(CHERRY, BlockObjectHolder.chair_wood_ironage_stool_tall_forestry_cherry);
+				AddTallStoolRecipe(CHESTNUT, BlockObjectHolder.chair_wood_ironage_stool_tall_forestry_chestnut);
+				AddTallStoolRecipe(CITRUS, BlockObjectHolder.chair_wood_ironage_stool_tall_forestry_citrus);
+				AddTallStoolRecipe(COCOBOLO, BlockObjectHolder.chair_wood_ironage_stool_tall_forestry_cocobolo);
+				AddTallStoolRecipe(EBONY, BlockObjectHolder.chair_wood_ironage_stool_tall_forestry_ebony);
+				AddTallStoolRecipe(GIGANTEUM, BlockObjectHolder.chair_wood_ironage_stool_tall_forestry_giganteum);
+				AddTallStoolRecipe(GREENHEART, BlockObjectHolder.chair_wood_ironage_stool_tall_forestry_greenheart);
+				AddTallStoolRecipe(IPE, BlockObjectHolder.chair_wood_ironage_stool_tall_forestry_ipe);
+				AddTallStoolRecipe(KAPOK, BlockObjectHolder.chair_wood_ironage_stool_tall_forestry_kapok);
+				AddTallStoolRecipe(LARCH, BlockObjectHolder.chair_wood_ironage_stool_tall_forestry_larch);
+				AddTallStoolRecipe(LIME, BlockObjectHolder.chair_wood_ironage_stool_tall_forestry_lime);
+				AddTallStoolRecipe(MAHOE, BlockObjectHolder.chair_wood_ironage_stool_tall_forestry_mahoe);
+				AddTallStoolRecipe(MAHOGANY, BlockObjectHolder.chair_wood_ironage_stool_tall_forestry_mahogany);
+				AddTallStoolRecipe(MAPLE, BlockObjectHolder.chair_wood_ironage_stool_tall_forestry_maple);
+				AddTallStoolRecipe(PADAUK, BlockObjectHolder.chair_wood_ironage_stool_tall_forestry_padauk);
+				AddTallStoolRecipe(PALM, BlockObjectHolder.chair_wood_ironage_stool_tall_forestry_palm);
+				AddTallStoolRecipe(PAPAYA, BlockObjectHolder.chair_wood_ironage_stool_tall_forestry_papaya);
+				AddTallStoolRecipe(PINE, BlockObjectHolder.chair_wood_ironage_stool_tall_forestry_pine);
+				AddTallStoolRecipe(PLUM, BlockObjectHolder.chair_wood_ironage_stool_tall_forestry_plum);
+				AddTallStoolRecipe(POPLAR, BlockObjectHolder.chair_wood_ironage_stool_tall_forestry_poplar);
+				AddTallStoolRecipe(SEQUOIA, BlockObjectHolder.chair_wood_ironage_stool_tall_forestry_sequoia);
+				AddTallStoolRecipe(TEAK, BlockObjectHolder.chair_wood_ironage_stool_tall_forestry_teak);
+				AddTallStoolRecipe(WALNUT, BlockObjectHolder.chair_wood_ironage_stool_tall_forestry_walnut);
+				AddTallStoolRecipe(WENGE, BlockObjectHolder.chair_wood_ironage_stool_tall_forestry_wenge);
+				AddTallStoolRecipe(WILLOW, BlockObjectHolder.chair_wood_ironage_stool_tall_forestry_willow);
+				AddTallStoolRecipe(ZEBRAWOOD, BlockObjectHolder.chair_wood_ironage_stool_tall_forestry_zebrawood);
+
+			}
+		}
 	}
 }

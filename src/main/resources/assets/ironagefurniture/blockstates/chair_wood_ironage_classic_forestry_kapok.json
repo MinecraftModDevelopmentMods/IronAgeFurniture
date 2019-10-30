@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "ironagefurniture:chair_wood_ironage_classic_forestry_kapok",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "ironagefurniture:chair_wood_ironage_classic_forestry_kapok",
+      "y": 270
+    },
+    "facing=south": {
+      "model": "ironagefurniture:chair_wood_ironage_classic_forestry_kapok"
+    },
+    "facing=west": {
+      "model": "ironagefurniture:chair_wood_ironage_classic_forestry_kapok",
+      "y": 90
+    }
+  }
+}
