@@ -45,13 +45,13 @@ public class RecipeInitialiser {
 	
 	private static void generateChairRecipes() {
 		
-		if ( Loader.isModLoaded("cfm")) {
+		if (IronAgeFurnitureConfiguration.CFM_CONVERSION_RECIPES && Loader.isModLoaded("cfm")) {
 			AddChairConversionRecipe(Block.getBlockFromName("cfm:chair_oak"), BlockObjectHolder.chair_wood_ironage_classic_oak);
-			AddChairConversionRecipe(Block.getBlockFromName("cfm:chair_oak"), BlockObjectHolder.chair_wood_ironage_classic_spruce);
-			AddChairConversionRecipe(Block.getBlockFromName("cfm:chair_oak"), BlockObjectHolder.chair_wood_ironage_classic_birch);
-			AddChairConversionRecipe(Block.getBlockFromName("cfm:chair_oak"), BlockObjectHolder.chair_wood_ironage_classic_jungle);
-			AddChairConversionRecipe(Block.getBlockFromName("cfm:chair_oak"), BlockObjectHolder.chair_wood_ironage_classic_acacia);
-			AddChairConversionRecipe(Block.getBlockFromName("cfm:chair_oak"), BlockObjectHolder.chair_wood_ironage_classic_big_oak);
+			AddChairConversionRecipe(Block.getBlockFromName("cfm:chair_spruce"), BlockObjectHolder.chair_wood_ironage_classic_spruce);
+			AddChairConversionRecipe(Block.getBlockFromName("cfm:chair_birch"), BlockObjectHolder.chair_wood_ironage_classic_birch);
+			AddChairConversionRecipe(Block.getBlockFromName("cfm:chair_jungle"), BlockObjectHolder.chair_wood_ironage_classic_jungle);
+			AddChairConversionRecipe(Block.getBlockFromName("cfm:chair_acacia"), BlockObjectHolder.chair_wood_ironage_classic_acacia);
+			AddChairConversionRecipe(Block.getBlockFromName("cfm:chair_big_oak"), BlockObjectHolder.chair_wood_ironage_classic_big_oak);
 		}
 		
 		
@@ -271,7 +271,7 @@ public class RecipeInitialiser {
 			}
 		}
 		
-		if (IronAgeFurnitureConfiguration.INTEGRATION_NATURA && Loader.isModLoaded("immersiveengineering")) {
+		if (IronAgeFurnitureConfiguration.INTEGRATION_IMMERSIVEENGINEERING && Loader.isModLoaded("immersiveengineering")) {
 			Block wood = Block.getBlockFromName("immersiveengineering:treatedWood");
 			
 	
@@ -304,9 +304,9 @@ public class RecipeInitialiser {
 			}
 		}
 		
-		if (IronAgeFurnitureConfiguration.INTEGRATION_NATURA && Loader.isModLoaded("forestry")) {
+		if (IronAgeFurnitureConfiguration.INTEGRATION_FORESTRY && Loader.isModLoaded("forestry")) {
 			Block wood = Block.getBlockFromName("forestry:planks.0");
-			
+			Block wood1 = Block.getBlockFromName("forestry:planks.1");
 	
 			ItemStack LARCH = new ItemStack(wood, 1, 0);
 			ItemStack TEAK = new ItemStack(wood, 1, 1);
@@ -324,19 +324,19 @@ public class RecipeInitialiser {
 			ItemStack WALNUT = new ItemStack(wood, 1, 13);
 			ItemStack GREENHEART = new ItemStack(wood, 1, 14);
 			ItemStack CHERRY = new ItemStack(wood, 1, 15);
-			ItemStack MAHOE = new ItemStack(wood, 1, 16);
-			ItemStack POPLAR = new ItemStack(wood, 1, 17);
-			ItemStack PALM = new ItemStack(wood, 1, 18);
-			ItemStack PAPAYA = new ItemStack(wood, 1, 19);
-			ItemStack PINE = new ItemStack(wood, 1, 20);
-			ItemStack PLUM = new ItemStack(wood, 1, 21);
-			ItemStack MAPLE = new ItemStack(wood, 1, 22);
-			ItemStack CITRUS = new ItemStack(wood, 1, 23);
-			ItemStack GIGANTEUM = new ItemStack(wood, 1, 24);
-			ItemStack IPE = new ItemStack(wood, 1, 25);
-			ItemStack PADAUK = new ItemStack(wood, 1, 26);
-			ItemStack COCOBOLO = new ItemStack(wood, 1, 27);
-			ItemStack ZEBRAWOOD = new ItemStack(wood, 1, 28);
+			ItemStack MAHOE = new ItemStack(wood1, 1, 0);
+			ItemStack POPLAR = new ItemStack(wood1, 1, 1);
+			ItemStack PALM = new ItemStack(wood1, 1, 2);
+			ItemStack PAPAYA = new ItemStack(wood1, 1, 3);
+			ItemStack PINE = new ItemStack(wood1, 1, 4);
+			ItemStack PLUM = new ItemStack(wood1, 1, 5);
+			ItemStack MAPLE = new ItemStack(wood1, 1, 6);
+			ItemStack CITRUS = new ItemStack(wood1, 1, 7);
+			ItemStack GIGANTEUM = new ItemStack(wood1, 1, 8);
+			ItemStack IPE = new ItemStack(wood1, 1, 9);
+			ItemStack PADAUK = new ItemStack(wood1, 1, 10);
+			ItemStack COCOBOLO = new ItemStack(wood1, 1, 11);
+			ItemStack ZEBRAWOOD = new ItemStack(wood1, 1, 12);
 
 			
 			if (IronAgeFurnitureConfiguration.GENERATE_CLASSIC_CHAIRS) {

@@ -46,7 +46,7 @@ public class Chair extends BlockHBase {
 		
 		Seat seat = new Seat(worldIn, pos.getX(), pos.getY(), pos.getZ(), this.yOffset);
 		
-		worldIn.spawnEntityInWorld(seat);
+		worldIn.spawnEntity(seat);
 		playerIn.startRiding(seat);	
 		worldIn.updateComparatorOutputLevel(pos, this);
 		
