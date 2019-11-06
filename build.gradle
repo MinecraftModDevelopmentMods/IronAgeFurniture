@@ -5,7 +5,7 @@ buildscript {
         mavenCentral()
         maven {
             name = 'forge'
-            url = 'http://files.minecraftforge.net/maven'
+            url = 'https://files.minecraftforge.net/maven'
         }
         maven {
             name = 'gradle'
@@ -18,87 +18,149 @@ buildscript {
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: project.fg_version
-        //classpath group: 'com.jaredsburrows', name: 'gradle-checker-framework-plugin', version: '0.2.1'
+        //classpath group: 'com.jaredsburrows', name: 'gradle-checker-framework-plugin', version: '0.2.2'
     }
 }
 
 plugins {
-    id 'com.github.spotbugs' version '1.6.2'
-    id 'com.matthewprenger.cursegradle' version '1.2.0'
-    id 'org.sonarqube' version '2.7'
-    id 'se.bjurr.gitchangelog.git-changelog-gradle-plugin' version '1.55'
-    //id 'org.junit.platform.gradle.plugin' version '1.2.0'
+    id 'com.github.spotbugs' version '1.6.9' // 4.0 or later
+    id 'com.matthewprenger.cursegradle' version '1.4.0'
+    id 'org.sonarqube' version '2.8'
+    id 'se.bjurr.gitchangelog.git-changelog-gradle-plugin' version '1.60'
+//id 'org.junit.platform.gradle.plugin' version '1.2.0'
     id 'maven-publish'
     id 'jacoco'
-    id 'checkstyle'
+    id 'checkstyle' // 2.7 or later
 }
 
-apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'net.minecraftforge.gradle.forge' // FG2.x
+//apply plugin: 'forge' // FG1.x
 //apply plugin: 'com.jaredsburrows.checkerframework'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'maven-publish'
+apply plugin: 'pmd'
 
 project.afterEvaluate {
     //final def junitPlatformTestTask = project.tasks.getByName('junitPlatformTest')
+
     // configure jacoco to analyze the junitPlatformTest task
     jacoco {
         // this tool version is compatible with
-        toolVersion = '0.8.2'
-        //Not needed with new way
+        toolVersion = '0.8.3'
+        // Not needed with new way
+        //if (GradleVersion.current() < GradleVersion.version('4.6')) {
         //applyTo junitPlatformTestTask
+        //}}
     }
 
-    //create junit platform jacoco task
+    // create junit platform jacoco task
     project.task(type: JacocoReport, 'junitPlatformJacocoReport',
             {
-                sourceDirectories = files('./src/main')
-                classDirectories = files("${project.buildDir}/classes/main")
-                //Not needed with new way
-                //executionData junitPlatformTestTask
+                if (GradleVersion.current() >= GradleVersion.version('5.0')) {
+                    getSourceDirectories().from(files('./src/main'))
+                    getClassDirectories().from(files("${project.buildDir}/classes/main"))
+                } else {
+                    sourceDirectories = files('./src/main')
+                    classDirectories = files("${project.buildDir}/classes/main")
+                }
+                // Not needed with new way
+                //if (GradleVersion.current() < GradleVersion.version('4.6')) {
+                //  executionData junitPlatformTestTask
+                //}
             })
 }
 
 // Only works with JUnit Platform Launcher 1.2.0 and earlier
 /*
-junitPlatform {
-  // platformVersion '1.2.0'
-  // logManager 'org.apache.logging.log4j.jul.LogManager'
-  reportsDir file("${project.buildDir}/test-results/junit-platform")
-  // enableStandardTestTask true
-  // selectors (optional)
-  // filters (optional)
+if (GradleVersion.current() < GradleVersion.version('4.6')) {
+  junitPlatform {
+    // platformVersion '1.2.0'
+    // logManager 'org.apache.logging.log4j.jul.LogManager'
+    reportsDir file("${project.buildDir}/test-results/junit-platform")
+    // enableStandardTestTask true
+    // selectors (optional)
+    // filters (optional)
+  }
 }
 */
 
-spotbugs {
-    ignoreFailures = true
-    toolVersion = '3.1.6'
-    effort = 'max'
-    reportLevel = 'low'
-    //includeFilter = file("$rootProject.projectDir/config/spotbugs-filter.xml")
-}
+if (GradleVersion.current() >= GradleVersion.version('4.0')) {
+    spotbugs {
+        ignoreFailures = true
+        toolVersion = '3.1.6'
+        effort = 'max'
+        reportLevel = 'low'
+        //includeFilter = file("$rootProject.projectDir/config/spotbugs-filter.xml")
+    }
 
-
-import com.github.spotbugs.SpotBugsTask
-import groovy.json.JsonSlurper
-
-tasks.withType(SpotBugsTask) {
-    reports {
-        xml.enabled = false
-        html.enabled = true
+    tasks.withType(com.github.spotbugs.SpotBugsTask) {
+        reports {
+            xml.enabled = false
+            html.enabled = true
+        }
     }
 }
 
-checkstyle {
+if (GradleVersion.current() >= GradleVersion.version('2.7')) {
+    checkstyle {
+        ignoreFailures = true
+        toolVersion = '8.20' // 5.7 is default
+        showViolations = false
+    }
+}
+
+pmd {
+    consoleOutput = false
     ignoreFailures = true
-    toolVersion = '8.12'
+    sourceSets = [sourceSets.main]
+    reportsDir = file("$project.buildDir/reports/pmd")
+    rulePriority = 5
+    ruleSets = [
+            'java-android',
+            'java-basic',
+            'java-braces',
+            'java-clone',
+            'java-codesize',
+            'java-comments',
+            'java-controversial',
+            'java-coupling',
+            'java-design',
+            'java-empty',
+            'java-finalizers',
+            'java-imports',
+            'java-j2ee',
+            'java-javabeans',
+            'java-junit',
+            'java-logging-jakarta-commons',
+            'java-logging-java',
+//    'java-metrics', // Upsets 5.8.1
+            'java-migrating',
+            'java-migrating_to_junit4',
+            'java-naming',
+            'java-optimizations',
+//    'java-quickstart', // 6.x
+            'java-strictexception',
+            'java-strings',
+            'java-sunsecure',
+            'java-typeresolution',
+            'java-unnecessary',
+            'java-unusedcode'
+    ]
+    toolVersion = '5.8.1'; // 6.19.0
+    if (GradleVersion.current() >= GradleVersion.version('5.6')) {
+//    incrementalAnalysis = true // Requires PMD 6.0.0 or newer
+    }
 }
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
     options.compilerArgs = [
             '-Xlint:deprecation', // deprecation, rawtypes, cast, unchecked, all
-            // '-Xdiags:verbose',
-            // '-Werror'
+            //'-Xdiags:verbose',
+            //'-Werror'
     ]
+    compileJava.options.compilerArgs += '-proc:none'
 }
 
 tasks.withType(Test) {
@@ -109,16 +171,19 @@ javadoc {
     failOnError = false
 }
 
+import org.gradle.util.GradleVersion
 test {
-    useJUnitPlatform()
-    /*
-     useJUnitPlatform {
-         includeTags 'fast', 'smoke & feature-a'
-         //excludeTags 'slow', 'ci'
-         //includeEngines 'junit-jupiter'
-         //excludeEngines 'junit-vintage'
-   }
-   */
+    if (GradleVersion.current() >= GradleVersion.version('4.6')) {
+        useJUnitPlatform()
+        /*
+        useJUnitPlatform {
+          includeTags 'fast', 'smoke & feature-a'
+          //excludeTags 'slow', 'ci'
+          includeEngines 'junit-jupiter'
+          //excludeEngines 'junit-vintage'
+        }
+        */
+    }
 }
 
 //project.ext.short_version = '1.0.0'
@@ -164,10 +229,7 @@ if (System.getenv('SECRET_FILE')) {
     secretFile = file 'secret.json'
 }
 
-
-import se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask
-import java.util.regex.Matcher
-
+import groovy.json.JsonSlurper
 project.ext.secret = new Secrets()
 if (secretFile.exists()) {
     secretFile.withReader {
@@ -187,7 +249,7 @@ if (secretFile.exists()) {
 
 minecraft {
     version = project.forge_mc_version + '-' + project.forge_version
-    mappings = project.mcp_mappings
+    mappings = project.mcp_mappings_version
 
     if (project.hasProperty('runDir')) {
         runDir = project.runDir
@@ -240,10 +302,10 @@ minecraft {
 
     if (project.hasProperty('mc_resolution')) {
         final def res = [
-                '480p'  : [640, 480],
-                '576p'  : [640, 576],
-                '720p'  : [1280, 720],
-                '1080p' : [1920, 1080],
+                '480p': [640, 480],
+                '576p': [640, 576],
+                '720p': [1280, 720],
+                '1080p': [1920, 1080],
                 'custom': [project.findProperty('mc_custom_resolution_width'), project.findProperty('mc_custom_resolution_height')]]
         final def choice = res?.get(project.mc_resolution)
         if (choice != null) {
@@ -283,28 +345,32 @@ repositories {
 }
 
 dependencies {
-    testCompile('org.junit.platform:junit-platform-launcher:1.2.+')
-    testCompile('org.junit.jupiter:junit-jupiter-api:5.2.+') // testImplementation
-    testRuntime('org.junit.jupiter:junit-jupiter-engine:5.2.+') //testRuntimeOnly
-    testCompileOnly 'junit:junit:4.12'
-    testRuntime 'org.junit.vintage:junit-vintage-engine:5.2.+' //testRuntimeOnly
+    testCompile('org.junit.platform:junit-platform-launcher:1.5.+')
+    testCompile('org.junit.jupiter:junit-jupiter-api:5.5.+') // testImplementation
+    testRuntime('org.junit.jupiter:junit-jupiter-engine:5.5.+') //testRuntimeOnly
+    if (GradleVersion.current() >= GradleVersion.version('2.13')) {
+        testCompileOnly 'junit:junit:4.12'
+    }
+    testRuntime 'org.junit.vintage:junit-vintage-engine:5.5.+' //testRuntimeOnly
     testCompile('org.mockito:mockito-core:2.+')
     testCompile('org.mockito:mockito-junit-jupiter:2.+') {
         exclude group: 'org.junit.jupiter', module: 'junit-jupiter-engine'
     }
-    annotationProcessor group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.0'
+    if (GradleVersion.current() >= GradleVersion.version('4.6')) {
+        annotationProcessor group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.0'
+    }
 }
 
 processResources {
     inputs.property 'version', project.short_version
     inputs.property 'mcversion', project.minecraft.version
 
-    from(sourceSets.main.resources.srcDirs) {
+    from (sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
         expand 'version': project.short_version, 'mcversion': project.minecraft.version
     }
 
-    from(sourceSets.main.resources.srcDirs) {
+    from (sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
 
@@ -319,17 +385,25 @@ jar {
         mainAttributes(
                 'Maven-Artifact': "${project.group}:${project.archivesBaseName}:${project.version}",
                 'Timestamp': System.currentTimeMillis(),
+                'Specification-Title': 'examplemod',
+                'Specification-Vendor': 'mcmoddev',
+                'Specification-Version': '1',
                 'Implementation-Title': project.archivesBaseName,
-                'Implementation-Version': version,
+                'Implementation-Version': project.version,
+                'Implementation-Vendor' :'mcmoddev',
+                'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
                 'Built-On-Java': "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
-                'Built-On': "${project.mc_version}-${project.forge_version}"
+                'Built-On': "${project.forge_mc_version}-${project.forge_version}"
         )
         if (project.hasProperty('core_plugin')) {
             attributes 'FMLCorePluginContainsFMLMod': 'true'
             attributes 'FMLCorePlugin': project.core_plugin
         }
-        if (project.hasProperty('at_file')) {
-            attributes 'FMLAT': project.at_file
+        if (project.hasProperty('mod_at_file')) {
+            attributes 'FMLAT': project.mod_at_file
+        }
+        if (project.hasProperty('mod_contained_deps')) {
+            attributes 'ContainedDeps': project.mod_contained_deps
         }
     }
 }
@@ -339,17 +413,25 @@ task apiJar(type: Jar) {
         getBooleanProperty('create_api_jar')
     }
 
+    description = 'Creates a JAR containing the API Classes.'
     classifier = 'api'
     from apiClasses
     // from sourceSets.api.output
-    manifest.mainAttributes(
-            'Maven-Artifact': "${project.group}:${project.archivesBaseName}:${project.version}:api",
-            'Timestamp': System.currentTimeMillis(),
-            'Implementation-Title': project.name + '-api',
-            'Implementation-Version': project.version,
-            'Built-On': "${project.mc_version}-${project.forge_version}",
-            'Built-On-Java': "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})"
-    )
+    manifest {
+        mainAttributes(
+                'Maven-Artifact': "${project.group}:${project.archivesBaseName}:${project.version}:api",
+                'Timestamp': System.currentTimeMillis(),
+                'Specification-Title': 'examplemod',
+                'Specification-Vendor': 'mcmoddev',
+                'Specification-Version': '1',
+                'Implementation-Title': project.name + '-api',
+                'Implementation-Version': project.version,
+                'Implementation-Vendor' :'mcmoddev',
+                'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                'Built-On-Java': "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
+                'Built-On': "${project.forge_mc_version}-${project.forge_version}"
+        )
+    }
 }
 
 task deobfJar(type: Jar) {
@@ -357,19 +439,25 @@ task deobfJar(type: Jar) {
         getBooleanProperty('create_deobf_jar')
     }
 
+    description = 'Creates a JAR containing the non-obfuscated compiled code.'
     classifier = 'deobf'
     from sourceSets.main.output
     manifest {
         mainAttributes(
                 'Maven-Artifact': "${project.group}:${project.archivesBaseName}:${project.version}:deobf",
                 'Timestamp': System.currentTimeMillis(),
+                'Specification-Title': 'examplemod',
+                'Specification-Vendor': 'mcmoddev',
+                'Specification-Version': '1',
                 'Implementation-Title': project.name + '-deobf',
                 'Implementation-Version': project.version,
+                'Implementation-Vendor' :'mcmoddev',
+                'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
                 'Built-On-Java': "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
-                'Built-On': "${project.mc_version}-${project.forge_version}"
+                'Built-On': "${project.forge_mc_version}-${project.forge_version}"
         )
-        if (project.hasProperty('at_file')) {
-            attributes 'FMLAT': project.at_file
+        if (project.hasProperty('mod_at_file')) {
+            attributes 'FMLAT': project.mod_at_file
         }
         if (project.hasProperty('core_plugin')) {
             attributes 'FMLCorePlugin': project.core_plugin
@@ -382,6 +470,7 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
         getBooleanProperty('create_javadoc_jar')
     }
 
+    description = 'Creates a JAR containing the JavaDocs.'
     classifier = 'javadoc'
     from javadoc.getDestinationDir()
     manifest.mainAttributes(
@@ -390,7 +479,7 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
             'Implementation-Title': project.name + '-javadoc',
             'Implementation-Version': project.version,
             'Built-On-Java': "${System.getProperty('java.vm.version')} + (${System.getProperty('java.vm.vendor')})",
-            'Built-On': "${project.mc_version}-${project.forge_version}"
+            'Built-On': "${project.forge_mc_version}-${project.forge_version}"
     )
 }
 
@@ -400,6 +489,7 @@ task signJar(type: SignJar, dependsOn: reobfJar) {
                 project.hasProperty('keyStore')
     }
 
+    description = 'Sign the Main JAR'
     inputFile = jar.archivePath
     outputFile = jar.archivePath
 
@@ -416,6 +506,7 @@ task signApiJar(type: SignJar) {
                 project.hasProperty('keyStore')
     }
 
+    description = 'Sign the API JAR'
     keyStore = project.findProperty('keyStore')
     alias = project.findProperty('keyStoreAlias')
     storePass = project.findProperty('keyStorePass')
@@ -432,6 +523,7 @@ task signDeobfJar(type: SignJar) {
                 project.hasProperty('keyStore')
     }
 
+    description = 'Sign the deobf JAR'
     keyStore = project.findProperty('keyStore')
     alias = project.findProperty('keyStoreAlias')
     storePass = project.findProperty('keyStorePass')
@@ -448,6 +540,7 @@ task signSourceJar(type: SignJar) {
                 project.hasProperty('keyStore')
     }
 
+    description = 'Sign the Sources JAR'
     keyStore = project.findProperty('keyStore')
     alias = project.findProperty('keyStoreAlias')
     storePass = project.findProperty('keyStorePass')
@@ -475,10 +568,18 @@ task signJavadocJar(type: SignJar) {
 
 if (getBooleanProperty('do_sign_jar')) {
     build.dependsOn signJar
-    build.dependsOn signApiJar
-    build.dependsOn signDeobfJar
-    build.dependsOn signSourceJar
-    build.dependsOn signJavadocJar
+    if (getBooleanProperty('create_api_jar')) {
+        build.dependsOn signApiJar
+    }
+    if (getBooleanProperty('create_deobf_jar')) {
+        build.dependsOn signDeobfJar
+    }
+    if (getBooleanProperty('create_source_jar')) {
+        build.dependsOn signSourceJar
+    }
+    if (getBooleanProperty('create_javadoc_jar')) {
+        build.dependsOn signJavadocJar
+    }
 }
 
 tasks.publish.dependsOn build
@@ -571,74 +672,74 @@ publishing {
             if (secret.url != '') {
                 url secret.url
             } else {
-                url "${project.buildDir}/repo"
+                url "file:///${project.buildDir}/repo"
             }
         }
     }
 }
 
 curseforge {
-    if (project.hasProperty('cf_project_id')) {
+    if (project.hasProperty('curseforge_project_id')) {
         apiKey = secret.curseforgeAPIKey
         project {
-            id = project.cf_project_id
-            if (project.hasProperty('cf_changelog_filename')) {
-                changelog = file(project.cf_changelog_filename)
+            id = project.curseforge_project_id
+            if (project.hasProperty('curseforge_changelog_filename')) {
+                changelog = file(project.curseforge_changelog_filename)
             } else {
                 changelog = ''
             }
-            if (project.hasProperty('cf_changelog_type')) {
-                changelogType = project.cf_changelog_type
+            if (project.hasProperty('curseforge_changelog_type')) {
+                changelogType = project.curseforge_changelog_type
             }
-            if ((project.hasProperty('cf_release_type')) && ((project.cf_release_type == 'alpha') || (project.cf_release_type == 'beta') || (project.cf_release_type == 'release'))) {
-                releaseType = project.cf_release_type
+            if ((project.hasProperty('curseforge_release_type')) && ((project.curseforge_release_type == 'alpha') || (project.curseforge_release_type == 'beta') || (project.curseforge_release_type == 'release'))) {
+                releaseType = project.curseforge_release_type
             } else {
                 releaseType = 'alpha'
             }
-            if (project.hasProperty('cf_versions')) {
-                final def versions = "${project.cf_versions}".split(', ')
+            if (project.hasProperty('curseforge_versions')) {
+                final def versions = "${project.curseforge_versions}".split(', ')
                 versions.each {
                     addGameVersion "${it}"
                 }
             }
             mainArtifact(jar) {
-                if (getBooleanProperty('cf_use_custom_display_name')) {
+                if (getBooleanProperty('curseforge_use_custom_display_name')) {
                     displayName = "${project.name} ${project.display_version}"
                 }
-                if (project.hasProperty('cf_requirements') || project.hasProperty('cf_optionals') || project.hasProperty('cf_embeddeds') || project.hasProperty('cf_tools') || project.hasProperty('cf_incompatibles') || project.hasProperty('cf_includes')) {
+                if (project.hasProperty('curseforge_requirements') || project.hasProperty('curseforge_optionals') || project.hasProperty('curseforge_embeddeds') || project.hasProperty('curseforge_tools') || project.hasProperty('curseforge_incompatibles') || project.hasProperty('curseforge_includes')) {
                     relations {
-                        if (project.hasProperty('cf_requirements')) {
-                            final def requirements = "${project.cf_requirements}".split(', ')
+                        if (project.hasProperty('curseforge_requirements')) {
+                            final def requirements = "${project.curseforge_requirements}".split(', ')
                             requirements.each {
                                 requiredDependency "${it}"
                             }
                         }
-                        if (project.hasProperty('cf_optionals')) {
-                            final def optionals = "${project.cf_optionals}".split(', ')
+                        if (project.hasProperty('curseforge_optionals')) {
+                            final def optionals = "${project.curseforge_optionals}".split(', ')
                             optionals.each {
                                 optionalDependency "${it}"
                             }
                         }
-                        if (project.hasProperty('cf_embeddeds')) {
-                            final def embeddeds = "${project.cf_embeddeds}".split(', ')
+                        if (project.hasProperty('curseforge_embeddeds')) {
+                            final def embeddeds = "${project.curseforge_embeddeds}".split(', ')
                             embeddeds.each {
                                 embeddedLibrary "${it}"
                             }
                         }
-                        if (project.hasProperty('cf_tools')) {
-                            final def tools = "${project.cf_tools}".split(', ')
+                        if (project.hasProperty('curseforge_tools')) {
+                            final def tools = "${project.curseforge_tools}".split(', ')
                             tools.each {
                                 tool "${it}"
                             }
                         }
-                        if (project.hasProperty('cf_incompatibles')) {
-                            final def incompatibles = "${project.cf_incompatibles}".split(', ')
+                        if (project.hasProperty('curseforge_incompatibles')) {
+                            final def incompatibles = "${project.curseforge_incompatibles}".split(', ')
                             incompatibles.each {
                                 incompatible "${it}"
                             }
                         }
-                        if (project.hasProperty('cf_includes')) {
-                            final def includes = "${project.cf_includes}".split(', ')
+                        if (project.hasProperty('curseforge_includes')) {
+                            final def includes = "${project.curseforge_includes}".split(', ')
                             includes.each {
                                 include "${it}"
                             }
@@ -648,28 +749,28 @@ curseforge {
             }
             if (getBooleanProperty('create_api_jar')) {
                 addArtifact(apiJar) {
-                    if (getBooleanProperty('cf_use_custom_display_name')) {
+                    if (getBooleanProperty('curseforge_use_custom_display_name')) {
                         displayName = "${project.name} ${project.display_version} API"
                     }
                 }
             }
             if (getBooleanProperty('create_source_jar')) {
                 addArtifact(sourceJar) {
-                    if (getBooleanProperty('cf_use_custom_display_name')) {
+                    if (getBooleanProperty('curseforge_use_custom_display_name')) {
                         displayName = "${project.name} ${project.display_version} Sources"
                     }
                 }
             }
             if (getBooleanProperty('create_deobf_jar')) {
                 addArtifact(deobfJar) {
-                    if (getBooleanProperty('cf_use_custom_display_name')) {
+                    if (getBooleanProperty('curseforge_use_custom_display_name')) {
                         displayName = "${project.name} ${project.display_version} Development"
                     }
                 }
             }
             if (getBooleanProperty('create_javadoc_jar')) {
                 addArtifact(javadocJar) {
-                    if (getBooleanProperty('cf_use_custom_display_name')) {
+                    if (getBooleanProperty('curseforge_use_custom_display_name')) {
                         displayName = "${project.name} ${project.display_version} Javadoc"
                     }
                 }
@@ -693,7 +794,7 @@ sonarqube {
         }
         //property 'sonar.projectName', project.archivesBaseName
         //property 'sonar.projectKey', "${project.group}:${project.archivesBaseName}"
-        //property 'sonar.branch.name', 'master-1.12'
+        //property 'sonar.branch.name', 'master-1.12.2'
         //property 'sonar.branch.target', ''
         property 'sonar.junit.reportPaths', "${project.buildDir}/test-results/junit-platform/*.xml"
         property 'sonar.jacoco.reportPaths', "${project.buildDir}/jacoco/junitPlatformTest.exec"
@@ -721,6 +822,7 @@ String getModVersion(final String type) {
     return getModVersion(type, modFile)
 }
 
+import java.util.regex.Matcher
 String getModVersion(final String type, final String modFile) {
     if ((modFile != null) && (modFile != '')) {
         final File file = file(modFile)
@@ -743,8 +845,12 @@ boolean getBooleanProperty(final String property) {
     }
 }
 
-task gitChangelog(type: GitChangelogTask) {
+task gitChangelog(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask) {
     file = new File('CHANGELOG.md')
     gitHubIssuePattern = "nonada123"
     templateContent = file('changelog.mustache').getText('UTF-8')
+}
+
+Object findProperty(final String propertyName) {
+    return hasProperty(propertyName) ? property(propertyName) : null;
 }
