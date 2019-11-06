@@ -1,6 +1,6 @@
-package com.mcmoddev.ironagefurniture.Blocks;
+package com.mcmoddev.ironagefurniture.api.Blocks;
 
-import com.mcmoddev.ironagefurniture.Enumerations.Rotation;
+import com.mcmoddev.ironagefurniture.api.Enumerations.Rotation;
 
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.Material;

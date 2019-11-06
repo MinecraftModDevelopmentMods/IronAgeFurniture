@@ -1,8 +1,8 @@
-package com.mcmoddev.ironagefurniture.Blocks;
+package com.mcmoddev.ironagefurniture.api.Blocks;
 
 import java.util.List;
 
-import com.mcmoddev.ironagefurniture.entity.Seat;
+import com.mcmoddev.ironagefurniture.api.entity.Seat;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;

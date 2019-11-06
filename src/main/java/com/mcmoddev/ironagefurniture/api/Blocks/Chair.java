@@ -1,10 +1,10 @@
-package com.mcmoddev.ironagefurniture.Blocks;
+package com.mcmoddev.ironagefurniture.api.Blocks;
 
 import java.util.List;
 
 import com.mcmoddev.ironagefurniture.Ironagefurniture;
-import com.mcmoddev.ironagefurniture.Enumerations.Rotation;
-import com.mcmoddev.ironagefurniture.entity.Seat;
+import com.mcmoddev.ironagefurniture.api.Enumerations.Rotation;
+import com.mcmoddev.ironagefurniture.api.entity.Seat;
 
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;

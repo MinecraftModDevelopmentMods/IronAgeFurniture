@@ -3,7 +3,7 @@ package com.mcmoddev.ironagefurniture;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.mcmoddev.ironagefurniture.entity.Seat;
+import com.mcmoddev.ironagefurniture.api.entity.Seat;
 import com.mcmoddev.ironagefurniture.init.BlockInitialiser;
 import com.mcmoddev.ironagefurniture.init.ItemInitialiser;
 import com.mcmoddev.ironagefurniture.init.RecipeInitialiser;
@@ -22,7 +22,7 @@ import net.minecraftforge.fml.common.registry.EntityRegistry;
 public class Ironagefurniture
 {
     public static final String MODID = "ironagefurniture";
-    public static final String VERSION = "0.0.1";
+    public static final String VERSION = "0.1.0";
     
 	public static final Map<String,Block> BlockRegistry = new HashMap<String, Block>();
 	public static final Map<String,Item> ItemRegistry = new HashMap<String, Item>();
