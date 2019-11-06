@@ -43,12 +43,12 @@ public class Seat extends Entity
 	@Override
 	public void onEntityUpdate()
 	{
-		if (!this.worldObj.isRemote)
+		if (!this.world.isRemote)
 		{
-			if (!this.isBeingRidden() || this.worldObj.isAirBlock(new BlockPos(SeatCoordinates.X, SeatCoordinates.Y, SeatCoordinates.Z)))
+			if (!this.isBeingRidden() || this.world.isAirBlock(new BlockPos(SeatCoordinates.X, SeatCoordinates.Y, SeatCoordinates.Z)))
 			{
 				this.setDead();
-				worldObj.updateComparatorOutputLevel(getPosition(), worldObj.getBlockState(getPosition()).getBlock());
+				world.updateComparatorOutputLevel(getPosition(), world.getBlockState(getPosition()).getBlock());
 			}
 		}
 	}
