@@ -1,4 +1,4 @@
-package com.mcmoddev.ironagefurniture.util;
+package com.mcmoddev.ironagefurniture.api.util;
 
 public class Coordinates {
 	public double X;

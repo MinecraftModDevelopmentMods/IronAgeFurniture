@@ -1,6 +1,6 @@
-package com.mcmoddev.ironagefurniture.entity;
+package com.mcmoddev.ironagefurniture.api.entity;
 
-import com.mcmoddev.ironagefurniture.util.Coordinates;
+import com.mcmoddev.ironagefurniture.api.util.Coordinates;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
