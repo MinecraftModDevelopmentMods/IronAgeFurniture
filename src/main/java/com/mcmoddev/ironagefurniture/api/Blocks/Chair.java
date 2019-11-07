@@ -14,7 +14,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -33,8 +32,8 @@ public class Chair extends BlockHBase {
 	
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
-			EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
-
+			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		
 		for (Seat seat : worldIn.getEntitiesWithinAABB(Seat.class, new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1.0D, pos.getY() + 1.0D, pos.getZ() + 1.0D).expand(1D, 1D, 1D)))
 		{
 			if ((seat.SeatCoordinates.Match(pos.getX(), pos.getY(), pos.getZ())) && !seat.isBeingRidden())
@@ -77,7 +76,6 @@ public class Chair extends BlockHBase {
 
 		this.blockResistance = resistance;
 		this.blockHardness = hardness;
-		this.setCreativeTab(Ironagefurniture.ironagefurnitureTab);
 	}
 	
 	public Chair(Material materialIn, String name, float resistance, float hardness) {
@@ -88,17 +86,17 @@ public class Chair extends BlockHBase {
 	
 	@Override
 	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY,
-			float hitZ, int meta, EntityLivingBase placer, ItemStack stack) {
-
-		return super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer, stack).withProperty(FACING, placer.getHorizontalFacing());
+			float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
+		// TODO Auto-generated method stub
+		return super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer, hand).withProperty(FACING, placer.getHorizontalFacing());
 	}
 
 	@Override
-	public IBlockState getStateFromMeta(int meta) 
-	{
-		return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta));
+	public IBlockState getStateFromMeta(int meta) {
+		// TODO Auto-generated method stub
+		return super.getStateFromMeta(meta).withProperty(FACING, EnumFacing.byHorizontalIndex(meta));
 	}
-
+	
 	@Override
 	public int getMetaFromState(IBlockState state)
 	{
@@ -142,11 +140,10 @@ public class Chair extends BlockHBase {
 	{
 		return BB;
 	}
-	
+
 	@Override
 	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox,
-			List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
-		
+			List<AxisAlignedBB> collidingBoxes, Entity entityIn, boolean isActualState) {
 		if (!(entityIn instanceof Seat)) {
 			switch(state.getValue(FACING)) {
 			case NORTH:
@@ -165,5 +162,7 @@ public class Chair extends BlockHBase {
 			
 			super.addCollisionBoxToList(pos, entityBox, collidingBoxes, BASEBB);
 		}
+		
+		super.addCollisionBoxToList(state, worldIn, pos, entityBox, collidingBoxes, entityIn, isActualState);
 	}
 }

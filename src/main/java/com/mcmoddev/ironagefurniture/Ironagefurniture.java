@@ -7,11 +7,13 @@ import com.mcmoddev.ironagefurniture.api.entity.Seat;
 import com.mcmoddev.ironagefurniture.init.BlockInitialiser;
 import com.mcmoddev.ironagefurniture.init.ItemInitialiser;
 import com.mcmoddev.ironagefurniture.init.RecipeInitialiser;
+import com.mcmoddev.ironagefurniture.lib.util.MMDCreativeTab;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -27,16 +29,8 @@ public class Ironagefurniture
 	public static final Map<String,Block> BlockRegistry = new HashMap<String, Block>();
 	public static final Map<String,Item> ItemRegistry = new HashMap<String, Item>();
     
-    public static CreativeTabs ironagefurnitureTab = new CreativeTabs("ironagefurnitureTab"){
-		@Override
-		public Item getTabIconItem(){
-			return Item.getItemFromBlock(Blocks.BOOKSHELF);
-		}
-		
-		public boolean hasSearchBar() {
-			return true;
-		};
-	};
+    public static MMDCreativeTab ironagefurnitureTab = new MMDCreativeTab("IronAgeFurniture", true);
+	
     
     
     @EventHandler
@@ -47,9 +41,11 @@ public class Ironagefurniture
     		ItemInitialiser.RegisterItemRenders();
     	}
     	
-    	EntityRegistry.registerModEntity(Seat.class, MODID + ":seat", 0, this, 80, 1, false);
+    	EntityRegistry.registerModEntity(new ResourceLocation(MODID + ":seat"), Seat.class , MODID + ":seat", 0, this, 80, 1, false);
     	
     	RecipeInitialiser.init();
+    	
+    	ironagefurnitureTab.setIconItem(Blocks.BOOKSHELF);
     }
     
     @EventHandler
