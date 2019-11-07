@@ -1039,4 +1039,4 @@ tile.ironagefurniture.chair_wood_ironage_shield_forestry_zebrawood.name=Zebrawoo
 tile.ironagefurniture.chair_wood_ironage_stool_short_forestry_zebrawood.name=Zebrawood Ironage Stool Short Chair
 tile.ironagefurniture.chair_wood_ironage_stool_tall_forestry_zebrawood.name=Zebrawood Ironage Stool Tall Chair
 
-itemGroup.ironagefurnitureTab=Iron Age Furniture
+itemGroup.IronAgeFurniture=Iron Age Furniture

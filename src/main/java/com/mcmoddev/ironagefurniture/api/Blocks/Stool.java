@@ -26,8 +26,7 @@ public class Stool extends Chair {
 	}
 
 	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) 
-	{
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		if (tall)
 			return BBTALL;
 		else
@@ -36,8 +35,7 @@ public class Stool extends Chair {
 	
 	@Override
 	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox,
-			List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
-		
+			List<AxisAlignedBB> collidingBoxes, Entity entityIn, boolean isActualState) {
 		if (!(entityIn instanceof Seat)) {
 			if (tall)
 				super.addCollisionBoxToList(pos, entityBox, collidingBoxes, BBTALL);
