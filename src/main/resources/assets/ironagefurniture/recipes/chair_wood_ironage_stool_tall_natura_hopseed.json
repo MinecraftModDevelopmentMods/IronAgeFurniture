@@ -1,0 +1,23 @@
+{
+  "type": "forge:ore_shaped",
+  "result": {
+    "item": "ironagefurniture:chair_wood_ironage_stool_tall_natura_hopseed",
+    "data": 0
+  },
+  "pattern": [
+    " x ",
+    "yyy",
+    "yyy"
+  ],
+  "key": {
+    "x": {
+      "item": "natura:overworld_planks",
+      "data": 6
+    },
+    "y": {
+      "item": "minecraft:stick",
+      "data": 0
+    }
+  },
+  "group": "furniture"
+}

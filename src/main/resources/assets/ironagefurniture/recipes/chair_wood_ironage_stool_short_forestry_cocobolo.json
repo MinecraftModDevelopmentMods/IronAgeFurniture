@@ -1,0 +1,22 @@
+{
+  "type": "forge:ore_shaped",
+  "result": {
+    "item": "ironagefurniture:chair_wood_ironage_stool_short_forestry_cocobolo",
+    "data": 0
+  },
+  "pattern": [
+    " x ",
+    "yyy"
+  ],
+  "key": {
+    "x": {
+      "item": "forestry:planks.1",
+      "data": 11
+    },
+    "y": {
+      "item": "minecraft:stick",
+      "data": 0
+    }
+  },
+  "group": "furniture"
+}

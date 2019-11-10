@@ -1,0 +1,22 @@
+{
+  "type": "forge:ore_shaped",
+  "result": {
+    "item": "ironagefurniture:chair_wood_ironage_stool_short_forestry_willow",
+    "data": 0
+  },
+  "pattern": [
+    " x ",
+    "yyy"
+  ],
+  "key": {
+    "x": {
+      "item": "forestry:planks.0",
+      "data": 12
+    },
+    "y": {
+      "item": "minecraft:stick",
+      "data": 0
+    }
+  },
+  "group": "furniture"
+}

@@ -1,0 +1,23 @@
+{
+  "type": "forge:ore_shaped",
+  "result": {
+    "item": "ironagefurniture:chair_wood_ironage_stool_tall_forestry_ebony",
+    "data": 0
+  },
+  "pattern": [
+    " x ",
+    "yyy",
+    "yyy"
+  ],
+  "key": {
+    "x": {
+      "item": "forestry:planks.0",
+      "data": 9
+    },
+    "y": {
+      "item": "minecraft:stick",
+      "data": 0
+    }
+  },
+  "group": "furniture"
+}

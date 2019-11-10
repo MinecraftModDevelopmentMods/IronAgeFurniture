@@ -1,0 +1,23 @@
+{
+  "type": "forge:ore_shaped",
+  "result": {
+    "item": "ironagefurniture:chair_wood_ironage_classic_forestry_mahoe",
+    "data": 0
+  },
+  "pattern": [
+    "x  ",
+    "xxx",
+    "y y"
+  ],
+  "key": {
+    "x": {
+      "item": "forestry:planks.1",
+      "data": 0
+    },
+    "y": {
+      "item": "minecraft:stick",
+      "data": 0
+    }
+  },
+  "group": "furniture"
+}

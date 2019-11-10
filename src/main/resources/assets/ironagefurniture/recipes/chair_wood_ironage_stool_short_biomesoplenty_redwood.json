@@ -1,0 +1,22 @@
+{
+  "type": "forge:ore_shaped",
+  "result": {
+    "item": "ironagefurniture:chair_wood_ironage_stool_short_biomesoplenty_redwood",
+    "data": 0
+  },
+  "pattern": [
+    " x ",
+    "yyy"
+  ],
+  "key": {
+    "x": {
+      "item": "biomesoplenty:planks_0",
+      "data": 8
+    },
+    "y": {
+      "item": "minecraft:stick",
+      "data": 0
+    }
+  },
+  "group": "furniture"
+}
