@@ -16,7 +16,8 @@
       "conditions": {
         "items": [
           {
-            "item": "ironagefurniture:hellbark"
+            "item": "biomesoplenty:planks_0",
+            "data": 11
           }
         ]
       }

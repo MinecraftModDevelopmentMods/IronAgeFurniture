@@ -16,7 +16,8 @@
       "conditions": {
         "items": [
           {
-            "item": "ironagefurniture:mahoe"
+            "item": "forestry:planks.1",
+            "data": 0
           }
         ]
       }

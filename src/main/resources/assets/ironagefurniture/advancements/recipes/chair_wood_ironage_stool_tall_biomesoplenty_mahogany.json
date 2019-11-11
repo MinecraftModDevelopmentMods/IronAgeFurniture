@@ -16,7 +16,8 @@
       "conditions": {
         "items": [
           {
-            "item": "ironagefurniture:mahogany"
+            "item": "biomesoplenty:planks_0",
+            "data": 13
           }
         ]
       }

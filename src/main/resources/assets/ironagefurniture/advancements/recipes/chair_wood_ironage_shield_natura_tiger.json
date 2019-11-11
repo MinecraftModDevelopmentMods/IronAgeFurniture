@@ -16,7 +16,8 @@
       "conditions": {
         "items": [
           {
-            "item": "ironagefurniture:tiger"
+            "item": "natura:overworld_planks",
+            "data": 3
           }
         ]
       }

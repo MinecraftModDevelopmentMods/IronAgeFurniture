@@ -16,7 +16,8 @@
       "conditions": {
         "items": [
           {
-            "item": "ironagefurniture:walnut"
+            "item": "forestry:planks.0",
+            "data": 13
           }
         ]
       }

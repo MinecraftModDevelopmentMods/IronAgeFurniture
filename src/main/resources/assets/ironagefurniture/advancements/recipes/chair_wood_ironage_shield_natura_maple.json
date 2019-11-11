@@ -16,7 +16,8 @@
       "conditions": {
         "items": [
           {
-            "item": "ironagefurniture:maple"
+            "item": "natura:overworld_planks",
+            "data": 0
           }
         ]
       }

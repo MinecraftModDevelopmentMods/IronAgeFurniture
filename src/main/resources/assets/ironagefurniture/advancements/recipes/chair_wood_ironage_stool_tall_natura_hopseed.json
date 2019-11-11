@@ -16,7 +16,8 @@
       "conditions": {
         "items": [
           {
-            "item": "ironagefurniture:hopseed"
+            "item": "natura:overworld_planks",
+            "data": 6
           }
         ]
       }

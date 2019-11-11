@@ -16,7 +16,8 @@
       "conditions": {
         "items": [
           {
-            "item": "ironagefurniture:fusewood"
+            "item": "natura:nether_planks",
+            "data": 3
           }
         ]
       }

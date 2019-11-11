@@ -16,7 +16,8 @@
       "conditions": {
         "items": [
           {
-            "item": "ironagefurniture:treatedWood"
+            "item": "immersiveengineering:treatedWood_packaged",
+            "data": 0
           }
         ]
       }
