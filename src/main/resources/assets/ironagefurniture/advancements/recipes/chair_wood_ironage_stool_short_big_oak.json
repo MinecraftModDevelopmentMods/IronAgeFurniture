@@ -16,7 +16,8 @@
       "conditions": {
         "items": [
           {
-            "item": "ironagefurniture:big_oak"
+            "item": "minecraft:planks",
+            "data": 5
           }
         ]
       }

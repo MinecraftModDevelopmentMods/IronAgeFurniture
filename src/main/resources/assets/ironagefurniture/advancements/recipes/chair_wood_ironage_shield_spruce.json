@@ -16,7 +16,8 @@
       "conditions": {
         "items": [
           {
-            "item": "ironagefurniture:spruce"
+            "item": "minecraft:planks",
+            "data": 1
           }
         ]
       }
