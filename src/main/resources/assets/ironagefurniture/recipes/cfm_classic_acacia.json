@@ -1,0 +1,18 @@
+{
+  "type": "forge:ore_shapeless",
+  "ingredients": [
+    {
+      "item": "cfm:chair_acacia"
+    }
+  ],
+  "result": {
+    "item": "ironagefurniture:chair_wood_ironage_classic_acacia"
+  },
+  "group": "furniture",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "cfm"
+    }
+  ]
+}
