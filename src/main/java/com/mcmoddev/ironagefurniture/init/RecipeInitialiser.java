@@ -1,12 +1,6 @@
 package com.mcmoddev.ironagefurniture.init;
 
-import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 import com.mcmoddev.ironagefurniture.IronAgeFurnitureConfiguration;
-import com.mcmoddev.ironagefurniture.api.FurnitureFactory;
-
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Loader;
 
 public class RecipeInitialiser {
