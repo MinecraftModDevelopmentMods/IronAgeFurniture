@@ -1,0 +1,21 @@
+{
+  "type": "forge:ore_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:shield"
+    },
+    {
+      "item": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_pine"
+    }
+  ],
+  "result": {
+    "item": "ironagefurniture:chair_wood_ironage_shield_biomesoplenty_pine"
+  },
+  "group": "furniture",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "biomesoplenty"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "type": "forge:ore_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:shield"
+    },
+    {
+      "item": "ironagefurniture:chair_wood_ironage_classic_forestry_mahoe"
+    }
+  ],
+  "result": {
+    "item": "ironagefurniture:chair_wood_ironage_shield_forestry_mahoe"
+  },
+  "group": "furniture",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "forestry"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "type": "forge:ore_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:shield"
+    },
+    {
+      "item": "ironagefurniture:chair_wood_ironage_classic_forestry_cocobolo"
+    }
+  ],
+  "result": {
+    "item": "ironagefurniture:chair_wood_ironage_shield_forestry_cocobolo"
+  },
+  "group": "furniture",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "forestry"
+    }
+  ]
+}

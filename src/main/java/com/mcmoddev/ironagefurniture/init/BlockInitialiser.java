@@ -83,7 +83,7 @@ public class BlockInitialiser {
 			}
 		}
 		
-		if (IronAgeFurnitureConfiguration.INTEGRATION_BIOMESOPLENTY && Loader.isModLoaded("BiomesOPlenty")) {
+		if (IronAgeFurnitureConfiguration.INTEGRATION_BIOMESOPLENTY && Loader.isModLoaded("biomesoplenty")) {
 			if (IronAgeFurnitureConfiguration.GENERATE_CLASSIC_CHAIRS) {
 				BlockObjectHolder.chair_wood_ironage_classic_biomesoplenty_cherry         = FurnitureFactory.CreateWoodChair("chair_wood_ironage_classic_biomesoplenty_cherry");
 				BlockObjectHolder.chair_wood_ironage_classic_biomesoplenty_ebony          = FurnitureFactory.CreateWoodChair("chair_wood_ironage_classic_biomesoplenty_ebony");

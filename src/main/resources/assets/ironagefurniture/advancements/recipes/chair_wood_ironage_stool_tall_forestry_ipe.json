@@ -1,0 +1,31 @@
+{
+  "rewards": {
+    "recipes": [
+      "ironagefurniture:chair_wood_ironage_stool_tall_forestry_ipe"
+    ]
+  },
+  "criteria": {
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "ironagefurniture:chair_wood_ironage_stool_tall_forestry_ipe"
+      }
+    },
+    "has_rock": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "ironagefurniture:ipe"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_rock"
+    ]
+  ]
+}
