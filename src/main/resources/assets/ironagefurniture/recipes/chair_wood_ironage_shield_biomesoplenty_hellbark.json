@@ -5,11 +5,17 @@
       "item": "minecraft:shield"
     },
     {
-      "item": "ironagefurniture:chair_wood_ironage_classic_hellbark"
+      "item": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_hellbark"
     }
   ],
   "result": {
     "item": "ironagefurniture:chair_wood_ironage_shield_biomesoplenty_hellbark"
   },
-  "group": "furniture"
+  "group": "furniture",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "biomesoplenty"
+    }
+  ]
 }

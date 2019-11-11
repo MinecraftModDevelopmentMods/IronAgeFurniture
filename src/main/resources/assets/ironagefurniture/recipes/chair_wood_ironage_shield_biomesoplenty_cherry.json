@@ -5,11 +5,17 @@
       "item": "minecraft:shield"
     },
     {
-      "item": "ironagefurniture:chair_wood_ironage_classic_cherry"
+      "item": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_cherry"
     }
   ],
   "result": {
     "item": "ironagefurniture:chair_wood_ironage_shield_biomesoplenty_cherry"
   },
-  "group": "furniture"
+  "group": "furniture",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "biomesoplenty"
+    }
+  ]
 }

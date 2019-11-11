@@ -5,11 +5,17 @@
       "item": "minecraft:shield"
     },
     {
-      "item": "ironagefurniture:chair_wood_ironage_classic_poplar"
+      "item": "ironagefurniture:chair_wood_ironage_classic_forestry_poplar"
     }
   ],
   "result": {
     "item": "ironagefurniture:chair_wood_ironage_shield_forestry_poplar"
   },
-  "group": "furniture"
+  "group": "furniture",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "forestry"
+    }
+  ]
 }

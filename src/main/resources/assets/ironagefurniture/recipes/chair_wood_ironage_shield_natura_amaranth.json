@@ -5,11 +5,17 @@
       "item": "minecraft:shield"
     },
     {
-      "item": "ironagefurniture:chair_wood_ironage_classic_amaranth"
+      "item": "ironagefurniture:chair_wood_ironage_classic_natura_amaranth"
     }
   ],
   "result": {
     "item": "ironagefurniture:chair_wood_ironage_shield_natura_amaranth"
   },
-  "group": "furniture"
+  "group": "furniture",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "natura"
+    }
+  ]
 }

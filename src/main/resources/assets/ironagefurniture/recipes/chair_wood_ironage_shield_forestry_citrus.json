@@ -5,11 +5,17 @@
       "item": "minecraft:shield"
     },
     {
-      "item": "ironagefurniture:chair_wood_ironage_classic_citrus"
+      "item": "ironagefurniture:chair_wood_ironage_classic_forestry_citrus"
     }
   ],
   "result": {
     "item": "ironagefurniture:chair_wood_ironage_shield_forestry_citrus"
   },
-  "group": "furniture"
+  "group": "furniture",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "forestry"
+    }
+  ]
 }

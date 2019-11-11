@@ -5,11 +5,17 @@
       "item": "minecraft:shield"
     },
     {
-      "item": "ironagefurniture:chair_wood_ironage_classic_silverbell"
+      "item": "ironagefurniture:chair_wood_ironage_classic_natura_silverbell"
     }
   ],
   "result": {
     "item": "ironagefurniture:chair_wood_ironage_shield_natura_silverbell"
   },
-  "group": "furniture"
+  "group": "furniture",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "natura"
+    }
+  ]
 }

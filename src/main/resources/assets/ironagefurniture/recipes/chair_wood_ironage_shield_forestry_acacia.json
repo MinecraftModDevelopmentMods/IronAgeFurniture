@@ -5,11 +5,17 @@
       "item": "minecraft:shield"
     },
     {
-      "item": "ironagefurniture:chair_wood_ironage_classic_acacia"
+      "item": "ironagefurniture:chair_wood_ironage_classic_forestry_acacia"
     }
   ],
   "result": {
     "item": "ironagefurniture:chair_wood_ironage_shield_forestry_acacia"
   },
-  "group": "furniture"
+  "group": "furniture",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "forestry"
+    }
+  ]
 }

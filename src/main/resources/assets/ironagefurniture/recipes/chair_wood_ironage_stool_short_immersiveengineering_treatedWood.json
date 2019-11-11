@@ -10,7 +10,7 @@
   ],
   "key": {
     "x": {
-      "item": "natura:treatedWood_packaged",
+      "item": "immersiveengineering:treatedWood_packaged",
       "data": 0
     },
     "y": {
@@ -18,5 +18,11 @@
       "data": 0
     }
   },
-  "group": "furniture"
+  "group": "furniture",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "immersiveengineering"
+    }
+  ]
 }
