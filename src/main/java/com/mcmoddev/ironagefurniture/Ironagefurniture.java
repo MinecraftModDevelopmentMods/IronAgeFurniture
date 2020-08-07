@@ -1,57 +1,59 @@
 package com.mcmoddev.ironagefurniture;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import com.mcmoddev.ironagefurniture.api.entity.Seat;
-import com.mcmoddev.ironagefurniture.init.BlockInitialiser;
-import com.mcmoddev.ironagefurniture.init.ItemInitialiser;
-import com.mcmoddev.ironagefurniture.init.RecipeInitialiser;
-import com.mcmoddev.ironagefurniture.lib.util.MMDCreativeTab;
-
-import net.minecraft.block.Block;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
-import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.registry.EntityRegistry;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
+import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-@Mod(modid = Ironagefurniture.MODID, version = Ironagefurniture.VERSION)
+
+@Mod(Ironagefurniture.MODID)
 public class Ironagefurniture
 {
     public static final String MODID = "ironagefurniture";
     public static final String VERSION = "0.1.0";
     
-	public static final Map<String,Block> BlockRegistry = new HashMap<String, Block>();
-	public static final Map<String,Item> ItemRegistry = new HashMap<String, Item>();
-    
-    public static MMDCreativeTab ironagefurnitureTab = new MMDCreativeTab("IronAgeFurniture", true);
+
+	private static final Logger LOGGER = LogManager.getLogger();
 	
-    
-    
-    @EventHandler
-    public void init(FMLInitializationEvent event)
-    {
-    	// register renderers
-    	if(event.getSide().isClient()) {
-    		ItemInitialiser.RegisterItemRenders();
-    	}
-    	
-    	EntityRegistry.registerModEntity(new ResourceLocation(MODID + ":seat"), Seat.class , MODID + ":seat", 0, this, 80, 1, false);
-    	
-    	RecipeInitialiser.init();
-    	
-    	ironagefurnitureTab.setIconItem(Blocks.BOOKSHELF);
-    }
-    
-    @EventHandler
-    public void preInit(FMLPreInitializationEvent event) {
-    	IronAgeFurnitureConfiguration.init(event);
-    	BlockInitialiser.init();
-    	
-    }
+	// new stuff
+		public Ironagefurniture() {
+	        // Register the setup method for modloading
+	        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+	        // Register the enqueueIMC method for modloading
+	        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
+	        // Register the processIMC method for modloading
+	        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
+	        // Register the doClientStuff method for modloading
+	        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
+
+	        // Register ourselves for server and other game events we are interested in
+	        MinecraftForge.EVENT_BUS.register(this);
+	    }
+
+		private void setup(final FMLCommonSetupEvent event)
+	    {
+	        // example preinit code
+	        LOGGER.info("HELLO FROM PREINIT");
+	        //
+	   
+	    }
+
+	    private void doClientStuff(final FMLClientSetupEvent event) {
+	        // do something that can only be done on the client
+	    }
+
+	    private void enqueueIMC(final InterModEnqueueEvent event)
+	    {
+
+	    }
+
+	    private void processIMC(final InterModProcessEvent event)
+	    {
+
+	    }
 }

@@ -1,13 +1,6 @@
 package com.mcmoddev.ironagefurniture.init;
 
-import com.mcmoddev.ironagefurniture.BlockObjectHolder;
-import com.mcmoddev.ironagefurniture.IronAgeFurnitureConfiguration;
-import com.mcmoddev.ironagefurniture.api.FurnitureFactory;
-
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.Loader;
+//import com.mcmoddev.ironagefurniture.IronAgeFurnitureConfiguration;
 
 public class RecipeInitialiser {
 	protected RecipeInitialiser() {
@@ -25,7 +18,7 @@ public class RecipeInitialiser {
 	
 	private static void generateChairRecipes() {
 		
-		if (IronAgeFurnitureConfiguration.CFM_CONVERSION_RECIPES && Loader.isModLoaded("cfm")) {
+//		if (IronAgeFurnitureConfiguration.CFM_CONVERSION_RECIPES) { //&& Loader.isModLoaded("cfm")
 //			FurnitureFactory.AddChairConversionRecipe(Block.getBlockFromName("cfm:chair_oak"), BlockObjectHolder.chair_wood_ironage_classic_oak);
 //			FurnitureFactory.AddChairConversionRecipe(Block.getBlockFromName("cfm:chair_spruce"), BlockObjectHolder.chair_wood_ironage_classic_spruce);
 //			FurnitureFactory.AddChairConversionRecipe(Block.getBlockFromName("cfm:chair_birch"), BlockObjectHolder.chair_wood_ironage_classic_birch);
@@ -453,5 +446,5 @@ public class RecipeInitialiser {
 //
 //			}
 //		}
-	}
+	//}
 }
