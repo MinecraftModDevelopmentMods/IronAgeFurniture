@@ -98,6 +98,7 @@ public class Chair extends Block
     public int getComparatorInputOverride(BlockState state, World world, BlockPos pos)
     {
         return Container.calcRedstone(world.getTileEntity(pos));
+        
     }
 
     @Override
