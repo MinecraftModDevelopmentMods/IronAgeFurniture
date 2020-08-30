@@ -8,11 +8,11 @@ import net.minecraftforge.registries.ObjectHolder;
 @ObjectHolder(Ironagefurniture.MODID)
 public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_classic_oak = null;
-//	public static final Block chair_wood_ironage_classic_acacia = null;
-//	public static final Block chair_wood_ironage_classic_big_oak = null;
-//	public static final Block chair_wood_ironage_classic_birch = null;
-//	public static final Block chair_wood_ironage_classic_jungle = null;
-//	public static final Block chair_wood_ironage_classic_spruce = null;
+	public static final Block chair_wood_ironage_classic_acacia = null;
+	public static final Block chair_wood_ironage_classic_dark_oak = null;
+	public static final Block chair_wood_ironage_classic_birch = null;
+	public static final Block chair_wood_ironage_classic_jungle = null;
+	public static final Block chair_wood_ironage_classic_spruce = null;
 //	
 //	public static final Block chair_wood_ironage_shield_oak = null;
 //	public static final Block chair_wood_ironage_shield_acacia = null;

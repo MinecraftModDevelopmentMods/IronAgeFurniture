@@ -22,19 +22,16 @@ public class BlockInitialiser {
 	
 	 @SubscribeEvent
 	    public static void registerBlocks(RegistryEvent.Register<Block> event) {
-			event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_oak"));
-			
+			event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_oak"));		
+			event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_acacia"));
+			event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_dark_oak"));
+			event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_birch"));
+			event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_jungle"));
+			event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_spruce"));
 	    }
 	
 	//private static void generateChairs() {
-//		if (IronAgeFurnitureConfiguration.GENERATE_CLASSIC_CHAIRS) {
-//			FurnitureFactory.CreateWoodChair("chair_wood_ironage_classic_oak");
-//			FurnitureFactory.CreateWoodChair("chair_wood_ironage_classic_acacia"); 
-//			FurnitureFactory.CreateWoodChair("chair_wood_ironage_classic_big_oak");
-//			FurnitureFactory.CreateWoodChair("chair_wood_ironage_classic_birch");
-//			FurnitureFactory.CreateWoodChair("chair_wood_ironage_classic_jungle");
-//			FurnitureFactory.CreateWoodChair("chair_wood_ironage_classic_spruce");
-//		}
+
 //		
 //		if (IronAgeFurnitureConfiguration.GENERATE_SHIELD_CHAIRS) {
 //			BlockObjectHolder.chair_wood_ironage_shield_oak = FurnitureFactory.CreateWoodShieldChair("chair_wood_ironage_shield_oak"); 

@@ -15,7 +15,7 @@
       "model": "ironagefurniture:block/chair_wood_ironage_classic_oak",
       "y": 90
     },
-	"facing=north,waterlogged=false": {
+    "facing=north,waterlogged=false": {
       "model": "ironagefurniture:block/chair_wood_ironage_classic_oak",
       "y": 180
     },

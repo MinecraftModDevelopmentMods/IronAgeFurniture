@@ -1,18 +1,33 @@
 {
   "variants": {
-    "facing=north": {
-      "model": "ironagefurniture:chair_wood_ironage_classic_jungle",
+    "facing=north,waterlogged=true": {
+      "model": "ironagefurniture:block/chair_wood_ironage_classic_jungle",
       "y": 180
     },
-    "facing=east": {
-      "model": "ironagefurniture:chair_wood_ironage_classic_jungle",
+    "facing=east,waterlogged=true": {
+      "model": "ironagefurniture:block/chair_wood_ironage_classic_jungle",
       "y": 270
     },
-    "facing=south": {
-      "model": "ironagefurniture:chair_wood_ironage_classic_jungle"
+    "facing=south,waterlogged=true": {
+      "model": "ironagefurniture:block/chair_wood_ironage_classic_jungle"
     },
-    "facing=west": {
-      "model": "ironagefurniture:chair_wood_ironage_classic_jungle",
+    "facing=west,waterlogged=true": {
+      "model": "ironagefurniture:block/chair_wood_ironage_classic_jungle",
+      "y": 90
+    },
+    "facing=north,waterlogged=false": {
+      "model": "ironagefurniture:block/chair_wood_ironage_classic_jungle",
+      "y": 180
+    },
+    "facing=east,waterlogged=false": {
+      "model": "ironagefurniture:block/chair_wood_ironage_classic_jungle",
+      "y": 270
+    },
+    "facing=south,waterlogged=false": {
+      "model": "ironagefurniture:block/chair_wood_ironage_classic_jungle"
+    },
+    "facing=west,waterlogged=false": {
+      "model": "ironagefurniture:block/chair_wood_ironage_classic_jungle",
       "y": 90
     }
   }
