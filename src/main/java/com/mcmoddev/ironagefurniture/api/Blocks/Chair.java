@@ -154,7 +154,7 @@ public class Chair extends Block
     }
 
     public Chair(float hardness, float blastResistance, SoundType sound, String name) {
-		super(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE)
+		super(Block.Properties.create(Material.ROCK).harvestTool(ToolType.AXE)
 				.hardnessAndResistance(hardness, blastResistance).sound(sound));
 		
 		this.setDefaultState(this.getStateContainer().getBaseState().with(DIRECTION, Direction.NORTH));
