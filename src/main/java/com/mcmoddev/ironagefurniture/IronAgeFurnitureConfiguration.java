@@ -1,35 +1,82 @@
-//package com.mcmoddev.ironagefurniture;
-//
-//import net.minecraftforge.common.config.Configuration;
-//import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-//
-//public class IronAgeFurnitureConfiguration {	
-//	public static boolean GENERATE_CLASSIC_CHAIRS = true;
-//	public static boolean GENERATE_SHIELD_CHAIRS = true;
-//	public static boolean GENERATE_SHORT_STOOLS = true;
-//	public static boolean GENERATE_TALL_STOOLS = true;
-//	public static boolean CFM_CONVERSION_RECIPES = true;
-//	public static boolean INTEGRATION_BIOMESOPLENTY = true;
-//	public static boolean INTEGRATION_NATURA = true;
-//	public static boolean INTEGRATION_FORESTRY = true;
-//	public static boolean INTEGRATION_IMMERSIVEENGINEERING = true;
-//	
-//	public static void init(FMLPreInitializationEvent event) {
-//		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
-//    	config.load();
-//    	
-//    	INTEGRATION_BIOMESOPLENTY = config.getBoolean("INTEGRATION_BIOMESOPLENTY", "integration", INTEGRATION_BIOMESOPLENTY, "If true, then furniture for BiomesOPlenty will be generated");
-//    	INTEGRATION_NATURA = config.getBoolean("INTEGRATION_NATURA", "integration", INTEGRATION_NATURA, "If true, then furniture for Natura will be generated");
-//    	INTEGRATION_FORESTRY = config.getBoolean("INTEGRATION_FORESTRY", "integration", INTEGRATION_FORESTRY, "If true, then furniture for Forestry will be generated");
-//    	INTEGRATION_IMMERSIVEENGINEERING = config.getBoolean("INTEGRATION_IMMERSIVEENGINEERING", "integration", INTEGRATION_IMMERSIVEENGINEERING, "If true, then furniture for Immersive Engineerig will be generated");
-//    	
-//    	GENERATE_SHIELD_CHAIRS = config.getBoolean("GENERATE_SHIELD_CHAIRS", "options", GENERATE_SHIELD_CHAIRS, "If true, then shield chairs will be generated");
-//		GENERATE_CLASSIC_CHAIRS = config.getBoolean("GENERATE_CLASSIC_CHAIRS", "options", GENERATE_CLASSIC_CHAIRS, "If true, then classic chairs will be generated");
-//	
-//		GENERATE_SHORT_STOOLS = config.getBoolean("GENERATE_SHORT_STOOLS", "options", GENERATE_SHORT_STOOLS, "If true, then short stools will be generated");
-//		GENERATE_TALL_STOOLS = config.getBoolean("GENERATE_TALL_STOOLS", "options", GENERATE_TALL_STOOLS, "If true, then tall stools will be generated");
-//		
-//		CFM_CONVERSION_RECIPES = config.getBoolean("CFM_CONVERSION_RECIPES", "options", CFM_CONVERSION_RECIPES, "If true, recipes for converting chairs from Crayfish Furniture Mod will be added");
-//		config.save();
-//	}
-//}
+package com.mcmoddev.ironagefurniture;
+
+import net.minecraftforge.common.ForgeConfigSpec;
+import org.apache.commons.lang3.tuple.Pair;
+
+public class IronAgeFurnitureConfiguration
+{
+    public static class Client
+    {
+        public final ForgeConfigSpec.BooleanValue GENERATE_CLASSIC_CHAIRS;
+        public final ForgeConfigSpec.BooleanValue GENERATE_SHIELD_CHAIRS;
+    	public final ForgeConfigSpec.BooleanValue GENERATE_SHORT_STOOLS;
+    	public final ForgeConfigSpec.BooleanValue GENERATE_TALL_STOOLS;
+    	public final ForgeConfigSpec.BooleanValue CFM_CONVERSION_RECIPES;
+    	public final ForgeConfigSpec.BooleanValue INTEGRATION_BIOMESOPLENTY;
+    	public final ForgeConfigSpec.BooleanValue INTEGRATION_NATURA;
+    	public final ForgeConfigSpec.BooleanValue INTEGRATION_FORESTRY;
+    	public final ForgeConfigSpec.BooleanValue INTEGRATION_IMMERSIVEENGINEERING;
+        
+        Client(ForgeConfigSpec.Builder builder)
+        {
+            builder.comment("Client configuration settings").push("client");
+            
+            this.GENERATE_CLASSIC_CHAIRS = builder
+                    .comment("Generate classic chairs.")
+                    .translation("ironagefurniture.generation.generateClassicChairs")
+                    .define("generateClassicChairs", true);
+            
+            this.GENERATE_SHIELD_CHAIRS = builder
+                    .comment("Generate shield chairs.")
+                    .translation("ironagefurniture.generation.generateShieldChairs")
+                    .define("generateShieldChairs", true);
+            
+            this.GENERATE_SHORT_STOOLS = builder
+                    .comment("Generate short stools.")
+                    .translation("ironagefurniture.generation.generateShortStools")
+                    .define("generateShortStools", true);
+            
+            this.GENERATE_TALL_STOOLS = builder
+            		.comment("Generate tall stools.")
+                    .translation("ironagefurniture.generation.generateTallStools")
+                    .define("generateTallStools", true);
+            
+            this.CFM_CONVERSION_RECIPES = builder
+                    .comment("Adds recipes to convert from CFM furniture to IAF furniture.")
+                    .translation("ironagefurniture.recipes.cfmRecipes")
+                    .define("cfmRecipes", true);
+            
+            this.INTEGRATION_BIOMESOPLENTY = builder
+                    .comment("Integrate with Biomes O Plenty.")
+                    .translation("ironagefurniture.integration.bopIntegration")
+                    .define("bopIntegration", true);
+            
+            this.INTEGRATION_NATURA = builder
+            		.comment("Integrate with Natura.")
+                    .translation("ironagefurniture.integration.naturaIntegration")
+                    .define("naturaIntegration", true);
+            
+            this.INTEGRATION_FORESTRY = builder
+            		.comment("Integrate with Forestry.")
+                    .translation("ironagefurniture.integration.forestryIntegration")
+                    .define("forestryIntegration", true);
+            
+            this.INTEGRATION_IMMERSIVEENGINEERING = builder
+            		.comment("Integrate with Immersive Engineering.")
+                    .translation("ironagefurniture.integration.ieIntegration")
+                    .define("ieIntegration", true);
+            
+            builder.pop();
+        }
+    }
+
+    static final ForgeConfigSpec clientSpec;
+    public static final IronAgeFurnitureConfiguration.Client CLIENT;
+
+    static
+    {
+        final Pair<IronAgeFurnitureConfiguration.Client, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(IronAgeFurnitureConfiguration.Client::new);
+        clientSpec = specPair.getRight();
+        CLIENT = specPair.getLeft();
+    }
+}

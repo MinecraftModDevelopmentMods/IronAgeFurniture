@@ -1,5 +1,6 @@
 package com.mcmoddev.ironagefurniture.init;
 
+import com.mcmoddev.ironagefurniture.IronAgeFurnitureConfiguration;
 import com.mcmoddev.ironagefurniture.Ironagefurniture;
 import com.mcmoddev.ironagefurniture.api.Blocks.Chair;
 
@@ -28,19 +29,21 @@ public class BlockInitialiser {
 			event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_birch"));
 			event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_jungle"));
 			event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_spruce"));
-	    }
+
+			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHIELD_CHAIRS.get()) {
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_oak"));		
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_acacia"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_dark_oak"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_birch"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_jungle"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_spruce"));
+			}
+
+	 }
 	
 	//private static void generateChairs() {
 
 //		
-//		if (IronAgeFurnitureConfiguration.GENERATE_SHIELD_CHAIRS) {
-//			BlockObjectHolder.chair_wood_ironage_shield_oak = FurnitureFactory.CreateWoodShieldChair("chair_wood_ironage_shield_oak"); 
-//			BlockObjectHolder.chair_wood_ironage_shield_acacia = FurnitureFactory.CreateWoodShieldChair("chair_wood_ironage_shield_acacia"); 
-//			BlockObjectHolder.chair_wood_ironage_shield_big_oak = FurnitureFactory.CreateWoodShieldChair("chair_wood_ironage_shield_big_oak"); 
-//			BlockObjectHolder.chair_wood_ironage_shield_birch = FurnitureFactory.CreateWoodShieldChair("chair_wood_ironage_shield_birch"); 
-//			BlockObjectHolder.chair_wood_ironage_shield_jungle = FurnitureFactory.CreateWoodShieldChair("chair_wood_ironage_shield_jungle");
-//			BlockObjectHolder.chair_wood_ironage_shield_spruce = FurnitureFactory.CreateWoodShieldChair("chair_wood_ironage_shield_spruce");
-//		}
 //		
 //		if (IronAgeFurnitureConfiguration.GENERATE_SHORT_STOOLS) {
 //			BlockObjectHolder.chair_wood_ironage_stool_short_oak =  FurnitureFactory.CreateWoodShortStool("chair_wood_ironage_stool_short_oak");

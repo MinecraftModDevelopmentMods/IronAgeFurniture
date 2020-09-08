@@ -25,7 +25,13 @@ public class ItemInitialiser {
     			new BlockItem(BlockObjectHolder.chair_wood_ironage_classic_dark_oak, new BlockItem.Properties().group(ItemGroup.BUILDING_BLOCKS)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_classic_dark_oak.getRegistryName().getPath()),
     			new BlockItem(BlockObjectHolder.chair_wood_ironage_classic_birch, new BlockItem.Properties().group(ItemGroup.BUILDING_BLOCKS)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_classic_birch.getRegistryName().getPath()),
     			new BlockItem(BlockObjectHolder.chair_wood_ironage_classic_jungle, new BlockItem.Properties().group(ItemGroup.BUILDING_BLOCKS)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_classic_jungle.getRegistryName().getPath()),
-    			new BlockItem(BlockObjectHolder.chair_wood_ironage_classic_spruce, new BlockItem.Properties().group(ItemGroup.BUILDING_BLOCKS)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_classic_spruce.getRegistryName().getPath())
+    			new BlockItem(BlockObjectHolder.chair_wood_ironage_classic_spruce, new BlockItem.Properties().group(ItemGroup.BUILDING_BLOCKS)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_classic_spruce.getRegistryName().getPath()),
+    			new BlockItem(BlockObjectHolder.chair_wood_ironage_shield_oak, new BlockItem.Properties().group(ItemGroup.BUILDING_BLOCKS)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_shield_oak.getRegistryName().getPath()),
+    			new BlockItem(BlockObjectHolder.chair_wood_ironage_shield_acacia, new BlockItem.Properties().group(ItemGroup.BUILDING_BLOCKS)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_shield_acacia.getRegistryName().getPath()),
+    			new BlockItem(BlockObjectHolder.chair_wood_ironage_shield_dark_oak, new BlockItem.Properties().group(ItemGroup.BUILDING_BLOCKS)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_shield_dark_oak.getRegistryName().getPath()),
+    			new BlockItem(BlockObjectHolder.chair_wood_ironage_shield_birch, new BlockItem.Properties().group(ItemGroup.BUILDING_BLOCKS)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_shield_birch.getRegistryName().getPath()),
+    			new BlockItem(BlockObjectHolder.chair_wood_ironage_shield_jungle, new BlockItem.Properties().group(ItemGroup.BUILDING_BLOCKS)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_shield_jungle.getRegistryName().getPath()),
+    			new BlockItem(BlockObjectHolder.chair_wood_ironage_shield_spruce, new BlockItem.Properties().group(ItemGroup.BUILDING_BLOCKS)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_shield_spruce.getRegistryName().getPath())
     			);
     }
 }
