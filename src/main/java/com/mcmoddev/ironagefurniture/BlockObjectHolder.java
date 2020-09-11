@@ -21,19 +21,19 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_shield_jungle = null;
 	public static final Block chair_wood_ironage_shield_spruce = null;		
 	
-//	public static final Block chair_wood_ironage_stool_short_oak = null;
-//	public static final Block chair_wood_ironage_stool_short_acacia = null;
-//	public static final Block chair_wood_ironage_stool_short_dark_oak = null;
-//	public static final Block chair_wood_ironage_stool_short_birch = null;
-//	public static final Block chair_wood_ironage_stool_short_jungle = null;
-//	public static final Block chair_wood_ironage_stool_short_spruce = null;
-//	
-//	public static final Block chair_wood_ironage_stool_tall_acacia = null;
-//	public static final Block chair_wood_ironage_stool_tall_dark_oak = null;
-//	public static final Block chair_wood_ironage_stool_tall_birch = null;
-//	public static final Block chair_wood_ironage_stool_tall_jungle = null;	
-//	public static final Block chair_wood_ironage_stool_tall_oak = null;
-//	public static final Block chair_wood_ironage_stool_tall_spruce = null;
+	public static final Block chair_wood_ironage_stool_short_oak = null;
+	public static final Block chair_wood_ironage_stool_short_acacia = null;
+	public static final Block chair_wood_ironage_stool_short_dark_oak = null;
+	public static final Block chair_wood_ironage_stool_short_birch = null;
+	public static final Block chair_wood_ironage_stool_short_jungle = null;
+	public static final Block chair_wood_ironage_stool_short_spruce = null;
+	
+	public static final Block chair_wood_ironage_stool_tall_acacia = null;
+	public static final Block chair_wood_ironage_stool_tall_dark_oak = null;
+	public static final Block chair_wood_ironage_stool_tall_birch = null;
+	public static final Block chair_wood_ironage_stool_tall_jungle = null;	
+	public static final Block chair_wood_ironage_stool_tall_oak = null;
+	public static final Block chair_wood_ironage_stool_tall_spruce = null;
 //	
 //	public static final Block chair_wood_ironage_classic_biomesoplenty_cherry = null;
 //	public static final Block chair_wood_ironage_classic_biomesoplenty_ebony = null;

@@ -1,18 +1,33 @@
 {
   "variants": {
-    "facing=north": {
-      "model": "ironagefurniture:chair_wood_ironage_stool_tall_spruce",
+    "facing=north,waterlogged=true": {
+      "model": "ironagefurniture:block/chair_wood_ironage_stool_tall_spruce",
       "y": 180
     },
-    "facing=east": {
-      "model": "ironagefurniture:chair_wood_ironage_stool_tall_spruce",
+    "facing=east,waterlogged=true": {
+      "model": "ironagefurniture:block/chair_wood_ironage_stool_tall_spruce",
       "y": 270
     },
-    "facing=south": {
-      "model": "ironagefurniture:chair_wood_ironage_stool_tall_spruce"
+    "facing=south,waterlogged=true": {
+      "model": "ironagefurniture:block/chair_wood_ironage_stool_tall_spruce"
     },
-    "facing=west": {
-      "model": "ironagefurniture:chair_wood_ironage_stool_tall_spruce",
+    "facing=west,waterlogged=true": {
+      "model": "ironagefurniture:block/chair_wood_ironage_stool_tall_spruce",
+      "y": 90
+    },
+    "facing=north,waterlogged=false": {
+      "model": "ironagefurniture:block/chair_wood_ironage_stool_tall_spruce",
+      "y": 180
+    },
+    "facing=east,waterlogged=false": {
+      "model": "ironagefurniture:block/chair_wood_ironage_stool_tall_spruce",
+      "y": 270
+    },
+    "facing=south,waterlogged=false": {
+      "model": "ironagefurniture:block/chair_wood_ironage_stool_tall_spruce"
+    },
+    "facing=west,waterlogged=false": {
+      "model": "ironagefurniture:block/chair_wood_ironage_stool_tall_spruce",
       "y": 90
     }
   }

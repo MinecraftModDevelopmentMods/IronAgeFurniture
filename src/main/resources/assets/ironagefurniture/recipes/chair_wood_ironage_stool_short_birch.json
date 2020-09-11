@@ -10,8 +10,8 @@
   ],
   "key": {
     "x": {
-      "item": "minecraft:planks",
-      "data": 2
+      "item": "minecraft:{materialname}_planks",
+      "data": -1
     },
     "y": {
       "item": "minecraft:stick",
