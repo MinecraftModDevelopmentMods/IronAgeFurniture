@@ -4,6 +4,7 @@ import com.mcmoddev.ironagefurniture.IronAgeFurnitureConfiguration;
 import com.mcmoddev.ironagefurniture.Ironagefurniture;
 import com.mcmoddev.ironagefurniture.api.Blocks.Chair;
 import com.mcmoddev.ironagefurniture.api.Blocks.Stool;
+import com.mcmoddev.ironagefurniture.api.Blocks.TallStool;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -41,21 +42,21 @@ public class BlockInitialiser {
 			}
 			
 			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHORT_STOOLS.get()) {
-				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_oak", false));		
-				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_acacia", false));
-				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_dark_oak", false));
-				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_birch", false));
-				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_jungle", false));
-				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_spruce", false));
+				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_oak"));		
+				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_acacia"));
+				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_dark_oak"));
+				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_birch"));
+				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_jungle"));
+				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_spruce"));
 			}
 		
 			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_TALL_STOOLS.get()) {
-				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_oak", true));		
-				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_acacia", true));
-				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_dark_oak", true));
-				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_birch", true));
-				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_jungle", true));
-				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_spruce", true));
+				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_oak"));		
+				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_acacia"));
+				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_dark_oak"));
+				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_birch"));
+				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_jungle"));
+				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_spruce"));
 			}
 	 }
 	
