@@ -1,18 +1,33 @@
 {
   "variants": {
-    "facing=north": {
-      "model": "ironagefurniture:chair_wood_ironage_stool_short_acacia",
+    "facing=north,waterlogged=true": {
+      "model": "ironagefurniture:block/chair_wood_ironage_stool_short_acacia",
       "y": 180
     },
-    "facing=east": {
-      "model": "ironagefurniture:chair_wood_ironage_stool_short_acacia",
+    "facing=east,waterlogged=true": {
+      "model": "ironagefurniture:block/chair_wood_ironage_stool_short_acacia",
       "y": 270
     },
-    "facing=south": {
-      "model": "ironagefurniture:chair_wood_ironage_stool_short_acacia"
+    "facing=south,waterlogged=true": {
+      "model": "ironagefurniture:block/chair_wood_ironage_stool_short_acacia"
     },
-    "facing=west": {
-      "model": "ironagefurniture:chair_wood_ironage_stool_short_acacia",
+    "facing=west,waterlogged=true": {
+      "model": "ironagefurniture:block/chair_wood_ironage_stool_short_acacia",
+      "y": 90
+    },
+    "facing=north,waterlogged=false": {
+      "model": "ironagefurniture:block/chair_wood_ironage_stool_short_acacia",
+      "y": 180
+    },
+    "facing=east,waterlogged=false": {
+      "model": "ironagefurniture:block/chair_wood_ironage_stool_short_acacia",
+      "y": 270
+    },
+    "facing=south,waterlogged=false": {
+      "model": "ironagefurniture:block/chair_wood_ironage_stool_short_acacia"
+    },
+    "facing=west,waterlogged=false": {
+      "model": "ironagefurniture:block/chair_wood_ironage_stool_short_acacia",
       "y": 90
     }
   }

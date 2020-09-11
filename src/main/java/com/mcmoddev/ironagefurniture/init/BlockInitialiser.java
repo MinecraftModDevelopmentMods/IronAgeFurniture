@@ -3,6 +3,7 @@ package com.mcmoddev.ironagefurniture.init;
 import com.mcmoddev.ironagefurniture.IronAgeFurnitureConfiguration;
 import com.mcmoddev.ironagefurniture.Ironagefurniture;
 import com.mcmoddev.ironagefurniture.api.Blocks.Chair;
+import com.mcmoddev.ironagefurniture.api.Blocks.Stool;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -38,30 +39,31 @@ public class BlockInitialiser {
 				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_jungle"));
 				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_spruce"));
 			}
-
+			
+			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHORT_STOOLS.get()) {
+				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_oak", false));		
+				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_acacia", false));
+				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_dark_oak", false));
+				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_birch", false));
+				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_jungle", false));
+				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_spruce", false));
+			}
+		
+			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_TALL_STOOLS.get()) {
+				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_oak", true));		
+				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_acacia", true));
+				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_dark_oak", true));
+				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_birch", true));
+				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_jungle", true));
+				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_spruce", true));
+			}
 	 }
 	
 	//private static void generateChairs() {
 
 //		
 //		
-//		if (IronAgeFurnitureConfiguration.GENERATE_SHORT_STOOLS) {
-//			BlockObjectHolder.chair_wood_ironage_stool_short_oak =  FurnitureFactory.CreateWoodShortStool("chair_wood_ironage_stool_short_oak");
-//			BlockObjectHolder.chair_wood_ironage_stool_short_acacia = FurnitureFactory.CreateWoodShortStool("chair_wood_ironage_stool_short_acacia");
-//			BlockObjectHolder.chair_wood_ironage_stool_short_big_oak = FurnitureFactory.CreateWoodShortStool("chair_wood_ironage_stool_short_big_oak");
-//			BlockObjectHolder.chair_wood_ironage_stool_short_birch =  FurnitureFactory.CreateWoodShortStool("chair_wood_ironage_stool_short_birch");
-//			BlockObjectHolder.chair_wood_ironage_stool_short_jungle = FurnitureFactory.CreateWoodShortStool("chair_wood_ironage_stool_short_jungle");
-//			BlockObjectHolder.chair_wood_ironage_stool_short_spruce = FurnitureFactory.CreateWoodShortStool("chair_wood_ironage_stool_short_spruce");
-//		}
-//		
-//		if (IronAgeFurnitureConfiguration.GENERATE_TALL_STOOLS) {
-//			BlockObjectHolder.chair_wood_ironage_stool_tall_acacia = FurnitureFactory.CreateWoodTallStool("chair_wood_ironage_stool_tall_acacia");
-//			BlockObjectHolder.chair_wood_ironage_stool_tall_big_oak = FurnitureFactory.CreateWoodTallStool("chair_wood_ironage_stool_tall_big_oak");
-//			BlockObjectHolder.chair_wood_ironage_stool_tall_birch = FurnitureFactory.CreateWoodTallStool("chair_wood_ironage_stool_tall_birch");
-//			BlockObjectHolder.chair_wood_ironage_stool_tall_jungle = FurnitureFactory.CreateWoodTallStool("chair_wood_ironage_stool_tall_jungle");
-//			BlockObjectHolder.chair_wood_ironage_stool_tall_oak = FurnitureFactory.CreateWoodTallStool("chair_wood_ironage_stool_tall_oak");
-//			BlockObjectHolder.chair_wood_ironage_stool_tall_spruce = FurnitureFactory.CreateWoodTallStool("chair_wood_ironage_stool_tall_spruce");
-//		}
+
 //		
 //
 //		

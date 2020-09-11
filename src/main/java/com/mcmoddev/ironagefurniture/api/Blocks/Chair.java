@@ -164,7 +164,7 @@ public class Chair extends Block
 		this.setRegistryName(name);
 	}
 
-    private ImmutableMap<BlockState, VoxelShape> generateShapes(ImmutableList<BlockState> states)
+    protected ImmutableMap<BlockState, VoxelShape> generateShapes(ImmutableList<BlockState> states)
     {
         ImmutableMap.Builder<BlockState, VoxelShape> builder = new ImmutableMap.Builder<>();
         for(BlockState state : states)
