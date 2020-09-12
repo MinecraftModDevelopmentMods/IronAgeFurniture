@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "furniture",
+  "pattern": [
+    "y",
+    "x",
+    ""
+  ],
+  "key": {
+    "y": {
+      "item": "minecraft:shield"
+    },
+    "x": {
+      "item": "ironagefurniture:chair_wood_ironage_classic_acacia"
+    }
+  },
+  "result": {
+    "item": "ironagefurniture:chair_wood_ironage_shield_acacia",
+    "count": 1
+  }
+}
