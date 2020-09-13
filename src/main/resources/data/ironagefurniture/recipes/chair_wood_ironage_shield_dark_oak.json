@@ -1,21 +1,14 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "group": "furniture",
-  "pattern": [
-    "y",
-    "x",
-    ""
-  ],
-  "key": {
-    "y": {
+  "type": "crafting_shapeless",
+  "ingredients": [
+    {
       "item": "minecraft:shield"
     },
-    "x": {
+    {
       "item": "ironagefurniture:chair_wood_ironage_classic_dark_oak"
     }
-  },
+  ],
   "result": {
-    "item": "ironagefurniture:chair_wood_ironage_shield_dark_oak",
-    "count": 1
+    "item": "ironagefurniture:chair_wood_ironage_shield_dark_oak"
   }
 }
