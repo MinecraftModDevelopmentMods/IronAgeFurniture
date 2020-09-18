@@ -11,9 +11,6 @@ import net.minecraftforge.fml.network.NetworkHooks;
 
 import java.util.List;
 
-/**
- * Author: MrCrayfish
- */
 public class Seat extends Entity
 {
     private BlockPos source;
@@ -92,6 +89,7 @@ public class Seat extends Entity
         if(!world.isRemote)
         {
             List<Seat> seats = world.getEntitiesWithinAABB(Seat.class, new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1.0, pos.getY() + 1.0, pos.getZ() + 1.0));
+            
             if(seats.isEmpty())
             {
                 Seat seat = new Seat(world, pos, yOffset);
@@ -99,6 +97,7 @@ public class Seat extends Entity
                 player.startRiding(seat, false);
             }
         }
+        
         return true;
     }
 }
