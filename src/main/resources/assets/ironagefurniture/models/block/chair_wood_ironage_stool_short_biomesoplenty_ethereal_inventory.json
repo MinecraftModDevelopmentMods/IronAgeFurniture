@@ -1,9 +1,9 @@
 {
   "credit": "Made with Blockbench",
   "textures": {
-    "0": "biomesoplenty:blocks/ethereal_log",
-    "1": "biomesoplenty:blocks/ethereal_planks",
-    "particle": "biomesoplenty:blocks/ethereal_log"
+    "0": "biomesoplenty:block/ethereal_log",
+    "1": "biomesoplenty:block/ethereal_planks",
+    "particle": "biomesoplenty:block/ethereal_log"
   },
   "elements": [
     {

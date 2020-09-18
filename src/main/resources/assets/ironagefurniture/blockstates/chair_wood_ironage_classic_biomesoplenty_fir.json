@@ -1,18 +1,33 @@
 {
   "variants": {
-    "facing=north": {
-      "model": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_fir",
+    "facing=north,waterlogged=true": {
+      "model": "ironagefurniture:block/chair_wood_ironage_classic_biomesoplenty_fir",
       "y": 180
     },
-    "facing=east": {
-      "model": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_fir",
+    "facing=east,waterlogged=true": {
+      "model": "ironagefurniture:block/chair_wood_ironage_classic_biomesoplenty_fir",
       "y": 270
     },
-    "facing=south": {
-      "model": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_fir"
+    "facing=south,waterlogged=true": {
+      "model": "ironagefurniture:block/chair_wood_ironage_classic_biomesoplenty_fir"
     },
-    "facing=west": {
-      "model": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_fir",
+    "facing=west,waterlogged=true": {
+      "model": "ironagefurniture:block/chair_wood_ironage_classic_biomesoplenty_fir",
+      "y": 90
+    },
+    "facing=north,waterlogged=false": {
+      "model": "ironagefurniture:block/chair_wood_ironage_classic_biomesoplenty_fir",
+      "y": 180
+    },
+    "facing=east,waterlogged=false": {
+      "model": "ironagefurniture:block/chair_wood_ironage_classic_biomesoplenty_fir",
+      "y": 270
+    },
+    "facing=south,waterlogged=false": {
+      "model": "ironagefurniture:block/chair_wood_ironage_classic_biomesoplenty_fir"
+    },
+    "facing=west,waterlogged=false": {
+      "model": "ironagefurniture:block/chair_wood_ironage_classic_biomesoplenty_fir",
       "y": 90
     }
   }

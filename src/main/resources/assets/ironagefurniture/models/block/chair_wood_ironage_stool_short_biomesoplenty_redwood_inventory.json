@@ -1,9 +1,9 @@
 {
   "credit": "Made with Blockbench",
   "textures": {
-    "0": "biomesoplenty:blocks/redwood_log",
-    "1": "biomesoplenty:blocks/redwood_planks",
-    "particle": "biomesoplenty:blocks/redwood_log"
+    "0": "biomesoplenty:block/redwood_log",
+    "1": "biomesoplenty:block/redwood_planks",
+    "particle": "biomesoplenty:block/redwood_log"
   },
   "elements": [
     {

@@ -1,18 +1,33 @@
 {
   "variants": {
-    "facing=north": {
-      "model": "ironagefurniture:chair_wood_ironage_shield_biomesoplenty_jacaranda",
+    "facing=north,waterlogged=true": {
+      "model": "ironagefurniture:block/chair_wood_ironage_shield_biomesoplenty_jacaranda",
       "y": 180
     },
-    "facing=east": {
-      "model": "ironagefurniture:chair_wood_ironage_shield_biomesoplenty_jacaranda",
+    "facing=east,waterlogged=true": {
+      "model": "ironagefurniture:block/chair_wood_ironage_shield_biomesoplenty_jacaranda",
       "y": 270
     },
-    "facing=south": {
-      "model": "ironagefurniture:chair_wood_ironage_shield_biomesoplenty_jacaranda"
+    "facing=south,waterlogged=true": {
+      "model": "ironagefurniture:block/chair_wood_ironage_shield_biomesoplenty_jacaranda"
     },
-    "facing=west": {
-      "model": "ironagefurniture:chair_wood_ironage_shield_biomesoplenty_jacaranda",
+    "facing=west,waterlogged=true": {
+      "model": "ironagefurniture:block/chair_wood_ironage_shield_biomesoplenty_jacaranda",
+      "y": 90
+    },
+    "facing=north,waterlogged=false": {
+      "model": "ironagefurniture:block/chair_wood_ironage_shield_biomesoplenty_jacaranda",
+      "y": 180
+    },
+    "facing=east,waterlogged=false": {
+      "model": "ironagefurniture:block/chair_wood_ironage_shield_biomesoplenty_jacaranda",
+      "y": 270
+    },
+    "facing=south,waterlogged=false": {
+      "model": "ironagefurniture:block/chair_wood_ironage_shield_biomesoplenty_jacaranda"
+    },
+    "facing=west,waterlogged=false": {
+      "model": "ironagefurniture:block/chair_wood_ironage_shield_biomesoplenty_jacaranda",
       "y": 90
     }
   }

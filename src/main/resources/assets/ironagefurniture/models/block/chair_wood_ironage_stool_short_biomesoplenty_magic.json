@@ -1,9 +1,9 @@
 {
   "credit": "Made with Blockbench",
   "textures": {
-    "0": "biomesoplenty:blocks/magic_log",
-    "1": "biomesoplenty:blocks/magic_planks",
-    "particle": "biomesoplenty:blocks/magic_log"
+    "0": "biomesoplenty:block/magic_log",
+    "1": "biomesoplenty:block/magic_planks",
+    "particle": "biomesoplenty:block/magic_log"
   },
   "elements": [
     {

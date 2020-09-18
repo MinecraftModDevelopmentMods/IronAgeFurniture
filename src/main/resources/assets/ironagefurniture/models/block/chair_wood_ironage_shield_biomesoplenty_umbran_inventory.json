@@ -1,10 +1,10 @@
 {
   "credit": "Made with Blockbench",
   "textures": {
-    "0": "biomesoplenty:blocks/umbran_log",
-    "1": "biomesoplenty:blocks/umbran_planks",
-    "2": "ironagefurniture:blocks/shield_chair_back",
-    "particle": "biomesoplenty:blocks/umbran_log"
+    "0": "biomesoplenty:block/umbran_log",
+    "1": "biomesoplenty:block/umbran_planks",
+    "2": "ironagefurniture:block/shield_chair_back",
+    "particle": "biomesoplenty:block/umbran_log"
   },
   "elements": [
     {

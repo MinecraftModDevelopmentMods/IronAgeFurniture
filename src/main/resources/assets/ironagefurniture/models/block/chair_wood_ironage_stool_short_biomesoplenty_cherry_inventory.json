@@ -1,9 +1,9 @@
 {
   "credit": "Made with Blockbench",
   "textures": {
-    "0": "biomesoplenty:blocks/cherry_log",
-    "1": "biomesoplenty:blocks/cherry_planks",
-    "particle": "biomesoplenty:blocks/cherry_log"
+    "0": "biomesoplenty:block/cherry_log",
+    "1": "biomesoplenty:block/cherry_planks",
+    "particle": "biomesoplenty:block/cherry_log"
   },
   "elements": [
     {

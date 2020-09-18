@@ -1,0 +1,14 @@
+{
+  "type": "crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:shield"
+    },
+    {
+      "item": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_jacaranda"
+    }
+  ],
+  "result": {
+    "item": "ironagefurniture:chair_wood_ironage_shield_biomesoplenty_jacaranda"
+  }
+}

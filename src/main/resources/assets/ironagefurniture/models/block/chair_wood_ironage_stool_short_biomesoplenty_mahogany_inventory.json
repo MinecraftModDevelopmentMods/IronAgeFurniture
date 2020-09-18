@@ -1,9 +1,9 @@
 {
   "credit": "Made with Blockbench",
   "textures": {
-    "0": "biomesoplenty:blocks/mahogany_log",
-    "1": "biomesoplenty:blocks/mahogany_planks",
-    "particle": "biomesoplenty:blocks/mahogany_log"
+    "0": "biomesoplenty:block/mahogany_log",
+    "1": "biomesoplenty:block/mahogany_planks",
+    "particle": "biomesoplenty:block/mahogany_log"
   },
   "elements": [
     {

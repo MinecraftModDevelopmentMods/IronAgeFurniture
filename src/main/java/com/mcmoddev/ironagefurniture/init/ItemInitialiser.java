@@ -2,11 +2,8 @@ package com.mcmoddev.ironagefurniture.init;
 
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 import com.mcmoddev.ironagefurniture.Ironagefurniture;
-import com.mcmoddev.ironagefurniture.api.Blocks.Chair;
-
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.block.SoundType;
 import net.minecraft.item.BlockItem;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -43,8 +40,34 @@ public class ItemInitialiser {
     			new BlockItem(BlockObjectHolder.chair_wood_ironage_stool_tall_dark_oak, new BlockItem.Properties().group(ItemGroup.BUILDING_BLOCKS)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_stool_tall_dark_oak.getRegistryName().getPath()),
     			new BlockItem(BlockObjectHolder.chair_wood_ironage_stool_tall_birch, new BlockItem.Properties().group(ItemGroup.BUILDING_BLOCKS)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_stool_tall_birch.getRegistryName().getPath()),
     			new BlockItem(BlockObjectHolder.chair_wood_ironage_stool_tall_jungle, new BlockItem.Properties().group(ItemGroup.BUILDING_BLOCKS)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_stool_tall_jungle.getRegistryName().getPath()),
-    			new BlockItem(BlockObjectHolder.chair_wood_ironage_stool_tall_spruce, new BlockItem.Properties().group(ItemGroup.BUILDING_BLOCKS)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_stool_tall_spruce.getRegistryName().getPath())
+    			new BlockItem(BlockObjectHolder.chair_wood_ironage_stool_tall_spruce, new BlockItem.Properties().group(ItemGroup.BUILDING_BLOCKS)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_stool_tall_spruce.getRegistryName().getPath()),
+    			new BlockItem(BlockObjectHolder.chair_wood_ironage_classic_biomesoplenty_cherry, new BlockItem.Properties().group(ItemGroup.BUILDING_BLOCKS)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_classic_biomesoplenty_cherry.getRegistryName().getPath()),
+    			new BlockItem(BlockObjectHolder.chair_wood_ironage_classic_biomesoplenty_ethereal, new BlockItem.Properties().group(ItemGroup.BUILDING_BLOCKS)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_classic_biomesoplenty_ethereal.getRegistryName().getPath()),
+    			new BlockItem(BlockObjectHolder.chair_wood_ironage_classic_biomesoplenty_fir, new BlockItem.Properties().group(ItemGroup.BUILDING_BLOCKS)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_classic_biomesoplenty_fir.getRegistryName().getPath()),
+    			new BlockItem(BlockObjectHolder.chair_wood_ironage_classic_biomesoplenty_hellbark, new BlockItem.Properties().group(ItemGroup.BUILDING_BLOCKS)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_classic_biomesoplenty_hellbark.getRegistryName().getPath()),
+    			new BlockItem(BlockObjectHolder.chair_wood_ironage_classic_biomesoplenty_jacaranda, new BlockItem.Properties().group(ItemGroup.BUILDING_BLOCKS)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_classic_biomesoplenty_jacaranda.getRegistryName().getPath()),
+    			new BlockItem(BlockObjectHolder.chair_wood_ironage_classic_biomesoplenty_magic, new BlockItem.Properties().group(ItemGroup.BUILDING_BLOCKS)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_classic_biomesoplenty_magic.getRegistryName().getPath()),
+    			new BlockItem(BlockObjectHolder.chair_wood_ironage_classic_biomesoplenty_mahogany, new BlockItem.Properties().group(ItemGroup.BUILDING_BLOCKS)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_classic_biomesoplenty_mahogany.getRegistryName().getPath()),
+    			new BlockItem(BlockObjectHolder.chair_wood_ironage_classic_biomesoplenty_palm, new BlockItem.Properties().group(ItemGroup.BUILDING_BLOCKS)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_classic_biomesoplenty_palm.getRegistryName().getPath()),
+    			new BlockItem(BlockObjectHolder.chair_wood_ironage_classic_biomesoplenty_redwood, new BlockItem.Properties().group(ItemGroup.BUILDING_BLOCKS)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_classic_biomesoplenty_redwood.getRegistryName().getPath()),
+    			new BlockItem(BlockObjectHolder.chair_wood_ironage_classic_biomesoplenty_umbran, new BlockItem.Properties().group(ItemGroup.BUILDING_BLOCKS)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_classic_biomesoplenty_umbran.getRegistryName().getPath()),
+    			new BlockItem(BlockObjectHolder.chair_wood_ironage_classic_biomesoplenty_willow, new BlockItem.Properties().group(ItemGroup.BUILDING_BLOCKS)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_classic_biomesoplenty_willow.getRegistryName().getPath()),
+    			new BlockItem(BlockObjectHolder.chair_wood_ironage_classic_biomesoplenty_dead, new BlockItem.Properties().group(ItemGroup.BUILDING_BLOCKS)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_classic_biomesoplenty_dead.getRegistryName().getPath())
+    			
+    			
     			);
     }
 }
 
+//chair_wood_ironage_classic_biomesoplenty_cherry 	
+//chair_wood_ironage_classic_biomesoplenty_ethereal 
+//chair_wood_ironage_classic_biomesoplenty_fir 		
+//chair_wood_ironage_classic_biomesoplenty_hellbark 
+//chair_wood_ironage_classic_biomesoplenty_jacaranda
+//chair_wood_ironage_classic_biomesoplenty_magic 	
+//chair_wood_ironage_classic_biomesoplenty_mahogany 
+//chair_wood_ironage_classic_biomesoplenty_palm 	
+//chair_wood_ironage_classic_biomesoplenty_redwood 	
+//chair_wood_ironage_classic_biomesoplenty_umbran 	
+//chair_wood_ironage_classic_biomesoplenty_willow 	
+//chair_wood_ironage_classic_biomesoplenty_dead 	
