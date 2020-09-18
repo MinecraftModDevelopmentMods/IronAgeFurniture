@@ -3,7 +3,7 @@
   "textures": {
     "0": "minecraft:block/dark_oak_log",
     "1": "minecraft:block/dark_oak_planks",
-    "2": "ironagefurniture:blocks/shield_chair_back",
+    "2": "ironagefurniture:block/shield_chair_back",
     "particle": "minecraft:block/dark_oak_log"
   },
   "elements": [

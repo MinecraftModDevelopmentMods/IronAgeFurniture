@@ -202,7 +202,7 @@ public class Chair extends Block
     @Override
     public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult)
     {
-        return Seat.create(world, pos, 0.4, player);
+        return Seat.create(world, pos, 0.3, player);
     }
 
     @Override
