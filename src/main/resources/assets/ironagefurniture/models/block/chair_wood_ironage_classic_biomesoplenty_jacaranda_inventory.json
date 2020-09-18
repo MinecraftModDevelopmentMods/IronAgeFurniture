@@ -1,9 +1,9 @@
 {
   "credit": "Made with Blockbench",
   "textures": {
-    "0": "biomesoplenty:blocks/jacaranda_log",
-    "1": "biomesoplenty:blocks/jacaranda_planks",
-    "particle": "biomesoplenty:blocks/jacaranda_log"
+    "0": "biomesoplenty:block/jacaranda_log",
+    "1": "biomesoplenty:block/jacaranda_planks",
+    "particle": "biomesoplenty:block/jacaranda_log"
   },
   "elements": [
     {
@@ -14,7 +14,7 @@
       ],
       "to": [
         4,
-        10,
+        8,
         13
       ],
       "rotation": {
@@ -32,7 +32,7 @@
             0,
             0,
             1,
-            10
+            8
           ],
           "texture": "#1"
         },
@@ -41,7 +41,7 @@
             0,
             0,
             1,
-            10
+            8
           ],
           "texture": "#1"
         },
@@ -50,7 +50,7 @@
             0,
             0,
             1,
-            10
+            8
           ],
           "texture": "#1"
         },
@@ -59,7 +59,7 @@
             0,
             0,
             1,
-            10
+            8
           ],
           "texture": "#1"
         },
@@ -93,7 +93,7 @@
       ],
       "to": [
         13,
-        10,
+        8,
         13
       ],
       "rotation": {
@@ -111,7 +111,7 @@
             0,
             0,
             1,
-            10
+            8
           ],
           "texture": "#1"
         },
@@ -120,7 +120,7 @@
             0,
             0,
             1,
-            10
+            8
           ],
           "texture": "#1"
         },
@@ -129,7 +129,7 @@
             0,
             0,
             1,
-            10
+            8
           ],
           "texture": "#1"
         },
@@ -138,7 +138,7 @@
             0,
             0,
             1,
-            10
+            8
           ],
           "texture": "#1"
         },
@@ -804,7 +804,7 @@
       ],
       "to": [
         4,
-        15,
+        14,
         2
       ],
       "rotation": {
@@ -881,7 +881,7 @@
       ],
       "to": [
         12,
-        17,
+        16,
         1
       ],
       "rotation": {
@@ -958,7 +958,7 @@
       ],
       "to": [
         6,
-        17,
+        16,
         1
       ],
       "rotation": {
@@ -1035,7 +1035,7 @@
       ],
       "to": [
         7,
-        19,
+        17,
         1
       ],
       "rotation": {
@@ -1112,7 +1112,7 @@
       ],
       "to": [
         10,
-        19,
+        17,
         1
       ],
       "rotation": {
@@ -1266,7 +1266,7 @@
       ],
       "to": [
         9,
-        21,
+        19,
         1
       ],
       "rotation": {
@@ -1343,7 +1343,7 @@
       ],
       "to": [
         14,
-        15,
+        14,
         2
       ],
       "rotation": {
@@ -1361,7 +1361,7 @@
             0,
             0,
             2,
-            15
+            14
           ],
           "texture": "#1"
         },
@@ -1370,7 +1370,7 @@
             0,
             0,
             2,
-            15
+            14
           ],
           "texture": "#1"
         },
@@ -1379,7 +1379,7 @@
             0,
             0,
             2,
-            15
+            14
           ],
           "texture": "#1"
         },
@@ -1388,7 +1388,7 @@
             0,
             0,
             2,
-            15
+            14
           ],
           "texture": "#1"
         },

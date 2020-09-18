@@ -1,9 +1,9 @@
 {
   "credit": "Made with Blockbench",
   "textures": {
-    "0": "biomesoplenty:blocks/willow_log",
-    "1": "biomesoplenty:blocks/willow_planks",
-    "particle": "biomesoplenty:blocks/willow_log"
+    "0": "biomesoplenty:block/willow_log",
+    "1": "biomesoplenty:block/willow_planks",
+    "particle": "biomesoplenty:block/willow_log"
   },
   "elements": [
     {

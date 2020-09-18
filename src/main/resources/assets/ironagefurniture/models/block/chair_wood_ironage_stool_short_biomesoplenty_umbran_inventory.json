@@ -1,9 +1,9 @@
 {
   "credit": "Made with Blockbench",
   "textures": {
-    "0": "biomesoplenty:blocks/umbran_log",
-    "1": "biomesoplenty:blocks/umbran_planks",
-    "particle": "biomesoplenty:blocks/umbran_log"
+    "0": "biomesoplenty:block/umbran_log",
+    "1": "biomesoplenty:block/umbran_planks",
+    "particle": "biomesoplenty:block/umbran_log"
   },
   "elements": [
     {

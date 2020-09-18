@@ -1,9 +1,9 @@
 {
   "credit": "Made with Blockbench",
   "textures": {
-    "0": "biomesoplenty:blocks/palm_log",
-    "1": "biomesoplenty:blocks/palm_planks",
-    "particle": "biomesoplenty:blocks/palm_log"
+    "0": "biomesoplenty:block/palm_log",
+    "1": "biomesoplenty:block/palm_planks",
+    "particle": "biomesoplenty:block/palm_log"
   },
   "elements": [
     {

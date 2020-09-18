@@ -1,10 +1,10 @@
 {
   "credit": "Made with Blockbench",
   "textures": {
-    "0": "biomesoplenty:blocks/hellbark_log",
-    "1": "biomesoplenty:blocks/hellbark_planks",
-    "2": "ironagefurniture:blocks/shield_chair_back",
-    "particle": "biomesoplenty:blocks/hellbark_log"
+    "0": "biomesoplenty:block/hellbark_log",
+    "1": "biomesoplenty:block/hellbark_planks",
+    "2": "ironagefurniture:block/shield_chair_back",
+    "particle": "biomesoplenty:block/hellbark_log"
   },
   "elements": [
     {
@@ -15,7 +15,7 @@
       ],
       "to": [
         15,
-        12,
+        10,
         4
       ],
       "rotation": {
@@ -33,7 +33,7 @@
             0,
             0,
             1,
-            12
+            10
           ],
           "texture": "#1"
         },
@@ -42,7 +42,7 @@
             0,
             0,
             1,
-            12
+            10
           ],
           "texture": "#1"
         },
@@ -51,7 +51,7 @@
             0,
             0,
             1,
-            12
+            10
           ],
           "texture": "#1"
         },
@@ -60,7 +60,7 @@
             0,
             0,
             1,
-            12
+            10
           ],
           "texture": "#1"
         },
@@ -94,7 +94,7 @@
       ],
       "to": [
         2,
-        12,
+        10,
         4
       ],
       "rotation": {
@@ -112,7 +112,7 @@
             0,
             0,
             1,
-            12
+            10
           ],
           "texture": "#1"
         },
@@ -121,7 +121,7 @@
             0,
             0,
             1,
-            12
+            10
           ],
           "texture": "#1"
         },
@@ -130,7 +130,7 @@
             0,
             0,
             1,
-            12
+            10
           ],
           "texture": "#1"
         },
@@ -139,7 +139,7 @@
             0,
             0,
             1,
-            12
+            10
           ],
           "texture": "#1"
         },
@@ -355,10 +355,10 @@
         },
         "east": {
           "uv": [
-            0,
-            0,
-            4,
-            1
+            10,
+            1,
+            14,
+            2
           ],
           "texture": "#1"
         },
@@ -513,10 +513,10 @@
         },
         "east": {
           "uv": [
-            0,
-            0,
-            3,
-            1
+            10,
+            2,
+            13,
+            3
           ],
           "texture": "#1"
         },

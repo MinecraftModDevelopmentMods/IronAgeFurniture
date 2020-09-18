@@ -1,9 +1,9 @@
 {
   "credit": "Made with Blockbench",
   "textures": {
-    "0": "biomesoplenty:blocks/fir_log",
-    "1": "biomesoplenty:blocks/fir_planks",
-    "particle": "biomesoplenty:blocks/fir_log"
+    "0": "biomesoplenty:block/fir_log",
+    "1": "biomesoplenty:block/fir_planks",
+    "particle": "biomesoplenty:block/fir_log"
   },
   "elements": [
     {
