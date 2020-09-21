@@ -8,7 +8,7 @@
   ],
   "key": {
     "y": {
-      "item": "minecraft:stick"
+      "tag": "forge:rods/wooden"
     },
     "x": {
       "item": "minecraft:jungle_planks"

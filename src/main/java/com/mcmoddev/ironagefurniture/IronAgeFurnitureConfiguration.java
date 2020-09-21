@@ -11,10 +11,7 @@ public class IronAgeFurnitureConfiguration
         public final ForgeConfigSpec.BooleanValue GENERATE_SHIELD_CHAIRS;
     	public final ForgeConfigSpec.BooleanValue GENERATE_SHORT_STOOLS;
     	public final ForgeConfigSpec.BooleanValue GENERATE_TALL_STOOLS;
-    	public final ForgeConfigSpec.BooleanValue CFM_CONVERSION_RECIPES;
     	public final ForgeConfigSpec.BooleanValue INTEGRATION_BIOMESOPLENTY;
-    	public final ForgeConfigSpec.BooleanValue INTEGRATION_NATURA;
-    	public final ForgeConfigSpec.BooleanValue INTEGRATION_FORESTRY;
     	public final ForgeConfigSpec.BooleanValue INTEGRATION_IMMERSIVEENGINEERING;
         
         Client(ForgeConfigSpec.Builder builder)
@@ -41,25 +38,10 @@ public class IronAgeFurnitureConfiguration
                     .translation("ironagefurniture.generation.generateTallStools")
                     .define("generateTallStools", true);
             
-            this.CFM_CONVERSION_RECIPES = builder
-                    .comment("Adds recipes to convert from CFM furniture to IAF furniture.")
-                    .translation("ironagefurniture.recipes.cfmRecipes")
-                    .define("cfmRecipes", true);
-            
             this.INTEGRATION_BIOMESOPLENTY = builder
                     .comment("Integrate with Biomes O Plenty.")
                     .translation("ironagefurniture.integration.bopIntegration")
                     .define("bopIntegration", true);
-            
-            this.INTEGRATION_NATURA = builder
-            		.comment("Integrate with Natura.")
-                    .translation("ironagefurniture.integration.naturaIntegration")
-                    .define("naturaIntegration", true);
-            
-            this.INTEGRATION_FORESTRY = builder
-            		.comment("Integrate with Forestry.")
-                    .translation("ironagefurniture.integration.forestryIntegration")
-                    .define("forestryIntegration", true);
             
             this.INTEGRATION_IMMERSIVEENGINEERING = builder
             		.comment("Integrate with Immersive Engineering.")
