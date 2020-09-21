@@ -4,6 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -84,7 +85,7 @@ public class Seat extends Entity
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
-    public static boolean create(World world, BlockPos pos, double yOffset, PlayerEntity player)
+    public static ActionResultType create(World world, BlockPos pos, double yOffset, PlayerEntity player)
     {
         if(!world.isRemote)
         {
@@ -98,6 +99,6 @@ public class Seat extends Entity
             }
         }
         
-        return true;
+        return ActionResultType.SUCCESS;
     }
 }
