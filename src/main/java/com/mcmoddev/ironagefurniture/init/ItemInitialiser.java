@@ -115,18 +115,31 @@ public class ItemInitialiser {
 				);
     		}
     	}
+    	
+//    	if (IronAgeFurnitureConfiguration.CLIENT.INTEGRATION_IMMERSIVEENGINEERING.get() && ModList.get().isLoaded("immersiveengineering")) {
+//			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_CLASSIC_CHAIRS.get()) {
+//				event.getRegistry().registerAll(
+//				    	new BlockItem(BlockObjectHolder.chair_wood_ironage_classic_immersiveengineering_treatedwood, new BlockItem.Properties().group(ItemGroup.BUILDING_BLOCKS)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_classic_immersiveengineering_treatedwood.getRegistryName().getPath())
+//				);
+//			}
+//		
+//			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHIELD_CHAIRS.get()) {
+//				event.getRegistry().registerAll(
+//				    	new BlockItem(BlockObjectHolder.chair_wood_ironage_shield_immersiveengineering_treatedwood, new BlockItem.Properties().group(ItemGroup.BUILDING_BLOCKS)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_shield_immersiveengineering_treatedwood.getRegistryName().getPath())
+//				);
+//			}
+//			
+//			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHORT_STOOLS.get()) {
+//				event.getRegistry().registerAll(
+//				    	new BlockItem(BlockObjectHolder.chair_wood_ironage_stool_short_immersiveengineering_treatedwood, new BlockItem.Properties().group(ItemGroup.BUILDING_BLOCKS)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_stool_short_immersiveengineering_treatedwood.getRegistryName().getPath())
+//				);
+//			}
+//			
+//			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHORT_STOOLS.get()) {
+//				event.getRegistry().registerAll(
+//				    	new BlockItem(BlockObjectHolder.chair_wood_ironage_stool_tall_immersiveengineering_treatedwood, new BlockItem.Properties().group(ItemGroup.BUILDING_BLOCKS)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_stool_tall_immersiveengineering_treatedwood.getRegistryName().getPath())
+//				);
+//			}
+//		}
     }
 }
-
-//chair_wood_ironage_classic_biomesoplenty_cherry 	
-//chair_wood_ironage_classic_biomesoplenty_ethereal 
-//chair_wood_ironage_classic_biomesoplenty_fir 		
-//chair_wood_ironage_classic_biomesoplenty_hellbark 
-//chair_wood_ironage_classic_biomesoplenty_jacaranda
-//chair_wood_ironage_classic_biomesoplenty_magic 	
-//chair_wood_ironage_classic_biomesoplenty_mahogany 
-//chair_wood_ironage_classic_biomesoplenty_palm 	
-//chair_wood_ironage_classic_biomesoplenty_redwood 	
-//chair_wood_ironage_classic_biomesoplenty_umbran 	
-//chair_wood_ironage_classic_biomesoplenty_willow 	
-//chair_wood_ironage_classic_biomesoplenty_dead 	
