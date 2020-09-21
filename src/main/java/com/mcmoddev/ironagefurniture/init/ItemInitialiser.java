@@ -116,30 +116,30 @@ public class ItemInitialiser {
     		}
     	}
     	
-//    	if (IronAgeFurnitureConfiguration.CLIENT.INTEGRATION_IMMERSIVEENGINEERING.get() && ModList.get().isLoaded("immersiveengineering")) {
-//			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_CLASSIC_CHAIRS.get()) {
-//				event.getRegistry().registerAll(
-//				    	new BlockItem(BlockObjectHolder.chair_wood_ironage_classic_immersiveengineering_treatedwood, new BlockItem.Properties().group(ItemGroup.BUILDING_BLOCKS)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_classic_immersiveengineering_treatedwood.getRegistryName().getPath())
-//				);
-//			}
-//		
-//			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHIELD_CHAIRS.get()) {
-//				event.getRegistry().registerAll(
-//				    	new BlockItem(BlockObjectHolder.chair_wood_ironage_shield_immersiveengineering_treatedwood, new BlockItem.Properties().group(ItemGroup.BUILDING_BLOCKS)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_shield_immersiveengineering_treatedwood.getRegistryName().getPath())
-//				);
-//			}
-//			
-//			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHORT_STOOLS.get()) {
-//				event.getRegistry().registerAll(
-//				    	new BlockItem(BlockObjectHolder.chair_wood_ironage_stool_short_immersiveengineering_treatedwood, new BlockItem.Properties().group(ItemGroup.BUILDING_BLOCKS)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_stool_short_immersiveengineering_treatedwood.getRegistryName().getPath())
-//				);
-//			}
-//			
-//			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHORT_STOOLS.get()) {
-//				event.getRegistry().registerAll(
-//				    	new BlockItem(BlockObjectHolder.chair_wood_ironage_stool_tall_immersiveengineering_treatedwood, new BlockItem.Properties().group(ItemGroup.BUILDING_BLOCKS)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_stool_tall_immersiveengineering_treatedwood.getRegistryName().getPath())
-//				);
-//			}
-//		}
+    	if (IronAgeFurnitureConfiguration.CLIENT.INTEGRATION_IMMERSIVEENGINEERING.get() && ModList.get().isLoaded("immersiveengineering")) {
+			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_CLASSIC_CHAIRS.get()) {
+				event.getRegistry().registerAll(
+				    	new BlockItem(BlockObjectHolder.chair_wood_ironage_classic_immersiveengineering_treated_wood, new BlockItem.Properties().group(ItemGroup.BUILDING_BLOCKS)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_classic_immersiveengineering_treated_wood.getRegistryName().getPath())
+				);
+			}
+		
+			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHIELD_CHAIRS.get()) {
+				event.getRegistry().registerAll(
+				    	new BlockItem(BlockObjectHolder.chair_wood_ironage_shield_immersiveengineering_treated_wood, new BlockItem.Properties().group(ItemGroup.BUILDING_BLOCKS)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_shield_immersiveengineering_treated_wood.getRegistryName().getPath())
+				);
+			}
+			
+			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHORT_STOOLS.get()) {
+				event.getRegistry().registerAll(
+				    	new BlockItem(BlockObjectHolder.chair_wood_ironage_stool_short_immersiveengineering_treated_wood, new BlockItem.Properties().group(ItemGroup.BUILDING_BLOCKS)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_stool_short_immersiveengineering_treated_wood.getRegistryName().getPath())
+				);
+			}
+			
+			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHORT_STOOLS.get()) {
+				event.getRegistry().registerAll(
+				    	new BlockItem(BlockObjectHolder.chair_wood_ironage_stool_tall_immersiveengineering_treated_wood, new BlockItem.Properties().group(ItemGroup.BUILDING_BLOCKS)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_stool_tall_immersiveengineering_treated_wood.getRegistryName().getPath())
+				);
+			}
+		}
     }
 }

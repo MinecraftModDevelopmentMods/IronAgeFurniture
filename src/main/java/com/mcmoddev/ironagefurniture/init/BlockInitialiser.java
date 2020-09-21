@@ -120,22 +120,22 @@ public class BlockInitialiser {
 			}
 		}
 		
-//		if (IronAgeFurnitureConfiguration.CLIENT.INTEGRATION_IMMERSIVEENGINEERING.get() && ModList.get().isLoaded("immersiveengineering")) {
-//			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_CLASSIC_CHAIRS.get()) {
-//				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_immersiveengineering_treatedwood"));
-//			}
-//		
-//			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHIELD_CHAIRS.get()) {
-//				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_immersiveengineering_treatedwood"));
-//			}
-//			
-//			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHORT_STOOLS.get()) {
-//				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_immersiveengineering_treatedwood"));
-//			}
-//			
-//			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHORT_STOOLS.get()) {
-//				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_immersiveengineering_treatedwood"));
-//			}
-//		}
+		if (IronAgeFurnitureConfiguration.CLIENT.INTEGRATION_IMMERSIVEENGINEERING.get() && ModList.get().isLoaded("immersiveengineering")) {
+			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_CLASSIC_CHAIRS.get()) {
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_immersiveengineering_treated_wood"));
+			}
+		
+			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHIELD_CHAIRS.get()) {
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_immersiveengineering_treated_wood"));
+			}
+			
+			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHORT_STOOLS.get()) {
+				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_immersiveengineering_treated_wood"));
+			}
+			
+			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHORT_STOOLS.get()) {
+				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_immersiveengineering_treated_wood"));
+			}
+		}
 	 }
 }

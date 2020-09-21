@@ -87,13 +87,13 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_stool_tall_biomesoplenty_willow = null;
 	public static final Block chair_wood_ironage_stool_tall_biomesoplenty_dead = null;
 
-	public static final Block chair_wood_ironage_classic_immersiveengineering_treatedwood = null;
+	public static final Block chair_wood_ironage_classic_immersiveengineering_treated_wood = null;
 	
-	public static final Block chair_wood_ironage_shield_immersiveengineering_treatedwood = null;	
+	public static final Block chair_wood_ironage_shield_immersiveengineering_treated_wood = null;	
 	
-	public static final Block chair_wood_ironage_stool_short_immersiveengineering_treatedwood = null;
+	public static final Block chair_wood_ironage_stool_short_immersiveengineering_treated_wood = null;
 	
-	public static final Block chair_wood_ironage_stool_tall_immersiveengineering_treatedwood = null;
+	public static final Block chair_wood_ironage_stool_tall_immersiveengineering_treated_wood = null;
 
 
 }
