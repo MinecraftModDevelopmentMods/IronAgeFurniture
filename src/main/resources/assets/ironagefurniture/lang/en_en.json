@@ -271,5 +271,5 @@
 	"block.ironagefurniture.chair_wood_ironage_shield_immersiveengineering_treated_wood": "Treated Wood Shield Chair", 
 	"block.ironagefurniture.chair_wood_ironage_stool_short_immersiveengineering_treated_wood": "Treated Wood Stool", 
 	"block.ironagefurniture.chair_wood_ironage_stool_tall_immersiveengineering_treated_wood": "Treated Wood Tall Stool", 
-	"itemGroup.IronAgeFurniture": "Iron Age Furniture"
+	"itemGroup.ironagefurniture": "Iron Age Furniture"
 }
