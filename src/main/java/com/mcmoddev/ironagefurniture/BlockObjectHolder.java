@@ -36,7 +36,6 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_stool_tall_spruce = null;
 	
 	public static final Block chair_wood_ironage_classic_biomesoplenty_cherry = null;  //	cherry_planks
-	public static final Block chair_wood_ironage_classic_biomesoplenty_ethereal = null;  //	ethereal_planks
 	public static final Block chair_wood_ironage_classic_biomesoplenty_fir = null;  //	fir_planks
 	public static final Block chair_wood_ironage_classic_biomesoplenty_hellbark = null;  //	hellbark_planks
 	public static final Block chair_wood_ironage_classic_biomesoplenty_jacaranda = null;   //	jacaranda_planks
@@ -49,7 +48,6 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_classic_biomesoplenty_dead = null;   //	dead_planks
 		
 	public static final Block chair_wood_ironage_shield_biomesoplenty_cherry = null;
-	public static final Block chair_wood_ironage_shield_biomesoplenty_ethereal = null;
 	public static final Block chair_wood_ironage_shield_biomesoplenty_fir = null;
 	public static final Block chair_wood_ironage_shield_biomesoplenty_hellbark = null;
 	public static final Block chair_wood_ironage_shield_biomesoplenty_jacaranda = null;
@@ -62,7 +60,6 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_shield_biomesoplenty_dead = null;
 		
 	public static final Block chair_wood_ironage_stool_short_biomesoplenty_cherry = null;
-	public static final Block chair_wood_ironage_stool_short_biomesoplenty_ethereal = null;
 	public static final Block chair_wood_ironage_stool_short_biomesoplenty_fir = null;
 	public static final Block chair_wood_ironage_stool_short_biomesoplenty_hellbark = null;
 	public static final Block chair_wood_ironage_stool_short_biomesoplenty_jacaranda = null;
@@ -75,7 +72,6 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_stool_short_biomesoplenty_dead = null;
 
 	public static final Block chair_wood_ironage_stool_tall_biomesoplenty_cherry = null;
-	public static final Block chair_wood_ironage_stool_tall_biomesoplenty_ethereal = null;
 	public static final Block chair_wood_ironage_stool_tall_biomesoplenty_fir = null;
 	public static final Block chair_wood_ironage_stool_tall_biomesoplenty_hellbark = null;
 	public static final Block chair_wood_ironage_stool_tall_biomesoplenty_jacaranda = null;

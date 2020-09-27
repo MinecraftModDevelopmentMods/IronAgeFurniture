@@ -24,6 +24,6 @@ Furniture from the Iron Age!
 [[dependencies.ironagefurniture]]
    modId="minecraft"
    mandatory=true
-   versionRange="[1.14.4]"
+   versionRange="[1.15.2]"
    ordering="NONE"
    side="BOTH"

@@ -61,7 +61,6 @@ public class BlockInitialiser {
 		if (IronAgeFurnitureConfiguration.CLIENT.INTEGRATION_BIOMESOPLENTY.get() && ModList.get().isLoaded("biomesoplenty")) {
 			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_CLASSIC_CHAIRS.get()) {
 				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_biomesoplenty_cherry"));
-				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_biomesoplenty_ethereal"));
 				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_biomesoplenty_fir"));
 				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_biomesoplenty_hellbark"));
 				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_biomesoplenty_jacaranda"));
@@ -75,8 +74,7 @@ public class BlockInitialiser {
 			}
 		
 			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHIELD_CHAIRS.get()) {
-				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_biomesoplenty_cherry"));
-				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_biomesoplenty_ethereal"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_biomesoplenty_cherry"));				
 				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_biomesoplenty_fir"));
 				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_biomesoplenty_hellbark"));
 				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_biomesoplenty_jacaranda"));
@@ -91,7 +89,6 @@ public class BlockInitialiser {
 			
 			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHORT_STOOLS.get()) {
 				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_biomesoplenty_cherry"));
-				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_biomesoplenty_ethereal"));
 				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_biomesoplenty_fir"));
 				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_biomesoplenty_hellbark"));
 				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_biomesoplenty_jacaranda"));
@@ -106,7 +103,6 @@ public class BlockInitialiser {
 			
 			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHORT_STOOLS.get()) {
 				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_biomesoplenty_cherry"));
-				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_biomesoplenty_ethereal"));
 				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_biomesoplenty_fir"));
 				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_biomesoplenty_hellbark"));
 				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_biomesoplenty_jacaranda"));
