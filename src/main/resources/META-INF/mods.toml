@@ -1,5 +1,6 @@
 modLoader="javafml"
-loaderVersion="[28,)"
+loaderVersion="[34,)"
+license="All rights reserved"
 updateJSONURL="https://raw.githubusercontent.com/MinecraftModDevelopmentMods/ironagefurniture/master/update.json"
 issueTrackerURL="https://github.com/MinecraftModDevelopmentMods/ironagefurniture/issues"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/ironagefurniture"
@@ -18,12 +19,12 @@ Furniture from the Iron Age!
 [[dependencies.ironagefurniture]]
    modId="forge"
    mandatory=true
-   versionRange="[28,)"
+   versionRange="[34,)"
    ordering="NONE"
    side="BOTH"
 [[dependencies.ironagefurniture]]
    modId="minecraft"
    mandatory=true
-   versionRange="[1.14.4]"
+   versionRange="[1.16.3]"
    ordering="NONE"
    side="BOTH"
