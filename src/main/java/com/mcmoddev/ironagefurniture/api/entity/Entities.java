@@ -16,7 +16,7 @@ public class Entities
 {
     private static final List<EntityType> ENTITY_TYPES = new ArrayList<>();
 
-    public static final EntityType<Seat> SEAT = buildType(Ironagefurniture.MODID + ":seat", EntityType.Builder.<Seat>create((type, world) -> new Seat(world), EntityClassification.MISC).size(0.0F, 0.0F).setCustomClientFactory((spawnEntity, world) -> new Seat(world)));
+    public static final EntityType<Seat> SEAT = buildType("froggychair:seat", EntityType.Builder.<Seat>create((type, world) -> new Seat(world), EntityClassification.MISC).size(0.0F, 0.0F).setCustomClientFactory((spawnEntity, world) -> new Seat(world)));
 
     private static <T extends Entity> EntityType<T> buildType(String id, EntityType.Builder<T> builder)
     {
