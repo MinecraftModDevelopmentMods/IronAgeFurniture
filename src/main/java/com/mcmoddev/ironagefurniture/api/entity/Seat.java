@@ -34,12 +34,12 @@ public class Seat extends Entity {
     public void tick() {
         super.tick();
         if (source == null) {
-            source = this.getPosition();
+            source = this.getOnPosition();
         }
         if (!this.world.isRemote) {
             if (this.getPassengers().isEmpty() || this.world.isAirBlock(source)) {
                 this.remove();
-                world.updateComparatorOutputLevel(getPosition(), world.getBlockState(getPosition()).getBlock());
+                world.updateComparatorOutputLevel(getOnPosition(), world.getBlockState(getOnPosition()).getBlock());
             }
         }
     }
