@@ -11,8 +11,8 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
-//import net.minecraft.fluid.IFluidState;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.inventory.container.Container;
@@ -130,11 +130,11 @@ public class Chair extends Block
         return world.getTileEntity(pos) != null && world.getTileEntity(pos).receiveClientEvent(id, type);
     }
 
-//    @Override
-//    public IFluidState getFluidState(BlockState state)
-//    {
-//        return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
-//    }
+    @Override
+    public FluidState getFluidState(BlockState state)
+    {
+        return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
+    }
 
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
