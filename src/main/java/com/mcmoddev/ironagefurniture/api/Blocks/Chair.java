@@ -11,8 +11,8 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
-//import net.minecraft.fluid.IFluidState;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.inventory.container.Container;
@@ -43,9 +43,9 @@ public class Chair extends Block
     
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final DirectionProperty DIRECTION = BlockStateProperties.HORIZONTAL_FACING;
-    
+        
     public static VoxelShape setMaxHeight(VoxelShape source, double height)
-    {
+    {    	
         AtomicReference<VoxelShape> ar = new AtomicReference<>(VoxelShapes.empty());
         
         source.forEachBox((x1, y1, z1, x2, y2, z2) -> { ar.set(VoxelShapes.combine(ar.get(), VoxelShapes.create(x1, y1, z1, x2, height, z2), IBooleanFunction.OR));});
@@ -88,12 +88,6 @@ public class Chair extends Block
         return Math.max(0.0, Math.min(1.0, value));
     }
 
-//    @Override
-//    public BlockRenderLayer getRenderLayer()
-//    {
-//        return BlockRenderLayer.CUTOUT;
-//    }
-
     @Override
     public int getComparatorInputOverride(BlockState state, World world, BlockPos pos)
     {
@@ -130,11 +124,11 @@ public class Chair extends Block
         return world.getTileEntity(pos) != null && world.getTileEntity(pos).receiveClientEvent(id, type);
     }
 
-//    @Override
-//    public IFluidState getFluidState(BlockState state)
-//    {
-//        return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
-//    }
+    @Override
+    public FluidState getFluidState(BlockState state)
+    {
+        return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
+    }
 
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
