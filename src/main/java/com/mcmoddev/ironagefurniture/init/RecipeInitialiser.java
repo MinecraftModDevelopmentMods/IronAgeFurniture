@@ -63,12 +63,12 @@ public class RecipeInitialiser {
 		}
 		
 		if (IronAgeFurnitureConfiguration.GENERATE_TALL_STOOLS) {
-			FurnitureFactory.AddTallStoolRecipe(new ItemStack(Blocks.PLANKS, 1, 0), BlockObjectHolder.chair_wood_ironage_stool_short_oak);
-			FurnitureFactory.AddTallStoolRecipe(new ItemStack(Blocks.PLANKS, 1, 1), BlockObjectHolder.chair_wood_ironage_stool_short_spruce);
-			FurnitureFactory.AddTallStoolRecipe(new ItemStack(Blocks.PLANKS, 1, 2), BlockObjectHolder.chair_wood_ironage_stool_short_birch);
-			FurnitureFactory.AddTallStoolRecipe(new ItemStack(Blocks.PLANKS, 1, 3), BlockObjectHolder.chair_wood_ironage_stool_short_jungle);
-			FurnitureFactory.AddTallStoolRecipe(new ItemStack(Blocks.PLANKS, 1, 4), BlockObjectHolder.chair_wood_ironage_stool_short_acacia);
-			FurnitureFactory.AddTallStoolRecipe(new ItemStack(Blocks.PLANKS, 1, 5), BlockObjectHolder.chair_wood_ironage_stool_short_big_oak);
+			FurnitureFactory.AddTallStoolRecipe(new ItemStack(Blocks.PLANKS, 1, 0), BlockObjectHolder.chair_wood_ironage_stool_tall_oak);
+			FurnitureFactory.AddTallStoolRecipe(new ItemStack(Blocks.PLANKS, 1, 1), BlockObjectHolder.chair_wood_ironage_stool_tall_spruce);
+			FurnitureFactory.AddTallStoolRecipe(new ItemStack(Blocks.PLANKS, 1, 2), BlockObjectHolder.chair_wood_ironage_stool_tall_birch);
+			FurnitureFactory.AddTallStoolRecipe(new ItemStack(Blocks.PLANKS, 1, 3), BlockObjectHolder.chair_wood_ironage_stool_tall_jungle);
+			FurnitureFactory.AddTallStoolRecipe(new ItemStack(Blocks.PLANKS, 1, 4), BlockObjectHolder.chair_wood_ironage_stool_tall_acacia);
+			FurnitureFactory.AddTallStoolRecipe(new ItemStack(Blocks.PLANKS, 1, 5), BlockObjectHolder.chair_wood_ironage_stool_tall_big_oak);
 		}
 		
 		if (IronAgeFurnitureConfiguration.INTEGRATION_BIOMESOPLENTY && Loader.isModLoaded("BiomesOPlenty")) {
@@ -181,10 +181,13 @@ public class RecipeInitialiser {
 			ItemStack HOPSEED = new ItemStack(planks, 1, 6);
 			ItemStack SAKURA = new ItemStack(planks, 1, 7);
 			ItemStack REDWOOD = new ItemStack(planks, 1, 8);
-			ItemStack GHOSTWOOD = new ItemStack(planks, 1, 0);
-			ItemStack BLOODWOOD = new ItemStack(planks, 1, 1);
-			ItemStack FUSEWOOD = new ItemStack(planks, 1, 3);
-			ItemStack DARKWOOD = new ItemStack(planks, 1, 2);
+			
+			Block netherPlanks = Block.getBlockFromName("natura:nether_planks");
+			
+			ItemStack GHOSTWOOD = new ItemStack(netherPlanks, 1, 0);
+			ItemStack BLOODWOOD = new ItemStack(netherPlanks, 1, 1);
+			ItemStack FUSEWOOD = new ItemStack(netherPlanks, 1, 3);
+			ItemStack DARKWOOD = new ItemStack(netherPlanks, 1, 2);
 			
 			if (IronAgeFurnitureConfiguration.GENERATE_CLASSIC_CHAIRS) {
 				FurnitureFactory.AddClassicChairRecipe(MAPLE, BlockObjectHolder.chair_wood_ironage_classic_natura_maple);
