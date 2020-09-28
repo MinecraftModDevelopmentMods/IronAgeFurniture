@@ -6,11 +6,9 @@ import java.util.Map;
 import com.mcmoddev.ironagefurniture.api.entity.Seat;
 import com.mcmoddev.ironagefurniture.init.BlockInitialiser;
 import com.mcmoddev.ironagefurniture.init.ItemInitialiser;
-import com.mcmoddev.ironagefurniture.init.RecipeInitialiser;
 import com.mcmoddev.ironagefurniture.lib.util.MMDCreativeTab;
 
 import net.minecraft.block.Block;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
@@ -42,8 +40,6 @@ public class Ironagefurniture
     	}
     	
     	EntityRegistry.registerModEntity(new ResourceLocation(MODID + ":seat"), Seat.class , MODID + ":seat", 0, this, 80, 1, false);
-    	
-    	RecipeInitialiser.init();
     	
     	ironagefurnitureTab.setIconItem(Blocks.BOOKSHELF);
     }

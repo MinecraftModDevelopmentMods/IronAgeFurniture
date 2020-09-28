@@ -14,15 +14,11 @@ import net.minecraftforge.oredict.OreDictionary;
 public class IAFEventBusSubscriber {
 	@SubscribeEvent
 	public static void registerBlocks(RegistryEvent.Register<Block> event) {
-		//Ironagefurniture.BlockRegistry.values().forEach(block -> event.getRegistry().register(block));
-		
 		for (Block block : Ironagefurniture.BlockRegistry.values()) {
 			event.getRegistry().register(block);
 		}
 	}
 
-	
-	
 	@SubscribeEvent
 	public static void registerItems(RegistryEvent.Register<Item> event) {
 		event.getRegistry().registerAll(
@@ -37,10 +33,4 @@ public class IAFEventBusSubscriber {
 		for (Map.Entry<String, Item> map : Ironagefurniture.ItemRegistry.entrySet())
 			OreDictionary.registerOre(map.getKey(), map.getValue());
 	}
-
-//	@SubscribeEvent
-//	public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
-//		event.getRegistry().registerAll(MineralogyRegistry.MineralogyRecipeRegistry.values()
-//				.toArray(new IRecipe[MineralogyRegistry.MineralogyRecipeRegistry.size()]));
-//	}
 }

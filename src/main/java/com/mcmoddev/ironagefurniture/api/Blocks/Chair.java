@@ -2,7 +2,6 @@ package com.mcmoddev.ironagefurniture.api.Blocks;
 
 import java.util.List;
 
-import com.mcmoddev.ironagefurniture.Ironagefurniture;
 import com.mcmoddev.ironagefurniture.api.Enumerations.Rotation;
 import com.mcmoddev.ironagefurniture.api.entity.Seat;
 
