@@ -26,55 +26,7 @@ public class MMDCreativeTab extends CreativeTabs implements IMMDCreativeTab {
 	
 	private boolean searchable;
 	private Comparator<ItemStack> comparator;
-	
-	//private static Map<Class<?>, Integer> classSortingValues = new HashMap<>();
-	//private static Map<IMMDMaterial, Integer> materialSortingValues = new HashMap<>();
 
-//	private static final Comparator<ItemStack> DEFAULT = new Comparator<ItemStack>() {
-//
-//		@Override
-//		public int compare(ItemStack first, ItemStack second) {
-//			final int delta = getSortingValue(first) - getSortingValue(second);
-//			return (delta == 0) ? first.getTranslationKey().compareToIgnoreCase(second.getTranslationKey()) : delta;
-//		}
-//	};
-
-//	public static void setClassSortingList(List<Class<?>> sortingList) {				
-//		for (int i = 0; i < sortingList.size(); i++) {
-//			classSortingValues.put(sortingList.get(i), i * 100);
-//		}
-//	}
-	
-//	protected static void setMaterialSortingValues(List<IMMDMaterial> materials) {
-//		for (int i = 0; i < materials.size(); i++) {
-//			materialSortingValues.put(materials.get(i), i * 100);
-//		}
-//	}
-	
-	/**
-	 *
-	 * @param itemStack
-	 *            The ItemStack
-	 * @return The output
-	 */
-//	public static int getSortingValue(@Nonnull final ItemStack itemStack) {
-//		int classVal = 990000;
-//		int materialVal = 9900;
-//		if ((itemStack.getItem() instanceof ItemBlock)
-//				&& (((ItemBlock) itemStack.getItem()).getBlock() instanceof IMMDObject)) {
-//			classVal = classSortingValues.computeIfAbsent(((ItemBlock) itemStack.getItem()).getBlock().getClass(),
-//					(Class<?> clazz) -> 990000);
-//			materialVal = materialSortingValues.computeIfAbsent(
-//					((IMMDObject) ((ItemBlock) itemStack.getItem()).getBlock()).getMMDMaterial(),
-//					(IMMDMaterial material) -> 9900);
-//		} else if (itemStack.getItem() instanceof IMMDObject) {
-//			classVal = classSortingValues.computeIfAbsent(itemStack.getItem().getClass(), (Class<?> clazz) -> 990000);
-//			materialVal = materialSortingValues.computeIfAbsent(((IMMDObject) itemStack.getItem()).getMMDMaterial(),
-//					(IMMDMaterial material) -> 9900);
-//		}
-//		return classVal + materialVal + (itemStack.getMetadata() % 100);
-//	}
-//	
 	public MMDCreativeTab(@Nonnull final String unlocalizedName, @Nonnull final boolean searchable) {
 		this(unlocalizedName, searchable, (ItemStack) null);
 	}
@@ -89,11 +41,6 @@ public class MMDCreativeTab extends CreativeTabs implements IMMDCreativeTab {
 	
 	@Override
 	public MMDCreativeTab Initialise() {
-//		if (iconItem == null && MinIoC.getInstance().resolve(ItemStack.class, "defaultIcon", Mineralogy.MODID) != null)
-//			this.iconItem = MinIoC.getInstance().resolve(ItemStack.class, "defaultIcon", Mineralogy.MODID);
-//		
-		//his.setSortingAlgorithm(DEFAULT);
-		
 		if (searchable)
 			setBackgroundImageName("item_search.png");
 		
@@ -137,15 +84,6 @@ public class MMDCreativeTab extends CreativeTabs implements IMMDCreativeTab {
 	public ItemStack createIcon() {
 		return this.iconItem;
 	}
-
-	/* (non-Javadoc)
-	 * @see com.mcmoddev.lib.util.IMMDCreativeTab#setSortingAlgorithm(java.util.Comparator)
-	 */
-//	@Override
-//	public void setSortingAlgorithm(@Nonnull final Comparator<ItemStack> comparator) {
-//		this.comparator = comparator;
-//	}
-
 
 	public MMDCreativeTab setIconItem(@Nonnull final Block iconBlock) {
 		this.iconBlock = iconBlock;
