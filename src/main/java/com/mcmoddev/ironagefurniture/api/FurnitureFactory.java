@@ -1,6 +1,7 @@
 package com.mcmoddev.ironagefurniture.api;
 
 import com.mcmoddev.ironagefurniture.Ironagefurniture;
+import com.mcmoddev.ironagefurniture.api.Blocks.Bench;
 import com.mcmoddev.ironagefurniture.api.Blocks.Chair;
 import com.mcmoddev.ironagefurniture.api.Blocks.Stool;
 import com.mcmoddev.ironagefurniture.init.ItemInitialiser;
@@ -48,8 +49,16 @@ public class FurnitureFactory {
 		return registerBlock(new Stool(Material.WOOD, name, resistance, false, 0.25, hardness), name);
 	}
 	
+	public static Block CreateWoodBench(String name, float resistance, float hardness) {
+		return registerBlock(new Bench(Material.WOOD, name, resistance, false, 0.25, hardness), name);
+	}
+	
 	public static Block CreateWoodShortStool(String name) {
 		return CreateWoodShortStool(name, 10, 1);
+	}
+	
+	public static Block CreateWoodBench(String name) {
+		return CreateWoodBench(name, 10, 1);
 	}
 	
 	public static Block CreateWoodChair(String name, float resistance, float hardness) {
