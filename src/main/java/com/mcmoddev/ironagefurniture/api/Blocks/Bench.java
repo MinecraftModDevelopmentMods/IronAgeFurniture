@@ -38,10 +38,10 @@ public class Bench extends Chair {
 		IBlockState offsetBlockState = world.getBlockState(offsetPos);
 		IBlockState newOffsetBlockState;
 		
-		Block offsetBlock = offsetBlockState.getBlock();
+		//Block offsetBlock = offsetBlockState.getBlock();
 		IBlockState stateForPlacement = null;
 		
-		if (offsetBlock.getUnlocalizedName().equals(defaultStateForPlacement.getBlock().getUnlocalizedName())) {
+		if (offsetBlockState.getProperties().get(TYPE) == BenchType.SINGLE) {
 			stateForPlacement =  super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer, stack)
 					.withProperty(FACING, playerFacing.getOpposite())
 					.withProperty(TYPE, BenchType.END);
