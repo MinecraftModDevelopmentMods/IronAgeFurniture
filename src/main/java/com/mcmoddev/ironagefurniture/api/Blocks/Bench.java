@@ -3,9 +3,10 @@ package com.mcmoddev.ironagefurniture.api.Blocks;
 import java.util.List;
 
 import com.mcmoddev.ironagefurniture.api.Enumerations.BenchType;
+import com.mcmoddev.ironagefurniture.api.Enumerations.Rotation;
 import com.mcmoddev.ironagefurniture.api.entity.Seat;
+import com.mcmoddev.ironagefurniture.api.util.Swivel;
 
-import ibxm.Player;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -32,7 +33,7 @@ public class Bench extends Chair {
 	}
 
 	private IBlockState tryMakeDoubleBench(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY,
-			float hitZ, int meta, EntityLivingBase placer, ItemStack stack, BlockPos offsetPos, IBlockState defaultStateForPlacement, int horizontalIndex) {
+			float hitZ, int meta, EntityLivingBase placer, ItemStack stack, BlockPos offsetPos, IBlockState defaultStateForPlacement, EnumFacing playerFacing) {
 		
 		IBlockState offsetBlockState = world.getBlockState(offsetPos);
 		IBlockState newOffsetBlockState;
@@ -41,15 +42,12 @@ public class Bench extends Chair {
 		IBlockState stateForPlacement = null;
 		
 		if (offsetBlock.getUnlocalizedName().equals(defaultStateForPlacement.getBlock().getUnlocalizedName())) {
-			EnumFacing newBlockFacing = EnumFacing.getHorizontal(horizontalIndex);
-			EnumFacing existingBlockFacing = EnumFacing.getHorizontal(horizontalIndex).getOpposite();
-			
 			stateForPlacement =  super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer, stack)
-					.withProperty(FACING, newBlockFacing)
+					.withProperty(FACING, playerFacing.getOpposite())
 					.withProperty(TYPE, BenchType.END);
 			
 			newOffsetBlockState = offsetBlockState
-					.withProperty(FACING, existingBlockFacing)
+					.withProperty(FACING, playerFacing)
 					.withProperty(TYPE, BenchType.END);
 			
 			world.setBlockState(offsetPos, newOffsetBlockState);
@@ -66,97 +64,51 @@ public class Bench extends Chair {
 				.withProperty(FACING, placer.getHorizontalFacing())
 				.withProperty(TYPE, BenchType.SINGLE);
 		
-		IBlockState doubleEndBlockState = null;
+		if (!placer.isSneaking()) {
 		
-		boolean nTested = false;
-		boolean sTested = false;
-		boolean eTested = false;
-		boolean wTested = false;
-		
-		int horizontalIndex = facing.getHorizontalIndex();
-		
-		// do initial test to join on facing
-		switch (horizontalIndex) {
-			case 0: //s
-				doubleEndBlockState = tryMakeDoubleBench(world, pos, facing, hitX, hitY, hitZ, meta, placer, stack, pos.south(1), stateForPlacement, horizontalIndex);
-				nTested = true;
-				break;
+			IBlockState doubleEndBlockState = null;
 	
-			case 1: //w
-				doubleEndBlockState = tryMakeDoubleBench(world, pos, facing, hitX, hitY, hitZ, meta, placer, stack, pos.west(1), stateForPlacement, horizontalIndex);
-				sTested = true;
-				break;
+			EnumFacing playerFacing = placer.getHorizontalFacing();
+			
+			// do initial test to join on facing
+			switch (playerFacing) {
+				case SOUTH:
+					doubleEndBlockState = tryMakeDoubleBench(world, pos, facing, hitX, hitY, hitZ, meta, placer, stack, pos.south(1), stateForPlacement, Swivel.Rotate(playerFacing, Rotation.Ninty));
+					break;
+		
+				case WEST:
+					doubleEndBlockState = tryMakeDoubleBench(world, pos, facing, hitX, hitY, hitZ, meta, placer, stack, pos.west(1), stateForPlacement, Swivel.Rotate(playerFacing, Rotation.Ninty));
+					break;
+		
+				case NORTH:
+					doubleEndBlockState = tryMakeDoubleBench(world, pos, facing, hitX, hitY, hitZ, meta, placer, stack, pos.north(1), stateForPlacement, Swivel.Rotate(playerFacing, Rotation.Ninty));
+					break;
+		
+				case EAST:
+					doubleEndBlockState = tryMakeDoubleBench(world, pos, facing, hitX, hitY, hitZ, meta, placer, stack, pos.east(1), stateForPlacement, Swivel.Rotate(playerFacing, Rotation.Ninty));
+					break;
+		
+				default:
+					break;
+			}
 	
-			case 2: //n
-				doubleEndBlockState = tryMakeDoubleBench(world, pos, facing, hitX, hitY, hitZ, meta, placer, stack, pos.north(1), stateForPlacement, horizontalIndex);
-				eTested = true;
-				break;
-	
-			case 3: //e
-				doubleEndBlockState = tryMakeDoubleBench(world, pos, facing, hitX, hitY, hitZ, meta, placer, stack, pos.east(1), stateForPlacement, horizontalIndex);
-				wTested = true;
-				break;
-	
-			default:
-			break;
-		}
-
-		// if none was found on the player facing, have a look around for others to join with
-		if (doubleEndBlockState == null ) {
-			if (!sTested)
-				doubleEndBlockState = tryMakeDoubleBench(world, pos, facing, hitX, hitY, hitZ, meta, placer, stack, pos.north(1), stateForPlacement, 0);
+			// if none was found on the player facing, have a look around for others to join with
+			if (doubleEndBlockState == null ) {
+				doubleEndBlockState = tryMakeDoubleBench(world, pos, facing, hitX, hitY, hitZ, meta, placer, stack, pos.north(1), stateForPlacement, Swivel.Rotate(EnumFacing.NORTH, Rotation.Ninty));
+				
+				if (doubleEndBlockState == null)
+					doubleEndBlockState = tryMakeDoubleBench(world, pos, facing, hitX, hitY, hitZ, meta, placer, stack, pos.south(1), stateForPlacement, Swivel.Rotate(EnumFacing.SOUTH, Rotation.Ninty));
+				
+				if (doubleEndBlockState == null)
+					doubleEndBlockState = tryMakeDoubleBench(world, pos, facing, hitX, hitY, hitZ, meta, placer, stack, pos.east(1), stateForPlacement, Swivel.Rotate(EnumFacing.EAST, Rotation.Ninty));
+				
+				if (doubleEndBlockState == null)
+					doubleEndBlockState = tryMakeDoubleBench(world, pos, facing, hitX, hitY, hitZ, meta, placer, stack, pos.west(1), stateForPlacement, Swivel.Rotate(EnumFacing.WEST, Rotation.Ninty));		
+			}
 			
-			if (!wTested && doubleEndBlockState == null)
-				doubleEndBlockState = tryMakeDoubleBench(world, pos, facing, hitX, hitY, hitZ, meta, placer, stack, pos.south(1), stateForPlacement, 1);
-			
-			if (!nTested && doubleEndBlockState == null)
-				doubleEndBlockState = tryMakeDoubleBench(world, pos, facing, hitX, hitY, hitZ, meta, placer, stack, pos.east(1), stateForPlacement, 2);
-			
-			if (!eTested && doubleEndBlockState == null)
-				doubleEndBlockState = tryMakeDoubleBench(world, pos, facing, hitX, hitY, hitZ, meta, placer, stack, pos.west(1), stateForPlacement, 3);		
-		}
-		
-		if (doubleEndBlockState != null)
-			return doubleEndBlockState;
-//		//look around for an adjacent single bench to turn into two ends
-//		Block blockEast = world.getBlockState(pos.east(1)).getBlock();
-//		Block blockWest = world.getBlockState(pos.west(1)).getBlock();
-//		Block blockNorth = world.getBlockState(pos.north(1)).getBlock();
-//		Block blockSouth = world.getBlockState(pos.south(1)).getBlock();
-//		
-//		if (blockEast.getUnlocalizedName().equals(stateForPlacement.getBlock().getUnlocalizedName())) {
-//			stateForPlacement =  super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer, stack)
-//					.withProperty(FACING, placer.getHorizontalFacing())
-//					.withProperty(TYPE, BenchType.END);
-//		}
-//		
-//		if (blockWest.getUnlocalizedName() == stateForPlacement.getBlock().getUnlocalizedName()) {
-//			stateForPlacement =  super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer, stack)
-//					.withProperty(FACING, placer.getHorizontalFacing())
-//					.withProperty(TYPE, BenchType.END);
-//		}
-//		
-//		if (blockNorth.getUnlocalizedName() == stateForPlacement.getBlock().getUnlocalizedName()) {
-//			stateForPlacement =  super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer, stack)
-//					.withProperty(FACING, placer.getHorizontalFacing())
-//					.withProperty(TYPE, BenchType.END);
-//		}
-//		
-//		if (blockSouth.getUnlocalizedName() == stateForPlacement.getBlock().getUnlocalizedName()) {
-//			stateForPlacement =  super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer, stack)
-//					.withProperty(FACING, placer.getHorizontalFacing())
-//					.withProperty(TYPE, BenchType.END);
-//		}
-		//if (facing == EnumFacing.EAST || facing == EnumFacing.WEST) {
-			
-		//}
-		
-		//look around for an adjacent bench
-		//if (facing == EnumFacing.NORTH || facing == EnumFacing.SOUTH) {
-			
-		//}
-		
-		
+			if (doubleEndBlockState != null)
+				return doubleEndBlockState;
+		}				
 		
 		return stateForPlacement;
 	}
