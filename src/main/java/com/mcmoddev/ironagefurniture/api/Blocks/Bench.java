@@ -187,22 +187,39 @@ public class Bench extends Chair {
 		if (!bypassCurrentPosCheck && !isBenchPiece(currentType)) 
 			return currentPosBlockState;
 		
-		if (!isBenchPiece(offsetType) && !isBenchPiece(reverseOffsetType))
+		if ((currentPosBlockState != null && reverseOffsetBlockState != null) 
+				&& ((currentType == BenchType.END || currentType == BenchType.MIDDLE) && 
+						(reverseOffsetType == BenchType.END || reverseOffsetType == BenchType.MIDDLE))) {
+			if ((getBenchDirection(currentPosBlockState) != getBenchDirection(reverseOffsetBlockState)) && 
+					(getBenchDirection(currentPosBlockState) != getBenchDirection(reverseOffsetBlockState).getOpposite())) {
+				return currentPosBlockState;	
+			}
+		}
+		
+		if ((reverseOffsetType != null && offsetType != null) 
+				&& (!isBenchPiece(offsetType) && !isBenchPiece(reverseOffsetType)))
 			return currentPosBlockState
 					.withProperty(FACING, Swivel.Rotate(direction, Rotation.Ninty))
 					.withProperty(TYPE, BenchType.SINGLE);
 		
+		boolean benchInPath = false;
 		
-		if (isBenchPiece(offsetType) && !isBenchPiece(reverseOffsetType))
+		if (offsetType == BenchType.END || offsetType == BenchType.MIDDLE) {
+			EnumFacing offsetFacing = Swivel.Rotate(getBenchDirection(offsetBlockState), Rotation.Ninty);
+			
+			if (offsetFacing != direction && offsetFacing != direction.getOpposite())
+				benchInPath = true;
+		}
+		
+		if (isBenchPiece(offsetType) && (!isBenchPiece(reverseOffsetType)))
 			return currentPosBlockState
 					.withProperty(FACING, Swivel.Rotate(direction.getOpposite(), Rotation.Ninty))
 					.withProperty(TYPE, BenchType.END);
 		
-		if (!isBenchPiece(offsetType) && isBenchPiece(reverseOffsetType))	
+		if ((!isBenchPiece(offsetType) || benchInPath) && isBenchPiece(reverseOffsetType))	
 			return currentPosBlockState
 					.withProperty(FACING, Swivel.Rotate(direction, Rotation.Ninty))
 					.withProperty(TYPE, BenchType.END);
-		
 		
 		if (isBenchPiece(offsetType) && isBenchPiece(reverseOffsetType))	
 			return currentPosBlockState
