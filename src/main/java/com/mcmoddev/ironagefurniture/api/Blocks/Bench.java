@@ -7,6 +7,7 @@ import com.mcmoddev.ironagefurniture.api.Enumerations.Rotation;
 import com.mcmoddev.ironagefurniture.api.entity.Seat;
 import com.mcmoddev.ironagefurniture.api.util.Swivel;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
@@ -40,7 +41,7 @@ public class Bench extends Chair {
 		//Block offsetBlock = offsetBlockState.getBlock();
 		IBlockState stateForPlacement = null;
 		
-		if (offsetBlockState.getProperties().get(TYPE) == BenchType.SINGLE) {
+		if (getBenchType(offsetBlockState) == BenchType.SINGLE) {
 			stateForPlacement =  super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer, stack)
 					.withProperty(FACING, playerFacing.getOpposite())
 					.withProperty(TYPE, BenchType.END);
@@ -98,25 +99,20 @@ public class Bench extends Chair {
 		return stateForPlacement;
 	}
 
+	private BenchType getBenchType(IBlockState blockstate) {
+		if (blockstate.getBlock().getUnlocalizedName().contains("bench"))
+			return (BenchType)blockstate.getProperties().get(TYPE);
+		
+		return null;
+	}
+	
 	private IBlockState traceBench(EnumFacing direction, World world, BlockPos pos, IBlockState blockState) {
-//		traceBench(direction, world, pos, 0, blockState);
-//		
-//		IBlockState offsetBlockState = world.getBlockState(pos.offset(direction.getOpposite()));
-//		
-//		if (offsetBlockState.getProperties().get(TYPE) == BenchType.SINGLE || 
-//				offsetBlockState.getProperties().get(TYPE) == BenchType.MIDDLE ||
-//				offsetBlockState.getProperties().get(TYPE) == BenchType.END) {
-//			
-//			traceBench(direction.getOpposite(), world, pos, 0, blockState);
-//		}
-		
-		
 		IBlockState thisPieceBlockState = computeBenchBlockState(0, direction, world, pos, true, blockState, BenchType.SINGLE);
-		BenchType placedBenchType = (BenchType)thisPieceBlockState.getProperties().get(TYPE);
+		BenchType placedBenchType = getBenchType(thisPieceBlockState);
 		
 		
-		BenchType offsetBenchType = (BenchType)world.getBlockState(pos.offset(direction)).getProperties().get(TYPE);
-		BenchType reverseOffsetBenchType = (BenchType)world.getBlockState(pos.offset(direction.getOpposite())).getProperties().get(TYPE);
+		BenchType offsetBenchType = getBenchType(world.getBlockState(pos.offset(direction)));
+		BenchType reverseOffsetBenchType = getBenchType(world.getBlockState(pos.offset(direction.getOpposite())));
 		
 		
 		if (isBenchPiece(offsetBenchType))
@@ -131,14 +127,14 @@ public class Bench extends Chair {
 	private void traceBenchLine (EnumFacing direction, World world, BlockPos pos, IBlockState blockState, BenchType placedBenchType) {
 		int offset = 1;
 		IBlockState nextPieceBlockState = computeBenchBlockState(offset, direction, world, pos, true, null, placedBenchType);
-		BenchType nextPieceBenchType = (BenchType)nextPieceBlockState.getProperties().get(TYPE);
+		BenchType nextPieceBenchType = getBenchType(nextPieceBlockState);
 		world.setBlockState(pos.offset(direction, offset), nextPieceBlockState);
 		
 		while (isBenchPiece(nextPieceBenchType)) {
 			offset++;
 			nextPieceBlockState = computeBenchBlockState(offset, direction, world, pos, placedBenchType);
 			world.setBlockState(pos.offset(direction, offset), nextPieceBlockState);
-			nextPieceBenchType = (BenchType)nextPieceBlockState.getProperties().get(TYPE);
+			nextPieceBenchType = getBenchType(nextPieceBlockState);
 		}
 	}
 	
@@ -164,10 +160,10 @@ public class Bench extends Chair {
 		else
 			currentPosBlockState = world.getBlockState(offsetPos);
 		
-		BenchType currentType = (BenchType)currentPosBlockState.getProperties().get(TYPE);
+		BenchType currentType = getBenchType(currentPosBlockState);
 		
 		IBlockState offsetBlockState = world.getBlockState(offsetPos.offset(direction));
-		BenchType offsetType = (BenchType)offsetBlockState.getProperties().get(TYPE);
+		BenchType offsetType = getBenchType(offsetBlockState);
 		
 		IBlockState reverseOffsetBlockState;
 		
@@ -178,7 +174,7 @@ public class Bench extends Chair {
 			reverseOffsetType = placedBenchType;
 		} else {
 			reverseOffsetBlockState = world.getBlockState(offsetPos.offset(direction.getOpposite()));
-			reverseOffsetType = (BenchType)reverseOffsetBlockState.getProperties().get(TYPE);
+			reverseOffsetType = getBenchType(reverseOffsetBlockState);
 		}
 		
 		if (!bypassCurrentPosCheck && !isBenchPiece(currentType)) 
@@ -213,65 +209,24 @@ public class Bench extends Chair {
 		return computeBenchBlockState(offset, direction, world, pos, false, null, placedBenchType);
 	}
 	
-//	private IBlockState traceBench(EnumFacing direction, World world, BlockPos pos, int offset, IBlockState blockState) {
-//		
-//		IBlockState offsetBlockState = world.getBlockState(pos.offset(direction, offset + 1));
-//		
-//		if (offsetBlockState.getProperties().get(TYPE) == BenchType.SINGLE || 
-//				offsetBlockState.getProperties().get(TYPE) == BenchType.MIDDLE ||
-//				offsetBlockState.getProperties().get(TYPE) == BenchType.END) {
-//			
-//			IBlockState currentBlockState = traceBench(direction, world, pos, offset + 1, blockState);
-//			
-//			// the last iteration was an end, now trace back
-//			if (currentBlockState.getProperties().get(TYPE) == BenchType.END) {
-//				IBlockState newBlockState = currentBlockState
-//						.withProperty(FACING, direction)
-//						.withProperty(TYPE, BenchType.MIDDLE);
-//				
-//					world.setBlockState(pos, newBlockState);
-//				
-//			}
-//		} else {
-//			IBlockState newBlockState = world.getBlockState(pos.offset(direction, offset));
-//				
-//			newBlockState = blockState
-//					.withProperty(FACING, direction)
-//					.withProperty(TYPE, BenchType.END);
-//			
-//				world.setBlockState(pos, newBlockState);
-//			
-//				return newBlockState;	
-//		}
-//		
-//		return blockState;
-//	}
-	
 	private boolean isBenchEnd(EnumFacing facing, World world, BlockPos pos) {		
-		if (world.getBlockState(pos.offset(facing)).getProperties().get(TYPE) == BenchType.END)
+		if (getBenchType(world.getBlockState(pos.offset(facing))) == BenchType.END)
 			return true;
 
 		return false;
 	}
 	
 	private EnumFacing getBenchToJoinTo(EnumFacing playerFacing, World world, BlockPos pos) {
-		EnumFacing benchAxis = null;
-		
 		// again, favour player facing
 		if (isBenchEnd(playerFacing, world, pos))
-			benchAxis = playerFacing;
+			return playerFacing;
 		
-		if (benchAxis == null) {
-			for (EnumFacing face : EnumFacing.HORIZONTALS) {
-				if (isBenchEnd(face, world, pos))
-					benchAxis = playerFacing;
-				
-				if (benchAxis != null)
-					break;
-			}
+		for (EnumFacing face : EnumFacing.HORIZONTALS) {
+			if (isBenchEnd(face, world, pos))
+				return face;
 		}
 		
-		return benchAxis;
+		return null;
 	}
 	
 	@Override
