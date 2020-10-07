@@ -66,34 +66,34 @@ public class Bench extends Chair {
 		
 		if (!placer.isSneaking()) {
 		
-			IBlockState doubleEndBlockState = null;
+			//IBlockState doubleEndBlockState = null;
 	
 			EnumFacing playerFacing = placer.getHorizontalFacing();
 			EnumFacing benchAxis;
 			
 			// do initial test to join on facing
-			doubleEndBlockState = tryMakeDoubleBench(world, pos, facing, hitX, hitY, hitZ, meta, placer, stack, pos.offset(playerFacing), stateForPlacement, Swivel.Rotate(playerFacing, Rotation.Ninty));
+			//doubleEndBlockState = tryMakeDoubleBench(world, pos, facing, hitX, hitY, hitZ, meta, placer, stack, pos.offset(playerFacing), stateForPlacement, Swivel.Rotate(playerFacing, Rotation.Ninty));
 	
 			// if none was found on the player facing, have a look around for others to join with
-			if (doubleEndBlockState == null ) {
-				for (EnumFacing face : EnumFacing.HORIZONTALS) {
-					doubleEndBlockState = tryMakeDoubleBench(world, pos, facing, hitX, hitY, hitZ, meta, placer, stack, pos.offset(face), stateForPlacement, Swivel.Rotate(face, Rotation.Ninty));
-				
-					if (doubleEndBlockState != null)
-						break;
-				}
-			}
+//			if (doubleEndBlockState == null ) {
+//				for (EnumFacing face : EnumFacing.HORIZONTALS) {
+//					doubleEndBlockState = tryMakeDoubleBench(world, pos, facing, hitX, hitY, hitZ, meta, placer, stack, pos.offset(face), stateForPlacement, Swivel.Rotate(face, Rotation.Ninty));
+//				
+//					if (doubleEndBlockState != null)
+//						break;
+//				}
+//			}
 		
 			// next, we need to see if this new piece of bench now forms part of a longer unit
-			if (doubleEndBlockState != null)
-				stateForPlacement = doubleEndBlockState;
-			else {
+//			if (doubleEndBlockState != null)
+//				stateForPlacement = doubleEndBlockState;
+//			else {
 				benchAxis = getBenchToJoinTo(playerFacing, world, pos);
 				
 				if (benchAxis != null) {
 					stateForPlacement = traceBench(benchAxis, world, pos, stateForPlacement);
 				}
-			}
+			//}
 		}				
 		
 		return stateForPlacement;
@@ -102,6 +102,13 @@ public class Bench extends Chair {
 	private BenchType getBenchType(IBlockState blockstate) {
 		if (blockstate.getBlock().getUnlocalizedName().contains("bench"))
 			return (BenchType)blockstate.getProperties().get(TYPE);
+		
+		return null;
+	}
+	
+	private EnumFacing getBenchDirection(IBlockState blockstate) {
+		if (blockstate.getBlock().getUnlocalizedName().contains("bench"))
+			return (EnumFacing)blockstate.getProperties().get(FACING);
 		
 		return null;
 	}
@@ -153,7 +160,7 @@ public class Bench extends Chair {
 
 		BlockPos offsetPos = pos.offset(direction, offset);
 		
-		IBlockState currentPosBlockState = world.getBlockState(offsetPos);
+		IBlockState currentPosBlockState;
 		
 		if (blockstate != null)
 			currentPosBlockState = blockstate;
@@ -179,7 +186,7 @@ public class Bench extends Chair {
 		
 		if (!bypassCurrentPosCheck && !isBenchPiece(currentType)) 
 			return currentPosBlockState;
-
+		
 		if (!isBenchPiece(offsetType) && !isBenchPiece(reverseOffsetType))
 			return currentPosBlockState
 					.withProperty(FACING, Swivel.Rotate(direction, Rotation.Ninty))
@@ -210,7 +217,18 @@ public class Bench extends Chair {
 	}
 	
 	private boolean isBenchEnd(EnumFacing facing, World world, BlockPos pos) {		
-		if (getBenchType(world.getBlockState(pos.offset(facing))) == BenchType.END)
+		BenchType benchType = getBenchType(world.getBlockState(pos.offset(facing)));
+		
+		if (benchType == BenchType.END)
+			return true;
+
+		return false;
+	}
+	
+	private boolean isBenchSingle(EnumFacing facing, World world, BlockPos pos) {		
+		BenchType benchType = getBenchType(world.getBlockState(pos.offset(facing)));
+		
+		if (benchType == BenchType.SINGLE)
 			return true;
 
 		return false;
@@ -218,12 +236,36 @@ public class Bench extends Chair {
 	
 	private EnumFacing getBenchToJoinTo(EnumFacing playerFacing, World world, BlockPos pos) {
 		// again, favour player facing
-		if (isBenchEnd(playerFacing, world, pos))
-			return playerFacing;
+		if (isBenchEnd(playerFacing, world, pos) || isBenchSingle(playerFacing, world, pos)) {
+			if (isBenchSingle(playerFacing, world, pos))
+				return playerFacing;
+			
+			EnumFacing targetFace = getBenchDirection(world.getBlockState(pos.offset(playerFacing)));
+			
+			if (targetFace == null)
+				return null;
+			
+			targetFace = Swivel.Rotate(targetFace, Rotation.Ninty);
+			
+			if (isBenchEnd(playerFacing, world, pos) && (targetFace == playerFacing || targetFace == playerFacing.getOpposite()))
+				return playerFacing;
+		}
 		
 		for (EnumFacing face : EnumFacing.HORIZONTALS) {
-			if (isBenchEnd(face, world, pos))
+			if (isBenchSingle(face, world, pos))
 				return face;
+			
+			if (isBenchEnd(face, world, pos)) {
+				EnumFacing targetFace = getBenchDirection(world.getBlockState(pos.offset(face)));
+				
+				if (targetFace == null)
+					return null;
+				
+				targetFace = Swivel.Rotate(targetFace, Rotation.Ninty);
+				
+				if ((targetFace == face || targetFace == face.getOpposite()))
+					return face;	
+			}
 		}
 		
 		return null;
