@@ -1,18 +1,48 @@
 {
   "variants": {
-    "facing=north": {
-      "model": "ironagefurniture:chair_wood_ironage_bench_single_forestry_zebrawood",
+    "facing=north,type=single": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_single_zebrawood",
       "y": 180
     },
-    "facing=east": {
-      "model": "ironagefurniture:chair_wood_ironage_bench_single_forestry_zebrawood",
+    "facing=east,type=single": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_single_zebrawood",
       "y": 270
     },
-    "facing=south": {
-      "model": "ironagefurniture:chair_wood_ironage_bench_single_forestry_zebrawood"
+    "facing=south,type=single": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_single_zebrawood"
     },
-    "facing=west": {
-      "model": "ironagefurniture:chair_wood_ironage_bench_single_forestry_zebrawood",
+    "facing=west,type=single": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_single_zebrawood",
+      "y": 90
+    },
+    "facing=north,type=middle": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_middle_zebrawood",
+      "y": 180
+    },
+    "facing=east,type=middle": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_middle_zebrawood",
+      "y": 270
+    },
+    "facing=south,type=middle": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_middle_zebrawood"
+    },
+    "facing=west,type=middle": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_middle_zebrawood",
+      "y": 90
+    },
+    "facing=north,type=end": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_end_zebrawood",
+      "y": 180
+    },
+    "facing=east,type=end": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_end_zebrawood",
+      "y": 270
+    },
+    "facing=south,type=end": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_end_zebrawood"
+    },
+    "facing=west,type=end": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_end_zebrawood",
       "y": 90
     }
   }

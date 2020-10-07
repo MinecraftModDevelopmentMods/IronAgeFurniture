@@ -1,18 +1,48 @@
 {
   "variants": {
-    "facing=north": {
-      "model": "ironagefurniture:chair_wood_ironage_bench_single_natura_fusewood",
+    "facing=north,type=single": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_single_fusewood",
       "y": 180
     },
-    "facing=east": {
-      "model": "ironagefurniture:chair_wood_ironage_bench_single_natura_fusewood",
+    "facing=east,type=single": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_single_fusewood",
       "y": 270
     },
-    "facing=south": {
-      "model": "ironagefurniture:chair_wood_ironage_bench_single_natura_fusewood"
+    "facing=south,type=single": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_single_fusewood"
     },
-    "facing=west": {
-      "model": "ironagefurniture:chair_wood_ironage_bench_single_natura_fusewood",
+    "facing=west,type=single": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_single_fusewood",
+      "y": 90
+    },
+    "facing=north,type=middle": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_middle_fusewood",
+      "y": 180
+    },
+    "facing=east,type=middle": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_middle_fusewood",
+      "y": 270
+    },
+    "facing=south,type=middle": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_middle_fusewood"
+    },
+    "facing=west,type=middle": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_middle_fusewood",
+      "y": 90
+    },
+    "facing=north,type=end": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_end_fusewood",
+      "y": 180
+    },
+    "facing=east,type=end": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_end_fusewood",
+      "y": 270
+    },
+    "facing=south,type=end": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_end_fusewood"
+    },
+    "facing=west,type=end": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_end_fusewood",
       "y": 90
     }
   }
