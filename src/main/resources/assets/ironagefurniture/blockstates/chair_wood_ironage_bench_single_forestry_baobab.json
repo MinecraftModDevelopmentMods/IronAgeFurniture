@@ -1,48 +1,48 @@
 {
   "variants": {
     "facing=north,type=single": {
-      "model": "ironagefurniture:chair_wood_ironage_bench_single_baobab",
+      "model": "ironagefurniture:chair_wood_ironage_bench_single_forestry_baobab",
       "y": 180
     },
     "facing=east,type=single": {
-      "model": "ironagefurniture:chair_wood_ironage_bench_single_baobab",
+      "model": "ironagefurniture:chair_wood_ironage_bench_single_forestry_baobab",
       "y": 270
     },
     "facing=south,type=single": {
-      "model": "ironagefurniture:chair_wood_ironage_bench_single_baobab"
+      "model": "ironagefurniture:chair_wood_ironage_bench_single_forestry_baobab"
     },
     "facing=west,type=single": {
-      "model": "ironagefurniture:chair_wood_ironage_bench_single_baobab",
+      "model": "ironagefurniture:chair_wood_ironage_bench_single_forestry_baobab",
       "y": 90
     },
     "facing=north,type=middle": {
-      "model": "ironagefurniture:chair_wood_ironage_bench_middle_baobab",
+      "model": "ironagefurniture:chair_wood_ironage_bench_middle_forestry_baobab",
       "y": 180
     },
     "facing=east,type=middle": {
-      "model": "ironagefurniture:chair_wood_ironage_bench_middle_baobab",
+      "model": "ironagefurniture:chair_wood_ironage_bench_middle_forestry_baobab",
       "y": 270
     },
     "facing=south,type=middle": {
-      "model": "ironagefurniture:chair_wood_ironage_bench_middle_baobab"
+      "model": "ironagefurniture:chair_wood_ironage_bench_middle_forestry_baobab"
     },
     "facing=west,type=middle": {
-      "model": "ironagefurniture:chair_wood_ironage_bench_middle_baobab",
+      "model": "ironagefurniture:chair_wood_ironage_bench_middle_forestry_baobab",
       "y": 90
     },
     "facing=north,type=end": {
-      "model": "ironagefurniture:chair_wood_ironage_bench_end_baobab",
+      "model": "ironagefurniture:chair_wood_ironage_bench_end_forestry_baobab",
       "y": 180
     },
     "facing=east,type=end": {
-      "model": "ironagefurniture:chair_wood_ironage_bench_end_baobab",
+      "model": "ironagefurniture:chair_wood_ironage_bench_end_forestry_baobab",
       "y": 270
     },
     "facing=south,type=end": {
-      "model": "ironagefurniture:chair_wood_ironage_bench_end_baobab"
+      "model": "ironagefurniture:chair_wood_ironage_bench_end_forestry_baobab"
     },
     "facing=west,type=end": {
-      "model": "ironagefurniture:chair_wood_ironage_bench_end_baobab",
+      "model": "ironagefurniture:chair_wood_ironage_bench_end_forestry_baobab",
       "y": 90
     }
   }
