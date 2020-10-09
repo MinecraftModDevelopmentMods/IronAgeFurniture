@@ -74,6 +74,13 @@ public class BlockInitialiser {
 			BlockObjectHolder.chair_wood_ironage_bench_single_birch = FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_single_birch");
 			BlockObjectHolder.chair_wood_ironage_bench_single_jungle = FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_single_jungle");
 			BlockObjectHolder.chair_wood_ironage_bench_single_spruce = FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_single_spruce");
+			
+			BlockObjectHolder.chair_wood_ironage_bench_padded_single_oak = FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_padded_single_oak");
+			BlockObjectHolder.chair_wood_ironage_bench_padded_single_acacia = FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_padded_single_acacia"); 
+			BlockObjectHolder.chair_wood_ironage_bench_padded_single_big_oak = FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_padded_single_big_oak");
+			BlockObjectHolder.chair_wood_ironage_bench_padded_single_birch = FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_padded_single_birch");
+			BlockObjectHolder.chair_wood_ironage_bench_padded_single_jungle = FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_padded_single_jungle");
+			BlockObjectHolder.chair_wood_ironage_bench_padded_single_spruce = FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_padded_single_spruce");
 		}
 		
 		

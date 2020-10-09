@@ -1,0 +1,49 @@
+{
+  "variants": {
+    "facing=north,type=single": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_padded_single_birch",
+      "y": 180
+    },
+    "facing=east,type=single": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_padded_single_birch",
+      "y": 270
+    },
+    "facing=south,type=single": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_padded_single_birch"
+    },
+    "facing=west,type=single": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_padded_single_birch",
+      "y": 90
+    },
+    "facing=north,type=middle": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_padded_middle_birch",
+      "y": 180
+    },
+    "facing=east,type=middle": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_padded_middle_birch",
+      "y": 270
+    },
+    "facing=south,type=middle": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_padded_middle_birch"
+    },
+    "facing=west,type=middle": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_padded_middle_birch",
+      "y": 90
+    },
+    "facing=north,type=end": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_padded_end_birch",
+      "y": 180
+    },
+    "facing=east,type=end": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_padded_end_birch",
+      "y": 270
+    },
+    "facing=south,type=end": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_padded_end_birch"
+    },
+    "facing=west,type=end": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_padded_end_birch",
+      "y": 90
+    }
+  }
+}
