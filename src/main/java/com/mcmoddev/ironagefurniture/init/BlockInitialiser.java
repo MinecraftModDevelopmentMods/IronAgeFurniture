@@ -157,6 +157,25 @@ public class BlockInitialiser {
 				BlockObjectHolder.chair_wood_ironage_stool_short_biomesoplenty_willow			= FurnitureFactory.CreateWoodShortStool("chair_wood_ironage_stool_short_biomesoplenty_willow");
 			}
 			
+			if (IronAgeFurnitureConfiguration.GENERATE_TALL_STOOLS) {
+				BlockObjectHolder.chair_wood_ironage_stool_tall_biomesoplenty_cherry			= FurnitureFactory.CreateWoodTallStool("chair_wood_ironage_stool_tall_biomesoplenty_cherry");
+				BlockObjectHolder.chair_wood_ironage_stool_tall_biomesoplenty_ebony			= FurnitureFactory.CreateWoodTallStool("chair_wood_ironage_stool_tall_biomesoplenty_ebony");
+				BlockObjectHolder.chair_wood_ironage_stool_tall_biomesoplenty_ethereal			= FurnitureFactory.CreateWoodTallStool("chair_wood_ironage_stool_tall_biomesoplenty_ethereal");
+				BlockObjectHolder.chair_wood_ironage_stool_tall_biomesoplenty_eucalyptus		= FurnitureFactory.CreateWoodTallStool("chair_wood_ironage_stool_tall_biomesoplenty_eucalyptus");
+				BlockObjectHolder.chair_wood_ironage_stool_tall_biomesoplenty_fir				= FurnitureFactory.CreateWoodTallStool("chair_wood_ironage_stool_tall_biomesoplenty_fir");
+				BlockObjectHolder.chair_wood_ironage_stool_tall_biomesoplenty_hellbark			= FurnitureFactory.CreateWoodTallStool("chair_wood_ironage_stool_tall_biomesoplenty_hellbark");
+				BlockObjectHolder.chair_wood_ironage_stool_tall_biomesoplenty_jacaranda		= FurnitureFactory.CreateWoodTallStool("chair_wood_ironage_stool_tall_biomesoplenty_jacaranda");
+				BlockObjectHolder.chair_wood_ironage_stool_tall_biomesoplenty_magic			= FurnitureFactory.CreateWoodTallStool("chair_wood_ironage_stool_tall_biomesoplenty_magic");
+				BlockObjectHolder.chair_wood_ironage_stool_tall_biomesoplenty_mahogany			= FurnitureFactory.CreateWoodTallStool("chair_wood_ironage_stool_tall_biomesoplenty_mahogany");
+				BlockObjectHolder.chair_wood_ironage_stool_tall_biomesoplenty_mangrove			= FurnitureFactory.CreateWoodTallStool("chair_wood_ironage_stool_tall_biomesoplenty_mangrove");
+				BlockObjectHolder.chair_wood_ironage_stool_tall_biomesoplenty_palm				= FurnitureFactory.CreateWoodTallStool("chair_wood_ironage_stool_tall_biomesoplenty_palm");
+				BlockObjectHolder.chair_wood_ironage_stool_tall_biomesoplenty_pine				= FurnitureFactory.CreateWoodTallStool("chair_wood_ironage_stool_tall_biomesoplenty_pine");
+				BlockObjectHolder.chair_wood_ironage_stool_tall_biomesoplenty_redwood			= FurnitureFactory.CreateWoodTallStool("chair_wood_ironage_stool_tall_biomesoplenty_redwood");
+				BlockObjectHolder.chair_wood_ironage_stool_tall_biomesoplenty_sacred_oak		= FurnitureFactory.CreateWoodTallStool("chair_wood_ironage_stool_tall_biomesoplenty_sacred_oak");
+				BlockObjectHolder.chair_wood_ironage_stool_tall_biomesoplenty_umbran			= FurnitureFactory.CreateWoodTallStool("chair_wood_ironage_stool_tall_biomesoplenty_umbran");
+				BlockObjectHolder.chair_wood_ironage_stool_tall_biomesoplenty_willow			= FurnitureFactory.CreateWoodTallStool("chair_wood_ironage_stool_tall_biomesoplenty_willow");
+			}
+			
 			if (IronAgeFurnitureConfiguration.GENERATE_WOOD_BENCHES) {
 				BlockObjectHolder.chair_wood_ironage_bench_single_biomesoplenty_cherry				=	FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_single_biomesoplenty_cherry");
 				BlockObjectHolder.chair_wood_ironage_bench_single_biomesoplenty_ebony				=	FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_single_biomesoplenty_ebony");
