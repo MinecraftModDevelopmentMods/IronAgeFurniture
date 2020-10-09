@@ -25,6 +25,9 @@ public class FurnitureFactory {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(stool, 1), " x ", "yyy", 'x', planks, 'y', "stickWood"));
 	}
 	
+	public static void AddBenchRecipe(ItemStack planks, Block bench) {
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bench, 1), "xx", "yy", 'x', planks, 'y', "stickWood"));
+	}
 	public static void AddTallStoolRecipe(ItemStack planks, Block stool) {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(stool, 1), " x ", "yyy","yyy", 'x', planks, 'y', "stickWood"));
 	}
