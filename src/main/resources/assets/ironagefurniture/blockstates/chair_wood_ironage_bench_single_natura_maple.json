@@ -1,18 +1,48 @@
 {
   "variants": {
-    "facing=north": {
-      "model": "ironagefurniture:chair_wood_ironage_bench_single_natura_maple",
+    "facing=north,type=single": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_single_maple",
       "y": 180
     },
-    "facing=east": {
-      "model": "ironagefurniture:chair_wood_ironage_bench_single_natura_maple",
+    "facing=east,type=single": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_single_maple",
       "y": 270
     },
-    "facing=south": {
-      "model": "ironagefurniture:chair_wood_ironage_bench_single_natura_maple"
+    "facing=south,type=single": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_single_maple"
     },
-    "facing=west": {
-      "model": "ironagefurniture:chair_wood_ironage_bench_single_natura_maple",
+    "facing=west,type=single": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_single_maple",
+      "y": 90
+    },
+    "facing=north,type=middle": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_middle_maple",
+      "y": 180
+    },
+    "facing=east,type=middle": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_middle_maple",
+      "y": 270
+    },
+    "facing=south,type=middle": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_middle_maple"
+    },
+    "facing=west,type=middle": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_middle_maple",
+      "y": 90
+    },
+    "facing=north,type=end": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_end_maple",
+      "y": 180
+    },
+    "facing=east,type=end": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_end_maple",
+      "y": 270
+    },
+    "facing=south,type=end": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_end_maple"
+    },
+    "facing=west,type=end": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_end_maple",
       "y": 90
     }
   }
