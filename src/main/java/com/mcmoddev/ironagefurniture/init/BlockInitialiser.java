@@ -61,7 +61,6 @@ public class BlockInitialiser {
 		if (IronAgeFurnitureConfiguration.CLIENT.INTEGRATION_BIOMESOPLENTY.get() && ModList.get().isLoaded("biomesoplenty")) {
 			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_CLASSIC_CHAIRS.get()) {
 				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_biomesoplenty_cherry"));
-				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_biomesoplenty_ethereal"));
 				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_biomesoplenty_fir"));
 				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_biomesoplenty_hellbark"));
 				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_biomesoplenty_jacaranda"));
@@ -76,7 +75,6 @@ public class BlockInitialiser {
 		
 			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHIELD_CHAIRS.get()) {
 				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_biomesoplenty_cherry"));
-				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_biomesoplenty_ethereal"));
 				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_biomesoplenty_fir"));
 				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_biomesoplenty_hellbark"));
 				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_biomesoplenty_jacaranda"));
@@ -91,7 +89,6 @@ public class BlockInitialiser {
 			
 			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHORT_STOOLS.get()) {
 				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_biomesoplenty_cherry"));
-				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_biomesoplenty_ethereal"));
 				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_biomesoplenty_fir"));
 				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_biomesoplenty_hellbark"));
 				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_biomesoplenty_jacaranda"));
@@ -106,7 +103,6 @@ public class BlockInitialiser {
 			
 			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHORT_STOOLS.get()) {
 				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_biomesoplenty_cherry"));
-				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_biomesoplenty_ethereal"));
 				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_biomesoplenty_fir"));
 				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_biomesoplenty_hellbark"));
 				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_biomesoplenty_jacaranda"));
@@ -117,6 +113,116 @@ public class BlockInitialiser {
 				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_biomesoplenty_umbran"));
 				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_biomesoplenty_willow"));
 				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_biomesoplenty_dead"));
+			}
+		}
+		
+		if (IronAgeFurnitureConfiguration.CLIENT.INTEGRATION_BIOMESYOUGO.get() && ModList.get().isLoaded("byg")) {
+			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_CLASSIC_CHAIRS.get()) {
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_byg_aspen"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_byg_baobab"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_byg_blue_enchanted"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_byg_bulbis"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_byg_cherry"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_byg_cika"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_byg_cypress"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_byg_ebony"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_byg_embur"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_byg_fir"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_byg_glacial_oak"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_byg_green_enchanted"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_byg_holly"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_byg_jacaranda"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_byg_mahogany"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_byg_mangrove"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_byg_maple"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_byg_pine"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_byg_rainbow_eucalyptus"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_byg_redwood"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_byg_skyris"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_byg_willow"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_byg_witch_hazel"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_byg_zelkova"));
+			}
+		
+			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHIELD_CHAIRS.get()) {
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_byg_aspen"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_byg_baobab"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_byg_blue_enchanted"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_byg_bulbis"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_byg_cherry"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_byg_cika"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_byg_cypress"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_byg_ebony"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_byg_embur"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_byg_fir"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_byg_glacial_oak"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_byg_green_enchanted"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_byg_holly"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_byg_jacaranda"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_byg_mahogany"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_byg_mangrove"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_byg_maple"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_byg_pine"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_byg_rainbow_eucalyptus"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_byg_redwood"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_byg_skyris"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_byg_willow"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_byg_witch_hazel"));
+				event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_shield_byg_zelkova"));
+			}
+			
+			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHORT_STOOLS.get()) {
+				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_byg_aspen"));
+				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_byg_baobab"));
+				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_byg_blue_enchanted"));
+				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_byg_bulbis"));
+				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_byg_cherry"));
+				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_byg_cika"));
+				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_byg_cypress"));
+				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_byg_ebony"));
+				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_byg_embur"));
+				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_byg_fir"));
+				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_byg_glacial_oak"));
+				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_byg_green_enchanted"));
+				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_byg_holly"));
+				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_byg_jacaranda"));
+				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_byg_mahogany"));
+				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_byg_mangrove"));
+				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_byg_maple"));
+				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_byg_pine"));
+				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_byg_rainbow_eucalyptus"));
+				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_byg_redwood"));
+				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_byg_skyris"));
+				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_byg_willow"));
+				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_byg_witch_hazel"));
+				event.getRegistry().register(new Stool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_short_byg_zelkova"));
+			}
+			
+			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHORT_STOOLS.get()) {
+				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_byg_aspen"));
+				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_byg_baobab"));
+				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_byg_blue_enchanted"));
+				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_byg_bulbis"));
+				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_byg_cherry"));
+				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_byg_cika"));
+				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_byg_cypress"));
+				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_byg_ebony"));
+				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_byg_embur"));
+				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_byg_fir"));
+				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_byg_glacial_oak"));
+				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_byg_green_enchanted"));
+				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_byg_holly"));
+				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_byg_jacaranda"));
+				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_byg_mahogany"));
+				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_byg_mangrove"));
+				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_byg_maple"));
+				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_byg_pine"));
+				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_byg_rainbow_eucalyptus"));
+				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_byg_redwood"));
+				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_byg_skyris"));
+				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_byg_willow"));
+				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_byg_witch_hazel"));
+				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_byg_zelkova"));
 			}
 		}
 		

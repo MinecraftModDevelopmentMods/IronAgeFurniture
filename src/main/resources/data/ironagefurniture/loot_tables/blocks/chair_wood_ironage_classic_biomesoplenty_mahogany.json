@@ -1,20 +1,33 @@
 {
-  "type": "minecraft:block",
-  "pools": [
+  "type": "forge:conditional",
+  "recipes": [
     {
-      "name": "chair_wood_ironage_classic_biomesoplenty_mahogany",
-      "rolls": 1,
-      "entries": [
-        {
-          "type": "minecraft:item",
-          "name": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_mahogany"
-        }
-      ],
       "conditions": [
         {
-          "condition": "minecraft:survives_explosion"
+          "modid": "sewingkit",
+          "type": "forge:mod_loaded"
         }
-      ]
+      ],
+      "recipe": {
+        "type": "minecraft:block",
+        "pools": [
+          {
+            "name": "chair_wood_ironage_classic_biomesoplenty_mahogany",
+            "rolls": 1,
+            "entries": [
+              {
+                "type": "minecraft:item",
+                "name": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_mahogany"
+              }
+            ],
+            "conditions": [
+              {
+                "condition": "minecraft:survives_explosion"
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }
