@@ -1,5 +1,7 @@
 package com.mcmoddev.ironagefurniture.api.Blocks;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 import com.google.common.collect.ImmutableList;
@@ -17,6 +19,9 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootContext.Builder;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
@@ -43,7 +48,19 @@ public class Chair extends Block
     
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final DirectionProperty DIRECTION = BlockStateProperties.HORIZONTAL_FACING;
-        
+    
+    @Override
+    public List<ItemStack> getDrops(BlockState state, Builder builder) {
+    	List<ItemStack> drops;
+    	
+    	Item item = state.getBlock().asItem();
+    	ItemStack stack = new ItemStack(item, 1); 
+    	drops = new ArrayList<ItemStack>();
+    	drops.add(stack);
+    	
+    	return drops;
+    }
+    
     public static VoxelShape setMaxHeight(VoxelShape source, double height)
     {    	
         AtomicReference<VoxelShape> ar = new AtomicReference<>(VoxelShapes.empty());
