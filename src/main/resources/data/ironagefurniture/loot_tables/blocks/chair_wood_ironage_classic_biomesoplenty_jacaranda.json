@@ -1,33 +1,20 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
+  "type": "minecraft:block",
+  "pools": [
     {
-      "conditions": [
+      "name": "chair_wood_ironage_classic_biomesoplenty_jacaranda",
+      "rolls": 1,
+      "entries": [
         {
-          "modid": "sewingkit",
-          "type": "forge:mod_loaded"
+          "type": "minecraft:item",
+          "name": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_jacaranda"
         }
       ],
-      "recipe": {
-        "type": "minecraft:block",
-        "pools": [
-          {
-            "name": "chair_wood_ironage_classic_biomesoplenty_jacaranda",
-            "rolls": 1,
-            "entries": [
-              {
-                "type": "minecraft:item",
-                "name": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_jacaranda"
-              }
-            ],
-            "conditions": [
-              {
-                "condition": "minecraft:survives_explosion"
-              }
-            ]
-          }
-        ]
-      }
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ]
     }
   ]
 }
