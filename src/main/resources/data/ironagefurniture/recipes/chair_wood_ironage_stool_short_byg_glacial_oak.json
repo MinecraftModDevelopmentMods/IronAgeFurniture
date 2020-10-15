@@ -1,0 +1,33 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "modid": "byg",
+          "type": "forge:mod_loaded"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "group": "furniture",
+        "pattern": [
+          " x ",
+          "yyy"
+        ],
+        "key": {
+          "y": {
+            "tag": "forge:rods/wooden"
+          },
+          "x": {
+            "item": "byg:glacial_oak_planks"
+          }
+        },
+        "result": {
+          "item": "ironagefurniture:chair_wood_ironage_stool_short_byg_glacial_oak",
+          "count": 1
+        }
+      }
+    }
+  ]
+}
