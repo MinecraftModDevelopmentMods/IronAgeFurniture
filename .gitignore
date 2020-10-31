@@ -24,6 +24,7 @@ run
 classes
 *.hprof
 
+log
 /README.txt
 /forge-*-changelog.txt
 
