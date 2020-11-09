@@ -3,7 +3,8 @@
   "textures": {
     "3": "minecraft:blocks/wool_colored_red",
     "4": "biomesoplenty:blocks/magic_log",
-    "5": "biomesoplenty:blocks/magic_planks"
+    "5": "biomesoplenty:blocks/magic_planks",
+    "particle": "biomesoplenty:blocks/magic_log"
   },
   "elements": [
     {

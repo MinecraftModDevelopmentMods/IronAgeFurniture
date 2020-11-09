@@ -3,7 +3,8 @@
   "textures": {
     "3": "minecraft:blocks/wool_colored_red",
     "4": "forestry:blocks/wood/bark.balsa",
-    "5": "forestry:blocks/wood/planks.balsa"
+    "5": "forestry:blocks/wood/planks.balsa",
+    "particle": "forestry:blocks/wood/bark.balsa"
   },
   "elements": [
     {

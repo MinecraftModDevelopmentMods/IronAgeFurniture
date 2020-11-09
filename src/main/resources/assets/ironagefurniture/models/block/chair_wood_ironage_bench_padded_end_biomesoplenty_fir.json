@@ -3,7 +3,8 @@
   "textures": {
     "3": "minecraft:blocks/wool_colored_red",
     "4": "biomesoplenty:blocks/fir_log",
-    "5": "biomesoplenty:blocks/fir_planks"
+    "5": "biomesoplenty:blocks/fir_planks",
+    "particle": "biomesoplenty:blocks/fir_log"
   },
   "elements": [
     {

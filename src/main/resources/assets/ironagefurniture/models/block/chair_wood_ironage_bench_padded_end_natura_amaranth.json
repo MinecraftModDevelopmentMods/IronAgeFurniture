@@ -3,7 +3,8 @@
   "textures": {
     "3": "minecraft:blocks/wool_colored_red",
     "4": "natura:blocks/logs/overworld/amaranth_log",
-    "5": "natura:blocks/planks/overworld/amaranth_planks"
+    "5": "natura:blocks/planks/overworld/amaranth_planks",
+    "particle": "natura:blocks/logs/overworld/amaranth_log"
   },
   "elements": [
     {

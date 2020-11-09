@@ -3,7 +3,8 @@
   "textures": {
     "3": "minecraft:blocks/wool_colored_red",
     "4": "natura:blocks/logs/overworld/redwood_bark",
-    "5": "natura:blocks/planks/overworld/redwood_planks"
+    "5": "natura:blocks/planks/overworld/redwood_planks",
+    "particle": "natura:blocks/logs/overworld/redwood_bark"
   },
   "elements": [
     {

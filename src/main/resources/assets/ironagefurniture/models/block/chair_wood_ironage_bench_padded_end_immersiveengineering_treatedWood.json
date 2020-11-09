@@ -3,7 +3,8 @@
   "textures": {
     "3": "minecraft:blocks/wool_colored_red",
     "4": "immersiveengineering:blocks/treatedWood_packaged",
-    "5": "immersiveengineering:blocks/treatedWood_vertical"
+    "5": "immersiveengineering:blocks/treatedWood_vertical",
+    "particle": "immersiveengineering:blocks/treatedWood_packaged"
   },
   "elements": [
     {

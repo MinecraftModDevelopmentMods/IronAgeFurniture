@@ -3,7 +3,8 @@
   "textures": {
     "3": "minecraft:blocks/wool_colored_red",
     "4": "natura:blocks/logs/nether/darkwood_log",
-    "5": "natura:blocks/planks/nether/darkwood_planks"
+    "5": "natura:blocks/planks/nether/darkwood_planks",
+    "particle": "natura:blocks/logs/nether/darkwood_log"
   },
   "elements": [
     {

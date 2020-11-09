@@ -3,7 +3,8 @@
   "textures": {
     "3": "minecraft:blocks/wool_colored_red",
     "4": "minecraft:blocks/log_spruce",
-    "5": "minecraft:blocks/planks_spruce"
+    "5": "minecraft:blocks/planks_spruce",
+    "particle": "minecraft:blocks/log_spruce"
   },
   "elements": [
     {

@@ -3,7 +3,8 @@
   "textures": {
     "3": "minecraft:blocks/wool_colored_red",
     "4": "biomesoplenty:blocks/umbran_log",
-    "5": "biomesoplenty:blocks/umbran_planks"
+    "5": "biomesoplenty:blocks/umbran_planks",
+    "particle": "biomesoplenty:blocks/umbran_log"
   },
   "elements": [
     {

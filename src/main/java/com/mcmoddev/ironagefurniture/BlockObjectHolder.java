@@ -130,6 +130,23 @@ public class BlockObjectHolder {
 	public static Block chair_wood_ironage_bench_single_biomesoplenty_umbran;
 	public static Block chair_wood_ironage_bench_single_biomesoplenty_willow;
 	
+	public static Block chair_wood_ironage_bench_padded_single_biomesoplenty_cherry;
+	public static Block chair_wood_ironage_bench_padded_single_biomesoplenty_ebony;
+	public static Block chair_wood_ironage_bench_padded_single_biomesoplenty_ethereal;
+	public static Block chair_wood_ironage_bench_padded_single_biomesoplenty_eucalyptus;
+	public static Block chair_wood_ironage_bench_padded_single_biomesoplenty_fir;
+	public static Block chair_wood_ironage_bench_padded_single_biomesoplenty_hellbark;
+	public static Block chair_wood_ironage_bench_padded_single_biomesoplenty_jacaranda;
+	public static Block chair_wood_ironage_bench_padded_single_biomesoplenty_magic;
+	public static Block chair_wood_ironage_bench_padded_single_biomesoplenty_mahogany;
+	public static Block chair_wood_ironage_bench_padded_single_biomesoplenty_mangrove;
+	public static Block chair_wood_ironage_bench_padded_single_biomesoplenty_palm;
+	public static Block chair_wood_ironage_bench_padded_single_biomesoplenty_pine;
+	public static Block chair_wood_ironage_bench_padded_single_biomesoplenty_redwood;
+	public static Block chair_wood_ironage_bench_padded_single_biomesoplenty_sacred_oak;
+	public static Block chair_wood_ironage_bench_padded_single_biomesoplenty_umbran;
+	public static Block chair_wood_ironage_bench_padded_single_biomesoplenty_willow;
+	
 	public static Block chair_wood_ironage_classic_natura_amaranth;
 	public static Block chair_wood_ironage_classic_natura_eucalyptus;
 	public static Block chair_wood_ironage_classic_natura_hopseed;
@@ -200,6 +217,20 @@ public class BlockObjectHolder {
 	public static Block chair_wood_ironage_bench_single_natura_fusewood;
 	public static Block chair_wood_ironage_bench_single_natura_ghostwood;
 	
+	public static Block chair_wood_ironage_bench_padded_single_natura_eucalyptus;
+	public static Block chair_wood_ironage_bench_padded_single_natura_amaranth;
+	public static Block chair_wood_ironage_bench_padded_single_natura_hopseed;
+	public static Block chair_wood_ironage_bench_padded_single_natura_maple;
+	public static Block chair_wood_ironage_bench_padded_single_natura_redwood;
+	public static Block chair_wood_ironage_bench_padded_single_natura_sakura;
+	public static Block chair_wood_ironage_bench_padded_single_natura_silverbell;
+	public static Block chair_wood_ironage_bench_padded_single_natura_tiger;
+	public static Block chair_wood_ironage_bench_padded_single_natura_willow;
+	public static Block chair_wood_ironage_bench_padded_single_natura_bloodwood;
+	public static Block chair_wood_ironage_bench_padded_single_natura_darkwood;
+	public static Block chair_wood_ironage_bench_padded_single_natura_fusewood;
+	public static Block chair_wood_ironage_bench_padded_single_natura_ghostwood;
+	
 	public static Block chair_wood_ironage_classic_immersiveengineering_treatedWood;
 	
 	public static Block chair_wood_ironage_shield_immersiveengineering_treatedWood;	
@@ -209,6 +240,9 @@ public class BlockObjectHolder {
 	public static Block chair_wood_ironage_stool_tall_immersiveengineering_treatedWood;
 
 	public static Block chair_wood_ironage_bench_single_immersiveengineering_treatedWood;
+	
+	public static Block chair_wood_ironage_bench_padded_single_immersiveengineering_treatedWood;
+	
 	
 	public static Block chair_wood_ironage_classic_forestry_acacia;
 	public static Block chair_wood_ironage_classic_forestry_balsa;
@@ -359,4 +393,34 @@ public class BlockObjectHolder {
 	public static Block chair_wood_ironage_bench_single_forestry_wenge;
 	public static Block chair_wood_ironage_bench_single_forestry_willow;
 	public static Block chair_wood_ironage_bench_single_forestry_zebrawood;
+	
+	public static Block chair_wood_ironage_bench_padded_single_forestry_acacia;
+	public static Block chair_wood_ironage_bench_padded_single_forestry_balsa;
+	public static Block chair_wood_ironage_bench_padded_single_forestry_baobab;
+	public static Block chair_wood_ironage_bench_padded_single_forestry_cherry;
+	public static Block chair_wood_ironage_bench_padded_single_forestry_chestnut;
+	public static Block chair_wood_ironage_bench_padded_single_forestry_citrus;
+	public static Block chair_wood_ironage_bench_padded_single_forestry_cocobolo;
+	public static Block chair_wood_ironage_bench_padded_single_forestry_ebony;
+	public static Block chair_wood_ironage_bench_padded_single_forestry_giganteum;
+	public static Block chair_wood_ironage_bench_padded_single_forestry_greenheart;
+	public static Block chair_wood_ironage_bench_padded_single_forestry_ipe;
+	public static Block chair_wood_ironage_bench_padded_single_forestry_kapok;
+	public static Block chair_wood_ironage_bench_padded_single_forestry_larch;
+	public static Block chair_wood_ironage_bench_padded_single_forestry_lime;
+	public static Block chair_wood_ironage_bench_padded_single_forestry_mahoe;
+	public static Block chair_wood_ironage_bench_padded_single_forestry_mahogany;
+	public static Block chair_wood_ironage_bench_padded_single_forestry_maple;
+	public static Block chair_wood_ironage_bench_padded_single_forestry_padauk;
+	public static Block chair_wood_ironage_bench_padded_single_forestry_palm;
+	public static Block chair_wood_ironage_bench_padded_single_forestry_papaya;
+	public static Block chair_wood_ironage_bench_padded_single_forestry_pine;
+	public static Block chair_wood_ironage_bench_padded_single_forestry_plum;
+	public static Block chair_wood_ironage_bench_padded_single_forestry_poplar;
+	public static Block chair_wood_ironage_bench_padded_single_forestry_sequoia;
+	public static Block chair_wood_ironage_bench_padded_single_forestry_teak;
+	public static Block chair_wood_ironage_bench_padded_single_forestry_walnut;
+	public static Block chair_wood_ironage_bench_padded_single_forestry_wenge;
+	public static Block chair_wood_ironage_bench_padded_single_forestry_willow;
+	public static Block chair_wood_ironage_bench_padded_single_forestry_zebrawood;
 }

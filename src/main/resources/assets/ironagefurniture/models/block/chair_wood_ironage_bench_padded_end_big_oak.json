@@ -3,7 +3,8 @@
   "textures": {
     "3": "minecraft:blocks/wool_colored_red",
     "4": "minecraft:blocks/log_big_oak",
-    "5": "minecraft:blocks/planks_big_oak"
+    "5": "minecraft:blocks/planks_big_oak",
+    "particle": "minecraft:blocks/log_big_oak"
   },
   "elements": [
     {

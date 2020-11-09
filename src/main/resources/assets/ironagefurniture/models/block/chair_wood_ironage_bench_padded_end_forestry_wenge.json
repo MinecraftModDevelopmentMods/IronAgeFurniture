@@ -3,7 +3,8 @@
   "textures": {
     "3": "minecraft:blocks/wool_colored_red",
     "4": "forestry:blocks/wood/bark.wenge",
-    "5": "forestry:blocks/wood/planks.wenge"
+    "5": "forestry:blocks/wood/planks.wenge",
+    "particle": "forestry:blocks/wood/bark.wenge"
   },
   "elements": [
     {
