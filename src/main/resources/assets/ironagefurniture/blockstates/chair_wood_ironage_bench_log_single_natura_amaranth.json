@@ -1,0 +1,49 @@
+{
+  "variants": {
+    "facing=north,type=single": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_log_single_natura_amaranth",
+      "y": 90
+    },
+    "facing=east,type=single": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_log_single_natura_amaranth",
+      "y": 180
+    },
+    "facing=south,type=single": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_log_single_natura_amaranth",
+      "y": 270
+    },
+    "facing=west,type=single": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_log_single_natura_amaranth"
+    },
+    "facing=north,type=middle": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_log_middle_natura_amaranth",
+      "y": 90
+    },
+    "facing=east,type=middle": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_log_middle_natura_amaranth",
+      "y": 180
+    },
+    "facing=south,type=middle": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_log_middle_natura_amaranth",
+      "y": 270
+    },
+    "facing=west,type=middle": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_log_middle_natura_amaranth"
+    },
+    "facing=north,type=end": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_log_end_natura_amaranth",
+      "y": 90
+    },
+    "facing=east,type=end": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_log_end_natura_amaranth",
+      "y": 180
+    },
+    "facing=south,type=end": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_log_end_natura_amaranth",
+      "y": 270
+    },
+    "facing=west,type=end": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_log_end_natura_amaranth"
+    }
+  }
+}
