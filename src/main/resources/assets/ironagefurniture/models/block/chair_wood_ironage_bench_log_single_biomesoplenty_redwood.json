@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "textures": {
     "0": "biomesoplenty:blocks/redwood_log",
-    "1": "biomesoplenty:blocks/log_redwood_top",
+    "1": "biomesoplenty:blocks/redwood_log_top",
     "particle": "biomesoplenty:blocks/redwood_log"
   },
   "elements": [

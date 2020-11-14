@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "textures": {
     "0": "forestry:blocks/wood/bark.baobab",
-    "1": "forestry:blocks/wood/log_baobab_top",
+    "1": "forestry:blocks/wood/baobab_log_top",
     "particle": "forestry:blocks/wood/bark.baobab"
   },
   "elements": [

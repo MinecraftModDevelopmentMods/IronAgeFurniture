@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "textures": {
     "0": "natura:blocks/logs/overworld/amaranth_log",
-    "1": "natura:blocks/logs/overworld/log_amaranth_top",
+    "1": "natura:blocks/logs/overworld/amaranth_log_top",
     "particle": "natura:blocks/logs/overworld/amaranth_log"
   },
   "elements": [

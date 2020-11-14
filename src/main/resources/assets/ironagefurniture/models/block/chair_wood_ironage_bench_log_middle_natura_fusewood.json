@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "textures": {
     "0": "natura:blocks/logs/nether/fusewood_log",
-    "1": "natura:blocks/logs/nether/log_fusewood_top",
+    "1": "natura:blocks/logs/nether/fusewood_log_top",
     "particle": "natura:blocks/logs/nether/fusewood_log"
   },
   "elements": [

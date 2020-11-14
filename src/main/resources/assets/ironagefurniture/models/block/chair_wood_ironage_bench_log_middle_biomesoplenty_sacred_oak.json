@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "textures": {
     "0": "biomesoplenty:blocks/sacred_oak_log",
-    "1": "biomesoplenty:blocks/log_sacred_oak_top",
+    "1": "biomesoplenty:blocks/sacred_oak_log_top",
     "particle": "biomesoplenty:blocks/sacred_oak_log"
   },
   "elements": [

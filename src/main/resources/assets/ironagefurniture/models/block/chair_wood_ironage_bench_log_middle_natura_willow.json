@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "textures": {
     "0": "natura:blocks/logs/overworld/willow_log",
-    "1": "natura:blocks/logs/overworld/log_willow_top",
+    "1": "natura:blocks/logs/overworld/willow_log_top",
     "particle": "natura:blocks/logs/overworld/willow_log"
   },
   "elements": [

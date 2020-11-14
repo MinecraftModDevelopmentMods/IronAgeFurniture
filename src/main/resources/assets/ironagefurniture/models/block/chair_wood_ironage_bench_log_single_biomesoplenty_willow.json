@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "textures": {
     "0": "biomesoplenty:blocks/willow_log",
-    "1": "biomesoplenty:blocks/log_willow_top",
+    "1": "biomesoplenty:blocks/willow_log_top",
     "particle": "biomesoplenty:blocks/willow_log"
   },
   "elements": [

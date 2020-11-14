@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "textures": {
     "0": "biomesoplenty:blocks/pine_log",
-    "1": "biomesoplenty:blocks/log_pine_top",
+    "1": "biomesoplenty:blocks/pine_log_top",
     "particle": "biomesoplenty:blocks/pine_log"
   },
   "elements": [

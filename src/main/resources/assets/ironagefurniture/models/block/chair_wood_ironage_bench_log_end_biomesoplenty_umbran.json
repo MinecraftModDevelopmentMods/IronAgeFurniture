@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "textures": {
     "0": "biomesoplenty:blocks/umbran_log",
-    "1": "biomesoplenty:blocks/log_umbran_top",
+    "1": "biomesoplenty:blocks/umbran_log_top",
     "particle": "biomesoplenty:blocks/umbran_log"
   },
   "elements": [

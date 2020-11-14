@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "textures": {
     "0": "natura:blocks/logs/overworld/silverbell_log",
-    "1": "natura:blocks/logs/overworld/log_silverbell_top",
+    "1": "natura:blocks/logs/overworld/silverbell_log_top",
     "particle": "natura:blocks/logs/overworld/silverbell_log"
   },
   "elements": [

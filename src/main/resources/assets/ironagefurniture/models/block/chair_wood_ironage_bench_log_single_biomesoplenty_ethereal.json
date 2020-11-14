@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "textures": {
     "0": "biomesoplenty:blocks/ethereal_log",
-    "1": "biomesoplenty:blocks/log_ethereal_top",
+    "1": "biomesoplenty:blocks/ethereal_log_top",
     "particle": "biomesoplenty:blocks/ethereal_log"
   },
   "elements": [

@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "textures": {
     "0": "biomesoplenty:blocks/mangrove_log",
-    "1": "biomesoplenty:blocks/log_mangrove_top",
+    "1": "biomesoplenty:blocks/mangrove_log_top",
     "particle": "biomesoplenty:blocks/mangrove_log"
   },
   "elements": [

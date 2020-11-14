@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "textures": {
     "0": "forestry:blocks/wood/bark.balsa",
-    "1": "forestry:blocks/wood/log_balsa_top",
+    "1": "forestry:blocks/wood/balsa_log_top",
     "particle": "forestry:blocks/wood/bark.balsa"
   },
   "elements": [

@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "textures": {
     "0": "biomesoplenty:blocks/ebony_log",
-    "1": "biomesoplenty:blocks/log_ebony_top",
+    "1": "biomesoplenty:blocks/ebony_log_top",
     "particle": "biomesoplenty:blocks/ebony_log"
   },
   "elements": [

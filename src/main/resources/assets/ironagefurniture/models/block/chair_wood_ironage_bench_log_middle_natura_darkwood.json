@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "textures": {
     "0": "natura:blocks/logs/nether/darkwood_log",
-    "1": "natura:blocks/logs/nether/log_darkwood_top",
+    "1": "natura:blocks/logs/nether/darkwood_log_top",
     "particle": "natura:blocks/logs/nether/darkwood_log"
   },
   "elements": [

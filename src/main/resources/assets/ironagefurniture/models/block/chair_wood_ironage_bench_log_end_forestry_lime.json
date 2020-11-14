@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "textures": {
     "0": "forestry:blocks/wood/bark.lime",
-    "1": "forestry:blocks/wood/log_lime_top",
+    "1": "forestry:blocks/wood/lime_log_top",
     "particle": "forestry:blocks/wood/bark.lime"
   },
   "elements": [

@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "textures": {
     "0": "biomesoplenty:blocks/eucalyptus_log",
-    "1": "biomesoplenty:blocks/log_eucalyptus_top",
+    "1": "biomesoplenty:blocks/eucalyptus_log_top",
     "particle": "biomesoplenty:blocks/eucalyptus_log"
   },
   "elements": [

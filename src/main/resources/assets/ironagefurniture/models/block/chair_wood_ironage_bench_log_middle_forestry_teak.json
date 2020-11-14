@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "textures": {
     "0": "forestry:blocks/wood/bark.teak",
-    "1": "forestry:blocks/wood/log_teak_top",
+    "1": "forestry:blocks/wood/teak_log_top",
     "particle": "forestry:blocks/wood/bark.teak"
   },
   "elements": [

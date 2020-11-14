@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "textures": {
     "0": "biomesoplenty:blocks/magic_log",
-    "1": "biomesoplenty:blocks/log_magic_top",
+    "1": "biomesoplenty:blocks/magic_log_top",
     "particle": "biomesoplenty:blocks/magic_log"
   },
   "elements": [

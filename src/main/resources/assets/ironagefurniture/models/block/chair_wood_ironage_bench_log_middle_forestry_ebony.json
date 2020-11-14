@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "textures": {
     "0": "forestry:blocks/wood/bark.ebony",
-    "1": "forestry:blocks/wood/log_ebony_top",
+    "1": "forestry:blocks/wood/ebony_log_top",
     "particle": "forestry:blocks/wood/bark.ebony"
   },
   "elements": [

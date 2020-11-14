@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "textures": {
     "0": "natura:blocks/logs/overworld/eucalyptus_log",
-    "1": "natura:blocks/logs/overworld/log_eucalyptus_top",
+    "1": "natura:blocks/logs/overworld/eucalyptus_log_top",
     "particle": "natura:blocks/logs/overworld/eucalyptus_log"
   },
   "elements": [

@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "textures": {
     "0": "forestry:blocks/wood/bark.willow",
-    "1": "forestry:blocks/wood/log_willow_top",
+    "1": "forestry:blocks/wood/willow_log_top",
     "particle": "forestry:blocks/wood/bark.willow"
   },
   "elements": [

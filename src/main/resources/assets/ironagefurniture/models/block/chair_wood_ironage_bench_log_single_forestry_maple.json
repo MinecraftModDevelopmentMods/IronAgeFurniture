@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "textures": {
     "0": "forestry:blocks/wood/bark.maple",
-    "1": "forestry:blocks/wood/log_maple_top",
+    "1": "forestry:blocks/wood/maple_log_top",
     "particle": "forestry:blocks/wood/bark.maple"
   },
   "elements": [

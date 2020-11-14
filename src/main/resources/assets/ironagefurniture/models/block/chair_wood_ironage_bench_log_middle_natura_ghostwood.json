@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "textures": {
     "0": "natura:blocks/logs/nether/ghostwood_log",
-    "1": "natura:blocks/logs/nether/log_ghostwood_top",
+    "1": "natura:blocks/logs/nether/ghostwood_log_top",
     "particle": "natura:blocks/logs/nether/ghostwood_log"
   },
   "elements": [

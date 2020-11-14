@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "textures": {
     "0": "immersiveengineering:blocks/treatedWood_packaged",
-    "1": "immersiveengineering:blocks/log_treatedWood_top",
+    "1": "immersiveengineering:blocks/treatedWood_log_top",
     "particle": "immersiveengineering:blocks/treatedWood_packaged"
   },
   "elements": [

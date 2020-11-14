@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "textures": {
     "0": "forestry:blocks/wood/bark.acacia",
-    "1": "forestry:blocks/wood/log_acacia_top",
+    "1": "forestry:blocks/wood/acacia_log_top",
     "particle": "forestry:blocks/wood/bark.acacia"
   },
   "elements": [

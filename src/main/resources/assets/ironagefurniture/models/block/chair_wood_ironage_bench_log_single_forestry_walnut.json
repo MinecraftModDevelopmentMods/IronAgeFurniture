@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "textures": {
     "0": "forestry:blocks/wood/bark.walnut",
-    "1": "forestry:blocks/wood/log_walnut_top",
+    "1": "forestry:blocks/wood/walnut_log_top",
     "particle": "forestry:blocks/wood/bark.walnut"
   },
   "elements": [

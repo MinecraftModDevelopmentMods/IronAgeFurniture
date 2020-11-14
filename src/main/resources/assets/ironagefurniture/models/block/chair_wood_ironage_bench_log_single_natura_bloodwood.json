@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "textures": {
     "0": "natura:blocks/logs/nether/bloodwood_bark",
-    "1": "natura:blocks/logs/nether/log_bloodwood_top",
+    "1": "natura:blocks/logs/nether/bloodwood_log_top",
     "particle": "natura:blocks/logs/nether/bloodwood_bark"
   },
   "elements": [

@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "textures": {
     "0": "natura:blocks/logs/overworld/tiger_log",
-    "1": "natura:blocks/logs/overworld/log_tiger_top",
+    "1": "natura:blocks/logs/overworld/tiger_log_top",
     "particle": "natura:blocks/logs/overworld/tiger_log"
   },
   "elements": [

@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "textures": {
     "0": "biomesoplenty:blocks/jacaranda_log",
-    "1": "biomesoplenty:blocks/log_jacaranda_top",
+    "1": "biomesoplenty:blocks/jacaranda_log_top",
     "particle": "biomesoplenty:blocks/jacaranda_log"
   },
   "elements": [
