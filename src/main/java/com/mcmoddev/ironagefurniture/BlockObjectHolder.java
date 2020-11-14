@@ -281,7 +281,6 @@ public class BlockObjectHolder {
 	
 	public static Block chair_wood_ironage_bench_padded_single_immersiveengineering_treatedWood;
 	
-	
 	public static Block chair_wood_ironage_classic_forestry_acacia;
 	public static Block chair_wood_ironage_classic_forestry_balsa;
 	public static Block chair_wood_ironage_classic_forestry_baobab;
