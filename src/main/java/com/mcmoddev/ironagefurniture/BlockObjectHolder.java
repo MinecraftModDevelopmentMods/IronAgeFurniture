@@ -255,6 +255,20 @@ public class BlockObjectHolder {
 	public static Block chair_wood_ironage_bench_padded_single_natura_fusewood;
 	public static Block chair_wood_ironage_bench_padded_single_natura_ghostwood;
 	
+	public static Block chair_wood_ironage_bench_log_single_natura_eucalyptus;
+	public static Block chair_wood_ironage_bench_log_single_natura_amaranth;
+	public static Block chair_wood_ironage_bench_log_single_natura_hopseed;
+	public static Block chair_wood_ironage_bench_log_single_natura_maple;
+	public static Block chair_wood_ironage_bench_log_single_natura_redwood;
+	public static Block chair_wood_ironage_bench_log_single_natura_sakura;
+	public static Block chair_wood_ironage_bench_log_single_natura_silverbell;
+	public static Block chair_wood_ironage_bench_log_single_natura_tiger;
+	public static Block chair_wood_ironage_bench_log_single_natura_willow;
+	public static Block chair_wood_ironage_bench_log_single_natura_bloodwood;
+	public static Block chair_wood_ironage_bench_log_single_natura_darkwood;
+	public static Block chair_wood_ironage_bench_log_single_natura_fusewood;
+	public static Block chair_wood_ironage_bench_log_single_natura_ghostwood;
+	
 	public static Block chair_wood_ironage_classic_immersiveengineering_treatedWood;
 	
 	public static Block chair_wood_ironage_shield_immersiveengineering_treatedWood;	

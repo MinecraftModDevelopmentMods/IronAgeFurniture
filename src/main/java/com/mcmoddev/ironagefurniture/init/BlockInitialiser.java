@@ -338,6 +338,20 @@ public class BlockInitialiser {
 				BlockObjectHolder.chair_wood_ironage_bench_padded_single_natura_darkwood = FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_padded_single_natura_darkwood");
 				BlockObjectHolder.chair_wood_ironage_bench_padded_single_natura_fusewood = FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_padded_single_natura_fusewood");
 				BlockObjectHolder.chair_wood_ironage_bench_padded_single_natura_ghostwood = FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_padded_single_natura_ghostwood");
+			
+				BlockObjectHolder.chair_wood_ironage_bench_log_single_natura_amaranth		= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_natura_amaranth");
+				BlockObjectHolder.chair_wood_ironage_bench_log_single_natura_eucalyptus		= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_natura_eucalyptus");
+				BlockObjectHolder.chair_wood_ironage_bench_log_single_natura_hopseed		= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_natura_hopseed");
+				BlockObjectHolder.chair_wood_ironage_bench_log_single_natura_maple			= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_natura_maple");
+				BlockObjectHolder.chair_wood_ironage_bench_log_single_natura_redwood		= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_natura_redwood");
+				BlockObjectHolder.chair_wood_ironage_bench_log_single_natura_sakura			= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_natura_sakura");
+				BlockObjectHolder.chair_wood_ironage_bench_log_single_natura_silverbell		= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_natura_silverbell");
+				BlockObjectHolder.chair_wood_ironage_bench_log_single_natura_tiger			= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_natura_tiger");
+				BlockObjectHolder.chair_wood_ironage_bench_log_single_natura_willow			= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_natura_willow");
+				BlockObjectHolder.chair_wood_ironage_bench_log_single_natura_bloodwood		= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_natura_bloodwood");
+				BlockObjectHolder.chair_wood_ironage_bench_log_single_natura_darkwood		= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_natura_darkwood");
+				BlockObjectHolder.chair_wood_ironage_bench_log_single_natura_fusewood		= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_natura_fusewood");
+				BlockObjectHolder.chair_wood_ironage_bench_log_single_natura_ghostwood		= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_natura_ghostwood");
 			}
 		}
 		
