@@ -85,6 +85,13 @@ public class RecipeInitialiser {
 			FurnitureFactory.AddPaddedBenchRecipe(BlockObjectHolder.chair_wood_ironage_bench_single_jungle, BlockObjectHolder.chair_wood_ironage_bench_padded_single_jungle);
 			FurnitureFactory.AddPaddedBenchRecipe(BlockObjectHolder.chair_wood_ironage_bench_single_acacia, BlockObjectHolder.chair_wood_ironage_bench_padded_single_acacia);
 			FurnitureFactory.AddPaddedBenchRecipe(BlockObjectHolder.chair_wood_ironage_bench_single_big_oak, BlockObjectHolder.chair_wood_ironage_bench_padded_single_oak);
+		
+			FurnitureFactory.AddLogBenchRecipe(new ItemStack(Blocks.LOG, 1, 0), BlockObjectHolder.chair_wood_ironage_bench_log_single_oak);
+			FurnitureFactory.AddLogBenchRecipe(new ItemStack(Blocks.LOG, 1, 1), BlockObjectHolder.chair_wood_ironage_bench_log_single_spruce);
+			FurnitureFactory.AddLogBenchRecipe(new ItemStack(Blocks.LOG, 1, 2), BlockObjectHolder.chair_wood_ironage_bench_log_single_birch);
+			FurnitureFactory.AddLogBenchRecipe(new ItemStack(Blocks.LOG, 1, 3), BlockObjectHolder.chair_wood_ironage_bench_log_single_jungle);
+			FurnitureFactory.AddLogBenchRecipe(new ItemStack(Blocks.LOG2, 1, 0), BlockObjectHolder.chair_wood_ironage_bench_log_single_acacia);
+			FurnitureFactory.AddLogBenchRecipe(new ItemStack(Blocks.LOG2, 1, 1), BlockObjectHolder.chair_wood_ironage_bench_log_single_big_oak);
 		}
 		
 		if (IronAgeFurnitureConfiguration.INTEGRATION_BIOMESOPLENTY && Loader.isModLoaded("BiomesOPlenty")) {
@@ -106,6 +113,34 @@ public class RecipeInitialiser {
 			ItemStack MAHOGANY = new ItemStack(planks, 1, 13);
 			ItemStack EBONY = new ItemStack(planks, 1, 14);
 			ItemStack EUCALYPTUS = new ItemStack(planks, 1, 15);
+			
+			Block logs0 = Block.getBlockFromName("BiomesOPlenty:log_0");
+			
+			ItemStack SACRED_OAK_LOG = new ItemStack(logs0, 1, 4);
+			ItemStack CHERRY_LOG = new ItemStack(logs0, 1, 5);
+			ItemStack UMBRAN_LOG = new ItemStack(logs0, 1, 6);
+			ItemStack FIR_LOG = new ItemStack(logs0, 1, 7);
+			
+			Block logs1 = Block.getBlockFromName("BiomesOPlenty:log_1");
+			
+			ItemStack ETHEREAL_LOG = new ItemStack(logs1, 1, 4);
+			ItemStack MAGIC_LOG = new ItemStack(logs1, 1, 5);
+			ItemStack MANGROVE_LOG = new ItemStack(logs1, 1, 6);
+			ItemStack PALM_LOG = new ItemStack(logs1, 1, 7);
+			
+			Block logs2 = Block.getBlockFromName("BiomesOPlenty:log_2");
+			
+			ItemStack REDWOOD_LOG = new ItemStack(logs2, 1, 4);
+			ItemStack WILLOW_LOG = new ItemStack(logs2, 1, 5);
+			ItemStack PINE_LOG = new ItemStack(logs2, 1, 6);
+			ItemStack HELLBARK_LOG = new ItemStack(logs2, 1, 7);
+			
+			Block logs3 = Block.getBlockFromName("BiomesOPlenty:log_3");
+			
+			ItemStack JACARANDA_LOG = new ItemStack(logs3, 1, 4);
+			ItemStack MAHOGANY_LOG = new ItemStack(logs3, 1, 5);
+			ItemStack EBONY_LOG = new ItemStack(logs3, 1, 6);
+			ItemStack EUCALYPTUS_LOG = new ItemStack(logs3, 1, 7);
 			
 			if (IronAgeFurnitureConfiguration.GENERATE_CLASSIC_CHAIRS) {
 				FurnitureFactory.AddClassicChairRecipe(CHERRY, BlockObjectHolder.chair_wood_ironage_classic_biomesoplenty_cherry);
@@ -218,6 +253,23 @@ public class RecipeInitialiser {
 				FurnitureFactory.AddPaddedBenchRecipe(BlockObjectHolder.chair_wood_ironage_bench_single_biomesoplenty_sacred_oak, BlockObjectHolder.chair_wood_ironage_bench_padded_single_biomesoplenty_sacred_oak);
 				FurnitureFactory.AddPaddedBenchRecipe(BlockObjectHolder.chair_wood_ironage_bench_single_biomesoplenty_umbran, BlockObjectHolder.chair_wood_ironage_bench_padded_single_biomesoplenty_umbran);
 				FurnitureFactory.AddPaddedBenchRecipe(BlockObjectHolder.chair_wood_ironage_bench_single_biomesoplenty_willow, BlockObjectHolder.chair_wood_ironage_bench_padded_single_biomesoplenty_willow);	
+			
+				FurnitureFactory.AddLogBenchRecipe(CHERRY_LOG, BlockObjectHolder.chair_wood_ironage_bench_log_single_biomesoplenty_cherry);
+				FurnitureFactory.AddLogBenchRecipe(EBONY_LOG, BlockObjectHolder.chair_wood_ironage_bench_log_single_biomesoplenty_ebony);
+				FurnitureFactory.AddLogBenchRecipe(ETHEREAL_LOG, BlockObjectHolder.chair_wood_ironage_bench_log_single_biomesoplenty_ethereal);
+				FurnitureFactory.AddLogBenchRecipe(EUCALYPTUS_LOG, BlockObjectHolder.chair_wood_ironage_bench_log_single_biomesoplenty_eucalyptus);
+				FurnitureFactory.AddLogBenchRecipe(FIR_LOG, BlockObjectHolder.chair_wood_ironage_bench_log_single_biomesoplenty_fir);
+				FurnitureFactory.AddLogBenchRecipe(HELLBARK_LOG, BlockObjectHolder.chair_wood_ironage_bench_log_single_biomesoplenty_hellbark);
+				FurnitureFactory.AddLogBenchRecipe(JACARANDA_LOG, BlockObjectHolder.chair_wood_ironage_bench_log_single_biomesoplenty_jacaranda);
+				FurnitureFactory.AddLogBenchRecipe(MAGIC_LOG, BlockObjectHolder.chair_wood_ironage_bench_log_single_biomesoplenty_magic);
+				FurnitureFactory.AddLogBenchRecipe(MAHOGANY_LOG, BlockObjectHolder.chair_wood_ironage_bench_log_single_biomesoplenty_mahogany);
+				FurnitureFactory.AddLogBenchRecipe(MANGROVE_LOG, BlockObjectHolder.chair_wood_ironage_bench_log_single_biomesoplenty_mangrove);
+				FurnitureFactory.AddLogBenchRecipe(PALM_LOG, BlockObjectHolder.chair_wood_ironage_bench_log_single_biomesoplenty_palm);
+				FurnitureFactory.AddLogBenchRecipe(PINE_LOG, BlockObjectHolder.chair_wood_ironage_bench_log_single_biomesoplenty_pine);
+				FurnitureFactory.AddLogBenchRecipe(REDWOOD_LOG, BlockObjectHolder.chair_wood_ironage_bench_log_single_biomesoplenty_redwood);
+				FurnitureFactory.AddLogBenchRecipe(SACRED_OAK_LOG, BlockObjectHolder.chair_wood_ironage_bench_log_single_biomesoplenty_sacred_oak);
+				FurnitureFactory.AddLogBenchRecipe(UMBRAN_LOG, BlockObjectHolder.chair_wood_ironage_bench_log_single_biomesoplenty_umbran);
+				FurnitureFactory.AddLogBenchRecipe(WILLOW_LOG, BlockObjectHolder.chair_wood_ironage_bench_log_single_biomesoplenty_willow);
 			}
 		}
 		
@@ -240,6 +292,30 @@ public class RecipeInitialiser {
 			ItemStack BLOODWOOD = new ItemStack(netherPlanks, 1, 1);
 			ItemStack FUSEWOOD = new ItemStack(netherPlanks, 1, 3);
 			ItemStack DARKWOOD = new ItemStack(netherPlanks, 1, 2);
+			
+			Block logs = Block.getBlockFromName("natura:overworld_logs");
+			
+			ItemStack MAPLE_LOG = new ItemStack(logs, 1, 0);
+			ItemStack SILVERBELL_LOG = new ItemStack(logs, 1, 1);
+			ItemStack AMARANTH_LOG = new ItemStack(logs, 1, 2);
+			ItemStack TIGER_LOG = new ItemStack(logs, 1, 3);
+			
+			Block logs2 = Block.getBlockFromName("natura:overworld_logs2");
+			
+			ItemStack WILLOW_LOG = new ItemStack(logs2, 1, 0);
+			ItemStack EUCALYPTUS_LOG = new ItemStack(logs2, 1, 1);
+			ItemStack HOPSEED_LOG = new ItemStack(logs2, 1, 2);
+			ItemStack SAKURA_LOG = new ItemStack(logs2, 1, 3);
+			
+			Block logs3 = Block.getBlockFromName("natura:nether_logs");
+			
+			ItemStack GHOSTWOOD_LOG = new ItemStack(logs3, 1, 0);
+			ItemStack FUSEWOOD_LOG = new ItemStack(logs3, 1, 2);
+			ItemStack DARKWOOD_LOG = new ItemStack(logs3, 1, 1);
+			
+			Block logs4 = Block.getBlockFromName("natura:nether_logs2");
+			
+			ItemStack BLOODWOOD_LOG = new ItemStack(logs4, 1, 0);
 			
 			if (IronAgeFurnitureConfiguration.GENERATE_CLASSIC_CHAIRS) {
 				FurnitureFactory.AddClassicChairRecipe(MAPLE, BlockObjectHolder.chair_wood_ironage_classic_natura_maple);
@@ -333,6 +409,19 @@ public class RecipeInitialiser {
 				FurnitureFactory.AddPaddedBenchRecipe(BlockObjectHolder.chair_wood_ironage_bench_single_natura_darkwood, BlockObjectHolder.chair_wood_ironage_bench_padded_single_natura_darkwood);
 				FurnitureFactory.AddPaddedBenchRecipe(BlockObjectHolder.chair_wood_ironage_bench_single_natura_fusewood, BlockObjectHolder.chair_wood_ironage_bench_padded_single_natura_fusewood);
 				FurnitureFactory.AddPaddedBenchRecipe(BlockObjectHolder.chair_wood_ironage_bench_single_natura_ghostwood, BlockObjectHolder.chair_wood_ironage_bench_padded_single_natura_ghostwood);
+			
+				FurnitureFactory.AddLogBenchRecipe(MAPLE_LOG, BlockObjectHolder.chair_wood_ironage_bench_log_single_natura_maple);
+				FurnitureFactory.AddLogBenchRecipe(SILVERBELL_LOG, BlockObjectHolder.chair_wood_ironage_bench_log_single_natura_silverbell);
+				FurnitureFactory.AddLogBenchRecipe(AMARANTH_LOG, BlockObjectHolder.chair_wood_ironage_bench_log_single_natura_amaranth);
+				FurnitureFactory.AddLogBenchRecipe(TIGER_LOG, BlockObjectHolder.chair_wood_ironage_bench_log_single_natura_tiger);
+				FurnitureFactory.AddLogBenchRecipe(WILLOW_LOG, BlockObjectHolder.chair_wood_ironage_bench_log_single_natura_willow);
+				FurnitureFactory.AddLogBenchRecipe(EUCALYPTUS_LOG, BlockObjectHolder.chair_wood_ironage_bench_log_single_natura_eucalyptus);
+				FurnitureFactory.AddLogBenchRecipe(HOPSEED_LOG, BlockObjectHolder.chair_wood_ironage_bench_log_single_natura_hopseed);
+				FurnitureFactory.AddLogBenchRecipe(SAKURA_LOG, BlockObjectHolder.chair_wood_ironage_bench_log_single_natura_sakura);
+				FurnitureFactory.AddLogBenchRecipe(GHOSTWOOD_LOG, BlockObjectHolder.chair_wood_ironage_bench_log_single_natura_ghostwood);
+				FurnitureFactory.AddLogBenchRecipe(BLOODWOOD_LOG, BlockObjectHolder.chair_wood_ironage_bench_log_single_natura_bloodwood);
+				FurnitureFactory.AddLogBenchRecipe(FUSEWOOD_LOG, BlockObjectHolder.chair_wood_ironage_bench_log_single_natura_fusewood);
+				FurnitureFactory.AddLogBenchRecipe(DARKWOOD_LOG, BlockObjectHolder.chair_wood_ironage_bench_log_single_natura_darkwood);
 			}
 		}
 		

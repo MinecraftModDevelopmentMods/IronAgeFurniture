@@ -1,0 +1,49 @@
+{
+  "variants": {
+    "facing=north,type=single": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_log_single_forestry_papaya",
+      "y": 90
+    },
+    "facing=east,type=single": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_log_single_forestry_papaya",
+      "y": 180
+    },
+    "facing=south,type=single": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_log_single_forestry_papaya",
+      "y": 270
+    },
+    "facing=west,type=single": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_log_single_forestry_papaya"
+    },
+    "facing=north,type=middle": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_log_middle_forestry_papaya",
+      "y": 90
+    },
+    "facing=east,type=middle": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_log_middle_forestry_papaya",
+      "y": 180
+    },
+    "facing=south,type=middle": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_log_middle_forestry_papaya",
+      "y": 270
+    },
+    "facing=west,type=middle": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_log_middle_forestry_papaya"
+    },
+    "facing=north,type=end": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_log_end_forestry_papaya",
+      "y": 90
+    },
+    "facing=east,type=end": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_log_end_forestry_papaya",
+      "y": 180
+    },
+    "facing=south,type=end": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_log_end_forestry_papaya",
+      "y": 270
+    },
+    "facing=west,type=end": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_log_end_forestry_papaya"
+    }
+  }
+}
