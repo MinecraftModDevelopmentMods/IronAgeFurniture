@@ -52,6 +52,13 @@ public class BlockObjectHolder {
 	public static Block chair_wood_ironage_bench_log_single_jungle;
 	public static Block chair_wood_ironage_bench_log_single_spruce;
 
+	public static Block chair_wood_ironage_bench_back_single_oak;
+	public static Block chair_wood_ironage_bench_back_single_acacia;
+	public static Block chair_wood_ironage_bench_back_single_big_oak;
+	public static Block chair_wood_ironage_bench_back_single_birch;
+	public static Block chair_wood_ironage_bench_back_single_jungle;
+	public static Block chair_wood_ironage_bench_back_single_spruce;
+	
 	public static Block chair_wood_ironage_classic_biomesoplenty_cherry;
 	public static Block chair_wood_ironage_classic_biomesoplenty_ebony;
 	public static Block chair_wood_ironage_classic_biomesoplenty_ethereal;

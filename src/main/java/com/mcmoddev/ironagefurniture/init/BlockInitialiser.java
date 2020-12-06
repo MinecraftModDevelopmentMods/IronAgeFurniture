@@ -88,6 +88,13 @@ public class BlockInitialiser {
 			BlockObjectHolder.chair_wood_ironage_bench_log_single_birch = FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_birch");
 			BlockObjectHolder.chair_wood_ironage_bench_log_single_jungle = FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_jungle");
 			BlockObjectHolder.chair_wood_ironage_bench_log_single_spruce = FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_spruce");
+		
+			BlockObjectHolder.chair_wood_ironage_bench_back_single_oak = FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_oak");
+			BlockObjectHolder.chair_wood_ironage_bench_back_single_acacia = FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_acacia"); 
+			BlockObjectHolder.chair_wood_ironage_bench_back_single_big_oak = FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_big_oak");
+			BlockObjectHolder.chair_wood_ironage_bench_back_single_birch = FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_birch");
+			BlockObjectHolder.chair_wood_ironage_bench_back_single_jungle = FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_jungle");
+			BlockObjectHolder.chair_wood_ironage_bench_back_single_spruce = FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_spruce");
 		}
 		
 		
