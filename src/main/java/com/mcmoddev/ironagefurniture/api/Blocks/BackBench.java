@@ -41,8 +41,10 @@ public class BackBench extends Chair {
 		if (!placer.isSneaking()) {
 			EnumFacing benchAxis = getBenchToJoinTo(placer.getHorizontalFacing(), world, pos);
 			
-			if (benchAxis != null)
-				stateForPlacement = traceBench(benchAxis, world, pos, stateForPlacement);
+			if (benchAxis != null) {
+				EnumFacing benchFacing = getBenchToJoinToFacing(benchAxis, world, pos);
+				stateForPlacement = traceBench2(benchAxis, world, pos, stateForPlacement, benchFacing);
+			}
 		}				
 		
 		return stateForPlacement;
@@ -65,73 +67,118 @@ public class BackBench extends Chair {
 		return null;
 	}
 	
-	private IBlockState traceBench(EnumFacing direction, World world, BlockPos pos, IBlockState blockState) {
-		IBlockState thisPieceBlockState = computeBenchBlockState(0, direction, world, pos, true, blockState, BenchType.SINGLE);
+	private int getOffset(EnumFacing direction, World world, BlockPos pos) {
+		BenchType currentlyInspectedBenchType;
+		IBlockState currentlyInspectedBenchState;
 		
-		BenchType placedBenchType = getBenchType(thisPieceBlockState);
+		// get negative offset
+		int offset = 0;
 		
-		IBlockState offsetBenchState = world.getBlockState(pos.offset(direction));
-		BenchType offsetBenchType = getBenchType(offsetBenchState);
+		currentlyInspectedBenchState = world.getBlockState(pos.offset(direction));
+		currentlyInspectedBenchType = getBenchType(currentlyInspectedBenchState);
 		
-		IBlockState reverseOffsetBenchState = world.getBlockState(pos.offset(direction.getOpposite()));
-		BenchType reverseOffsetBenchType = getBenchType(reverseOffsetBenchState);
-		
-		
-		if (offsetBenchType != null && isBenchPiece(offsetBenchType)) {
-			EnumFacing offsetBenchFacing = Swivel.Rotate(getBenchDirection(offsetBenchState), Rotation.Ninty);
-			
-			if ((offsetBenchType == BenchType.SINGLE) || (offsetBenchType == BenchType.LEFT && (offsetBenchFacing == direction || offsetBenchFacing == direction.getOpposite())))
-				traceBenchLine(direction, world, pos, thisPieceBlockState, placedBenchType);
-		}
-		
-		if (reverseOffsetBenchType != null && isBenchPiece(reverseOffsetBenchType)) {
-			EnumFacing reverseOffsetBenchFacing = Swivel.Rotate(getBenchDirection(reverseOffsetBenchState), Rotation.TwoSeventy);
-			
-			if ((reverseOffsetBenchType == BenchType.SINGLE) || (reverseOffsetBenchType == BenchType.LEFT && (reverseOffsetBenchFacing == direction  || reverseOffsetBenchFacing == direction.getOpposite())))
-				traceBenchLine(direction.getOpposite(), world, pos, thisPieceBlockState, placedBenchType, Rotation.TwoSeventy);
-		}
-		
-		return thisPieceBlockState;
-	}
-	
-	private void traceBenchLine (EnumFacing direction, World world, BlockPos pos, IBlockState blockState, BenchType placedBenchType) {
-		traceBenchLine(direction, world, pos, blockState, placedBenchType, Rotation.Ninty);
-	}
-	
-	private void traceBenchLine (EnumFacing direction, World world, BlockPos pos, IBlockState blockState, BenchType placedBenchType, Rotation standardRotation) {
-		int offset = 1;
-		IBlockState nextPieceBlockState = computeBenchBlockState(offset, direction, world, pos, true, null, placedBenchType, standardRotation);
-		BenchType nextPieceBenchType = getBenchType(nextPieceBlockState);
-		
-		if (isBenchPiece(nextPieceBenchType))
-			world.setBlockState(pos.offset(direction, offset), nextPieceBlockState);
-		
-		while (isBenchPiece(nextPieceBenchType)) {
+		while (isBenchPiece(currentlyInspectedBenchType)) {
 			offset++;
-			nextPieceBlockState = computeBenchBlockState(offset, direction, world, pos, placedBenchType, standardRotation);
 			
-			if(isBenchPiece(getBenchType(nextPieceBlockState)))
-				world.setBlockState(pos.offset(direction, offset), nextPieceBlockState);
-			
-			nextPieceBenchType = getBenchType(nextPieceBlockState);
+			currentlyInspectedBenchState = world.getBlockState(pos.offset(direction, offset + 1));
+			currentlyInspectedBenchType = getBenchType(currentlyInspectedBenchState);
 		}
+		
+		return offset;
+	}
+	
+	private IBlockState traceBench2(EnumFacing direction, World world, BlockPos pos, IBlockState blockState, EnumFacing benchFacing) {
+		boolean invertLeftRight = false;
+		
+		if (benchFacing == EnumFacing.NORTH && direction == EnumFacing.EAST)
+			invertLeftRight = true;
+		
+		if (benchFacing == EnumFacing.EAST && direction == EnumFacing.SOUTH)
+			invertLeftRight = true;
+		
+		if (benchFacing == EnumFacing.SOUTH && direction == EnumFacing.WEST)
+			invertLeftRight = true;
+		
+		if (benchFacing == EnumFacing.WEST && direction == EnumFacing.NORTH)
+			invertLeftRight = true;
+		
+		BenchType left = BenchType.LEFT;
+		BenchType right = BenchType.RIGHT;
+		
+		if (invertLeftRight) {
+			left = BenchType.RIGHT;
+			right = BenchType.LEFT;
+		}
+		
+		IBlockState blockStateAtCurrentPos = blockState;
+		
+		BlockPos workingBlockPos = pos;
+		
+		int positiveOffset = getOffset(direction.getOpposite(), world, pos);
+		int negativeOffset = getOffset(direction, world, pos);
+		
+		int workingPositiveOffset = positiveOffset;
+		int workingNegativeOffset = negativeOffset;
+		
+		if (positiveOffset == 0 && negativeOffset == 0)
+			return blockStateAtCurrentPos
+					.withProperty(FACING, benchFacing)
+					.withProperty(TYPE, BenchType.SINGLE);
+		
+		while (workingNegativeOffset > 0) {
+			workingBlockPos = pos.offset(direction, workingNegativeOffset);
+			
+			if (workingNegativeOffset == negativeOffset)
+				world.setBlockState(workingBlockPos, world.getBlockState(workingBlockPos)
+						.withProperty(FACING, benchFacing)
+						.withProperty(TYPE, left));
+			else
+				world.setBlockState(workingBlockPos, world.getBlockState(workingBlockPos)
+						.withProperty(FACING, benchFacing)
+						.withProperty(TYPE, BenchType.MIDDLE));
+			
+			workingNegativeOffset--;
+		}
+		
+		if (negativeOffset > 0 && positiveOffset == 0)
+			return blockStateAtCurrentPos
+					.withProperty(FACING, benchFacing)
+					.withProperty(TYPE, right);
+		
+		while (workingPositiveOffset > 0) {
+			workingBlockPos = pos.offset(direction.getOpposite(), workingPositiveOffset);
+			
+			if (workingPositiveOffset == positiveOffset)
+				world.setBlockState(workingBlockPos, world.getBlockState(workingBlockPos)
+						.withProperty(FACING, benchFacing)
+						.withProperty(TYPE, right));
+			else
+				world.setBlockState(workingBlockPos, world.getBlockState(workingBlockPos)
+						.withProperty(FACING, benchFacing)
+						.withProperty(TYPE, BenchType.MIDDLE));
+			
+			workingPositiveOffset--;
+		}
+		
+		if (positiveOffset > 0 && negativeOffset == 0)
+			return blockStateAtCurrentPos
+					.withProperty(FACING, benchFacing)
+					.withProperty(TYPE, left);
+			
+		return blockStateAtCurrentPos
+				.withProperty(FACING, benchFacing)
+				.withProperty(TYPE, BenchType.MIDDLE);	
 	}
 	
 	private boolean isBenchPiece(BenchType benchType) {
 		if (benchType == BenchType.SINGLE || 
 				benchType == BenchType.MIDDLE ||
-						benchType == BenchType.LEFT) 
+						benchType == BenchType.LEFT ||
+							benchType == BenchType.RIGHT) 
 			return true;
 		else
-			return false;
-		
+			return false;	
 	}
-	
-	private IBlockState computeBenchBlockState(int offset, EnumFacing direction, World world, 
-			BlockPos pos, boolean bypassCurrentPosCheck, IBlockState blockstate, BenchType placedBenchType) {
-		return computeBenchBlockState(offset, direction, world, pos, bypassCurrentPosCheck, blockstate, placedBenchType, Rotation.Ninty);
-	}
-	
 	
 	private Rotation GetOpposite(Rotation rotation) {
 		switch (rotation) {
@@ -151,108 +198,11 @@ public class BackBench extends Chair {
 				return Rotation.Zero;
 		}
 	}
-	
-	private IBlockState computeBenchBlockState(int offset, EnumFacing direction, World world, 
-			BlockPos pos, boolean bypassCurrentPosCheck, IBlockState blockstate, BenchType placedBenchType, Rotation standardRotation) {
-
-		BlockPos offsetPos = pos.offset(direction, offset);
 		
-		IBlockState currentPosBlockState;
-		
-		if (blockstate != null)
-			currentPosBlockState = blockstate;
-		else
-			currentPosBlockState = world.getBlockState(offsetPos);
-		
-		BenchType currentType = getBenchType(currentPosBlockState);
-		
-		IBlockState offsetBlockState = world.getBlockState(offsetPos.offset(direction));
-		BenchType offsetType = getBenchType(offsetBlockState);
-		
-		IBlockState reverseOffsetBlockState;
-		
-		BenchType reverseOffsetType;
-		
-		if (offset == 1) {
-			reverseOffsetBlockState = blockstate;
-			reverseOffsetType = placedBenchType;
-		} else {
-			reverseOffsetBlockState = world.getBlockState(offsetPos.offset(direction.getOpposite()));
-			reverseOffsetType = getBenchType(reverseOffsetBlockState);
-		}
-		
-		if (!bypassCurrentPosCheck && !isBenchPiece(currentType)) 
-			return currentPosBlockState;
-		
-		if (currentType == null && offsetType == null && reverseOffsetType == null)
-			return null;
-		
-		if (currentType == null)
-			return null;
-		
-		if ((currentPosBlockState != null && reverseOffsetBlockState != null) 
-				&& ((currentType == BenchType.LEFT || currentType == BenchType.MIDDLE) && 
-						(reverseOffsetType == BenchType.LEFT || reverseOffsetType == BenchType.MIDDLE))) {
-			if ((getBenchDirection(currentPosBlockState) != getBenchDirection(reverseOffsetBlockState)) && 
-					(getBenchDirection(currentPosBlockState) != getBenchDirection(reverseOffsetBlockState).getOpposite()))
-				return currentPosBlockState;	
-			
-		}
-		
-		if (reverseOffsetType == null && offsetType == null)
-			return currentPosBlockState
-					.withProperty(FACING, Swivel.Rotate(direction, standardRotation))
-					.withProperty(TYPE, BenchType.SINGLE);
-		
-		boolean benchInPath = false;
-		
-		if (offsetType == BenchType.LEFT || offsetType == BenchType.MIDDLE) {
-			EnumFacing offsetFacing = Swivel.Rotate(getBenchDirection(offsetBlockState), standardRotation);
-			
-			if (offsetFacing != direction && offsetFacing != direction.getOpposite())
-				benchInPath = true;
-		}
-		
-		if (isBenchPiece(offsetType) && !isBenchPiece(reverseOffsetType)) 
-			return currentPosBlockState
-					.withProperty(FACING, Swivel.Rotate(direction.getOpposite(), standardRotation))
-					.withProperty(TYPE, BenchType.LEFT);
-		
-		if ((!isBenchPiece(offsetType) || benchInPath) && isBenchPiece(reverseOffsetType))	
-			return currentPosBlockState
-					.withProperty(FACING, Swivel.Rotate(direction, GetOpposite(standardRotation)))
-					.withProperty(TYPE, BenchType.LEFT);
-		
-		if (isBenchPiece(getBenchType(offsetBlockState)) && isBenchPiece(getBenchType(reverseOffsetBlockState))) {
-			EnumFacing offsetFacing = getBenchDirection(offsetBlockState);
-			EnumFacing reverseOffsetFacing = getBenchDirection(reverseOffsetBlockState);
-			
-			if (offsetFacing != reverseOffsetFacing && offsetFacing != reverseOffsetFacing.getOpposite())
-				return currentPosBlockState
-						.withProperty(FACING, Swivel.Rotate(direction.getOpposite(), standardRotation))
-						.withProperty(TYPE, BenchType.LEFT);
-		}
-		
-		if (isBenchPiece(offsetType) && isBenchPiece(reverseOffsetType))	
-			return currentPosBlockState
-					.withProperty(FACING, Swivel.Rotate(direction.getOpposite(), standardRotation))
-					.withProperty(TYPE, BenchType.MIDDLE);
-		
-		return currentPosBlockState;
-	}
-	
-	private IBlockState computeBenchBlockState(int offset, EnumFacing direction, World world, BlockPos pos, BenchType placedBenchType, Rotation standardRotation) {
-		return computeBenchBlockState(offset, direction, world, pos, false, null, placedBenchType, standardRotation);
-	}
-	
-//	private IBlockState computeBenchBlockState(int offset, EnumFacing direction, World world, BlockPos pos, BenchType placedBenchType) {
-//		return computeBenchBlockState(offset, direction, world, pos, false, null, placedBenchType, Rotation.Ninty);
-//	}
-	
 	private boolean isBenchEnd(EnumFacing facing, World world, BlockPos pos) {		
 		BenchType benchType = getBenchType(world.getBlockState(pos.offset(facing)));
 		
-		if (benchType == BenchType.LEFT)
+		if (benchType == BenchType.LEFT || benchType == BenchType.RIGHT)
 			return true;
 
 		return false;
@@ -265,6 +215,10 @@ public class BackBench extends Chair {
 			return true;
 
 		return false;
+	}
+	
+	private EnumFacing getBenchToJoinToFacing(EnumFacing benchDirection, World world, BlockPos pos) {
+		return getBenchDirection(world.getBlockState(pos.offset(benchDirection)));
 	}
 	
 	private EnumFacing getBenchToJoinTo(EnumFacing playerFacing, World world, BlockPos pos) {
@@ -314,7 +268,7 @@ public class BackBench extends Chair {
 			meta -= 4;
 		}
 		
-		if (meta > 7) {
+		if (meta > 7 && meta < 12) {
 			benchType = BenchType.LEFT;
 			meta -= 8;
 		}
@@ -348,7 +302,10 @@ public class BackBench extends Chair {
 
 	@Override
 	public void onBlockDestroyedByPlayer(World worldIn, BlockPos pos, IBlockState state) {
-		EnumFacing benchAxis = Swivel.Rotate(getBenchDirection(state), Rotation.Ninty);
+		
+		EnumFacing benchFacing = getBenchDirection(state);
+		Rotation defaultRotation = Rotation.Ninty;
+		EnumFacing benchAxis = Swivel.Rotate(getBenchDirection(state), defaultRotation);
 		BenchType benchType = getBenchType(state);
 		
 		super.onBlockDestroyedByPlayer(worldIn, pos, state);
@@ -358,10 +315,10 @@ public class BackBench extends Chair {
 			BenchType currentOffsetType = getBenchType(currentOffsetBlockState);
 			
 			if (currentOffsetType != null) {
-				EnumFacing currentOffsetFacing = Swivel.Rotate(getBenchDirection(currentOffsetBlockState), Rotation.Ninty); 
+				EnumFacing currentOffsetFacing = Swivel.Rotate(getBenchDirection(currentOffsetBlockState), defaultRotation); 
 				
 				if (currentOffsetFacing == benchAxis || currentOffsetFacing == benchAxis.getOpposite()) {
-					IBlockState offsetBlockState = traceBench(benchAxis, worldIn, pos.offset(benchAxis), worldIn.getBlockState(pos.offset(benchAxis)));
+					IBlockState offsetBlockState = traceBench2(benchAxis, worldIn, pos.offset(benchAxis), worldIn.getBlockState(pos.offset(benchAxis)), benchFacing);
 					
 					if (offsetBlockState != null && isBenchPiece(getBenchType(offsetBlockState)))
 						worldIn.setBlockState(pos.offset(benchAxis), offsetBlockState);
@@ -372,10 +329,10 @@ public class BackBench extends Chair {
 			BenchType reverseOffsetType = getBenchType(reverseCurrentOffsetBlockState);
 			
 			if (reverseOffsetType != null) {
-				EnumFacing reverseOffsetFacing = Swivel.Rotate(getBenchDirection(reverseCurrentOffsetBlockState), Rotation.Ninty); 
+				EnumFacing reverseOffsetFacing = Swivel.Rotate(getBenchDirection(reverseCurrentOffsetBlockState), GetOpposite(defaultRotation)); 
 			
 				if (reverseOffsetFacing == benchAxis || reverseOffsetFacing == benchAxis.getOpposite()) {
-					IBlockState reverseOffsetBlockState = traceBench(benchAxis.getOpposite(), worldIn, pos.offset(benchAxis.getOpposite()), worldIn.getBlockState(pos.offset(benchAxis.getOpposite())));
+					IBlockState reverseOffsetBlockState = traceBench2(benchAxis.getOpposite(), worldIn, pos.offset(benchAxis.getOpposite()), worldIn.getBlockState(pos.offset(benchAxis.getOpposite())), benchFacing);
 					
 					if (reverseOffsetBlockState != null && isBenchPiece(getBenchType(reverseOffsetBlockState)))
 						worldIn.setBlockState(pos.offset(benchAxis.getOpposite()), reverseOffsetBlockState);
