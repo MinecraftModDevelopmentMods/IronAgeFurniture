@@ -77,13 +77,18 @@ public class BackBench extends Chair {
 		currentlyInspectedBenchState = world.getBlockState(pos.offset(direction));
 		currentlyInspectedBenchType = getBenchType(currentlyInspectedBenchState);
 		
-		while (isBenchPiece(currentlyInspectedBenchType)) {
-			offset++;
+		if (isBenchPiece(currentlyInspectedBenchType)) {
+			EnumFacing blockFacing = Swivel.Rotate(getBenchDirection(currentlyInspectedBenchState), Rotation.Ninty ) ;
 			
-			currentlyInspectedBenchState = world.getBlockState(pos.offset(direction, offset + 1));
-			currentlyInspectedBenchType = getBenchType(currentlyInspectedBenchState);
+			while (isBenchPieceOnAxis(currentlyInspectedBenchType, direction, blockFacing)) {
+				offset++;
+				
+				currentlyInspectedBenchState = world.getBlockState(pos.offset(direction, offset + 1));
+				currentlyInspectedBenchType = getBenchType(currentlyInspectedBenchState);
+				
+				blockFacing = Swivel.Rotate(getBenchDirection(currentlyInspectedBenchState), Rotation.Ninty ) ;
+			}
 		}
-		
 		return offset;
 	}
 	
@@ -178,6 +183,18 @@ public class BackBench extends Chair {
 			return true;
 		else
 			return false;	
+	}
+	
+	private boolean isBenchPieceOnAxis(BenchType benchType, EnumFacing benchAxis, EnumFacing blockAxis) {
+		if (benchType == BenchType.SINGLE)
+			return true;
+		
+		if(benchType == BenchType.MIDDLE || benchType == BenchType.LEFT || benchType == BenchType.RIGHT) {
+			if (benchAxis == blockAxis || benchAxis == blockAxis.getOpposite())
+				return true;
+		}
+			
+		return false;	
 	}
 	
 	private Rotation GetOpposite(Rotation rotation) {
