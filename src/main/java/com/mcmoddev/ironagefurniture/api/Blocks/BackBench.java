@@ -71,7 +71,6 @@ public class BackBench extends Chair {
 		BenchType currentlyInspectedBenchType;
 		IBlockState currentlyInspectedBenchState;
 		
-		// get negative offset
 		int offset = 0;
 		
 		currentlyInspectedBenchState = world.getBlockState(pos.offset(direction));
@@ -86,7 +85,8 @@ public class BackBench extends Chair {
 				currentlyInspectedBenchState = world.getBlockState(pos.offset(direction, offset + 1));
 				currentlyInspectedBenchType = getBenchType(currentlyInspectedBenchState);
 				
-				blockFacing = Swivel.Rotate(getBenchDirection(currentlyInspectedBenchState), Rotation.Ninty ) ;
+				if (isBenchPiece(currentlyInspectedBenchType))
+					blockFacing = Swivel.Rotate(getBenchDirection(currentlyInspectedBenchState), Rotation.Ninty ) ;
 			}
 		}
 		return offset;
