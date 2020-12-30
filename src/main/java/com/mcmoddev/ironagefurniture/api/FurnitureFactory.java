@@ -32,6 +32,10 @@ public class FurnitureFactory {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bench, 1), "xx", "yy", 'x', planks, 'y', "stickWood"));
 	}
 	
+	public static void AddBackBenchRecipe(ItemStack planks, Block bench) {
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bench, 1), "x ", "xx", "yy", 'x', planks, 'y', "stickWood"));
+	}
+	
 	public static void AddLogBenchRecipe(ItemStack log, Block bench) {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bench, 6), "xxx", 'x', log));
 	}

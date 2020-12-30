@@ -191,13 +191,13 @@ public class BlockInitialiser {
 			
 			if (IronAgeFurnitureConfiguration.GENERATE_TALL_STOOLS) {
 				BlockObjectHolder.chair_wood_ironage_stool_tall_biomesoplenty_cherry			= FurnitureFactory.CreateWoodTallStool("chair_wood_ironage_stool_tall_biomesoplenty_cherry");
-				BlockObjectHolder.chair_wood_ironage_stool_tall_biomesoplenty_ebony			= FurnitureFactory.CreateWoodTallStool("chair_wood_ironage_stool_tall_biomesoplenty_ebony");
+				BlockObjectHolder.chair_wood_ironage_stool_tall_biomesoplenty_ebony				= FurnitureFactory.CreateWoodTallStool("chair_wood_ironage_stool_tall_biomesoplenty_ebony");
 				BlockObjectHolder.chair_wood_ironage_stool_tall_biomesoplenty_ethereal			= FurnitureFactory.CreateWoodTallStool("chair_wood_ironage_stool_tall_biomesoplenty_ethereal");
 				BlockObjectHolder.chair_wood_ironage_stool_tall_biomesoplenty_eucalyptus		= FurnitureFactory.CreateWoodTallStool("chair_wood_ironage_stool_tall_biomesoplenty_eucalyptus");
 				BlockObjectHolder.chair_wood_ironage_stool_tall_biomesoplenty_fir				= FurnitureFactory.CreateWoodTallStool("chair_wood_ironage_stool_tall_biomesoplenty_fir");
 				BlockObjectHolder.chair_wood_ironage_stool_tall_biomesoplenty_hellbark			= FurnitureFactory.CreateWoodTallStool("chair_wood_ironage_stool_tall_biomesoplenty_hellbark");
-				BlockObjectHolder.chair_wood_ironage_stool_tall_biomesoplenty_jacaranda		= FurnitureFactory.CreateWoodTallStool("chair_wood_ironage_stool_tall_biomesoplenty_jacaranda");
-				BlockObjectHolder.chair_wood_ironage_stool_tall_biomesoplenty_magic			= FurnitureFactory.CreateWoodTallStool("chair_wood_ironage_stool_tall_biomesoplenty_magic");
+				BlockObjectHolder.chair_wood_ironage_stool_tall_biomesoplenty_jacaranda			= FurnitureFactory.CreateWoodTallStool("chair_wood_ironage_stool_tall_biomesoplenty_jacaranda");
+				BlockObjectHolder.chair_wood_ironage_stool_tall_biomesoplenty_magic				= FurnitureFactory.CreateWoodTallStool("chair_wood_ironage_stool_tall_biomesoplenty_magic");
 				BlockObjectHolder.chair_wood_ironage_stool_tall_biomesoplenty_mahogany			= FurnitureFactory.CreateWoodTallStool("chair_wood_ironage_stool_tall_biomesoplenty_mahogany");
 				BlockObjectHolder.chair_wood_ironage_stool_tall_biomesoplenty_mangrove			= FurnitureFactory.CreateWoodTallStool("chair_wood_ironage_stool_tall_biomesoplenty_mangrove");
 				BlockObjectHolder.chair_wood_ironage_stool_tall_biomesoplenty_palm				= FurnitureFactory.CreateWoodTallStool("chair_wood_ironage_stool_tall_biomesoplenty_palm");
@@ -259,6 +259,40 @@ public class BlockInitialiser {
 				BlockObjectHolder.chair_wood_ironage_bench_log_single_biomesoplenty_sacred_oak		=	FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_biomesoplenty_sacred_oak");
 				BlockObjectHolder.chair_wood_ironage_bench_log_single_biomesoplenty_umbran			=	FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_biomesoplenty_umbran");
 				BlockObjectHolder.chair_wood_ironage_bench_log_single_biomesoplenty_willow			=	FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_biomesoplenty_willow");
+			
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_biomesoplenty_cherry			=	FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_biomesoplenty_cherry");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_biomesoplenty_ebony			=	FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_biomesoplenty_ebony");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_biomesoplenty_ethereal		=	FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_biomesoplenty_ethereal");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_biomesoplenty_eucalyptus		=	FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_biomesoplenty_eucalyptus");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_biomesoplenty_fir			=	FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_biomesoplenty_fir");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_biomesoplenty_hellbark		=	FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_biomesoplenty_hellbark");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_biomesoplenty_jacaranda		=	FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_biomesoplenty_jacaranda");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_biomesoplenty_magic			=	FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_biomesoplenty_magic");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_biomesoplenty_mahogany		=	FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_biomesoplenty_mahogany");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_biomesoplenty_mangrove		=	FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_biomesoplenty_mangrove");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_biomesoplenty_palm			=	FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_biomesoplenty_palm");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_biomesoplenty_pine			=	FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_biomesoplenty_pine");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_biomesoplenty_redwood		=	FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_biomesoplenty_redwood");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_biomesoplenty_sacred_oak		=	FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_biomesoplenty_sacred_oak");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_biomesoplenty_umbran			=	FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_biomesoplenty_umbran");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_biomesoplenty_willow			=	FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_biomesoplenty_willow");
+			
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_biomesoplenty_cherry			=	FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_biomesoplenty_cherry");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_biomesoplenty_ebony			=	FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_biomesoplenty_ebony");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_biomesoplenty_ethereal		=	FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_biomesoplenty_ethereal");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_biomesoplenty_eucalyptus		=	FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_biomesoplenty_eucalyptus");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_biomesoplenty_fir				=	FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_biomesoplenty_fir");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_biomesoplenty_hellbark		=	FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_biomesoplenty_hellbark");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_biomesoplenty_jacaranda		=	FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_biomesoplenty_jacaranda");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_biomesoplenty_magic			=	FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_biomesoplenty_magic");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_biomesoplenty_mahogany		=	FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_biomesoplenty_mahogany");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_biomesoplenty_mangrove		=	FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_biomesoplenty_mangrove");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_biomesoplenty_palm			=	FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_biomesoplenty_palm");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_biomesoplenty_pine			=	FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_biomesoplenty_pine");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_biomesoplenty_redwood			=	FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_biomesoplenty_redwood");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_biomesoplenty_sacred_oak		=	FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_biomesoplenty_sacred_oak");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_biomesoplenty_umbran			=	FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_biomesoplenty_umbran");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_biomesoplenty_willow			=	FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_biomesoplenty_willow");
 			}
 		}
 		
@@ -369,6 +403,34 @@ public class BlockInitialiser {
 				BlockObjectHolder.chair_wood_ironage_bench_log_single_natura_darkwood		= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_natura_darkwood");
 				BlockObjectHolder.chair_wood_ironage_bench_log_single_natura_fusewood		= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_natura_fusewood");
 				BlockObjectHolder.chair_wood_ironage_bench_log_single_natura_ghostwood		= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_natura_ghostwood");
+			
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_natura_eucalyptus	= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_natura_eucalyptus");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_natura_amaranth 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_natura_amaranth");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_natura_hopseed 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_natura_hopseed");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_natura_maple 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_natura_maple");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_natura_redwood 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_natura_redwood");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_natura_sakura 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_natura_sakura");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_natura_silverbell 	= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_natura_silverbell");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_natura_tiger 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_natura_tiger");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_natura_willow 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_natura_willow");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_natura_bloodwood 	= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_natura_bloodwood");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_natura_darkwood 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_natura_darkwood");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_natura_fusewood 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_natura_fusewood");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_natura_ghostwood 	= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_natura_ghostwood");
+				
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_natura_eucalyptus = FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_natura_eucalyptus");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_natura_amaranth 	= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_natura_amaranth");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_natura_hopseed 	= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_natura_hopseed");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_natura_maple 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_natura_maple");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_natura_redwood 	= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_natura_redwood");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_natura_sakura 	= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_natura_sakura");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_natura_silverbell = FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_natura_silverbell");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_natura_tiger 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_natura_tiger");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_natura_willow 	= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_natura_willow");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_natura_bloodwood 	= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_natura_bloodwood");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_natura_darkwood 	= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_natura_darkwood");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_natura_fusewood 	= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_natura_fusewood");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_natura_ghostwood 	= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_natura_ghostwood");
 			}
 		}
 		
@@ -561,6 +623,96 @@ public class BlockInitialiser {
 				BlockObjectHolder.chair_wood_ironage_bench_padded_single_forestry_wenge = FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_padded_single_forestry_wenge");
 				BlockObjectHolder.chair_wood_ironage_bench_padded_single_forestry_willow = FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_padded_single_forestry_willow");
 				BlockObjectHolder.chair_wood_ironage_bench_padded_single_forestry_zebrawood = FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_padded_single_forestry_zebrawood");
+			
+				BlockObjectHolder.chair_wood_ironage_bench_log_single_forestry_acacia 		= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_forestry_acacia");
+				BlockObjectHolder.chair_wood_ironage_bench_log_single_forestry_balsa 		= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_forestry_balsa");
+				BlockObjectHolder.chair_wood_ironage_bench_log_single_forestry_baobab 		= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_forestry_baobab");
+				BlockObjectHolder.chair_wood_ironage_bench_log_single_forestry_cherry 		= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_forestry_cherry");
+				BlockObjectHolder.chair_wood_ironage_bench_log_single_forestry_chestnut 	= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_forestry_chestnut");
+				BlockObjectHolder.chair_wood_ironage_bench_log_single_forestry_citrus 		= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_forestry_citrus");
+				BlockObjectHolder.chair_wood_ironage_bench_log_single_forestry_cocobolo 	= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_forestry_cocobolo");
+				BlockObjectHolder.chair_wood_ironage_bench_log_single_forestry_ebony 		= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_forestry_ebony");
+				BlockObjectHolder.chair_wood_ironage_bench_log_single_forestry_giganteum 	= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_forestry_giganteum");
+				BlockObjectHolder.chair_wood_ironage_bench_log_single_forestry_greenheart 	= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_forestry_greenheart");
+				BlockObjectHolder.chair_wood_ironage_bench_log_single_forestry_ipe 			= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_forestry_ipe");
+				BlockObjectHolder.chair_wood_ironage_bench_log_single_forestry_kapok 		= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_forestry_kapok");
+				BlockObjectHolder.chair_wood_ironage_bench_log_single_forestry_larch 		= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_forestry_larch");
+				BlockObjectHolder.chair_wood_ironage_bench_log_single_forestry_lime 		= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_forestry_lime");
+				BlockObjectHolder.chair_wood_ironage_bench_log_single_forestry_mahoe 		= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_forestry_mahoe");
+				BlockObjectHolder.chair_wood_ironage_bench_log_single_forestry_mahogany 	= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_forestry_mahogany");
+				BlockObjectHolder.chair_wood_ironage_bench_log_single_forestry_maple 		= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_forestry_maple");
+				BlockObjectHolder.chair_wood_ironage_bench_log_single_forestry_padauk 		= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_forestry_padauk");
+				BlockObjectHolder.chair_wood_ironage_bench_log_single_forestry_palm 		= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_forestry_palm");
+				BlockObjectHolder.chair_wood_ironage_bench_log_single_forestry_papaya 		= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_forestry_papaya");
+				BlockObjectHolder.chair_wood_ironage_bench_log_single_forestry_pine 		= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_forestry_pine");
+				BlockObjectHolder.chair_wood_ironage_bench_log_single_forestry_plum 		= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_forestry_plum");
+				BlockObjectHolder.chair_wood_ironage_bench_log_single_forestry_poplar 		= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_forestry_poplar");
+				BlockObjectHolder.chair_wood_ironage_bench_log_single_forestry_sequoia 		= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_forestry_sequoia");
+				BlockObjectHolder.chair_wood_ironage_bench_log_single_forestry_teak 		= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_forestry_teak");
+				BlockObjectHolder.chair_wood_ironage_bench_log_single_forestry_walnut 		= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_forestry_walnut");
+				BlockObjectHolder.chair_wood_ironage_bench_log_single_forestry_wenge 		= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_forestry_wenge");
+				BlockObjectHolder.chair_wood_ironage_bench_log_single_forestry_willow 		= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_forestry_willow");
+				BlockObjectHolder.chair_wood_ironage_bench_log_single_forestry_zebrawood 	= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_forestry_zebrawood");
+				
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_forestry_acacia 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_forestry_acacia");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_forestry_balsa 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_forestry_balsa");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_forestry_baobab 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_forestry_baobab");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_forestry_cherry 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_forestry_cherry");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_forestry_chestnut 	= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_forestry_chestnut");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_forestry_citrus 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_forestry_citrus");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_forestry_cocobolo 	= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_forestry_cocobolo");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_forestry_ebony 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_forestry_ebony");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_forestry_giganteum 	= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_forestry_giganteum");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_forestry_greenheart 	= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_forestry_greenheart");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_forestry_ipe 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_forestry_ipe");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_forestry_kapok 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_forestry_kapok");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_forestry_larch 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_forestry_larch");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_forestry_lime 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_forestry_lime");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_forestry_mahoe 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_forestry_mahoe");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_forestry_mahogany 	= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_forestry_mahogany");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_forestry_maple 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_forestry_maple");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_forestry_padauk 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_forestry_padauk");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_forestry_palm 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_forestry_palm");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_forestry_papaya 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_forestry_papaya");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_forestry_pine 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_forestry_pine");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_forestry_plum 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_forestry_plum");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_forestry_poplar 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_forestry_poplar");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_forestry_sequoia 	= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_forestry_sequoia");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_forestry_teak 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_forestry_teak");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_forestry_walnut 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_forestry_walnut");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_forestry_wenge 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_forestry_wenge");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_forestry_willow 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_forestry_willow");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_forestry_zebrawood 	= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_forestry_zebrawood");
+			
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_forestry_acacia 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_forestry_acacia");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_forestry_balsa 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_forestry_balsa");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_forestry_baobab 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_forestry_baobab");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_forestry_cherry 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_forestry_cherry");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_forestry_chestnut 	= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_forestry_chestnut");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_forestry_citrus 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_forestry_citrus");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_forestry_cocobolo 	= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_forestry_cocobolo");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_forestry_ebony 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_forestry_ebony");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_forestry_giganteum 	= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_forestry_giganteum");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_forestry_greenheart 	= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_forestry_greenheart");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_forestry_ipe 			= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_forestry_ipe");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_forestry_kapok 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_forestry_kapok");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_forestry_larch 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_forestry_larch");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_forestry_lime 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_forestry_lime");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_forestry_mahoe 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_forestry_mahoe");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_forestry_mahogany 	= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_forestry_mahogany");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_forestry_maple 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_forestry_maple");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_forestry_padauk 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_forestry_padauk");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_forestry_palm 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_forestry_palm");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_forestry_papaya 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_forestry_papaya");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_forestry_pine 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_forestry_pine");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_forestry_plum 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_forestry_plum");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_forestry_poplar 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_forestry_poplar");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_forestry_sequoia 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_forestry_sequoia");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_forestry_teak 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_forestry_teak");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_forestry_walnut 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_forestry_walnut");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_forestry_wenge 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_forestry_wenge");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_forestry_willow 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_forestry_willow");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_forestry_zebrawood 	= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_forestry_zebrawood");
 			}
 		}
 	}
