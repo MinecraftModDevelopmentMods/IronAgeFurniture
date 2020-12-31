@@ -22,7 +22,13 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BackBench extends Chair {
-	private static final AxisAlignedBB BBSHORT = new AxisAlignedBB(0.2, 0.0, 0.2, 0.8, 0.45, 0.8);
+	private static final AxisAlignedBB BB = new AxisAlignedBB(0.1, 0.0, 0.1, 0.9, 1.0, 0.9);
+	private static final AxisAlignedBB BBSHORT = new AxisAlignedBB(0.1, 0.0, 0.1, 0.9, 0.45, 0.9);
+	private static final AxisAlignedBB BACKEAST = new AxisAlignedBB(0.825, 0.6, 0.1, 0.9, 1.0, 0.9);
+	private static final AxisAlignedBB BACKNORTH = RotateBB(Rotation.Ninty, BACKEAST);
+	private static final AxisAlignedBB BACKSOUTH = RotateBB(Rotation.OneEighty, BACKEAST);
+	private static final AxisAlignedBB BACKWEST = RotateBB(Rotation.TwoSeventy, BACKEAST);
+	
 	public static final PropertyEnum<BenchType> TYPE = PropertyEnum.<BenchType>create("type", BenchType.class);
 	
 	public BackBench(Material materialIn, String name, float resistance, boolean tall, double yOffset, float hardness) {
@@ -367,7 +373,7 @@ public class BackBench extends Chair {
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) 
 	{
-		return BBSHORT;
+		return BB;
 	}
 	
 	@Override
@@ -375,6 +381,21 @@ public class BackBench extends Chair {
 			List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
 		
 		if (!(entityIn instanceof Seat)) {
+			switch(state.getValue(FACING)) {
+			case NORTH:
+				super.addCollisionBoxToList(pos, entityBox, collidingBoxes, BACKNORTH);
+				break;
+			case SOUTH:
+				super.addCollisionBoxToList(pos, entityBox, collidingBoxes, BACKSOUTH);
+				break;
+			case WEST:
+				super.addCollisionBoxToList(pos, entityBox, collidingBoxes, BACKWEST);
+				break;
+			default:
+				super.addCollisionBoxToList(pos, entityBox, collidingBoxes, BACKEAST);
+				break;
+			}
+			
 			super.addCollisionBoxToList(pos, entityBox, collidingBoxes, BBSHORT);
 		}
 	}
