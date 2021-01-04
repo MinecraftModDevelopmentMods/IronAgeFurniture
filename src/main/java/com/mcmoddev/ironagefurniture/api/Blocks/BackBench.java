@@ -49,6 +49,10 @@ public class BackBench extends Chair {
 			
 			if (benchAxis != null) {
 				EnumFacing benchFacing = getBenchToJoinToFacing(benchAxis, world, pos);
+				
+				if (getBenchType(world.getBlockState(pos.offset(benchAxis))) == BenchType.SINGLE)
+					benchFacing = Swivel.Rotate(benchAxis, Rotation.Ninty);
+				
 				stateForPlacement = traceBench2(benchAxis, world, pos, stateForPlacement, benchFacing);
 			}
 		}				
