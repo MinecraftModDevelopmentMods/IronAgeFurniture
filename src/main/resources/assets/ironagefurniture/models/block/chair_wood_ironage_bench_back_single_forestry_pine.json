@@ -731,18 +731,18 @@
         },
         "up": {
           "uv": [
-            0,
-            0,
-            14,
-            14
+            1,
+            2,
+            15,
+            16
           ],
           "texture": "#0"
         },
         "down": {
           "uv": [
+            1,
             0,
-            0,
-            14,
+            15,
             14
           ],
           "texture": "#0"
@@ -1425,6 +1425,77 @@
       }
     }
   ],
+  "display": {
+    "thirdperson_righthand": {
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    },
+    "thirdperson_lefthand": {
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    },
+    "firstperson_righthand": {
+      "translation": [
+        3.5,
+        0,
+        0
+      ],
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    },
+    "firstperson_lefthand": {
+      "translation": [
+        3.5,
+        0,
+        0
+      ],
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    },
+    "ground": {
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    },
+    "gui": {
+      "rotation": [
+        20,
+        20,
+        0
+      ],
+      "scale": [
+        0.7,
+        0.7,
+        0.7
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        -31,
+        -180,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        -6.5
+      ]
+    }
+  },
   "groups": [
     {
       "name": "legs",
