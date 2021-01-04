@@ -48,12 +48,16 @@ public class BackBench extends Chair {
 			EnumFacing benchAxis = getBenchToJoinTo(placer.getHorizontalFacing(), world, pos);
 			
 			if (benchAxis != null) {
-				EnumFacing benchFacing = getBenchToJoinToFacing(benchAxis, world, pos);
+				IBlockState blockStateToJoinTo = world.getBlockState(pos.offset(benchAxis));
 				
-				if (getBenchType(world.getBlockState(pos.offset(benchAxis))) == BenchType.SINGLE)
-					benchFacing = Swivel.Rotate(benchAxis, Rotation.Ninty);
-				
-				stateForPlacement = traceBench2(benchAxis, world, pos, stateForPlacement, benchFacing);
+				if (blockStateToJoinTo.getBlock().getUnlocalizedName().equals(stateForPlacement.getBlock().getUnlocalizedName())) {
+					EnumFacing benchFacing = getBenchToJoinToFacing(benchAxis, world, pos);
+					
+					if (getBenchType(blockStateToJoinTo) == BenchType.SINGLE)
+						benchFacing = Swivel.Rotate(benchAxis, Rotation.Ninty);
+					
+					stateForPlacement = traceBench2(benchAxis, world, pos, stateForPlacement, benchFacing);
+				}
 			}
 		}				
 		
@@ -80,6 +84,7 @@ public class BackBench extends Chair {
 	private int getOffset(EnumFacing direction, World world, BlockPos pos) {
 		BenchType currentlyInspectedBenchType;
 		IBlockState currentlyInspectedBenchState;
+		String currentlyInspectedBlockName;
 		
 		int offset = 0;
 		
@@ -88,12 +93,15 @@ public class BackBench extends Chair {
 		
 		if (isBenchPiece(currentlyInspectedBenchType)) {
 			EnumFacing blockFacing = Swivel.Rotate(getBenchDirection(currentlyInspectedBenchState), Rotation.Ninty ) ;
+			String blockName = currentlyInspectedBenchState.getBlock().getUnlocalizedName();
+			currentlyInspectedBlockName = blockName;
 			
-			while (isBenchPieceOnAxis(currentlyInspectedBenchType, direction, blockFacing)) {
+			while (isBenchPieceOnAxis(currentlyInspectedBenchType, direction, blockFacing, blockName, currentlyInspectedBlockName)) {
 				offset++;
 				
 				currentlyInspectedBenchState = world.getBlockState(pos.offset(direction, offset + 1));
 				currentlyInspectedBenchType = getBenchType(currentlyInspectedBenchState);
+				currentlyInspectedBlockName = currentlyInspectedBenchState.getBlock().getUnlocalizedName();
 				
 				if (isBenchPiece(currentlyInspectedBenchType))
 					blockFacing = Swivel.Rotate(getBenchDirection(currentlyInspectedBenchState), Rotation.Ninty ) ;
@@ -195,7 +203,10 @@ public class BackBench extends Chair {
 			return false;	
 	}
 	
-	private boolean isBenchPieceOnAxis(BenchType benchType, EnumFacing benchAxis, EnumFacing blockAxis) {
+	private boolean isBenchPieceOnAxis(BenchType benchType, EnumFacing benchAxis, EnumFacing blockAxis, String blockName, String currentBlockName) {
+		if (!blockName.equals(currentBlockName))
+			return false;
+		
 		if (benchType == BenchType.SINGLE)
 			return true;
 		
