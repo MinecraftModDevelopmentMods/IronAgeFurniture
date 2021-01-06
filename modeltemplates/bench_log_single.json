@@ -85,6 +85,27 @@
 			}
 		}
 	],
+	"display": {
+		"thirdperson_righthand": {
+			"translation": [0, 0.75, 0],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"thirdperson_lefthand": {
+			"translation": [0, 0.75, 0],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"ground": {
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"gui": {
+			"rotation": [17, 23, 0],
+			"translation": [0, 3.75, 0]
+		},
+		"fixed": {
+			"rotation": [-21, 0, 0],
+			"translation": [0, 0, -2]
+		}
+	},
 	"groups": [
 		{
 			"name": "Log",

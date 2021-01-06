@@ -1,0 +1,68 @@
+{
+  "variants": {
+    "facing=north,type=single": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_back_single_forestry_pine",
+      "y": 0
+    },
+    "facing=east,type=single": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_back_single_forestry_pine",
+      "y": 90
+    },
+    "facing=south,type=single": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_back_single_forestry_pine",
+      "y": 180
+    },
+    "facing=west,type=single": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_back_single_forestry_pine",
+      "y": 270
+    },
+    "facing=north,type=middle": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_back_middle_forestry_pine",
+      "y": 0
+    },
+    "facing=east,type=middle": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_back_middle_forestry_pine",
+      "y": 90
+    },
+    "facing=south,type=middle": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_back_middle_forestry_pine",
+      "y": 180
+    },
+    "facing=west,type=middle": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_back_middle_forestry_pine",
+      "y": 270
+    },
+    "facing=north,type=right": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_back_right_forestry_pine",
+      "y": 0
+    },
+    "facing=east,type=right": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_back_right_forestry_pine",
+      "y": 90
+    },
+    "facing=south,type=right": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_back_right_forestry_pine",
+      "y": 180
+    },
+    "facing=west,type=right": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_back_right_forestry_pine",
+      "y": 270
+    },
+    "facing=north,type=left": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_back_left_forestry_pine",
+      "y": 0
+    },
+    "facing=east,type=left": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_back_left_forestry_pine",
+      "y": 90
+    },
+    "facing=south,type=left": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_back_left_forestry_pine",
+      "y": 180
+    },
+    "facing=west,type=left": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_back_left_forestry_pine",
+      "y": 270
+    }
+  }
+}

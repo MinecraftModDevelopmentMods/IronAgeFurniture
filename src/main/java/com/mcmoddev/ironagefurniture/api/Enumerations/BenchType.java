@@ -5,7 +5,9 @@ import net.minecraft.util.IStringSerializable;
 public enum BenchType implements IStringSerializable {
 	 SINGLE("single"),
      MIDDLE("middle"),
-	 END("end");
+	 END("end"),
+	 LEFT("left"),
+	 RIGHT("right");
 	
      private final String name;
 

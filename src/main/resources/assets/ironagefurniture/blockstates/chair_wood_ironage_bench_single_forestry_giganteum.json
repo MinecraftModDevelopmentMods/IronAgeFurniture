@@ -2,48 +2,67 @@
   "variants": {
     "facing=north,type=single": {
       "model": "ironagefurniture:chair_wood_ironage_bench_single_forestry_giganteum",
-      "y": 180
+      "y": 0
     },
     "facing=east,type=single": {
       "model": "ironagefurniture:chair_wood_ironage_bench_single_forestry_giganteum",
-      "y": 270
+      "y": 90
     },
     "facing=south,type=single": {
-      "model": "ironagefurniture:chair_wood_ironage_bench_single_forestry_giganteum"
+      "model": "ironagefurniture:chair_wood_ironage_bench_single_forestry_giganteum",
+      "y": 180
     },
     "facing=west,type=single": {
       "model": "ironagefurniture:chair_wood_ironage_bench_single_forestry_giganteum",
-      "y": 90
+      "y": 270
     },
     "facing=north,type=middle": {
       "model": "ironagefurniture:chair_wood_ironage_bench_middle_forestry_giganteum",
-      "y": 180
+      "y": 0
     },
     "facing=east,type=middle": {
       "model": "ironagefurniture:chair_wood_ironage_bench_middle_forestry_giganteum",
-      "y": 270
+      "y": 90
     },
     "facing=south,type=middle": {
-      "model": "ironagefurniture:chair_wood_ironage_bench_middle_forestry_giganteum"
+      "model": "ironagefurniture:chair_wood_ironage_bench_middle_forestry_giganteum",
+      "y": 180
     },
     "facing=west,type=middle": {
       "model": "ironagefurniture:chair_wood_ironage_bench_middle_forestry_giganteum",
-      "y": 90
-    },
-    "facing=north,type=end": {
-      "model": "ironagefurniture:chair_wood_ironage_bench_end_forestry_giganteum",
-      "y": 180
-    },
-    "facing=east,type=end": {
-      "model": "ironagefurniture:chair_wood_ironage_bench_end_forestry_giganteum",
       "y": 270
     },
-    "facing=south,type=end": {
-      "model": "ironagefurniture:chair_wood_ironage_bench_end_forestry_giganteum"
+    "facing=north,type=right": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_right_forestry_giganteum",
+      "y": 0
     },
-    "facing=west,type=end": {
-      "model": "ironagefurniture:chair_wood_ironage_bench_end_forestry_giganteum",
+    "facing=east,type=right": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_right_forestry_giganteum",
       "y": 90
+    },
+    "facing=south,type=right": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_right_forestry_giganteum",
+      "y": 180
+    },
+    "facing=west,type=right": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_right_forestry_giganteum",
+      "y": 270
+    },
+    "facing=north,type=left": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_left_forestry_giganteum",
+      "y": 0
+    },
+    "facing=east,type=left": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_left_forestry_giganteum",
+      "y": 90
+    },
+    "facing=south,type=left": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_left_forestry_giganteum",
+      "y": 180
+    },
+    "facing=west,type=left": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_left_forestry_giganteum",
+      "y": 270
     }
   }
 }
