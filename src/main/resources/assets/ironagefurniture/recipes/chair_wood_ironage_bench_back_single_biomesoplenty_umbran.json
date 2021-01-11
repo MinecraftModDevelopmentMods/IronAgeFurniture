@@ -1,0 +1,29 @@
+{
+  "type": "forge:ore_shaped",
+  "result": {
+    "item": "ironagefurniture:chair_wood_ironage_bench_back_single_biomesoplenty_umbran",
+    "data": 0
+  },
+  "pattern": [
+    "x ",
+    "xx",
+    "yy"
+  ],
+  "key": {
+    "x": {
+      "item": "biomesoplenty:planks_0",
+      "data": 2
+    },
+    "y": {
+      "item": "minecraft:stick",
+      "data": 0
+    }
+  },
+  "group": "furniture",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "biomesoplenty"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "type": "forge:ore_shaped",
+  "result": {
+    "item": "ironagefurniture:chair_wood_ironage_bench_log_single_natura_willow",
+    "data": 0,
+    "count": 3
+  },
+  "pattern": [
+    "xxx"
+  ],
+  "key": {
+    "x": {
+      "item": "natura:overworld_logs2",
+      "data": 0
+    }
+  },
+  "group": "furniture",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "natura"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "type": "forge:ore_shaped",
+  "result": {
+    "item": "ironagefurniture:chair_wood_ironage_bench_log_single_big_oak",
+    "data": 0,
+    "count": 3
+  },
+  "pattern": [
+    "xxx"
+  ],
+  "key": {
+    "x": {
+      "item": "minecraft:log2",
+      "data": 1
+    }
+  },
+  "group": "furniture"
+}

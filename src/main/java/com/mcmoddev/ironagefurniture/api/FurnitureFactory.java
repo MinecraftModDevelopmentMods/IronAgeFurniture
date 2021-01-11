@@ -1,6 +1,8 @@
 package com.mcmoddev.ironagefurniture.api;
 
 import com.mcmoddev.ironagefurniture.Ironagefurniture;
+import com.mcmoddev.ironagefurniture.api.Blocks.BackBench;
+import com.mcmoddev.ironagefurniture.api.Blocks.Bench;
 import com.mcmoddev.ironagefurniture.api.Blocks.Chair;
 import com.mcmoddev.ironagefurniture.api.Blocks.Stool;
 import net.minecraft.block.Block;
@@ -39,6 +41,22 @@ public class FurnitureFactory {
 	
 	public static Block CreateWoodTallStool(String name) {
 		return registerBlock(new Stool(Material.WOOD, name, 10, true, 0.6, 1), name);
+	}
+	
+	public static Block CreateWoodBench(String name, float resistance, float hardness) {
+		return registerBlock(new Bench(Material.WOOD, name, resistance, false, 0.25, hardness), name);
+	}
+	
+	public static Block CreateWoodBackBench(String name, float resistance, float hardness) {
+		return registerBlock(new BackBench(Material.WOOD, name, resistance, false, 0.25, hardness), name);
+	}
+	
+	public static Block CreateWoodBench(String name) {
+		return CreateWoodBench(name, 10, 1);
+	}
+	
+	public static Block CreateWoodBackBench(String name) {
+		return CreateWoodBackBench(name, 10, 1);
 	}
     private static Block registerBlock(Block block, String name, int maxStackSize) {
     	block.setTranslationKey(Ironagefurniture.MODID + "." + name);
