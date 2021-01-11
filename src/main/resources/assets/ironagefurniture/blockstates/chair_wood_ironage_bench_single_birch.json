@@ -1,0 +1,68 @@
+{
+  "variants": {
+    "facing=north,type=single": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_single_birch",
+      "y": 0
+    },
+    "facing=east,type=single": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_single_birch",
+      "y": 90
+    },
+    "facing=south,type=single": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_single_birch",
+      "y": 180
+    },
+    "facing=west,type=single": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_single_birch",
+      "y": 270
+    },
+    "facing=north,type=middle": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_middle_birch",
+      "y": 0
+    },
+    "facing=east,type=middle": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_middle_birch",
+      "y": 90
+    },
+    "facing=south,type=middle": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_middle_birch",
+      "y": 180
+    },
+    "facing=west,type=middle": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_middle_birch",
+      "y": 270
+    },
+    "facing=north,type=right": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_right_birch",
+      "y": 0
+    },
+    "facing=east,type=right": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_right_birch",
+      "y": 90
+    },
+    "facing=south,type=right": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_right_birch",
+      "y": 180
+    },
+    "facing=west,type=right": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_right_birch",
+      "y": 270
+    },
+    "facing=north,type=left": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_left_birch",
+      "y": 0
+    },
+    "facing=east,type=left": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_left_birch",
+      "y": 90
+    },
+    "facing=south,type=left": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_left_birch",
+      "y": 180
+    },
+    "facing=west,type=left": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_left_birch",
+      "y": 270
+    }
+  }
+}

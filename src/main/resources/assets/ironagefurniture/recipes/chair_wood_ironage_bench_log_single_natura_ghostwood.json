@@ -1,0 +1,24 @@
+{
+  "type": "forge:ore_shaped",
+  "result": {
+    "item": "ironagefurniture:chair_wood_ironage_bench_log_single_natura_ghostwood",
+    "data": 0,
+    "count": 3
+  },
+  "pattern": [
+    "xxx"
+  ],
+  "key": {
+    "x": {
+      "item": "natura:nether_logs",
+      "data": 0
+    }
+  },
+  "group": "furniture",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "natura"
+    }
+  ]
+}

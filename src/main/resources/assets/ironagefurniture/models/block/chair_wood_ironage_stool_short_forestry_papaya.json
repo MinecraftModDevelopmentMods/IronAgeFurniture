@@ -575,6 +575,87 @@
       }
     }
   ],
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [
+        0,
+        -180,
+        0
+      ],
+      "translation": [
+        0,
+        2.25,
+        0
+      ],
+      "scale": [
+        0.7,
+        0.7,
+        0.7
+      ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [
+        0,
+        -180,
+        0
+      ],
+      "translation": [
+        0,
+        2.25,
+        0
+      ],
+      "scale": [
+        0.7,
+        0.7,
+        0.7
+      ]
+    },
+    "firstperson_righthand": {
+      "translation": [
+        8,
+        0,
+        0
+      ]
+    },
+    "firstperson_lefthand": {
+      "translation": [
+        8,
+        0,
+        0
+      ]
+    },
+    "ground": {
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    },
+    "gui": {
+      "rotation": [
+        23,
+        61,
+        0
+      ],
+      "translation": [
+        -0.5,
+        3.75,
+        0
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        -22,
+        90,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        -2.75
+      ]
+    }
+  },
   "groups": [
     {
       "name": "Legs",

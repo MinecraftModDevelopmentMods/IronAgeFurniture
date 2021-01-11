@@ -1,0 +1,22 @@
+{
+  "type": "forge:ore_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:carpet",
+      "data": 12
+    },
+    {
+      "item": "ironagefurniture:chair_wood_ironage_bench_back_single_natura_darkwood"
+    }
+  ],
+  "result": {
+    "item": "ironagefurniture:chair_wood_ironage_bench_back_padded_single_natura_darkwood"
+  },
+  "group": "furniture",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "natura"
+    }
+  ]
+}

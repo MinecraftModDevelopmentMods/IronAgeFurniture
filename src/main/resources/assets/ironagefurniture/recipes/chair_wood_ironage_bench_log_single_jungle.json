@@ -1,0 +1,18 @@
+{
+  "type": "forge:ore_shaped",
+  "result": {
+    "item": "ironagefurniture:chair_wood_ironage_bench_log_single_jungle",
+    "data": 0,
+    "count": 3
+  },
+  "pattern": [
+    "xxx"
+  ],
+  "key": {
+    "x": {
+      "item": "minecraft:log",
+      "data": 3
+    }
+  },
+  "group": "furniture"
+}
