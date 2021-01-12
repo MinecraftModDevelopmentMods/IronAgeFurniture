@@ -7,6 +7,7 @@ import com.mcmoddev.ironagefurniture.api.Enumerations.Rotation;
 import com.mcmoddev.ironagefurniture.api.entity.Seat;
 import com.mcmoddev.ironagefurniture.lib.util.Swivel;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
@@ -65,18 +66,31 @@ public class BackBench extends Chair {
 	}
 	
 
+	private Boolean isIAFBench(IBlockState blockstate) {
+		Block block = blockstate.getBlock();
+		
+		if (block==null)
+			return false;
+		
+		if (block.getRegistryName().getNamespace().contains("ironagefurniture") && block.getRegistryName().getPath().contains("bench")) {
+			return true;
+		}
+		
+		return false;
+	}
+	
 	private BenchType getBenchType(IBlockState blockstate) {
 		if (blockstate == null)
 			return null;
 		
-		if (blockstate.getBlock().getLocalizedName().contains("bench"))
+		if (isIAFBench(blockstate))
 			return (BenchType)blockstate.getProperties().get(TYPE);
 		
 		return null;
 	}
 	
 	private EnumFacing getBenchDirection(IBlockState blockstate) {
-		if (blockstate.getBlock().getLocalizedName().contains("bench"))
+		if (isIAFBench(blockstate))
 			return (EnumFacing)blockstate.getProperties().get(FACING);
 		
 		return null;
