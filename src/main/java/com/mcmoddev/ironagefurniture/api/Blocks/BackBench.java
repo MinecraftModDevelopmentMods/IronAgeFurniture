@@ -54,9 +54,34 @@ public class BackBench extends Chair {
 				if (blockStateToJoinTo.getBlock().getLocalizedName().equals(stateForPlacement.getBlock().getLocalizedName())) {
 					EnumFacing benchFacing = getBenchToJoinToFacing(benchAxis, world, pos);
 					
-					if (getBenchType(blockStateToJoinTo) == BenchType.SINGLE)
-						benchFacing = Swivel.Rotate(benchAxis, Rotation.Ninty);
+					boolean defaultFacing = true;
 					
+					if (getBenchType(blockStateToJoinTo) == BenchType.SINGLE) {
+
+						if (benchFacing == EnumFacing.NORTH && benchAxis == EnumFacing.EAST) {
+							benchFacing = Swivel.Rotate(benchAxis, Rotation.TwoSeventy);
+							defaultFacing = false;
+						}
+
+						if (benchFacing == EnumFacing.EAST && benchAxis == EnumFacing.SOUTH) {
+							benchFacing = Swivel.Rotate(benchAxis, Rotation.TwoSeventy);
+							defaultFacing = false;
+						}
+						
+						if (benchFacing == EnumFacing.SOUTH && benchAxis == EnumFacing.WEST) {
+							benchFacing = Swivel.Rotate(benchAxis, Rotation.TwoSeventy);
+							defaultFacing = false;
+						}
+						
+						if (benchFacing == EnumFacing.WEST && benchAxis == EnumFacing.NORTH) {
+							benchFacing = Swivel.Rotate(benchAxis, Rotation.TwoSeventy);
+							defaultFacing = false;
+						}
+						
+						if (defaultFacing)
+							benchFacing = Swivel.Rotate(benchAxis, Rotation.Ninty);
+						
+					}
 					stateForPlacement = traceBench2(benchAxis, world, pos, stateForPlacement, benchFacing);
 				}
 			}
