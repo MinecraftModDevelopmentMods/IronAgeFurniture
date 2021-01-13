@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "textures": {
     "0": "forestry:blocks/wood/bark.palm",
-    "1": "forestry:blocks/wood/palm_log_top",
+    "1": "forestry:blocks/wood/heart.palm",
     "particle": "forestry:blocks/wood/bark.palm"
   },
   "elements": [

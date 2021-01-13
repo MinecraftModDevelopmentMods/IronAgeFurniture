@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "textures": {
     "0": "forestry:blocks/wood/bark.pine",
-    "1": "forestry:blocks/wood/pine_log_top",
+    "1": "forestry:blocks/wood/heart.pine",
     "particle": "forestry:blocks/wood/bark.pine"
   },
   "elements": [

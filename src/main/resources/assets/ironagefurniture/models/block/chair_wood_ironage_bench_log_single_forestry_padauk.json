@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "textures": {
     "0": "forestry:blocks/wood/bark.padauk",
-    "1": "forestry:blocks/wood/padauk_log_top",
+    "1": "forestry:blocks/wood/heart.padauk",
     "particle": "forestry:blocks/wood/bark.padauk"
   },
   "elements": [

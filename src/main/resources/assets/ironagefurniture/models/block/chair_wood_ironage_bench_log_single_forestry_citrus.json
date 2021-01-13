@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "textures": {
     "0": "forestry:blocks/wood/bark.citrus",
-    "1": "forestry:blocks/wood/citrus_log_top",
+    "1": "forestry:blocks/wood/heart.citrus",
     "particle": "forestry:blocks/wood/bark.citrus"
   },
   "elements": [

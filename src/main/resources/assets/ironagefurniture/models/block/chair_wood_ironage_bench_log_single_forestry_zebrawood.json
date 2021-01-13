@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "textures": {
     "0": "forestry:blocks/wood/bark.zebrawood",
-    "1": "forestry:blocks/wood/zebrawood_log_top",
+    "1": "forestry:blocks/wood/heart.zebrawood",
     "particle": "forestry:blocks/wood/bark.zebrawood"
   },
   "elements": [
