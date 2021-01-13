@@ -1,0 +1,29 @@
+{
+  "type": "forge:ore_shaped",
+  "result": {
+    "item": "ironagefurniture:chair_wood_ironage_classic_immersiveengineering_treated_wood",
+    "data": 0
+  },
+  "pattern": [
+    "x  ",
+    "xxx",
+    "y y"
+  ],
+  "key": {
+    "x": {
+      "item": "immersiveengineering:treated_wood",
+      "data": 0
+    },
+    "y": {
+      "item": "minecraft:stick",
+      "data": 0
+    }
+  },
+  "group": "furniture",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "immersiveengineering"
+    }
+  ]
+}
