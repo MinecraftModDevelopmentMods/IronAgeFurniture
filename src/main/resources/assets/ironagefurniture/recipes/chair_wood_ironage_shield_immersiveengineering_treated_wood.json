@@ -1,0 +1,21 @@
+{
+  "type": "forge:ore_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:shield"
+    },
+    {
+      "item": "ironagefurniture:chair_wood_ironage_classic_immersiveengineering_treated_wood"
+    }
+  ],
+  "result": {
+    "item": "ironagefurniture:chair_wood_ironage_shield_immersiveengineering_treated_wood"
+  },
+  "group": "furniture",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "immersiveengineering"
+    }
+  ]
+}
