@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "textures": {
     "0": "forestry:blocks/wood/bark.kapok",
-    "1": "forestry:blocks/wood/kapok_log_top",
+    "1": "forestry:blocks/wood/heart.kapok",
     "particle": "forestry:blocks/wood/bark.kapok"
   },
   "elements": [

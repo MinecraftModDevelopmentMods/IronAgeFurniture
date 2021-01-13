@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "textures": {
     "0": "forestry:blocks/wood/bark.cocobolo",
-    "1": "forestry:blocks/wood/cocobolo_log_top",
+    "1": "forestry:blocks/wood/heart.cocobolo",
     "particle": "forestry:blocks/wood/bark.cocobolo"
   },
   "elements": [

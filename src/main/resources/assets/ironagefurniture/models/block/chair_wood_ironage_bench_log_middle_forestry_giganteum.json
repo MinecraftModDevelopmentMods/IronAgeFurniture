@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "textures": {
     "0": "forestry:blocks/wood/bark.giganteum",
-    "1": "forestry:blocks/wood/giganteum_log_top",
+    "1": "forestry:blocks/wood/heart.giganteum",
     "particle": "forestry:blocks/wood/bark.giganteum"
   },
   "elements": [
