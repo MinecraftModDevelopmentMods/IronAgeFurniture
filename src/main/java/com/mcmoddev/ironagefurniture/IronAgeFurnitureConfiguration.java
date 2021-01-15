@@ -11,6 +11,7 @@ public class IronAgeFurnitureConfiguration
         public final ForgeConfigSpec.BooleanValue GENERATE_SHIELD_CHAIRS;
     	public final ForgeConfigSpec.BooleanValue GENERATE_SHORT_STOOLS;
     	public final ForgeConfigSpec.BooleanValue GENERATE_TALL_STOOLS;
+    	public final ForgeConfigSpec.BooleanValue GENERATE_BENCHES;
     	public final ForgeConfigSpec.BooleanValue INTEGRATION_BIOMESOPLENTY;
     	public final ForgeConfigSpec.BooleanValue INTEGRATION_IMMERSIVEENGINEERING;
         
@@ -37,6 +38,11 @@ public class IronAgeFurnitureConfiguration
             		.comment("Generate tall stools.")
                     .translation("ironagefurniture.generation.generateTallStools")
                     .define("generateTallStools", true);
+            
+            this.GENERATE_BENCHES = builder
+            		.comment("Generate benches.")
+                    .translation("ironagefurniture.generation.generateBenches")
+                    .define("generateBenches", true);
             
             this.INTEGRATION_BIOMESOPLENTY = builder
                     .comment("Integrate with Biomes O Plenty.")

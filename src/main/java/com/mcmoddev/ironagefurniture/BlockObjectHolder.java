@@ -35,6 +35,41 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_stool_tall_oak = null;
 	public static final Block chair_wood_ironage_stool_tall_spruce = null;
 	
+	public static final Block chair_wood_ironage_bench_single_oak = null;
+	public static final Block chair_wood_ironage_bench_single_acacia = null;
+	public static final Block chair_wood_ironage_bench_single_dark_oak = null;
+	public static final Block chair_wood_ironage_bench_single_birch = null;
+	public static final Block chair_wood_ironage_bench_single_jungle = null;
+	public static final Block chair_wood_ironage_bench_single_spruce = null;
+	
+	public static final Block chair_wood_ironage_bench_padded_single_oak = null;
+	public static final Block chair_wood_ironage_bench_padded_single_acacia = null;
+	public static final Block chair_wood_ironage_bench_padded_single_big_oak = null;
+	public static final Block chair_wood_ironage_bench_padded_single_birch = null;
+	public static final Block chair_wood_ironage_bench_padded_single_jungle = null;
+	public static final Block chair_wood_ironage_bench_padded_single_spruce = null;
+	
+	public static final Block chair_wood_ironage_bench_log_single_oak = null;
+	public static final Block chair_wood_ironage_bench_log_single_acacia = null;
+	public static final Block chair_wood_ironage_bench_log_single_big_oak = null;
+	public static final Block chair_wood_ironage_bench_log_single_birch = null;
+	public static final Block chair_wood_ironage_bench_log_single_jungle = null;
+	public static final Block chair_wood_ironage_bench_log_single_spruce = null;
+
+	public static final Block chair_wood_ironage_bench_back_single_oak = null;
+	public static final Block chair_wood_ironage_bench_back_single_acacia = null;
+	public static final Block chair_wood_ironage_bench_back_single_big_oak = null;
+	public static final Block chair_wood_ironage_bench_back_single_birch = null;
+	public static final Block chair_wood_ironage_bench_back_single_jungle = null;
+	public static final Block chair_wood_ironage_bench_back_single_spruce = null;
+	
+	public static final Block chair_wood_ironage_bench_back_padded_single_oak = null;
+	public static final Block chair_wood_ironage_bench_back_padded_single_acacia = null;
+	public static final Block chair_wood_ironage_bench_back_padded_single_big_oak = null;
+	public static final Block chair_wood_ironage_bench_back_padded_single_birch = null;
+	public static final Block chair_wood_ironage_bench_back_padded_single_jungle = null;
+	public static final Block chair_wood_ironage_bench_back_padded_single_spruce = null;
+	
 	public static final Block chair_wood_ironage_classic_biomesoplenty_cherry = null;  //	cherry_planks
 	public static final Block chair_wood_ironage_classic_biomesoplenty_ethereal = null;  //	ethereal_planks
 	public static final Block chair_wood_ironage_classic_biomesoplenty_fir = null;  //	fir_planks

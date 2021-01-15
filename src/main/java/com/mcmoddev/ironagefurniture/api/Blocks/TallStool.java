@@ -30,7 +30,7 @@ public class TallStool extends Chair {
     }
 	
 	@Override
-	protected ImmutableMap<BlockState, VoxelShape> generateShapes(ImmutableList<BlockState> states)
+	protected void generateShapes(ImmutableList<BlockState> states)
     {
         ImmutableMap.Builder<BlockState, VoxelShape> builder = new ImmutableMap.Builder<>();
         for(BlockState state : states)
@@ -48,6 +48,6 @@ public class TallStool extends Chair {
             builder.put(state, shapes.simplify());
         }
         
-        return builder.build();
+        _shapes = builder.build();
     }
 }

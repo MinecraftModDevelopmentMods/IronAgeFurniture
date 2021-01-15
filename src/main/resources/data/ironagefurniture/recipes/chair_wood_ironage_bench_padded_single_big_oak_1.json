@@ -1,0 +1,16 @@
+{
+  "type": "forge:ore_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:carpet",
+      "data": 1
+    },
+    {
+      "item": "ironagefurniture:chair_wood_ironage_bench_single_big_oak"
+    }
+  ],
+  "result": {
+    "item": "ironagefurniture:chair_wood_ironage_bench_padded_single_big_oak"
+  },
+  "group": "furniture"
+}

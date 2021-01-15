@@ -5,6 +5,8 @@ import com.mcmoddev.ironagefurniture.Ironagefurniture;
 import com.mcmoddev.ironagefurniture.api.Blocks.Chair;
 import com.mcmoddev.ironagefurniture.api.Blocks.Stool;
 import com.mcmoddev.ironagefurniture.api.Blocks.TallStool;
+import com.mcmoddev.ironagefurniture.api.Blocks.Bench;
+import com.mcmoddev.ironagefurniture.api.Blocks.BackBench;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraftforge.event.RegistryEvent;
@@ -56,6 +58,15 @@ public class BlockInitialiser {
 			event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_birch"));
 			event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_jungle"));
 			event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_spruce"));
+		}
+		
+		if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_BENCHES.get()) {
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_single_oak"));		
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_single_acacia"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_single_dark_oak"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_single_birch"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_single_jungle"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_single_spruce"));
 		}
 		
 		if (IronAgeFurnitureConfiguration.CLIENT.INTEGRATION_BIOMESOPLENTY.get() && ModList.get().isLoaded("biomesoplenty")) {

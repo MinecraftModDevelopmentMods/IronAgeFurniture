@@ -2,24 +2,24 @@ package com.mcmoddev.ironagefurniture.api.util;
 
 import com.mcmoddev.ironagefurniture.api.Enumerations.Rotation;
 
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 
 public class Swivel {
-	public static EnumFacing Rotate(EnumFacing facing, Rotation rotation) {
+	public static Direction Rotate(Direction facing, Rotation rotation) {
 		switch (rotation) {
 		case Ninty:
 			switch (facing) {
 				case NORTH:
-					return EnumFacing.EAST;
+					return Direction.EAST;
 	
 				case SOUTH:
-					return EnumFacing.WEST;
+					return Direction.WEST;
 		
 				case EAST:
-					return EnumFacing.SOUTH;		
+					return Direction.SOUTH;		
 	
 				case WEST:
-					return EnumFacing.NORTH;
+					return Direction.NORTH;
 	
 				default:
 					return facing;		
@@ -28,16 +28,16 @@ public class Swivel {
 		case OneEighty:
 			switch (facing) {
 				case NORTH:
-					return EnumFacing.SOUTH;
+					return Direction.SOUTH;
 	
 				case SOUTH:
-					return EnumFacing.NORTH;
+					return Direction.NORTH;
 		
 				case EAST:
-					return EnumFacing.WEST;		
+					return Direction.WEST;		
 	
 				case WEST:
-					return EnumFacing.EAST;
+					return Direction.EAST;
 	
 				default:
 					return facing;		
@@ -46,16 +46,16 @@ public class Swivel {
 	
 			switch (facing) {
 				case NORTH:
-					return EnumFacing.WEST;
+					return Direction.WEST;
 	
 				case SOUTH:
-					return EnumFacing.EAST;
+					return Direction.EAST;
 		
 				case EAST:
-					return EnumFacing.NORTH;		
+					return Direction.NORTH;		
 	
 				case WEST:
-					return EnumFacing.SOUTH;
+					return Direction.SOUTH;
 	
 				default:
 					return facing;		

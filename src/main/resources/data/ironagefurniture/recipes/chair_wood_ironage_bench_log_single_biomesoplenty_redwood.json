@@ -1,0 +1,24 @@
+{
+  "type": "forge:ore_shaped",
+  "result": {
+    "item": "ironagefurniture:chair_wood_ironage_bench_log_single_biomesoplenty_redwood",
+    "data": 0,
+    "count": 3
+  },
+  "pattern": [
+    "xxx"
+  ],
+  "key": {
+    "x": {
+      "item": "biomesoplenty:log_2",
+      "data": 4
+    }
+  },
+  "group": "furniture",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "biomesoplenty"
+    }
+  ]
+}
