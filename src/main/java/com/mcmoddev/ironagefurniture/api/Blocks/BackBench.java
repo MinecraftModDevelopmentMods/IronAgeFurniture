@@ -13,6 +13,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.DirectionProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
@@ -29,12 +30,19 @@ public class BackBench extends Chair {
 //	private static final AxisAlignedBB BACKSOUTH = RotateBB(Rotation.OneEighty, BACKEAST);
 //	private static final AxisAlignedBB BACKWEST = RotateBB(Rotation.TwoSeventy, BACKEAST);
 	
-	public static final BenchTypeProperty TYPE = BenchTypeProperty.create("type", BenchType.SINGLE);;
-	public static final DirectionProperty DIRECTION = BlockStateProperties.FACING;
+	public static final BenchTypeProperty TYPE = BenchTypeProperty.create("type", BenchType.SINGLE, BenchType.LEFT, BenchType.MIDDLE, BenchType.RIGHT);;
 	
 	public BackBench(float hardness, float blastResistance, SoundType sound, String name) {
 		super(hardness, blastResistance, sound, name);
 	}
+
+	@Override
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+    {
+        super.fillStateContainer(builder);
+        
+        builder.add(TYPE);
+    }
 	
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context)
