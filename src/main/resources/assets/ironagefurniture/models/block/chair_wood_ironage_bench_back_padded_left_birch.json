@@ -1,10 +1,10 @@
 {
   "credit": "Made with Blockbench",
   "textures": {
-    "0": "minecraft:block/log_birch",
-    "1": "minecraft:block/planks_birch",
+    "0": "minecraft:block/birch_log",
+    "1": "minecraft:block/birch_planks",
     "2": "minecraft:blocks/wool_colored_red",
-    "particle": "minecraft:block/log_birch"
+    "particle": "minecraft:block/birch_log"
   },
   "elements": [
     {

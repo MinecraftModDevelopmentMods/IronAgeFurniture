@@ -1,66 +1,130 @@
 {
   "variants": {
-    "facing=north,type=single": {
+    "facing=north,type=single,waterlogged=true": {
       "model": "ironagefurniture:chair_wood_ironage_bench_log_single_biomesoplenty_jacaranda",
       "y": 0
     },
-    "facing=east,type=single": {
+    "facing=east,type=single,waterlogged=true": {
       "model": "ironagefurniture:chair_wood_ironage_bench_log_single_biomesoplenty_jacaranda",
       "y": 90
     },
-    "facing=south,type=single": {
+    "facing=south,type=single,waterlogged=true": {
       "model": "ironagefurniture:chair_wood_ironage_bench_log_single_biomesoplenty_jacaranda",
       "y": 180
     },
-    "facing=west,type=single": {
+    "facing=west,type=single,waterlogged=true": {
       "model": "ironagefurniture:chair_wood_ironage_bench_log_single_biomesoplenty_jacaranda",
       "y": 270
     },
-    "facing=north,type=middle": {
+    "facing=north,type=middle,waterlogged=true": {
       "model": "ironagefurniture:chair_wood_ironage_bench_log_middle_biomesoplenty_jacaranda",
       "y": 0
     },
-    "facing=east,type=middle": {
+    "facing=east,type=middle,waterlogged=true": {
       "model": "ironagefurniture:chair_wood_ironage_bench_log_middle_biomesoplenty_jacaranda",
       "y": 90
     },
-    "facing=south,type=middle": {
+    "facing=south,type=middle,waterlogged=true": {
       "model": "ironagefurniture:chair_wood_ironage_bench_log_middle_biomesoplenty_jacaranda",
       "y": 180
     },
-    "facing=west,type=middle": {
+    "facing=west,type=middle,waterlogged=true": {
       "model": "ironagefurniture:chair_wood_ironage_bench_log_middle_biomesoplenty_jacaranda",
       "y": 270
     },
-    "facing=north,type=right": {
+    "facing=north,type=right,waterlogged=true": {
       "model": "ironagefurniture:chair_wood_ironage_bench_log_right_biomesoplenty_jacaranda",
       "y": 0
     },
-    "facing=east,type=right": {
+    "facing=east,type=right,waterlogged=true": {
       "model": "ironagefurniture:chair_wood_ironage_bench_log_right_biomesoplenty_jacaranda",
       "y": 90
     },
-    "facing=south,type=right": {
+    "facing=south,type=right,waterlogged=true": {
       "model": "ironagefurniture:chair_wood_ironage_bench_log_right_biomesoplenty_jacaranda",
       "y": 180
     },
-    "facing=west,type=right": {
+    "facing=west,type=right,waterlogged=true": {
       "model": "ironagefurniture:chair_wood_ironage_bench_log_right_biomesoplenty_jacaranda",
       "y": 270
     },
-    "facing=north,type=left": {
+    "facing=north,type=left,waterlogged=true": {
       "model": "ironagefurniture:chair_wood_ironage_bench_log_left_biomesoplenty_jacaranda",
       "y": 0
     },
-    "facing=east,type=left": {
+    "facing=east,type=left,waterlogged=true": {
       "model": "ironagefurniture:chair_wood_ironage_bench_log_left_biomesoplenty_jacaranda",
       "y": 90
     },
-    "facing=south,type=left": {
+    "facing=south,type=left,waterlogged=true": {
       "model": "ironagefurniture:chair_wood_ironage_bench_log_left_biomesoplenty_jacaranda",
       "y": 180
     },
-    "facing=west,type=left": {
+    "facing=west,type=left,waterlogged=true": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_log_left_biomesoplenty_jacaranda",
+      "y": 270
+    },
+    "facing=north,type=single,waterlogged=false": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_log_single_biomesoplenty_jacaranda",
+      "y": 0
+    },
+    "facing=east,type=single,waterlogged=false": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_log_single_biomesoplenty_jacaranda",
+      "y": 90
+    },
+    "facing=south,type=single,waterlogged=false": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_log_single_biomesoplenty_jacaranda",
+      "y": 180
+    },
+    "facing=west,type=single,waterlogged=false": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_log_single_biomesoplenty_jacaranda",
+      "y": 270
+    },
+    "facing=north,type=middle,waterlogged=false": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_log_middle_biomesoplenty_jacaranda",
+      "y": 0
+    },
+    "facing=east,type=middle,waterlogged=false": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_log_middle_biomesoplenty_jacaranda",
+      "y": 90
+    },
+    "facing=south,type=middle,waterlogged=false": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_log_middle_biomesoplenty_jacaranda",
+      "y": 180
+    },
+    "facing=west,type=middle,waterlogged=false": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_log_middle_biomesoplenty_jacaranda",
+      "y": 270
+    },
+    "facing=north,type=right,waterlogged=false": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_log_right_biomesoplenty_jacaranda",
+      "y": 0
+    },
+    "facing=east,type=right,waterlogged=false": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_log_right_biomesoplenty_jacaranda",
+      "y": 90
+    },
+    "facing=south,type=right,waterlogged=false": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_log_right_biomesoplenty_jacaranda",
+      "y": 180
+    },
+    "facing=west,type=right,waterlogged=false": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_log_right_biomesoplenty_jacaranda",
+      "y": 270
+    },
+    "facing=north,type=left,waterlogged=false": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_log_left_biomesoplenty_jacaranda",
+      "y": 0
+    },
+    "facing=east,type=left,waterlogged=false": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_log_left_biomesoplenty_jacaranda",
+      "y": 90
+    },
+    "facing=south,type=left,waterlogged=false": {
+      "model": "ironagefurniture:chair_wood_ironage_bench_log_left_biomesoplenty_jacaranda",
+      "y": 180
+    },
+    "facing=west,type=left,waterlogged=false": {
       "model": "ironagefurniture:chair_wood_ironage_bench_log_left_biomesoplenty_jacaranda",
       "y": 270
     }

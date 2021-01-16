@@ -100,18 +100,11 @@ public class BackBench extends Chair {
 		
 		return stateForPlacement;
     }
-//    
-//    @Override
-//    	public BlockState getStateForPlacement(BlockState state, Direction facing, BlockState state2, IWorld world,
-//    			BlockPos pos1, BlockPos pos2, Hand hand) {
-//    		
-//
-//    }
     
     private boolean isIAFBench(BlockState blockstate) {
     	ResourceLocation resource = blockstate.getBlock().getRegistryName();
     	
-    	if (resource.getPath().equals("ironagefurniture") && resource.getNamespace().contains("bench"))
+    	if (resource.getNamespace().equals("ironagefurniture") && resource.getPath().contains("bench"))
     		return true;
     	
     	return false;

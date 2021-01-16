@@ -1,9 +1,9 @@
 {
   "credit": "Made with Blockbench",
   "textures": {
-    "0": "minecraft:block/log_spruce",
-    "1": "minecraft:block/planks_spruce",
-    "particle": "minecraft:block/log_spruce"
+    "0": "minecraft:block/spruce_log",
+    "1": "minecraft:block/spruce_planks",
+    "particle": "minecraft:block/spruce_log"
   },
   "elements": [
     {

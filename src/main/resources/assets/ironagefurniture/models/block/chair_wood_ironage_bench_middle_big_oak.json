@@ -1,8 +1,8 @@
 {
   "credit": "Made with Blockbench",
   "textures": {
-    "0": "minecraft:block/log_big_oak",
-    "particle": "minecraft:block/log_big_oak"
+    "0": "minecraft:block/big_oak_log",
+    "particle": "minecraft:block/big_oak_log"
   },
   "elements": [
     {

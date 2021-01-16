@@ -1,10 +1,10 @@
 {
   "credit": "Made with Blockbench",
   "textures": {
-    "0": "minecraft:block/log_jungle",
-    "1": "minecraft:block/planks_jungle",
+    "0": "minecraft:block/jungle_log",
+    "1": "minecraft:block/jungle_planks",
     "2": "minecraft:blocks/wool_colored_red",
-    "particle": "minecraft:block/log_jungle"
+    "particle": "minecraft:block/jungle_log"
   },
   "elements": [
     {

@@ -1,10 +1,10 @@
 {
   "credit": "Made with Blockbench",
   "textures": {
-    "0": "minecraft:block/log_acacia",
-    "1": "minecraft:block/planks_acacia",
+    "0": "minecraft:block/acacia_log",
+    "1": "minecraft:block/acacia_planks",
     "2": "minecraft:blocks/wool_colored_red",
-    "particle": "minecraft:block/log_acacia"
+    "particle": "minecraft:block/acacia_log"
   },
   "elements": [
     {

@@ -1,8 +1,8 @@
 {
   "credit": "Made with Blockbench",
   "textures": {
-    "0": "minecraft:block/log_acacia",
-    "particle": "minecraft:block/log_acacia"
+    "0": "minecraft:block/acacia_log",
+    "particle": "minecraft:block/acacia_log"
   },
   "elements": [
     {

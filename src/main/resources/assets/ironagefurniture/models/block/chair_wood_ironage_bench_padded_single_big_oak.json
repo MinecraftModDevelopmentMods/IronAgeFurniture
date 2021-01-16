@@ -1,10 +1,10 @@
 {
   "credit": "Made with Blockbench",
   "textures": {
-    "0": "minecraft:block/log_big_oak",
-    "1": "minecraft:block/planks_big_oak",
+    "0": "minecraft:block/big_oak_log",
+    "1": "minecraft:block/big_oak_planks",
     "2": "minecraft:blocks/wool_colored_red",
-    "particle": "minecraft:block/log_big_oak"
+    "particle": "minecraft:block/big_oak_log"
   },
   "elements": [
     {
