@@ -1,22 +1,20 @@
 {
-  "type": "forge:ore_shaped",
-  "result": {
-    "item": "ironagefurniture:chair_wood_ironage_bench_single_acacia",
-    "data": 0
-  },
+  "type": "minecraft:crafting_shaped",
+  "group": "furniture",
   "pattern": [
     "xx",
     "yy"
   ],
   "key": {
-    "x": {
-      "item": "minecraft:planks",
-      "data": 4
-    },
     "y": {
-      "item": "minecraft:stick",
-      "data": 0
+      "tag": "forge:rods/wooden"
+    },
+    "x": {
+      "item": "minecraft:acacia_planks"
     }
   },
-  "group": "furniture"
+  "result": {
+    "item": "ironagefurniture:chair_wood_ironage_bench_single_acacia",
+    "count": 1
+  }
 }

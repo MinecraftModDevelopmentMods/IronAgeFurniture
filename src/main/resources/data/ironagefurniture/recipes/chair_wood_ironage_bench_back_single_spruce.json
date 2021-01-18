@@ -1,23 +1,21 @@
 {
-  "type": "forge:ore_shaped",
-  "result": {
-    "item": "ironagefurniture:chair_wood_ironage_bench_back_single_spruce",
-    "data": 0
-  },
+  "type": "minecraft:crafting_shaped",
+  "group": "furniture",
   "pattern": [
     "x ",
     "xx",
     "yy"
   ],
   "key": {
-    "x": {
-      "item": "minecraft:planks",
-      "data": 1
-    },
     "y": {
-      "item": "minecraft:stick",
-      "data": 0
+      "tag": "forge:rods/wooden"
+    },
+    "x": {
+      "item": "minecraft:spruce_planks"
     }
   },
-  "group": "furniture"
+  "result": {
+    "item": "ironagefurniture:chair_wood_ironage_bench_back_single_spruce",
+    "count": 1
+  }
 }

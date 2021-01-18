@@ -1,18 +1,16 @@
 {
-  "type": "forge:ore_shaped",
-  "result": {
-    "item": "ironagefurniture:chair_wood_ironage_bench_log_single_spruce",
-    "data": 0,
-    "count": 3
-  },
+  "type": "minecraft:crafting_shaped",
+  "group": "furniture",
   "pattern": [
     "xxx"
   ],
   "key": {
     "x": {
-      "item": "minecraft:log",
-      "data": 1
+      "item": "minecraft:spruce_log"
     }
   },
-  "group": "furniture"
+  "result": {
+    "item": "ironagefurniture:chair_wood_ironage_bench_log_single_spruce",
+    "count": 3
+  }
 }

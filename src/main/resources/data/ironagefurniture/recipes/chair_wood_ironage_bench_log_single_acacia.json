@@ -1,18 +1,16 @@
 {
-  "type": "forge:ore_shaped",
-  "result": {
-    "item": "ironagefurniture:chair_wood_ironage_bench_log_single_acacia",
-    "data": 0,
-    "count": 3
-  },
+  "type": "minecraft:crafting_shaped",
+  "group": "furniture",
   "pattern": [
     "xxx"
   ],
   "key": {
     "x": {
-      "item": "minecraft:log2",
-      "data": 0
+      "item": "minecraft:acacia_log"
     }
   },
-  "group": "furniture"
+  "result": {
+    "item": "ironagefurniture:chair_wood_ironage_bench_log_single_acacia",
+    "count": 3
+  }
 }
