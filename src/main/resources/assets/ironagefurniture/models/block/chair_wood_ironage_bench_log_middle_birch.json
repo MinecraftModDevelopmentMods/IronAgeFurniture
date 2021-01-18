@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "textures": {
     "0": "minecraft:block/birch_log",
-    "1": "",
+    "1": "minecraft:block/birch_log_top",
     "particle": "minecraft:block/birch_log"
   },
   "elements": [

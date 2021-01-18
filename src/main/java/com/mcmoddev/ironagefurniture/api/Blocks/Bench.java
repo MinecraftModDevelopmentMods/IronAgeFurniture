@@ -2,6 +2,7 @@ package com.mcmoddev.ironagefurniture.api.Blocks;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.mcmoddev.ironagefurniture.api.Enumerations.BenchType;
 import com.mcmoddev.ironagefurniture.api.entity.Seat;
 
 import net.minecraft.block.Block;
@@ -35,23 +36,42 @@ public class Bench extends BackBench {
         ImmutableMap.Builder<BlockState, VoxelShape> builder = new ImmutableMap.Builder<>();
         for(BlockState state : states)
         {
+        	BenchType type = state.get(TYPE);;
+        	
         	VoxelShape shapes = VoxelShapes.empty();
         
     		// bench body
         	shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(0, 6, 1, 16, 7, 15), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR); // chair base
         	
-        	//bench leg
-        	shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(2, 0, 4, 3, 7, 12), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR); 
-        	shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(13, 0, 4, 14, 7, 12), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR);
+        	switch (type) {
+			case SINGLE:
+				//bench leg
+	        	shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(2, 0, 4, 3, 7, 12), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR); 
+	        	shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(13, 0, 4, 14, 7, 12), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR);
+	        		
+				break;
+
+			case LEFT:
+				shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(2, 0, 4, 3, 7, 12), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR);
+				break;
+				
+			case RIGHT:
+				shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(13, 0, 4, 14, 7, 12), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR);
+				break;
+				
+			case MIDDLE:
+				break;
+				
+			default:
+				break;
+			}
         	
         	//bench cross bar
         	shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(0, 2, 7, 16, 4, 9), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR); 
-             	
         	
             builder.put(state, shapes.simplify());
         }
         
         _shapes = builder.build();
     }
-//	private static final AxisAlignedBB BBSHORT = new AxisAlignedBB(0.2, 0.0, 0.2, 0.9, 0.45, 0.9);
 }

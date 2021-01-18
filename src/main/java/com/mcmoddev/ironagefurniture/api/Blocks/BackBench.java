@@ -1,5 +1,7 @@
 package com.mcmoddev.ironagefurniture.api.Blocks;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.mcmoddev.ironagefurniture.api.Enumerations.BenchType;
 import com.mcmoddev.ironagefurniture.api.Enumerations.Rotation;
 import com.mcmoddev.ironagefurniture.api.properties.BenchTypeProperty;
@@ -8,28 +10,19 @@ import com.mcmoddev.ironagefurniture.api.util.Swivel;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.IBooleanFunction;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ToolType;
 
 public class BackBench extends Chair {
-//	private static final AxisAlignedBB BB = new AxisAlignedBB(0.1, 0.0, 0.1, 0.9, 1.0, 0.9);
-//	private static final AxisAlignedBB BBSHORT = new AxisAlignedBB(0.1, 0.0, 0.1, 0.9, 0.45, 0.9);
-//	private static final AxisAlignedBB BACKEAST = new AxisAlignedBB(0.825, 0.6, 0.1, 0.9, 1.0, 0.9);
-//	private static final AxisAlignedBB BACKNORTH = rotate(Rotation.Ninty, BACKEAST);
-//	private static final AxisAlignedBB BACKSOUTH = RotateBB(Rotation.OneEighty, BACKEAST);
-//	private static final AxisAlignedBB BACKWEST = RotateBB(Rotation.TwoSeventy, BACKEAST);
-	
 	public static final BenchTypeProperty TYPE = BenchTypeProperty.create("type", BenchType.SINGLE, BenchType.LEFT, BenchType.MIDDLE, BenchType.RIGHT);;
 	
 	public BackBench(float hardness, float blastResistance, SoundType sound, String name) {
@@ -43,6 +36,51 @@ public class BackBench extends Chair {
         
         builder.add(TYPE);
     }
+	
+	 @Override
+	protected void generateShapes(ImmutableList<BlockState> states)
+   {
+       ImmutableMap.Builder<BlockState, VoxelShape> builder = new ImmutableMap.Builder<>();
+       for(BlockState state : states)
+       {
+       	BenchType type = state.get(TYPE);;
+       	
+       	VoxelShape shapes = VoxelShapes.empty();
+       
+   		// bench body
+       	shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(0, 6, 1, 16, 7, 15), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR); // chair base
+       	
+       	switch (type) {
+			case SINGLE:
+				//bench leg
+	        	shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(2, 0, 4, 3, 7, 12), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR); 
+	        	shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(13, 0, 4, 14, 7, 12), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR);
+	        		
+				break;
+
+			case LEFT:
+				shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(2, 0, 4, 3, 7, 12), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR);
+				break;
+				
+			case RIGHT:
+				shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(13, 0, 4, 14, 7, 12), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR);
+				break;
+				
+			case MIDDLE:
+				break;
+				
+			default:
+				break;
+			}
+       	
+       	//bench cross bar
+       	shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(0, 2, 7, 16, 4, 9), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR); 
+       	
+           builder.put(state, shapes.simplify());
+       }
+       
+       _shapes = builder.build();
+   }
 	
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context)
@@ -110,7 +148,7 @@ public class BackBench extends Chair {
     	return false;
     }
     
-	private BenchType getBenchType(BlockState blockstate) {
+	protected BenchType getBenchType(BlockState blockstate) {
 		if (blockstate == null)
 			return null;
 		
@@ -343,48 +381,6 @@ public class BackBench extends Chair {
 		
 		return null;
 	}
-	
-//	@Override
-//	public BlockState getStateFromMeta(int meta) 
-//	{
-//		BenchType benchType = BenchType.SINGLE;
-//		
-//		if ( meta > 3 && meta < 8) {
-//			benchType = BenchType.MIDDLE;
-//			meta -= 4;
-//		}
-//		
-//		if (meta > 7 && meta < 12) {
-//			benchType = BenchType.LEFT;
-//			meta -= 8;
-//		}
-//		
-//		if (meta > 11) {
-//			benchType = BenchType.RIGHT;
-//			meta -= 12;
-//		}
-//		
-//		return this.getDefaultState()
-//				.with(TYPE, benchType)
-//				.with(DIRECTION, Direction.getHorizontal(meta));
-//	}
-
-//	@Override
-//	public int getMetaFromState(BlockState state)
-//	{
-//		int i = ((Direction)state.getValue(DIRECTION)).getHorizontalIndex();
-//
-//        if (state.getValue(TYPE) == BenchType.MIDDLE)
-//            i += 4;
-//        
-//        if (state.getValue(TYPE) == BenchType.LEFT)
-//            i += 8;
-//        
-//        if (state.getValue(TYPE) == BenchType.RIGHT)
-//            i += 12;
-//        
-//        return i;
-//	}
 
 	@Override
 	public void onPlayerDestroy(IWorld worldIn, BlockPos pos, BlockState state) {
@@ -427,39 +423,4 @@ public class BackBench extends Chair {
 		}
 	}
 	
-//	@Override
-//	protected BlockStateContainer createBlockState()
-//	{
-//		return new BlockStateContainer(this, new IProperty[] { DIRECTION, TYPE });
-//	}
-//	
-//	@Override
-//	public AxisAlignedBB getBoundingBox(BlockState state, IBlockAccess source, BlockPos pos) 
-//	{
-//		return BB;
-//	}
-	
-//	@Override
-//	public void addCollisionBoxToList(BlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox,
-//			List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
-//		
-//		if (!(entityIn instanceof Seat)) {
-//			switch(state.getValue(DIRECTION)) {
-//			case NORTH:
-//				super.addCollisionBoxToList(pos, entityBox, collidingBoxes, BACKNORTH);
-//				break;
-//			case SOUTH:
-//				super.addCollisionBoxToList(pos, entityBox, collidingBoxes, BACKSOUTH);
-//				break;
-//			case WEST:
-//				super.addCollisionBoxToList(pos, entityBox, collidingBoxes, BACKWEST);
-//				break;
-//			default:
-//				super.addCollisionBoxToList(pos, entityBox, collidingBoxes, BACKEAST);
-//				break;
-//			}
-//			
-//			super.addCollisionBoxToList(pos, entityBox, collidingBoxes, BBSHORT);
-//		}
-//	}
 }

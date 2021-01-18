@@ -16,7 +16,7 @@
       "conditions": {
         "items": [
           {
-            "item": "minecraft:{materialname}_planks",
+            "item": "minecraft:oak_planks",
             "data": -1
           }
         ]

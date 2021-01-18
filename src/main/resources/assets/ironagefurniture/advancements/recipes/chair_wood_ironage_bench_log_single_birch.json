@@ -16,8 +16,8 @@
       "conditions": {
         "items": [
           {
-            "item": "minecraft:planks",
-            "data": 2
+            "item": "minecraft:birch_planks",
+            "data": -1
           }
         ]
       }
