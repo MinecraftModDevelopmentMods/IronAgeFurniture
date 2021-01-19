@@ -1,8 +1,8 @@
 {
   "credit": "Made with Blockbench",
   "textures": {
-    "0": "immersiveengineering:block/treated_wood_packaged",
-    "particle": "immersiveengineering:block/treated_wood_packaged"
+    "0": "immersiveengineering:block/wooden_decoration/treated_wood_packaged",
+    "particle": "immersiveengineering:block/wooden_decoration/treated_wood_packaged"
   },
   "elements": [
     {
