@@ -1,14 +1,14 @@
 {
   "rewards": {
     "recipes": [
-      "ironagefurniture:chair_wood_ironage_bench_padded_green_single_jungle"
+      "ironagefurniture:chair_wood_ironage_bench_padded_magenta_single_jungle"
     ]
   },
   "criteria": {
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "ironagefurniture:chair_wood_ironage_bench_padded_green_single_jungle"
+        "recipe": "ironagefurniture:chair_wood_ironage_bench_padded_magenta_single_jungle"
       }
     },
     "has_rock": {
@@ -16,8 +16,7 @@
       "conditions": {
         "items": [
           {
-            "item": "minecraft:jungle_planks",
-            "data": -1
+            "item": "minecraft:jungle_planks"
           }
         ]
       }

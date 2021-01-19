@@ -1,0 +1,31 @@
+{
+  "rewards": {
+    "recipes": [
+      "ironagefurniture:chair_wood_ironage_bench_back_padded_cyan_single_biomesoplenty_palm"
+    ]
+  },
+  "criteria": {
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "ironagefurniture:chair_wood_ironage_bench_back_padded_cyan_single_biomesoplenty_palm"
+      }
+    },
+    "has_rock": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "biomesoplenty:palm_planks"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_rock"
+    ]
+  ]
+}

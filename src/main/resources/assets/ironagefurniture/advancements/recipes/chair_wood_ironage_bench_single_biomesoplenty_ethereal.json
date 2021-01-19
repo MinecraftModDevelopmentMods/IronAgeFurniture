@@ -16,8 +16,7 @@
       "conditions": {
         "items": [
           {
-            "item": "biomesoplenty:planks_0",
-            "data": 4
+            "item": "biomesoplenty:ethereal_planks"
           }
         ]
       }

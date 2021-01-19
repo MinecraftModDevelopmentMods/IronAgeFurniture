@@ -1,14 +1,14 @@
 {
   "rewards": {
     "recipes": [
-      "ironagefurniture:chair_wood_ironage_bench_padded_green_single_birch"
+      "ironagefurniture:chair_wood_ironage_bench_padded_yellow_single_birch"
     ]
   },
   "criteria": {
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "ironagefurniture:chair_wood_ironage_bench_padded_green_single_birch"
+        "recipe": "ironagefurniture:chair_wood_ironage_bench_padded_yellow_single_birch"
       }
     },
     "has_rock": {
@@ -16,8 +16,7 @@
       "conditions": {
         "items": [
           {
-            "item": "minecraft:birch_planks",
-            "data": -1
+            "item": "minecraft:birch_planks"
           }
         ]
       }

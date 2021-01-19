@@ -16,8 +16,7 @@
       "conditions": {
         "items": [
           {
-            "item": "biomesoplenty:magic_planks",
-            "data": -1
+            "item": "biomesoplenty:magic_planks"
           }
         ]
       }
