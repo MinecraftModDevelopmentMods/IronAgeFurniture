@@ -1,14 +1,27 @@
 {
-  "type": "crafting_shapeless",
-  "ingredients": [
+  "type": "forge:conditional",
+  "recipes": [
     {
-      "item": "minecraft:shield"
-    },
-    {
-      "item": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_willow"
+      "conditions": [
+        {
+          "modid": "biomesoplenty",
+          "type": "forge:mod_loaded"
+        }
+      ],
+      "recipe": {
+        "type": "crafting_shapeless",
+        "ingredients": [
+          {
+            "item": "minecraft:shield"
+          },
+          {
+            "item": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_willow"
+          }
+        ],
+        "result": {
+          "item": "ironagefurniture:chair_wood_ironage_shield_biomesoplenty_willow"
+        }
+      }
     }
-  ],
-  "result": {
-    "item": "ironagefurniture:chair_wood_ironage_shield_biomesoplenty_willow"
-  }
+  ]
 }

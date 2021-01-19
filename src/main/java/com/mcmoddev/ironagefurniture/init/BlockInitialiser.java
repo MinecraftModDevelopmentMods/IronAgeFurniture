@@ -3,8 +3,11 @@ package com.mcmoddev.ironagefurniture.init;
 import com.mcmoddev.ironagefurniture.IronAgeFurnitureConfiguration;
 import com.mcmoddev.ironagefurniture.Ironagefurniture;
 import com.mcmoddev.ironagefurniture.api.Blocks.Chair;
+import com.mcmoddev.ironagefurniture.api.Blocks.LogBench;
 import com.mcmoddev.ironagefurniture.api.Blocks.Stool;
 import com.mcmoddev.ironagefurniture.api.Blocks.TallStool;
+import com.mcmoddev.ironagefurniture.api.Blocks.Bench;
+import com.mcmoddev.ironagefurniture.api.Blocks.BackBench;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraftforge.event.RegistryEvent;
@@ -56,6 +59,253 @@ public class BlockInitialiser {
 			event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_birch"));
 			event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_jungle"));
 			event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_spruce"));
+		}
+		
+		if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_BENCHES.get()) {
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_single_oak"));		
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_single_acacia"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_single_dark_oak"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_single_birch"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_single_jungle"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_single_spruce"));
+			
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_single_oak"));		
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_single_acacia"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_single_dark_oak"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_single_birch"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_single_jungle"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_single_spruce"));
+			
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_green_single_oak"));		
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_green_single_acacia"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_green_single_dark_oak"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_green_single_birch"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_green_single_jungle"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_green_single_spruce"));
+			
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_green_single_oak"));		
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_green_single_acacia"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_green_single_dark_oak"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_green_single_birch"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_green_single_jungle"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_green_single_spruce"));
+			
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_light_blue_single_oak"));		
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_light_blue_single_acacia"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_light_blue_single_dark_oak"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_light_blue_single_birch"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_light_blue_single_jungle"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_light_blue_single_spruce"));
+			
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_light_blue_single_oak"));		
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_light_blue_single_acacia"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_light_blue_single_dark_oak"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_light_blue_single_birch"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_light_blue_single_jungle"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_light_blue_single_spruce"));
+			
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_light_gray_single_oak"));		
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_light_gray_single_acacia"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_light_gray_single_dark_oak"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_light_gray_single_birch"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_light_gray_single_jungle"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_light_gray_single_spruce"));
+			
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_light_gray_single_oak"));		
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_light_gray_single_acacia"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_light_gray_single_dark_oak"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_light_gray_single_birch"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_light_gray_single_jungle"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_light_gray_single_spruce"));
+			
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_lime_single_oak"));		
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_lime_single_acacia"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_lime_single_dark_oak"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_lime_single_birch"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_lime_single_jungle"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_lime_single_spruce"));
+			
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_lime_single_oak"));		
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_lime_single_acacia"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_lime_single_dark_oak"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_lime_single_birch"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_lime_single_jungle"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_lime_single_spruce"));
+			
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_magenta_single_oak"));		
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_magenta_single_acacia"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_magenta_single_dark_oak"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_magenta_single_birch"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_magenta_single_jungle"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_magenta_single_spruce"));
+			
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_magenta_single_oak"));		
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_magenta_single_acacia"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_magenta_single_dark_oak"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_magenta_single_birch"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_magenta_single_jungle"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_magenta_single_spruce"));
+						
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_orange_single_oak"));		
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_orange_single_acacia"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_orange_single_dark_oak"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_orange_single_birch"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_orange_single_jungle"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_orange_single_spruce"));
+			
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_orange_single_oak"));		
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_orange_single_acacia"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_orange_single_dark_oak"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_orange_single_birch"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_orange_single_jungle"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_orange_single_spruce"));
+			
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_pink_single_oak"));		
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_pink_single_acacia"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_pink_single_dark_oak"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_pink_single_birch"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_pink_single_jungle"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_pink_single_spruce"));
+			
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_pink_single_oak"));		
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_pink_single_acacia"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_pink_single_dark_oak"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_pink_single_birch"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_pink_single_jungle"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_pink_single_spruce"));
+			
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_purple_single_oak"));		
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_purple_single_acacia"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_purple_single_dark_oak"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_purple_single_birch"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_purple_single_jungle"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_purple_single_spruce"));
+			
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_purple_single_oak"));		
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_purple_single_acacia"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_purple_single_dark_oak"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_purple_single_birch"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_purple_single_jungle"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_purple_single_spruce"));
+			
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_red_single_oak"));		
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_red_single_acacia"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_red_single_dark_oak"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_red_single_birch"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_red_single_jungle"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_red_single_spruce"));
+			
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_red_single_oak"));		
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_red_single_acacia"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_red_single_dark_oak"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_red_single_birch"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_red_single_jungle"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_red_single_spruce"));
+			
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_white_single_oak"));		
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_white_single_acacia"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_white_single_dark_oak"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_white_single_birch"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_white_single_jungle"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_white_single_spruce"));
+			
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_white_single_oak"));		
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_white_single_acacia"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_white_single_dark_oak"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_white_single_birch"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_white_single_jungle"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_white_single_spruce"));
+			
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_yellow_single_oak"));		
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_yellow_single_acacia"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_yellow_single_dark_oak"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_yellow_single_birch"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_yellow_single_jungle"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_yellow_single_spruce"));
+			
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_yellow_single_oak"));		
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_yellow_single_acacia"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_yellow_single_dark_oak"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_yellow_single_birch"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_yellow_single_jungle"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_yellow_single_spruce"));
+			
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_black_single_oak"));		
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_black_single_acacia"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_black_single_dark_oak"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_black_single_birch"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_black_single_jungle"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_black_single_spruce"));
+			
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_black_single_oak"));		
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_black_single_acacia"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_black_single_dark_oak"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_black_single_birch"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_black_single_jungle"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_black_single_spruce"));
+			
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_blue_single_oak"));		
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_blue_single_acacia"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_blue_single_dark_oak"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_blue_single_birch"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_blue_single_jungle"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_blue_single_spruce"));
+			
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_blue_single_oak"));		
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_blue_single_acacia"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_blue_single_dark_oak"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_blue_single_birch"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_blue_single_jungle"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_blue_single_spruce"));
+			
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_brown_single_oak"));		
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_brown_single_acacia"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_brown_single_dark_oak"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_brown_single_birch"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_brown_single_jungle"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_brown_single_spruce"));
+			
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_brown_single_oak"));		
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_brown_single_acacia"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_brown_single_dark_oak"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_brown_single_birch"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_brown_single_jungle"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_brown_single_spruce"));
+			
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_cyan_single_oak"));		
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_cyan_single_acacia"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_cyan_single_dark_oak"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_cyan_single_birch"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_cyan_single_jungle"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_cyan_single_spruce"));
+			
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_cyan_single_oak"));		
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_cyan_single_acacia"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_cyan_single_dark_oak"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_cyan_single_birch"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_cyan_single_jungle"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_cyan_single_spruce"));
+			
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_gray_single_oak"));		
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_gray_single_acacia"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_gray_single_dark_oak"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_gray_single_birch"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_gray_single_jungle"));
+			event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_gray_single_spruce"));
+			
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_gray_single_oak"));		
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_gray_single_acacia"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_gray_single_dark_oak"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_gray_single_birch"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_gray_single_jungle"));
+			event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_gray_single_spruce"));
+			
+			event.getRegistry().register(new LogBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_log_single_oak"));		
+			event.getRegistry().register(new LogBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_log_single_acacia"));
+			event.getRegistry().register(new LogBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_log_single_dark_oak"));
+			event.getRegistry().register(new LogBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_log_single_birch"));
+			event.getRegistry().register(new LogBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_log_single_jungle"));
+			event.getRegistry().register(new LogBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_log_single_spruce"));
 		}
 		
 		if (IronAgeFurnitureConfiguration.CLIENT.INTEGRATION_BIOMESOPLENTY.get() && ModList.get().isLoaded("biomesoplenty")) {
@@ -118,6 +368,463 @@ public class BlockInitialiser {
 				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_biomesoplenty_willow"));
 				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_biomesoplenty_dead"));
 			}
+			
+			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_BENCHES.get()) {
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_single_biomesoplenty_cherry"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_single_biomesoplenty_ethereal"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_single_biomesoplenty_fir"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_single_biomesoplenty_hellbark"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_single_biomesoplenty_jacaranda"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_single_biomesoplenty_magic"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_single_biomesoplenty_mahogany"));	
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_single_biomesoplenty_palm"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_single_biomesoplenty_redwood"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_single_biomesoplenty_umbran"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_single_biomesoplenty_willow"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_single_biomesoplenty_dead"));
+				
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_single_biomesoplenty_cherry"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_single_biomesoplenty_ethereal"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_single_biomesoplenty_fir"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_single_biomesoplenty_hellbark"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_single_biomesoplenty_jacaranda"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_single_biomesoplenty_magic"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_single_biomesoplenty_mahogany"));	
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_single_biomesoplenty_palm"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_single_biomesoplenty_redwood"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_single_biomesoplenty_umbran"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_single_biomesoplenty_willow"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_single_biomesoplenty_dead"));
+				
+				event.getRegistry().register(new LogBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_log_single_biomesoplenty_cherry"));
+				event.getRegistry().register(new LogBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_log_single_biomesoplenty_ethereal"));
+				event.getRegistry().register(new LogBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_log_single_biomesoplenty_fir"));
+				event.getRegistry().register(new LogBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_log_single_biomesoplenty_hellbark"));
+				event.getRegistry().register(new LogBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_log_single_biomesoplenty_jacaranda"));
+				event.getRegistry().register(new LogBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_log_single_biomesoplenty_magic"));
+				event.getRegistry().register(new LogBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_log_single_biomesoplenty_mahogany"));	
+				event.getRegistry().register(new LogBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_log_single_biomesoplenty_palm"));
+				event.getRegistry().register(new LogBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_log_single_biomesoplenty_redwood"));
+				event.getRegistry().register(new LogBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_log_single_biomesoplenty_umbran"));
+				event.getRegistry().register(new LogBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_log_single_biomesoplenty_willow"));
+				event.getRegistry().register(new LogBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_log_single_biomesoplenty_dead"));
+				
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_green_single_biomesoplenty_cherry"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_green_single_biomesoplenty_ethereal"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_green_single_biomesoplenty_fir"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_green_single_biomesoplenty_hellbark"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_green_single_biomesoplenty_jacaranda"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_green_single_biomesoplenty_magic"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_green_single_biomesoplenty_mahogany"));	
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_green_single_biomesoplenty_palm"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_green_single_biomesoplenty_redwood"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_green_single_biomesoplenty_umbran"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_green_single_biomesoplenty_willow"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_green_single_biomesoplenty_dead"));
+
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_green_single_biomesoplenty_cherry"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_green_single_biomesoplenty_ethereal"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_green_single_biomesoplenty_fir"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_green_single_biomesoplenty_hellbark"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_green_single_biomesoplenty_jacaranda"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_green_single_biomesoplenty_magic"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_green_single_biomesoplenty_mahogany"));	
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_green_single_biomesoplenty_palm"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_green_single_biomesoplenty_redwood"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_green_single_biomesoplenty_umbran"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_green_single_biomesoplenty_willow"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_green_single_biomesoplenty_dead"));
+
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_light_blue_single_biomesoplenty_cherry"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_light_blue_single_biomesoplenty_ethereal"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_light_blue_single_biomesoplenty_fir"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_light_blue_single_biomesoplenty_hellbark"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_light_blue_single_biomesoplenty_jacaranda"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_light_blue_single_biomesoplenty_magic"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_light_blue_single_biomesoplenty_mahogany"));	
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_light_blue_single_biomesoplenty_palm"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_light_blue_single_biomesoplenty_redwood"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_light_blue_single_biomesoplenty_umbran"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_light_blue_single_biomesoplenty_willow"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_light_blue_single_biomesoplenty_dead"));
+
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_light_blue_single_biomesoplenty_cherry"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_light_blue_single_biomesoplenty_ethereal"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_light_blue_single_biomesoplenty_fir"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_light_blue_single_biomesoplenty_hellbark"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_light_blue_single_biomesoplenty_jacaranda"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_light_blue_single_biomesoplenty_magic"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_light_blue_single_biomesoplenty_mahogany"));	
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_light_blue_single_biomesoplenty_palm"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_light_blue_single_biomesoplenty_redwood"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_light_blue_single_biomesoplenty_umbran"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_light_blue_single_biomesoplenty_willow"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_light_blue_single_biomesoplenty_dead"));
+
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_light_gray_single_biomesoplenty_cherry"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_light_gray_single_biomesoplenty_ethereal"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_light_gray_single_biomesoplenty_fir"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_light_gray_single_biomesoplenty_hellbark"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_light_gray_single_biomesoplenty_jacaranda"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_light_gray_single_biomesoplenty_magic"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_light_gray_single_biomesoplenty_mahogany"));	
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_light_gray_single_biomesoplenty_palm"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_light_gray_single_biomesoplenty_redwood"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_light_gray_single_biomesoplenty_umbran"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_light_gray_single_biomesoplenty_willow"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_light_gray_single_biomesoplenty_dead"));
+
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_light_gray_single_biomesoplenty_cherry"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_light_gray_single_biomesoplenty_ethereal"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_light_gray_single_biomesoplenty_fir"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_light_gray_single_biomesoplenty_hellbark"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_light_gray_single_biomesoplenty_jacaranda"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_light_gray_single_biomesoplenty_magic"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_light_gray_single_biomesoplenty_mahogany"));	
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_light_gray_single_biomesoplenty_palm"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_light_gray_single_biomesoplenty_redwood"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_light_gray_single_biomesoplenty_umbran"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_light_gray_single_biomesoplenty_willow"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_light_gray_single_biomesoplenty_dead"));
+
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_lime_single_biomesoplenty_cherry"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_lime_single_biomesoplenty_ethereal"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_lime_single_biomesoplenty_fir"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_lime_single_biomesoplenty_hellbark"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_lime_single_biomesoplenty_jacaranda"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_lime_single_biomesoplenty_magic"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_lime_single_biomesoplenty_mahogany"));	
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_lime_single_biomesoplenty_palm"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_lime_single_biomesoplenty_redwood"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_lime_single_biomesoplenty_umbran"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_lime_single_biomesoplenty_willow"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_lime_single_biomesoplenty_dead"));
+
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_lime_single_biomesoplenty_cherry"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_lime_single_biomesoplenty_ethereal"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_lime_single_biomesoplenty_fir"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_lime_single_biomesoplenty_hellbark"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_lime_single_biomesoplenty_jacaranda"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_lime_single_biomesoplenty_magic"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_lime_single_biomesoplenty_mahogany"));	
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_lime_single_biomesoplenty_palm"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_lime_single_biomesoplenty_redwood"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_lime_single_biomesoplenty_umbran"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_lime_single_biomesoplenty_willow"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_lime_single_biomesoplenty_dead"));
+
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_magenta_single_biomesoplenty_cherry"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_magenta_single_biomesoplenty_ethereal"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_magenta_single_biomesoplenty_fir"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_magenta_single_biomesoplenty_hellbark"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_magenta_single_biomesoplenty_jacaranda"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_magenta_single_biomesoplenty_magic"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_magenta_single_biomesoplenty_mahogany"));	
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_magenta_single_biomesoplenty_palm"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_magenta_single_biomesoplenty_redwood"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_magenta_single_biomesoplenty_umbran"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_magenta_single_biomesoplenty_willow"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_magenta_single_biomesoplenty_dead"));
+
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_magenta_single_biomesoplenty_cherry"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_magenta_single_biomesoplenty_ethereal"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_magenta_single_biomesoplenty_fir"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_magenta_single_biomesoplenty_hellbark"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_magenta_single_biomesoplenty_jacaranda"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_magenta_single_biomesoplenty_magic"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_magenta_single_biomesoplenty_mahogany"));	
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_magenta_single_biomesoplenty_palm"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_magenta_single_biomesoplenty_redwood"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_magenta_single_biomesoplenty_umbran"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_magenta_single_biomesoplenty_willow"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_magenta_single_biomesoplenty_dead"));
+
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_orange_single_biomesoplenty_cherry"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_orange_single_biomesoplenty_ethereal"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_orange_single_biomesoplenty_fir"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_orange_single_biomesoplenty_hellbark"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_orange_single_biomesoplenty_jacaranda"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_orange_single_biomesoplenty_magic"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_orange_single_biomesoplenty_mahogany"));	
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_orange_single_biomesoplenty_palm"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_orange_single_biomesoplenty_redwood"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_orange_single_biomesoplenty_umbran"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_orange_single_biomesoplenty_willow"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_orange_single_biomesoplenty_dead"));
+
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_orange_single_biomesoplenty_cherry"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_orange_single_biomesoplenty_ethereal"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_orange_single_biomesoplenty_fir"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_orange_single_biomesoplenty_hellbark"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_orange_single_biomesoplenty_jacaranda"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_orange_single_biomesoplenty_magic"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_orange_single_biomesoplenty_mahogany"));	
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_orange_single_biomesoplenty_palm"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_orange_single_biomesoplenty_redwood"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_orange_single_biomesoplenty_umbran"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_orange_single_biomesoplenty_willow"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_orange_single_biomesoplenty_dead"));
+
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_pink_single_biomesoplenty_cherry"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_pink_single_biomesoplenty_ethereal"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_pink_single_biomesoplenty_fir"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_pink_single_biomesoplenty_hellbark"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_pink_single_biomesoplenty_jacaranda"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_pink_single_biomesoplenty_magic"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_pink_single_biomesoplenty_mahogany"));	
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_pink_single_biomesoplenty_palm"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_pink_single_biomesoplenty_redwood"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_pink_single_biomesoplenty_umbran"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_pink_single_biomesoplenty_willow"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_pink_single_biomesoplenty_dead"));
+
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_pink_single_biomesoplenty_cherry"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_pink_single_biomesoplenty_ethereal"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_pink_single_biomesoplenty_fir"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_pink_single_biomesoplenty_hellbark"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_pink_single_biomesoplenty_jacaranda"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_pink_single_biomesoplenty_magic"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_pink_single_biomesoplenty_mahogany"));	
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_pink_single_biomesoplenty_palm"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_pink_single_biomesoplenty_redwood"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_pink_single_biomesoplenty_umbran"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_pink_single_biomesoplenty_willow"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_pink_single_biomesoplenty_dead"));
+
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_purple_single_biomesoplenty_cherry"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_purple_single_biomesoplenty_ethereal"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_purple_single_biomesoplenty_fir"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_purple_single_biomesoplenty_hellbark"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_purple_single_biomesoplenty_jacaranda"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_purple_single_biomesoplenty_magic"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_purple_single_biomesoplenty_mahogany"));	
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_purple_single_biomesoplenty_palm"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_purple_single_biomesoplenty_redwood"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_purple_single_biomesoplenty_umbran"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_purple_single_biomesoplenty_willow"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_purple_single_biomesoplenty_dead"));
+
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_purple_single_biomesoplenty_cherry"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_purple_single_biomesoplenty_ethereal"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_purple_single_biomesoplenty_fir"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_purple_single_biomesoplenty_hellbark"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_purple_single_biomesoplenty_jacaranda"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_purple_single_biomesoplenty_magic"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_purple_single_biomesoplenty_mahogany"));	
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_purple_single_biomesoplenty_palm"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_purple_single_biomesoplenty_redwood"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_purple_single_biomesoplenty_umbran"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_purple_single_biomesoplenty_willow"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_purple_single_biomesoplenty_dead"));
+
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_red_single_biomesoplenty_cherry"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_red_single_biomesoplenty_ethereal"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_red_single_biomesoplenty_fir"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_red_single_biomesoplenty_hellbark"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_red_single_biomesoplenty_jacaranda"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_red_single_biomesoplenty_magic"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_red_single_biomesoplenty_mahogany"));	
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_red_single_biomesoplenty_palm"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_red_single_biomesoplenty_redwood"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_red_single_biomesoplenty_umbran"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_red_single_biomesoplenty_willow"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_red_single_biomesoplenty_dead"));
+
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_red_single_biomesoplenty_cherry"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_red_single_biomesoplenty_ethereal"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_red_single_biomesoplenty_fir"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_red_single_biomesoplenty_hellbark"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_red_single_biomesoplenty_jacaranda"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_red_single_biomesoplenty_magic"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_red_single_biomesoplenty_mahogany"));	
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_red_single_biomesoplenty_palm"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_red_single_biomesoplenty_redwood"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_red_single_biomesoplenty_umbran"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_red_single_biomesoplenty_willow"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_red_single_biomesoplenty_dead"));
+
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_white_single_biomesoplenty_cherry"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_white_single_biomesoplenty_ethereal"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_white_single_biomesoplenty_fir"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_white_single_biomesoplenty_hellbark"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_white_single_biomesoplenty_jacaranda"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_white_single_biomesoplenty_magic"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_white_single_biomesoplenty_mahogany"));	
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_white_single_biomesoplenty_palm"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_white_single_biomesoplenty_redwood"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_white_single_biomesoplenty_umbran"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_white_single_biomesoplenty_willow"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_white_single_biomesoplenty_dead"));
+
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_white_single_biomesoplenty_cherry"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_white_single_biomesoplenty_ethereal"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_white_single_biomesoplenty_fir"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_white_single_biomesoplenty_hellbark"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_white_single_biomesoplenty_jacaranda"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_white_single_biomesoplenty_magic"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_white_single_biomesoplenty_mahogany"));	
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_white_single_biomesoplenty_palm"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_white_single_biomesoplenty_redwood"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_white_single_biomesoplenty_umbran"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_white_single_biomesoplenty_willow"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_white_single_biomesoplenty_dead"));
+
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_yellow_single_biomesoplenty_cherry"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_yellow_single_biomesoplenty_ethereal"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_yellow_single_biomesoplenty_fir"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_yellow_single_biomesoplenty_hellbark"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_yellow_single_biomesoplenty_jacaranda"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_yellow_single_biomesoplenty_magic"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_yellow_single_biomesoplenty_mahogany"));	
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_yellow_single_biomesoplenty_palm"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_yellow_single_biomesoplenty_redwood"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_yellow_single_biomesoplenty_umbran"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_yellow_single_biomesoplenty_willow"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_yellow_single_biomesoplenty_dead"));
+
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_yellow_single_biomesoplenty_cherry"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_yellow_single_biomesoplenty_ethereal"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_yellow_single_biomesoplenty_fir"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_yellow_single_biomesoplenty_hellbark"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_yellow_single_biomesoplenty_jacaranda"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_yellow_single_biomesoplenty_magic"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_yellow_single_biomesoplenty_mahogany"));	
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_yellow_single_biomesoplenty_palm"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_yellow_single_biomesoplenty_redwood"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_yellow_single_biomesoplenty_umbran"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_yellow_single_biomesoplenty_willow"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_yellow_single_biomesoplenty_dead"));
+
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_black_single_biomesoplenty_cherry"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_black_single_biomesoplenty_ethereal"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_black_single_biomesoplenty_fir"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_black_single_biomesoplenty_hellbark"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_black_single_biomesoplenty_jacaranda"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_black_single_biomesoplenty_magic"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_black_single_biomesoplenty_mahogany"));	
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_black_single_biomesoplenty_palm"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_black_single_biomesoplenty_redwood"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_black_single_biomesoplenty_umbran"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_black_single_biomesoplenty_willow"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_black_single_biomesoplenty_dead"));
+
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_black_single_biomesoplenty_cherry"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_black_single_biomesoplenty_ethereal"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_black_single_biomesoplenty_fir"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_black_single_biomesoplenty_hellbark"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_black_single_biomesoplenty_jacaranda"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_black_single_biomesoplenty_magic"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_black_single_biomesoplenty_mahogany"));	
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_black_single_biomesoplenty_palm"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_black_single_biomesoplenty_redwood"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_black_single_biomesoplenty_umbran"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_black_single_biomesoplenty_willow"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_black_single_biomesoplenty_dead"));
+
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_blue_single_biomesoplenty_cherry"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_blue_single_biomesoplenty_ethereal"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_blue_single_biomesoplenty_fir"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_blue_single_biomesoplenty_hellbark"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_blue_single_biomesoplenty_jacaranda"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_blue_single_biomesoplenty_magic"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_blue_single_biomesoplenty_mahogany"));	
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_blue_single_biomesoplenty_palm"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_blue_single_biomesoplenty_redwood"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_blue_single_biomesoplenty_umbran"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_blue_single_biomesoplenty_willow"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_blue_single_biomesoplenty_dead"));
+
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_blue_single_biomesoplenty_cherry"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_blue_single_biomesoplenty_ethereal"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_blue_single_biomesoplenty_fir"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_blue_single_biomesoplenty_hellbark"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_blue_single_biomesoplenty_jacaranda"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_blue_single_biomesoplenty_magic"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_blue_single_biomesoplenty_mahogany"));	
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_blue_single_biomesoplenty_palm"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_blue_single_biomesoplenty_redwood"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_blue_single_biomesoplenty_umbran"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_blue_single_biomesoplenty_willow"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_blue_single_biomesoplenty_dead"));
+
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_brown_single_biomesoplenty_cherry"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_brown_single_biomesoplenty_ethereal"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_brown_single_biomesoplenty_fir"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_brown_single_biomesoplenty_hellbark"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_brown_single_biomesoplenty_jacaranda"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_brown_single_biomesoplenty_magic"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_brown_single_biomesoplenty_mahogany"));	
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_brown_single_biomesoplenty_palm"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_brown_single_biomesoplenty_redwood"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_brown_single_biomesoplenty_umbran"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_brown_single_biomesoplenty_willow"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_brown_single_biomesoplenty_dead"));
+
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_brown_single_biomesoplenty_cherry"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_brown_single_biomesoplenty_ethereal"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_brown_single_biomesoplenty_fir"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_brown_single_biomesoplenty_hellbark"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_brown_single_biomesoplenty_jacaranda"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_brown_single_biomesoplenty_magic"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_brown_single_biomesoplenty_mahogany"));	
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_brown_single_biomesoplenty_palm"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_brown_single_biomesoplenty_redwood"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_brown_single_biomesoplenty_umbran"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_brown_single_biomesoplenty_willow"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_brown_single_biomesoplenty_dead"));
+
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_cyan_single_biomesoplenty_cherry"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_cyan_single_biomesoplenty_ethereal"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_cyan_single_biomesoplenty_fir"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_cyan_single_biomesoplenty_hellbark"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_cyan_single_biomesoplenty_jacaranda"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_cyan_single_biomesoplenty_magic"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_cyan_single_biomesoplenty_mahogany"));	
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_cyan_single_biomesoplenty_palm"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_cyan_single_biomesoplenty_redwood"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_cyan_single_biomesoplenty_umbran"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_cyan_single_biomesoplenty_willow"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_cyan_single_biomesoplenty_dead"));
+
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_cyan_single_biomesoplenty_cherry"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_cyan_single_biomesoplenty_ethereal"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_cyan_single_biomesoplenty_fir"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_cyan_single_biomesoplenty_hellbark"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_cyan_single_biomesoplenty_jacaranda"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_cyan_single_biomesoplenty_magic"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_cyan_single_biomesoplenty_mahogany"));	
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_cyan_single_biomesoplenty_palm"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_cyan_single_biomesoplenty_redwood"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_cyan_single_biomesoplenty_umbran"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_cyan_single_biomesoplenty_willow"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_cyan_single_biomesoplenty_dead"));
+
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_gray_single_biomesoplenty_cherry"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_gray_single_biomesoplenty_ethereal"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_gray_single_biomesoplenty_fir"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_gray_single_biomesoplenty_hellbark"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_gray_single_biomesoplenty_jacaranda"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_gray_single_biomesoplenty_magic"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_gray_single_biomesoplenty_mahogany"));	
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_gray_single_biomesoplenty_palm"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_gray_single_biomesoplenty_redwood"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_gray_single_biomesoplenty_umbran"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_gray_single_biomesoplenty_willow"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_gray_single_biomesoplenty_dead"));
+
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_gray_single_biomesoplenty_cherry"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_gray_single_biomesoplenty_ethereal"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_gray_single_biomesoplenty_fir"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_gray_single_biomesoplenty_hellbark"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_gray_single_biomesoplenty_jacaranda"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_gray_single_biomesoplenty_magic"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_gray_single_biomesoplenty_mahogany"));	
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_gray_single_biomesoplenty_palm"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_gray_single_biomesoplenty_redwood"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_gray_single_biomesoplenty_umbran"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_gray_single_biomesoplenty_willow"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_gray_single_biomesoplenty_dead"));
+			}
 		}
 		
 		if (IronAgeFurnitureConfiguration.CLIENT.INTEGRATION_IMMERSIVEENGINEERING.get() && ModList.get().isLoaded("immersiveengineering")) {
@@ -135,6 +842,46 @@ public class BlockInitialiser {
 			
 			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHORT_STOOLS.get()) {
 				event.getRegistry().register(new TallStool(1,10, SoundType.WOOD, "chair_wood_ironage_stool_tall_immersiveengineering_treated_wood"));
+			}
+			
+			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_BENCHES.get()) {
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_single_immersiveengineering_treated_wood"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_single_immersiveengineering_treated_wood"));
+				
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_green_single_immersiveengineering_treated_wood"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_light_blue_single_immersiveengineering_treated_wood"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_light_gray_single_immersiveengineering_treated_wood"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_lime_single_immersiveengineering_treated_wood"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_magenta_single_immersiveengineering_treated_wood"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_orange_single_immersiveengineering_treated_wood"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_pink_single_immersiveengineering_treated_wood"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_purple_single_immersiveengineering_treated_wood"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_red_single_immersiveengineering_treated_wood"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_white_single_immersiveengineering_treated_wood"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_yellow_single_immersiveengineering_treated_wood"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_black_single_immersiveengineering_treated_wood"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_blue_single_immersiveengineering_treated_wood"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_brown_single_immersiveengineering_treated_wood"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_cyan_single_immersiveengineering_treated_wood"));
+				event.getRegistry().register(new Bench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_padded_gray_single_immersiveengineering_treated_wood"));
+				
+				
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_green_single_immersiveengineering_treated_wood"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_light_blue_single_immersiveengineering_treated_wood"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_light_gray_single_immersiveengineering_treated_wood"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_lime_single_immersiveengineering_treated_wood"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_magenta_single_immersiveengineering_treated_wood"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_orange_single_immersiveengineering_treated_wood"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_pink_single_immersiveengineering_treated_wood"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_purple_single_immersiveengineering_treated_wood"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_red_single_immersiveengineering_treated_wood"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_white_single_immersiveengineering_treated_wood"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_yellow_single_immersiveengineering_treated_wood"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_black_single_immersiveengineering_treated_wood"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_blue_single_immersiveengineering_treated_wood"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_brown_single_immersiveengineering_treated_wood"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_cyan_single_immersiveengineering_treated_wood"));
+				event.getRegistry().register(new BackBench(1,10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_gray_single_immersiveengineering_treated_wood"));
 			}
 		}
 	 }

@@ -1,0 +1,14 @@
+{
+  "type": "crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:gray_carpet"
+    },
+    {
+      "item": "ironagefurniture:chair_wood_ironage_bench_back_single_jungle"
+    }
+  ],
+  "result": {
+    "item": "ironagefurniture:chair_wood_ironage_bench_back_padded_gray_single_jungle"
+  }
+}

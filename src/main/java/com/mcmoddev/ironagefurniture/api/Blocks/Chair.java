@@ -39,7 +39,7 @@ import net.minecraftforge.common.ToolType;
 
 public class Chair extends Block
 {
-    public final ImmutableMap<BlockState, VoxelShape> _shapes;
+    public ImmutableMap<BlockState, VoxelShape> _shapes;
     
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final DirectionProperty DIRECTION = BlockStateProperties.HORIZONTAL_FACING;
@@ -150,21 +150,21 @@ public class Chair extends Block
         super(properties);
         this.setDefaultState(this.getStateContainer().getBaseState().with(DIRECTION, Direction.NORTH).with(WATERLOGGED, false));
         
-        _shapes = this.generateShapes(this.getStateContainer().getValidStates());
+        this.generateShapes(this.getStateContainer().getValidStates());
     }
 
     public Chair(float hardness, float blastResistance, SoundType sound, String name) {
-		super(Block.Properties.create(Material.ROCK).harvestTool(ToolType.AXE)
+		super(Block.Properties.create(Material.WOOD).harvestTool(ToolType.AXE)
 				.hardnessAndResistance(hardness, blastResistance).sound(sound));
 		
 		this.setDefaultState(this.getStateContainer().getBaseState().with(DIRECTION, Direction.NORTH));
 		
-		_shapes = this.generateShapes(this.getStateContainer().getValidStates());
+		this.generateShapes(this.getStateContainer().getValidStates());
 		
 		this.setRegistryName(name);
 	}
 
-    protected ImmutableMap<BlockState, VoxelShape> generateShapes(ImmutableList<BlockState> states)
+    protected void generateShapes(ImmutableList<BlockState> states)
     {
         ImmutableMap.Builder<BlockState, VoxelShape> builder = new ImmutableMap.Builder<>();
         for(BlockState state : states)
@@ -172,19 +172,19 @@ public class Chair extends Block
         	VoxelShape shapes = VoxelShapes.empty();
         
         	// chair body
-        	shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(0, 7, 0, 16, 8, 14), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR); // chair base
-        	shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(2, 9, 0, 14, 23, 1), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR); // chair back
+        	shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(1, 7, 1, 15, 8, 14), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR); // chair base
+        	shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(3, 9, 1, 13, 23, 2), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR); // chair back
         	
         	//legs
         	shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(1, 0, 12, 2, 8, 13), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR); //front left leg
             shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(14, 0, 12, 15, 8, 13), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR); // front right leg
-            shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(0, 0, 0, 2, 22, 2), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR); // back left leg
-            shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(14, 0, 0, 16, 22, 2), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR); // back right leg
+            shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(1, 0, 1, 3, 22, 3), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR); // back left leg
+            shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(13, 0, 1, 15, 22, 3), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR); // back right leg
             
             builder.put(state, shapes.simplify());
         }
         
-        return builder.build();
+        _shapes = builder.build();
     }
   
     @Override
