@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=north,waterlogged=true": {
+      "model": "ironagefurniture:block/chair_wood_ironage_stool_tall_biomesoplenty_ethereal",
+      "y": 180
+    },
+    "facing=east,waterlogged=true": {
+      "model": "ironagefurniture:block/chair_wood_ironage_stool_tall_biomesoplenty_ethereal",
+      "y": 270
+    },
+    "facing=south,waterlogged=true": {
+      "model": "ironagefurniture:block/chair_wood_ironage_stool_tall_biomesoplenty_ethereal"
+    },
+    "facing=west,waterlogged=true": {
+      "model": "ironagefurniture:block/chair_wood_ironage_stool_tall_biomesoplenty_ethereal",
+      "y": 90
+    },
+    "facing=north,waterlogged=false": {
+      "model": "ironagefurniture:block/chair_wood_ironage_stool_tall_biomesoplenty_ethereal",
+      "y": 180
+    },
+    "facing=east,waterlogged=false": {
+      "model": "ironagefurniture:block/chair_wood_ironage_stool_tall_biomesoplenty_ethereal",
+      "y": 270
+    },
+    "facing=south,waterlogged=false": {
+      "model": "ironagefurniture:block/chair_wood_ironage_stool_tall_biomesoplenty_ethereal"
+    },
+    "facing=west,waterlogged=false": {
+      "model": "ironagefurniture:block/chair_wood_ironage_stool_tall_biomesoplenty_ethereal",
+      "y": 90
+    }
+  }
+}
