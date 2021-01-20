@@ -1,0 +1,27 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "modid": "byg",
+          "type": "forge:mod_loaded"
+        }
+      ],
+      "recipe": {
+        "type": "crafting_shapeless",
+        "ingredients": [
+          {
+            "item": "minecraft:shield"
+          },
+          {
+            "item": "ironagefurniture:chair_wood_ironage_classic_byg_cypress"
+          }
+        ],
+        "result": {
+          "item": "ironagefurniture:chair_wood_ironage_shield_byg_cypress"
+        }
+      }
+    }
+  ]
+}
