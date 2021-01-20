@@ -1,0 +1,29 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "modid": "biomesoplenty",
+          "type": "forge:mod_loaded"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "group": "furniture",
+        "pattern": [
+          "xxx"
+        ],
+        "key": {
+          "x": {
+            "item": "biomesoplenty:fir_log"
+          }
+        },
+        "result": {
+          "item": "ironagefurniture:chair_wood_ironage_bench_log_single_biomesoplenty_fir",
+          "count": 3
+        }
+      }
+    }
+  ]
+}

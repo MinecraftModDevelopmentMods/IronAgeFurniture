@@ -1,0 +1,14 @@
+{
+  "type": "crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:pink_carpet"
+    },
+    {
+      "item": "ironagefurniture:chair_wood_ironage_bench_back_single_dark_oak"
+    }
+  ],
+  "result": {
+    "item": "ironagefurniture:chair_wood_ironage_bench_back_padded_pink_single_dark_oak"
+  }
+}
