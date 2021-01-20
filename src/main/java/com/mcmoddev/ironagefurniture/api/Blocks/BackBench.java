@@ -47,23 +47,26 @@ public class BackBench extends Chair {
        	
        	VoxelShape shapes = VoxelShapes.empty();
        
-   		// bench body
+   		// bench base
        	shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(0, 6, 1, 16, 7, 15), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR); // chair base
        	
+       	//bench back
+       	shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(0, 0, 0, 16, 16, 1), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR); // chair back
+    	
        	switch (type) {
 			case SINGLE:
 				//bench leg
-	        	shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(2, 0, 4, 3, 7, 12), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR); 
-	        	shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(13, 0, 4, 14, 7, 12), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR);
+	        	shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(0, 0, 1, 1, 12, 12), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR); 
+	        	shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(15, 0, 1, 16, 12, 12), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR);
 	        		
 				break;
 
 			case LEFT:
-				shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(2, 0, 4, 3, 7, 12), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR);
+				shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(0, 0, 1, 1, 12, 12), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR); 
 				break;
 				
 			case RIGHT:
-				shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(13, 0, 4, 14, 7, 12), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR);
+				shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(15, 0, 1, 16, 12, 12), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR);
 				break;
 				
 			case MIDDLE:
