@@ -4,6 +4,7 @@ import java.util.Comparator;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 import com.mcmoddev.ironagefurniture.lib.interfaces.IMMDCreativeTab;
 
 import net.minecraft.block.Block;
@@ -87,7 +88,7 @@ public class MMDCreativeTab extends CreativeTabs implements IMMDCreativeTab {
 
 	public MMDCreativeTab setIconItem(@Nonnull final Block iconBlock) {
 		this.iconBlock = iconBlock;
-		this.iconItem = new ItemStack(Item.getItemFromBlock(iconBlock));
+		this.iconItem = new ItemStack(Item.getItemFromBlock(BlockObjectHolder.chair_wood_ironage_classic_big_oak));
 		return this;
 	}
 
