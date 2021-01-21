@@ -22,7 +22,7 @@ import net.minecraftforge.fml.common.registry.EntityRegistry;
 public class Ironagefurniture
 {
     public static final String MODID = "ironagefurniture";
-    public static final String VERSION = "0.2.0.2";
+    public static final String VERSION = "0.2.0.4";
     
 	public static final Map<String,Block> BlockRegistry = new HashMap<String, Block>();
 	public static final Map<String,Item> ItemRegistry = new HashMap<String, Item>();
@@ -30,7 +30,7 @@ public class Ironagefurniture
     public static CreativeTabs ironagefurnitureTab = new CreativeTabs("ironagefurnitureTab"){
 		@Override
 		public Item getTabIconItem(){
-			return Item.getItemFromBlock(Blocks.BOOKSHELF);
+			return Item.getItemFromBlock(BlockObjectHolder.chair_wood_ironage_classic_big_oak);
 		}
 		
 		public boolean hasSearchBar() {
