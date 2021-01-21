@@ -1,0 +1,34 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "modid": "byg",
+          "type": "forge:mod_loaded"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "group": "furniture",
+        "pattern": [
+          "x ",
+          "xx",
+          "yy"
+        ],
+        "key": {
+          "y": {
+            "tag": "forge:rods/wooden"
+          },
+          "x": {
+            "item": "byg:jacaranda_planks"
+          }
+        },
+        "result": {
+          "item": "ironagefurniture:chair_wood_ironage_bench_back_single_byg_jacaranda",
+          "count": 1
+        }
+      }
+    }
+  ]
+}
