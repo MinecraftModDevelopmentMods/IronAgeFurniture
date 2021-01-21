@@ -1,0 +1,14 @@
+{
+  "type": "crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:orange_carpet"
+    },
+    {
+      "item": "ironagefurniture:chair_wood_ironage_bench_single_dark_oak"
+    }
+  ],
+  "result": {
+    "item": "ironagefurniture:chair_wood_ironage_bench_padded_orange_single_dark_oak"
+  }
+}

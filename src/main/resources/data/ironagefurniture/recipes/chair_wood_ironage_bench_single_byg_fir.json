@@ -1,0 +1,33 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "modid": "byg",
+          "type": "forge:mod_loaded"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "group": "furniture",
+        "pattern": [
+          "xx",
+          "yy"
+        ],
+        "key": {
+          "y": {
+            "tag": "forge:rods/wooden"
+          },
+          "x": {
+            "item": "byg:fir_planks"
+          }
+        },
+        "result": {
+          "item": "ironagefurniture:chair_wood_ironage_bench_single_byg_fir",
+          "count": 1
+        }
+      }
+    }
+  ]
+}
