@@ -19,7 +19,7 @@ import net.minecraftforge.fml.config.ModConfig;
 public class Ironagefurniture
 {
     public static final String MODID = "ironagefurniture";
-    public static final String VERSION = "0.2.0";
+    public static final String VERSION = "0.2.0.4";
     
 
 	private static final Logger LOGGER = LogManager.getLogger();
