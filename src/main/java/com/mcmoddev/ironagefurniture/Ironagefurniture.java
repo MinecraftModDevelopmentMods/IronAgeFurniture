@@ -3,7 +3,6 @@ package com.mcmoddev.ironagefurniture;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -29,9 +28,7 @@ public class Ironagefurniture
 	};
 	
 	public Ironagefurniture() {
-		IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
-
-        entities.REGISTER.register(eventBus);
+        entities.REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
 		
 		ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, IronAgeFurnitureConfiguration.clientSpec);
 		ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, IronAgeFurnitureConfiguration.clientSpec);
@@ -40,8 +37,6 @@ public class Ironagefurniture
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientSetup);
 		
         MinecraftForge.EVENT_BUS.register(this);
-        
-        
     }
 
 	 private void onCommonSetup(FMLCommonSetupEvent event) {

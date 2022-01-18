@@ -32,6 +32,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
@@ -40,12 +41,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-//import net.minecraftforge.common.ToolType;
 
-
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
-
-public class Chair extends Block
+public class Chair extends Block implements SimpleWaterloggedBlock
 {
     public ImmutableMap<BlockState, VoxelShape> _shapes;
     
