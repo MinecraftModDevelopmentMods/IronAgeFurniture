@@ -345,7 +345,7 @@ minecraft {
       property 'forge.logging.console.level', 'debug'
 
       mods {
-        examplemod {
+        ironagefurniture {
           source sourceSets.main
         }
       }
@@ -363,7 +363,7 @@ minecraft {
       property 'forge.logging.console.level', 'debug'
 
       mods {
-        examplemod {
+        ironagefurniture {
           source sourceSets.main
         }
       }
@@ -434,7 +434,7 @@ jar {
     mainAttributes(
       'Maven-Artifact': "${project.group}:${project.archivesBaseName}:${project.version}",
       'Timestamp': System.currentTimeMillis(),
-      'Specification-Title': 'examplemod',
+      'Specification-Title': 'ironagefurniture',
       'Specification-Vendor': 'mcmoddev',
       'Specification-Version': '1',
       'Implementation-Title': project.archivesBaseName,
@@ -464,7 +464,7 @@ task apiJar(type: Jar) {
     mainAttributes(
       'Maven-Artifact': "${project.group}:${project.archivesBaseName}:${project.version}:api",
       'Timestamp': System.currentTimeMillis(),
-      'Specification-Title': 'examplemod',
+      'Specification-Title': 'ironagefurniture',
       'Specification-Vendor': 'mcmoddev',
       'Specification-Version': '1',
       'Implementation-Title': project.name + '-api',
@@ -490,7 +490,7 @@ task deobfJar(type: Jar) {
     mainAttributes(
       'Maven-Artifact': "${project.group}:${project.archivesBaseName}:${project.version}:deobf",
       'Timestamp': System.currentTimeMillis(),
-      'Specification-Title': 'examplemod',
+      'Specification-Title': 'ironagefurniture',
       'Specification-Vendor': 'mcmoddev',
       'Specification-Version': '1',
       'Implementation-Title': project.name + '-deobf',
@@ -521,7 +521,7 @@ task sourcesJar(type: Jar, dependsOn: classes) {
     mainAttributes(
       'Maven-Artifact': "${project.group}:${project.archivesBaseName}:${project.version}:sources",
       'Timestamp': System.currentTimeMillis(),
-      'Specification-Title': 'examplemod',
+      'Specification-Title': 'ironagefurniture',
       'Specification-Vendor': 'mcmoddev',
       'Specification-Version': '1',
       'Implementation-Title': project.name + '-sources',
