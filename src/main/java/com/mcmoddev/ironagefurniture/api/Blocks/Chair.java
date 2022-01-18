@@ -9,6 +9,7 @@ import com.google.common.collect.ImmutableMap;
 import com.mcmoddev.ironagefurniture.api.entity.Seat;
 
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.Material;
@@ -118,7 +119,7 @@ public class Chair extends Block
     @Override
     public boolean hasAnalogOutputSignal(BlockState state)
     {
-        return this.hasTileEntity(state);
+    	return state.getBlock() instanceof EntityBlock;
     }
 
     @Override
@@ -168,9 +169,8 @@ public class Chair extends Block
     }
 
     public Chair(float hardness, float blastResistance, SoundType sound, String name) {
-		super(Block.Properties.of(Material.WOOD).harvestTool(ToolType.AXE)
-				.strength(hardness, blastResistance).sound(sound));
-		
+		super(Block.Properties.of(Material.WOOD).strength(hardness, blastResistance).sound(sound));
+
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
 		
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
