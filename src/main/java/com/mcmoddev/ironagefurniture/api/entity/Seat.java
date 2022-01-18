@@ -1,13 +1,13 @@
 package com.mcmoddev.ironagefurniture.api.entity;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.IPacket;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 import java.util.List;
@@ -15,12 +15,12 @@ import java.util.List;
 public class Seat extends Entity {
 	private BlockPos source;
 
-    public Seat(World world) {
+    public Seat(Level world) {
         super(Entities.SEAT, world);
         this.noPhysics = true;
     }
 
-    private Seat(World world, BlockPos source, double yOffset) {
+    private Seat(Level world, BlockPos source, double yOffset) {
         this(world);
         this.source = source;
         this.setPos(source.getX() + 0.5, source.getY() + yOffset, source.getZ() + 0.5);
@@ -45,12 +45,12 @@ public class Seat extends Entity {
     }
 
     @Override
-    protected void readAdditionalSaveData(CompoundNBT compound) {
+    protected void readAdditionalSaveData(CompoundTag compound) {
 
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundNBT compound) {
+    protected void addAdditionalSaveData(CompoundTag compound) {
 
     }
 
@@ -69,19 +69,19 @@ public class Seat extends Entity {
     }
 
     @Override
-    public IPacket<?> getAddEntityPacket() {
+    public Packet<?> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
-    public static ActionResultType create(World world, BlockPos pos, double yOffset, PlayerEntity player) {
+    public static InteractionResult create(Level world, BlockPos pos, double yOffset, Player player) {
         if (!world.isClientSide) {
-            List<Seat> seats = world.getEntitiesOfClass(Seat.class, new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1.0, pos.getY() + 1.0, pos.getZ() + 1.0));
+            List<Seat> seats = world.getEntitiesOfClass(Seat.class, new AABB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1.0, pos.getY() + 1.0, pos.getZ() + 1.0));
             if (seats.isEmpty()) {
                 Seat seat = new Seat(world, pos, yOffset);
                 world.addFreshEntity(seat);
                 player.startRiding(seat, false);
             }
         }
-        return ActionResultType.SUCCESS;
+        return InteractionResult.SUCCESS;
     }
 }

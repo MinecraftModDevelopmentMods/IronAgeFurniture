@@ -4,19 +4,19 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.mcmoddev.ironagefurniture.api.entity.Seat;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.SoundType;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.IBooleanFunction;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.core.Direction;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.BooleanOp;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.level.Level;
 
 public class TallStool extends Chair {
 
@@ -25,7 +25,7 @@ public class TallStool extends Chair {
 	}
 	
 	 @Override
-    public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult)
+    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult rayTraceResult)
     {
         return Seat.create(world, pos, 0.6, player);
     }
@@ -36,15 +36,15 @@ public class TallStool extends Chair {
         ImmutableMap.Builder<BlockState, VoxelShape> builder = new ImmutableMap.Builder<>();
         for(BlockState state : states)
         {
-        	VoxelShape shapes = VoxelShapes.empty();
+        	VoxelShape shapes = Shapes.empty();
         
     		// tall stool body
-        	shapes = VoxelShapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(3, 12, 3, 13, 13, 13), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], IBooleanFunction.OR); // chair base
+        	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(3, 12, 3, 13, 13, 13), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // chair base
         	
         	//tall stool legs
-        	shapes = VoxelShapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(7, 0, 11, 9, 12, 12), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], IBooleanFunction.OR); 
-            shapes = VoxelShapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(10, 0, 5, 13, 12, 8), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], IBooleanFunction.OR); 
-            shapes = VoxelShapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(4, 0, 5,6, 12, 8), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], IBooleanFunction.OR); 
+        	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(7, 0, 11, 9, 12, 12), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); 
+            shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(10, 0, 5, 13, 12, 8), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); 
+            shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(4, 0, 5,6, 12, 8), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); 
         	
             builder.put(state, shapes.optimize());
         }

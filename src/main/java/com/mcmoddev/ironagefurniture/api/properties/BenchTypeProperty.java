@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import net.minecraft.state.EnumProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 
 public class BenchTypeProperty extends EnumProperty<BenchType> {
    protected BenchTypeProperty(String name, Collection<BenchType> values) {

@@ -7,20 +7,20 @@ import com.mcmoddev.ironagefurniture.api.Enumerations.Rotation;
 import com.mcmoddev.ironagefurniture.api.properties.BenchTypeProperty;
 import com.mcmoddev.ironagefurniture.api.util.Swivel;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.SoundType;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.state.StateContainer;
-import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.IBooleanFunction;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.shapes.BooleanOp;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.Level;
 
 public class BackBench extends Chair {
 	public static final BenchTypeProperty TYPE = BenchTypeProperty.create("type", BenchType.SINGLE, BenchType.LEFT, BenchType.MIDDLE, BenchType.RIGHT);;
@@ -30,7 +30,7 @@ public class BackBench extends Chair {
 	}
 
 	@Override
-    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
     {
         super.createBlockStateDefinition(builder);
         
@@ -45,28 +45,28 @@ public class BackBench extends Chair {
        {
        	BenchType type = state.getValue(TYPE);;
        	
-       	VoxelShape shapes = VoxelShapes.empty();
+       	VoxelShape shapes = Shapes.empty();
        
    		// bench base
-       	shapes = VoxelShapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(0, 6, 1, 16, 7, 15), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], IBooleanFunction.OR); // chair base
+       	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(0, 6, 1, 16, 7, 15), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // chair base
        	
        	//bench back
-       	shapes = VoxelShapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(0, 0, 0, 16, 16, 1), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], IBooleanFunction.OR); // chair back
+       	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(0, 0, 0, 16, 16, 1), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // chair back
     	
        	switch (type) {
 			case SINGLE:
 				//bench leg
-	        	shapes = VoxelShapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(0, 0, 1, 1, 10, 12), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], IBooleanFunction.OR); 
-	        	shapes = VoxelShapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(15, 0, 1, 16, 10, 12), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], IBooleanFunction.OR);
+	        	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(0, 0, 1, 1, 10, 12), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); 
+	        	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(15, 0, 1, 16, 10, 12), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR);
 	        		
 				break;
 
 			case LEFT:
-				shapes = VoxelShapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(0, 0, 1, 1, 10, 12), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], IBooleanFunction.OR); 
+				shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(0, 0, 1, 1, 10, 12), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); 
 				break;
 				
 			case RIGHT:
-				shapes = VoxelShapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(15, 0, 1, 16, 10, 12), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], IBooleanFunction.OR);
+				shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(15, 0, 1, 16, 10, 12), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR);
 				break;
 				
 			case MIDDLE:
@@ -77,7 +77,7 @@ public class BackBench extends Chair {
 			}
        	
        	//bench cross bar
-       	shapes = VoxelShapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(0, 2, 7, 16, 4, 9), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], IBooleanFunction.OR); 
+       	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(0, 2, 7, 16, 4, 9), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); 
        	
            builder.put(state, shapes.optimize());
        }
@@ -86,9 +86,9 @@ public class BackBench extends Chair {
    }
 	
     @Override
-    public BlockState getStateForPlacement(BlockItemUseContext context)
+    public BlockState getStateForPlacement(BlockPlaceContext context)
     {
-    	World world = context.getLevel();
+    	Level world = context.getLevel();
     	BlockPos pos = context.getClickedPos();
     	
 		BlockState stateForPlacement = this.defaultBlockState()
@@ -168,7 +168,7 @@ public class BackBench extends Chair {
 		return null;
 	}
 	
-	private int getOffset(Direction direction, IWorld world, BlockPos pos) {
+	private int getOffset(Direction direction, LevelAccessor world, BlockPos pos) {
 		BenchType currentlyInspectedBenchType;
 		BlockState currentlyInspectedBenchState;
 		String currentlyInspectedBlockName;
@@ -197,7 +197,7 @@ public class BackBench extends Chair {
 		return offset;
 	}
 	
-	private BlockState traceBench2(Direction direction, IWorld world, BlockPos pos, BlockState blockState, Direction benchFacing) {
+	private BlockState traceBench2(Direction direction, LevelAccessor world, BlockPos pos, BlockState blockState, Direction benchFacing) {
 		boolean invertLeftRight = false;
 		
 		if (benchFacing == Direction.NORTH && direction == Direction.EAST)
@@ -324,7 +324,7 @@ public class BackBench extends Chair {
 		}
 	}
 		
-	private boolean isBenchEnd(Direction facing, World world, BlockPos pos) {		
+	private boolean isBenchEnd(Direction facing, Level world, BlockPos pos) {		
 		BenchType benchType = getBenchType(world.getBlockState(pos.relative(facing)));
 		
 		if (benchType == BenchType.LEFT || benchType == BenchType.RIGHT)
@@ -333,7 +333,7 @@ public class BackBench extends Chair {
 		return false;
 	}
 	
-	private boolean isBenchSingle(Direction facing, World world, BlockPos pos) {		
+	private boolean isBenchSingle(Direction facing, Level world, BlockPos pos) {		
 		BenchType benchType = getBenchType(world.getBlockState(pos.relative(facing)));
 		
 		if (benchType == BenchType.SINGLE)
@@ -342,11 +342,11 @@ public class BackBench extends Chair {
 		return false;
 	}
 	
-	private Direction getBenchToJoinToFacing(Direction benchDirection, World world, BlockPos pos) {
+	private Direction getBenchToJoinToFacing(Direction benchDirection, Level world, BlockPos pos) {
 		return getBenchDirection(world.getBlockState(pos.relative(benchDirection)));
 	}
 	
-	private Direction getBenchToJoinTo(Direction playerFacing, World world, BlockPos pos) {
+	private Direction getBenchToJoinTo(Direction playerFacing, Level world, BlockPos pos) {
 		// again, favour player facing
 		if (isBenchEnd(playerFacing, world, pos) || isBenchSingle(playerFacing, world, pos)) {
 			if (isBenchSingle(playerFacing, world, pos))
@@ -386,7 +386,7 @@ public class BackBench extends Chair {
 	}
 
 	@Override
-	public void destroy(IWorld worldIn, BlockPos pos, BlockState state) {
+	public void destroy(LevelAccessor worldIn, BlockPos pos, BlockState state) {
 		
 		Direction benchFacing = getBenchDirection(state);
 		Rotation defaultRotation = Rotation.Ninty;

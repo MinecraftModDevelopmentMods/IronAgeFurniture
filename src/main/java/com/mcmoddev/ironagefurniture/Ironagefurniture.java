@@ -1,7 +1,7 @@
 package com.mcmoddev.ironagefurniture;
 
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.DistExecutor;
@@ -21,7 +21,7 @@ public class Ironagefurniture
     public static final String VERSION = "0.2.0";
     public static final CommonProxy PROXY = DistExecutor.runForDist(() -> com.mcmoddev.ironagefurniture.proxy.ClientProxy::new, () -> CommonProxy::new);
 
-	public static final ItemGroup IAF_GROUP = new ItemGroup(MODID) {
+	public static final CreativeModeTab IAF_GROUP = new CreativeModeTab(MODID) {
 	    @Override
 	    public ItemStack makeIcon() {
 	        return new ItemStack(BlockObjectHolder.chair_wood_ironage_classic_dark_oak);
