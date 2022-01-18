@@ -23,7 +23,7 @@ buildscript {
 }
 
 plugins {
-  id 'com.github.spotbugs' version '1.6.9' // 4.0 or later
+ // id 'com.github.spotbugs' version '1.6.9' // 4.0 or later
   id 'com.matthewprenger.cursegradle' version '1.4.0'
   id 'org.sonarqube' version '2.8'
   id 'se.bjurr.gitchangelog.git-changelog-gradle-plugin' version '1.60'
@@ -39,8 +39,8 @@ apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'maven-publish'
 apply plugin: 'pmd'
-
-import net.minecraftforge.gradle.common.task.SignJar
+apply from: 'https://raw.githubusercontent.com/SizableShrimp/Forge-Class-Remapper/main/classremapper.gradle'
+//import net.minecraftforge.gradle.common.task.SignJar // ###
 
 project.afterEvaluate {
   //final def junitPlatformTestTask = project.tasks.getByName('junitPlatformTest')
@@ -87,20 +87,20 @@ if (GradleVersion.current() < GradleVersion.version('4.6')) {
 */
 
 if (GradleVersion.current() >= GradleVersion.version('4.0')) {
-  spotbugs {
-    ignoreFailures = true
-    toolVersion = '3.1.6'
-    effort = 'max'
-    reportLevel = 'low'
-    //includeFilter = file("$rootProject.projectDir/config/spotbugs-filter.xml")
-  }
+//  spotbugs { // ###
+//    ignoreFailures = true
+//    toolVersion = '3.1.6'// ###
+//    effort = 'max'// ###
+//    reportLevel = 'low'// ###
+    //includeFilter = file("$rootProject.projectDir/config/spotbugs-filter.xml")// ###
+//  }// ###
 
-  tasks.withType(com.github.spotbugs.SpotBugsTask) {
-    reports {
-      xml.enabled = false
-      html.enabled = true
-    }
-  }
+  //tasks.withType(com.github.spotbugs.SpotBugsTask) { // ###
+  //  reports {// ###
+  //    xml.enabled = false// ###
+  //    html.enabled = true // ###
+  //  } // ###
+  //} // ###
 }
 
 if (GradleVersion.current() >= GradleVersion.version('2.7')) {
@@ -116,7 +116,7 @@ pmd {
   ignoreFailures = true
   sourceSets = [sourceSets.main]
   reportsDir = file("$project.buildDir/reports/pmd")
-  rulePriority = 5
+ // rulePriority = 5 // ###
   ruleSets = [
     'java-android',
     'java-basic',
@@ -148,7 +148,7 @@ pmd {
     'java-unnecessary',
     'java-unusedcode'
   ]
-  toolVersion = '5.8.1'; // 6.19.0
+  toolVersion = '6.19.0'; // 6.19.0 //5.8.1
   if (GradleVersion.current() >= GradleVersion.version('5.6')) {
 //    incrementalAnalysis = true // Requires PMD 6.0.0 or newer
   }
@@ -202,10 +202,11 @@ static String getBuildNumber() {
   return System.getenv('BUILD_NUMBER') ?: System.getenv('TRAVIS_BUILD_NUMBER') ?: System.getenv('CIRCLE_BUILD_NUM') ?: '0'
 }
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
-compileJava.sourceCompatibility = JavaVersion.VERSION_1_8
-compileJava.targetCompatibility = JavaVersion.VERSION_1_8
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+//sourceCompatibility = JavaVersion.VERSION_1_8
+//targetCompatibility = JavaVersion.VERSION_1_8
+//compileJava.sourceCompatibility = JavaVersion.VERSION_1_8
+//compileJava.targetCompatibility = JavaVersion.VERSION_1_8
 
 eclipse.project {
   buildCommand 'org.eclipse.buildship.core.gradleprojectbuilder'
@@ -344,7 +345,7 @@ minecraft {
       property 'forge.logging.console.level', 'debug'
 
       mods {
-        examplemod {
+        ironagefurniture {
           source sourceSets.main
         }
       }
@@ -362,7 +363,7 @@ minecraft {
       property 'forge.logging.console.level', 'debug'
 
       mods {
-        examplemod {
+        ironagefurniture {
           source sourceSets.main
         }
       }
@@ -384,17 +385,17 @@ repositories {
 dependencies {
   minecraft "net.minecraftforge:forge:${project.forge_mc_version}-${project.forge_version}"
 
-  testCompile('org.junit.platform:junit-platform-launcher:1.4.+')
-  testCompile('org.junit.jupiter:junit-jupiter-api:5.5.+') // testImplementation
-  testRuntime('org.junit.jupiter:junit-jupiter-engine:5.5.+') //testRuntimeOnly
-  if (GradleVersion.current() >= GradleVersion.version('2.13')) {
-    testCompileOnly 'junit:junit:4.12'
-  }
-  testRuntime 'org.junit.vintage:junit-vintage-engine:5.5.+' //testRuntimeOnly
-  testCompile('org.mockito:mockito-core:2.+')
-  testCompile('org.mockito:mockito-junit-jupiter:2.+') {
-    exclude group: 'org.junit.jupiter', module: 'junit-jupiter-engine'
-  }
+//  testCompile('org.junit.platform:junit-platform-launcher:1.4.+')// ###
+//  testCompile('org.junit.jupiter:junit-jupiter-api:5.5.+') // testImplementation// ###
+//  testRuntime('org.junit.jupiter:junit-jupiter-engine:5.5.+') //testRuntimeOnly// ###
+//  if (GradleVersion.current() >= GradleVersion.version('2.13')) {// ###
+//    testCompileOnly 'junit:junit:4.12'// ###
+//  }// ###
+//  testRuntime 'org.junit.vintage:junit-vintage-engine:5.5.+' //testRuntimeOnly// ###
+//  testCompile('org.mockito:mockito-core:2.+')// ###
+//  testCompile('org.mockito:mockito-junit-jupiter:2.+') {// ###
+//    exclude group: 'org.junit.jupiter', module: 'junit-jupiter-engine'// ###
+//  }// ###
   if (GradleVersion.current() >= GradleVersion.version('4.6')) {
     annotationProcessor group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.0'
   }
@@ -433,7 +434,7 @@ jar {
     mainAttributes(
       'Maven-Artifact': "${project.group}:${project.archivesBaseName}:${project.version}",
       'Timestamp': System.currentTimeMillis(),
-      'Specification-Title': 'examplemod',
+      'Specification-Title': 'ironagefurniture',
       'Specification-Vendor': 'mcmoddev',
       'Specification-Version': '1',
       'Implementation-Title': project.archivesBaseName,
@@ -463,7 +464,7 @@ task apiJar(type: Jar) {
     mainAttributes(
       'Maven-Artifact': "${project.group}:${project.archivesBaseName}:${project.version}:api",
       'Timestamp': System.currentTimeMillis(),
-      'Specification-Title': 'examplemod',
+      'Specification-Title': 'ironagefurniture',
       'Specification-Vendor': 'mcmoddev',
       'Specification-Version': '1',
       'Implementation-Title': project.name + '-api',
@@ -489,7 +490,7 @@ task deobfJar(type: Jar) {
     mainAttributes(
       'Maven-Artifact': "${project.group}:${project.archivesBaseName}:${project.version}:deobf",
       'Timestamp': System.currentTimeMillis(),
-      'Specification-Title': 'examplemod',
+      'Specification-Title': 'ironagefurniture',
       'Specification-Vendor': 'mcmoddev',
       'Specification-Version': '1',
       'Implementation-Title': project.name + '-deobf',
@@ -520,7 +521,7 @@ task sourcesJar(type: Jar, dependsOn: classes) {
     mainAttributes(
       'Maven-Artifact': "${project.group}:${project.archivesBaseName}:${project.version}:sources",
       'Timestamp': System.currentTimeMillis(),
-      'Specification-Title': 'examplemod',
+      'Specification-Title': 'ironagefurniture',
       'Specification-Vendor': 'mcmoddev',
       'Specification-Version': '1',
       'Implementation-Title': project.name + '-sources',
@@ -551,21 +552,21 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
   )
 }
 
-task signJar(type: SignJar, dependsOn: jar) {
-  onlyIf {
-    getBooleanProperty('do_sign_jar') &&
-    project.hasProperty('keyStore')
-  }
-
-  description = 'Sign the Main JAR'
-  inputFile = jar.archivePath
-  outputFile = jar.archivePath
-
-  keyStore = project.findProperty('keyStore')
-  alias = project.findProperty('keyStoreAlias')
-  storePass = project.findProperty('keyStorePass')
-  keyPass = project.findProperty('keyStoreKeyPass')
-}
+//task signJar(type: SignJar, dependsOn: jar) {// ###
+//  onlyIf {// ###
+//    getBooleanProperty('do_sign_jar') &&// ###
+//    project.hasProperty('keyStore')// ###
+//  }// ###
+//  // ###
+//  description = 'Sign the Main JAR'// ###
+//  inputFile = jar.archivePath// ###
+//  outputFile = jar.archivePath// ###
+//// ###
+//  keyStore = project.findProperty('keyStore')// ###
+//  alias = project.findProperty('keyStoreAlias')// ###
+//  storePass = project.findProperty('keyStorePass')// ###
+//  keyPass = project.findProperty('keyStoreKeyPass')// ###
+//}// ###
 
 /*
 task signApiJar(type: SignJar) {
@@ -586,73 +587,73 @@ task signApiJar(type: SignJar) {
 }
 */
 
-task signDeobfJar(type: SignJar) {
-  onlyIf {
-    getBooleanProperty('create_deobf_jar') &&
-    getBooleanProperty('do_sign_jar') &&
-    project.hasProperty('keyStore')
-  }
+//task signDeobfJar(type: SignJar) {// ###
+//  onlyIf {// ###
+//    getBooleanProperty('create_deobf_jar') &&// ###
+//    getBooleanProperty('do_sign_jar') &&// ###
+//    project.hasProperty('keyStore')// ###
+//  }// ###
 
-  description = 'Sign the deobf JAR'
-  keyStore = project.findProperty('keyStore')
-  alias = project.findProperty('keyStoreAlias')
-  storePass = project.findProperty('keyStorePass')
-  keyPass = project.findProperty('keyStoreKeyPass')
+//  description = 'Sign the deobf JAR'// ###
+//  keyStore = project.findProperty('keyStore')// ###
+//  alias = project.findProperty('keyStoreAlias')// ###
+//  storePass = project.findProperty('keyStorePass')// ###
+//  keyPass = project.findProperty('keyStoreKeyPass')// ###
 
-  inputFile = deobfJar.archivePath
-  outputFile = deobfJar.archivePath
-}
+//  inputFile = deobfJar.archivePath// ###
+//  outputFile = deobfJar.archivePath// ###
+//}// ###
 
-task signSourcesJar(type: SignJar) {
-  onlyIf {
-    getBooleanProperty('create_source_jar') &&
-    getBooleanProperty('do_sign_jar') &&
-    project.hasProperty('keyStore')
-  }
+//task signSourcesJar(type: SignJar) {// ###
+ // onlyIf {// ###
+ //   getBooleanProperty('create_source_jar') &&// ###
+//    getBooleanProperty('do_sign_jar') &&// ###
+ //   project.hasProperty('keyStore')// ###
+ // }// ###
 
-  description = 'Sign the Sources JAR'
-  keyStore = project.findProperty('keyStore')
-  alias = project.findProperty('keyStoreAlias')
-  storePass = project.findProperty('keyStorePass')
-  keyPass = project.findProperty('keyStoreKeyPass')
+ // description = 'Sign the Sources JAR'// ###
+ // keyStore = project.findProperty('keyStore')// ###
+ // alias = project.findProperty('keyStoreAlias')// ###
+ // storePass = project.findProperty('keyStorePass')// ###
+  //keyPass = project.findProperty('keyStoreKeyPass')// ###
 
-  inputFile = sourcesJar.archivePath
-  outputFile = sourcesJar.archivePath
-}
+  //inputFile = sourcesJar.archivePath// ###
+  //outputFile = sourcesJar.archivePath// ###
+//}// ###
 
-task signJavadocJar(type: SignJar) {
-  onlyIf {
-    getBooleanProperty('create_javadoc_jar') &&
-    getBooleanProperty('do_sign_jar') &&
-    project.hasProperty('keyStore')
-  }
+//task signJavadocJar(type: SignJar) {// ###
+//  onlyIf {// ###
+//    getBooleanProperty('create_javadoc_jar') &&// ###
+//    getBooleanProperty('do_sign_jar') &&// ###
+    //project.hasProperty('keyStore')// ###
+  //}// ###
 
-  keyStore = project.findProperty('keyStore')
-  alias = project.findProperty('keyStoreAlias')
-  storePass = project.findProperty('keyStorePass')
-  keyPass = project.findProperty('keyStoreKeyPass')
+  //keyStore = project.findProperty('keyStore')// ###
+  //alias = project.findProperty('keyStoreAlias')// ###
+  //storePass = project.findProperty('keyStorePass')// ###
+  //keyPass = project.findProperty('keyStoreKeyPass')// ###
+// ###
+  //inputFile = javadocJar.archivePath// ###
+  //outputFile = javadocJar.archivePath// ###
+//}// ###
 
-  inputFile = javadocJar.archivePath
-  outputFile = javadocJar.archivePath
-}
-
-if (getBooleanProperty('do_sign_jar')) {
-  build.dependsOn signJar
+//if (getBooleanProperty('do_sign_jar')) {// ###
+//  build.dependsOn signJar// ###
   /*
   if (getBooleanProperty('create_api_jar')) {
     build.dependsOn signApiJar
   }
   */
-  if (getBooleanProperty('create_deobf_jar')) {
-    build.dependsOn signDeobfJar
-  }
-  if (getBooleanProperty('create_source_jar')) {
-    build.dependsOn signSourcesJar
-  }
-  if (getBooleanProperty('create_javadoc_jar')) {
-    build.dependsOn signJavadocJar
-  }
-}
+//  if (getBooleanProperty('create_deobf_jar')) {// ###
+//    build.dependsOn signDeobfJar// ###
+//  }// ###
+//  if (getBooleanProperty('create_source_jar')) {// ###
+//    build.dependsOn signSourcesJar// ###
+//  }// ###
+//  if (getBooleanProperty('create_javadoc_jar')) {// ###
+//    build.dependsOn signJavadocJar// ###
+//  }// ###
+//}// ###
 
 tasks.publish.dependsOn build
 tasks.curseforge.dependsOn publish

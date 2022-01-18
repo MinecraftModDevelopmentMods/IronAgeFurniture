@@ -2,7 +2,7 @@ package com.mcmoddev.ironagefurniture.api.util;
 
 import com.mcmoddev.ironagefurniture.api.Enumerations.Rotation;
 
-import net.minecraft.util.Direction;
+import net.minecraft.core.Direction;
 
 public class Swivel {
 	public static Direction Rotate(Direction facing, Rotation rotation) {

@@ -8,41 +8,41 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.mcmoddev.ironagefurniture.api.entity.Seat;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.InventoryHelper;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.loot.LootContext.Builder;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.DirectionProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.Mirror;
-import net.minecraft.util.Rotation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.IBooleanFunction;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
-import net.minecraftforge.common.ToolType;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.Container;
+import net.minecraft.world.Containers;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.storage.loot.LootContext.Builder;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.core.Direction;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.BooleanOp;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 
-
-public class Chair extends Block
+public class Chair extends Block implements SimpleWaterloggedBlock
 {
     public ImmutableMap<BlockState, VoxelShape> _shapes;
     
@@ -64,20 +64,20 @@ public class Chair extends Block
     
     public static VoxelShape setMaxHeight(VoxelShape source, double height)
     {
-        AtomicReference<VoxelShape> ar = new AtomicReference<>(VoxelShapes.empty());
+        AtomicReference<VoxelShape> ar = new AtomicReference<>(Shapes.empty());
         
-        source.forEachBox((x1, y1, z1, x2, y2, z2) -> { ar.set(VoxelShapes.combine(ar.get(), VoxelShapes.create(x1, y1, z1, x2, height, z2), IBooleanFunction.OR));});
+        source.forAllBoxes((x1, y1, z1, x2, y2, z2) -> { ar.set(Shapes.joinUnoptimized(ar.get(), Shapes.box(x1, y1, z1, x2, height, z2), BooleanOp.OR));});
         
-        return ar.get().simplify();
+        return ar.get().optimize();
     }
 
     public static VoxelShape limitHorizontal(VoxelShape source)
     {
-        AtomicReference<VoxelShape> ar = new AtomicReference<>(VoxelShapes.empty());
+        AtomicReference<VoxelShape> ar = new AtomicReference<>(Shapes.empty());
         
-        source.forEachBox((x1, y1, z1, x2, y2, z2) -> { ar.set(VoxelShapes.combine(ar.get(), VoxelShapes.create(limit(x1), y1, limit(z1), limit(x2), y2, limit(z2)), IBooleanFunction.OR));});
+        source.forAllBoxes((x1, y1, z1, x2, y2, z2) -> { ar.set(Shapes.joinUnoptimized(ar.get(), Shapes.box(limit(x1), y1, limit(z1), limit(x2), y2, limit(z2)), BooleanOp.OR));});
         
-        return ar.get().simplify();
+        return ar.get().optimize();
     }
 
     public static VoxelShape[] getShapes(VoxelShape source)
@@ -91,13 +91,13 @@ public class Chair extends Block
     	switch(direction)
         {
             case WEST:                
-                return VoxelShapes.create(1.0F - source.getEnd(Direction.Axis.X), source.getStart(Direction.Axis.Y), 1.0F - source.getEnd(Direction.Axis.Z), 1.0F - source.getStart(Direction.Axis.X), source.getEnd(Direction.Axis.Y), 1.0F - source.getStart(Direction.Axis.Z));
+                return Shapes.box(1.0F - source.max(Direction.Axis.X), source.min(Direction.Axis.Y), 1.0F - source.max(Direction.Axis.Z), 1.0F - source.min(Direction.Axis.X), source.max(Direction.Axis.Y), 1.0F - source.min(Direction.Axis.Z));
             case NORTH:
-                return VoxelShapes.create(source.getStart(Direction.Axis.Z), source.getStart(Direction.Axis.Y), 1.0F - source.getEnd(Direction.Axis.X), source.getEnd(Direction.Axis.Z), source.getEnd(Direction.Axis.Y), 1.0F - source.getStart(Direction.Axis.X));
+                return Shapes.box(source.min(Direction.Axis.Z), source.min(Direction.Axis.Y), 1.0F - source.max(Direction.Axis.X), source.max(Direction.Axis.Z), source.max(Direction.Axis.Y), 1.0F - source.min(Direction.Axis.X));
             case SOUTH:
-                return VoxelShapes.create(1.0F - source.getEnd(Direction.Axis.Z), source.getStart(Direction.Axis.Y), source.getStart(Direction.Axis.X), 1.0F - source.getStart(Direction.Axis.Z), source.getEnd(Direction.Axis.Y), source.getEnd(Direction.Axis.X));
+                return Shapes.box(1.0F - source.max(Direction.Axis.Z), source.min(Direction.Axis.Y), source.min(Direction.Axis.X), 1.0F - source.min(Direction.Axis.Z), source.max(Direction.Axis.Y), source.max(Direction.Axis.X));
             default:
-            	return VoxelShapes.create(source.getStart(Direction.Axis.X), source.getStart(Direction.Axis.Y), source.getStart(Direction.Axis.Z), source.getEnd(Direction.Axis.X), source.getEnd(Direction.Axis.Y), source.getEnd(Direction.Axis.Z));
+            	return Shapes.box(source.min(Direction.Axis.X), source.min(Direction.Axis.Y), source.min(Direction.Axis.Z), source.max(Direction.Axis.X), source.max(Direction.Axis.Y), source.max(Direction.Axis.Z));
         }	
     }
 
@@ -107,51 +107,51 @@ public class Chair extends Block
     }
 
     @Override
-    public int getComparatorInputOverride(BlockState state, World world, BlockPos pos)
+    public int getAnalogOutputSignal(BlockState state, Level world, BlockPos pos)
     {
-        return Container.calcRedstone(world.getTileEntity(pos));
+        return AbstractContainerMenu.getRedstoneSignalFromBlockEntity(world.getBlockEntity(pos));
         
     }
 
     @Override
-    public boolean hasComparatorInputOverride(BlockState state)
+    public boolean hasAnalogOutputSignal(BlockState state)
     {
-        return this.hasTileEntity(state);
+    	return state.getBlock() instanceof EntityBlock;
     }
 
     @Override
-    public void onReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean isMoving)
+    public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean isMoving)
     {
         if(state.getBlock() != newState.getBlock())
         {
-            if(world.getTileEntity(pos) instanceof IInventory)
+            if(world.getBlockEntity(pos) instanceof Container)
             {
-                InventoryHelper.dropInventoryItems(world, pos, (IInventory) world.getTileEntity(pos));
-                world.updateComparatorOutputLevel(pos, this);
+                Containers.dropContents(world, pos, (Container) world.getBlockEntity(pos));
+                world.updateNeighbourForOutputSignal(pos, this);
             }
         }
         
-        super.onReplaced(state, world, pos, newState, isMoving);
+        super.onRemove(state, world, pos, newState, isMoving);
     }
 
     @Override
-    public boolean eventReceived(BlockState state, World world, BlockPos pos, int id, int type)
+    public boolean triggerEvent(BlockState state, Level world, BlockPos pos, int id, int type)
     {
-        super.eventReceived(state, world, pos, id, type);
+        super.triggerEvent(state, world, pos, id, type);
 
-        return world.getTileEntity(pos) != null && world.getTileEntity(pos).receiveClientEvent(id, type);
+        return world.getBlockEntity(pos) != null && world.getBlockEntity(pos).triggerEvent(id, type);
     }
 
     @Override
     public FluidState getFluidState(BlockState state)
     {
-        return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
+        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
     
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
     {
-        super.fillStateContainer(builder);
+        super.createBlockStateDefinition(builder);
         
         builder.add(DIRECTION);
         builder.add(WATERLOGGED);
@@ -160,18 +160,17 @@ public class Chair extends Block
     public Chair(Properties properties)
     {
         super(properties);
-        this.setDefaultState(this.getStateContainer().getBaseState().with(DIRECTION, Direction.NORTH).with(WATERLOGGED, false));
+        this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH).setValue(WATERLOGGED, false));
         
-        this.generateShapes(this.getStateContainer().getValidStates());
+        this.generateShapes(this.getStateDefinition().getPossibleStates());
     }
 
     public Chair(float hardness, float blastResistance, SoundType sound, String name) {
-		super(Block.Properties.create(Material.WOOD).harvestTool(ToolType.AXE)
-				.hardnessAndResistance(hardness, blastResistance).sound(sound));
+		super(Block.Properties.of(Material.WOOD).strength(hardness, blastResistance).sound(sound));
+
+		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
 		
-		this.setDefaultState(this.getStateContainer().getBaseState().with(DIRECTION, Direction.NORTH));
-		
-		this.generateShapes(this.getStateContainer().getValidStates());
+		this.generateShapes(this.getStateDefinition().getPossibleStates());
 		
 		this.setRegistryName(name);
 	}
@@ -181,57 +180,57 @@ public class Chair extends Block
         ImmutableMap.Builder<BlockState, VoxelShape> builder = new ImmutableMap.Builder<>();
         for(BlockState state : states)
         {
-        	VoxelShape shapes = VoxelShapes.empty();
+        	VoxelShape shapes = Shapes.empty();
         
         	// chair body
-        	shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(1, 7, 1, 15, 8, 14), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR); // chair base
-        	shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(3, 9, 1, 13, 23, 2), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR); // chair back
+        	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(1, 7, 1, 15, 8, 14), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // chair base
+        	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(3, 9, 1, 13, 23, 2), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // chair back
         	
         	//legs
-        	shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(2, 0, 12, 3, 8, 13), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR); //front left leg
-            shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(13, 0, 12, 14, 8, 13), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR); // front right leg
-            shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(1, 0, 1, 3, 22, 3), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR); // back left leg
-            shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(13, 0, 1, 15, 22, 3), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR); // back right leg
+        	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(2, 0, 12, 3, 8, 13), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); //front left leg
+            shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(13, 0, 12, 14, 8, 13), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // front right leg
+            shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(1, 0, 1, 3, 22, 3), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // back left leg
+            shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(13, 0, 1, 15, 22, 3), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // back right leg
             
-            builder.put(state, shapes.simplify());
+            builder.put(state, shapes.optimize());
         }
         
         _shapes = builder.build();
     }
   
     @Override
-    public VoxelShape getShape(BlockState state, IBlockReader reader, BlockPos pos, ISelectionContext context)
+    public VoxelShape getShape(BlockState state, BlockGetter reader, BlockPos pos, CollisionContext context)
     {
         return _shapes.get(state);
     }
 
     @Override
-    public VoxelShape getRenderShape(BlockState state, IBlockReader reader, BlockPos pos)
+    public VoxelShape getOcclusionShape(BlockState state, BlockGetter reader, BlockPos pos)
     {
         return _shapes.get(state);
     }
 
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult)
+    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult rayTraceResult)
     {
         return Seat.create(world, pos, 0.3, player);
     }
 
     @Override
-    public BlockState getStateForPlacement(BlockItemUseContext context)
+    public BlockState getStateForPlacement(BlockPlaceContext context)
     {
-        return this.getDefaultState().with(WATERLOGGED, context.getWorld().getFluidState(context.getPos()).getFluid() == Fluids.WATER).with(DIRECTION, context.getPlacementHorizontalFacing());
+        return this.defaultBlockState().setValue(WATERLOGGED, context.getLevel().getFluidState(context.getClickedPos()).getType() == Fluids.WATER).setValue(DIRECTION, context.getHorizontalDirection());
     }
     
     @Override
     public BlockState rotate(BlockState state, Rotation rotation)
     {
-        return state.with(DIRECTION, rotation.rotate(state.get(DIRECTION)));
+        return state.setValue(DIRECTION, rotation.rotate(state.getValue(DIRECTION)));
     }
 
     @Override
     public BlockState mirror(BlockState state, Mirror mirror)
     {
-        return state.rotate(mirror.toRotation(state.get(DIRECTION)));
+        return state.rotate(mirror.getRotation(state.getValue(DIRECTION)));
     }
 }

@@ -7,20 +7,20 @@ import com.mcmoddev.ironagefurniture.api.Enumerations.Rotation;
 import com.mcmoddev.ironagefurniture.api.properties.BenchTypeProperty;
 import com.mcmoddev.ironagefurniture.api.util.Swivel;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.SoundType;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.state.StateContainer;
-import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.IBooleanFunction;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.shapes.BooleanOp;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.Level;
 
 public class BackBench extends Chair {
 	public static final BenchTypeProperty TYPE = BenchTypeProperty.create("type", BenchType.SINGLE, BenchType.LEFT, BenchType.MIDDLE, BenchType.RIGHT);;
@@ -30,9 +30,9 @@ public class BackBench extends Chair {
 	}
 
 	@Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
     {
-        super.fillStateContainer(builder);
+        super.createBlockStateDefinition(builder);
         
         builder.add(TYPE);
     }
@@ -43,30 +43,30 @@ public class BackBench extends Chair {
        ImmutableMap.Builder<BlockState, VoxelShape> builder = new ImmutableMap.Builder<>();
        for(BlockState state : states)
        {
-       	BenchType type = state.get(TYPE);;
+       	BenchType type = state.getValue(TYPE);;
        	
-       	VoxelShape shapes = VoxelShapes.empty();
+       	VoxelShape shapes = Shapes.empty();
        
    		// bench base
-       	shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(0, 6, 1, 16, 7, 15), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR); // chair base
+       	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(0, 6, 1, 16, 7, 15), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // chair base
        	
        	//bench back
-       	shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(0, 0, 0, 16, 16, 1), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR); // chair back
+       	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(0, 0, 0, 16, 16, 1), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // chair back
     	
        	switch (type) {
 			case SINGLE:
 				//bench leg
-	        	shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(0, 0, 1, 1, 10, 12), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR); 
-	        	shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(15, 0, 1, 16, 10, 12), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR);
+	        	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(0, 0, 1, 1, 10, 12), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); 
+	        	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(15, 0, 1, 16, 10, 12), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR);
 	        		
 				break;
 
 			case LEFT:
-				shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(0, 0, 1, 1, 10, 12), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR); 
+				shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(0, 0, 1, 1, 10, 12), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); 
 				break;
 				
 			case RIGHT:
-				shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(15, 0, 1, 16, 10, 12), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR);
+				shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(15, 0, 1, 16, 10, 12), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR);
 				break;
 				
 			case MIDDLE:
@@ -77,30 +77,30 @@ public class BackBench extends Chair {
 			}
        	
        	//bench cross bar
-       	shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(0, 2, 7, 16, 4, 9), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR); 
+       	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(0, 2, 7, 16, 4, 9), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); 
        	
-           builder.put(state, shapes.simplify());
+           builder.put(state, shapes.optimize());
        }
        
        _shapes = builder.build();
    }
 	
     @Override
-    public BlockState getStateForPlacement(BlockItemUseContext context)
+    public BlockState getStateForPlacement(BlockPlaceContext context)
     {
-    	World world = context.getWorld();
-    	BlockPos pos = context.getPos();
+    	Level world = context.getLevel();
+    	BlockPos pos = context.getClickedPos();
     	
-		BlockState stateForPlacement = this.getDefaultState()
-				.with(WATERLOGGED, world.getFluidState(context.getPos()).getFluid() == Fluids.WATER)
-				.with(DIRECTION, context.getPlacementHorizontalFacing())
-				.with(TYPE, BenchType.SINGLE);
+		BlockState stateForPlacement = this.defaultBlockState()
+				.setValue(WATERLOGGED, world.getFluidState(context.getClickedPos()).getType() == Fluids.WATER)
+				.setValue(DIRECTION, context.getHorizontalDirection())
+				.setValue(TYPE, BenchType.SINGLE);
     	
-		if (!context.getPlayer().isSneaking()) {
-			Direction benchAxis = getBenchToJoinTo(context.getPlacementHorizontalFacing(), world, pos);
+		if (!context.getPlayer().isShiftKeyDown()) {
+			Direction benchAxis = getBenchToJoinTo(context.getHorizontalDirection(), world, pos);
 			
 			if (benchAxis != null) {
-				BlockState blockStateToJoinTo = world.getBlockState(pos.offset(benchAxis));
+				BlockState blockStateToJoinTo = world.getBlockState(pos.relative(benchAxis));
 				
 				if (blockStateToJoinTo.getBlock().getRegistryName().equals(stateForPlacement.getBlock().getRegistryName())) {
 					Direction benchFacing = getBenchToJoinToFacing(benchAxis, world, pos);
@@ -156,26 +156,26 @@ public class BackBench extends Chair {
 			return null;
 		
 		if (isIAFBench(blockstate))
-			return blockstate.get(TYPE);
+			return blockstate.getValue(TYPE);
 		
 		return null;
 	}
 	
 	private Direction getBenchDirection(BlockState blockstate) {
 		if (isIAFBench(blockstate))
-			return blockstate.get(DIRECTION);
+			return blockstate.getValue(DIRECTION);
 		
 		return null;
 	}
 	
-	private int getOffset(Direction direction, IWorld world, BlockPos pos) {
+	private int getOffset(Direction direction, LevelAccessor world, BlockPos pos) {
 		BenchType currentlyInspectedBenchType;
 		BlockState currentlyInspectedBenchState;
 		String currentlyInspectedBlockName;
 		
 		int offset = 0;
 		
-		currentlyInspectedBenchState = world.getBlockState(pos.offset(direction));
+		currentlyInspectedBenchState = world.getBlockState(pos.relative(direction));
 		currentlyInspectedBenchType = getBenchType(currentlyInspectedBenchState);
 		
 		if (isBenchPiece(currentlyInspectedBenchType)) {
@@ -186,7 +186,7 @@ public class BackBench extends Chair {
 			while (isBenchPieceOnAxis(currentlyInspectedBenchType, direction, blockFacing, blockName, currentlyInspectedBlockName)) {
 				offset++;
 				
-				currentlyInspectedBenchState = world.getBlockState(pos.offset(direction, offset + 1));
+				currentlyInspectedBenchState = world.getBlockState(pos.relative(direction, offset + 1));
 				currentlyInspectedBenchType = getBenchType(currentlyInspectedBenchState);
 				currentlyInspectedBlockName = currentlyInspectedBenchState.getBlock().getRegistryName().getNamespace();
 				
@@ -197,7 +197,7 @@ public class BackBench extends Chair {
 		return offset;
 	}
 	
-	private BlockState traceBench2(Direction direction, IWorld world, BlockPos pos, BlockState blockState, Direction benchFacing) {
+	private BlockState traceBench2(Direction direction, LevelAccessor world, BlockPos pos, BlockState blockState, Direction benchFacing) {
 		boolean invertLeftRight = false;
 		
 		if (benchFacing == Direction.NORTH && direction == Direction.EAST)
@@ -232,52 +232,52 @@ public class BackBench extends Chair {
 		
 		if (positiveOffset == 0 && negativeOffset == 0)
 			return blockStateAtCurrentPos
-					.with(DIRECTION, benchFacing)
-					.with(TYPE, BenchType.SINGLE);
+					.setValue(DIRECTION, benchFacing)
+					.setValue(TYPE, BenchType.SINGLE);
 		
 		while (workingNegativeOffset > 0) {
-			workingBlockPos = pos.offset(direction, workingNegativeOffset);
+			workingBlockPos = pos.relative(direction, workingNegativeOffset);
 			
 			if (workingNegativeOffset == negativeOffset)
-				world.setBlockState(workingBlockPos, world.getBlockState(workingBlockPos)
-						.with(DIRECTION, benchFacing)
-						.with(TYPE, left), 0);
+				world.setBlock(workingBlockPos, world.getBlockState(workingBlockPos)
+						.setValue(DIRECTION, benchFacing)
+						.setValue(TYPE, left), 0);
 			else
-				world.setBlockState(workingBlockPos, world.getBlockState(workingBlockPos)
-						.with(DIRECTION, benchFacing)
-						.with(TYPE, BenchType.MIDDLE), 0);
+				world.setBlock(workingBlockPos, world.getBlockState(workingBlockPos)
+						.setValue(DIRECTION, benchFacing)
+						.setValue(TYPE, BenchType.MIDDLE), 0);
 			
 			workingNegativeOffset--;
 		}
 		
 		if (negativeOffset > 0 && positiveOffset == 0)
 			return blockStateAtCurrentPos
-					.with(DIRECTION, benchFacing)
-					.with(TYPE, right);
+					.setValue(DIRECTION, benchFacing)
+					.setValue(TYPE, right);
 		
 		while (workingPositiveOffset > 0) {
-			workingBlockPos = pos.offset(direction.getOpposite(), workingPositiveOffset);
+			workingBlockPos = pos.relative(direction.getOpposite(), workingPositiveOffset);
 			
 			if (workingPositiveOffset == positiveOffset)
-				world.setBlockState(workingBlockPos, world.getBlockState(workingBlockPos)
-						.with(DIRECTION, benchFacing)
-						.with(TYPE, right), 0);
+				world.setBlock(workingBlockPos, world.getBlockState(workingBlockPos)
+						.setValue(DIRECTION, benchFacing)
+						.setValue(TYPE, right), 0);
 			else
-				world.setBlockState(workingBlockPos, world.getBlockState(workingBlockPos)
-						.with(DIRECTION, benchFacing)
-						.with(TYPE, BenchType.MIDDLE), 0);
+				world.setBlock(workingBlockPos, world.getBlockState(workingBlockPos)
+						.setValue(DIRECTION, benchFacing)
+						.setValue(TYPE, BenchType.MIDDLE), 0);
 			
 			workingPositiveOffset--;
 		}
 		
 		if (positiveOffset > 0 && negativeOffset == 0)
 			return blockStateAtCurrentPos
-					.with(DIRECTION, benchFacing)
-					.with(TYPE, left);
+					.setValue(DIRECTION, benchFacing)
+					.setValue(TYPE, left);
 			
 		return blockStateAtCurrentPos
-				.with(DIRECTION, benchFacing)
-				.with(TYPE, BenchType.MIDDLE);	
+				.setValue(DIRECTION, benchFacing)
+				.setValue(TYPE, BenchType.MIDDLE);	
 	}
 	
 	private boolean isBenchPiece(BenchType benchType) {
@@ -324,8 +324,8 @@ public class BackBench extends Chair {
 		}
 	}
 		
-	private boolean isBenchEnd(Direction facing, World world, BlockPos pos) {		
-		BenchType benchType = getBenchType(world.getBlockState(pos.offset(facing)));
+	private boolean isBenchEnd(Direction facing, Level world, BlockPos pos) {		
+		BenchType benchType = getBenchType(world.getBlockState(pos.relative(facing)));
 		
 		if (benchType == BenchType.LEFT || benchType == BenchType.RIGHT)
 			return true;
@@ -333,8 +333,8 @@ public class BackBench extends Chair {
 		return false;
 	}
 	
-	private boolean isBenchSingle(Direction facing, World world, BlockPos pos) {		
-		BenchType benchType = getBenchType(world.getBlockState(pos.offset(facing)));
+	private boolean isBenchSingle(Direction facing, Level world, BlockPos pos) {		
+		BenchType benchType = getBenchType(world.getBlockState(pos.relative(facing)));
 		
 		if (benchType == BenchType.SINGLE)
 			return true;
@@ -342,17 +342,17 @@ public class BackBench extends Chair {
 		return false;
 	}
 	
-	private Direction getBenchToJoinToFacing(Direction benchDirection, World world, BlockPos pos) {
-		return getBenchDirection(world.getBlockState(pos.offset(benchDirection)));
+	private Direction getBenchToJoinToFacing(Direction benchDirection, Level world, BlockPos pos) {
+		return getBenchDirection(world.getBlockState(pos.relative(benchDirection)));
 	}
 	
-	private Direction getBenchToJoinTo(Direction playerFacing, World world, BlockPos pos) {
+	private Direction getBenchToJoinTo(Direction playerFacing, Level world, BlockPos pos) {
 		// again, favour player facing
 		if (isBenchEnd(playerFacing, world, pos) || isBenchSingle(playerFacing, world, pos)) {
 			if (isBenchSingle(playerFacing, world, pos))
 				return playerFacing;
 			
-			Direction targetFace = getBenchDirection(world.getBlockState(pos.offset(playerFacing)));
+			Direction targetFace = getBenchDirection(world.getBlockState(pos.relative(playerFacing)));
 			
 			if (targetFace == null)
 				return null;
@@ -369,7 +369,7 @@ public class BackBench extends Chair {
 					return face;
 				
 				if (isBenchEnd(face, world, pos)) {
-					Direction targetFace = getBenchDirection(world.getBlockState(pos.offset(face)));
+					Direction targetFace = getBenchDirection(world.getBlockState(pos.relative(face)));
 					
 					if (targetFace == null)
 						return null;
@@ -386,41 +386,41 @@ public class BackBench extends Chair {
 	}
 
 	@Override
-	public void onPlayerDestroy(IWorld worldIn, BlockPos pos, BlockState state) {
+	public void destroy(LevelAccessor worldIn, BlockPos pos, BlockState state) {
 		
 		Direction benchFacing = getBenchDirection(state);
 		Rotation defaultRotation = Rotation.Ninty;
 		Direction benchAxis = Swivel.Rotate(getBenchDirection(state), defaultRotation);
 		BenchType benchType = getBenchType(state);
 		
-		super.onPlayerDestroy(worldIn, pos, state);
+		super.destroy(worldIn, pos, state);
 		
 		if ((benchAxis != null && benchType != null) && (benchType != BenchType.SINGLE)) {
-			BlockState currentOffsetBlockState = worldIn.getBlockState(pos.offset(benchAxis));
+			BlockState currentOffsetBlockState = worldIn.getBlockState(pos.relative(benchAxis));
 			BenchType currentOffsetType = getBenchType(currentOffsetBlockState);
 			
 			if (currentOffsetType != null) {
 				Direction currentOffsetFacing = Swivel.Rotate(getBenchDirection(currentOffsetBlockState), defaultRotation); 
 				
 				if (currentOffsetFacing == benchAxis || currentOffsetFacing == benchAxis.getOpposite()) {
-					BlockState offsetBlockState = traceBench2(benchAxis, worldIn, pos.offset(benchAxis), worldIn.getBlockState(pos.offset(benchAxis)), benchFacing);
+					BlockState offsetBlockState = traceBench2(benchAxis, worldIn, pos.relative(benchAxis), worldIn.getBlockState(pos.relative(benchAxis)), benchFacing);
 					
 					if (offsetBlockState != null && isBenchPiece(getBenchType(offsetBlockState)))
-						worldIn.setBlockState(pos.offset(benchAxis), offsetBlockState, 0);
+						worldIn.setBlock(pos.relative(benchAxis), offsetBlockState, 0);
 				}
 			}
 			
-			BlockState reverseCurrentOffsetBlockState = worldIn.getBlockState(pos.offset(benchAxis.getOpposite()));
+			BlockState reverseCurrentOffsetBlockState = worldIn.getBlockState(pos.relative(benchAxis.getOpposite()));
 			BenchType reverseOffsetType = getBenchType(reverseCurrentOffsetBlockState);
 			
 			if (reverseOffsetType != null) {
 				Direction reverseOffsetFacing = Swivel.Rotate(getBenchDirection(reverseCurrentOffsetBlockState), GetOpposite(defaultRotation)); 
 			
 				if (reverseOffsetFacing == benchAxis || reverseOffsetFacing == benchAxis.getOpposite()) {
-					BlockState reverseOffsetBlockState = traceBench2(benchAxis.getOpposite(), worldIn, pos.offset(benchAxis.getOpposite()), worldIn.getBlockState(pos.offset(benchAxis.getOpposite())), benchFacing);
+					BlockState reverseOffsetBlockState = traceBench2(benchAxis.getOpposite(), worldIn, pos.relative(benchAxis.getOpposite()), worldIn.getBlockState(pos.relative(benchAxis.getOpposite())), benchFacing);
 					
 					if (reverseOffsetBlockState != null && isBenchPiece(getBenchType(reverseOffsetBlockState)))
-						worldIn.setBlockState(pos.offset(benchAxis.getOpposite()), reverseOffsetBlockState, 0);
+						worldIn.setBlock(pos.relative(benchAxis.getOpposite()), reverseOffsetBlockState, 0);
 				}
 			}		
 		}

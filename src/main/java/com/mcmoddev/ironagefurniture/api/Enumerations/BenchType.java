@@ -1,8 +1,8 @@
 package com.mcmoddev.ironagefurniture.api.Enumerations;
 
-import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.StringRepresentable;
 
-public enum BenchType implements IStringSerializable {
+public enum BenchType implements StringRepresentable {
 	 SINGLE("single"),
      MIDDLE("middle"),
 	 END("end"),
@@ -27,7 +27,7 @@ public enum BenchType implements IStringSerializable {
      }
 
 	@Override
-	public String getString() {
+	public String getSerializedName() {
 		return this.name;
 	}
 }
