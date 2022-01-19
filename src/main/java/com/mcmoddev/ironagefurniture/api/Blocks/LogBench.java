@@ -25,7 +25,7 @@ public class LogBench extends BackBench {
 	}
 	
 	@Override
-    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult)
+    public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult)
     {
         return Seat.create(world, pos, 0.2, player);
     }
@@ -39,9 +39,9 @@ public class LogBench extends BackBench {
         	VoxelShape shapes = VoxelShapes.empty();
         
     		// bench body
-        	shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(0, 0, 1, 16, 7, 15), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR); // chair base
+        	shapes = VoxelShapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(0, 0, 1, 16, 7, 15), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], IBooleanFunction.OR); // chair base
         	      	
-            builder.put(state, shapes.simplify());
+            builder.put(state, shapes.optimize());
         }
         
         _shapes = builder.build();
