@@ -25,7 +25,7 @@ public class TallStool extends Chair {
 	}
 	
 	 @Override
-    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult)
+    public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult)
     {
         return Seat.create(world, pos, 0.6, player);
     }
@@ -39,14 +39,14 @@ public class TallStool extends Chair {
         	VoxelShape shapes = VoxelShapes.empty();
         
     		// tall stool body
-        	shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(3, 12, 3, 13, 13, 13), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR); // chair base
+        	shapes = VoxelShapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(3, 12, 3, 13, 13, 13), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], IBooleanFunction.OR); // chair base
         	
         	//tall stool legs
-        	shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(7, 0, 11, 9, 12, 12), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR); 
-            shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(10, 0, 5, 13, 12, 8), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR); 
-            shapes = VoxelShapes.combine(shapes, getShapes(rotate(Block.makeCuboidShape(4, 0, 5,6, 12, 8), Direction.SOUTH))[state.get(DIRECTION).getHorizontalIndex()], IBooleanFunction.OR); 
+        	shapes = VoxelShapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(7, 0, 11, 9, 12, 12), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], IBooleanFunction.OR); 
+            shapes = VoxelShapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(10, 0, 5, 13, 12, 8), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], IBooleanFunction.OR); 
+            shapes = VoxelShapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(4, 0, 5,6, 12, 8), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], IBooleanFunction.OR); 
         	
-            builder.put(state, shapes.simplify());
+            builder.put(state, shapes.optimize());
         }
         
         _shapes = builder.build();

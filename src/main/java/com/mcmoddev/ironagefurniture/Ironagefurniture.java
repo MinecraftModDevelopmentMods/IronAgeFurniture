@@ -23,7 +23,7 @@ public class Ironagefurniture
 
 	public static final ItemGroup IAF_GROUP = new ItemGroup(MODID) {
 	    @Override
-	    public ItemStack createIcon() {
+	    public ItemStack makeIcon() {
 	        return new ItemStack(BlockObjectHolder.chair_wood_ironage_classic_dark_oak);
 	    }
 	};
