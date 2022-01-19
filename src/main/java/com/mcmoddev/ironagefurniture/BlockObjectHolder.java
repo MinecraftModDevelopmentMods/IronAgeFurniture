@@ -759,7 +759,6 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_classic_byg_ebony = null;
 	public static final Block chair_wood_ironage_classic_byg_embur = null;
 	public static final Block chair_wood_ironage_classic_byg_fir = null;
-	public static final Block chair_wood_ironage_classic_byg_glacial_oak = null;
 	public static final Block chair_wood_ironage_classic_byg_green_enchanted = null;
 	public static final Block chair_wood_ironage_classic_byg_holly = null;
 	public static final Block chair_wood_ironage_classic_byg_jacaranda = null;
@@ -784,7 +783,6 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_shield_byg_ebony = null;
 	public static final Block chair_wood_ironage_shield_byg_embur = null;
 	public static final Block chair_wood_ironage_shield_byg_fir = null;
-	public static final Block chair_wood_ironage_shield_byg_glacial_oak = null;
 	public static final Block chair_wood_ironage_shield_byg_green_enchanted = null;
 	public static final Block chair_wood_ironage_shield_byg_holly = null;
 	public static final Block chair_wood_ironage_shield_byg_jacaranda = null;
@@ -809,7 +807,6 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_stool_short_byg_ebony = null;
 	public static final Block chair_wood_ironage_stool_short_byg_embur = null;
 	public static final Block chair_wood_ironage_stool_short_byg_fir = null;
-	public static final Block chair_wood_ironage_stool_short_byg_glacial_oak = null;
 	public static final Block chair_wood_ironage_stool_short_byg_green_enchanted = null;
 	public static final Block chair_wood_ironage_stool_short_byg_holly = null;
 	public static final Block chair_wood_ironage_stool_short_byg_jacaranda = null;
@@ -834,7 +831,6 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_stool_tall_byg_ebony = null;
 	public static final Block chair_wood_ironage_stool_tall_byg_embur = null;
 	public static final Block chair_wood_ironage_stool_tall_byg_fir = null;
-	public static final Block chair_wood_ironage_stool_tall_byg_glacial_oak = null;
 	public static final Block chair_wood_ironage_stool_tall_byg_green_enchanted = null;
 	public static final Block chair_wood_ironage_stool_tall_byg_holly = null;
 	public static final Block chair_wood_ironage_stool_tall_byg_jacaranda = null;
@@ -859,7 +855,6 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_bench_back_padded_black_single_byg_ebony = null;
 	public static final Block chair_wood_ironage_bench_back_padded_black_single_byg_embur = null;
 	public static final Block chair_wood_ironage_bench_back_padded_black_single_byg_fir = null;
-	public static final Block chair_wood_ironage_bench_back_padded_black_single_byg_glacial_oak = null;
 	public static final Block chair_wood_ironage_bench_back_padded_black_single_byg_green_enchanted = null;
 	public static final Block chair_wood_ironage_bench_back_padded_black_single_byg_holly = null;
 	public static final Block chair_wood_ironage_bench_back_padded_black_single_byg_jacaranda = null;
@@ -883,7 +878,6 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_bench_back_padded_blue_single_byg_ebony = null;
 	public static final Block chair_wood_ironage_bench_back_padded_blue_single_byg_embur = null;
 	public static final Block chair_wood_ironage_bench_back_padded_blue_single_byg_fir = null;
-	public static final Block chair_wood_ironage_bench_back_padded_blue_single_byg_glacial_oak = null;
 	public static final Block chair_wood_ironage_bench_back_padded_blue_single_byg_green_enchanted = null;
 	public static final Block chair_wood_ironage_bench_back_padded_blue_single_byg_holly = null;
 	public static final Block chair_wood_ironage_bench_back_padded_blue_single_byg_jacaranda = null;
@@ -907,7 +901,6 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_bench_back_padded_brown_single_byg_ebony = null;
 	public static final Block chair_wood_ironage_bench_back_padded_brown_single_byg_embur = null;
 	public static final Block chair_wood_ironage_bench_back_padded_brown_single_byg_fir = null;
-	public static final Block chair_wood_ironage_bench_back_padded_brown_single_byg_glacial_oak = null;
 	public static final Block chair_wood_ironage_bench_back_padded_brown_single_byg_green_enchanted = null;
 	public static final Block chair_wood_ironage_bench_back_padded_brown_single_byg_holly = null;
 	public static final Block chair_wood_ironage_bench_back_padded_brown_single_byg_jacaranda = null;
@@ -931,7 +924,6 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_bench_back_padded_cyan_single_byg_ebony = null;
 	public static final Block chair_wood_ironage_bench_back_padded_cyan_single_byg_embur = null;
 	public static final Block chair_wood_ironage_bench_back_padded_cyan_single_byg_fir = null;
-	public static final Block chair_wood_ironage_bench_back_padded_cyan_single_byg_glacial_oak = null;
 	public static final Block chair_wood_ironage_bench_back_padded_cyan_single_byg_green_enchanted = null;
 	public static final Block chair_wood_ironage_bench_back_padded_cyan_single_byg_holly = null;
 	public static final Block chair_wood_ironage_bench_back_padded_cyan_single_byg_jacaranda = null;
@@ -955,7 +947,6 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_bench_back_padded_gray_single_byg_ebony = null;
 	public static final Block chair_wood_ironage_bench_back_padded_gray_single_byg_embur = null;
 	public static final Block chair_wood_ironage_bench_back_padded_gray_single_byg_fir = null;
-	public static final Block chair_wood_ironage_bench_back_padded_gray_single_byg_glacial_oak = null;
 	public static final Block chair_wood_ironage_bench_back_padded_gray_single_byg_green_enchanted = null;
 	public static final Block chair_wood_ironage_bench_back_padded_gray_single_byg_holly = null;
 	public static final Block chair_wood_ironage_bench_back_padded_gray_single_byg_jacaranda = null;
@@ -979,7 +970,6 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_bench_back_padded_green_single_byg_ebony = null;
 	public static final Block chair_wood_ironage_bench_back_padded_green_single_byg_embur = null;
 	public static final Block chair_wood_ironage_bench_back_padded_green_single_byg_fir = null;
-	public static final Block chair_wood_ironage_bench_back_padded_green_single_byg_glacial_oak = null;
 	public static final Block chair_wood_ironage_bench_back_padded_green_single_byg_green_enchanted = null;
 	public static final Block chair_wood_ironage_bench_back_padded_green_single_byg_holly = null;
 	public static final Block chair_wood_ironage_bench_back_padded_green_single_byg_jacaranda = null;
@@ -1003,7 +993,6 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_bench_back_padded_light_blue_single_byg_ebony = null;
 	public static final Block chair_wood_ironage_bench_back_padded_light_blue_single_byg_embur = null;
 	public static final Block chair_wood_ironage_bench_back_padded_light_blue_single_byg_fir = null;
-	public static final Block chair_wood_ironage_bench_back_padded_light_blue_single_byg_glacial_oak = null;
 	public static final Block chair_wood_ironage_bench_back_padded_light_blue_single_byg_green_enchanted = null;
 	public static final Block chair_wood_ironage_bench_back_padded_light_blue_single_byg_holly = null;
 	public static final Block chair_wood_ironage_bench_back_padded_light_blue_single_byg_jacaranda = null;
@@ -1027,7 +1016,6 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_bench_back_padded_light_gray_single_byg_ebony = null;
 	public static final Block chair_wood_ironage_bench_back_padded_light_gray_single_byg_embur = null;
 	public static final Block chair_wood_ironage_bench_back_padded_light_gray_single_byg_fir = null;
-	public static final Block chair_wood_ironage_bench_back_padded_light_gray_single_byg_glacial_oak = null;
 	public static final Block chair_wood_ironage_bench_back_padded_light_gray_single_byg_green_enchanted = null;
 	public static final Block chair_wood_ironage_bench_back_padded_light_gray_single_byg_holly = null;
 	public static final Block chair_wood_ironage_bench_back_padded_light_gray_single_byg_jacaranda = null;
@@ -1051,7 +1039,6 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_bench_back_padded_lime_single_byg_ebony = null;
 	public static final Block chair_wood_ironage_bench_back_padded_lime_single_byg_embur = null;
 	public static final Block chair_wood_ironage_bench_back_padded_lime_single_byg_fir = null;
-	public static final Block chair_wood_ironage_bench_back_padded_lime_single_byg_glacial_oak = null;
 	public static final Block chair_wood_ironage_bench_back_padded_lime_single_byg_green_enchanted = null;
 	public static final Block chair_wood_ironage_bench_back_padded_lime_single_byg_holly = null;
 	public static final Block chair_wood_ironage_bench_back_padded_lime_single_byg_jacaranda = null;
@@ -1075,7 +1062,6 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_bench_back_padded_magenta_single_byg_ebony = null;
 	public static final Block chair_wood_ironage_bench_back_padded_magenta_single_byg_embur = null;
 	public static final Block chair_wood_ironage_bench_back_padded_magenta_single_byg_fir = null;
-	public static final Block chair_wood_ironage_bench_back_padded_magenta_single_byg_glacial_oak = null;
 	public static final Block chair_wood_ironage_bench_back_padded_magenta_single_byg_green_enchanted = null;
 	public static final Block chair_wood_ironage_bench_back_padded_magenta_single_byg_holly = null;
 	public static final Block chair_wood_ironage_bench_back_padded_magenta_single_byg_jacaranda = null;
@@ -1099,7 +1085,6 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_bench_back_padded_orange_single_byg_ebony = null;
 	public static final Block chair_wood_ironage_bench_back_padded_orange_single_byg_embur = null;
 	public static final Block chair_wood_ironage_bench_back_padded_orange_single_byg_fir = null;
-	public static final Block chair_wood_ironage_bench_back_padded_orange_single_byg_glacial_oak = null;
 	public static final Block chair_wood_ironage_bench_back_padded_orange_single_byg_green_enchanted = null;
 	public static final Block chair_wood_ironage_bench_back_padded_orange_single_byg_holly = null;
 	public static final Block chair_wood_ironage_bench_back_padded_orange_single_byg_jacaranda = null;
@@ -1123,7 +1108,6 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_bench_back_padded_pink_single_byg_ebony = null;
 	public static final Block chair_wood_ironage_bench_back_padded_pink_single_byg_embur = null;
 	public static final Block chair_wood_ironage_bench_back_padded_pink_single_byg_fir = null;
-	public static final Block chair_wood_ironage_bench_back_padded_pink_single_byg_glacial_oak = null;
 	public static final Block chair_wood_ironage_bench_back_padded_pink_single_byg_green_enchanted = null;
 	public static final Block chair_wood_ironage_bench_back_padded_pink_single_byg_holly = null;
 	public static final Block chair_wood_ironage_bench_back_padded_pink_single_byg_jacaranda = null;
@@ -1147,7 +1131,6 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_bench_back_padded_purple_single_byg_ebony = null;
 	public static final Block chair_wood_ironage_bench_back_padded_purple_single_byg_embur = null;
 	public static final Block chair_wood_ironage_bench_back_padded_purple_single_byg_fir = null;
-	public static final Block chair_wood_ironage_bench_back_padded_purple_single_byg_glacial_oak = null;
 	public static final Block chair_wood_ironage_bench_back_padded_purple_single_byg_green_enchanted = null;
 	public static final Block chair_wood_ironage_bench_back_padded_purple_single_byg_holly = null;
 	public static final Block chair_wood_ironage_bench_back_padded_purple_single_byg_jacaranda = null;
@@ -1171,7 +1154,6 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_bench_back_padded_red_single_byg_ebony = null;
 	public static final Block chair_wood_ironage_bench_back_padded_red_single_byg_embur = null;
 	public static final Block chair_wood_ironage_bench_back_padded_red_single_byg_fir = null;
-	public static final Block chair_wood_ironage_bench_back_padded_red_single_byg_glacial_oak = null;
 	public static final Block chair_wood_ironage_bench_back_padded_red_single_byg_green_enchanted = null;
 	public static final Block chair_wood_ironage_bench_back_padded_red_single_byg_holly = null;
 	public static final Block chair_wood_ironage_bench_back_padded_red_single_byg_jacaranda = null;
@@ -1195,7 +1177,6 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_bench_back_padded_white_single_byg_ebony = null;
 	public static final Block chair_wood_ironage_bench_back_padded_white_single_byg_embur = null;
 	public static final Block chair_wood_ironage_bench_back_padded_white_single_byg_fir = null;
-	public static final Block chair_wood_ironage_bench_back_padded_white_single_byg_glacial_oak = null;
 	public static final Block chair_wood_ironage_bench_back_padded_white_single_byg_green_enchanted = null;
 	public static final Block chair_wood_ironage_bench_back_padded_white_single_byg_holly = null;
 	public static final Block chair_wood_ironage_bench_back_padded_white_single_byg_jacaranda = null;
@@ -1219,7 +1200,6 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_bench_back_padded_yellow_single_byg_ebony = null;
 	public static final Block chair_wood_ironage_bench_back_padded_yellow_single_byg_embur = null;
 	public static final Block chair_wood_ironage_bench_back_padded_yellow_single_byg_fir = null;
-	public static final Block chair_wood_ironage_bench_back_padded_yellow_single_byg_glacial_oak = null;
 	public static final Block chair_wood_ironage_bench_back_padded_yellow_single_byg_green_enchanted = null;
 	public static final Block chair_wood_ironage_bench_back_padded_yellow_single_byg_holly = null;
 	public static final Block chair_wood_ironage_bench_back_padded_yellow_single_byg_jacaranda = null;
@@ -1243,7 +1223,6 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_bench_back_single_byg_ebony = null;
 	public static final Block chair_wood_ironage_bench_back_single_byg_embur = null;
 	public static final Block chair_wood_ironage_bench_back_single_byg_fir = null;
-	public static final Block chair_wood_ironage_bench_back_single_byg_glacial_oak = null;
 	public static final Block chair_wood_ironage_bench_back_single_byg_green_enchanted = null;
 	public static final Block chair_wood_ironage_bench_back_single_byg_holly = null;
 	public static final Block chair_wood_ironage_bench_back_single_byg_jacaranda = null;
@@ -1267,7 +1246,6 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_bench_log_single_byg_ebony = null;
 	public static final Block chair_wood_ironage_bench_log_single_byg_embur = null;
 	public static final Block chair_wood_ironage_bench_log_single_byg_fir = null;
-	public static final Block chair_wood_ironage_bench_log_single_byg_glacial_oak = null;
 	public static final Block chair_wood_ironage_bench_log_single_byg_green_enchanted = null;
 	public static final Block chair_wood_ironage_bench_log_single_byg_holly = null;
 	public static final Block chair_wood_ironage_bench_log_single_byg_jacaranda = null;
@@ -1291,7 +1269,6 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_bench_padded_black_single_byg_ebony = null;
 	public static final Block chair_wood_ironage_bench_padded_black_single_byg_embur = null;
 	public static final Block chair_wood_ironage_bench_padded_black_single_byg_fir = null;
-	public static final Block chair_wood_ironage_bench_padded_black_single_byg_glacial_oak = null;
 	public static final Block chair_wood_ironage_bench_padded_black_single_byg_green_enchanted = null;
 	public static final Block chair_wood_ironage_bench_padded_black_single_byg_holly = null;
 	public static final Block chair_wood_ironage_bench_padded_black_single_byg_jacaranda = null;
@@ -1315,7 +1292,6 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_bench_padded_blue_single_byg_ebony = null;
 	public static final Block chair_wood_ironage_bench_padded_blue_single_byg_embur = null;
 	public static final Block chair_wood_ironage_bench_padded_blue_single_byg_fir = null;
-	public static final Block chair_wood_ironage_bench_padded_blue_single_byg_glacial_oak = null;
 	public static final Block chair_wood_ironage_bench_padded_blue_single_byg_green_enchanted = null;
 	public static final Block chair_wood_ironage_bench_padded_blue_single_byg_holly = null;
 	public static final Block chair_wood_ironage_bench_padded_blue_single_byg_jacaranda = null;
@@ -1339,7 +1315,6 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_bench_padded_brown_single_byg_ebony = null;
 	public static final Block chair_wood_ironage_bench_padded_brown_single_byg_embur = null;
 	public static final Block chair_wood_ironage_bench_padded_brown_single_byg_fir = null;
-	public static final Block chair_wood_ironage_bench_padded_brown_single_byg_glacial_oak = null;
 	public static final Block chair_wood_ironage_bench_padded_brown_single_byg_green_enchanted = null;
 	public static final Block chair_wood_ironage_bench_padded_brown_single_byg_holly = null;
 	public static final Block chair_wood_ironage_bench_padded_brown_single_byg_jacaranda = null;
@@ -1363,7 +1338,6 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_bench_padded_cyan_single_byg_ebony = null;
 	public static final Block chair_wood_ironage_bench_padded_cyan_single_byg_embur = null;
 	public static final Block chair_wood_ironage_bench_padded_cyan_single_byg_fir = null;
-	public static final Block chair_wood_ironage_bench_padded_cyan_single_byg_glacial_oak = null;
 	public static final Block chair_wood_ironage_bench_padded_cyan_single_byg_green_enchanted = null;
 	public static final Block chair_wood_ironage_bench_padded_cyan_single_byg_holly = null;
 	public static final Block chair_wood_ironage_bench_padded_cyan_single_byg_jacaranda = null;
@@ -1387,7 +1361,6 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_bench_padded_gray_single_byg_ebony = null;
 	public static final Block chair_wood_ironage_bench_padded_gray_single_byg_embur = null;
 	public static final Block chair_wood_ironage_bench_padded_gray_single_byg_fir = null;
-	public static final Block chair_wood_ironage_bench_padded_gray_single_byg_glacial_oak = null;
 	public static final Block chair_wood_ironage_bench_padded_gray_single_byg_green_enchanted = null;
 	public static final Block chair_wood_ironage_bench_padded_gray_single_byg_holly = null;
 	public static final Block chair_wood_ironage_bench_padded_gray_single_byg_jacaranda = null;
@@ -1411,7 +1384,6 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_bench_padded_green_single_byg_ebony = null;
 	public static final Block chair_wood_ironage_bench_padded_green_single_byg_embur = null;
 	public static final Block chair_wood_ironage_bench_padded_green_single_byg_fir = null;
-	public static final Block chair_wood_ironage_bench_padded_green_single_byg_glacial_oak = null;
 	public static final Block chair_wood_ironage_bench_padded_green_single_byg_green_enchanted = null;
 	public static final Block chair_wood_ironage_bench_padded_green_single_byg_holly = null;
 	public static final Block chair_wood_ironage_bench_padded_green_single_byg_jacaranda = null;
@@ -1435,7 +1407,6 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_bench_padded_light_blue_single_byg_ebony = null;
 	public static final Block chair_wood_ironage_bench_padded_light_blue_single_byg_embur = null;
 	public static final Block chair_wood_ironage_bench_padded_light_blue_single_byg_fir = null;
-	public static final Block chair_wood_ironage_bench_padded_light_blue_single_byg_glacial_oak = null;
 	public static final Block chair_wood_ironage_bench_padded_light_blue_single_byg_green_enchanted = null;
 	public static final Block chair_wood_ironage_bench_padded_light_blue_single_byg_holly = null;
 	public static final Block chair_wood_ironage_bench_padded_light_blue_single_byg_jacaranda = null;
@@ -1459,7 +1430,6 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_bench_padded_light_gray_single_byg_ebony = null;
 	public static final Block chair_wood_ironage_bench_padded_light_gray_single_byg_embur = null;
 	public static final Block chair_wood_ironage_bench_padded_light_gray_single_byg_fir = null;
-	public static final Block chair_wood_ironage_bench_padded_light_gray_single_byg_glacial_oak = null;
 	public static final Block chair_wood_ironage_bench_padded_light_gray_single_byg_green_enchanted = null;
 	public static final Block chair_wood_ironage_bench_padded_light_gray_single_byg_holly = null;
 	public static final Block chair_wood_ironage_bench_padded_light_gray_single_byg_jacaranda = null;
@@ -1483,7 +1453,6 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_bench_padded_lime_single_byg_ebony = null;
 	public static final Block chair_wood_ironage_bench_padded_lime_single_byg_embur = null;
 	public static final Block chair_wood_ironage_bench_padded_lime_single_byg_fir = null;
-	public static final Block chair_wood_ironage_bench_padded_lime_single_byg_glacial_oak = null;
 	public static final Block chair_wood_ironage_bench_padded_lime_single_byg_green_enchanted = null;
 	public static final Block chair_wood_ironage_bench_padded_lime_single_byg_holly = null;
 	public static final Block chair_wood_ironage_bench_padded_lime_single_byg_jacaranda = null;
@@ -1507,7 +1476,6 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_bench_padded_magenta_single_byg_ebony = null;
 	public static final Block chair_wood_ironage_bench_padded_magenta_single_byg_embur = null;
 	public static final Block chair_wood_ironage_bench_padded_magenta_single_byg_fir = null;
-	public static final Block chair_wood_ironage_bench_padded_magenta_single_byg_glacial_oak = null;
 	public static final Block chair_wood_ironage_bench_padded_magenta_single_byg_green_enchanted = null;
 	public static final Block chair_wood_ironage_bench_padded_magenta_single_byg_holly = null;
 	public static final Block chair_wood_ironage_bench_padded_magenta_single_byg_jacaranda = null;
@@ -1531,7 +1499,6 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_bench_padded_orange_single_byg_ebony = null;
 	public static final Block chair_wood_ironage_bench_padded_orange_single_byg_embur = null;
 	public static final Block chair_wood_ironage_bench_padded_orange_single_byg_fir = null;
-	public static final Block chair_wood_ironage_bench_padded_orange_single_byg_glacial_oak = null;
 	public static final Block chair_wood_ironage_bench_padded_orange_single_byg_green_enchanted = null;
 	public static final Block chair_wood_ironage_bench_padded_orange_single_byg_holly = null;
 	public static final Block chair_wood_ironage_bench_padded_orange_single_byg_jacaranda = null;
@@ -1555,7 +1522,6 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_bench_padded_pink_single_byg_ebony = null;
 	public static final Block chair_wood_ironage_bench_padded_pink_single_byg_embur = null;
 	public static final Block chair_wood_ironage_bench_padded_pink_single_byg_fir = null;
-	public static final Block chair_wood_ironage_bench_padded_pink_single_byg_glacial_oak = null;
 	public static final Block chair_wood_ironage_bench_padded_pink_single_byg_green_enchanted = null;
 	public static final Block chair_wood_ironage_bench_padded_pink_single_byg_holly = null;
 	public static final Block chair_wood_ironage_bench_padded_pink_single_byg_jacaranda = null;
@@ -1579,7 +1545,6 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_bench_padded_purple_single_byg_ebony = null;
 	public static final Block chair_wood_ironage_bench_padded_purple_single_byg_embur = null;
 	public static final Block chair_wood_ironage_bench_padded_purple_single_byg_fir = null;
-	public static final Block chair_wood_ironage_bench_padded_purple_single_byg_glacial_oak = null;
 	public static final Block chair_wood_ironage_bench_padded_purple_single_byg_green_enchanted = null;
 	public static final Block chair_wood_ironage_bench_padded_purple_single_byg_holly = null;
 	public static final Block chair_wood_ironage_bench_padded_purple_single_byg_jacaranda = null;
@@ -1603,7 +1568,6 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_bench_padded_red_single_byg_ebony = null;
 	public static final Block chair_wood_ironage_bench_padded_red_single_byg_embur = null;
 	public static final Block chair_wood_ironage_bench_padded_red_single_byg_fir = null;
-	public static final Block chair_wood_ironage_bench_padded_red_single_byg_glacial_oak = null;
 	public static final Block chair_wood_ironage_bench_padded_red_single_byg_green_enchanted = null;
 	public static final Block chair_wood_ironage_bench_padded_red_single_byg_holly = null;
 	public static final Block chair_wood_ironage_bench_padded_red_single_byg_jacaranda = null;
@@ -1627,7 +1591,6 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_bench_padded_white_single_byg_ebony = null;
 	public static final Block chair_wood_ironage_bench_padded_white_single_byg_embur = null;
 	public static final Block chair_wood_ironage_bench_padded_white_single_byg_fir = null;
-	public static final Block chair_wood_ironage_bench_padded_white_single_byg_glacial_oak = null;
 	public static final Block chair_wood_ironage_bench_padded_white_single_byg_green_enchanted = null;
 	public static final Block chair_wood_ironage_bench_padded_white_single_byg_holly = null;
 	public static final Block chair_wood_ironage_bench_padded_white_single_byg_jacaranda = null;
@@ -1651,7 +1614,6 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_bench_padded_yellow_single_byg_ebony = null;
 	public static final Block chair_wood_ironage_bench_padded_yellow_single_byg_embur = null;
 	public static final Block chair_wood_ironage_bench_padded_yellow_single_byg_fir = null;
-	public static final Block chair_wood_ironage_bench_padded_yellow_single_byg_glacial_oak = null;
 	public static final Block chair_wood_ironage_bench_padded_yellow_single_byg_green_enchanted = null;
 	public static final Block chair_wood_ironage_bench_padded_yellow_single_byg_holly = null;
 	public static final Block chair_wood_ironage_bench_padded_yellow_single_byg_jacaranda = null;
@@ -1675,7 +1637,6 @@ public class BlockObjectHolder {
 	public static final Block chair_wood_ironage_bench_single_byg_ebony = null;
 	public static final Block chair_wood_ironage_bench_single_byg_embur = null;
 	public static final Block chair_wood_ironage_bench_single_byg_fir = null;
-	public static final Block chair_wood_ironage_bench_single_byg_glacial_oak = null;
 	public static final Block chair_wood_ironage_bench_single_byg_green_enchanted = null;
 	public static final Block chair_wood_ironage_bench_single_byg_holly = null;
 	public static final Block chair_wood_ironage_bench_single_byg_jacaranda = null;
