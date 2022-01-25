@@ -9,6 +9,7 @@ import net.minecraftforge.registries.ObjectHolder;
 public class BlockObjectHolder {
 	public static final Block light_metal_ironage_sconce_floor_empty_iron = null;
 	public static final Block light_metal_ironage_sconce_floor_torch_iron = null;
+	public static final Block light_metal_ironage_sconce_floor_torch_iron_unlit = null;
 	
 	public static final Block chair_wood_ironage_classic_oak = null;
 	public static final Block chair_wood_ironage_classic_acacia = null;

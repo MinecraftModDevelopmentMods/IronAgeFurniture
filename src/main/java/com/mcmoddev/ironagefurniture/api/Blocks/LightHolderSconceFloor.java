@@ -42,6 +42,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 
 public class LightHolderSconceFloor extends LightHolderSconce {
 	public LightHolderSconceFloor(Properties properties) {
@@ -60,6 +61,11 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 		this.setRegistryName(name);
 	}
 
+	public boolean canSurvive(BlockState state, LevelReader levelReader, BlockPos pos)
+	{
+		return canSupportCenter(levelReader, pos.below(), Direction.UP);
+	}
+	
 	@Override
 	protected void generateShapes(ImmutableList<BlockState> states) {
 		 ImmutableMap.Builder<BlockState, VoxelShape> builder = new ImmutableMap.Builder<>();

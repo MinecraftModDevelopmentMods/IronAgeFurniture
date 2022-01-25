@@ -17,6 +17,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.storage.loot.LootContext.Builder;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
@@ -82,10 +83,8 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
 	
 	public LightSourceSconceTorchFloor(float hardness, float blastResistance, SoundType sound, String name) {
 		super(Block.Properties.of(Material.METAL).strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> {
-		      return 14;
-			   }) );
+		    return 14; }) );
 
-		
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
 		this.setRegistryName(name);
@@ -122,11 +121,6 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
 				super.updateShape(state, direction, state2, levelAccessor, pos, pos2);
 	}
 
-	public boolean canSurvive(BlockState state, LevelReader levelReader, BlockPos pos)
-	{
-		return canSupportCenter(levelReader, pos.below(), Direction.UP);
-	}
-	
 	public void animateTick(BlockState state, Level level, BlockPos pos, Random random)
 	{
       double d0 = (double)pos.getX() + 0.5D;
@@ -142,6 +136,15 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
 			InteractionHand hand, BlockHitResult rayTraceResult) {
 		
 		ItemStack stackInHand = player.getItemInHand(hand);
+		
+		if (stackInHand.is(Items.WATER_BUCKET)) {
+		
+			world.setBlock(pos, BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron_unlit.defaultBlockState()
+					.setValue(DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
+					.setValue(WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)), UPDATE_ALL);
+			
+			return InteractionResult.SUCCESS;
+		}
 		
 		if (stackInHand.is(Blocks.TORCH.asItem()) || stackInHand.isEmpty()) {
 			world.setBlock(pos, BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron.defaultBlockState()
