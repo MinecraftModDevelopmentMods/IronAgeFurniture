@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_wall_empty_iron",
+      "y": 0
+    },
+    "facing=east": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_wall_empty_iron",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_wall_empty_iron",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_wall_empty_iron",
+      "y": 270
+    }
+  }
+}
