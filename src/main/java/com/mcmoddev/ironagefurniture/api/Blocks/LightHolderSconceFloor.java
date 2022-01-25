@@ -1,6 +1,7 @@
 package com.mcmoddev.ironagefurniture.api.Blocks;
 
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.SoundType;
@@ -26,8 +27,12 @@ import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.BlockHitResult;
@@ -81,9 +86,34 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 	@Override
 	protected InteractionResult ActivateSconce(BlockState state, Level world, BlockPos pos, Player player,
 			InteractionHand hand, BlockHitResult rayTraceResult) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		ItemStack stackInHand = player.getItemInHand(hand);
+		
+		if (stackInHand.is(Blocks.TORCH.asItem())) {
+			world.setBlock(pos, BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron.defaultBlockState()
+					.setValue(DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
+					.setValue(WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)), UPDATE_ALL);
+			
+			if (!player.isCreative())
+				stackInHand.setCount(stackInHand.getCount()-1);;
+			
+				return InteractionResult.CONSUME_PARTIAL;
+		}
+		
+		return InteractionResult.FAIL;
 	}
+	
+	@Override
+    public List<ItemStack> getDrops(BlockState state, Builder builder) {
+    	List<ItemStack> drops;
+    	
+    	Item item = state.getBlock().asItem();
+    	ItemStack stack = new ItemStack(item, 1); 
+    	drops = new ArrayList<ItemStack>();
+    	drops.add(stack);
+    	
+    	return drops;
+    }
 }
 
 /*package com.mcmoddev.ironagefurniture.api.Blocks;
