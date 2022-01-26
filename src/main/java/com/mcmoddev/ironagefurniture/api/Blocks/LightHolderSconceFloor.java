@@ -42,6 +42,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 
 public class LightHolderSconceFloor extends LightHolderSconce {
@@ -120,6 +121,11 @@ public class LightHolderSconceFloor extends LightHolderSconce {
     	
     	return drops;
     }
+
+	@Override
+	protected boolean onPlaceLiquid(LevelAccessor world, BlockPos pos, BlockState blockState, FluidState fluidState) {
+		return false;
+	}
 }
 
 /*package com.mcmoddev.ironagefurniture.api.Blocks;

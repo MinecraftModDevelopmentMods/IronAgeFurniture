@@ -107,6 +107,12 @@ public class LightSourceSconceTorchFloorUnlit extends LightSourceSconceTorchFloo
 			return InteractionResult.SUCCESS;
 		}
 		
+		if (stackInHand.is(Blocks.TORCH.asItem())) {
+			Light(state, world, pos);
+			
+			return InteractionResult.SUCCESS;
+		}
+		
 		if (player.isCreative() && (stackInHand.is(Blocks.TORCH.asItem()) || stackInHand.isEmpty())) {
 			world.setBlock(pos, BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron.defaultBlockState()
 					.setValue(DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
