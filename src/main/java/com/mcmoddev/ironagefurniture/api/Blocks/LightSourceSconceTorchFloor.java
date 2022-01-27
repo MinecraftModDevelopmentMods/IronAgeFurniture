@@ -145,6 +145,12 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor implemen
 	            world.scheduleTick(pos, fluidState.getType(), fluidState.getType().getTickDelay(world));
 	         }
 	    }
+		else
+		{
+			world.setBlock(pos, BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron_unlit.defaultBlockState()
+    				.setValue(DIRECTION, blockState.getValue(BlockStateProperties.HORIZONTAL_FACING))
+    				.setValue(WATERLOGGED, blockState.getValue(BlockStateProperties.WATERLOGGED)), UPDATE_ALL);
+		}
 
 		return success;
 	}
