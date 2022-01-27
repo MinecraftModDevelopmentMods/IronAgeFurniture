@@ -3,6 +3,7 @@ package com.mcmoddev.ironagefurniture.api.Blocks;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.LiquidBlockContainer;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.SoundType;
@@ -52,7 +53,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 
-public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
+public class LightSourceSconceTorchFloor extends LightHolderSconceFloor implements LiquidBlockContainer {
 	protected static final int AABB_STANDING_OFFSET = 2;
 	protected static final VoxelShape AABB = Block.box(6.0D, 0.0D, 6.0D, 10.0D, 10.0D, 10.0D);
 	protected final ParticleOptions flameParticle;
@@ -130,13 +131,22 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
       level.addParticle(ParticleTypes.SMOKE, d0, d1, d2, 0.0D, 0.0D, 0.0D);
       level.addParticle(this.flameParticle, d0, d1, d2, 0.0D, 0.0D, 0.0D); 
     }
-	
+
 	@Override
-	protected boolean onPlaceLiquid(LevelAccessor world, BlockPos pos, BlockState blockState, FluidState fluidState) {
-		world.setBlock(pos, BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron_unlit.defaultBlockState()
-				.setValue(DIRECTION, blockState.getValue(BlockStateProperties.HORIZONTAL_FACING))
-				.setValue(WATERLOGGED, blockState.getValue(BlockStateProperties.WATERLOGGED)), UPDATE_ALL);
-		return true;
+	public boolean placeLiquid(LevelAccessor world, BlockPos pos, BlockState blockState, FluidState fluidState) {
+		boolean success = super.placeLiquid(world, pos, blockState, fluidState);
+		
+		if (!blockState.getValue(BlockStateProperties.WATERLOGGED) && fluidState.getType() == Fluids.WATER) {
+	         if (!world.isClientSide()) {
+	            world.setBlock(pos, BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron_unlit.defaultBlockState()
+	    				.setValue(DIRECTION, blockState.getValue(BlockStateProperties.HORIZONTAL_FACING))
+	    				.setValue(WATERLOGGED, Boolean.valueOf(true)), UPDATE_ALL);
+	            
+	            world.scheduleTick(pos, fluidState.getType(), fluidState.getType().getTickDelay(world));
+	         }
+	    }
+
+		return success;
 	}
 	
 	@Override

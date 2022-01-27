@@ -122,10 +122,10 @@ public class LightHolderSconceFloor extends LightHolderSconce {
     	return drops;
     }
 
-	@Override
-	protected boolean onPlaceLiquid(LevelAccessor world, BlockPos pos, BlockState blockState, FluidState fluidState) {
-		return false;
-	}
+//	@Override
+//	protected boolean onPlaceLiquid(LevelAccessor world, BlockPos pos, BlockState blockState, FluidState fluidState) {
+//		return false;
+//	}
 }
 
 /*package com.mcmoddev.ironagefurniture.api.Blocks;
