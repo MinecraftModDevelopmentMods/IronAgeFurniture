@@ -8,39 +8,19 @@ import com.google.common.collect.ImmutableMap;
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.Material;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.Container;
-import net.minecraft.world.Containers;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext.Builder;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.core.Direction;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.level.block.Mirror;
-import net.minecraft.world.level.block.Rotation;
-import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
-import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 public class LightHolderSconceWall extends LightHolderSconceFloor {
 
@@ -60,10 +40,17 @@ public class LightHolderSconceWall extends LightHolderSconceFloor {
 		this.setRegistryName(name);
 	}
 	
+	@Override
+	public BlockState updateShape(BlockState state, Direction direction, BlockState state2, LevelAccessor level, BlockPos pos1, BlockPos pos2) {
+		return direction.getOpposite() == state.getValue(DIRECTION) && !state.canSurvive(level, pos1) ? Blocks.AIR.defaultBlockState() : state;
+		}
+	
 	public boolean canSurvive(BlockState state, LevelReader levelReader, BlockPos pos)
 	{
-		return true;
-		//return canSupportCenter(levelReader, pos.below(), Direction.UP);
+	      Direction direction = state.getValue(DIRECTION);
+	      BlockPos blockpos = pos.relative(direction.getOpposite());
+	      BlockState blockstate = levelReader.getBlockState(blockpos);
+	      return blockstate.isFaceSturdy(levelReader, blockpos, direction);
 	}
 	
 	@Override
@@ -88,4 +75,17 @@ public class LightHolderSconceWall extends LightHolderSconceFloor {
 	        
 	        _shapes = builder.build();
 	}
+	
+	@Override
+    public List<ItemStack> getDrops(BlockState state, Builder builder) {
+    	List<ItemStack> drops;
+    	drops = new ArrayList<ItemStack>();
+    	
+    	Item item = BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron.asItem();
+    	ItemStack stack = new ItemStack(item, 1); 
+    	
+    	drops.add(stack);
+    
+    	return drops;
+    }
 }	

@@ -95,13 +95,6 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor implemen
 	        _shapes = builder.build();
 	}
 	
-	public BlockState updateShape(BlockState state, Direction direction, BlockState state2, LevelAccessor levelAccessor, BlockPos pos, BlockPos pos2)
-	{
-		return direction == Direction.DOWN && !this.canSurvive(state, levelAccessor, pos) ? 
-				Blocks.AIR.defaultBlockState() : 
-				super.updateShape(state, direction, state2, levelAccessor, pos, pos2);
-	}
-
 	public void animateTick(BlockState state, Level level, BlockPos pos, Random random)
 	{
 	  double d0 = (double)pos.getX() + 0.5D;
