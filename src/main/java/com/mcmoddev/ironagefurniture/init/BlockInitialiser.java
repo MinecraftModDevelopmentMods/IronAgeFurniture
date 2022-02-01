@@ -9,6 +9,7 @@ import com.mcmoddev.ironagefurniture.api.Blocks.LightHolderSconceFloor;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightHolderSconceWall;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchFloor;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchFloorUnlit;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchWall;
 import com.mcmoddev.ironagefurniture.api.Blocks.LogBench;
 import com.mcmoddev.ironagefurniture.api.Blocks.Stool;
 import com.mcmoddev.ironagefurniture.api.Blocks.TallStool;
@@ -41,6 +42,7 @@ public class BlockInitialiser {
 		event.getRegistry().register(new LightSourceSconceTorchFloorUnlit(1,10, SoundType.METAL, "light_metal_ironage_sconce_floor_torch_iron_unlit"));
 
 		event.getRegistry().register(new LightHolderSconceWall(1,10, SoundType.METAL, "light_metal_ironage_sconce_wall_empty_iron"));
+		event.getRegistry().register(new LightSourceSconceTorchWall(1,10, SoundType.METAL, "light_metal_ironage_sconce_wall_torch_iron"));
 		
 		event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_oak"));		
 		event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_acacia"));

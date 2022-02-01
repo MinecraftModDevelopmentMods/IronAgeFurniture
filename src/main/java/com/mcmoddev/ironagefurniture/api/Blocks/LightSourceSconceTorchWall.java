@@ -17,6 +17,7 @@ import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 
 public class LightSourceSconceTorchWall extends LightSourceSconceTorchFloor {
@@ -36,6 +37,11 @@ public class LightSourceSconceTorchWall extends LightSourceSconceTorchFloor {
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
 		this.setRegistryName(name);
 		this.flameParticle = ParticleTypes.FLAME;
+	}
+	
+	@Override
+	public BlockState updateShape(BlockState state, Direction direction, BlockState state2, LevelAccessor level, BlockPos pos1, BlockPos pos2) {
+		return direction.getOpposite() == state.getValue(DIRECTION) && !state.canSurvive(level, pos1) ? Blocks.AIR.defaultBlockState() : state;
 	}
 	
 	@Override
