@@ -1,8 +1,10 @@
-/*package com.mcmoddev.ironagefurniture.api.Blocks;
+package com.mcmoddev.ironagefurniture.api.Blocks;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 
 import net.minecraft.world.level.block.Block;
@@ -23,6 +25,7 @@ import net.minecraft.world.level.storage.loot.LootContext.Builder;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.core.Direction;
@@ -38,51 +41,51 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-public class LightHolderSconceWall extends LightHolderSconce {
+import net.minecraft.world.level.LevelReader;
+public class LightHolderSconceWall extends LightHolderSconceFloor {
 
-	private static final AxisAlignedBB NORTHBB = new AxisAlignedBB(0.3, 0.6, 0.1, 0.7, 0.7, 0.5);
-
-	public LightHolderSconceWall(Material materialIn, String name, float resistance, float hardness) {
-		super(materialIn, name, resistance, hardness);
+	public LightHolderSconceWall(Properties properties) {
+		super(properties);
+		
+		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH).setValue(WATERLOGGED, false));
+        this.generateShapes(this.getStateDefinition().getPossibleStates());
 		// TODO Auto-generated constructor stub
 	}
-
-	@Override
-	protected IBlockState getTorchVariant(IBlockState initialState) {
-		return BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron.getDefaultState().withProperty(FACING, (EnumFacing)initialState.getProperties().get(FACING));
-	}
-
-	@Override
-	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-		List<ItemStack> drops = new ArrayList<ItemStack>();
-		
-		drops.add(new ItemStack(BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron, 1));
 	
-		return drops;
+	public LightHolderSconceWall(float hardness, float blastResistance, SoundType sound, String name) {
+		super(Block.Properties.of(Material.METAL).strength(hardness, blastResistance).sound(sound));
+
+		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
+		this.generateShapes(this.getStateDefinition().getPossibleStates());
+		this.setRegistryName(name);
 	}
 	
-	@Override
-	protected IBlockState getOppositeVariant(IBlockState initialState) {
-		return BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron.getDefaultState().withProperty(FACING, (EnumFacing)initialState.getProperties().get(FACING));
+	public boolean canSurvive(BlockState state, LevelReader levelReader, BlockPos pos)
+	{
+		return true;
+		//return canSupportCenter(levelReader, pos.below(), Direction.UP);
 	}
-
+	
 	@Override
-	protected AxisAlignedBB getNorthBB() {
-		return NORTHBB;
+	protected void generateShapes(ImmutableList<BlockState> states) {
+		 ImmutableMap.Builder<BlockState, VoxelShape> builder = new ImmutableMap.Builder<>();
+	        for(BlockState state : states)
+	        {
+	        	VoxelShape shapes = Shapes.empty();
+	        
+	        	// chair body                                                      X1 Y1 Z1 X2  Y2 Z2
+	        	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(1, 7, 1, 15, 8, 14), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // chair base
+	        	//shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(3, 9, 1, 13, 23, 2), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // chair back
+	        	
+//	        	//legs
+//	        	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(2, 0, 12, 3, 8, 13), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); //front left leg
+//	            shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(13, 0, 12, 14, 8, 13), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // front right leg
+//	            shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(1, 0, 1, 3, 22, 3), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // back left leg
+//	            shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(13, 0, 1, 15, 22, 3), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // back right leg
+	            
+	            builder.put(state, shapes.optimize());
+	        }
+	        
+	        _shapes = builder.build();
 	}
-
-	@Override
-	protected AxisAlignedBB getEastBB() {
-		return getEast(NORTHBB);
-	}
-
-	@Override
-	protected AxisAlignedBB getSouthBB() {
-		return getSouth(NORTHBB);
-	}
-
-	@Override
-	protected AxisAlignedBB getWestBB() {
-		return getWest(NORTHBB);
-	}	
-}*/
+}	

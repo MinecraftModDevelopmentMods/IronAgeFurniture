@@ -5,6 +5,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.TorchBlock;
+import net.minecraft.world.level.block.WallTorchBlock;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.material.Fluid;
@@ -91,6 +93,40 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 	        _shapes = builder.build();
 	}
 
+	
+	@Override
+	public BlockState getStateForPlacement(BlockPlaceContext context) {
+		
+	      LevelReader levelreader = context.getLevel();
+	      BlockPos blockpos = context.getClickedPos();
+	      
+	      if (canSupportCenter(levelreader, blockpos.below(), Direction.UP))
+	    	  return super.getStateForPlacement(context);	      
+	    
+	      BlockState target = levelreader.getBlockState(blockpos);
+	      
+	      boolean waterlogged = false;
+	      
+	      if (target.getBlock() == Blocks.WATER) {
+	    	  waterlogged = true;
+	      }
+	      
+	      BlockState blockstate = BlockObjectHolder.light_metal_ironage_sconce_wall_empty_iron.defaultBlockState();
+	      Direction[] adirection = context.getNearestLookingDirections();
+
+	      for(Direction direction : adirection) {
+	         if (direction.getAxis().isHorizontal()) {
+	            Direction direction1 = direction.getOpposite();
+	            blockstate = blockstate.setValue(DIRECTION, direction1).setValue(WATERLOGGED, Boolean.valueOf(waterlogged));
+	            if (blockstate.canSurvive(levelreader, blockpos)) {
+	               return blockstate;
+	            }
+	         }
+	      }
+
+	      return null;
+	}
+	
 	@Override
 	public boolean canPlaceLiquid(BlockGetter p_56301_, BlockPos p_56302_, BlockState p_56303_, Fluid p_56304_) {
 		return true;
@@ -127,138 +163,4 @@ public class LightHolderSconceFloor extends LightHolderSconce {
     	
     	return drops;
     }
-
-//	@Override
-//	protected boolean onPlaceLiquid(LevelAccessor world, BlockPos pos, BlockState blockState, FluidState fluidState) {
-//		return false;
-//	}
 }
-
-/*package com.mcmoddev.ironagefurniture.api.Blocks;
-
-import com.mcmoddev.ironagefurniture.BlockObjectHolder;
-
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.EntityBlock;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.Container;
-import net.minecraft.world.Containers;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.storage.loot.LootContext.Builder;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.core.Direction;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.level.block.Mirror;
-import net.minecraft.world.level.block.Rotation;
-import net.minecraft.world.level.block.SimpleWaterloggedBlock;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.shapes.BooleanOp;
-import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
-
-public class LightHolderSconceFloor extends LightHolderSconce {
-
-	private static final AxisAlignedBB NORTHBB = new AxisAlignedBB(0.3, 0.0, 0.2, 0.7, 0.7, 0.7);
-
-	public LightHolderSconceFloor(Material materialIn, String name, float resistance, float hardness) {
-		super(materialIn, name, resistance, hardness);
-		// TODO Auto-generated constructor stub
-	}
-	
-	@Override
-	protected IBlockState getTorchVariant(IBlockState initialState) {
-		return BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron.getDefaultState()
-				.withProperty(FACING, (EnumFacing)initialState.getProperties().get(FACING));
-	}
-	
-	@Override
-	public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
-		if (isSolidBlock(worldIn.getBlockState(pos.offset(EnumFacing.DOWN))))
-			return true;
-		
-		if (isSolidBlock(worldIn.getBlockState(pos.offset(EnumFacing.NORTH))))
-			return true;
-		
-		if (isSolidBlock(worldIn.getBlockState(pos.offset(EnumFacing.EAST))))
-			return true;
-		
-		if (isSolidBlock(worldIn.getBlockState(pos.offset(EnumFacing.SOUTH))))
-			return true;
-		
-		if (isSolidBlock(worldIn.getBlockState(pos.offset(EnumFacing.WEST))))
-			return true;
-	
-		return false;
-	}
-	
-	@Override
-	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY,
-			float hitZ, int meta, EntityLivingBase placer, ItemStack stack) {
-		
-		IBlockState defaultState = super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer, stack)
-				.withProperty(FACING, placer.getHorizontalFacing());
-		
-		if (isSolidBlock(world.getBlockState(pos.offset(EnumFacing.DOWN))))
-			return defaultState;
-		
-		if (!isSolidBlock(world.getBlockState(pos.offset(placer.getHorizontalFacing())))) {
-			if (isSolidBlock(world.getBlockState(pos.offset(EnumFacing.NORTH))))
-				return this.getOppositeVariant(EnumFacing.NORTH);
-			
-			if (isSolidBlock(world.getBlockState(pos.offset(EnumFacing.EAST))))
-				return this.getOppositeVariant(EnumFacing.EAST);
-			
-			if (isSolidBlock(world.getBlockState(pos.offset(EnumFacing.SOUTH))))
-				return this.getOppositeVariant(EnumFacing.SOUTH);
-			
-			if (isSolidBlock(world.getBlockState(pos.offset(EnumFacing.WEST))))
-				return this.getOppositeVariant(EnumFacing.WEST);
-			
-			return defaultState;
-		}
-		
-		return this.getOppositeVariant(defaultState);
-	}
-
-	@Override
-	protected IBlockState getOppositeVariant(IBlockState initialState) {
-		return BlockObjectHolder.light_metal_ironage_sconce_wall_empty_iron.getDefaultState().withProperty(FACING, (EnumFacing)initialState.getProperties().get(FACING));
-	}
-	
-	@Override
-	protected AxisAlignedBB getNorthBB() {
-		return NORTHBB;
-	}
-
-	@Override
-	protected AxisAlignedBB getEastBB() {
-		return getEast(NORTHBB);
-	}
-
-	@Override
-	protected AxisAlignedBB getSouthBB() {
-		return getSouth(NORTHBB);
-	}
-
-	@Override
-	protected AxisAlignedBB getWestBB() {
-		return getWest(NORTHBB);
-	}	
-}
-*/
