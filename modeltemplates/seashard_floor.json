@@ -1,0 +1,103 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"1": "Textures/48385078_1096024937238245_694927400709914624_n",
+		"particle": "blocks/iron_block"
+	},
+	"elements": [
+		{
+			"from": [6, -5, 6],
+			"to": [8, 9, 8],
+			"faces": {
+				"north": {"uv": [0, 0, 2, 14], "rotation": 180, "texture": "#1"},
+				"east": {"uv": [0, 0, 2, 14], "rotation": 180, "texture": "#1"},
+				"south": {"uv": [0, 0, 2, 14], "rotation": 180, "texture": "#1"},
+				"west": {"uv": [14, 0, 16, 14], "rotation": 180, "texture": "#1"},
+				"up": {"uv": [0, 0, 2, 2], "rotation": 180, "texture": "#1"},
+				"down": {"uv": [2, 0, 4, 2], "rotation": 180, "texture": "#1"}
+			}
+		},
+		{
+			"from": [6, -4, 8],
+			"to": [8, 6, 10],
+			"faces": {
+				"north": {"uv": [0, 0, 2, 10], "rotation": 180, "texture": "#1"},
+				"east": {"uv": [0, 0, 2, 10], "rotation": 180, "texture": "#1"},
+				"south": {"uv": [10, 1, 12, 11], "rotation": 180, "texture": "#1"},
+				"west": {"uv": [12, 1, 14, 11], "rotation": 180, "texture": "#1"},
+				"up": {"uv": [0, 2, 2, 4], "rotation": 180, "texture": "#1"},
+				"down": {"uv": [2, 2, 4, 4], "rotation": 180, "texture": "#1"}
+			}
+		},
+		{
+			"from": [8, -3, 6],
+			"to": [10, 5, 8],
+			"faces": {
+				"north": {"uv": [2, 2, 4, 10], "rotation": 180, "texture": "#1"},
+				"east": {"uv": [4, 2, 6, 10], "rotation": 180, "texture": "#1"},
+				"south": {"uv": [0, 0, 2, 8], "rotation": 180, "texture": "#1"},
+				"west": {"uv": [0, 0, 2, 8], "rotation": 180, "texture": "#1"},
+				"up": {"uv": [2, 0, 4, 2], "rotation": 180, "texture": "#1"},
+				"down": {"uv": [0, 0, 2, 2], "rotation": 180, "texture": "#1"}
+			}
+		},
+		{
+			"from": [8, -2, 8],
+			"to": [10, 3, 10],
+			"faces": {
+				"north": {"uv": [0, 0, 2, 5], "rotation": 180, "texture": "#1"},
+				"east": {"uv": [6, 3, 8, 8], "rotation": 180, "texture": "#1"},
+				"south": {"uv": [8, 3, 10, 8], "rotation": 180, "texture": "#1"},
+				"west": {"uv": [0, 0, 2, 5], "rotation": 180, "texture": "#1"},
+				"up": {"uv": [2, 2, 4, 4], "rotation": 180, "texture": "#1"},
+				"down": {"uv": [0, 2, 2, 4], "rotation": 180, "texture": "#1"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [0, -180, 0],
+			"translation": [0, 5.25, 1.5],
+			"scale": [0.75, 0.75, 0.75]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [0, -180, 0],
+			"translation": [0, 5.25, 1.5],
+			"scale": [0.75, 0.75, 0.75]
+		},
+		"firstperson_righthand": {
+			"rotation": [0, -180, 0],
+			"translation": [0, 5, 2],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"firstperson_lefthand": {
+			"rotation": [0, -180, 0],
+			"translation": [0, 5, 2],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"ground": {
+			"translation": [0, 2.75, 0],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"gui": {
+			"rotation": [0, -21, 27],
+			"translation": [-2.25, 6.25, 0]
+		},
+		"head": {
+			"rotation": [0, 135, 0],
+			"translation": [0, 7.25, -6.5],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"fixed": {
+			"rotation": [0, 56, 0],
+			"translation": [0, 6.5, 0]
+		}
+	},
+	"groups": [
+		{
+			"name": "Shard",
+			"origin": [0, 0, 0],
+			"children": [0, 1, 2, 3]
+		}
+	]
+}
