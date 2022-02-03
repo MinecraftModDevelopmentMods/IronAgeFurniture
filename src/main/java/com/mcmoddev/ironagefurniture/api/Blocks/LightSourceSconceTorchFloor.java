@@ -30,6 +30,7 @@ import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 
@@ -43,7 +44,7 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor implemen
     	List<ItemStack> drops;
     	drops = new ArrayList<ItemStack>();
     	
-    	Item item = BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron.asItem();
+    	Item item = EmptyVariant().asItem();
     	ItemStack stack = new ItemStack(item, 1); 
     	
     	Item item2 = Blocks.TORCH.asItem();
@@ -95,6 +96,12 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor implemen
 	        _shapes = builder.build();
 	}
 	
+
+	@Override
+	public boolean canConnectRedstone(BlockState state, BlockGetter world, BlockPos pos, Direction direction) {
+		return true;
+	}
+	
 	public void animateTick(BlockState state, Level level, BlockPos pos, Random random)
 	{
 	  double d0 = (double)pos.getX() + 0.5D;
@@ -102,9 +109,20 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor implemen
       double d2 = (double)pos.getZ() + 0.5D;
       
       level.addParticle(ParticleTypes.SMOKE, d0, d1, d2, 0.0D, 0.0D, 0.0D);
-      level.addParticle(this.flameParticle, d0, d1, d2, 0.0D, 0.0D, 0.0D); 
+      level.addParticle(this.flameParticle, d0, d1, d2, 0.0D, 0.0D, 0.0D);
+      
+      if (!level.hasNeighborSignal(pos)) {
+    	  if (state.getValue(BlockStateProperties.WATERLOGGED))
+    		  Unlight(state, level, pos);
+      }
     }
 
+	private void Unlight(BlockState state, Level world, BlockPos pos) {
+		world.setBlock(pos, UnlitVariant().defaultBlockState()
+				.setValue(DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
+				.setValue(WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)), UPDATE_ALL);
+	}
+	
 	@Override
 	public boolean placeLiquid(LevelAccessor world, BlockPos pos, BlockState blockState, FluidState fluidState) {
 		boolean success = super.placeLiquid(world, pos, blockState, fluidState);
@@ -128,6 +146,14 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor implemen
 		return success;
 	}
 	
+	protected Block UnlitVariant() {
+		return BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron_unlit;
+	}
+	
+	protected Block EmptyVariant() {
+		return BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron;
+	}
+	
 	@Override
 	protected InteractionResult ActivateSconce(BlockState state, Level world, BlockPos pos, Player player,
 			InteractionHand hand, BlockHitResult rayTraceResult) {
@@ -136,7 +162,7 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor implemen
 		
 		if (stackInHand.is(Items.WATER_BUCKET)) {
 		
-			world.setBlock(pos, BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron_unlit.defaultBlockState()
+			world.setBlock(pos, UnlitVariant().defaultBlockState()
 					.setValue(DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
 					.setValue(WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)), UPDATE_ALL);
 			
@@ -144,7 +170,7 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor implemen
 		}
 		
 		if (stackInHand.is(Blocks.TORCH.asItem()) || stackInHand.isEmpty()) {
-			world.setBlock(pos, BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron.defaultBlockState()
+			world.setBlock(pos, EmptyVariant().defaultBlockState()
 					.setValue(DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
 					.setValue(WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)), UPDATE_ALL);
 			

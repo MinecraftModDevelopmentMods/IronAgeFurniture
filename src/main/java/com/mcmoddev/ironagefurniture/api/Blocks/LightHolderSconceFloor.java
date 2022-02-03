@@ -2,6 +2,7 @@ package com.mcmoddev.ironagefurniture.api.Blocks;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LightBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.Material;
@@ -84,6 +85,9 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 	        _shapes = builder.build();
 	}
 
+	protected Block GetWallVariant() {
+		return BlockObjectHolder.light_metal_ironage_sconce_wall_empty_iron;
+	}
 	
 	@Override
 	public BlockState getStateForPlacement(BlockPlaceContext context) {
@@ -102,7 +106,7 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 	    	  waterlogged = true;
 	      }
 	      
-	      BlockState blockstate = BlockObjectHolder.light_metal_ironage_sconce_wall_empty_iron.defaultBlockState();
+	      BlockState blockstate = GetWallVariant().defaultBlockState();
 	      Direction[] adirection = context.getNearestLookingDirections();
 
 	      for(Direction direction : adirection) {
@@ -123,6 +127,14 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 		return true;
 	}
 	
+	protected Block GetTorchVariant() {
+		return BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron;
+	}
+	
+	protected Block GetUnlitTorchVariant() {
+		return BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron_unlit;
+	}
+	
 	@Override
 	protected InteractionResult ActivateSconce(BlockState state, Level world, BlockPos pos, Player player,
 			InteractionHand hand, BlockHitResult rayTraceResult) {
@@ -130,7 +142,14 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 		ItemStack stackInHand = player.getItemInHand(hand);
 		
 		if (stackInHand.is(Blocks.TORCH.asItem())) {
-			world.setBlock(pos, BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron.defaultBlockState()
+			Block torchSconce = GetTorchVariant();
+			
+			if (state.getValue(BlockStateProperties.WATERLOGGED) == true)
+				torchSconce = GetUnlitTorchVariant();
+			else
+				torchSconce = GetTorchVariant();
+			
+			world.setBlock(pos, torchSconce.defaultBlockState()
 					.setValue(DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
 					.setValue(WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)), UPDATE_ALL);
 			

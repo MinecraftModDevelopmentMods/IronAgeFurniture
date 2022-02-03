@@ -96,22 +96,12 @@ public class LightHolderSconceWall extends LightHolderSconceFloor {
     }
 	
 	@Override
-	protected InteractionResult ActivateSconce(BlockState state, Level world, BlockPos pos, Player player,
-			InteractionHand hand, BlockHitResult rayTraceResult) {
-		
-		ItemStack stackInHand = player.getItemInHand(hand);
-		
-		if (stackInHand.is(Blocks.TORCH.asItem())) {
-			world.setBlock(pos, BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron.defaultBlockState()
-					.setValue(DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
-					.setValue(WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)), UPDATE_ALL);
-			
-			if (!player.isCreative())
-				stackInHand.setCount(stackInHand.getCount()-1);;
-			
-				return InteractionResult.CONSUME_PARTIAL;
-		}
-		
-		return InteractionResult.FAIL;
+	protected Block GetTorchVariant() {
+		return BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron;
+	}
+	
+	@Override
+	protected Block GetUnlitTorchVariant() {
+		return BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron_unlit;
 	}
 }	

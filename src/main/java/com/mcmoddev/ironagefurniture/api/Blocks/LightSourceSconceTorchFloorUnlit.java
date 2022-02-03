@@ -85,8 +85,17 @@ public class LightSourceSconceTorchFloorUnlit extends LightSourceSconceTorchFloo
 	public boolean canConnectRedstone(BlockState state, BlockGetter world, BlockPos pos, Direction direction) {
 		return true;
 	}
+	
+	protected Block GetLitVariant() {
+		return BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron;
+	}
+	
+	protected Block GetEmptyVariant() {
+		return BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron;
+	}
+	
 	private void Light(BlockState state, Level world, BlockPos pos) {
-		world.setBlock(pos, BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron.defaultBlockState()
+		world.setBlock(pos, GetLitVariant().defaultBlockState()
 				.setValue(DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
 				.setValue(WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)), UPDATE_ALL);
 	}
@@ -96,8 +105,10 @@ public class LightSourceSconceTorchFloorUnlit extends LightSourceSconceTorchFloo
 			InteractionHand hand, BlockHitResult rayTraceResult) {
 		
 		ItemStack stackInHand = player.getItemInHand(hand);
+		boolean isWaterlogged = state.getValue(BlockStateProperties.WATERLOGGED);
 		
-		if (stackInHand.is(Items.FLINT_AND_STEEL)) {
+		
+		if (stackInHand.is(Items.FLINT_AND_STEEL) && !isWaterlogged) {
 			
 			if (!player.isCreative())
 				stackInHand.setDamageValue(stackInHand.getDamageValue()+1);
@@ -107,14 +118,14 @@ public class LightSourceSconceTorchFloorUnlit extends LightSourceSconceTorchFloo
 			return InteractionResult.SUCCESS;
 		}
 		
-		if (stackInHand.is(Blocks.TORCH.asItem())) {
+		if (stackInHand.is(Blocks.TORCH.asItem()) && !isWaterlogged) {
 			Light(state, world, pos);
 			
 			return InteractionResult.SUCCESS;
 		}
 		
 		if (player.isCreative() && (stackInHand.is(Blocks.TORCH.asItem()) || stackInHand.isEmpty())) {
-			world.setBlock(pos, BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron.defaultBlockState()
+			world.setBlock(pos, GetEmptyVariant().defaultBlockState()
 					.setValue(DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
 					.setValue(WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)), UPDATE_ALL);
 			
