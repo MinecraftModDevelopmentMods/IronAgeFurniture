@@ -7,6 +7,15 @@ import net.minecraftforge.registries.ObjectHolder;
 @Mod.EventBusSubscriber(modid = Ironagefurniture.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 @ObjectHolder(Ironagefurniture.MODID)
 public class BlockObjectHolder {
+	public static final Block light_metal_ironage_sconce_floor_empty_iron = null;
+	public static final Block light_metal_ironage_sconce_floor_torch_iron = null;
+	public static final Block light_metal_ironage_sconce_floor_torch_iron_unlit = null;
+	
+	public static final Block light_metal_ironage_sconce_wall_empty_iron = null;
+	public static final Block light_metal_ironage_sconce_wall_torch_iron = null;
+	public static final Block light_metal_ironage_sconce_wall_torch_iron_unlit = null;
+	
+	
 	public static final Block chair_wood_ironage_classic_oak = null;
 	public static final Block chair_wood_ironage_classic_acacia = null;
 	public static final Block chair_wood_ironage_classic_dark_oak = null;

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "sconce",
+  "pattern": [
+    "xxx",
+    "x  ",
+    "x  "
+  ],
+  "key": {
+    "x": {
+      "item": "minecraft:iron_nugget"
+    }
+  },
+  "result": {
+    "item": "ironagefurniture:light_metal_ironage_sconce_floor_empty_iron",
+    "count": 5
+  }
+}

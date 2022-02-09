@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "furniture",
+  "group": "classic_chair",
   "pattern": [
     "x  ",
     "xxx",

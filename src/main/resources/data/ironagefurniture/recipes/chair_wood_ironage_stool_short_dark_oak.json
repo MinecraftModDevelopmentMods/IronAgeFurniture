@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "furniture",
+  "group": "stool_short",
   "pattern": [
     " x ",
     "yyy"

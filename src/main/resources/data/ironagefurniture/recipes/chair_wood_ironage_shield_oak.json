@@ -1,5 +1,6 @@
 {
   "type": "crafting_shapeless",
+  "group": "shield_chair",
   "ingredients": [
     {
       "item": "minecraft:shield"

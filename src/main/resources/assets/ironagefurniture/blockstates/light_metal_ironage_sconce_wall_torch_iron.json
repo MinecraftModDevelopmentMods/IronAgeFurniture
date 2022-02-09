@@ -1,0 +1,36 @@
+{
+  "variants": {
+    "facing=north,waterlogged=true": {
+      "model": "ironagefurniture:block/light_metal_ironage_sconce_wall_torch_iron",
+      "y": 180
+    },
+    "facing=east,waterlogged=true": {
+      "model": "ironagefurniture:block/light_metal_ironage_sconce_wall_torch_iron",
+      "y": 270
+    },
+    "facing=south,waterlogged=true": {
+      "model": "ironagefurniture:block/light_metal_ironage_sconce_wall_torch_iron",
+      "y": 0
+    },
+    "facing=west,waterlogged=true": {
+      "model": "ironagefurniture:block/light_metal_ironage_sconce_wall_torch_iron",
+      "y": 90
+    },
+    "facing=north,waterlogged=false": {
+      "model": "ironagefurniture:block/light_metal_ironage_sconce_wall_torch_iron",
+      "y": 180
+    },
+    "facing=east,waterlogged=false": {
+      "model": "ironagefurniture:block/light_metal_ironage_sconce_wall_torch_iron",
+      "y": 270
+    },
+    "facing=south,waterlogged=false": {
+      "model": "ironagefurniture:block/light_metal_ironage_sconce_wall_torch_iron",
+      "y": 0
+    },
+    "facing=west,waterlogged=false": {
+      "model": "ironagefurniture:block/light_metal_ironage_sconce_wall_torch_iron",
+      "y": 90
+    }
+  }
+}

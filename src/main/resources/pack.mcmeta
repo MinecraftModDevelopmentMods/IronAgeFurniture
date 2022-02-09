@@ -1,6 +1,6 @@
 {
-  "pack":{
-    "pack_format":2,
-    "description":"Iron Age Furniture"
-  }
+    "pack": {
+        "description": "Iron Age Furniture",
+        "pack_format": 8
+    }
 }
