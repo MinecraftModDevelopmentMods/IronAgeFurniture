@@ -51,9 +51,9 @@ public class LightSourceSconceTorchWall extends LightSourceSconceTorchFloor {
 	        {
 	        	VoxelShape shapes = Shapes.empty();
 	        
-	        	// chair body                                                      X1 Y1 Z1 X2  Y2 Z2
-	        	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(1, 7, 1, 15, 8, 14), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // chair base
-	        	//shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(3, 9, 1, 13, 23, 2), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // chair back
+	        	// sconce torch                                                    X1 Y1 Z1 X2  Y2 Z2
+	        	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(5, 10, 8, 11, 11, 16), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // sconce holder
+	        	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(6, 1, 9, 10, 13, 13), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // torch
 	        	
 //	        	//legs
 //	        	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(2, 0, 12, 3, 8, 13), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); //front left leg
