@@ -2,7 +2,6 @@ package com.mcmoddev.ironagefurniture.api.Blocks;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.LightBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.Material;
@@ -40,6 +39,7 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH).setValue(WATERLOGGED, false));
         this.generateShapes(this.getStateDefinition().getPossibleStates());
 		// TODO Auto-generated constructor stub
+
 	}
 	
 	public LightHolderSconceFloor(float hardness, float blastResistance, SoundType sound, String name) {
