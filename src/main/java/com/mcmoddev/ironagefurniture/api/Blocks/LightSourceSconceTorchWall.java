@@ -14,6 +14,7 @@ import net.minecraft.core.particles.ParticleTypes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -22,6 +23,7 @@ import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 
@@ -33,6 +35,19 @@ public class LightSourceSconceTorchWall extends LightSourceSconceTorchFloor {
         this.generateShapes(this.getStateDefinition().getPossibleStates());
         this.flameParticle = ParticleTypes.FLAME;
 	}
+	
+   public void animateTick(BlockState state, Level level, BlockPos pos, Random rand) {
+	      Direction direction = state.getValue(DIRECTION);
+	      
+	      double d0 = (double)pos.getX() + 0.5D;
+	      double d1 = (double)pos.getY() + 0.7D;
+	      double d2 = (double)pos.getZ() + 0.5D;
+	      
+	      Direction direction1 = direction.getOpposite();
+	      
+	      level.addParticle(ParticleTypes.SMOKE, d0 + 0.27D * (double)direction1.getStepX(), d1 + 0.22D, d2 + 0.27D * (double)direction1.getStepZ(), 0.0D, 0.0D, 0.0D);
+	      level.addParticle(this.flameParticle, d0 + 0.27D * (double)direction1.getStepX(), d1 + 0.22D, d2 + 0.27D * (double)direction1.getStepZ(), 0.0D, 0.0D, 0.0D);
+	  }
 	
 	@Override
 	protected Block UnlitVariant() {
