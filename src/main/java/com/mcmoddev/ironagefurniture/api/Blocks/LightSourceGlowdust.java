@@ -13,6 +13,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.AbstractGlassBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -41,7 +43,19 @@ public class LightSourceGlowdust extends FurnitureBlock {
 	public boolean propagatesSkylightDown(BlockState state, BlockGetter getter, BlockPos pos) {
 		return true;
 	}
-	   
+	
+	public BlockState updateShape(BlockState state, Direction direction, BlockState state2, LevelAccessor levelAccessor, BlockPos pos, BlockPos pos2)
+	{
+		return direction == Direction.DOWN && !this.canSurvive(state, levelAccessor, pos) ? 
+				Blocks.AIR.defaultBlockState() : 
+				super.updateShape(state, direction, state2, levelAccessor, pos, pos2);
+	}
+	
+	public boolean canSurvive(BlockState state, LevelReader levelReader, BlockPos pos)
+	{
+		return canSupportCenter(levelReader, pos.below(), Direction.UP);
+	}
+	
 	@Override
     public List<ItemStack> getDrops(BlockState state, Builder builder) {
 		List<ItemStack> drops;

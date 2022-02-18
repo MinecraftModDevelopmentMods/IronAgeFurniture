@@ -3,6 +3,7 @@
   "values": [
     "ironagefurniture:light_metal_ironage_sconce_floor_empty_iron",
     "ironagefurniture:light_metal_ironage_sconce_floor_torch_iron",
-    "ironagefurniture:light_metal_ironage_sconce_floor_torch_iron_unlit"
+    "ironagefurniture:light_metal_ironage_sconce_floor_torch_iron_unlit",
+    "ironagefurniture:light_metal_ironage_block_floor_glow_clear"
   ]
 }
