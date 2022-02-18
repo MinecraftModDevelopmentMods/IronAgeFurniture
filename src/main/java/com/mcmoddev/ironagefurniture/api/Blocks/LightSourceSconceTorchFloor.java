@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import javax.swing.plaf.basic.BasicTreeUI.TreeCancelEditingAction;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
@@ -47,7 +49,7 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor implemen
     	Item item = EmptyVariant().asItem();
     	ItemStack stack = new ItemStack(item, 1); 
     	
-    	Item item2 = Blocks.TORCH.asItem();
+    	Item item2 = LightDrop().asItem();
     	ItemStack stack2 = new ItemStack(item2, 1); 
     	
     	drops.add(stack);
@@ -55,6 +57,10 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor implemen
     	
     	return drops;
     }
+	
+	protected Block LightDrop() {
+		return Blocks.TORCH;
+	}
 	
 	public LightSourceSconceTorchFloor(Properties properties) {
 		super(properties);
@@ -104,23 +110,27 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor implemen
 	
 	public void animateTick(BlockState state, Level level, BlockPos pos, Random random)
 	{
-	  double d0 = (double)pos.getX() + 0.5D;
-      double d1 = (double)pos.getY() + 0.9D;
-      double d2 = (double)pos.getZ() + 0.5D;
-      
-      level.addParticle(ParticleTypes.SMOKE, d0, d1, d2, 0.0D, 0.0D, 0.0D);
-      level.addParticle(this.flameParticle, d0, d1, d2, 0.0D, 0.0D, 0.0D);
-      
-      if (!level.hasNeighborSignal(pos)) {
+		if (HasFlame()) {
+		  double d0 = (double)pos.getX() + 0.5D;
+	      double d1 = (double)pos.getY() + 0.9D;
+	      double d2 = (double)pos.getZ() + 0.5D;
+	      
+	      level.addParticle(ParticleTypes.SMOKE, d0, d1, d2, 0.0D, 0.0D, 0.0D);
+	      level.addParticle(this.flameParticle, d0, d1, d2, 0.0D, 0.0D, 0.0D);
+		}
+		
+		if (CanEx() && !level.hasNeighborSignal(pos)) {
     	  if (state.getValue(BlockStateProperties.WATERLOGGED))
     		  Unlight(state, level, pos);
-      }
+		}
     }
 
 	private void Unlight(BlockState state, Level world, BlockPos pos) {
+		if (CanEx()) {
 		world.setBlock(pos, UnlitVariant().defaultBlockState()
 				.setValue(DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
 				.setValue(WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)), UPDATE_ALL);
+		}
 	}
 	
 	@Override
@@ -129,18 +139,21 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor implemen
 		
 		if (!blockState.getValue(BlockStateProperties.WATERLOGGED) && fluidState.getType() == Fluids.WATER) {
 	         if (!world.isClientSide()) {
-	            world.setBlock(pos, BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron_unlit.defaultBlockState()
-	    				.setValue(DIRECTION, blockState.getValue(BlockStateProperties.HORIZONTAL_FACING))
-	    				.setValue(WATERLOGGED, Boolean.valueOf(true)), UPDATE_ALL);
-	            
+	        	 if (CanEx()) {
+		            world.setBlock(pos, UnlitVariant().defaultBlockState()
+		    				.setValue(DIRECTION, blockState.getValue(BlockStateProperties.HORIZONTAL_FACING))
+		    				.setValue(WATERLOGGED, Boolean.valueOf(true)), UPDATE_ALL);
+	        	 }
 	            world.scheduleTick(pos, fluidState.getType(), fluidState.getType().getTickDelay(world));
 	         }
 	    }
 		else
 		{
-			world.setBlock(pos, BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron_unlit.defaultBlockState()
-    				.setValue(DIRECTION, blockState.getValue(BlockStateProperties.HORIZONTAL_FACING))
-    				.setValue(WATERLOGGED, blockState.getValue(BlockStateProperties.WATERLOGGED)), UPDATE_ALL);
+			if (CanEx()) {
+				world.setBlock(pos, UnlitVariant().defaultBlockState()
+	    				.setValue(DIRECTION, blockState.getValue(BlockStateProperties.HORIZONTAL_FACING))
+	    				.setValue(WATERLOGGED, blockState.getValue(BlockStateProperties.WATERLOGGED)), UPDATE_ALL);
+			}
 		}
 
 		return success;
@@ -154,32 +167,42 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor implemen
 		return BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron;
 	}
 	
+	protected boolean CanEx() {
+		return true;
+	}
+	
+	protected boolean HasFlame() {
+		return true;
+	}
+	
 	@Override
 	protected InteractionResult ActivateSconce(BlockState state, Level world, BlockPos pos, Player player,
 			InteractionHand hand, BlockHitResult rayTraceResult) {
 		
 		ItemStack stackInHand = player.getItemInHand(hand);
 		
-		if (stackInHand.is(Items.WATER_BUCKET)) {
-		
-			world.setBlock(pos, UnlitVariant().defaultBlockState()
-					.setValue(DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
-					.setValue(WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)), UPDATE_ALL);
+		if (CanEx()) {
+			if (stackInHand.is(Items.WATER_BUCKET)) {
 			
-			return InteractionResult.SUCCESS;
+				world.setBlock(pos, UnlitVariant().defaultBlockState()
+						.setValue(DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
+						.setValue(WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)), UPDATE_ALL);
+				
+				return InteractionResult.SUCCESS;
+			}
 		}
 		
-		if (stackInHand.is(Blocks.TORCH.asItem()) || stackInHand.isEmpty()) {
+		if (stackInHand.is(LightDrop().asItem()) || stackInHand.isEmpty()) {
 			world.setBlock(pos, EmptyVariant().defaultBlockState()
 					.setValue(DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
 					.setValue(WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)), UPDATE_ALL);
 			
 			if (!player.isCreative()) {
-				if (stackInHand.is(Blocks.TORCH.asItem()))
+				if (stackInHand.is(LightDrop().asItem()))
 					stackInHand.setCount(stackInHand.getCount()+1);
 				else 
 				{
-					Item itemTorch = Blocks.TORCH.asItem();
+					Item itemTorch = LightDrop().asItem();
 			    	ItemStack stackTorch = new ItemStack(itemTorch, 1); 
 			    	
 					player.setItemInHand(hand, stackTorch);

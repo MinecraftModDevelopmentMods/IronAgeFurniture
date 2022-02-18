@@ -121,6 +121,10 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 		return true;
 	}
 	
+	protected Block GetGlowVariant() {
+		return BlockObjectHolder.light_metal_ironage_sconce_floor_glow_iron;
+	}
+	
 	protected Block GetTorchVariant() {
 		return BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron;
 	}
@@ -144,6 +148,19 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 				torchSconce = GetTorchVariant();
 			
 			world.setBlock(pos, torchSconce.defaultBlockState()
+					.setValue(DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
+					.setValue(WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)), UPDATE_ALL);
+			
+			if (!player.isCreative())
+				stackInHand.setCount(stackInHand.getCount()-1);;
+			
+				return InteractionResult.CONSUME_PARTIAL;
+		}
+		
+		if (stackInHand.is(BlockObjectHolder.light_metal_ironage_block_floor_glow_clear.asItem())) {
+			Block glowSconce = GetGlowVariant();
+			
+			world.setBlock(pos, glowSconce.defaultBlockState()
 					.setValue(DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
 					.setValue(WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)), UPDATE_ALL);
 			

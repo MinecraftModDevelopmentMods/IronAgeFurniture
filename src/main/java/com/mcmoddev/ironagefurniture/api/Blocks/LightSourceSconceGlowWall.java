@@ -3,9 +3,11 @@ package com.mcmoddev.ironagefurniture.api.Blocks;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.storage.loot.LootContext.Builder;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -21,44 +23,38 @@ import com.google.common.collect.ImmutableMap;
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 
-public class LightSourceSconceTorchWall extends LightSourceSconceTorchFloor {
-	public LightSourceSconceTorchWall(Properties properties) {
+public class LightSourceSconceGlowWall extends LightSourceSconceTorchWall {
+	public LightSourceSconceGlowWall(Properties properties) {
 		super(properties);
 		
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH).setValue(WATERLOGGED, false));
         this.generateShapes(this.getStateDefinition().getPossibleStates());
-        this.flameParticle = ParticleTypes.FLAME;
-	}
-	
-   public void animateTick(BlockState state, Level level, BlockPos pos, Random rand) {
-	      Direction direction = state.getValue(DIRECTION);
-	      
-	      double d0 = (double)pos.getX() + 0.5D;
-	      double d1 = (double)pos.getY() + 0.7D;
-	      double d2 = (double)pos.getZ() + 0.5D;
-	      
-	      Direction direction1 = direction.getOpposite();
-	      
-	      level.addParticle(ParticleTypes.SMOKE, d0 + 0.27D * (double)direction1.getStepX(), d1 + 0.22D, d2 + 0.27D * (double)direction1.getStepZ(), 0.0D, 0.0D, 0.0D);
-	      level.addParticle(this.flameParticle, d0 + 0.27D * (double)direction1.getStepX(), d1 + 0.22D, d2 + 0.27D * (double)direction1.getStepZ(), 0.0D, 0.0D, 0.0D);
-	  }
-	
-	@Override
-	protected Block UnlitVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron_unlit;
 	}
 	
 	@Override
-	protected Block EmptyVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_wall_empty_iron;
+	protected boolean HasFlame() {
+		return false;
 	}
-	//BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron
+	
+	@Override
+	protected boolean CanEx() {		
+		return false;
+	}
+	
+	@Override
+	protected Block LightDrop() {
+		return BlockObjectHolder.light_metal_ironage_block_floor_glow_clear;
+	}
 	
 	@Override
 	protected void generateShapes(ImmutableList<BlockState> states) {
@@ -83,27 +79,12 @@ public class LightSourceSconceTorchWall extends LightSourceSconceTorchFloor {
 	        _shapes = builder.build();
 	}
 	
-	public LightSourceSconceTorchWall(float hardness, float blastResistance, SoundType sound, String name) {
+	public LightSourceSconceGlowWall(float hardness, float blastResistance, SoundType sound, String name) {
 		super(Block.Properties.of(Material.METAL).strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> {
 		    return 14; }) );
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
 		this.setRegistryName(name);
-		this.flameParticle = ParticleTypes.FLAME;
-	}
-	
-	@Override
-	public BlockState updateShape(BlockState state, Direction direction, BlockState state2, LevelAccessor level, BlockPos pos1, BlockPos pos2) {
-		return direction.getOpposite() == state.getValue(DIRECTION) && !state.canSurvive(level, pos1) ? Blocks.AIR.defaultBlockState() : state;
-	}
-	
-	@Override
-	public boolean canSurvive(BlockState state, LevelReader levelReader, BlockPos pos)
-	{
-	      Direction direction = state.getValue(DIRECTION);
-	      BlockPos blockpos = pos.relative(direction.getOpposite());
-	      BlockState blockstate = levelReader.getBlockState(blockpos);
-	      return blockstate.isFaceSturdy(levelReader, blockpos, direction);
 	}
 }

@@ -991,7 +991,8 @@ public class ItemInitialiser {
     			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron_unlit, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron_unlit.getRegistryName().getPath()),
     			
     			new BlockItem(BlockObjectHolder.light_metal_ironage_block_floor_glow_clear, new BlockItem.Properties().tab(Ironagefurniture.IAF_GROUP)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_block_floor_glow_clear.getRegistryName().getPath()),
-    			
+    			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_glow_iron, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_glow_iron.getRegistryName().getPath()),
+    			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_glow_iron, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_glow_iron.getRegistryName().getPath()),
     			
     			new BlockItem(BlockObjectHolder.chair_wood_ironage_classic_oak, new BlockItem.Properties().tab(Ironagefurniture.IAF_GROUP)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_classic_oak.getRegistryName().getPath()),
     			new BlockItem(BlockObjectHolder.chair_wood_ironage_classic_acacia, new BlockItem.Properties().tab(Ironagefurniture.IAF_GROUP)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_classic_acacia.getRegistryName().getPath()),

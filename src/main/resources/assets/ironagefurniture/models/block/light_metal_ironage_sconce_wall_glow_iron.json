@@ -2,8 +2,8 @@
   "credit": "Made with Blockbench",
   "textures": {
     "0": "minecraft:blocks/iron_block",
-    "1": "minecraft:blocks/iron_block",
-    "particle": "minecraft:blocks/iron_block"
+    "1": "minecraft:block/glowstone",
+    "particle": "minecraft:block/glowstone"
   },
   "elements": [
     {

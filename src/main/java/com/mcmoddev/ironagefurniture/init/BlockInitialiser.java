@@ -8,6 +8,8 @@ import com.mcmoddev.ironagefurniture.api.Blocks.Chair;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightHolderSconceFloor;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightHolderSconceWall;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceGlowdust;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceGlowFloor;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceGlowWall;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchFloor;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchFloorUnlit;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchWall;
@@ -48,6 +50,8 @@ public class BlockInitialiser {
 		event.getRegistry().register(new LightSourceSconceTorchWallUnlit(1,10, SoundType.METAL, "light_metal_ironage_sconce_wall_torch_iron_unlit"));
 		
 		event.getRegistry().register(new LightSourceGlowdust(1,10, SoundType.METAL, "light_metal_ironage_block_floor_glow_clear"));
+		event.getRegistry().register(new LightSourceSconceGlowFloor(1,10, SoundType.METAL, "light_metal_ironage_sconce_floor_glow_iron" ));
+		event.getRegistry().register(new LightSourceSconceGlowWall(1,10, SoundType.METAL, "light_metal_ironage_sconce_wall_glow_iron" ));
 		
 		event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_oak"));		
 		event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_acacia"));
