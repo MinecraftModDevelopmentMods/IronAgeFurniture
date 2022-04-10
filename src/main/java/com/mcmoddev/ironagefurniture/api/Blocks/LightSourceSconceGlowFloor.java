@@ -44,6 +44,11 @@ public class LightSourceSconceGlowFloor extends LightSourceSconceTorchFloor impl
 		return false;
 	}
 	
+	@Override
+	protected boolean CanEx() {
+		return false;
+	}
+	
 	protected Block LightDrop() {
 		return BlockObjectHolder.light_metal_ironage_block_floor_glow_clear;
 	}

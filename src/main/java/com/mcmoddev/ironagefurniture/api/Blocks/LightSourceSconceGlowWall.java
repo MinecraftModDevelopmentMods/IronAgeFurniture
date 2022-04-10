@@ -47,7 +47,7 @@ public class LightSourceSconceGlowWall extends LightSourceSconceTorchWall {
 	}
 	
 	@Override
-	protected boolean CanEx() {		
+	protected boolean CanEx() {
 		return false;
 	}
 	
