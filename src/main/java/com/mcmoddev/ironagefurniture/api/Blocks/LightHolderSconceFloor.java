@@ -2,7 +2,6 @@ package com.mcmoddev.ironagefurniture.api.Blocks;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.LightBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.Material;
@@ -40,6 +39,7 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH).setValue(WATERLOGGED, false));
         this.generateShapes(this.getStateDefinition().getPossibleStates());
 		// TODO Auto-generated constructor stub
+
 	}
 	
 	public LightHolderSconceFloor(float hardness, float blastResistance, SoundType sound, String name) {
@@ -121,6 +121,10 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 		return true;
 	}
 	
+	protected Block GetGlowVariant() {
+		return BlockObjectHolder.light_metal_ironage_sconce_floor_glow_iron;
+	}
+	
 	protected Block GetTorchVariant() {
 		return BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron;
 	}
@@ -144,6 +148,19 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 				torchSconce = GetTorchVariant();
 			
 			world.setBlock(pos, torchSconce.defaultBlockState()
+					.setValue(DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
+					.setValue(WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)), UPDATE_ALL);
+			
+			if (!player.isCreative())
+				stackInHand.setCount(stackInHand.getCount()-1);;
+			
+				return InteractionResult.CONSUME_PARTIAL;
+		}
+		
+		if (stackInHand.is(BlockObjectHolder.light_metal_ironage_block_floor_glow_clear.asItem())) {
+			Block glowSconce = GetGlowVariant();
+			
+			world.setBlock(pos, glowSconce.defaultBlockState()
 					.setValue(DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
 					.setValue(WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)), UPDATE_ALL);
 			

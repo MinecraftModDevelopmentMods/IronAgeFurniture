@@ -2,35 +2,35 @@
   "variants": {
     "facing=north,waterlogged=true": {
       "model": "ironagefurniture:block/light_metal_ironage_sconce_wall_empty_iron",
-      "y": 180
+      "y": 270
     },
     "facing=east,waterlogged=true": {
       "model": "ironagefurniture:block/light_metal_ironage_sconce_wall_empty_iron",
-      "y": 270
+      "y": 0
     },
     "facing=south,waterlogged=true": {
       "model": "ironagefurniture:block/light_metal_ironage_sconce_wall_empty_iron",
-      "y": 0
+      "y": 90
     },
     "facing=west,waterlogged=true": {
       "model": "ironagefurniture:block/light_metal_ironage_sconce_wall_empty_iron",
-      "y": 90
+      "y": 180
     },
     "facing=north,waterlogged=false": {
       "model": "ironagefurniture:block/light_metal_ironage_sconce_wall_empty_iron",
-      "y": 180
+      "y": 270
     },
     "facing=east,waterlogged=false": {
       "model": "ironagefurniture:block/light_metal_ironage_sconce_wall_empty_iron",
-      "y": 270
+      "y": 0
     },
     "facing=south,waterlogged=false": {
       "model": "ironagefurniture:block/light_metal_ironage_sconce_wall_empty_iron",
-      "y": 0
+      "y": 90
     },
     "facing=west,waterlogged=false": {
       "model": "ironagefurniture:block/light_metal_ironage_sconce_wall_empty_iron",
-      "y": 90
+      "y": 180
     }
   }
 }

@@ -1,36 +1,36 @@
 {
   "variants": {
     "facing=north,waterlogged=true": {
-      "model": "ironagefurniture:block/light_metal_ironage_sconce_wall_torch_iron",
-      "y": 180
+      "model": "ironagefurniture:block/light_metal_ironage_sconce_wall_torch_iron_unlit",
+      "y": 270
     },
     "facing=east,waterlogged=true": {
-      "model": "ironagefurniture:block/light_metal_ironage_sconce_wall_torch_iron",
-      "y": 270
+      "model": "ironagefurniture:block/light_metal_ironage_sconce_wall_torch_iron_unlit",
+      "y": 0
     },
     "facing=south,waterlogged=true": {
-      "model": "ironagefurniture:block/light_metal_ironage_sconce_wall_torch_iron",
-      "y": 0
+      "model": "ironagefurniture:block/light_metal_ironage_sconce_wall_torch_iron_unlit",
+      "y": 90
     },
     "facing=west,waterlogged=true": {
-      "model": "ironagefurniture:block/light_metal_ironage_sconce_wall_torch_iron",
-      "y": 90
-    },
-    "facing=north,waterlogged=false": {
-      "model": "ironagefurniture:block/light_metal_ironage_sconce_wall_torch_iron",
+      "model": "ironagefurniture:block/light_metal_ironage_sconce_wall_torch_iron_unlit",
       "y": 180
     },
-    "facing=east,waterlogged=false": {
-      "model": "ironagefurniture:block/light_metal_ironage_sconce_wall_torch_iron",
+    "facing=north,waterlogged=false": {
+      "model": "ironagefurniture:block/light_metal_ironage_sconce_wall_torch_iron_unlit",
       "y": 270
     },
-    "facing=south,waterlogged=false": {
-      "model": "ironagefurniture:block/light_metal_ironage_sconce_wall_torch_iron",
+    "facing=east,waterlogged=false": {
+      "model": "ironagefurniture:block/light_metal_ironage_sconce_wall_torch_iron_unlit",
       "y": 0
     },
-    "facing=west,waterlogged=false": {
-      "model": "ironagefurniture:block/light_metal_ironage_sconce_wall_torch_iron",
+    "facing=south,waterlogged=false": {
+      "model": "ironagefurniture:block/light_metal_ironage_sconce_wall_torch_iron_unlit",
       "y": 90
+    },
+    "facing=west,waterlogged=false": {
+      "model": "ironagefurniture:block/light_metal_ironage_sconce_wall_torch_iron_unlit",
+      "y": 180
     }
   }
 }

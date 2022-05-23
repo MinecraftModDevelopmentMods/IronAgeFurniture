@@ -3,24 +3,11 @@
 	"ambientocclusion": false,
 	"textures": {
 		"1": "minecraft:block/iron_block",
-		"particle": "minecraft:block/torch",
-		"torch": "minecraft:block/torch"
+		"2": "minecraft:block/glass",
+		"3": "minecraft:block/glowstone",
+		"particle": "minecraft:block/glass"
 	},
 	"elements": [
-		{
-			"name": "Torch",
-			"from": [-1, 4.5, 7],
-			"to": [1, 14.5, 9],
-			"rotation": {"angle": -22.5, "axis": "z", "origin": [0, 0, 0]},
-			"faces": {
-				"north": {"uv": [7, 6, 9, 16], "texture": "#torch"},
-				"east": {"uv": [7, 6, 9, 16], "texture": "#torch"},
-				"south": {"uv": [7, 6, 9, 16], "texture": "#torch"},
-				"west": {"uv": [7, 6, 9, 16], "texture": "#torch"},
-				"up": {"uv": [7, 6, 9, 8], "texture": "#torch"},
-				"down": {"uv": [7, 13, 9, 15], "texture": "#torch"}
-			}
-		},
 		{
 			"from": [1.5, 9, 6.5],
 			"to": [2.5, 10, 9.5],
@@ -74,32 +61,6 @@
 			}
 		},
 		{
-			"from": [2.5, 9.25, 7.75],
-			"to": [5.5, 9.75, 8.25],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
-			"faces": {
-				"north": {"uv": [0, 0, 3, 0.5], "texture": "#1"},
-				"east": {"uv": [0, 0, 0.5, 0.5], "texture": "#1"},
-				"south": {"uv": [0, 0, 3, 0.5], "texture": "#1"},
-				"west": {"uv": [0, 0, 0.5, 0.5], "texture": "#1"},
-				"up": {"uv": [0, 0, 0.5, 3], "rotation": 270, "texture": "#1"},
-				"down": {"uv": [0, 0, 0.5, 3], "rotation": 90, "texture": "#1"}
-			}
-		},
-		{
-			"from": [3.75, 9.25, 6.5],
-			"to": [4.25, 9.75, 9.5],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
-			"faces": {
-				"north": {"uv": [0, 0, 0.5, 0.5], "texture": "#1"},
-				"east": {"uv": [0, 0, 3, 0.5], "texture": "#1"},
-				"south": {"uv": [0, 0, 0.5, 0.5], "texture": "#1"},
-				"west": {"uv": [0, 0, 3, 0.5], "texture": "#1"},
-				"up": {"uv": [0, 0, 3, 0.5], "rotation": 270, "texture": "#1"},
-				"down": {"uv": [0, 0, 3, 0.5], "rotation": 90, "texture": "#1"}
-			}
-		},
-		{
 			"from": [0.5, 2, 7.5],
 			"to": [2.5, 3, 8.5],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
@@ -150,10 +111,57 @@
 				"up": {"uv": [0, 0, 1, 1], "rotation": 270, "texture": "#1"},
 				"down": {"uv": [0, 0, 1, 1], "rotation": 90, "texture": "#1"}
 			}
+		},
+		{
+			"from": [2, 5, 6],
+			"to": [6, 9, 10],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#2"},
+				"east": {"uv": [0, 0, 16, 16], "texture": "#2"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#2"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#2"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#2"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#2"}
+			}
+		},
+		{
+			"from": [3, 9, 7],
+			"to": [5, 11, 9],
+			"faces": {
+				"north": {"uv": [12, 0, 14, 2], "texture": "#2"},
+				"east": {"uv": [6, 0, 8, 2], "texture": "#2"},
+				"south": {"uv": [1, 0, 3, 2], "texture": "#2"},
+				"west": {"uv": [6, 0, 8, 2], "texture": "#2"},
+				"up": {"uv": [3.5, 4.25, 5.5, 6.25], "texture": "#2"},
+				"down": {"uv": [0, 0, 2, 2], "texture": "#2"}
+			}
+		},
+		{
+			"from": [3.5, 7, 7.5],
+			"to": [4.5, 8, 8.5],
+			"faces": {
+				"north": {"uv": [0, 0, 1, 1], "texture": "#3"},
+				"east": {"uv": [0, 0, 1, 1], "texture": "#3"},
+				"south": {"uv": [0, 0, 1, 1], "texture": "#3"},
+				"west": {"uv": [0, 0, 1, 1], "texture": "#3"},
+				"up": {"uv": [0, 0, 1, 1], "texture": "#3"},
+				"down": {"uv": [0, 0, 1, 1], "texture": "#3"}
+			}
+		},
+		{
+			"from": [2.5, 5.5, 6.5],
+			"to": [5.5, 7.5, 9.5],
+			"faces": {
+				"north": {"uv": [0, 0, 3, 2], "texture": "#3"},
+				"east": {"uv": [0, 0, 3, 2], "texture": "#3"},
+				"south": {"uv": [0, 0, 3, 2], "texture": "#3"},
+				"west": {"uv": [0, 0, 3, 2], "texture": "#3"},
+				"up": {"uv": [0, 0, 3, 3], "texture": "#3"},
+				"down": {"uv": [0, 0, 3, 3], "texture": "#3"}
+			}
 		}
 	],
 	"groups": [
-		0,
 		{
 			"name": "Sconce",
 			"origin": [0, 0, 0],
@@ -163,21 +171,19 @@
 					"name": "Ring",
 					"origin": [8, 0, 8],
 					"color": 0,
-					"children": [1, 2, 3, 4]
-				},
-				{
-					"name": "Grips",
-					"origin": [8, 0, 8],
-					"color": 0,
-					"children": [5, 6]
+					"children": [0, 1, 2, 3]
 				},
 				{
 					"name": "Stand",
 					"origin": [8, 0, 8],
 					"color": 0,
-					"children": [7, 8, 9, 10]
+					"children": [4, 5, 6, 7]
 				}
 			]
-		}
+		},
+		8,
+		9,
+		10,
+		11
 	]
 }
