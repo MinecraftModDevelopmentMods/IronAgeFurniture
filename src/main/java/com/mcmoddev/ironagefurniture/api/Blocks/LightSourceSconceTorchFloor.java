@@ -38,7 +38,7 @@ import net.minecraft.world.level.LevelAccessor;
 
 public class LightSourceSconceTorchFloor extends LightHolderSconceFloor implements LiquidBlockContainer {
 	protected static final int AABB_STANDING_OFFSET = 2;
-	protected static final VoxelShape AABB = Block.box(6.0D, 0.0D, 6.0D, 10.0D, 10.0D, 10.0D);
+	protected static final VoxelShape AABB = Block.box(6.0D, 0.0D, 6.0D, 10.0D, 13.0D, 10.0D);
 	protected ParticleOptions flameParticle;
 	
 	@Override

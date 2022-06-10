@@ -66,8 +66,8 @@ public class LightHolderSconceWall extends LightHolderSconceFloor {
 	        {
 	        	VoxelShape shapes = Shapes.empty();
 	        
-	        	// sconce                                                          X1 Y1 Z1 X2  Y2 Z2
-	        	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(5, 10, 8, 11, 11, 16), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // sconce holder
+	        	// sconce                                                          X1   Y1 Z1   X2   Y2  Z2
+	        	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(1.5, 9, 5.5, 6.5, 10, 10.5), Direction.EAST))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // sconce holder
 	            
 	            builder.put(state, shapes.optimize());
 	        }

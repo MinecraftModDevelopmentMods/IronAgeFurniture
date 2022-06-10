@@ -9,6 +9,7 @@ import net.minecraft.world.level.storage.loot.LootContext.Builder;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import oshi.util.tuples.Pair;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 
@@ -36,18 +37,22 @@ public class LightSourceSconceTorchWall extends LightSourceSconceTorchFloor {
         this.flameParticle = ParticleTypes.FLAME;
 	}
 	
-   public void animateTick(BlockState state, Level level, BlockPos pos, Random rand) {
-	      Direction direction = state.getValue(DIRECTION);
-	      
-	      double d0 = (double)pos.getX() + 0.5D;
-	      double d1 = (double)pos.getY() + 0.7D;
-	      double d2 = (double)pos.getZ() + 0.5D;
-	      
-	      Direction direction1 = direction.getOpposite();
-	      
-	      level.addParticle(ParticleTypes.SMOKE, d0 + 0.27D * (double)direction1.getStepX(), d1 + 0.22D, d2 + 0.27D * (double)direction1.getStepZ(), 0.0D, 0.0D, 0.0D);
-	      level.addParticle(this.flameParticle, d0 + 0.27D * (double)direction1.getStepX(), d1 + 0.22D, d2 + 0.27D * (double)direction1.getStepZ(), 0.0D, 0.0D, 0.0D);
-	  }
+    public void animateTick(BlockState state, Level level, BlockPos pos, Random rand) {
+    	if (HasFlame()) {
+    		Direction direction = state.getValue(DIRECTION);
+    		
+    		Pair<Double, Double> rotated = rotate(0.6D, 0.5D, state.getValue(DIRECTION));
+    		
+    		double d0 = (double)pos.getX() + rotated.getA();
+    		double d1 = (double)pos.getY() + 0.8D;
+    		double d2 = (double)pos.getZ() + rotated.getB();
+    		
+    		Direction direction1 = direction.getOpposite();
+    		
+    		level.addParticle(ParticleTypes.SMOKE, d0 + 0.27D * (double)direction1.getStepX(), d1 + 0.22D, d2 + 0.27D * (double)direction1.getStepZ(), 0.0D, 0.0D, 0.0D);
+    		level.addParticle(this.flameParticle, d0 + 0.27D * (double)direction1.getStepX(), d1 + 0.22D, d2 + 0.27D * (double)direction1.getStepZ(), 0.0D, 0.0D, 0.0D);
+   		}
+    }
 	
 	@Override
 	protected Block UnlitVariant() {
@@ -68,15 +73,8 @@ public class LightSourceSconceTorchWall extends LightSourceSconceTorchFloor {
 	        	VoxelShape shapes = Shapes.empty();
 	        
 	        	// sconce torch                                                    X1 Y1 Z1 X2  Y2 Z2
-	        	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(5, 10, 8, 11, 11, 16), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // sconce holder
-	        	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(6, 1, 9, 10, 13, 13), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // torch
+	        	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(6, 3, 9, 10, 13, 13), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // torch
 	        	
-//	        	//legs
-//	        	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(2, 0, 12, 3, 8, 13), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); //front left leg
-//	            shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(13, 0, 12, 14, 8, 13), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // front right leg
-//	            shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(1, 0, 1, 3, 22, 3), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // back left leg
-//	            shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(13, 0, 1, 15, 22, 3), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // back right leg
-	            
 	            builder.put(state, shapes.optimize());
 	        }
 	        
