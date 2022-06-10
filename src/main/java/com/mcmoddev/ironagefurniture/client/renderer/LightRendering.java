@@ -19,5 +19,8 @@ public class LightRendering {
         ItemBlockRenderTypes.setRenderLayer(BlockObjectHolder.light_metal_ironage_block_floor_glow_clear, RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_floor_glow_iron, RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_wall_glow_iron, RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(BlockObjectHolder.light_metal_ironage_block_floor_lava_clear, RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_floor_lava_iron, RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_wall_lava_iron, RenderType.cutout());
     }
 }

@@ -8,8 +8,11 @@ import com.mcmoddev.ironagefurniture.api.Blocks.Chair;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightHolderSconceFloor;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightHolderSconceWall;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceGlowdust;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceLava;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceGlowFloor;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceGlowWall;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceLavaFloor;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceLavaWall;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchFloor;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchFloorUnlit;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchWall;
@@ -40,7 +43,6 @@ import net.minecraftforge.fml.common.Mod;
 public class BlockInitialiser {
 	 @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
-		 //light_metal_ironage_sconce_floor_empty_iron
 		event.getRegistry().register(new LightHolderSconceFloor(1,10, SoundType.METAL, "light_metal_ironage_sconce_floor_empty_iron"));
 		event.getRegistry().register(new LightSourceSconceTorchFloor(1,10, SoundType.METAL, "light_metal_ironage_sconce_floor_torch_iron" ));
 		event.getRegistry().register(new LightSourceSconceTorchFloorUnlit(1,10, SoundType.METAL, "light_metal_ironage_sconce_floor_torch_iron_unlit"));
@@ -52,6 +54,10 @@ public class BlockInitialiser {
 		event.getRegistry().register(new LightSourceGlowdust(1,10, SoundType.METAL, "light_metal_ironage_block_floor_glow_clear"));
 		event.getRegistry().register(new LightSourceSconceGlowFloor(1,10, SoundType.METAL, "light_metal_ironage_sconce_floor_glow_iron" ));
 		event.getRegistry().register(new LightSourceSconceGlowWall(1,10, SoundType.METAL, "light_metal_ironage_sconce_wall_glow_iron" ));
+		
+		event.getRegistry().register(new LightSourceLava(1,10, SoundType.METAL, "light_metal_ironage_block_floor_lava_clear"));
+		event.getRegistry().register(new LightSourceSconceLavaFloor(1,10, SoundType.METAL, "light_metal_ironage_sconce_floor_lava_iron" ));
+		event.getRegistry().register(new LightSourceSconceLavaWall(1,10, SoundType.METAL, "light_metal_ironage_sconce_wall_lava_iron" ));
 		
 		event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_oak"));		
 		event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_acacia"));
