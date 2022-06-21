@@ -5,11 +5,15 @@ import java.util.List;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
@@ -58,9 +62,10 @@ public class LightSourceLava extends LightSourceGlowdust {
 		
 		boolean destroyed = super.onDestroyedByPlayer(state, level, pos, player, willHarvest, fluid);
 		
-		if (!isSilkTouch)
+		if (!isSilkTouch) {
+			level.playSound(player, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, friction, explosionResistance);
 			level.setBlock(pos, Blocks.FIRE.defaultBlockState(), UPDATE_ALL_IMMEDIATE, UPDATE_ALL);
-
+		}
 		
 		return destroyed;
 	}
@@ -77,5 +82,35 @@ public class LightSourceLava extends LightSourceGlowdust {
 		drops = new ArrayList<ItemStack>();
 		
 		return drops;
+	}
+	
+	private void PlaceFireBelow(LevelAccessor levelAccessor, BlockPos pos) {
+		int offset = 1;
+		
+		while (levelAccessor.getBlockState(pos.below(offset)).isAir() && offset < 256) {
+			offset++;
+		}
+		
+		if (offset < 256) {
+			levelAccessor.setBlock(pos.below(offset+1), Blocks.FIRE.defaultBlockState(), UPDATE_ALL_IMMEDIATE, UPDATE_ALL);
+		}
+	}
+	
+	public BlockState updateShape(BlockState state, Direction direction, BlockState state2, LevelAccessor levelAccessor, BlockPos pos, BlockPos pos2)
+	{
+		if (direction == Direction.DOWN && !this.canSurvive(state, levelAccessor, pos)) {
+			levelAccessor.playSound(null, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, friction, explosionResistance);
+			
+			PlaceFireBelow(levelAccessor, pos);
+			
+			return Blocks.AIR.defaultBlockState();
+		}
+				 
+		return super.updateShape(state, direction, state2, levelAccessor, pos, pos2);
+	}
+	
+	public boolean canSurvive(BlockState state, LevelReader levelReader, BlockPos pos)
+	{
+		return canSupportCenter(levelReader, pos.below(), Direction.UP);
 	}
 }
