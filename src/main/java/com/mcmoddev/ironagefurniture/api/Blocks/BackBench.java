@@ -1,34 +1,63 @@
 package com.mcmoddev.ironagefurniture.api.Blocks;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.mcmoddev.ironagefurniture.api.Enumerations.BenchType;
 import com.mcmoddev.ironagefurniture.api.Enumerations.Rotation;
+import com.mcmoddev.ironagefurniture.api.entity.Seat;
 import com.mcmoddev.ironagefurniture.api.properties.BenchTypeProperty;
 import com.mcmoddev.ironagefurniture.api.util.Swivel;
 
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.storage.loot.LootContext.Builder;
+import net.minecraft.world.Container;
+import net.minecraft.world.Containers;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.Level;
 
-public class BackBench extends Chair {
+public class BackBench extends FurnitureBlock {
 	public static final BenchTypeProperty TYPE = BenchTypeProperty.create("type", BenchType.SINGLE, BenchType.LEFT, BenchType.MIDDLE, BenchType.RIGHT);;
 	
-	public BackBench(float hardness, float blastResistance, SoundType sound, String name) {
-		super(hardness, blastResistance, sound, name);
-	}
+	public BackBench(Properties properties)
+    {
+        super(properties);
+        
+        this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH).setValue(WATERLOGGED, false));
+        this.generateShapes(this.getStateDefinition().getPossibleStates());
+    }
 
+    public BackBench(float hardness, float blastResistance, SoundType sound, String name) {
+		super(Block.Properties.of(Material.WOOD).strength(hardness, blastResistance).sound(sound));
+
+		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
+		this.generateShapes(this.getStateDefinition().getPossibleStates());
+		this.setRegistryName(name);
+	}
+	
 	@Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
     {
@@ -426,4 +455,71 @@ public class BackBench extends Chair {
 		}
 	}
 	
+	@Override
+    public List<ItemStack> getDrops(BlockState state, Builder builder) {
+    	List<ItemStack> drops;
+    	
+    	Item item = state.getBlock().asItem();
+    	ItemStack stack = new ItemStack(item, 1); 
+    	drops = new ArrayList<ItemStack>();
+    	drops.add(stack);
+    	
+    	return drops;
+    }
+	
+	 public static VoxelShape setMaxHeight(VoxelShape source, double height)
+	    {
+	        AtomicReference<VoxelShape> ar = new AtomicReference<>(Shapes.empty());
+	        
+	        source.forAllBoxes((x1, y1, z1, x2, y2, z2) -> { ar.set(Shapes.joinUnoptimized(ar.get(), Shapes.box(x1, y1, z1, x2, height, z2), BooleanOp.OR));});
+	        
+	        return ar.get().optimize();
+	    }
+
+	    public static VoxelShape limitHorizontal(VoxelShape source)
+	    {
+	        AtomicReference<VoxelShape> ar = new AtomicReference<>(Shapes.empty());
+	        
+	        source.forAllBoxes((x1, y1, z1, x2, y2, z2) -> { ar.set(Shapes.joinUnoptimized(ar.get(), Shapes.box(limit(x1), y1, limit(z1), limit(x2), y2, limit(z2)), BooleanOp.OR));});
+	        
+	        return ar.get().optimize();
+	    }
+
+	    private static double limit(double value)
+	    {
+	        return Math.max(0.0, Math.min(1.0, value));
+	    }
+
+	    @Override
+	    public int getAnalogOutputSignal(BlockState state, Level world, BlockPos pos)
+	    {
+	        return AbstractContainerMenu.getRedstoneSignalFromBlockEntity(world.getBlockEntity(pos));
+	    }
+
+	    @Override
+	    public boolean hasAnalogOutputSignal(BlockState state)
+	    {
+	    	return state.getBlock() instanceof EntityBlock;
+	    }
+
+	    @Override
+	    public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean isMoving)
+	    {
+	        if(state.getBlock() != newState.getBlock())
+	        {
+	            if(world.getBlockEntity(pos) instanceof Container)
+	            {
+	                Containers.dropContents(world, pos, (Container) world.getBlockEntity(pos));
+	                world.updateNeighbourForOutputSignal(pos, this);
+	            }
+	        }
+	        
+	        super.onRemove(state, world, pos, newState, isMoving);
+	    }
+
+	    @Override
+	    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult rayTraceResult)
+	    {
+	        return Seat.create(world, pos, 0.3, player);
+	    }
 }

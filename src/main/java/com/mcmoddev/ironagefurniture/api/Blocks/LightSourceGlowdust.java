@@ -23,7 +23,7 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class LightSourceGlowdust extends FurnitureBlock {
+public class LightSourceGlowdust extends FallingFurnitureBlock {
 	public float getShadeBrightness(BlockState state, BlockGetter getter, BlockPos pos) {
 		return 1.0F;
 	}
@@ -32,17 +32,17 @@ public class LightSourceGlowdust extends FurnitureBlock {
 		return true;
 	}
 	
-	public BlockState updateShape(BlockState state, Direction direction, BlockState state2, LevelAccessor levelAccessor, BlockPos pos, BlockPos pos2)
-	{
-		return direction == Direction.DOWN && !this.canSurvive(state, levelAccessor, pos) ? 
-				Blocks.AIR.defaultBlockState() : 
-				super.updateShape(state, direction, state2, levelAccessor, pos, pos2);
-	}
+//	public BlockState updateShape(BlockState state, Direction direction, BlockState state2, LevelAccessor levelAccessor, BlockPos pos, BlockPos pos2)
+//	{
+//		return direction == Direction.DOWN && !this.canSurvive(state, levelAccessor, pos) ? 
+//				Blocks.AIR.defaultBlockState() : 
+//				super.updateShape(state, direction, state2, levelAccessor, pos, pos2);
+//	}
 	
-	public boolean canSurvive(BlockState state, LevelReader levelReader, BlockPos pos)
-	{
-		return canSupportCenter(levelReader, pos.below(), Direction.UP);
-	}
+//	public boolean canSurvive(BlockState state, LevelReader levelReader, BlockPos pos)
+//	{
+//		return canSupportCenter(levelReader, pos.below(), Direction.UP);
+//	}
 	
 	@Override
     public List<ItemStack> getDrops(BlockState state, Builder builder) {
