@@ -1,41 +1,51 @@
 package com.mcmoddev.ironagefurniture.api.Blocks;
 
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlockContainer;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.storage.loot.LootContext.Builder;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParam;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.Tag;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.Tags.Blocks;
 import oshi.util.tuples.Pair;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 
 public class LightSourceSconceLavaFloor extends LightSourceSconceGlowFloor implements LiquidBlockContainer {
 	protected static final int AABB_STANDING_OFFSET = 2;
 	protected static final VoxelShape AABB = Block.box(6.0D, 0.0D, 6.0D, 10.0D, 10.0D, 10.0D);
-	protected ParticleOptions flameParticle;
+	
+	public BlockState updateShape(BlockState state, Direction direction, BlockState state2, LevelAccessor levelAccessor, BlockPos pos, BlockPos pos2)
+	{
+		if (direction == Direction.DOWN && !this.canSurvive(state, levelAccessor, pos)) {
+			levelAccessor.destroyBlock(pos, true);
+			return LightDrop().defaultBlockState().setValue(WATERLOGGED, false);
+		}
+		
+		return super.updateShape(state, direction, state2, levelAccessor, pos, pos2);
+	}
 	
 	@Override
 	protected boolean HasFlame() {
@@ -54,17 +64,43 @@ public class LightSourceSconceLavaFloor extends LightSourceSconceGlowFloor imple
 	@Override
 	public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest,
 			FluidState fluid) {
-	
-		for (ItemStack slot : player.getHandSlots()) {
-			for (net.minecraft.nbt.Tag tag : slot.getEnchantmentTags()) {
-				
-			}
+		
+		boolean isSilkTouch = false;
+
+		ItemStack tool = player.getHandSlots().iterator().next();
+		
+		if (tool != null) {
+			Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(tool);
+			
+			if (enchantments != null && !enchantments.isEmpty())
+				isSilkTouch =  enchantments.get(Enchantments.SILK_TOUCH) > 0;
 		}
 		
-		// TODO Auto-generated method stub
-		return super.onDestroyedByPlayer(state, level, pos, player, willHarvest, fluid);
+		if (isSilkTouch && !player.isCreative())
+			Block.popResource(level, pos, new ItemStack(LightDrop(), 1));
+		
+		boolean destroyed = super.onDestroyedByPlayer(state, level, pos, player, willHarvest, fluid);
+		
+		if (!isSilkTouch && !player.isCreative()) {
+			level.playSound(player, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, friction, explosionResistance);
+			level.setBlock(pos, Blocks.FIRE.defaultBlockState(), UPDATE_ALL_IMMEDIATE, UPDATE_ALL);
+		}
+		
+		return destroyed;
 	}
 	
+	@Override
+    public List<ItemStack> getDrops(BlockState state, Builder builder) {
+    	List<ItemStack> drops;
+    	drops = new ArrayList<ItemStack>();
+    	
+    	Item item = EmptyVariant().asItem();
+    	ItemStack stack = new ItemStack(item, 1); 
+    	
+    	drops.add(stack);
+    	
+    	return drops;
+    }
 	public LightSourceSconceLavaFloor(Properties properties) {
 		super(properties);
 		

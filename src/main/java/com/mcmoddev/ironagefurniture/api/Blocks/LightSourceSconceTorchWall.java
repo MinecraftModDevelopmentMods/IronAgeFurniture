@@ -5,7 +5,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.storage.loot.LootContext.Builder;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -13,8 +12,6 @@ import oshi.util.tuples.Pair;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import com.google.common.collect.ImmutableList;
@@ -22,8 +19,6 @@ import com.google.common.collect.ImmutableMap;
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
@@ -63,7 +58,6 @@ public class LightSourceSconceTorchWall extends LightSourceSconceTorchFloor {
 	protected Block EmptyVariant() {
 		return BlockObjectHolder.light_metal_ironage_sconce_wall_empty_iron;
 	}
-	//BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron
 	
 	@Override
 	protected void generateShapes(ImmutableList<BlockState> states) {
