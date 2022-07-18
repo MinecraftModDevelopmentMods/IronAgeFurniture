@@ -10,17 +10,22 @@ import net.minecraft.world.level.storage.loot.LootContext.Builder;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParam;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.Tag;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.Tags.Blocks;
+import oshi.util.tuples.Pair;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -60,27 +65,6 @@ public class LightSourceSconceLavaFloor extends LightSourceSconceGlowFloor imple
 		return super.onDestroyedByPlayer(state, level, pos, player, willHarvest, fluid);
 	}
 	
-	
-//	@Override
-//    public List<ItemStack> getDrops(BlockState state, Builder builder) {
-//		
-//		LootContextParam<T>
-//		
-//    	List<ItemStack> drops;
-//    	drops = new ArrayList<ItemStack>();
-//    	
-//    	Item item = EmptyVariant().asItem();
-//    	ItemStack stack = new ItemStack(item, 1); 
-//    	
-//    	Item item2 = LightDrop().asItem();
-//    	ItemStack stack2 = new ItemStack(item2, 1); 
-//    	
-//    	drops.add(stack);
-//    	drops.add(stack2);
-//    	
-//    	return drops;
-//    }
-	
 	public LightSourceSconceLavaFloor(Properties properties) {
 		super(properties);
 		
@@ -104,5 +88,32 @@ public class LightSourceSconceLavaFloor extends LightSourceSconceGlowFloor imple
 	
 	protected Block EmptyVariant() {
 		return BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron;
+	}
+	
+	@Override
+	public void animateTick(BlockState state, Level level, BlockPos pos, Random rnd) {
+	      BlockPos blockpos = pos.above();
+	      if (level.getBlockState(blockpos).isAir() && !level.getBlockState(blockpos).isSolidRender(level, blockpos)) {
+	         if (rnd.nextInt(25) == 0) {
+	        	 Direction direction = state.getValue(DIRECTION);
+	        	 
+	        	 Pair<Double, Double> rotated = rotate(0.6D, 0.5D, state.getValue(DIRECTION));
+	        	 
+	        	 double x = (double)pos.getX() + rotated.getA();
+	        	 double y = (double)pos.getY() + 0.5D;
+	        	 double z = (double)pos.getZ() + rotated.getB();
+	        	 
+	        	 Direction direction1 = direction.getOpposite();
+	        	 
+	        	 level.addParticle(ParticleTypes.LAVA, x + 0.27D * (double)direction1.getStepX(), y + 0.22D, z + 0.27D * (double)direction1.getStepZ(), 0.0D, 0.0D, 0.0D);
+	        	 level.playLocalSound(x, y, z, SoundEvents.LAVA_POP, SoundSource.BLOCKS, 0.2F + rnd.nextFloat() * 0.2F, 0.9F + rnd.nextFloat() * 0.15F, false);
+	         }
+
+	         if (rnd.nextInt(200) == 0) {
+	        	 level.playLocalSound((double)pos.getX(), (double)pos.getY(), (double)pos.getZ(), SoundEvents.LAVA_AMBIENT, SoundSource.BLOCKS, 0.2F + rnd.nextFloat() * 0.2F, 0.9F + rnd.nextFloat() * 0.15F, false);
+	         }
+	      }
+		
+		super.animateTick(state, level, pos, rnd);
 	}
 }

@@ -56,7 +56,7 @@ public class LightSourceLava extends LightSourceGlowdust{
 	public void animateTick(BlockState state, Level level, BlockPos pos, Random rnd) {
 	      BlockPos blockpos = pos.above();
 	      if (level.getBlockState(blockpos).isAir() && !level.getBlockState(blockpos).isSolidRender(level, blockpos)) {
-	         if (rnd.nextInt(100) == 0) {
+	         if (rnd.nextInt(25) == 0) {
 	
 	            double x = (double)pos.getX() + 0.5;
 	            double y = (double)pos.getY() + 0.25D;

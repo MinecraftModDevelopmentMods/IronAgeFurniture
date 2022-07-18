@@ -32,18 +32,6 @@ public class LightSourceGlowdust extends FallingFurnitureBlock {
 		return true;
 	}
 	
-//	public BlockState updateShape(BlockState state, Direction direction, BlockState state2, LevelAccessor levelAccessor, BlockPos pos, BlockPos pos2)
-//	{
-//		return direction == Direction.DOWN && !this.canSurvive(state, levelAccessor, pos) ? 
-//				Blocks.AIR.defaultBlockState() : 
-//				super.updateShape(state, direction, state2, levelAccessor, pos, pos2);
-//	}
-	
-//	public boolean canSurvive(BlockState state, LevelReader levelReader, BlockPos pos)
-//	{
-//		return canSupportCenter(levelReader, pos.below(), Direction.UP);
-//	}
-	
 	@Override
     public List<ItemStack> getDrops(BlockState state, Builder builder) {
 		List<ItemStack> drops;

@@ -11,8 +11,11 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import oshi.util.tuples.Pair;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,5 +66,32 @@ public class LightSourceSconceLavaWall extends LightSourceSconceGlowWall {
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
 		this.setRegistryName(name);
+	}
+	
+	@Override
+	public void animateTick(BlockState state, Level level, BlockPos pos, Random rnd) {
+	      BlockPos blockpos = pos.above();
+	      if (level.getBlockState(blockpos).isAir() && !level.getBlockState(blockpos).isSolidRender(level, blockpos)) {
+	         if (rnd.nextInt(25) == 0) {
+	        	 Direction direction = state.getValue(DIRECTION);
+	        	 
+	        	 Pair<Double, Double> rotated = rotate(0.6D, 0.5D, state.getValue(DIRECTION));
+	        	 
+	        	 double x = (double)pos.getX() + rotated.getA();
+	        	 double y = (double)pos.getY() + 0.5D;
+	        	 double z = (double)pos.getZ() + rotated.getB();
+	        	 
+	        	 Direction direction1 = direction.getOpposite();
+	        	 
+	        	 level.addParticle(ParticleTypes.LAVA, x + 0.27D * (double)direction1.getStepX(), y + 0.22D, z + 0.27D * (double)direction1.getStepZ(), 0.0D, 0.0D, 0.0D);
+	        	 level.playLocalSound(x, y, z, SoundEvents.LAVA_POP, SoundSource.BLOCKS, 0.2F + rnd.nextFloat() * 0.2F, 0.9F + rnd.nextFloat() * 0.15F, false);
+	         }
+
+	         if (rnd.nextInt(200) == 0) {
+	        	 level.playLocalSound((double)pos.getX(), (double)pos.getY(), (double)pos.getZ(), SoundEvents.LAVA_AMBIENT, SoundSource.BLOCKS, 0.2F + rnd.nextFloat() * 0.2F, 0.9F + rnd.nextFloat() * 0.15F, false);
+	         }
+	      }
+		
+		super.animateTick(state, level, pos, rnd);
 	}
 }
