@@ -29,7 +29,6 @@ public class LightHolderSconceWall extends LightHolderSconceFloor {
 		
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH).setValue(WATERLOGGED, false));
         this.generateShapes(this.getStateDefinition().getPossibleStates());
-		// TODO Auto-generated constructor stub
 	}
 	
 	public LightHolderSconceWall(float hardness, float blastResistance, SoundType sound, String name) {

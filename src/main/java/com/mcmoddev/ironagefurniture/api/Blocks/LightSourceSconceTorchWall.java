@@ -65,8 +65,7 @@ public class LightSourceSconceTorchWall extends LightSourceSconceTorchFloor {
 	        for(BlockState state : states)
 	        {
 	        	VoxelShape shapes = Shapes.empty();
-	        
-	        	// sconce torch                                                    X1 Y1 Z1 X2  Y2 Z2
+
 	        	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(6, 3, 9, 10, 13, 13), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // torch
 	        	
 	            builder.put(state, shapes.optimize());

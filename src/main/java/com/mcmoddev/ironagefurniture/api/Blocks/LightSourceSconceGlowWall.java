@@ -47,7 +47,6 @@ public class LightSourceSconceGlowWall extends LightSourceSconceTorchWall {
 	        {
 	        	VoxelShape shapes = Shapes.empty();
 	        
-	        	// sconce torch                                                    X1 Y1 Z1 X2  Y2 Z2
 	        	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(6, 9, 9, 10, 10, 16), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // sconce holder
 	        	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(6, 5, 9, 10, 11, 13), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // torch
 	           
