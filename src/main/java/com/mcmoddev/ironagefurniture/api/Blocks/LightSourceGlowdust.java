@@ -81,7 +81,7 @@ public class LightSourceGlowdust extends FallingFurnitureBlock {
 	        	VoxelShape shapes = Shapes.empty();
 	        
 	        	// chair body                                                      X1 Y1 Z1 X2  Y2 Z2
-	        	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(1, 7, 1, 15, 8, 14), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // jar
+	        	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(6, 0, 6, 10, 5, 10), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // jar
 
 	            builder.put(state, shapes.optimize());
 	        }
