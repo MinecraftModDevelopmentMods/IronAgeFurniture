@@ -80,7 +80,7 @@ public class LightSourceLava extends LightSourceGlowdust{
 		
 		boolean isSilkTouch = false;
 
-		ItemStack tool = player.getHandSlots().iterator().next();
+		ItemStack tool = player.getInventory().getSelected();
 		
 		if (tool != null) {
 			Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(tool);
