@@ -2,7 +2,7 @@
 	"credit": "Made with Blockbench",
 	"textures": {
 		"1": "blocks/glass",
-		"2": "blocks/lava_still",
+		"2": "blocks/glowstone",
 		"particle": "blocks/iron_block"
 	},
 	"elements": [
@@ -80,6 +80,7 @@
 			"translation": [0, 4, 0]
 		},
 		"gui": {
+			"rotation": [35, 45, 0],
 			"translation": [0.5, 10, 0],
 			"scale": [2, 2, 2]
 		},
