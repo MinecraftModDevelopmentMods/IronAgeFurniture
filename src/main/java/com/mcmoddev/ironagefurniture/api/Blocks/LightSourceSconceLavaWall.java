@@ -47,6 +47,10 @@ public class LightSourceSconceLavaWall extends LightSourceSconceGlowWall {
 		return super.updateShape(state, direction, state2, levelAccessor, pos, pos2);
 	}
 	
+	protected Block EmptyVariant() {
+		return BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron;
+	}
+	
 	@Override
 	protected boolean HasFlame() {
 		return false;
