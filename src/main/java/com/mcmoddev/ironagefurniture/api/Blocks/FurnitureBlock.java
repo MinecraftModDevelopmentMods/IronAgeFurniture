@@ -22,6 +22,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import oshi.util.tuples.Pair;
 
 public abstract class FurnitureBlock extends Block implements SimpleWaterloggedBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -59,6 +60,21 @@ public abstract class FurnitureBlock extends Block implements SimpleWaterloggedB
             default:
             	return Shapes.box(source.min(Direction.Axis.X), source.min(Direction.Axis.Y), source.min(Direction.Axis.Z), source.max(Direction.Axis.X), source.max(Direction.Axis.Y), source.max(Direction.Axis.Z));
         }	
+    }
+	
+	public static Pair<Double, Double> rotate(double x, double z, Direction direction)
+    {  
+    	switch(direction)
+        {
+            case WEST:
+                return new Pair<Double, Double>(1.0F - x, 1.0F - z);
+            case NORTH:
+                return new Pair<Double, Double>(z, 1.0F - x); 
+            case SOUTH:
+                return new Pair<Double, Double>(1.0F - z,  x);
+            default:
+            	return new Pair<Double, Double>(x,  z);
+        }
     }
 	
 	@Override

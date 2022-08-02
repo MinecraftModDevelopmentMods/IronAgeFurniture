@@ -38,8 +38,6 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 		
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH).setValue(WATERLOGGED, false));
         this.generateShapes(this.getStateDefinition().getPossibleStates());
-		// TODO Auto-generated constructor stub
-
 	}
 	
 	public LightHolderSconceFloor(float hardness, float blastResistance, SoundType sound, String name) {
@@ -70,8 +68,8 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 	        	VoxelShape shapes = Shapes.empty();
 	        
 	        	// sconce                                                          X1 Y1 Z1 X2  Y2 Z2
-	        	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(5, 10, 5, 11, 11, 11), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // sconce holder
-	        	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(7, 0, 3, 9, 11, 5), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // sconce stand
+	        	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(5.5, 8, 5.5, 10.5, 9, 10.5), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // sconce holder
+	        	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(7.5, 0, 5.5, 8.5, 8, 8.5), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // sconce stand
 
 	            builder.put(state, shapes.optimize());
 	        }
@@ -129,6 +127,10 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 		return BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron;
 	}
 	
+	protected Block GetLavaVariant() {
+		return BlockObjectHolder.light_metal_ironage_sconce_floor_lava_iron;
+	}
+	
 	protected Block GetUnlitTorchVariant() {
 		return BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron_unlit;
 	}
@@ -161,6 +163,19 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 			Block glowSconce = GetGlowVariant();
 			
 			world.setBlock(pos, glowSconce.defaultBlockState()
+					.setValue(DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
+					.setValue(WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)), UPDATE_ALL);
+			
+			if (!player.isCreative())
+				stackInHand.setCount(stackInHand.getCount()-1);;
+			
+				return InteractionResult.CONSUME_PARTIAL;
+		}
+		
+		if (stackInHand.is(BlockObjectHolder.light_metal_ironage_block_floor_lava_clear.asItem())) {
+			Block lavaSconce = GetLavaVariant();
+			
+			world.setBlock(pos, lavaSconce.defaultBlockState()
 					.setValue(DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
 					.setValue(WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)), UPDATE_ALL);
 			

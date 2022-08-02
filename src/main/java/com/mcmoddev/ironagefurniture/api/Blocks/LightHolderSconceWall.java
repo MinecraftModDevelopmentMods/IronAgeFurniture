@@ -10,22 +10,16 @@ import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.storage.loot.LootContext.Builder;
 import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 public class LightHolderSconceWall extends LightHolderSconceFloor {
@@ -35,7 +29,6 @@ public class LightHolderSconceWall extends LightHolderSconceFloor {
 		
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH).setValue(WATERLOGGED, false));
         this.generateShapes(this.getStateDefinition().getPossibleStates());
-		// TODO Auto-generated constructor stub
 	}
 	
 	public LightHolderSconceWall(float hardness, float blastResistance, SoundType sound, String name) {
@@ -66,8 +59,8 @@ public class LightHolderSconceWall extends LightHolderSconceFloor {
 	        {
 	        	VoxelShape shapes = Shapes.empty();
 	        
-	        	// sconce                                                          X1 Y1 Z1 X2  Y2 Z2
-	        	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(5, 10, 8, 11, 11, 16), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // sconce holder
+	        	// sconce                                                          X1   Y1 Z1   X2   Y2  Z2
+	        	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(1.5, 9, 5.5, 6.5, 10, 10.5), Direction.EAST))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // sconce holder
 	            
 	            builder.put(state, shapes.optimize());
 	        }
@@ -96,6 +89,11 @@ public class LightHolderSconceWall extends LightHolderSconceFloor {
 	@Override
 	protected Block GetTorchVariant() {
 		return BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron;
+	}
+	
+	@Override
+	protected Block GetLavaVariant() {
+		return BlockObjectHolder.light_metal_ironage_sconce_wall_lava_iron;
 	}
 	
 	@Override

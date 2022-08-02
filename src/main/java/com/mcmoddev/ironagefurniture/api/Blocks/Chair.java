@@ -27,13 +27,11 @@ import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
-import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 
-public class Chair extends FurnitureBlock implements SimpleWaterloggedBlock
+public class Chair extends FallingFurnitureBlock implements SimpleWaterloggedBlock
 {
     @Override
     public List<ItemStack> getDrops(BlockState state, Builder builder) {
