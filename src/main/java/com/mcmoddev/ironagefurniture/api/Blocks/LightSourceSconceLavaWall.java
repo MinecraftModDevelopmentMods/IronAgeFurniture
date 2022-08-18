@@ -48,7 +48,7 @@ public class LightSourceSconceLavaWall extends LightSourceSconceGlowWall {
 	}
 	
 	protected Block EmptyVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron;
+		return BlockObjectHolder.light_metal_ironage_sconce_wall_empty_iron;
 	}
 	
 	@Override
