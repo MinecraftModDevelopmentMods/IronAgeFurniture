@@ -12,7 +12,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class ObsideanLump extends FurnitureBlock implements LiquidBlockContainer {
 	protected static final int AABB_STANDING_OFFSET = 2;
-	protected static final VoxelShape AABB = Block.box(6.0D, 0.0D, 6.0D, 10.0D, 10.0D, 10.0D);
+	protected static final VoxelShape AABB = Block.box(6.0D, 0.0D, 6.0D, 10.0D, 4.0D, 10.0D);
 	
 	
 	public ObsideanLump(Properties properties) {
