@@ -23,6 +23,8 @@ public class BlockObjectHolder {
 	public static final Block light_metal_ironage_sconce_floor_lava_iron = null;
 	public static final Block light_metal_ironage_sconce_wall_lava_iron = null;
 	
+	public static final Block obsidian_chunk = null;
+	
 	public static final Block chair_wood_ironage_classic_oak = null;
 	public static final Block chair_wood_ironage_classic_acacia = null;
 	public static final Block chair_wood_ironage_classic_dark_oak = null;

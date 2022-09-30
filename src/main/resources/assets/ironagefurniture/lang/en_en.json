@@ -6204,5 +6204,6 @@
     "block.ironagefurniture.light_metal_ironage_sconce_floor_empty_iron": "Sconce",
     "block.ironagefurniture.light_metal_ironage_block_floor_glow_clear": "Glow Dust Lamp",
     "block.ironagefurniture.light_metal_ironage_block_floor_lava_clear": "Lava Lamp",
+	"block.ironagefurniture.obsidian_chunk": "Obsidian Chunk",
     "itemGroup.ironagefurniture": "Iron Age Furniture"
 }

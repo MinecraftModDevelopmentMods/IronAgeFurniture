@@ -18,6 +18,7 @@ import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchFloorUnlit
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchWall;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchWallUnlit;
 import com.mcmoddev.ironagefurniture.api.Blocks.LogBench;
+import com.mcmoddev.ironagefurniture.api.Blocks.ObsideanLump;
 import com.mcmoddev.ironagefurniture.api.Blocks.Stool;
 import com.mcmoddev.ironagefurniture.api.Blocks.TallStool;
 
@@ -58,6 +59,8 @@ public class BlockInitialiser {
 		event.getRegistry().register(new LightSourceLava(1,10, SoundType.METAL, "light_metal_ironage_block_floor_lava_clear"));
 		event.getRegistry().register(new LightSourceSconceLavaFloor(1,10, SoundType.METAL, "light_metal_ironage_sconce_floor_lava_iron" ));
 		event.getRegistry().register(new LightSourceSconceLavaWall(1,10, SoundType.METAL, "light_metal_ironage_sconce_wall_lava_iron" ));
+		
+		event.getRegistry().register(new ObsideanLump(1,10, SoundType.STONE, "obsidian_chunk"));
 		
 		event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_oak"));		
 		event.getRegistry().register(new Chair(1,10, SoundType.WOOD, "chair_wood_ironage_classic_acacia"));
