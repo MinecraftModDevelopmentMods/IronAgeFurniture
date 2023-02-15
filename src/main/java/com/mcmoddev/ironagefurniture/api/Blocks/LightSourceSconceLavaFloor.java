@@ -4,8 +4,10 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlockContainer;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.storage.loot.LootContext.Builder;
 import net.minecraft.core.Direction;
@@ -151,5 +153,36 @@ public class LightSourceSconceLavaFloor extends LightSourceSconceGlowFloor imple
 	      }
 		
 		super.animateTick(state, level, pos, rnd);
+	}
+	
+	@Override
+	public boolean placeLiquid(LevelAccessor world, BlockPos pos, BlockState blockState, FluidState fluidState) {
+		boolean success = super.placeLiquid(world, pos, blockState, fluidState);
+		
+		if (!blockState.getValue(BlockStateProperties.WATERLOGGED) && fluidState.getType() == Fluids.WATER) {
+	         if (!world.isClientSide()) {
+	        	
+	            world.setBlock(pos, EmptyVariant().defaultBlockState()
+	    				.setValue(DIRECTION, blockState.getValue(BlockStateProperties.HORIZONTAL_FACING))
+	    				.setValue(WATERLOGGED, Boolean.valueOf(true)), UPDATE_ALL);
+        	
+	            world.playSound(null, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, friction, explosionResistance);
+	            world.playSound(null, pos, SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, friction, explosionResistance);
+	            
+	            Block.dropResources(blockState, null);
+	            world.setBlock(pos.below(), BlockObjectHolder.obsidian_chunk.defaultBlockState(), UPDATE_ALL_IMMEDIATE, UPDATE_ALL);
+	            
+	            world.scheduleTick(pos, fluidState.getType(), fluidState.getType().getTickDelay(world));
+	         }
+	    }
+		else
+		{	
+			world.setBlock(pos, EmptyVariant().defaultBlockState()
+    				.setValue(DIRECTION, blockState.getValue(BlockStateProperties.HORIZONTAL_FACING))
+    				.setValue(WATERLOGGED, blockState.getValue(BlockStateProperties.WATERLOGGED)), UPDATE_ALL);
+		
+		}
+
+		return success;
 	}
 }
