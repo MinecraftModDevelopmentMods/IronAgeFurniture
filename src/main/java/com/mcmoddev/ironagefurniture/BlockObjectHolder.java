@@ -15,6 +15,11 @@ public class BlockObjectHolder {
 	public static final Block light_metal_ironage_sconce_wall_torch_iron = null;
 	public static final Block light_metal_ironage_sconce_wall_torch_iron_unlit = null;
 	
+	public static final Block light_metal_ironage_sconce_floor_redtorch_iron = null;
+	public static final Block light_metal_ironage_sconce_floor_redtorch_iron_unlit = null;
+	public static final Block light_metal_ironage_sconce_wall_redtorch_iron = null;
+	public static final Block light_metal_ironage_sconce_wall_redtorch_iron_unlit = null;
+	
 	public static final Block light_metal_ironage_block_floor_glow_clear = null;
 	public static final Block light_metal_ironage_sconce_floor_glow_iron = null;
 	public static final Block light_metal_ironage_sconce_wall_glow_iron = null;
@@ -22,6 +27,8 @@ public class BlockObjectHolder {
 	public static final Block light_metal_ironage_block_floor_lava_clear = null;
 	public static final Block light_metal_ironage_sconce_floor_lava_iron = null;
 	public static final Block light_metal_ironage_sconce_wall_lava_iron = null;
+	
+	public static final Block obsidian_chunk = null;
 	
 	public static final Block chair_wood_ironage_classic_oak = null;
 	public static final Block chair_wood_ironage_classic_acacia = null;

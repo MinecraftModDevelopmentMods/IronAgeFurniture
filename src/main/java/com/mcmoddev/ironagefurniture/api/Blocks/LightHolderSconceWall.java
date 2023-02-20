@@ -100,4 +100,8 @@ public class LightHolderSconceWall extends LightHolderSconceFloor {
 	protected Block GetUnlitTorchVariant() {
 		return BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron_unlit;
 	}
+	
+	protected Block GetRedVariant() {
+		return BlockObjectHolder.light_metal_ironage_sconce_wall_redtorch_iron;
+	}
 }	

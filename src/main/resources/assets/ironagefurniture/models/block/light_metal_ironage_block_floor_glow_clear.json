@@ -1,9 +1,9 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"1": "minecraft:block/glass",
-		"2": "minecraft:block/glowstone",
-		"particle": "minecraft:block/glowstone"
+				"1": "minecraft:block/glass",
+				"2": "minecraft:block/glowstone",
+				"particle": "minecraft:block/glowstone"
 	},
 	"elements": [
 		{
@@ -80,6 +80,7 @@
 			"translation": [0, 4, 0]
 		},
 		"gui": {
+			"rotation": [35, 45, 0],
 			"translation": [0.5, 10, 0],
 			"scale": [2, 2, 2]
 		},
