@@ -6,39 +6,21 @@ import net.minecraft.world.level.block.LiquidBlockContainer;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.Material;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.level.storage.loot.LootContext.Builder;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.DustParticleOptions;
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.InteractionHand;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.WeakHashMap;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.shapes.VoxelShape;
-import oshi.util.tuples.Pair;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 
 public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor implements LiquidBlockContainer {
 	protected static final Map<BlockGetter, List<LightSourceSconceRedTorchWall.Toggle>> RECENT_TOGGLES = new WeakHashMap<>();
@@ -199,23 +181,4 @@ public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor 
 	protected Block EmptyVariant() {
 		return BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron;
 	}
-
-	
-//	public void animateTick(BlockState state, Level level, BlockPos pos, Random random)
-//	{
-//		if (HasFlame()) {
-//		  double d0 = (double)pos.getX() + 0.5D;
-//	      double d1 = (double)pos.getY() + 0.9D;
-//	      double d2 = (double)pos.getZ() + 0.5D;
-//	      
-//	      level.addParticle(ParticleTypes.SMOKE, d0, d1, d2, 0.0D, 0.0D, 0.0D);
-//	      level.addParticle(this.flameParticle, d0, d1, d2, 0.0D, 0.0D, 0.0D);
-//		}
-//		
-//		if (CanEx() && !level.hasNeighborSignal(pos)) {
-//    	  if (state.getValue(BlockStateProperties.WATERLOGGED))
-//    		  Unlight(state, level, pos);
-//		}
-//    }
-
 }
