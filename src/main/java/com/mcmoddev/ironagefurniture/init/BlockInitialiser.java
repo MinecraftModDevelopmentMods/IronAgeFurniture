@@ -13,6 +13,10 @@ import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceGlowFloor;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceGlowWall;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceLavaFloor;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceLavaWall;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceRedTorchFloor;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceRedTorchFloorUnlit;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceRedTorchWall;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceRedTorchWallUnlit;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchFloor;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchFloorUnlit;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchWall;
@@ -22,12 +26,8 @@ import com.mcmoddev.ironagefurniture.api.Blocks.ObsideanLump;
 import com.mcmoddev.ironagefurniture.api.Blocks.Stool;
 import com.mcmoddev.ironagefurniture.api.Blocks.TallStool;
 
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.TorchBlock;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.Material;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
@@ -45,12 +45,20 @@ public class BlockInitialiser {
 	 @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
 		event.getRegistry().register(new LightHolderSconceFloor(1,10, SoundType.METAL, "light_metal_ironage_sconce_floor_empty_iron"));
+		
 		event.getRegistry().register(new LightSourceSconceTorchFloor(1,10, SoundType.METAL, "light_metal_ironage_sconce_floor_torch_iron" ));
 		event.getRegistry().register(new LightSourceSconceTorchFloorUnlit(1,10, SoundType.METAL, "light_metal_ironage_sconce_floor_torch_iron_unlit"));
 
+		event.getRegistry().register(new LightSourceSconceRedTorchFloor(1,10, SoundType.METAL, "light_metal_ironage_sconce_floor_redtorch_iron" ));
+		event.getRegistry().register(new LightSourceSconceRedTorchFloorUnlit(1,10, SoundType.METAL, "light_metal_ironage_sconce_floor_redtorch_iron_unlit"));
+		
 		event.getRegistry().register(new LightHolderSconceWall(1,10, SoundType.METAL, "light_metal_ironage_sconce_wall_empty_iron"));
+		
 		event.getRegistry().register(new LightSourceSconceTorchWall(1,10, SoundType.METAL, "light_metal_ironage_sconce_wall_torch_iron"));
 		event.getRegistry().register(new LightSourceSconceTorchWallUnlit(1,10, SoundType.METAL, "light_metal_ironage_sconce_wall_torch_iron_unlit"));
+		
+		event.getRegistry().register(new LightSourceSconceRedTorchWall(1,10, SoundType.METAL, "light_metal_ironage_sconce_wall_redtorch_iron"));
+		event.getRegistry().register(new LightSourceSconceRedTorchWallUnlit(1,10, SoundType.METAL, "light_metal_ironage_sconce_wall_redtorch_iron_unlit"));
 		
 		event.getRegistry().register(new LightSourceGlowdust(1,10, SoundType.METAL, "light_metal_ironage_block_floor_glow_clear"));
 		event.getRegistry().register(new LightSourceSconceGlowFloor(1,10, SoundType.METAL, "light_metal_ironage_sconce_floor_glow_iron" ));
