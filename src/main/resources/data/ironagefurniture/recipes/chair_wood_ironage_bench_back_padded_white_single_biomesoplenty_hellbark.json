@@ -10,7 +10,6 @@
       ],
       "recipe": {
         "type": "crafting_shapeless",
-        "group": "bench_back_padded",
         "ingredients": [
           {
             "item": "minecraft:white_carpet"

@@ -1,0 +1,7 @@
+{
+  "parent": "ironagefurniture:block/template_chair_wood_ironage_bench_log_middle",
+  "textures": {
+    "log": "byg:block/embur_planks",
+    "logtop": "byg:block/embur_pedu_top"
+  }
+}

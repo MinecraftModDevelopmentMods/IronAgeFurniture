@@ -1,0 +1,8 @@
+{
+  "parent": "ironagefurniture:block/template_chair_wood_ironage_bench_back_padded_single",
+  "textures": {
+    "log": "byg:block/embur_planks",
+    "planks": "byg:block/embur_planks",
+    "wool": "minecraft:block/light_gray_wool"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "modid": "byg",
+          "type": "forge:mod_loaded"
+        }
+      ],
+      "recipe": {
+        "type": "crafting_shapeless",
+        "ingredients": [
+          {
+            "item": "minecraft:purple_carpet"
+          },
+          {
+            "item": "ironagefurniture:chair_wood_ironage_bench_single_byg_soul_shroom"
+          }
+        ],
+        "result": {
+          "item": "ironagefurniture:chair_wood_ironage_bench_padded_purple_single_byg_soul_shroom"
+        }
+      }
+    }
+  ]
+}

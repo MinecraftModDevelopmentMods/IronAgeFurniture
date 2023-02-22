@@ -1,6 +1,5 @@
 {
   "type": "crafting_shapeless",
-  "group": "bench_back_padded",
   "ingredients": [
     {
       "item": "minecraft:red_carpet"

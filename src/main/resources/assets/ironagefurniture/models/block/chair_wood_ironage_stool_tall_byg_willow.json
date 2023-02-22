@@ -1,0 +1,7 @@
+{
+  "parent": "ironagefurniture:block/template_chair_wood_ironage_stool_tall",
+  "textures": {
+    "log": "byg:block/willow_log",
+    "planks": "byg:block/willow_planks"
+  }
+}

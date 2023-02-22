@@ -1,0 +1,7 @@
+{
+  "parent": "ironagefurniture:block/template_chair_wood_ironage_bench_back_single",
+  "textures": {
+    "log": "byg:block/green_enchanted_log",
+    "planks": "byg:block/green_enchanted_planks"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "ironagefurniture:block/template_chair_wood_ironage_bench_log_left",
+  "textures": {
+    "log": "byg:block/glacial_oak_planks",
+    "logtop": "byg:block/glacial_oak_log_top"
+  }
+}

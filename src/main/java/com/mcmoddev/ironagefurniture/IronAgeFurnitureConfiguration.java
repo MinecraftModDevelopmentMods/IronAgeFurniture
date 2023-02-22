@@ -13,7 +13,7 @@ public class IronAgeFurnitureConfiguration
     	public final ForgeConfigSpec.BooleanValue GENERATE_TALL_STOOLS;
     	public final ForgeConfigSpec.BooleanValue GENERATE_BENCHES;
     	public final ForgeConfigSpec.BooleanValue INTEGRATION_BIOMESOPLENTY;
-    	//public final ForgeConfigSpec.BooleanValue INTEGRATION_BIOMESYOUGO;
+    	public final ForgeConfigSpec.BooleanValue INTEGRATION_BIOMESYOUGO;
     	public final ForgeConfigSpec.BooleanValue INTEGRATION_IMMERSIVEENGINEERING;
         
         Client(ForgeConfigSpec.Builder builder)
@@ -50,10 +50,10 @@ public class IronAgeFurnitureConfiguration
                     .translation("ironagefurniture.integration.bopIntegration")
                     .define("bopIntegration", true);
             
-//            this.INTEGRATION_BIOMESYOUGO = builder
-//                    .comment("Integrate with Oh The Biomes You Go.")
-//                    .translation("ironagefurniture.integration.bygIntegration")
-//                    .define("bygIntegration", true);
+            this.INTEGRATION_BIOMESYOUGO = builder
+                    .comment("Integrate with Oh The Biomes You Go.")
+                    .translation("ironagefurniture.integration.bygIntegration")
+                    .define("bygIntegration", true);
             
             this.INTEGRATION_IMMERSIVEENGINEERING = builder
             		.comment("Integrate with Immersive Engineering.")

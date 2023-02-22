@@ -1,0 +1,132 @@
+{
+  "variants": {
+    "facing=north,type=single,waterlogged=true": {
+      "model": "ironagefurniture:block/chair_wood_ironage_bench_back_padded_pink_single_byg_sythian",
+      "y": 0
+    },
+    "facing=east,type=single,waterlogged=true": {
+      "model": "ironagefurniture:block/chair_wood_ironage_bench_back_padded_pink_single_byg_sythian",
+      "y": 90
+    },
+    "facing=south,type=single,waterlogged=true": {
+      "model": "ironagefurniture:block/chair_wood_ironage_bench_back_padded_pink_single_byg_sythian",
+      "y": 180
+    },
+    "facing=west,type=single,waterlogged=true": {
+      "model": "ironagefurniture:block/chair_wood_ironage_bench_back_padded_pink_single_byg_sythian",
+      "y": 270
+    },
+    "facing=north,type=middle,waterlogged=true": {
+      "model": "ironagefurniture:block/chair_wood_ironage_bench_back_padded_pink_middle_byg_sythian",
+      "y": 0
+    },
+    "facing=east,type=middle,waterlogged=true": {
+      "model": "ironagefurniture:block/chair_wood_ironage_bench_back_padded_pink_middle_byg_sythian",
+      "y": 90
+    },
+    "facing=south,type=middle,waterlogged=true": {
+      "model": "ironagefurniture:block/chair_wood_ironage_bench_back_padded_pink_middle_byg_sythian",
+      "y": 180
+    },
+    "facing=west,type=middle,waterlogged=true": {
+      "model": "ironagefurniture:block/chair_wood_ironage_bench_back_padded_pink_middle_byg_sythian",
+      "y": 270
+    },
+    "facing=north,type=right,waterlogged=true": {
+      "model": "ironagefurniture:block/chair_wood_ironage_bench_back_padded_pink_right_byg_sythian",
+      "y": 0
+    },
+    "facing=east,type=right,waterlogged=true": {
+      "model": "ironagefurniture:block/chair_wood_ironage_bench_back_padded_pink_right_byg_sythian",
+      "y": 90
+    },
+    "facing=south,type=right,waterlogged=true": {
+      "model": "ironagefurniture:block/chair_wood_ironage_bench_back_padded_pink_right_byg_sythian",
+      "y": 180
+    },
+    "facing=west,type=right,waterlogged=true": {
+      "model": "ironagefurniture:block/chair_wood_ironage_bench_back_padded_pink_right_byg_sythian",
+      "y": 270
+    },
+    "facing=north,type=left,waterlogged=true": {
+      "model": "ironagefurniture:block/chair_wood_ironage_bench_back_padded_pink_left_byg_sythian",
+      "y": 0
+    },
+    "facing=east,type=left,waterlogged=true": {
+      "model": "ironagefurniture:block/chair_wood_ironage_bench_back_padded_pink_left_byg_sythian",
+      "y": 90
+    },
+    "facing=south,type=left,waterlogged=true": {
+      "model": "ironagefurniture:block/chair_wood_ironage_bench_back_padded_pink_left_byg_sythian",
+      "y": 180
+    },
+    "facing=west,type=left,waterlogged=true": {
+      "model": "ironagefurniture:block/chair_wood_ironage_bench_back_padded_pink_left_byg_sythian",
+      "y": 270
+    },
+    "facing=north,type=single,waterlogged=false": {
+      "model": "ironagefurniture:block/chair_wood_ironage_bench_back_padded_pink_single_byg_sythian",
+      "y": 0
+    },
+    "facing=east,type=single,waterlogged=false": {
+      "model": "ironagefurniture:block/chair_wood_ironage_bench_back_padded_pink_single_byg_sythian",
+      "y": 90
+    },
+    "facing=south,type=single,waterlogged=false": {
+      "model": "ironagefurniture:block/chair_wood_ironage_bench_back_padded_pink_single_byg_sythian",
+      "y": 180
+    },
+    "facing=west,type=single,waterlogged=false": {
+      "model": "ironagefurniture:block/chair_wood_ironage_bench_back_padded_pink_single_byg_sythian",
+      "y": 270
+    },
+    "facing=north,type=middle,waterlogged=false": {
+      "model": "ironagefurniture:block/chair_wood_ironage_bench_back_padded_pink_middle_byg_sythian",
+      "y": 0
+    },
+    "facing=east,type=middle,waterlogged=false": {
+      "model": "ironagefurniture:block/chair_wood_ironage_bench_back_padded_pink_middle_byg_sythian",
+      "y": 90
+    },
+    "facing=south,type=middle,waterlogged=false": {
+      "model": "ironagefurniture:block/chair_wood_ironage_bench_back_padded_pink_middle_byg_sythian",
+      "y": 180
+    },
+    "facing=west,type=middle,waterlogged=false": {
+      "model": "ironagefurniture:block/chair_wood_ironage_bench_back_padded_pink_middle_byg_sythian",
+      "y": 270
+    },
+    "facing=north,type=right,waterlogged=false": {
+      "model": "ironagefurniture:block/chair_wood_ironage_bench_back_padded_pink_right_byg_sythian",
+      "y": 0
+    },
+    "facing=east,type=right,waterlogged=false": {
+      "model": "ironagefurniture:block/chair_wood_ironage_bench_back_padded_pink_right_byg_sythian",
+      "y": 90
+    },
+    "facing=south,type=right,waterlogged=false": {
+      "model": "ironagefurniture:block/chair_wood_ironage_bench_back_padded_pink_right_byg_sythian",
+      "y": 180
+    },
+    "facing=west,type=right,waterlogged=false": {
+      "model": "ironagefurniture:block/chair_wood_ironage_bench_back_padded_pink_right_byg_sythian",
+      "y": 270
+    },
+    "facing=north,type=left,waterlogged=false": {
+      "model": "ironagefurniture:block/chair_wood_ironage_bench_back_padded_pink_left_byg_sythian",
+      "y": 0
+    },
+    "facing=east,type=left,waterlogged=false": {
+      "model": "ironagefurniture:block/chair_wood_ironage_bench_back_padded_pink_left_byg_sythian",
+      "y": 90
+    },
+    "facing=south,type=left,waterlogged=false": {
+      "model": "ironagefurniture:block/chair_wood_ironage_bench_back_padded_pink_left_byg_sythian",
+      "y": 180
+    },
+    "facing=west,type=left,waterlogged=false": {
+      "model": "ironagefurniture:block/chair_wood_ironage_bench_back_padded_pink_left_byg_sythian",
+      "y": 270
+    }
+  }
+}
