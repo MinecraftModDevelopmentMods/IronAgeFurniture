@@ -133,7 +133,7 @@ public class ItemInitialiser {
 		
 		if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_BENCHES.get()) {
 	    	event.getRegistry().registerAll(
-//	    			new BlockItem(BlockObjectHolder.chair_wood_ironage_bench_back_padded_black_single_byg_arisian, new BlockItem.Properties().tab(Ironagefurniture.IAF_GROUP)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_bench_back_padded_black_single_byg_arisian.getRegistryName().getPath()),
+	    			new BlockItem(BlockObjectHolder.chair_wood_ironage_bench_back_padded_black_single_byg_arisian, new BlockItem.Properties().tab(Ironagefurniture.IAF_GROUP)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_bench_back_padded_black_single_byg_arisian.getRegistryName().getPath())//,
 //	    			new BlockItem(BlockObjectHolder.chair_wood_ironage_bench_back_padded_black_single_byg_aspen, new BlockItem.Properties().tab(Ironagefurniture.IAF_GROUP)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_bench_back_padded_black_single_byg_aspen.getRegistryName().getPath()),
 //	    			new BlockItem(BlockObjectHolder.chair_wood_ironage_bench_back_padded_black_single_byg_baobab, new BlockItem.Properties().tab(Ironagefurniture.IAF_GROUP)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_bench_back_padded_black_single_byg_baobab.getRegistryName().getPath()),
 //	    			new BlockItem(BlockObjectHolder.chair_wood_ironage_bench_back_padded_black_single_byg_blue_enchanted, new BlockItem.Properties().tab(Ironagefurniture.IAF_GROUP)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.chair_wood_ironage_bench_back_padded_black_single_byg_blue_enchanted.getRegistryName().getPath()),
