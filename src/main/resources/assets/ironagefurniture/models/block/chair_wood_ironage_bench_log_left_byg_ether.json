@@ -1,7 +1,7 @@
 {
   "parent": "ironagefurniture:block/template_chair_wood_ironage_bench_log_left",
   "textures": {
-    "log": "byg:block/ether_planks",
+    "log": "byg:block/ether_log",
     "logtop": "byg:block/ether_log_top"
   }
 }

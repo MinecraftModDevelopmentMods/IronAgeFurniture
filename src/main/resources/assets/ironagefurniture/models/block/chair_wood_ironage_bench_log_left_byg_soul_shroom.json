@@ -1,7 +1,0 @@
-{
-  "parent": "ironagefurniture:block/template_chair_wood_ironage_bench_log_left",
-  "textures": {
-    "log": "byg:block/soul_shroom_planks",
-    "logtop": "byg:block/soul_shroom_log_top"
-  }
-}

@@ -1,7 +1,7 @@
 {
   "parent": "ironagefurniture:block/template_chair_wood_ironage_bench_log_middle",
   "textures": {
-    "log": "biomesoplenty:block/jacaranda_planks",
+    "log": "biomesoplenty:block/jacaranda_log",
     "logtop": "biomesoplenty:block/jacaranda_log_top"
   }
 }

@@ -1,7 +1,7 @@
 {
   "parent": "ironagefurniture:block/template_chair_wood_ironage_bench_log_right",
   "textures": {
-    "log": "minecraft:block/acacia_planks",
+    "log": "minecraft:block/acacia_log",
     "logtop": "minecraft:block/acacia_log_top"
   }
 }

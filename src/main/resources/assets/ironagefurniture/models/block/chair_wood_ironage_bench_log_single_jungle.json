@@ -1,7 +1,7 @@
 {
   "parent": "ironagefurniture:block/template_chair_wood_ironage_bench_log_single",
   "textures": {
-    "log": "minecraft:block/jungle_planks",
+    "log": "minecraft:block/jungle_log",
     "logtop": "minecraft:block/jungle_log_top"
   }
 }
