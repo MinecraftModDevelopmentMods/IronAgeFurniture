@@ -9,6 +9,10 @@ import com.mcmoddev.ironagefurniture.api.Blocks.LightHolderSconceFloor;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightHolderSconceWall;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceGlowdust;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceLava;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceRed;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceRedOne;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceRedThree;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceRedTwo;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceGlowFloor;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceGlowWall;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceLavaFloor;
@@ -1078,13 +1082,20 @@ public class BlockInitialiser {
 		event.getRegistry().register(new LightSourceSconceRedTorchWall(1,10, SoundType.METAL, "light_metal_ironage_sconce_wall_redtorch_iron"));
 		event.getRegistry().register(new LightSourceSconceRedTorchWallUnlit(1,10, SoundType.METAL, "light_metal_ironage_sconce_wall_redtorch_iron_unlit"));
 		
-		event.getRegistry().register(new LightSourceGlowdust(1,10, SoundType.METAL, "light_metal_ironage_block_floor_glow_clear"));
+		event.getRegistry().register(new LightSourceGlowdust(1,10, SoundType.GLASS, "light_metal_ironage_block_floor_glow_clear"));
 		event.getRegistry().register(new LightSourceSconceGlowFloor(1,10, SoundType.METAL, "light_metal_ironage_sconce_floor_glow_iron" ));
 		event.getRegistry().register(new LightSourceSconceGlowWall(1,10, SoundType.METAL, "light_metal_ironage_sconce_wall_glow_iron" ));
 		
-		event.getRegistry().register(new LightSourceLava(1,10, SoundType.METAL, "light_metal_ironage_block_floor_lava_clear"));
+		event.getRegistry().register(new LightSourceLava(1,10, SoundType.GLASS, "light_metal_ironage_block_floor_lava_clear"));
 		event.getRegistry().register(new LightSourceSconceLavaFloor(1,10, SoundType.METAL, "light_metal_ironage_sconce_floor_lava_iron" ));
 		event.getRegistry().register(new LightSourceSconceLavaWall(1,10, SoundType.METAL, "light_metal_ironage_sconce_wall_lava_iron" ));
+		
+		event.getRegistry().register(new LightSourceRed(1,10, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear"));
+		event.getRegistry().register(new LightSourceRedOne(1,10, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_one"));
+		event.getRegistry().register(new LightSourceRedTwo(1,10, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_two"));
+		event.getRegistry().register(new LightSourceRedThree(1,10, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_three"));
+		//event.getRegistry().register(new LightSourceSconceGlowFloor(1,10, SoundType.METAL, "light_metal_ironage_sconce_floor_glow_iron" ));
+		//event.getRegistry().register(new LightSourceSconceGlowWall(1,10, SoundType.METAL, "light_metal_ironage_sconce_wall_glow_iron" ));
 		
 		event.getRegistry().register(new ObsideanLump(1,10, SoundType.STONE, "obsidian_chunk"));
 		
