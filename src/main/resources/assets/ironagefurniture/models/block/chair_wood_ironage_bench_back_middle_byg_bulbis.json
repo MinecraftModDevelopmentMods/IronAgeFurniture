@@ -1,0 +1,7 @@
+{
+  "parent": "ironagefurniture:block/template_chair_wood_ironage_bench_back_middle",
+  "textures": {
+    "log": "byg:block/bulbis_planks",
+    "planks": "byg:block/bulbis_planks"
+  }
+}

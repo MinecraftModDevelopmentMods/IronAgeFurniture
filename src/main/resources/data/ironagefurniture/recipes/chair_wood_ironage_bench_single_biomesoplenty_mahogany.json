@@ -10,7 +10,7 @@
       ],
       "recipe": {
         "type": "minecraft:crafting_shaped",
-        "group": "bench",
+        "group": "furniture",
         "pattern": [
           "xx",
           "yy"

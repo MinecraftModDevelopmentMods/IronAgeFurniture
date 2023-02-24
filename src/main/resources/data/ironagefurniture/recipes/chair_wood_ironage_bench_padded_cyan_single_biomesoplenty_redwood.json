@@ -10,7 +10,6 @@
       ],
       "recipe": {
         "type": "crafting_shapeless",
-        "group": "bench_padded",
         "ingredients": [
           {
             "item": "minecraft:cyan_carpet"

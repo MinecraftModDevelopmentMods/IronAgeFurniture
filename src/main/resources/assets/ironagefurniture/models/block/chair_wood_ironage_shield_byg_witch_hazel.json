@@ -1,0 +1,7 @@
+{
+  "parent": "ironagefurniture:block/template_chair_wood_ironage_shield",
+  "textures": {
+    "log": "byg:block/witch_hazel_log",
+    "planks": "byg:block/witch_hazel_planks"
+  }
+}

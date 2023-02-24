@@ -1,0 +1,31 @@
+{
+  "rewards": {
+    "recipes": [
+      "ironagefurniture:chair_wood_ironage_bench_back_padded_red_single_byg_skyris"
+    ]
+  },
+  "criteria": {
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "ironagefurniture:chair_wood_ironage_bench_back_padded_red_single_byg_skyris"
+      }
+    },
+    "has_rock": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "byg:skyris_planks"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_rock"
+    ]
+  ]
+}

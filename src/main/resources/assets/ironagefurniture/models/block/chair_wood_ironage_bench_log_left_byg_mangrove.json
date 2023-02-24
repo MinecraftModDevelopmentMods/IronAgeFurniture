@@ -1,0 +1,7 @@
+{
+  "parent": "ironagefurniture:block/template_chair_wood_ironage_bench_log_left",
+  "textures": {
+    "log": "byg:block/mangrove_log",
+    "logtop": "byg:block/mangrove_log_top"
+  }
+}

@@ -1,7 +1,7 @@
 {
   "parent": "ironagefurniture:block/template_chair_wood_ironage_bench_log_right",
   "textures": {
-    "log": "immersiveengineering:block/wooden_decoration/treated_wood_vertical",
+    "log": "immersiveengineering:block/wooden_decoration/treated_wood_packaged",
     "logtop": "immersiveengineering:block/log_top"
   }
 }

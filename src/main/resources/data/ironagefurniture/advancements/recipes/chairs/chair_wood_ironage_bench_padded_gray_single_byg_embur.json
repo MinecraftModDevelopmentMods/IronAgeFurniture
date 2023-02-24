@@ -1,0 +1,31 @@
+{
+  "rewards": {
+    "recipes": [
+      "ironagefurniture:chair_wood_ironage_bench_padded_gray_single_byg_embur"
+    ]
+  },
+  "criteria": {
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "ironagefurniture:chair_wood_ironage_bench_padded_gray_single_byg_embur"
+      }
+    },
+    "has_rock": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "byg:embur_planks"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_rock"
+    ]
+  ]
+}
