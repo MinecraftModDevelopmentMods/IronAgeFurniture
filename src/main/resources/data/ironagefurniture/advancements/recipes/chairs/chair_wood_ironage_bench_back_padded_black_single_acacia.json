@@ -5,13 +5,7 @@
     ]
   },
   "criteria": {
-    "has_the_recipe": {
-      "trigger": "minecraft:recipe_unlocked",
-      "conditions": {
-        "recipe": "ironagefurniture:chair_wood_ironage_bench_back_padded_black_single_acacia"
-      }
-    },
-    "has_rock": {
+    "has_wood": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
@@ -24,8 +18,7 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_rock"
+      "has_wood"
     ]
   ]
 }

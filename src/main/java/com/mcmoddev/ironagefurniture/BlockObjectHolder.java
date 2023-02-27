@@ -32,6 +32,19 @@ public class BlockObjectHolder {
 	public static final Block light_metal_ironage_block_floor_red_clear_one = null;
 	public static final Block light_metal_ironage_block_floor_red_clear_two = null;
 	public static final Block light_metal_ironage_block_floor_red_clear_three = null;
+	public static final Block light_metal_ironage_block_floor_red_clear_four = null;
+	public static final Block light_metal_ironage_block_floor_red_clear_five = null;
+	public static final Block light_metal_ironage_block_floor_red_clear_six = null;
+	public static final Block light_metal_ironage_block_floor_red_clear_seven = null;
+	public static final Block light_metal_ironage_block_floor_red_clear_eight = null;
+	public static final Block light_metal_ironage_block_floor_red_clear_nine = null;
+	public static final Block light_metal_ironage_block_floor_red_clear_ten = null;
+	public static final Block light_metal_ironage_block_floor_red_clear_eleven = null;
+	public static final Block light_metal_ironage_block_floor_red_clear_twelve = null;
+	public static final Block light_metal_ironage_block_floor_red_clear_thirteen = null;
+	public static final Block light_metal_ironage_block_floor_red_clear_fourteen = null;
+	public static final Block light_metal_ironage_block_floor_red_clear_fifteen = null;
+	
 	public static final Block light_metal_ironage_sconce_floor_red_iron = null;
 	public static final Block light_metal_ironage_sconce_wall_red_iron = null;
 	

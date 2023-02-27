@@ -10,6 +10,11 @@ public class LightSourceRedOne extends LightSourceRed {
 
 	public static final int LIGHT_LEVEL = 1;
 	
+	@Override
+	protected int GetLightLevel() {
+		return 1;
+	}
+	
 	public LightSourceRedOne(Properties properties) {
 		super(properties);
 		
@@ -19,7 +24,7 @@ public class LightSourceRedOne extends LightSourceRed {
 	}
 	
 	public LightSourceRedOne(float hardness, float blastResistance, SoundType sound, String name) {
-		super(Block.Properties.of(Material.METAL).strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> {
+		super(Block.Properties.of(Material.GLASS).strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> {
 		    return LIGHT_LEVEL; }) );
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));

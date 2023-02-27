@@ -6,16 +6,16 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.Material;
 
-public class LightSourceRedTwo extends LightSourceRed {
+public class LightSourceRedEleven extends LightSourceRed {
 
-	public static final int LIGHT_LEVEL = 2;
+	public static final int LIGHT_LEVEL = 11;
 	
 	@Override
 	protected int GetLightLevel() {
-		return 2;
+		return 11;
 	}
 	
-	public LightSourceRedTwo(Properties properties) {
+	public LightSourceRedEleven(Properties properties) {
 		super(properties);
 		
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH).setValue(WATERLOGGED, false));
@@ -23,7 +23,7 @@ public class LightSourceRedTwo extends LightSourceRed {
         this.flameParticle = DustParticleOptions.REDSTONE;
 	}
 	
-	public LightSourceRedTwo(float hardness, float blastResistance, SoundType sound, String name) {
+	public LightSourceRedEleven(float hardness, float blastResistance, SoundType sound, String name) {
 		super(Block.Properties.of(Material.GLASS).strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> {
 		    return LIGHT_LEVEL; }) );
 

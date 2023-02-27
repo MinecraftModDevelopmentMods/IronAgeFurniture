@@ -30,5 +30,17 @@ public class LightRendering {
         ItemBlockRenderTypes.setRenderLayer(BlockObjectHolder.light_metal_ironage_block_floor_red_clear_one, RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(BlockObjectHolder.light_metal_ironage_block_floor_red_clear_two, RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(BlockObjectHolder.light_metal_ironage_block_floor_red_clear_three, RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(BlockObjectHolder.light_metal_ironage_block_floor_red_clear_four, RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(BlockObjectHolder.light_metal_ironage_block_floor_red_clear_five, RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(BlockObjectHolder.light_metal_ironage_block_floor_red_clear_six, RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(BlockObjectHolder.light_metal_ironage_block_floor_red_clear_seven, RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(BlockObjectHolder.light_metal_ironage_block_floor_red_clear_eight, RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(BlockObjectHolder.light_metal_ironage_block_floor_red_clear_nine, RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(BlockObjectHolder.light_metal_ironage_block_floor_red_clear_ten, RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(BlockObjectHolder.light_metal_ironage_block_floor_red_clear_eleven, RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(BlockObjectHolder.light_metal_ironage_block_floor_red_clear_twelve, RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(BlockObjectHolder.light_metal_ironage_block_floor_red_clear_thirteen, RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(BlockObjectHolder.light_metal_ironage_block_floor_red_clear_fourteen, RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(BlockObjectHolder.light_metal_ironage_block_floor_red_clear_fifteen, RenderType.cutout());
     }
 }
