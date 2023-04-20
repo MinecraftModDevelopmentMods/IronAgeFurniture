@@ -24,7 +24,7 @@ public class LightSourceSconceRedFloor extends LightSourceSconceGlowFloor implem
 	}
 	
 	protected Block LightDrop() {
-		return BlockObjectHolder.light_metal_ironage_block_floor_glow_clear;
+		return BlockObjectHolder.light_metal_ironage_block_floor_red_clear;
 	}
 	
 	public LightSourceSconceRedFloor(Properties properties) {

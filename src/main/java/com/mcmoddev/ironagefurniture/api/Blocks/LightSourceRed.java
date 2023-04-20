@@ -111,9 +111,9 @@ public class LightSourceRed extends FallingFurnitureBlock {
 		}
 	}
 
-	public int getSignal(BlockState state, BlockGetter getter, BlockPos pos, Direction direction) {
-		return Direction.UP != direction ? 15 : 0;
-	}
+//	public int getSignal(BlockState state, BlockGetter getter, BlockPos pos, Direction direction) {
+//		return Direction.UP != direction ? 15 : 0;
+//	}
 
 	protected boolean hasNeighborSignal(Level level, BlockPos pos, BlockState state) {
 		
@@ -211,9 +211,11 @@ public class LightSourceRed extends FallingFurnitureBlock {
 		super.tick(state, level, pos, rnd);
 	}
 
-	public boolean isSignalSource(BlockState state) {
-		return false;
-	}
+	
+	
+//	public boolean isSignalSource(BlockState state) {
+//		return false;
+//	}
 
 	private static boolean isToggledTooFrequently(Level level, BlockPos pos, boolean flag) {
 		List<LightSourceRed.Toggle> list = RECENT_TOGGLES.computeIfAbsent(level, (p_55680_) -> {
