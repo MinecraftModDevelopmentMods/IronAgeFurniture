@@ -85,17 +85,13 @@ public class LightSourceSconceRedTorchWall extends LightSourceSconceTorchWall {
 		}
 	}
 
-	public int getSignal(BlockState state, BlockGetter getter, BlockPos pos, Direction direction) {
-		return Direction.UP != direction ? 15 : 0;
+	public int getSignal(BlockState state, BlockGetter blockGetter, BlockPos pos, Direction direction) {
+		return state.getValue(DIRECTION) != direction ? 15 : 0;
 	}
 
 	protected boolean hasNeighborSignal(Level level, BlockPos pos, BlockState state) {
 		Direction direction = state.getValue(DIRECTION).getOpposite();
-
-		// boolean signal = level.hasSignal(pos.below(), Direction.DOWN); // FLOOR
-		boolean signal = level.hasSignal(pos.relative(direction), direction);
-
-		return signal;
+		return level.hasSignal(pos.relative(direction), direction);
 	}
 
 	public void tick(BlockState state, ServerLevel level, BlockPos pos, Random rnd) {
