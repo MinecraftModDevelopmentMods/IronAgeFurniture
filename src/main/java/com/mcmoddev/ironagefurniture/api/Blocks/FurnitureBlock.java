@@ -27,14 +27,14 @@ import oshi.util.tuples.Pair;
 public abstract class FurnitureBlock extends Block implements SimpleWaterloggedBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final DirectionProperty DIRECTION = BlockStateProperties.HORIZONTAL_FACING;
-    
+
     public ImmutableMap<BlockState, VoxelShape> _shapes;
-    
+
 	public FurnitureBlock(Properties properties) {
 		super(properties);
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	@Override
     public VoxelShape getShape(BlockState state, BlockGetter reader, BlockPos pos, CollisionContext context)
     {
@@ -46,37 +46,31 @@ public abstract class FurnitureBlock extends Block implements SimpleWaterloggedB
     {
         return _shapes.get(state);
     }
-    
+
 	public static VoxelShape rotate(VoxelShape source, Direction direction)
-    {    	
-    	switch(direction)
-        {
-            case WEST:                
-                return Shapes.box(1.0F - source.max(Direction.Axis.X), source.min(Direction.Axis.Y), 1.0F - source.max(Direction.Axis.Z), 1.0F - source.min(Direction.Axis.X), source.max(Direction.Axis.Y), 1.0F - source.min(Direction.Axis.Z));
-            case NORTH:
-                return Shapes.box(source.min(Direction.Axis.Z), source.min(Direction.Axis.Y), 1.0F - source.max(Direction.Axis.X), source.max(Direction.Axis.Z), source.max(Direction.Axis.Y), 1.0F - source.min(Direction.Axis.X));
-            case SOUTH:
-                return Shapes.box(1.0F - source.max(Direction.Axis.Z), source.min(Direction.Axis.Y), source.min(Direction.Axis.X), 1.0F - source.min(Direction.Axis.Z), source.max(Direction.Axis.Y), source.max(Direction.Axis.X));
-            default:
-            	return Shapes.box(source.min(Direction.Axis.X), source.min(Direction.Axis.Y), source.min(Direction.Axis.Z), source.max(Direction.Axis.X), source.max(Direction.Axis.Y), source.max(Direction.Axis.Z));
-        }	
+    {
+		return switch (direction) {
+			case WEST ->
+				Shapes.box(1.0F - source.max(Direction.Axis.X), source.min(Direction.Axis.Y), 1.0F - source.max(Direction.Axis.Z), 1.0F - source.min(Direction.Axis.X), source.max(Direction.Axis.Y), 1.0F - source.min(Direction.Axis.Z));
+			case NORTH ->
+				Shapes.box(source.min(Direction.Axis.Z), source.min(Direction.Axis.Y), 1.0F - source.max(Direction.Axis.X), source.max(Direction.Axis.Z), source.max(Direction.Axis.Y), 1.0F - source.min(Direction.Axis.X));
+			case SOUTH ->
+				Shapes.box(1.0F - source.max(Direction.Axis.Z), source.min(Direction.Axis.Y), source.min(Direction.Axis.X), 1.0F - source.min(Direction.Axis.Z), source.max(Direction.Axis.Y), source.max(Direction.Axis.X));
+			default ->
+				Shapes.box(source.min(Direction.Axis.X), source.min(Direction.Axis.Y), source.min(Direction.Axis.Z), source.max(Direction.Axis.X), source.max(Direction.Axis.Y), source.max(Direction.Axis.Z));
+		};
     }
-	
+
 	public static Pair<Double, Double> rotate(double x, double z, Direction direction)
-    {  
-    	switch(direction)
-        {
-            case WEST:
-                return new Pair<Double, Double>(1.0F - x, 1.0F - z);
-            case NORTH:
-                return new Pair<Double, Double>(z, 1.0F - x); 
-            case SOUTH:
-                return new Pair<Double, Double>(1.0F - z,  x);
-            default:
-            	return new Pair<Double, Double>(x,  z);
-        }
+    {
+		return switch (direction) {
+			case WEST -> new Pair<>(1.0F - x, 1.0F - z);
+			case NORTH -> new Pair<>(z, 1.0F - x);
+			case SOUTH -> new Pair<>(1.0F - z, x);
+			default -> new Pair<>(x, z);
+		};
     }
-	
+
 	@Override
     public boolean triggerEvent(BlockState state, Level world, BlockPos pos, int id, int type)
     {
@@ -90,18 +84,18 @@ public abstract class FurnitureBlock extends Block implements SimpleWaterloggedB
     {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
-    
+
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
     {
         super.createBlockStateDefinition(builder);
-        
+
         builder.add(DIRECTION);
         builder.add(WATERLOGGED);
     }
-    
+
     protected abstract void generateShapes(ImmutableList<BlockState> states);
-    
+
     @Override
     public BlockState rotate(BlockState state, Rotation rotation)
     {
@@ -113,7 +107,7 @@ public abstract class FurnitureBlock extends Block implements SimpleWaterloggedB
     {
         return state.rotate(mirror.getRotation(state.getValue(DIRECTION)));
     }
-    
+
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context)
     {
@@ -121,9 +115,9 @@ public abstract class FurnitureBlock extends Block implements SimpleWaterloggedB
         		.setValue(WATERLOGGED, context.getLevel().getFluidState(context.getClickedPos()).getType() == Fluids.WATER)
         		.setValue(DIRECTION, context.getHorizontalDirection());
     }
-    
+
     public static VoxelShape[] getShapes(VoxelShape source)
-    {      
+    {
         return new VoxelShape[] { rotate(source, Direction.SOUTH), rotate(source, Direction.WEST), rotate(source, Direction.NORTH), rotate(source, Direction.EAST) };
     }
 }

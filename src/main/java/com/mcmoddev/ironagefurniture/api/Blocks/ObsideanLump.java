@@ -11,17 +11,8 @@ import com.google.common.collect.ImmutableMap;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class ObsideanLump extends FurnitureBlock implements LiquidBlockContainer {
-	protected static final int AABB_STANDING_OFFSET = 2;
 	protected static final VoxelShape AABB = Block.box(6.0D, 0.0D, 6.0D, 10.0D, 4.0D, 10.0D);
-	
-	
-	public ObsideanLump(Properties properties) {
-		super(properties);
-		
-		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH).setValue(WATERLOGGED, false));
-        this.generateShapes(this.getStateDefinition().getPossibleStates());
-	}
-	
+
 	public ObsideanLump(float hardness, float blastResistance, SoundType sound, String name) {
 		super(Block.Properties.of(Material.STONE).strength(hardness, blastResistance).sound(sound));
 
@@ -37,7 +28,7 @@ public class ObsideanLump extends FurnitureBlock implements LiquidBlockContainer
 	        {
 	            builder.put(state, AABB);
 	        }
-	        
+
 	        _shapes = builder.build();
 	}
 }

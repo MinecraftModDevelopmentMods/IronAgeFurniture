@@ -23,16 +23,6 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 
 public class LightSourceSconceTorchWallUnlit extends LightSourceSconceTorchWall {
-	protected static final int AABB_STANDING_OFFSET = 2;
-	protected static final VoxelShape AABB = Block.box(6.0D, 0.0D, 6.0D, 10.0D, 10.0D, 10.0D);
-	
-	public LightSourceSconceTorchWallUnlit(Properties properties) {
-		super(properties);
-		
-		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH).setValue(WATERLOGGED, false));
-        this.generateShapes(this.getStateDefinition().getPossibleStates());
-	}
-	
 	public LightSourceSconceTorchWallUnlit(float hardness, float blastResistance, SoundType sound, String name) {
 		super(Block.Properties.of(Material.METAL).strength(hardness, blastResistance).sound(sound));
 
@@ -41,60 +31,59 @@ public class LightSourceSconceTorchWallUnlit extends LightSourceSconceTorchWall 
 		this.setRegistryName(name);
 	}
 
+	@Override
 	public void animateTick(BlockState state, Level level, BlockPos pos, Random random)
 	{
-      // mask function
 		if (level.hasNeighborSignal(pos))
 	    	  Light(state, level, pos);
     }
-	
 
 	@Override
 	public boolean canConnectRedstone(BlockState state, BlockGetter world, BlockPos pos, Direction direction) {
 		return true;
 	}
-	
+
 	private void Light(BlockState state, Level world, BlockPos pos) {
 		world.setBlock(pos, BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron.defaultBlockState()
 				.setValue(DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
 				.setValue(WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)), UPDATE_ALL);
 	}
-	
+
 	protected Block GetEmptyVariant() {
 		return BlockObjectHolder.light_metal_ironage_sconce_wall_empty_iron;
 	}
-	
+
 	@Override
 	protected InteractionResult ActivateSconce(BlockState state, Level world, BlockPos pos, Player player,
 			InteractionHand hand, BlockHitResult rayTraceResult) {
-		
+
 		ItemStack stackInHand = player.getItemInHand(hand);
 		boolean isWaterlogged = state.getValue(BlockStateProperties.WATERLOGGED);
-		
+
 		if (stackInHand.is(Items.FLINT_AND_STEEL) && !isWaterlogged) {
-			
+
 			if (!player.isCreative())
 				stackInHand.setDamageValue(stackInHand.getDamageValue()+1);
-		
+
 			Light(state, world, pos);
-			
+
 			return InteractionResult.SUCCESS;
 		}
-		
+
 		if (stackInHand.is(Blocks.TORCH.asItem()) && !isWaterlogged) {
 			Light(state, world, pos);
-			
+
 			return InteractionResult.SUCCESS;
 		}
-		
+
 		if (player.isCreative() && (stackInHand.is(Blocks.TORCH.asItem()) || stackInHand.isEmpty())) {
 			world.setBlock(pos, GetEmptyVariant().defaultBlockState()
 					.setValue(DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
 					.setValue(WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)), UPDATE_ALL);
-			
+
 			return InteractionResult.CONSUME_PARTIAL;
 		}
-		
+
 		return InteractionResult.FAIL;
 	}
 }

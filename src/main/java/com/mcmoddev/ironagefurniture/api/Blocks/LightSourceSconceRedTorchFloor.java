@@ -27,10 +27,6 @@ public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor 
 	public static final int RECENT_TOGGLE_TIMER = 60;
 	public static final int MAX_RECENT_TOGGLES = 8;
 	public static final int RESTART_DELAY = 160;
-	
-	protected Block GetRedVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_floor_redtorch_iron;
-	}
 
 	@Override
 	protected boolean CanEx() {
@@ -41,15 +37,15 @@ public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor 
 	protected Block LightDrop() {
 		return Blocks.REDSTONE_TORCH;
 	}
-	
+
 	public LightSourceSconceRedTorchFloor(Properties properties) {
 		super(properties);
-		
+
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH).setValue(WATERLOGGED, false));
         this.generateShapes(this.getStateDefinition().getPossibleStates());
         this.flameParticle = DustParticleOptions.REDSTONE;
 	}
-	
+
 	public LightSourceSconceRedTorchFloor(float hardness, float blastResistance, SoundType sound, String name) {
 		super(Block.Properties.of(Material.METAL).strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> {
 		    return 8; }) );
@@ -61,10 +57,6 @@ public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor 
 	}
 
 	@Override
-	public boolean canConnectRedstone(BlockState state, BlockGetter world, BlockPos pos, Direction direction) {
-		return true;
-	}
-	
 	public void animateTick(BlockState state, Level level, BlockPos pos, Random rand) {
 		if (HasFlame()) {
 			double d0 = (double)pos.getX() + 0.5D + (rand.nextDouble() - 0.5D) * 0.2D;
@@ -74,22 +66,23 @@ public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor 
 		}
 	}
 
+	@Override
 	public void onPlace(BlockState state, Level level, BlockPos pos, BlockState state2, boolean flag) {
 		for (Direction direction : Direction.values()) {
 			level.updateNeighborsAt(pos.relative(direction), this);
 		}
-
 	}
 
+	@Override
 	public void onRemove(BlockState state, Level level, BlockPos pos, BlockState state2, boolean flag) {
 		if (!flag) {
 			for (Direction direction : Direction.values()) {
 				level.updateNeighborsAt(pos.relative(direction), this);
 			}
-
 		}
 	}
 
+	@Override
 	public int getSignal(BlockState state, BlockGetter getter, BlockPos pos, Direction direction) {
 		return Direction.UP != direction ? 15 : 0;
 	}
@@ -98,6 +91,7 @@ public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor 
 		return level.hasSignal(pos.below(), Direction.DOWN);
 	}
 
+	@Override
 	public void tick(BlockState state, ServerLevel level, BlockPos pos, Random rnd) {
 		boolean flag = this.hasNeighborSignal(level, pos, state);
 		List<LightSourceSconceRedTorchWall.Toggle> list = RECENT_TOGGLES.get(level);
@@ -118,9 +112,9 @@ public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor 
 				level.scheduleTick(pos, level.getBlockState(pos).getBlock(), 160);
 			}
 		}
-
 	}
 
+	@Override
 	public boolean isSignalSource(BlockState state) {
 		return true;
 	}
@@ -158,8 +152,9 @@ public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor 
 		}
 	}
 
+	@Override
 	public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos blockPos,
-			boolean flag) {
+								boolean flag) {
 		boolean hasSignal = this.hasNeighborSignal(level, pos, state);
 		boolean willTick = level.getBlockTicks().willTickThisTick(pos, this);
 
@@ -168,6 +163,7 @@ public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor 
 		}
 	}
 
+	@Override
 	public int getDirectSignal(BlockState state, BlockGetter getter, BlockPos pos, Direction direction) {
 		return direction == Direction.DOWN ? state.getSignal(getter, pos, direction) : 0;
 	}
@@ -175,10 +171,5 @@ public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor 
 	@Override
 	protected Block UnlitVariant() {
 		return BlockObjectHolder.light_metal_ironage_sconce_floor_redtorch_iron_unlit;
-	}
-
-	@Override
-	protected Block EmptyVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron;
 	}
 }

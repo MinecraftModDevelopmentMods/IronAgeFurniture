@@ -30,10 +30,12 @@ public class LightSourceSconceRedTorchFloorUnlit extends LightSourceSconceRedTor
 		this.flameParticle = DustParticleOptions.REDSTONE;
 	}
 
+	@Override
 	public void animateTick(BlockState state, Level level, BlockPos pos, Random rand) {
 		//
 	}
 
+	@Override
 	public int getSignal(BlockState state, BlockGetter getter, BlockPos pos, Direction direction) {
 		return 0;
 	}
@@ -41,11 +43,12 @@ public class LightSourceSconceRedTorchFloorUnlit extends LightSourceSconceRedTor
 	protected Block GetLitVariant() {
 		return BlockObjectHolder.light_metal_ironage_sconce_floor_redtorch_iron;
 	}
-	
+
 	protected Block GetEmptyVariant() {
 		return BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron;
 	}
-	
+
+	@Override
 	public void tick(BlockState state, ServerLevel level, BlockPos pos, Random rnd) {
 		List<LightSourceSconceRedTorchWallUnlit.Toggle> list = RECENT_TOGGLES.get(level);
 
@@ -61,12 +64,14 @@ public class LightSourceSconceRedTorchFloorUnlit extends LightSourceSconceRedTor
 
 	}
 
+	@Override
 	public boolean isSignalSource(BlockState state) {
 		return true;
 	}
 
+	@Override
 	public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos blockPos,
-			boolean flag) {
+								boolean flag) {
 		if (!this.hasNeighborSignal(level, pos, state) && !level.getBlockTicks().willTickThisTick(pos, this)) {
 			level.scheduleTick(pos, this, 2);
 		}

@@ -37,39 +37,41 @@ public class LightSourceRed extends FallingFurnitureBlock {
 	public static final int MAX_RECENT_TOGGLES = 8;
 	public static final int RESTART_DELAY = 160;
 	public static final int LIGHT_LEVEL = 0;
-	
+
 	protected int GetLightLevel() {
 		return 0;
 	}
-	
+
+	@Override
 	public float getShadeBrightness(BlockState state, BlockGetter getter, BlockPos pos) {
 		return 1.0F;
 	}
-	
+
+	@Override
 	public boolean propagatesSkylightDown(BlockState state, BlockGetter getter, BlockPos pos) {
 		return true;
 	}
-	
+
 	@Override
     public List<ItemStack> getDrops(BlockState state, Builder builder) {
 		List<ItemStack> drops;
-    	
+
     	Item item = BlockObjectHolder.light_metal_ironage_block_floor_red_clear.asItem();
-    	ItemStack stack = new ItemStack(item, 1); 
-    	drops = new ArrayList<ItemStack>();
+    	ItemStack stack = new ItemStack(item, 1);
+    	drops = new ArrayList<>();
     	drops.add(stack);
-    	
+
     	return drops;
     }
-	
+
 	public LightSourceRed(Properties properties) {
 		super(properties);
-		
+
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH).setValue(WATERLOGGED, false));
         this.generateShapes(this.getStateDefinition().getPossibleStates());
         this.flameParticle = DustParticleOptions.REDSTONE;
 	}
-	
+
 	public LightSourceRed(float hardness, float blastResistance, SoundType sound, String name) {
 		super(Block.Properties.of(Material.GLASS).strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> {
 		    return LIGHT_LEVEL; }) );
@@ -91,107 +93,97 @@ public class LightSourceRed extends FallingFurnitureBlock {
 
 	            builder.put(state, shapes.optimize());
 	        }
-	        
+
 	        _shapes = builder.build();
 	}
-	
+
+	@Override
 	public void onPlace(BlockState state, Level level, BlockPos pos, BlockState state2, boolean flag) {
-		for (Direction direction : Direction.values()) {
+		for (Direction direction : Direction.values())
 			level.updateNeighborsAt(pos.relative(direction), this);
-		}
 
 		super.onPlace(state, level, pos, state2, flag);
 	}
 
+	@Override
 	public void onRemove(BlockState state, Level level, BlockPos pos, BlockState state2, boolean flag) {
-		if (!flag) {
-			for (Direction direction : Direction.values()) {
+		if (!flag)
+			for (Direction direction : Direction.values())
 				level.updateNeighborsAt(pos.relative(direction), this);
-			}
-		}
 	}
 
-//	public int getSignal(BlockState state, BlockGetter getter, BlockPos pos, Direction direction) {
-//		return Direction.UP != direction ? 15 : 0;
-//	}
-
 	protected boolean hasNeighborSignal(Level level, BlockPos pos, BlockState state) {
-		
 		return level.hasSignal(pos.below(), Direction.DOWN);
 	}
 
 	protected int getNeighborSignal(Level level, BlockPos pos, BlockState state) {
-		
 		return level.getSignal(pos.below(), Direction.DOWN);
 	}
-	
+
 	protected LightSourceRed getBlockBySignalLevel(int level) {
 		switch (level) {
-		case 0: {
+			case 1 -> {
+				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_one;
+			}
+			case 2 -> {
+				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_two;
+			}
+			case 3 -> {
+				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_three;
+			}
+			case 4 -> {
+				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_four;
+			}
+			case 5 -> {
+				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_five;
+			}
+			case 6 -> {
+				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_six;
+			}
+			case 7 -> {
+				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_seven;
+			}
+			case 8 -> {
+				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_eight;
+			}
+			case 9 -> {
+				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_nine;
+			}
+			case 10 -> {
+				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_ten;
+			}
+			case 11 -> {
+				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_eleven;
+			}
+			case 12 -> {
+				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_twelve;
+			}
+			case 13 -> {
+				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_thirteen;
+			}
+			case 14 -> {
+				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_fourteen;
+			}
+			case 15 -> {
+				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_fifteen;
+			}
+			default -> {
 				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear;
-		}
-		case 1: {
-			return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_one;
-		}
-		case 2: {
-			return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_two;
-		}
-		case 3: {
-			return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_three;
-		}
-		case 4: {
-			return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_four;
-		}
-		case 5: {
-			return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_five;
-		}
-		case 6: {
-			return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_six;
-		}
-		case 7: {
-			return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_seven;
-		}
-		case 8: {
-			return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_eight;
-		}
-		case 9: {
-			return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_nine;
-		}
-		case 10: {
-			return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_ten;
-		}
-		case 11: {
-			return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_eleven;
-		}
-		case 12: {
-			return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_twelve;
-		}
-		case 13: {
-			return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_thirteen;
-		}
-		case 14: {
-			return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_fourteen;
-		}
-		case 15: {
-			return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_fifteen;
-		}
-		default:
-			return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear;
+			}
 		}
 	}
-	
+
+	@Override
 	public void tick(BlockState state, ServerLevel level, BlockPos pos, Random rnd) {
 		int signal = this.getNeighborSignal(level, pos, state);
 		List<LightSourceRed.Toggle> list = RECENT_TOGGLES.get(level);
 
-		while (list != null && !list.isEmpty() && level.getGameTime() - (list.get(0)).when > 60L) {
+		while (list != null && !list.isEmpty() && level.getGameTime() - (list.get(0)).when > 60L)
 			list.remove(0);
-		}
 
 		if (signal != GetLightLevel()) {
 			LightSourceRed newBlock = getBlockBySignalLevel(signal);
-			
-			
+
 			level.setBlock(pos,
 					newBlock.defaultBlockState()
 							.setValue(DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
@@ -199,23 +191,17 @@ public class LightSourceRed extends FallingFurnitureBlock {
 					UPDATE_ALL);
 
 			Block block = level.getBlockState(pos).getBlock();
-			
+
 			level.scheduleTick(pos, block, newBlock.getDelayAfterPlace());
-			
+
 			if (isToggledTooFrequently(level, pos, true)) {
 				level.levelEvent(1502, pos, 0);
 				level.scheduleTick(pos, level.getBlockState(pos).getBlock(), 160);
 			}
 		}
-		
+
 		super.tick(state, level, pos, rnd);
 	}
-
-	
-	
-//	public boolean isSignalSource(BlockState state) {
-//		return false;
-//	}
 
 	private static boolean isToggledTooFrequently(Level level, BlockPos pos, boolean flag) {
 		List<LightSourceRed.Toggle> list = RECENT_TOGGLES.computeIfAbsent(level, (p_55680_) -> {
@@ -227,14 +213,15 @@ public class LightSourceRed extends FallingFurnitureBlock {
 
 		int i = 0;
 
-		for (int j = 0; j < list.size(); ++j) {
-			LightSourceRed.Toggle redstonetorchblock$toggle = list.get(j);
-			if (redstonetorchblock$toggle.pos.equals(pos)) {
-				++i;
-				if (i >= 8) {
-					return true;
-				}
-			}
+		for (Toggle redstonetorchblock$toggle : list) {
+
+			if (!redstonetorchblock$toggle.pos.equals(pos))
+				continue;
+
+			++i;
+
+			if (i >= 8)
+				return true;
 		}
 
 		return false;
@@ -249,33 +236,33 @@ public class LightSourceRed extends FallingFurnitureBlock {
 			this.when = when;
 		}
 	}
-	
+
 	@Override
 	public void animateTick(BlockState state, Level level, BlockPos pos, Random rnd) {
-		if (GetLightLevel() > 0) {	        
-	         double d0 = (double)pos.getX() + 0.5D + (rnd.nextDouble() - 0.5D) * 0.2D;
-	         double d1 = (double)pos.getY() + 0.25D + (rnd.nextDouble() - 0.5D) * 0.2D;
-	         double d2 = (double)pos.getZ() + 0.5D + (rnd.nextDouble() - 0.5D) * 0.2D;
-	         level.addParticle(this.flameParticle, d0, d1, d2, 0.0D, 0.0D, 0.0D);
-		}
-		
-		//super.animateTick(state, level, pos, rnd);
+		if (GetLightLevel() <= 0)
+			return;
+
+		double d0 = (double)pos.getX() + 0.5D + (rnd.nextDouble() - 0.5D) * 0.2D;
+		double d1 = (double)pos.getY() + 0.25D + (rnd.nextDouble() - 0.5D) * 0.2D;
+		double d2 = (double)pos.getZ() + 0.5D + (rnd.nextDouble() - 0.5D) * 0.2D;
+
+		level.addParticle(this.flameParticle, d0, d1, d2, 0.0D, 0.0D, 0.0D);
 	}
-	
+
+	@Override
 	public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos blockPos,
-			boolean flag) {
+								boolean flag) {
 		boolean hasSignal = this.hasNeighborSignal(level, pos, state);
 		boolean willTick = level.getBlockTicks().willTickThisTick(pos, this);
 
-		if (hasSignal && !willTick) {
+		if (hasSignal && !willTick)
 			level.scheduleTick(pos, this, 2);
-		}
 	}
 
+	@Override
 	public int getDirectSignal(BlockState state, BlockGetter getter, BlockPos pos, Direction direction) {
 		return direction == Direction.DOWN ? state.getSignal(getter, pos, direction) : 0;
 	}
-
 
 	@Override
 	public boolean canConnectRedstone(BlockState state, BlockGetter world, BlockPos pos, Direction direction) {

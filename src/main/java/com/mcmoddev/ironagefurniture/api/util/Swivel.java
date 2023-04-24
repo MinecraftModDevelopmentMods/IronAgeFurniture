@@ -7,63 +7,36 @@ import net.minecraft.core.Direction;
 public class Swivel {
 	public static Direction Rotate(Direction facing, Rotation rotation) {
 		switch (rotation) {
-		case Ninty:
-			switch (facing) {
-				case NORTH:
-					return Direction.EAST;
-	
-				case SOUTH:
-					return Direction.WEST;
-		
-				case EAST:
-					return Direction.SOUTH;		
-	
-				case WEST:
-					return Direction.NORTH;
-	
-				default:
-					return facing;		
+			case Ninty -> {
+				return switch (facing) {
+					case NORTH -> Direction.EAST;
+					case SOUTH -> Direction.WEST;
+					case EAST -> Direction.SOUTH;
+					case WEST -> Direction.NORTH;
+					default -> facing;
+				};
 			}
-			
-		case OneEighty:
-			switch (facing) {
-				case NORTH:
-					return Direction.SOUTH;
-	
-				case SOUTH:
-					return Direction.NORTH;
-		
-				case EAST:
-					return Direction.WEST;		
-	
-				case WEST:
-					return Direction.EAST;
-	
-				default:
-					return facing;		
+			case OneEighty -> {
+				return switch (facing) {
+					case NORTH -> Direction.SOUTH;
+					case SOUTH -> Direction.NORTH;
+					case EAST -> Direction.WEST;
+					case WEST -> Direction.EAST;
+					default -> facing;
+				};
 			}
-		case TwoSeventy:
-	
-			switch (facing) {
-				case NORTH:
-					return Direction.WEST;
-	
-				case SOUTH:
-					return Direction.EAST;
-		
-				case EAST:
-					return Direction.NORTH;		
-	
-				case WEST:
-					return Direction.SOUTH;
-	
-				default:
-					return facing;		
+			case TwoSeventy -> {
+				return switch (facing) {
+					case NORTH -> Direction.WEST;
+					case SOUTH -> Direction.EAST;
+					case EAST -> Direction.NORTH;
+					case WEST -> Direction.SOUTH;
+					default -> facing;
+				};
 			}
-	
-		default:
-			return facing;
-			
+			default -> {
+				return facing;
+			}
 		}
 	}
 }

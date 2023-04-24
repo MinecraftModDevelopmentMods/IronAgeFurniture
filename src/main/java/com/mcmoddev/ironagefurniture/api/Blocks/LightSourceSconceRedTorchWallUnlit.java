@@ -29,14 +29,17 @@ public class LightSourceSconceRedTorchWallUnlit extends LightSourceSconceRedTorc
 		this.flameParticle = ParticleTypes.FLAME;
 	}
 
+	@Override
 	public void animateTick(BlockState state, Level level, BlockPos pos, Random rand) {
 		//
 	}
 
+	@Override
 	public int getSignal(BlockState p_55694_, BlockGetter p_55695_, BlockPos p_55696_, Direction p_55697_) {
 		return 0;
 	}
 
+	@Override
 	public void tick(BlockState state, ServerLevel level, BlockPos pos, Random rnd) {
 		List<LightSourceSconceRedTorchWallUnlit.Toggle> list = RECENT_TOGGLES.get(level);
 
@@ -52,12 +55,14 @@ public class LightSourceSconceRedTorchWallUnlit extends LightSourceSconceRedTorc
 
 	}
 
+	@Override
 	public boolean isSignalSource(BlockState p_55730_) {
 		return true;
 	}
 
+	@Override
 	public void neighborChanged(BlockState state, Level level, BlockPos pos, Block p_55702_, BlockPos p_55703_,
-			boolean p_55704_) {
+								boolean p_55704_) {
 		if (!this.hasNeighborSignal(level, pos, state) && !level.getBlockTicks().willTickThisTick(pos, this)) {
 			level.scheduleTick(pos, this, 2);
 		}

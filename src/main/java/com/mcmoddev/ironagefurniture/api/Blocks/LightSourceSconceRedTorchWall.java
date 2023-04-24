@@ -52,6 +52,7 @@ public class LightSourceSconceRedTorchWall extends LightSourceSconceTorchWall {
 		this.flameParticle = DustParticleOptions.REDSTONE;
 	}
 
+	@Override
 	public void animateTick(BlockState state, Level level, BlockPos pos, Random rand) {
 		if (HasFlame()) {
 			Direction direction = state.getValue(DIRECTION);
@@ -69,13 +70,14 @@ public class LightSourceSconceRedTorchWall extends LightSourceSconceTorchWall {
 		}
 	}
 
+	@Override
 	public void onPlace(BlockState state, Level level, BlockPos pos, BlockState state2, boolean flag) {
 		for (Direction direction : Direction.values()) {
 			level.updateNeighborsAt(pos.relative(direction), this);
 		}
-
 	}
 
+	@Override
 	public void onRemove(BlockState state, Level level, BlockPos pos, BlockState state2, boolean flag) {
 		if (!flag) {
 			for (Direction direction : Direction.values()) {
@@ -85,6 +87,7 @@ public class LightSourceSconceRedTorchWall extends LightSourceSconceTorchWall {
 		}
 	}
 
+	@Override
 	public int getSignal(BlockState state, BlockGetter blockGetter, BlockPos pos, Direction direction) {
 		return state.getValue(DIRECTION) != direction ? 15 : 0;
 	}
@@ -94,6 +97,7 @@ public class LightSourceSconceRedTorchWall extends LightSourceSconceTorchWall {
 		return level.hasSignal(pos.relative(direction), direction);
 	}
 
+	@Override
 	public void tick(BlockState state, ServerLevel level, BlockPos pos, Random rnd) {
 		boolean flag = this.hasNeighborSignal(level, pos, state);
 		List<LightSourceSconceRedTorchWall.Toggle> list = RECENT_TOGGLES.get(level);
@@ -114,25 +118,22 @@ public class LightSourceSconceRedTorchWall extends LightSourceSconceTorchWall {
 				level.scheduleTick(pos, level.getBlockState(pos).getBlock(), 160);
 			}
 		}
-
 	}
 
+	@Override
 	public boolean isSignalSource(BlockState state) {
 		return true;
 	}
 
 	private static boolean isToggledTooFrequently(Level level, BlockPos pos, boolean flag) {
-		List<LightSourceSconceRedTorchWall.Toggle> list = RECENT_TOGGLES.computeIfAbsent(level, (p_55680_) -> {
-			return Lists.newArrayList();
-		});
+		List<LightSourceSconceRedTorchWall.Toggle> list = RECENT_TOGGLES.computeIfAbsent(level, (p_55680_) -> Lists.newArrayList());
 		if (flag) {
 			list.add(new LightSourceSconceRedTorchWall.Toggle(pos.immutable(), level.getGameTime()));
 		}
 
 		int i = 0;
 
-		for (int j = 0; j < list.size(); ++j) {
-			LightSourceSconceRedTorchWall.Toggle redstonetorchblock$toggle = list.get(j);
+		for (Toggle redstonetorchblock$toggle : list) {
 			if (redstonetorchblock$toggle.pos.equals(pos)) {
 				++i;
 				if (i >= 8) {
@@ -154,8 +155,9 @@ public class LightSourceSconceRedTorchWall extends LightSourceSconceTorchWall {
 		}
 	}
 
+	@Override
 	public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos blockPos,
-			boolean flag) {
+								boolean flag) {
 		boolean hasSignal = this.hasNeighborSignal(level, pos, state);
 		boolean willTick = level.getBlockTicks().willTickThisTick(pos, this);
 
@@ -164,6 +166,7 @@ public class LightSourceSconceRedTorchWall extends LightSourceSconceTorchWall {
 		}
 	}
 
+	@Override
 	public int getDirectSignal(BlockState state, BlockGetter getter, BlockPos pos, Direction direction) {
 		return direction == Direction.DOWN ? state.getSignal(getter, pos, direction) : 0;
 	}
@@ -173,16 +176,9 @@ public class LightSourceSconceRedTorchWall extends LightSourceSconceTorchWall {
 		return BlockObjectHolder.light_metal_ironage_sconce_wall_redtorch_iron_unlit;
 	}
 
-	@Override
-	protected Block EmptyVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_wall_empty_iron;
-	}
-
 	public LightSourceSconceRedTorchWall(float hardness, float blastResistance, SoundType sound, String name) {
 		super(Block.Properties.of(Material.METAL).strength(hardness, blastResistance).sound(sound)
-				.lightLevel((p_50886_) -> {
-					return 8;
-				}));
+				.lightLevel((p_50886_) -> 8));
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
