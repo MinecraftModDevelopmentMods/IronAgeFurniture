@@ -41,16 +41,18 @@ public class Bench extends BackBench {
 			shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(0, 6, 1, 16, 7, 15), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // bench body
 
 			switch (type) {
-				case SINGLE -> {
+				case SINGLE:
 					shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(2, 0, 4, 3, 7, 12), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR);//bench leg
 					shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(13, 0, 4, 14, 7, 12), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR);//bench leg
-				}
-				case LEFT ->
+					break;
+				case LEFT:
 					shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(2, 0, 4, 3, 7, 12), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR);
-				case RIGHT ->
+					break;
+				case RIGHT:
 					shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(13, 0, 4, 14, 7, 12), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR);
-				default -> {
-				}
+					break;
+				default:
+					break;
 			}
 
 			shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(0, 2, 7, 16, 4, 9), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); //bench crossbar

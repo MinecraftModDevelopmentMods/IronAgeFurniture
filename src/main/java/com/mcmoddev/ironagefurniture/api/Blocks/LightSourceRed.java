@@ -122,54 +122,38 @@ public class LightSourceRed extends FallingFurnitureBlock {
 
 	protected LightSourceRed getBlockBySignalLevel(int level) {
 		switch (level) {
-			case 1 -> {
+			case 1:
 				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_one;
-			}
-			case 2 -> {
+			case 2:
 				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_two;
-			}
-			case 3 -> {
+			case 3:
 				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_three;
-			}
-			case 4 -> {
+			case 4:
 				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_four;
-			}
-			case 5 -> {
+			case 5:
 				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_five;
-			}
-			case 6 -> {
+			case 6:
 				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_six;
-			}
-			case 7 -> {
+			case 7:
 				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_seven;
-			}
-			case 8 -> {
+			case 8:
 				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_eight;
-			}
-			case 9 -> {
+			case 9:
 				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_nine;
-			}
-			case 10 -> {
+			case 10:
 				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_ten;
-			}
-			case 11 -> {
+			case 11:
 				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_eleven;
-			}
-			case 12 -> {
+			case 12:
 				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_twelve;
-			}
-			case 13 -> {
+			case 13:
 				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_thirteen;
-			}
-			case 14 -> {
+			case 14:
 				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_fourteen;
-			}
-			case 15 -> {
+			case 15:
 				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_fifteen;
-			}
-			default -> {
+			default:
 				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear;
-			}
 		}
 	}
 

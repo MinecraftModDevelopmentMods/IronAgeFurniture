@@ -49,26 +49,30 @@ public abstract class FurnitureBlock extends Block implements SimpleWaterloggedB
 
 	public static VoxelShape rotate(VoxelShape source, Direction direction)
     {
-		return switch (direction) {
-			case WEST ->
-				Shapes.box(1.0F - source.max(Direction.Axis.X), source.min(Direction.Axis.Y), 1.0F - source.max(Direction.Axis.Z), 1.0F - source.min(Direction.Axis.X), source.max(Direction.Axis.Y), 1.0F - source.min(Direction.Axis.Z));
-			case NORTH ->
-				Shapes.box(source.min(Direction.Axis.Z), source.min(Direction.Axis.Y), 1.0F - source.max(Direction.Axis.X), source.max(Direction.Axis.Z), source.max(Direction.Axis.Y), 1.0F - source.min(Direction.Axis.X));
-			case SOUTH ->
-				Shapes.box(1.0F - source.max(Direction.Axis.Z), source.min(Direction.Axis.Y), source.min(Direction.Axis.X), 1.0F - source.min(Direction.Axis.Z), source.max(Direction.Axis.Y), source.max(Direction.Axis.X));
-			default ->
-				Shapes.box(source.min(Direction.Axis.X), source.min(Direction.Axis.Y), source.min(Direction.Axis.Z), source.max(Direction.Axis.X), source.max(Direction.Axis.Y), source.max(Direction.Axis.Z));
-		};
+		switch (direction) {
+			case WEST:
+				return Shapes.box(1.0F - source.max(Direction.Axis.X), source.min(Direction.Axis.Y), 1.0F - source.max(Direction.Axis.Z), 1.0F - source.min(Direction.Axis.X), source.max(Direction.Axis.Y), 1.0F - source.min(Direction.Axis.Z));
+			case NORTH:
+				return Shapes.box(source.min(Direction.Axis.Z), source.min(Direction.Axis.Y), 1.0F - source.max(Direction.Axis.X), source.max(Direction.Axis.Z), source.max(Direction.Axis.Y), 1.0F - source.min(Direction.Axis.X));
+			case SOUTH:
+				return Shapes.box(1.0F - source.max(Direction.Axis.Z), source.min(Direction.Axis.Y), source.min(Direction.Axis.X), 1.0F - source.min(Direction.Axis.Z), source.max(Direction.Axis.Y), source.max(Direction.Axis.X));
+			default:
+				return Shapes.box(source.min(Direction.Axis.X), source.min(Direction.Axis.Y), source.min(Direction.Axis.Z), source.max(Direction.Axis.X), source.max(Direction.Axis.Y), source.max(Direction.Axis.Z));
+		}
     }
 
 	public static Pair<Double, Double> rotate(double x, double z, Direction direction)
     {
-		return switch (direction) {
-			case WEST -> new Pair<>(1.0F - x, 1.0F - z);
-			case NORTH -> new Pair<>(z, 1.0F - x);
-			case SOUTH -> new Pair<>(1.0F - z, x);
-			default -> new Pair<>(x, z);
-		};
+		switch (direction) {
+			case WEST:
+				return new Pair<>(1.0F - x, 1.0F - z);
+			case NORTH:
+				return new Pair<>(z, 1.0F - x);
+			case SOUTH:
+				return new Pair<>(1.0F - z, x);
+			default:
+				return new Pair<>(x, z);
+		}
     }
 
 	@Override

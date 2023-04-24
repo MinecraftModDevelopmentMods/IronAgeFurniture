@@ -67,17 +67,18 @@ public class BackBench extends FurnitureBlock {
 			shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(0, 0, 0, 16, 16, 1), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // back
 
 			switch (type) {
-				case SINGLE -> {
-					//bench leg
+				case SINGLE:
 					shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(0, 0, 1, 1, 10, 12), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR);
 					shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(15, 0, 1, 16, 10, 12), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR);
-				}
-				case LEFT ->
+					break;
+				case LEFT:
 					shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(0, 0, 1, 1, 10, 12), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR);
-				case RIGHT ->
+					break;
+				case RIGHT:
 					shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(15, 0, 1, 16, 10, 12), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR);
-				default -> {
-				}
+					break;
+				default:
+					break;
 			}
 
 			//bench crossbar
@@ -293,12 +294,18 @@ public class BackBench extends FurnitureBlock {
 	}
 
 	private Rotation GetOpposite(Rotation rotation) {
-		return switch (rotation) {
-			case Ninty -> Rotation.TwoSeventy;
-			case OneEighty -> Rotation.Zero;
-			case TwoSeventy -> Rotation.Ninty;
-			case Zero -> Rotation.OneEighty;
-		};
+		switch (rotation) {
+			case Ninty:
+				return Rotation.TwoSeventy;
+			case OneEighty:
+				return Rotation.Zero;
+			case TwoSeventy:
+				return Rotation.Ninty;
+			case Zero:
+				return Rotation.OneEighty;
+			default:
+				throw new IllegalArgumentException();
+		}
 	}
 
 	private boolean isBenchEnd(Direction facing, Level world, BlockPos pos) {
