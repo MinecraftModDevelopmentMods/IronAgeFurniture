@@ -1,6 +1,6 @@
 package com.mcmoddev.ironagefurniture.api.util;
 
-import com.mcmoddev.ironagefurniture.api.Enumerations.Rotation;
+import com.mcmoddev.ironagefurniture.api.enumerations.Rotation;
 
 import net.minecraft.core.Direction;
 

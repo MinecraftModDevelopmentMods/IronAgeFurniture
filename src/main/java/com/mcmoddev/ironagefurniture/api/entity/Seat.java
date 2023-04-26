@@ -51,13 +51,15 @@ public class Seat extends Entity {
         if(this.source == null)
             this.source = this.blockPosition();
 
-        if(!this.level.isClientSide)
-            if(this.getPassengers().isEmpty() || this.level.isEmptyBlock(this.source))
-            {
-                this.remove(RemovalReason.DISCARDED);
-                this.level.updateNeighbourForOutputSignal(blockPosition(), this.level.getBlockState(blockPosition()).getBlock());
-            }
-    }
+		if (this.level.isClientSide)
+			return;
+
+		if(this.getPassengers().isEmpty() || this.level.isEmptyBlock(this.source))
+		{
+			this.remove(RemovalReason.DISCARDED);
+			this.level.updateNeighbourForOutputSignal(blockPosition(), this.level.getBlockState(blockPosition()).getBlock());
+		}
+	}
 
     public static InteractionResult create(Level level, BlockPos pos, double yOffset, Player player)
     {
