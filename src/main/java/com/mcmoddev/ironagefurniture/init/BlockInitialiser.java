@@ -2,35 +2,22 @@ package com.mcmoddev.ironagefurniture.init;
 
 import com.mcmoddev.ironagefurniture.IronAgeFurnitureConfiguration;
 import com.mcmoddev.ironagefurniture.Ironagefurniture;
-import com.mcmoddev.ironagefurniture.api.Blocks.Furniture.BackBench;
-import com.mcmoddev.ironagefurniture.api.Blocks.Furniture.Bench;
-import com.mcmoddev.ironagefurniture.api.Blocks.Furniture.Chair;
+import com.mcmoddev.ironagefurniture.api.Blocks.Furniture.*;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightHolder.LightHolderSconceFloor;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightHolder.LightHolderSconceWall;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSource.Glow.LightSourceGlowdust;
-import com.mcmoddev.ironagefurniture.api.Blocks.LightSource.Lava.LightSourceLava;
-import com.mcmoddev.ironagefurniture.api.Blocks.LightSource.Red.Illuminated.Sconce.Floor.*;
-import com.mcmoddev.ironagefurniture.api.Blocks.LightSource.Red.LightSourceRed;
-import com.mcmoddev.ironagefurniture.api.Blocks.LightSource.Red.Illuminated.Red.LightSourceRedEight;
-import com.mcmoddev.ironagefurniture.api.Blocks.LightSource.Red.Illuminated.Red.LightSourceRedEleven;
-import com.mcmoddev.ironagefurniture.api.Blocks.LightSource.Red.Illuminated.Red.LightSourceRedFifteen;
-import com.mcmoddev.ironagefurniture.api.Blocks.LightSource.Red.Illuminated.Red.LightSourceRedFive;
-import com.mcmoddev.ironagefurniture.api.Blocks.LightSource.Red.Illuminated.Red.LightSourceRedFour;
-import com.mcmoddev.ironagefurniture.api.Blocks.LightSource.Red.Illuminated.Red.LightSourceRedFourteen;
-import com.mcmoddev.ironagefurniture.api.Blocks.LightSource.Red.Illuminated.Red.LightSourceRedNine;
-import com.mcmoddev.ironagefurniture.api.Blocks.LightSource.Red.Illuminated.Red.LightSourceRedOne;
-import com.mcmoddev.ironagefurniture.api.Blocks.LightSource.Red.Illuminated.Red.LightSourceRedSeven;
-import com.mcmoddev.ironagefurniture.api.Blocks.LightSource.Red.Illuminated.Red.LightSourceRedSix;
-import com.mcmoddev.ironagefurniture.api.Blocks.LightSource.Red.Illuminated.Red.LightSourceRedTen;
-import com.mcmoddev.ironagefurniture.api.Blocks.LightSource.Red.Illuminated.Red.LightSourceRedThirteen;
-import com.mcmoddev.ironagefurniture.api.Blocks.LightSource.Red.Illuminated.Red.LightSourceRedThree;
-import com.mcmoddev.ironagefurniture.api.Blocks.LightSource.Red.Illuminated.Red.LightSourceRedTwelve;
-import com.mcmoddev.ironagefurniture.api.Blocks.LightSource.Red.Illuminated.Red.LightSourceRedTwo;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSource.Glow.LightSourceSconceGlowFloor;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSource.Glow.LightSourceSconceGlowWall;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSource.Lava.LightSourceLava;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSource.Lava.LightSourceSconceLavaFloor;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSource.Lava.LightSourceSconceLavaWall;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSource.Lava.ObsideanLump;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSource.Red.Illuminated.Red.*;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSource.Red.Illuminated.Sconce.Floor.*;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSource.Red.Illuminated.Sconce.Wall.*;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSource.Red.LightSourceRed;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSource.Red.LightSourceSconceRedFloor;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSource.Red.LightSourceSconceRedWall;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSource.RedTorch.LightSourceSconceRedTorchFloor;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSource.RedTorch.LightSourceSconceRedTorchFloorUnlit;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSource.RedTorch.LightSourceSconceRedTorchWall;
@@ -39,17 +26,18 @@ import com.mcmoddev.ironagefurniture.api.Blocks.LightSource.Torch.LightSourceSco
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSource.Torch.LightSourceSconceTorchFloorUnlit;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSource.Torch.LightSourceSconceTorchWall;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSource.Torch.LightSourceSconceTorchWallUnlit;
-import com.mcmoddev.ironagefurniture.api.Blocks.Furniture.LogBench;
-import com.mcmoddev.ironagefurniture.api.Blocks.LightSource.Lava.ObsideanLump;
-import com.mcmoddev.ironagefurniture.api.Blocks.Furniture.Stool;
-import com.mcmoddev.ironagefurniture.api.Blocks.Furniture.TallStool;
-
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
+
+import static com.mcmoddev.ironagefurniture.init.resources.bop.BOP_WOOD_TYPES;
+import static com.mcmoddev.ironagefurniture.init.resources.byg.BYG_WOOD_TYPES;
+import static com.mcmoddev.ironagefurniture.init.resources.colours.COLOURS;
+import static com.mcmoddev.ironagefurniture.init.resources.immersiveengineering.IE_WOOD_TYPES;
+import static com.mcmoddev.ironagefurniture.init.resources.vanilla.VANILLA_WOOD_TYPES;
 
 
 /**
@@ -64,7 +52,6 @@ public class BlockInitialiser {
 	}
 
 	public static void registerChairs(RegistryEvent.Register<Block> event, String[] woods, boolean shield, boolean shortStool, boolean tallStool, boolean bench, boolean log) {
-		String[] colours = {"green", "light_blue", "light_gray", "lime", "magenta", "orange", "pink", "purple", "red", "white", "yellow", "black", "blue", "brown", "cyan", "gray"};
 
 		for (String wood : woods) {
 			event.getRegistry().register(new Chair(1, 10, SoundType.WOOD, "chair_wood_ironage_classic_" + wood));
@@ -82,7 +69,7 @@ public class BlockInitialiser {
 				event.getRegistry().register(new Bench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_single_" + wood));
 				event.getRegistry().register(new BackBench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_back_single_" + wood));
 
-				for (String colour : colours) {
+				for (String colour : COLOURS) {
 					event.getRegistry().register(new Bench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_padded_" + colour + "_single_" + wood));
 					event.getRegistry().register(new BackBench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_" + colour + "_single_" + wood));
 				}
@@ -153,11 +140,26 @@ public class BlockInitialiser {
 		event.getRegistry().register(new LightSourceSconceRedFloorFourteen(1, 10, SoundType.METAL, "light_metal_ironage_sconce_floor_red_iron_fourteen"));
 		event.getRegistry().register(new LightSourceSconceRedFloorFifteen(1, 10, SoundType.METAL, "light_metal_ironage_sconce_floor_red_iron_fifteen"));
 
+		event.getRegistry().register(new LightSourceSconceRedWall(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_red_iron"));
+		event.getRegistry().register(new LightSourceSconceRedWallOne(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_red_iron_one"));
+		event.getRegistry().register(new LightSourceSconceRedWallTwo(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_red_iron_two"));
+		event.getRegistry().register(new LightSourceSconceRedWallThree(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_red_iron_three"));
+		event.getRegistry().register(new LightSourceSconceRedWallFour(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_red_iron_four"));
+		event.getRegistry().register(new LightSourceSconceRedWallFive(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_red_iron_five"));
+		event.getRegistry().register(new LightSourceSconceRedWallSix(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_red_iron_six"));
+		event.getRegistry().register(new LightSourceSconceRedWallSeven(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_red_iron_seven"));
+		event.getRegistry().register(new LightSourceSconceRedWallEight(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_red_iron_eight"));
+		event.getRegistry().register(new LightSourceSconceRedWallNine(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_red_iron_nine"));
+		event.getRegistry().register(new LightSourceSconceRedWallTen(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_red_iron_ten"));
+		event.getRegistry().register(new LightSourceSconceRedWallEleven(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_red_iron_eleven"));
+		event.getRegistry().register(new LightSourceSconceRedWallTwelve(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_red_iron_twelve"));
+		event.getRegistry().register(new LightSourceSconceRedWallThirteen(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_red_iron_thirteen"));
+		event.getRegistry().register(new LightSourceSconceRedWallFourteen(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_red_iron_fourteen"));
+		event.getRegistry().register(new LightSourceSconceRedWallFifteen(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_red_iron_fifteen"));
+
 		event.getRegistry().register(new ObsideanLump(1, 10, SoundType.STONE, "obsidian_chunk"));
 
-		String[] vanillaWood = {"oak", "acacia", "dark_oak", "birch", "jungle", "spruce"};
-
-		registerChairs(event, vanillaWood,
+		registerChairs(event, VANILLA_WOOD_TYPES,
 			IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHIELD_CHAIRS.get(),
 			IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHORT_STOOLS.get(),
 			IronAgeFurnitureConfiguration.CLIENT.GENERATE_TALL_STOOLS.get(),
@@ -165,12 +167,7 @@ public class BlockInitialiser {
 
 
 		if (IronAgeFurnitureConfiguration.CLIENT.INTEGRATION_BIOMESOPLENTY.get() && ModList.get().isLoaded("biomesoplenty")) {
-			String[] bopWood = {"biomesoplenty_cherry", "biomesoplenty_fir", "biomesoplenty_hellbark",
-				"biomesoplenty_jacaranda", "biomesoplenty_mahogany", "biomesoplenty_palm",
-				"biomesoplenty_redwood", "biomesoplenty_umbran", "biomesoplenty_willow",
-				"biomesoplenty_dead"};
-
-			registerChairs(event, bopWood,
+			registerChairs(event, BOP_WOOD_TYPES,
 				IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHIELD_CHAIRS.get(),
 				IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHORT_STOOLS.get(),
 				IronAgeFurnitureConfiguration.CLIENT.GENERATE_TALL_STOOLS.get(),
@@ -178,13 +175,7 @@ public class BlockInitialiser {
 		}
 
 		if (IronAgeFurnitureConfiguration.CLIENT.INTEGRATION_BIOMESYOUGO.get() && ModList.get().isLoaded("byg")) {
-			String[] bygWood = {"byg_aspen", "byg_baobab", "byg_blue_enchanted", "byg_bulbis", "byg_cherry", "byg_cika",
-				"byg_cypress", "byg_ebony", "byg_embur", "byg_ether", "byg_fir", "byg_glacial_oak", "byg_green_enchanted",
-				"byg_holly", "byg_ironwood", "byg_jacaranda", "byg_lament", "byg_mahogany", "byg_mangrove", "byg_maple", "byg_nightshade",
-				"byg_palm", "byg_pine", "byg_rainbow_eucalyptus", "byg_redwood", "byg_skyris", "byg_willow", "byg_witch_hazel", "byg_zelkova"};
-
-
-			registerChairs(event, bygWood,
+			registerChairs(event, BYG_WOOD_TYPES,
 				IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHIELD_CHAIRS.get(),
 				IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHORT_STOOLS.get(),
 				IronAgeFurnitureConfiguration.CLIENT.GENERATE_TALL_STOOLS.get(),
@@ -193,9 +184,7 @@ public class BlockInitialiser {
 		}
 
 		if (IronAgeFurnitureConfiguration.CLIENT.INTEGRATION_IMMERSIVEENGINEERING.get() && ModList.get().isLoaded("immersiveengineering")) {
-			String[] ieWood = {"immersiveengineering_treated_wood"};
-
-			registerChairs(event, ieWood,
+			registerChairs(event, IE_WOOD_TYPES,
 				IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHIELD_CHAIRS.get(),
 				IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHORT_STOOLS.get(),
 				IronAgeFurnitureConfiguration.CLIENT.GENERATE_TALL_STOOLS.get(),

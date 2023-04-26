@@ -58,5 +58,21 @@ public class LightRendering {
 		ItemBlockRenderTypes.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_thirteen, RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_fourteen, RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_fifteen, RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron, RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_one, RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_two, RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_three, RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_four, RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_five, RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_six, RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_seven, RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_eight, RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_nine, RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_ten, RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_eleven, RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_twelve, RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_thirteen, RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_fourteen, RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_fifteen, RenderType.cutout());
 	}
 }

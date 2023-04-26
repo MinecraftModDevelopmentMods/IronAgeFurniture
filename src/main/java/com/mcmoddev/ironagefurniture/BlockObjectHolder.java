@@ -63,7 +63,21 @@ public class BlockObjectHolder {
 	public static final Block light_metal_ironage_sconce_floor_red_iron_fifteen = null;
 
 	public static final Block light_metal_ironage_sconce_wall_red_iron = null;
-
+	public static final Block light_metal_ironage_sconce_wall_red_iron_one = null;
+	public static final Block light_metal_ironage_sconce_wall_red_iron_two = null;
+	public static final Block light_metal_ironage_sconce_wall_red_iron_three = null;
+	public static final Block light_metal_ironage_sconce_wall_red_iron_four = null;
+	public static final Block light_metal_ironage_sconce_wall_red_iron_five = null;
+	public static final Block light_metal_ironage_sconce_wall_red_iron_six = null;
+	public static final Block light_metal_ironage_sconce_wall_red_iron_seven = null;
+	public static final Block light_metal_ironage_sconce_wall_red_iron_eight = null;
+	public static final Block light_metal_ironage_sconce_wall_red_iron_nine = null;
+	public static final Block light_metal_ironage_sconce_wall_red_iron_ten = null;
+	public static final Block light_metal_ironage_sconce_wall_red_iron_eleven = null;
+	public static final Block light_metal_ironage_sconce_wall_red_iron_twelve = null;
+	public static final Block light_metal_ironage_sconce_wall_red_iron_thirteen = null;
+	public static final Block light_metal_ironage_sconce_wall_red_iron_fourteen = null;
+	public static final Block light_metal_ironage_sconce_wall_red_iron_fifteen = null;
 
 
 	public static final Block obsidian_chunk = null;

@@ -50,44 +50,43 @@ public class LightSourceSconceRedTorchWall extends LightSourceSconceTorchWall {
 		super(properties);
 
 		this.registerDefaultState(
-				this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH).setValue(FurnitureBlock.WATERLOGGED, false));
+			this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH).setValue(FurnitureBlock.WATERLOGGED, false));
+
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
 		this.flameParticle = DustParticleOptions.REDSTONE;
 	}
 
 	@Override
 	public void animateTick(BlockState state, Level level, BlockPos pos, Random rand) {
-		if (HasFlame()) {
-			Direction direction = state.getValue(FurnitureBlock.DIRECTION);
+		if (!HasFlame())
+			return;
 
-			Pair<Double, Double> rotated = FurnitureBlock.rotate(0.6D, 0.5D, state.getValue(FurnitureBlock.DIRECTION));
+		Direction direction = state.getValue(FurnitureBlock.DIRECTION);
+		Pair<Double, Double> rotated = FurnitureBlock.rotate(0.6D, 0.5D, state.getValue(FurnitureBlock.DIRECTION));
 
-			double d0 = (double) pos.getX() + rotated.getA();
-			double d1 = (double) pos.getY() + 0.8D;
-			double d2 = (double) pos.getZ() + rotated.getB();
+		double d0 = (double) pos.getX() + rotated.getA();
+		double d1 = (double) pos.getY() + 0.8D;
+		double d2 = (double) pos.getZ() + rotated.getB();
 
-			Direction direction1 = direction.getOpposite();
+		Direction direction1 = direction.getOpposite();
 
-			level.addParticle(this.flameParticle, d0 + 0.27D * (double) direction1.getStepX(), d1 + 0.22D,
-					d2 + 0.27D * (double) direction1.getStepZ(), 0.0D, 0.0D, 0.0D);
-		}
+		level.addParticle(this.flameParticle, d0 + 0.27D * (double) direction1.getStepX(), d1 + 0.22D,
+			d2 + 0.27D * (double) direction1.getStepZ(), 0.0D, 0.0D, 0.0D);
 	}
 
 	@Override
 	public void onPlace(BlockState state, Level level, BlockPos pos, BlockState state2, boolean flag) {
-		for (Direction direction : Direction.values()) {
+		for (Direction direction : Direction.values())
 			level.updateNeighborsAt(pos.relative(direction), this);
-		}
 	}
 
 	@Override
 	public void onRemove(BlockState state, Level level, BlockPos pos, BlockState state2, boolean flag) {
-		if (!flag) {
-			for (Direction direction : Direction.values()) {
-				level.updateNeighborsAt(pos.relative(direction), this);
-			}
+		if (flag)
+			return;
 
-		}
+		for (Direction direction : Direction.values())
+			level.updateNeighborsAt(pos.relative(direction), this);
 	}
 
 	@Override
@@ -105,22 +104,23 @@ public class LightSourceSconceRedTorchWall extends LightSourceSconceTorchWall {
 		boolean flag = this.hasNeighborSignal(level, pos, state);
 		List<LightSourceSconceRedTorchWall.Toggle> list = RECENT_TOGGLES.get(level);
 
-		while (list != null && !list.isEmpty() && level.getGameTime() - (list.get(0)).when > 60L) {
+		while (list != null && !list.isEmpty() && level.getGameTime() - (list.get(0)).when > 60L)
 			list.remove(0);
-		}
 
-		if (flag) {
-			level.setBlock(pos,
-					UnlitVariant().defaultBlockState()
-							.setValue(FurnitureBlock.DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
-							.setValue(FurnitureBlock.WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)),
-					Block.UPDATE_ALL);
+		if (!flag)
+			return;
 
-			if (isToggledTooFrequently(level, pos, true)) {
-				level.levelEvent(1502, pos, 0);
-				level.scheduleTick(pos, level.getBlockState(pos).getBlock(), 160);
-			}
-		}
+		level.setBlock(pos,
+			UnlitVariant().defaultBlockState()
+				.setValue(FurnitureBlock.DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
+				.setValue(FurnitureBlock.WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)),
+			Block.UPDATE_ALL);
+
+		if (!isToggledTooFrequently(level, pos, true))
+			return;
+
+		level.levelEvent(1502, pos, 0);
+		level.scheduleTick(pos, level.getBlockState(pos).getBlock(), 160);
 	}
 
 	@Override
@@ -130,19 +130,20 @@ public class LightSourceSconceRedTorchWall extends LightSourceSconceTorchWall {
 
 	private static boolean isToggledTooFrequently(Level level, BlockPos pos, boolean flag) {
 		List<LightSourceSconceRedTorchWall.Toggle> list = RECENT_TOGGLES.computeIfAbsent(level, (p_55680_) -> Lists.newArrayList());
-		if (flag) {
-			list.add(new LightSourceSconceRedTorchWall.Toggle(pos.immutable(), level.getGameTime()));
-		}
+
+		if (flag)
+			list.add(new Toggle(pos.immutable(), level.getGameTime()));
 
 		int i = 0;
 
 		for (Toggle redstonetorchblock$toggle : list) {
-			if (redstonetorchblock$toggle.pos.equals(pos)) {
-				++i;
-				if (i >= 8) {
-					return true;
-				}
-			}
+			if (!redstonetorchblock$toggle.pos.equals(pos))
+				continue;
+
+			i++;
+
+			if (i >= 8)
+				return true;
 		}
 
 		return false;
@@ -161,12 +162,12 @@ public class LightSourceSconceRedTorchWall extends LightSourceSconceTorchWall {
 	@Override
 	public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos blockPos,
 								boolean flag) {
+
 		boolean hasSignal = this.hasNeighborSignal(level, pos, state);
 		boolean willTick = level.getBlockTicks().willTickThisTick(pos, this);
 
-		if (hasSignal && !willTick) {
+		if (hasSignal && !willTick)
 			level.scheduleTick(pos, this, 2);
-		}
 	}
 
 	@Override
@@ -181,7 +182,7 @@ public class LightSourceSconceRedTorchWall extends LightSourceSconceTorchWall {
 
 	public LightSourceSconceRedTorchWall(float hardness, float blastResistance, SoundType sound, String name) {
 		super(Block.Properties.of(Material.METAL).strength(hardness, blastResistance).sound(sound)
-				.lightLevel((p_50886_) -> 8));
+			.lightLevel((p_50886_) -> 8));
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
