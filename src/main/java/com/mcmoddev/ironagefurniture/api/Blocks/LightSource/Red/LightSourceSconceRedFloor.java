@@ -212,7 +212,7 @@ public class LightSourceSconceRedFloor extends LightSourceSconceGlowFloor implem
 		boolean hasSignal = this.hasNeighborSignal(level, pos, state);
 		boolean willTick = level.getBlockTicks().willTickThisTick(pos, this);
 
-		if (hasSignal && !willTick)
+		if ((hasSignal || GetLightLevel() > 0) && !willTick)
 			level.scheduleTick(pos, this, 2);
 	}
 

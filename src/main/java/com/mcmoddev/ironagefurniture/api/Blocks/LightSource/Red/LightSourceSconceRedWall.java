@@ -106,10 +106,10 @@ public class LightSourceSconceRedWall extends LightSourceSconceTorchWall {
 			level.updateNeighborsAt(pos.relative(direction), this);
 	}
 
-	@Override
-	public int getSignal(BlockState state, BlockGetter blockGetter, BlockPos pos, Direction direction) {
-		return state.getValue(FurnitureBlock.DIRECTION) != direction ? 15 : 0;
-	}
+//	@Override
+//	public int getSignal(BlockState state, BlockGetter blockGetter, BlockPos pos, Direction direction) {
+//		return state.getValue(FurnitureBlock.DIRECTION) != direction ? getNeighborSignal() : 0;
+//	}
 
 	protected boolean hasNeighborSignal(Level level, BlockPos pos, BlockState state) {
 		Direction direction = state.getValue(FurnitureBlock.DIRECTION).getOpposite();
@@ -118,7 +118,7 @@ public class LightSourceSconceRedWall extends LightSourceSconceTorchWall {
 
 	protected int getNeighborSignal(Level level, BlockPos pos, BlockState state) {
 		Direction direction = state.getValue(FurnitureBlock.DIRECTION).getOpposite();
-		return level.getSignal(pos, direction);
+		return level.getSignal(pos.relative(direction), direction);
 	}
 
 	protected LightSourceSconceRedWall getBlockBySignalLevel(int level) {
@@ -249,7 +249,7 @@ public class LightSourceSconceRedWall extends LightSourceSconceTorchWall {
 		boolean hasSignal = this.hasNeighborSignal(level, pos, state);
 		boolean willTick = level.getBlockTicks().willTickThisTick(pos, this);
 
-		if (hasSignal && !willTick)
+		if ((hasSignal || GetLightLevel() > 0) && !willTick)
 			level.scheduleTick(pos, this, 2);
 	}
 
