@@ -1,7 +1,7 @@
 package com.mcmoddev.ironagefurniture.api.properties;
 
 import com.google.common.collect.Lists;
-import com.mcmoddev.ironagefurniture.api.Enumerations.BenchType;
+import com.mcmoddev.ironagefurniture.api.enumerations.BenchType;
 
 import java.util.Arrays;
 import java.util.Collection;
