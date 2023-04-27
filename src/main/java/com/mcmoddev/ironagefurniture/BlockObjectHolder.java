@@ -79,7 +79,8 @@ public class BlockObjectHolder {
 	public static final Block light_metal_ironage_sconce_wall_red_iron_fourteen = null;
 	public static final Block light_metal_ironage_sconce_wall_red_iron_fifteen = null;
 
-
+	public static final Block light_metal_ironage_sconce_floor_soultorch_iron = null;
+	public static final Block light_metal_ironage_sconce_wall_soultorch_iron = null;
 	public static final Block obsidian_chunk = null;
 
 	public static final Block chair_wood_ironage_classic_oak = null;

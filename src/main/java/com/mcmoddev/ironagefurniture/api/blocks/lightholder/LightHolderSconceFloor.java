@@ -131,8 +131,16 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 		return BlockObjectHolder.light_metal_ironage_sconce_floor_redtorch_iron;
 	}
 
+	protected Block GetSoulTorchVariant() {
+		return BlockObjectHolder.light_metal_ironage_sconce_floor_soultorch_iron;
+	}
+
 	protected Block GetRedVariant() {
 		return BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron;
+	}
+
+	protected Block GetSoulVariant() {
+		return BlockObjectHolder.light_metal_ironage_sconce_floor_soultorch_iron;
 	}
 
 	protected Block GetUnlitTorchVariant() {
@@ -164,6 +172,9 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 
 		if (stackInHand.is(Blocks.REDSTONE_TORCH.asItem()))
 			return getInteractionResult(state, world, pos, player, stackInHand, GetRedTorchVariant());
+
+		if (stackInHand.is(Blocks.SOUL_TORCH.asItem()))
+			return getInteractionResult(state, world, pos, player, stackInHand, GetSoulTorchVariant());
 
 		if (stackInHand.is(BlockObjectHolder.light_metal_ironage_block_floor_red_clear.asItem()))
 			return getInteractionResult(state, world, pos, player, stackInHand, GetRedVariant());

@@ -22,6 +22,8 @@ import com.mcmoddev.ironagefurniture.api.blocks.lightsource.redtorch.LightSource
 import com.mcmoddev.ironagefurniture.api.blocks.lightsource.redtorch.LightSourceSconceRedTorchFloorUnlit;
 import com.mcmoddev.ironagefurniture.api.blocks.lightsource.redtorch.LightSourceSconceRedTorchWall;
 import com.mcmoddev.ironagefurniture.api.blocks.lightsource.redtorch.LightSourceSconceRedTorchWallUnlit;
+import com.mcmoddev.ironagefurniture.api.blocks.lightsource.soultorch.LightSourceSconceSoulTorchFloor;
+import com.mcmoddev.ironagefurniture.api.blocks.lightsource.soultorch.LightSourceSconceSoulTorchWall;
 import com.mcmoddev.ironagefurniture.api.blocks.lightsource.torch.LightSourceSconceTorchFloor;
 import com.mcmoddev.ironagefurniture.api.blocks.lightsource.torch.LightSourceSconceTorchFloorUnlit;
 import com.mcmoddev.ironagefurniture.api.blocks.lightsource.torch.LightSourceSconceTorchWall;
@@ -94,6 +96,9 @@ public class BlockInitialiser {
 
 		event.getRegistry().register(new LightSourceSconceTorchWall(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_torch_iron"));
 		event.getRegistry().register(new LightSourceSconceTorchWallUnlit(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_torch_iron_unlit"));
+
+		event.getRegistry().register(new LightSourceSconceSoulTorchFloor(1, 10, SoundType.METAL, "light_metal_ironage_sconce_floor_soultorch_iron"));
+		event.getRegistry().register(new LightSourceSconceSoulTorchWall(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_soultorch_iron"));
 
 		event.getRegistry().register(new LightSourceSconceRedTorchWall(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_redtorch_iron"));
 		event.getRegistry().register(new LightSourceSconceRedTorchWallUnlit(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_redtorch_iron_unlit"));
