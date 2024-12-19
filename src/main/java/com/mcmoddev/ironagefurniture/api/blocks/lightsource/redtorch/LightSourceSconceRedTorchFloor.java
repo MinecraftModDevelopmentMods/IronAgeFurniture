@@ -26,7 +26,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 
 public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor implements LiquidBlockContainer {
-	protected static final Map<BlockGetter, List<LightSourceSconceRedTorchWall.Toggle>> RECENT_TOGGLES = new WeakHashMap<>();
+	protected static final Map<BlockGetter, List<LightSourceSconceRedTorchFloor.Toggle>> RECENT_TOGGLES = new WeakHashMap<>();
 	public static final int RECENT_TOGGLE_TIMER = 60;
 	public static final int MAX_RECENT_TOGGLES = 8;
 	public static final int RESTART_DELAY = 160;
@@ -96,7 +96,7 @@ public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor 
 	@Override
 	public void tick(BlockState state, ServerLevel level, BlockPos pos, Random rnd) {
 		boolean flag = this.hasNeighborSignal(level, pos, state);
-		List<LightSourceSconceRedTorchWall.Toggle> list = RECENT_TOGGLES.get(level);
+		List<LightSourceSconceRedTorchFloor.Toggle> list = RECENT_TOGGLES.get(level);
 
 		while (list != null && !list.isEmpty() && level.getGameTime() - (list.get(0)).when > 60L) {
 			list.remove(0);
@@ -104,7 +104,7 @@ public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor 
 
 		if (flag) {
 			level.setBlock(pos,
-					BlockObjectHolder.light_metal_ironage_sconce_wall_redtorch_iron_unlit.defaultBlockState()
+					BlockObjectHolder.light_metal_ironage_sconce_floor_redtorch_iron_unlit.defaultBlockState()
 							.setValue(FurnitureBlock.DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
 							.setValue(FurnitureBlock.WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)),
 					Block.UPDATE_ALL);
@@ -122,13 +122,13 @@ public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor 
 	}
 
 	private static boolean isToggledTooFrequently(Level level, BlockPos pos, boolean flag) {
-		List<LightSourceSconceRedTorchWall.Toggle> list = RECENT_TOGGLES.computeIfAbsent(level, (p_55680_) -> Lists.newArrayList());
-		if (flag) list.add(new LightSourceSconceRedTorchWall.Toggle(pos.immutable(), level.getGameTime()));
+		List<LightSourceSconceRedTorchFloor.Toggle> list = RECENT_TOGGLES.computeIfAbsent(level, (p_55680_) -> Lists.newArrayList());
+		if (flag) list.add(new LightSourceSconceRedTorchFloor.Toggle(pos.immutable(), level.getGameTime()));
 
 		int i = 0;
 
 		for (int j = 0; j < list.size(); ++j) {
-			LightSourceSconceRedTorchWall.Toggle redstonetorchblock$toggle = list.get(j);
+			LightSourceSconceRedTorchFloor.Toggle redstonetorchblock$toggle = list.get(j);
 			if (redstonetorchblock$toggle.pos.equals(pos)) {
 				i++;
 

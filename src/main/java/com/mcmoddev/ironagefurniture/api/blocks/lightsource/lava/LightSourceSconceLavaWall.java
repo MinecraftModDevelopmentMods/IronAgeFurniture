@@ -71,19 +71,6 @@ public class LightSourceSconceLavaWall extends LightSourceSconceGlowWall {
 	}
 
 	@Override
-	public List<ItemStack> getDrops(BlockState state, Builder builder) {
-		List<ItemStack> drops;
-		drops = new ArrayList<>();
-
-		Item item = EmptyVariant().asItem();
-		ItemStack stack = new ItemStack(item, 1);
-
-		drops.add(stack);
-
-		return drops;
-	}
-
-	@Override
 	protected Block LightDrop() {
 		return BlockObjectHolder.light_metal_ironage_block_floor_lava_clear;
 	}
