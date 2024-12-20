@@ -5,13 +5,7 @@
     ]
   },
   "criteria": {
-    "has_the_recipe": {
-      "trigger": "minecraft:recipe_unlocked",
-      "conditions": {
-        "recipe": "ironagefurniture:light_metal_ironage_sconce_floor_empty_iron"
-      }
-    },
-    "has_rock": {
+    "has_nugget": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
@@ -24,8 +18,7 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_rock"
+      "has_nugget"
     ]
   ]
 }
