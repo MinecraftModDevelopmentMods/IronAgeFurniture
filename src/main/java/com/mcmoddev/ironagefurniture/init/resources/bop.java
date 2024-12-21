@@ -7,4 +7,8 @@ public class bop {
 		"biomesoplenty_redwood", "biomesoplenty_umbran", "biomesoplenty_willow",
 		"biomesoplenty_dead"
 	};
+	
+	public static final String[] BOP_NETHER_WOOD_TYPES = new String[]{
+			
+		};
 }

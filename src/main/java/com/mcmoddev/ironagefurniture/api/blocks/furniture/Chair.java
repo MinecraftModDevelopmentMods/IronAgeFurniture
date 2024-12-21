@@ -14,6 +14,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
@@ -48,6 +49,11 @@ public class Chair extends FallingFurnitureBlock implements SimpleWaterloggedBlo
 		return AbstractContainerMenu.getRedstoneSignalFromBlockEntity(world.getBlockEntity(pos));
 	}
 
+	@Override
+	public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+		return true;
+	}
+	
 	@Override
 	public boolean hasAnalogOutputSignal(BlockState state) {
 		return state.getBlock() instanceof EntityBlock;

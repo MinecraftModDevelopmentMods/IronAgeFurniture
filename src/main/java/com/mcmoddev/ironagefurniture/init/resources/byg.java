@@ -7,4 +7,8 @@ public class byg {
 		"byg_holly", "byg_ironwood", "byg_jacaranda", "byg_lament", "byg_mahogany", "byg_mangrove", "byg_maple", "byg_nightshade",
 		"byg_palm", "byg_pine", "byg_rainbow_eucalyptus", "byg_redwood", "byg_skyris", "byg_willow", "byg_witch_hazel", "byg_zelkova"
 	};
+	
+	public static final String[] BYG_NETHER_WOOD_TYPES = new String[]{
+			
+	};
 }
