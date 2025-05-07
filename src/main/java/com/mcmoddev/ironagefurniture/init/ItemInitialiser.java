@@ -12,10 +12,14 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 
 import static com.mcmoddev.ironagefurniture.init.resources.bop.BOP_WOOD_TYPES;
+import static com.mcmoddev.ironagefurniture.init.resources.bop.BOP_NETHER_WOOD_TYPES;
 import static com.mcmoddev.ironagefurniture.init.resources.byg.BYG_WOOD_TYPES;
+import static com.mcmoddev.ironagefurniture.init.resources.byg.BYG_NETHER_WOOD_TYPES;
 import static com.mcmoddev.ironagefurniture.init.resources.colours.COLOURS;
 import static com.mcmoddev.ironagefurniture.init.resources.immersiveengineering.IE_WOOD_TYPES;
+import static com.mcmoddev.ironagefurniture.init.resources.immersiveengineering.IE_NETHER_WOOD_TYPES;
 import static com.mcmoddev.ironagefurniture.init.resources.vanilla.VANILLA_WOOD_TYPES;
+import static com.mcmoddev.ironagefurniture.init.resources.vanilla.VANILLA_NETHER_WOOD_TYPES;
 
 @Mod.EventBusSubscriber(modid = Ironagefurniture.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ItemInitialiser {
@@ -28,32 +32,40 @@ public class ItemInitialiser {
 		}
 	}
 
-	private static void registerChairs(RegistryEvent.Register<Item> event, String[] woodTypes, boolean log) {
+	private static void registerChairs(RegistryEvent.Register<Item> event, String[] woodTypes, boolean log, String[] netherWoodTypes) {
 		for (String wood : woodTypes) {
-			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_CLASSIC_CHAIRS.get())
-				registerItem(event, getProperty("chair_wood_ironage_classic_" + wood));
+			registerChairItems(event, log, wood);
+		}
+		
+		for (String wood : netherWoodTypes) {
+			registerChairItems(event, log, wood);
+		}
+	}
 
-			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHIELD_CHAIRS.get())
-				registerItem(event, getProperty("chair_wood_ironage_shield_" + wood));
+	private static void registerChairItems(RegistryEvent.Register<Item> event, boolean log, String wood) {
+		if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_CLASSIC_CHAIRS.get())
+			registerItem(event, getProperty("chair_wood_ironage_classic_" + wood));
 
-			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHORT_STOOLS.get())
-				registerItem(event, getProperty("chair_wood_ironage_stool_short_" + wood));
+		if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHIELD_CHAIRS.get())
+			registerItem(event, getProperty("chair_wood_ironage_shield_" + wood));
 
-			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_TALL_STOOLS.get())
-				registerItem(event, getProperty("chair_wood_ironage_stool_tall_" + wood));
+		if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHORT_STOOLS.get())
+			registerItem(event, getProperty("chair_wood_ironage_stool_short_" + wood));
 
-			if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_BENCHES.get()) {
-				registerItem(event, getProperty("chair_wood_ironage_bench_single_" + wood));
-				registerItem(event, getProperty("chair_wood_ironage_bench_back_single_" + wood));
+		if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_TALL_STOOLS.get())
+			registerItem(event, getProperty("chair_wood_ironage_stool_tall_" + wood));
 
-				for (String colour : COLOURS) {
-					registerItem(event, getProperty("chair_wood_ironage_bench_padded_" + colour + "_single_" + wood));
-					registerItem(event, getProperty("chair_wood_ironage_bench_back_padded_" + colour + "_single_" + wood));
-				}
+		if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_BENCHES.get()) {
+			registerItem(event, getProperty("chair_wood_ironage_bench_single_" + wood));
+			registerItem(event, getProperty("chair_wood_ironage_bench_back_single_" + wood));
 
-				if (log)
-					registerItem(event, getProperty("chair_wood_ironage_bench_log_single_" + wood));
+			for (String colour : COLOURS) {
+				registerItem(event, getProperty("chair_wood_ironage_bench_padded_" + colour + "_single_" + wood));
+				registerItem(event, getProperty("chair_wood_ironage_bench_back_padded_" + colour + "_single_" + wood));
 			}
+
+			if (log)
+				registerItem(event, getProperty("chair_wood_ironage_bench_log_single_" + wood));
 		}
 	}
 
@@ -63,7 +75,7 @@ public class ItemInitialiser {
 
 	@SubscribeEvent
 	public static void registerItems(RegistryEvent.Register<Item> event) {
-		registerChairs(event, VANILLA_WOOD_TYPES, true);
+		registerChairs(event, VANILLA_WOOD_TYPES, true, VANILLA_NETHER_WOOD_TYPES);
 
 		event.getRegistry().registerAll(
 			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron, new BlockItem.Properties().tab(Ironagefurniture.IAF_GROUP)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron.getRegistryName().getPath()),
@@ -141,15 +153,15 @@ public class ItemInitialiser {
 		);
 
 		if (IronAgeFurnitureConfiguration.CLIENT.INTEGRATION_BIOMESOPLENTY.get() && ModList.get().isLoaded("biomesoplenty")) {
-			registerChairs(event, BOP_WOOD_TYPES, true);
+			registerChairs(event, BOP_WOOD_TYPES, true, BOP_NETHER_WOOD_TYPES);
 		}
 
 		if (IronAgeFurnitureConfiguration.CLIENT.INTEGRATION_BIOMESYOUGO.get() && ModList.get().isLoaded("byg")) {
-			registerChairs(event, BYG_WOOD_TYPES, true);
+			registerChairs(event, BYG_WOOD_TYPES, true, BYG_NETHER_WOOD_TYPES);
 		}
 
 		if (IronAgeFurnitureConfiguration.CLIENT.INTEGRATION_IMMERSIVEENGINEERING.get() && ModList.get().isLoaded("immersiveengineering")) {
-			registerChairs(event, IE_WOOD_TYPES, false);
+			registerChairs(event, IE_WOOD_TYPES, false, IE_NETHER_WOOD_TYPES);
 		}
 	}
 }

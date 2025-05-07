@@ -8,6 +8,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -15,6 +16,8 @@ import net.minecraft.world.level.storage.loot.LootContext.Builder;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 
 import java.util.ArrayList;
@@ -131,8 +134,16 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 		return BlockObjectHolder.light_metal_ironage_sconce_floor_redtorch_iron;
 	}
 
+	protected Block GetSoulTorchVariant() {
+		return BlockObjectHolder.light_metal_ironage_sconce_floor_soultorch_iron;
+	}
+
 	protected Block GetRedVariant() {
 		return BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron;
+	}
+
+	protected Block GetSoulVariant() {
+		return BlockObjectHolder.light_metal_ironage_sconce_floor_soultorch_iron;
 	}
 
 	protected Block GetUnlitTorchVariant() {
@@ -159,11 +170,29 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 		if (stackInHand.is(BlockObjectHolder.light_metal_ironage_block_floor_glow_clear.asItem()))
 			return getInteractionResult(state, world, pos, player, stackInHand, GetGlowVariant());
 
-		if (stackInHand.is(BlockObjectHolder.light_metal_ironage_block_floor_lava_clear.asItem()))
-			return getInteractionResult(state, world, pos, player, stackInHand, GetLavaVariant());
-
+		if (stackInHand.is(BlockObjectHolder.light_metal_ironage_block_floor_lava_clear.asItem())) {
+			if (state.getValue(BlockStateProperties.WATERLOGGED)) {
+				world.playSound(player, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, friction, explosionResistance);
+				world.playSound(player, pos, SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, friction, explosionResistance);
+				
+				if (!player.isCreative())
+					stackInHand.setCount(stackInHand.getCount() - 1);
+				
+				Block.popResource(world, pos, new ItemStack(BlockObjectHolder.obsidian_chunk, 1));
+				
+				return InteractionResult.CONSUME_PARTIAL;
+			}
+			else
+			{
+				return getInteractionResult(state, world, pos, player, stackInHand, GetLavaVariant());	
+			}
+		}
+		
 		if (stackInHand.is(Blocks.REDSTONE_TORCH.asItem()))
 			return getInteractionResult(state, world, pos, player, stackInHand, GetRedTorchVariant());
+
+		if (stackInHand.is(Blocks.SOUL_TORCH.asItem()))
+			return getInteractionResult(state, world, pos, player, stackInHand, GetSoulTorchVariant());
 
 		if (stackInHand.is(BlockObjectHolder.light_metal_ironage_block_floor_red_clear.asItem()))
 			return getInteractionResult(state, world, pos, player, stackInHand, GetRedVariant());

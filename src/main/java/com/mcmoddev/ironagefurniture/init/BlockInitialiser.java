@@ -22,11 +22,15 @@ import com.mcmoddev.ironagefurniture.api.blocks.lightsource.redtorch.LightSource
 import com.mcmoddev.ironagefurniture.api.blocks.lightsource.redtorch.LightSourceSconceRedTorchFloorUnlit;
 import com.mcmoddev.ironagefurniture.api.blocks.lightsource.redtorch.LightSourceSconceRedTorchWall;
 import com.mcmoddev.ironagefurniture.api.blocks.lightsource.redtorch.LightSourceSconceRedTorchWallUnlit;
+import com.mcmoddev.ironagefurniture.api.blocks.lightsource.soultorch.LightSourceSconceSoulTorchFloor;
+import com.mcmoddev.ironagefurniture.api.blocks.lightsource.soultorch.LightSourceSconceSoulTorchWall;
 import com.mcmoddev.ironagefurniture.api.blocks.lightsource.torch.LightSourceSconceTorchFloor;
 import com.mcmoddev.ironagefurniture.api.blocks.lightsource.torch.LightSourceSconceTorchFloorUnlit;
 import com.mcmoddev.ironagefurniture.api.blocks.lightsource.torch.LightSourceSconceTorchWall;
 import com.mcmoddev.ironagefurniture.api.blocks.lightsource.torch.LightSourceSconceTorchWallUnlit;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -34,10 +38,17 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 
 import static com.mcmoddev.ironagefurniture.init.resources.bop.BOP_WOOD_TYPES;
+import static com.mcmoddev.ironagefurniture.init.resources.bop.BOP_NETHER_WOOD_TYPES;
 import static com.mcmoddev.ironagefurniture.init.resources.byg.BYG_WOOD_TYPES;
+import static com.mcmoddev.ironagefurniture.init.resources.byg.BYG_NETHER_WOOD_TYPES;
 import static com.mcmoddev.ironagefurniture.init.resources.colours.COLOURS;
 import static com.mcmoddev.ironagefurniture.init.resources.immersiveengineering.IE_WOOD_TYPES;
+import static com.mcmoddev.ironagefurniture.init.resources.immersiveengineering.IE_NETHER_WOOD_TYPES;
 import static com.mcmoddev.ironagefurniture.init.resources.vanilla.VANILLA_WOOD_TYPES;
+
+import java.lang.reflect.Method;
+
+import static com.mcmoddev.ironagefurniture.init.resources.vanilla.VANILLA_NETHER_WOOD_TYPES;
 
 
 /**
@@ -47,35 +58,96 @@ import static com.mcmoddev.ironagefurniture.init.resources.vanilla.VANILLA_WOOD_
  */
 @Mod.EventBusSubscriber(modid = Ironagefurniture.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class BlockInitialiser {
-	public static void registerChairs(RegistryEvent.Register<Block> event, String[] woods, boolean shield, boolean shortStool, boolean tallStool, boolean bench) {
-		registerChairs(event, woods, shield, shortStool, tallStool, bench, true);
+	public static void registerChairs(RegistryEvent.Register<Block> event, String[] woods, boolean shield, boolean shortStool, boolean tallStool, boolean bench, String[] netherwoods ) {
+		registerChairs(event, woods, shield, shortStool, tallStool, bench, true, netherwoods);
 	}
 
-	public static void registerChairs(RegistryEvent.Register<Block> event, String[] woods, boolean shield, boolean shortStool, boolean tallStool, boolean bench, boolean log) {
+	private static void setFlammable(Block block, int encouragement, int flammability) {
+        try {
+            FireBlock fireBlock = (FireBlock) Blocks.FIRE;
+            Method setFlammableMethod = FireBlock.class.getDeclaredMethod("setFlammable", Block.class, int.class, int.class);
+            setFlammableMethod.setAccessible(true);
 
+            setFlammableMethod.invoke(fireBlock, block, encouragement, flammability);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to set flammable block", e);
+        }
+    }
+	
+	public static void registerChairs(RegistryEvent.Register<Block> event, String[] woods, boolean shield, boolean shortStool, boolean tallStool, boolean bench, boolean log, String[] netherwoods) {		
 		for (String wood : woods) {
-			event.getRegistry().register(new Chair(1, 10, SoundType.WOOD, "chair_wood_ironage_classic_" + wood));
+			  Chair chair = new Chair(1, 10, SoundType.WOOD, "chair_wood_ironage_classic_" + wood);
+	            event.getRegistry().register(chair);
+	            setFlammable(chair, 5, 20);
 
-			if (shield)
-				event.getRegistry().register(new Chair(1, 10, SoundType.WOOD, "chair_wood_ironage_shield_" + wood));
+            if (shield) {
+                Chair shieldChair = new Chair(1, 10, SoundType.WOOD, "chair_wood_ironage_shield_" + wood);
+                event.getRegistry().register(shieldChair);
+                setFlammable(shieldChair, 5, 20);
+            }
 
-			if (shortStool)
-				event.getRegistry().register(new Stool(1, 10, SoundType.WOOD, "chair_wood_ironage_stool_short_" + wood));
+            if (shortStool) {
+                Stool stool = new Stool(1, 10, SoundType.WOOD, "chair_wood_ironage_stool_short_" + wood);
+                event.getRegistry().register(stool);
+                setFlammable(stool, 5, 20);
+            }
 
-			if (tallStool)
-				event.getRegistry().register(new TallStool(1, 10, SoundType.WOOD, "chair_wood_ironage_stool_tall_" + wood));
+            if (tallStool) {
+                TallStool tallStoolBlock = new TallStool(1, 10, SoundType.WOOD, "chair_wood_ironage_stool_tall_" + wood);
+                event.getRegistry().register(tallStoolBlock);
+                setFlammable(tallStoolBlock, 5, 20);
+            }
 
 			if (bench) {
-				event.getRegistry().register(new Bench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_single_" + wood));
-				event.getRegistry().register(new BackBench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_back_single_" + wood));
+				Bench benchBlock = new Bench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_single_" + wood);
+				event.getRegistry().register(benchBlock);
+				setFlammable(benchBlock, 5, 20);
+				
+				BackBench backBench = new BackBench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_back_single_" + wood);
+				event.getRegistry().register(backBench);
+				setFlammable(backBench, 5, 20);
 
 				for (String colour : COLOURS) {
-					event.getRegistry().register(new Bench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_padded_" + colour + "_single_" + wood));
-					event.getRegistry().register(new BackBench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_" + colour + "_single_" + wood));
+					Bench paddedBench = new Bench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_padded_" + colour + "_single_" + wood);
+					event.getRegistry().register(paddedBench);
+					setFlammable(paddedBench, 5, 20);
+					
+					BackBench paddedBackBench = new BackBench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_" + colour + "_single_" + wood);
+					event.getRegistry().register(paddedBackBench);
+					setFlammable(paddedBackBench, 5, 20);
+				}
+
+				if (log) {
+					LogBench logBench = new LogBench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_log_single_" + wood);
+					event.getRegistry().register(logBench);
+					setFlammable(logBench, 5, 20);
+				}
+			}
+		}
+		
+		for (String wood : netherwoods) {
+			event.getRegistry().register(new ChairNether(1, 10, SoundType.WOOD, "chair_wood_ironage_classic_" + wood));
+
+			if (shield)
+				event.getRegistry().register(new ChairNether(1, 10, SoundType.WOOD, "chair_wood_ironage_shield_" + wood));
+
+			if (shortStool)
+				event.getRegistry().register(new StoolNether(1, 10, SoundType.WOOD, "chair_wood_ironage_stool_short_" + wood));
+
+			if (tallStool)
+				event.getRegistry().register(new TallStoolNether(1, 10, SoundType.WOOD, "chair_wood_ironage_stool_tall_" + wood));
+
+			if (bench) {
+				event.getRegistry().register(new BenchNether(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_single_" + wood));
+				event.getRegistry().register(new BackBenchNether(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_back_single_" + wood));
+
+				for (String colour : COLOURS) {
+					event.getRegistry().register(new BenchNether(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_padded_" + colour + "_single_" + wood));
+					event.getRegistry().register(new BackBenchNether(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_" + colour + "_single_" + wood));
 				}
 
 				if (log)
-					event.getRegistry().register(new LogBench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_log_single_" + wood));
+					event.getRegistry().register(new LogBenchNether(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_log_single_" + wood));
 			}
 		}
 	}
@@ -94,6 +166,9 @@ public class BlockInitialiser {
 
 		event.getRegistry().register(new LightSourceSconceTorchWall(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_torch_iron"));
 		event.getRegistry().register(new LightSourceSconceTorchWallUnlit(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_torch_iron_unlit"));
+
+		event.getRegistry().register(new LightSourceSconceSoulTorchFloor(1, 10, SoundType.METAL, "light_metal_ironage_sconce_floor_soultorch_iron"));
+		event.getRegistry().register(new LightSourceSconceSoulTorchWall(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_soultorch_iron"));
 
 		event.getRegistry().register(new LightSourceSconceRedTorchWall(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_redtorch_iron"));
 		event.getRegistry().register(new LightSourceSconceRedTorchWallUnlit(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_redtorch_iron_unlit"));
@@ -163,7 +238,8 @@ public class BlockInitialiser {
 			IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHIELD_CHAIRS.get(),
 			IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHORT_STOOLS.get(),
 			IronAgeFurnitureConfiguration.CLIENT.GENERATE_TALL_STOOLS.get(),
-			IronAgeFurnitureConfiguration.CLIENT.GENERATE_BENCHES.get());
+			IronAgeFurnitureConfiguration.CLIENT.GENERATE_BENCHES.get(),
+			VANILLA_NETHER_WOOD_TYPES);
 
 
 		if (IronAgeFurnitureConfiguration.CLIENT.INTEGRATION_BIOMESOPLENTY.get() && ModList.get().isLoaded("biomesoplenty")) {
@@ -171,7 +247,8 @@ public class BlockInitialiser {
 				IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHIELD_CHAIRS.get(),
 				IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHORT_STOOLS.get(),
 				IronAgeFurnitureConfiguration.CLIENT.GENERATE_TALL_STOOLS.get(),
-				IronAgeFurnitureConfiguration.CLIENT.GENERATE_BENCHES.get());
+				IronAgeFurnitureConfiguration.CLIENT.GENERATE_BENCHES.get(),
+				BOP_NETHER_WOOD_TYPES);
 		}
 
 		if (IronAgeFurnitureConfiguration.CLIENT.INTEGRATION_BIOMESYOUGO.get() && ModList.get().isLoaded("byg")) {
@@ -179,8 +256,8 @@ public class BlockInitialiser {
 				IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHIELD_CHAIRS.get(),
 				IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHORT_STOOLS.get(),
 				IronAgeFurnitureConfiguration.CLIENT.GENERATE_TALL_STOOLS.get(),
-				IronAgeFurnitureConfiguration.CLIENT.GENERATE_BENCHES.get());
-
+				IronAgeFurnitureConfiguration.CLIENT.GENERATE_BENCHES.get(),
+				BYG_NETHER_WOOD_TYPES);
 		}
 
 		if (IronAgeFurnitureConfiguration.CLIENT.INTEGRATION_IMMERSIVEENGINEERING.get() && ModList.get().isLoaded("immersiveengineering")) {
@@ -188,7 +265,7 @@ public class BlockInitialiser {
 				IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHIELD_CHAIRS.get(),
 				IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHORT_STOOLS.get(),
 				IronAgeFurnitureConfiguration.CLIENT.GENERATE_TALL_STOOLS.get(),
-				IronAgeFurnitureConfiguration.CLIENT.GENERATE_BENCHES.get(), false);
+				IronAgeFurnitureConfiguration.CLIENT.GENERATE_BENCHES.get(), false, IE_NETHER_WOOD_TYPES);
 		}
 	}
 }

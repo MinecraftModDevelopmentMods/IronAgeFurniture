@@ -235,11 +235,14 @@ public class LightSourceRed extends FallingFurnitureBlock {
 	@Override
 	public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos blockPos,
 								boolean flag) {
-		boolean hasSignal = this.hasNeighborSignal(level, pos, state);
-		boolean willTick = level.getBlockTicks().willTickThisTick(pos, this);
+	    boolean hasSignal = this.hasNeighborSignal(level, pos, state);
+	    boolean willTick = level.getBlockTicks().willTickThisTick(pos, this);
 
-		if (hasSignal && !willTick)
-			level.scheduleTick(pos, this, 2);
+	    if (hasSignal || GetLightLevel() > 0) {
+	        if (!willTick) {
+	            level.scheduleTick(pos, this, 2);
+	        }
+	    }
 	}
 
 	@Override

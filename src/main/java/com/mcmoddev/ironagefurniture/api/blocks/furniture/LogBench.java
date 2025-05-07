@@ -16,6 +16,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 
 public class LogBench extends BackBench {
@@ -30,6 +31,11 @@ public class LogBench extends BackBench {
         return Seat.create(world, pos, 0.2, player);
     }
 
+	@Override
+	public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+		return true;
+	}
+	
 	 @Override
 	protected void generateShapes(ImmutableList<BlockState> states)
     {

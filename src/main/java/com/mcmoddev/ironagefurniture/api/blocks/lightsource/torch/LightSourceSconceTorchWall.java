@@ -61,6 +61,11 @@ public class LightSourceSconceTorchWall extends LightSourceSconceTorchFloor {
 	}
 
 	@Override
+	protected Block DropVariant() {
+		return BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron;
+	}
+	
+	@Override
 	protected void generateShapes(ImmutableList<BlockState> states) {
 		 ImmutableMap.Builder<BlockState, VoxelShape> builder = new ImmutableMap.Builder<>();
 	        for(BlockState state : states)

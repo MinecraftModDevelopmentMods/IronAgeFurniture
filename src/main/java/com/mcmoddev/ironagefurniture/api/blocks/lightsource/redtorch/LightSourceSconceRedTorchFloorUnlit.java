@@ -34,13 +34,13 @@ public class LightSourceSconceRedTorchFloorUnlit extends LightSourceSconceRedTor
 
 	@Override
 	public void tick(BlockState state, ServerLevel level, BlockPos pos, Random rnd) {
-		List<LightSourceSconceRedTorchWallUnlit.Toggle> list = RECENT_TOGGLES.get(level);
+		List<LightSourceSconceRedTorchFloorUnlit.Toggle> list = RECENT_TOGGLES.get(level);
 
 		while (list != null && !list.isEmpty() && level.getGameTime() - (list.get(0)).when > 60L)
 			list.remove(0);
 
 		level.setBlock(pos,
-				BlockObjectHolder.light_metal_ironage_sconce_wall_redtorch_iron.defaultBlockState()
+				BlockObjectHolder.light_metal_ironage_sconce_floor_redtorch_iron.defaultBlockState()
 						.setValue(FurnitureBlock.DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
 						.setValue(FurnitureBlock.WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)),
 				Block.UPDATE_ALL);

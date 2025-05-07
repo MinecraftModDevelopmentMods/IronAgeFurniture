@@ -45,7 +45,7 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor implemen
 		List<ItemStack> drops;
 		drops = new ArrayList<>();
 
-		Item item = EmptyVariant().asItem();
+		Item item = DropVariant().asItem();
 		ItemStack stack = new ItemStack(item, 1);
 
 		Item item2 = LightDrop().asItem();
@@ -148,6 +148,10 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor implemen
 		return BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron;
 	}
 
+	protected Block DropVariant() {
+		return EmptyVariant();
+	}
+	
 	protected boolean CanEx() {
 		return true;
 	}

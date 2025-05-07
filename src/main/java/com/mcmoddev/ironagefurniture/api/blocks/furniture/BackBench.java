@@ -20,6 +20,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
@@ -50,6 +51,10 @@ public class BackBench extends FurnitureBlock {
 		this.setRegistryName(name);
 	}
 
+	public BackBench(Properties properties) {
+		super(properties);
+	}
+	
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
 		super.createBlockStateDefinition(builder);
@@ -57,6 +62,11 @@ public class BackBench extends FurnitureBlock {
 		builder.add(TYPE);
 	}
 
+	@Override
+	public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+		return true;
+	}
+	
 	@Override
 	protected void generateShapes(ImmutableList<BlockState> states) {
 		ImmutableMap.Builder<BlockState, VoxelShape> builder = new ImmutableMap.Builder<>();

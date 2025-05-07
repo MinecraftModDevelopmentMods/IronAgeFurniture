@@ -1,0 +1,7 @@
+{
+  "parent": "ironagefurniture:block/template_chair_wood_ironage_bench_left",
+  "textures": {
+    "log": "minecraft:block/warped_stem",
+    "planks": "minecraft:block/warped_planks"
+  }
+}
