@@ -88,31 +88,27 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 
 	@Override
 	public BlockState getStateForPlacement(BlockPlaceContext context) {
-		LevelReader levelreader = context.getLevel();
-		BlockPos blockpos = context.getClickedPos();
+		LevelReader levelReader = context.getLevel();
+		BlockPos clickedPos = context.getClickedPos();
+		Direction clickedFace = context.getClickedFace();
 
-		if (canSupportCenter(levelreader, blockpos.below(), Direction.UP))
-			return super.getStateForPlacement(context);
-
-		BlockState target = levelreader.getBlockState(blockpos);
-
-		boolean waterlogged = target.getBlock() == Blocks.WATER;
-
-		BlockState blockstate = GetWallVariant().defaultBlockState();
-		Direction[] adirection = context.getNearestLookingDirections();
-
-		for (Direction direction : adirection)
-			if (direction.getAxis().isHorizontal()) {
-				Direction direction1 = direction.getOpposite();
-				blockstate = blockstate.setValue(DIRECTION, direction1).setValue(WATERLOGGED, Boolean.valueOf(waterlogged));
-
-				if (blockstate.canSurvive(levelreader, blockpos))
-					return blockstate;
+		if (clickedFace.getAxis().isHorizontal()) {
+			BlockState wallState = GetWallVariant().defaultBlockState().setValue(DIRECTION, clickedFace).setValue(WATERLOGGED, levelReader.getFluidState(clickedPos).getType() == Fluids.WATER);
+			
+			if (wallState.canSurvive(levelReader, clickedPos)) {
+				return wallState;
 			}
+		}
 
-		return null;
+	    if (canSupportCenter(levelReader, clickedPos.below(), Direction.UP)) {
+	        return super.getStateForPlacement(context);
+	    }
+	    
+	    return null;
 	}
 
+
+	
 	@Override
 	public boolean canPlaceLiquid(BlockGetter blockGetter, BlockPos blockPos, BlockState blockState, Fluid fluid) {
 		return true;
