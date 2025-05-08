@@ -44,8 +44,6 @@ import static com.mcmoddev.ironagefurniture.init.resources.immersiveengineering.
 import static com.mcmoddev.ironagefurniture.init.resources.immersiveengineering.IE_NETHER_WOOD_TYPES;
 import static com.mcmoddev.ironagefurniture.init.resources.vanilla.VANILLA_WOOD_TYPES;
 
-import java.lang.reflect.Method;
-
 import static com.mcmoddev.ironagefurniture.init.resources.vanilla.VANILLA_NETHER_WOOD_TYPES;
 
 
