@@ -19,6 +19,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 
 import java.util.ArrayList;
@@ -101,21 +102,49 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor implemen
 
 			level.addParticle(ParticleTypes.SMOKE, d0, d1, d2, 0.0D, 0.0D, 0.0D);
 			level.addParticle(this.flameParticle, d0, d1, d2, 0.0D, 0.0D, 0.0D);
-		}
+		}		
+	}
 
+	@Override
+	public void tick(BlockState state, ServerLevel level, BlockPos pos, Random rnd) {
 		if (CanEx() && !level.hasNeighborSignal(pos)) {
 			if (state.getValue(BlockStateProperties.WATERLOGGED))
 				Unlight(state, level, pos);
 		}
+		super.tick(state, level, pos, rnd);
 	}
+	
+	@Override
+	public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos blockPos,
+								boolean flag) {
+	    boolean hasSignal = this.hasNeighborSignal(level, pos, state);
+	    boolean willTick = level.getBlockTicks().willTickThisTick(pos, this);
 
+	    if (!hasSignal) {
+	        if (!willTick) {
+	            level.scheduleTick(pos, this, 2);
+	        }
+	    }
+	}
+	
+	protected boolean hasNeighborSignal(Level level, BlockPos pos, BlockState state) {
+		for (Direction direction : Direction.values()) {
+	        if (direction != Direction.UP && level.hasSignal(pos.relative(direction), direction)) {
+	            return true;
+	        }
+	    }
+	    return false;
+	}
+	
 	private void Unlight(BlockState state, Level world, BlockPos pos) {
 		if (!CanEx())
 			return;
-
+		world.getBlockState(pos);
 		world.setBlock(pos, UnlitVariant().defaultBlockState()
 			.setValue(DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
 			.setValue(WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)), UPDATE_ALL);
+		
+		world.sendBlockUpdated(pos, state, world.getBlockState(pos), UPDATE_ALL);
 	}
 
 	@Override
