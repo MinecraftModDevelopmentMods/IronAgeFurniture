@@ -51,7 +51,7 @@ public class Chair extends FallingFurnitureBlock implements SimpleWaterloggedBlo
 
 	@Override
 	public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
-		return true;
+		return false;
 	}
 	
 	@Override

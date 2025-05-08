@@ -29,8 +29,6 @@ import com.mcmoddev.ironagefurniture.api.blocks.lightsource.torch.LightSourceSco
 import com.mcmoddev.ironagefurniture.api.blocks.lightsource.torch.LightSourceSconceTorchWall;
 import com.mcmoddev.ironagefurniture.api.blocks.lightsource.torch.LightSourceSconceTorchWallUnlit;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -61,67 +59,32 @@ public class BlockInitialiser {
 	public static void registerChairs(RegistryEvent.Register<Block> event, String[] woods, boolean shield, boolean shortStool, boolean tallStool, boolean bench, String[] netherwoods ) {
 		registerChairs(event, woods, shield, shortStool, tallStool, bench, true, netherwoods);
 	}
-
-	private static void setFlammable(Block block, int encouragement, int flammability) {
-        try {
-            FireBlock fireBlock = (FireBlock) Blocks.FIRE;
-            Method setFlammableMethod = FireBlock.class.getDeclaredMethod("setFlammable", Block.class, int.class, int.class);
-            setFlammableMethod.setAccessible(true);
-
-            setFlammableMethod.invoke(fireBlock, block, encouragement, flammability);
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to set flammable block", e);
-        }
-    }
 	
-	public static void registerChairs(RegistryEvent.Register<Block> event, String[] woods, boolean shield, boolean shortStool, boolean tallStool, boolean bench, boolean log, String[] netherwoods) {		
+	public static void registerChairs(RegistryEvent.Register<Block> event, String[] woods, boolean shield, boolean shortStool, boolean tallStool, boolean bench, boolean log, String[] netherwoods) {
+
 		for (String wood : woods) {
-			  Chair chair = new Chair(1, 10, SoundType.WOOD, "chair_wood_ironage_classic_" + wood);
-	            event.getRegistry().register(chair);
-	            setFlammable(chair, 5, 20);
+			event.getRegistry().register(new Chair(1, 10, SoundType.WOOD, "chair_wood_ironage_classic_" + wood));
 
-            if (shield) {
-                Chair shieldChair = new Chair(1, 10, SoundType.WOOD, "chair_wood_ironage_shield_" + wood);
-                event.getRegistry().register(shieldChair);
-                setFlammable(shieldChair, 5, 20);
-            }
+			if (shield)
+				event.getRegistry().register(new Chair(1, 10, SoundType.WOOD, "chair_wood_ironage_shield_" + wood));
 
-            if (shortStool) {
-                Stool stool = new Stool(1, 10, SoundType.WOOD, "chair_wood_ironage_stool_short_" + wood);
-                event.getRegistry().register(stool);
-                setFlammable(stool, 5, 20);
-            }
+			if (shortStool)
+				event.getRegistry().register(new Stool(1, 10, SoundType.WOOD, "chair_wood_ironage_stool_short_" + wood));
 
-            if (tallStool) {
-                TallStool tallStoolBlock = new TallStool(1, 10, SoundType.WOOD, "chair_wood_ironage_stool_tall_" + wood);
-                event.getRegistry().register(tallStoolBlock);
-                setFlammable(tallStoolBlock, 5, 20);
-            }
+			if (tallStool)
+				event.getRegistry().register(new TallStool(1, 10, SoundType.WOOD, "chair_wood_ironage_stool_tall_" + wood));
 
 			if (bench) {
-				Bench benchBlock = new Bench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_single_" + wood);
-				event.getRegistry().register(benchBlock);
-				setFlammable(benchBlock, 5, 20);
-				
-				BackBench backBench = new BackBench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_back_single_" + wood);
-				event.getRegistry().register(backBench);
-				setFlammable(backBench, 5, 20);
+				event.getRegistry().register(new Bench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_single_" + wood));
+				event.getRegistry().register(new BackBench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_back_single_" + wood));
 
 				for (String colour : COLOURS) {
-					Bench paddedBench = new Bench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_padded_" + colour + "_single_" + wood);
-					event.getRegistry().register(paddedBench);
-					setFlammable(paddedBench, 5, 20);
-					
-					BackBench paddedBackBench = new BackBench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_" + colour + "_single_" + wood);
-					event.getRegistry().register(paddedBackBench);
-					setFlammable(paddedBackBench, 5, 20);
+					event.getRegistry().register(new Bench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_padded_" + colour + "_single_" + wood));
+					event.getRegistry().register(new BackBench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_" + colour + "_single_" + wood));
 				}
 
-				if (log) {
-					LogBench logBench = new LogBench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_log_single_" + wood);
-					event.getRegistry().register(logBench);
-					setFlammable(logBench, 5, 20);
-				}
+				if (log)
+					event.getRegistry().register(new LogBench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_log_single_" + wood));
 			}
 		}
 		
