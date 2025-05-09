@@ -46,15 +46,17 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor implemen
 		List<ItemStack> drops;
 		drops = new ArrayList<>();
 
-		Item item = DropVariant().asItem();
-		ItemStack stack = new ItemStack(item, 1);
-
-		Item item2 = LightDrop().asItem();
-		ItemStack stack2 = new ItemStack(item2, 1);
-
-		drops.add(stack);
-		drops.add(stack2);
-
+		Item sconceItem = DropVariant().asItem();
+		ItemStack sconceStack = new ItemStack(sconceItem, 1);
+		drops.add(sconceStack);
+		
+		if (ShouldDrop()) {
+			Item lightItem = LightDrop().asItem();
+			ItemStack lightStack = new ItemStack(lightItem, 1);
+			
+			drops.add(lightStack);
+		}
+		
 		return drops;
 	}
 
@@ -62,6 +64,10 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor implemen
 		return Blocks.TORCH;
 	}
 
+	protected boolean ShouldDrop() {
+		return true;
+	}
+	
 	public LightSourceSconceTorchFloor(Properties properties) {
 		super(properties);
 

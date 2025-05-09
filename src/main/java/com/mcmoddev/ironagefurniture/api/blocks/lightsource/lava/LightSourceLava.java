@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Random;
 
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
-
+import com.mcmoddev.ironagefurniture.api.blocks.base.FurnitureBlock;
 import com.mcmoddev.ironagefurniture.api.blocks.lightsource.glow.LightSourceGlowdust;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -37,6 +37,13 @@ public class LightSourceLava extends LightSourceGlowdust {
 	@Override
 	public void onLand(Level level, BlockPos pos, BlockState state, BlockState state2, FallingBlockEntity fallingEntity) {
 
+        if (!level.isClientSide) {
+            Player nearestPlayer = level.getNearestPlayer(pos.getX(), pos.getY(), pos.getZ(), 10, false);
+            if (nearestPlayer != null && nearestPlayer.isCreative()) {
+                return;
+            }
+        }
+		
 		BlockState target = level.getBlockState(pos);
 
 		if (target.getFluidState().getType() == Fluids.WATER) {
@@ -48,6 +55,7 @@ public class LightSourceLava extends LightSourceGlowdust {
 			level.setBlock(pos, Blocks.FIRE.defaultBlockState(), UPDATE_ALL_IMMEDIATE, UPDATE_ALL);
 		}
 	}
+
 
 	public LightSourceLava(float hardness, float blastResistance, SoundType sound, String name) {
 		super(Block.Properties.of(Material.METAL).strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> 15));
