@@ -27,7 +27,7 @@ plugins {
   id 'se.bjurr.gitchangelog.git-changelog-gradle-plugin' version '1.60'
   id 'maven-publish'
   id 'jacoco'
-  id 'checkstyle' // 2.7 or later
+  //id 'checkstyle' // 2.7 or later
 }
 
 apply plugin: 'net.minecraftforge.gradle'
@@ -55,13 +55,13 @@ project.afterEvaluate {
   })
 }
 
-if (GradleVersion.current() >= GradleVersion.version('2.7')) {
-  checkstyle {
-    ignoreFailures = true
-    toolVersion = '8.20' // 5.7 is default
-    showViolations = false
-  }
-}
+//if (GradleVersion.current() >= GradleVersion.version('2.7')) {
+//  checkstyle {
+//   ignoreFailures = true
+//    toolVersion = '8.20' // 5.7 is default
+//    showViolations = false
+//  }
+//}
 
 pmd {
   consoleOutput = false
