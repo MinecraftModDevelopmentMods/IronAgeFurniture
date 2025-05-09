@@ -3,19 +3,17 @@ package com.mcmoddev.ironagefurniture.api.blocks.lightsource.lava;
 import com.mcmoddev.ironagefurniture.api.blocks.base.FurnitureBlock;
 import com.mcmoddev.ironagefurniture.api.blocks.lightsource.glow.LightSourceSconceGlowWall;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.storage.loot.LootContext.Builder;
 import oshi.util.tuples.Pair;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -23,7 +21,6 @@ import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -34,14 +31,24 @@ import net.minecraft.world.level.LevelAccessor;
 public class LightSourceSconceLavaWall extends LightSourceSconceGlowWall {
 	@Override
 	public BlockState updateShape(BlockState state, Direction direction, BlockState state2, LevelAccessor levelAccessor, BlockPos pos, BlockPos pos2) {
-		if (direction.getOpposite() == state.getValue(FurnitureBlock.DIRECTION) && !state.canSurvive(levelAccessor, pos)) {
-			levelAccessor.destroyBlock(pos, true);
-			return LightDrop().defaultBlockState().setValue(FurnitureBlock.WATERLOGGED, false);
-		}
+	    if (direction.getOpposite() == state.getValue(FurnitureBlock.DIRECTION) && !state.canSurvive(levelAccessor, pos)) {
+	        if (levelAccessor instanceof Level level) {
+	            // Check if the level is server-side
+	            if (!level.isClientSide) {
+	                Player nearestPlayer = level.getNearestPlayer(pos.getX(), pos.getY(), pos.getZ(), 10, false);
+	                if (nearestPlayer != null && nearestPlayer.isCreative()) {
+	                    levelAccessor.destroyBlock(pos, false);
+	                    return Blocks.AIR.defaultBlockState();
+	                }
+	            }
+	        }
+	        levelAccessor.destroyBlock(pos, true);
+	        return LightDrop().defaultBlockState().setValue(FurnitureBlock.WATERLOGGED, false);
+	    }
 
-		return super.updateShape(state, direction, state2, levelAccessor, pos, pos2);
+	    return super.updateShape(state, direction, state2, levelAccessor, pos, pos2);
 	}
-
+	
 	@Override
 	public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest,
 									   FluidState fluid) {
@@ -75,6 +82,11 @@ public class LightSourceSconceLavaWall extends LightSourceSconceGlowWall {
 		return BlockObjectHolder.light_metal_ironage_block_floor_lava_clear;
 	}
 
+	@Override
+	protected boolean ShouldDrop() {
+		return false;
+	}
+	
 	public LightSourceSconceLavaWall(float hardness, float blastResistance, SoundType sound, String name) {
 		super(Block.Properties.of(Material.METAL).strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> 14));
 

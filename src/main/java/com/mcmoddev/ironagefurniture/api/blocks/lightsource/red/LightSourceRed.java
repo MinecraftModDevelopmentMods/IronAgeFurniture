@@ -114,11 +114,22 @@ public class LightSourceRed extends FallingFurnitureBlock {
 	}
 
 	protected boolean hasNeighborSignal(Level level, BlockPos pos, BlockState state) {
-		return level.hasSignal(pos.below(), Direction.DOWN);
+		for (Direction direction : Direction.values()) {
+	        if (direction != Direction.UP && level.hasSignal(pos.relative(direction), direction)) {
+	            return true;
+	        }
+	    }
+	    return false;
 	}
 
 	protected int getNeighborSignal(Level level, BlockPos pos, BlockState state) {
-		return level.getSignal(pos.below(), Direction.DOWN);
+		int maxSignal = 0;
+	    for (Direction direction : Direction.values()) {
+	        if (direction != Direction.UP) {
+	            maxSignal = Math.max(maxSignal, level.getSignal(pos.relative(direction), direction));
+	        }
+	    }
+	    return maxSignal;
 	}
 
 	protected LightSourceRed getBlockBySignalLevel(int level) {

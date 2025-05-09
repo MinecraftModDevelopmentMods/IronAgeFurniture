@@ -38,8 +38,18 @@ public class LightSourceSconceLavaFloor extends LightSourceSconceGlowFloor imple
 	@Override
 	public BlockState updateShape(BlockState state, Direction direction, BlockState state2, LevelAccessor levelAccessor, BlockPos pos, BlockPos pos2) {
 		if (direction == Direction.DOWN && !this.canSurvive(state, levelAccessor, pos)) {
-			levelAccessor.destroyBlock(pos, true);
-			return LightDrop().defaultBlockState().setValue(FurnitureBlock.WATERLOGGED, false);
+			if (levelAccessor instanceof Level level) {
+	            // Check if the level is server-side
+	            if (!level.isClientSide) {
+	                Player nearestPlayer = level.getNearestPlayer(pos.getX(), pos.getY(), pos.getZ(), 10, false);
+	                if (nearestPlayer != null && nearestPlayer.isCreative()) {
+	                    levelAccessor.destroyBlock(pos, false);
+	                    return Blocks.AIR.defaultBlockState();
+	                }
+	            }
+	        }
+	        levelAccessor.destroyBlock(pos, true);
+	        return LightDrop().defaultBlockState().setValue(FurnitureBlock.WATERLOGGED, false);
 		}
 
 		return super.updateShape(state, direction, state2, levelAccessor, pos, pos2);
