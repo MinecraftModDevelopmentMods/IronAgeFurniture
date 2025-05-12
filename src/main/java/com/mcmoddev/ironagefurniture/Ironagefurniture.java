@@ -1,13 +1,10 @@
 package com.mcmoddev.ironagefurniture;
 
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -17,21 +14,15 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import com.mcmoddev.ironagefurniture.init.BlockInitialiser;
 import com.mcmoddev.ironagefurniture.proxy.CommonProxy;
-import com.mcmoddev.ironagefurniture.registers.entities;
 import net.minecraftforge.fml.config.ModConfig;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.Material;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.registries.RegistryObject;
 import org.slf4j.Logger;
 
 @Mod(Ironagefurniture.MODID)
@@ -53,20 +44,8 @@ public class Ironagefurniture
 //	};
 //	
 	public Ironagefurniture(FMLJavaModLoadingContext context) {
-//        entities.REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
-        BlockInitialiser.registerBlocks();
+		BlockInitialiser.registerBlocks();
 		
-        
-//		ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, IronAgeFurnitureConfiguration.clientSpec);
-//		ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, IronAgeFurnitureConfiguration.clientSpec);
-//		
-//        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onCommonSetup);
-//        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientSetup);
-//		
-//        MinecraftForge.EVENT_BUS.register(this);
-//        
-        
-        
         IEventBus modEventBus = context.getModEventBus();
 
         // Register the commonSetup method for modloading
@@ -81,6 +60,7 @@ public class Ironagefurniture
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
 
+        
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
 
