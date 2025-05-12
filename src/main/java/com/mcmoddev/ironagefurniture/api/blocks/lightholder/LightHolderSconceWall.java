@@ -29,7 +29,7 @@ public class LightHolderSconceWall extends LightHolderSconceFloor {
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
-		this.setRegistryName(name);
+		//this.setRegistryName(name);
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class LightHolderSconceWall extends LightHolderSconceFloor {
 		List<ItemStack> drops;
 		drops = new ArrayList<ItemStack>();
 
-		Item item = BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron.asItem();
+		Item item = BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron.get().asItem();
 		ItemStack stack = new ItemStack(item, 1);
 
 		drops.add(stack);
@@ -77,36 +77,36 @@ public class LightHolderSconceWall extends LightHolderSconceFloor {
 
 	@Override
 	protected Block GetGlowVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_wall_glow_iron;
+		return BlockObjectHolder.light_metal_ironage_sconce_wall_glow_iron.get();
 	}
 
 	@Override
 	protected Block GetTorchVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron;
+		return BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron.get();
 	}
 
 	@Override
 	protected Block GetLavaVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_wall_lava_iron;
+		return BlockObjectHolder.light_metal_ironage_sconce_wall_lava_iron.get();
 	}
 
 	@Override
 	protected Block GetUnlitTorchVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron_unlit;
+		return BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron_unlit.get();
 	}
 
 	@Override
 	protected Block GetRedTorchVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_wall_redtorch_iron;
+		return BlockObjectHolder.light_metal_ironage_sconce_wall_redtorch_iron.get();
 	}
 
 	@Override
 	protected Block GetRedVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron;
+		return BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron.get();
 	}
 
 	@Override
 	protected Block GetSoulTorchVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_wall_soultorch_iron;
+		return BlockObjectHolder.light_metal_ironage_sconce_wall_soultorch_iron.get();
 	}
 }

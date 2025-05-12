@@ -51,7 +51,7 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
-		this.setRegistryName(name);
+		//this.setRegistryName(name);
 	}
 
 	@Override
@@ -83,7 +83,7 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 	}
 
 	protected Block GetWallVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_wall_empty_iron;
+		return BlockObjectHolder.light_metal_ironage_sconce_wall_empty_iron.get();
 	}
 
 	@Override
@@ -115,35 +115,35 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 	}
 
 	protected Block GetGlowVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_floor_glow_iron;
+		return BlockObjectHolder.light_metal_ironage_sconce_floor_glow_iron.get();
 	}
 
 	protected Block GetTorchVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron;
+		return BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron.get();
 	}
 
 	protected Block GetLavaVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_floor_lava_iron;
+		return BlockObjectHolder.light_metal_ironage_sconce_floor_lava_iron.get();
 	}
 
 	protected Block GetRedTorchVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_floor_redtorch_iron;
+		return BlockObjectHolder.light_metal_ironage_sconce_floor_redtorch_iron.get();
 	}
 
 	protected Block GetSoulTorchVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_floor_soultorch_iron;
+		return BlockObjectHolder.light_metal_ironage_sconce_floor_soultorch_iron.get();
 	}
 
 	protected Block GetRedVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron;
+		return BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron.get();
 	}
 
 	protected Block GetSoulVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_floor_soultorch_iron;
+		return BlockObjectHolder.light_metal_ironage_sconce_floor_soultorch_iron.get();
 	}
 
 	protected Block GetUnlitTorchVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron_unlit;
+		return BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron_unlit.get();
 	}
 
 	@Override
@@ -163,10 +163,10 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 			return getInteractionResult(state, world, pos, player, stackInHand, torchSconce);
 		}
 
-		if (stackInHand.is(BlockObjectHolder.light_metal_ironage_block_floor_glow_clear.asItem()))
+		if (stackInHand.is(BlockObjectHolder.light_metal_ironage_block_floor_glow_clear.get().asItem()))
 			return getInteractionResult(state, world, pos, player, stackInHand, GetGlowVariant());
 
-		if (stackInHand.is(BlockObjectHolder.light_metal_ironage_block_floor_lava_clear.asItem())) {
+		if (stackInHand.is(BlockObjectHolder.light_metal_ironage_block_floor_lava_clear.get().asItem())) {
 			if (state.getValue(BlockStateProperties.WATERLOGGED)) {
 				world.playSound(player, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, friction, explosionResistance);
 				world.playSound(player, pos, SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, friction, explosionResistance);
@@ -174,7 +174,7 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 				if (!player.isCreative())
 					stackInHand.setCount(stackInHand.getCount() - 1);
 				
-				Block.popResource(world, pos, new ItemStack(BlockObjectHolder.obsidian_chunk, 1));
+				Block.popResource(world, pos, new ItemStack(BlockObjectHolder.obsidian_chunk.get(), 1));
 				
 				return InteractionResult.CONSUME_PARTIAL;
 			}
@@ -190,7 +190,7 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 		if (stackInHand.is(Blocks.SOUL_TORCH.asItem()))
 			return getInteractionResult(state, world, pos, player, stackInHand, GetSoulTorchVariant());
 
-		if (stackInHand.is(BlockObjectHolder.light_metal_ironage_block_floor_red_clear.asItem()))
+		if (stackInHand.is(BlockObjectHolder.light_metal_ironage_block_floor_red_clear.get().asItem()))
 			return getInteractionResult(state, world, pos, player, stackInHand, GetRedVariant());
 
 		return InteractionResult.FAIL;

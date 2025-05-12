@@ -17,6 +17,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
@@ -57,7 +58,7 @@ public class LightSourceRed extends FallingFurnitureBlock {
 	public List<ItemStack> getDrops(BlockState state, Builder builder) {
 		List<ItemStack> drops;
 
-		Item item = BlockObjectHolder.light_metal_ironage_block_floor_red_clear.asItem();
+		Item item = BlockObjectHolder.light_metal_ironage_block_floor_red_clear.get().asItem();
 		ItemStack stack = new ItemStack(item, 1);
 		drops = new ArrayList<>();
 		drops.add(stack);
@@ -78,7 +79,7 @@ public class LightSourceRed extends FallingFurnitureBlock {
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
-		this.setRegistryName(name);
+		//this.setRegistryName(name);
 		this.flameParticle = DustParticleOptions.REDSTONE;
 	}
 
@@ -135,42 +136,42 @@ public class LightSourceRed extends FallingFurnitureBlock {
 	protected LightSourceRed getBlockBySignalLevel(int level) {
 		switch (level) {
 			case 1:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_one;
+				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_one.get();
 			case 2:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_two;
+				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_two.get();
 			case 3:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_three;
+				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_three.get();
 			case 4:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_four;
+				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_four.get();
 			case 5:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_five;
+				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_five.get();
 			case 6:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_six;
+				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_six.get();
 			case 7:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_seven;
+				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_seven.get();
 			case 8:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_eight;
+				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_eight.get();
 			case 9:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_nine;
+				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_nine.get();
 			case 10:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_ten;
+				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_ten.get();
 			case 11:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_eleven;
+				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_eleven.get();
 			case 12:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_twelve;
+				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_twelve.get();
 			case 13:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_thirteen;
+				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_thirteen.get();
 			case 14:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_fourteen;
+				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_fourteen.get();
 			case 15:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_fifteen;
+				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_fifteen.get();
 			default:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear;
+				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear.get();
 		}
 	}
 
 	@Override
-	public void tick(BlockState state, ServerLevel level, BlockPos pos, Random rnd) {
+	public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource rnd) {
 		int signal = this.getNeighborSignal(level, pos, state);
 		List<LightSourceRed.Toggle> list = RECENT_TOGGLES.get(level);
 

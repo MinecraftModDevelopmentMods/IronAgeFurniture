@@ -13,6 +13,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 
 import java.util.Map;
 import java.util.Random;
@@ -79,7 +80,7 @@ public class LightSourceSconceLavaWall extends LightSourceSconceGlowWall {
 
 	@Override
 	protected Block LightDrop() {
-		return BlockObjectHolder.light_metal_ironage_block_floor_lava_clear;
+		return BlockObjectHolder.light_metal_ironage_block_floor_lava_clear.get();
 	}
 
 	@Override
@@ -92,11 +93,11 @@ public class LightSourceSconceLavaWall extends LightSourceSconceGlowWall {
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
-		this.setRegistryName(name);
+		//this.setRegistryName(name);
 	}
 
 	@Override
-	public void animateTick(BlockState state, Level level, BlockPos pos, Random rnd) {
+	public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource rnd) {
 		BlockPos blockpos = pos.above();
 
 		if (level.getBlockState(blockpos).isAir() && !level.getBlockState(blockpos).isSolidRender(level, blockpos)) {

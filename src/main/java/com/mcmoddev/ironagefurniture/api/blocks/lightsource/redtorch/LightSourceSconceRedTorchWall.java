@@ -13,6 +13,7 @@ import oshi.util.tuples.Pair;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 
 import java.util.List;
 import java.util.Map;
@@ -33,7 +34,7 @@ public class LightSourceSconceRedTorchWall extends LightSourceSconceTorchWall {
 	public static final int RESTART_DELAY = 160;
 
 	protected Block GetRedVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_wall_redtorch_iron;
+		return BlockObjectHolder.light_metal_ironage_sconce_wall_redtorch_iron.get();
 	}
 
 	@Override
@@ -57,7 +58,7 @@ public class LightSourceSconceRedTorchWall extends LightSourceSconceTorchWall {
 	}
 
 	@Override
-	public void animateTick(BlockState state, Level level, BlockPos pos, Random rand) {
+	public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource rand) {
 		if (!HasFlame())
 			return;
 
@@ -100,7 +101,7 @@ public class LightSourceSconceRedTorchWall extends LightSourceSconceTorchWall {
 	}
 
 	@Override
-	public void tick(BlockState state, ServerLevel level, BlockPos pos, Random rnd) {
+	public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource rnd) {
 		boolean flag = this.hasNeighborSignal(level, pos, state);
 		List<LightSourceSconceRedTorchWall.Toggle> list = RECENT_TOGGLES.get(level);
 
@@ -177,7 +178,7 @@ public class LightSourceSconceRedTorchWall extends LightSourceSconceTorchWall {
 
 	@Override
 	protected Block UnlitVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_wall_redtorch_iron_unlit;
+		return BlockObjectHolder.light_metal_ironage_sconce_wall_redtorch_iron_unlit.get();
 	}
 
 	public LightSourceSconceRedTorchWall(float hardness, float blastResistance, SoundType sound, String name) {
@@ -186,7 +187,7 @@ public class LightSourceSconceRedTorchWall extends LightSourceSconceTorchWall {
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
-		this.setRegistryName(name);
+		//this.setRegistryName(name);
 		this.flameParticle = DustParticleOptions.REDSTONE;
 	}
 }

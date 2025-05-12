@@ -6,6 +6,7 @@ import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -34,7 +35,7 @@ public abstract class FallingFurnitureBlock extends FurnitureBlock implements Fa
 	}
 
 	@Override
-	public void tick(BlockState state, ServerLevel level, BlockPos pos, Random rnd) {
+	public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource rnd) {
 		if (isFree(level.getBlockState(pos.below())) && pos.getY() >= level.getMinBuildHeight()) {
 			FallingBlockEntity fallingblockentity = FallingBlockEntity.fall(level, pos, state);
 			this.falling(fallingblockentity);

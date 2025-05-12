@@ -9,6 +9,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -42,7 +43,7 @@ public class LightSourceSconceRedFloor extends LightSourceSconceGlowFloor implem
 
 	@Override
 	protected Block LightDrop() {
-		return BlockObjectHolder.light_metal_ironage_block_floor_red_clear;
+		return BlockObjectHolder.light_metal_ironage_block_floor_red_clear.get();
 	}
 
 	@Override
@@ -68,7 +69,7 @@ public class LightSourceSconceRedFloor extends LightSourceSconceGlowFloor implem
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
-		this.setRegistryName(name);
+		//this.setRegistryName(name);
 		this.flameParticle = DustParticleOptions.REDSTONE;
 	}
 
@@ -98,42 +99,42 @@ public class LightSourceSconceRedFloor extends LightSourceSconceGlowFloor implem
 	protected LightSourceSconceRedFloor getBlockBySignalLevel(int level) {
 		switch (level) {
 			case 1:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_one;
+				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_one.get();
 			case 2:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_two;
+				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_two.get();
 			case 3:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_three;
+				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_three.get();
 			case 4:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_four;
+				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_four.get();
 			case 5:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_five;
+				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_five.get();
 			case 6:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_six;
+				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_six.get();
 			case 7:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_seven;
+				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_seven.get();
 			case 8:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_eight;
+				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_eight.get();
 			case 9:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_nine;
+				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_nine.get();
 			case 10:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_ten;
+				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_ten.get();
 			case 11:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_eleven;
+				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_eleven.get();
 			case 12:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_twelve;
+				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_twelve.get();
 			case 13:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_thirteen;
+				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_thirteen.get();
 			case 14:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_fourteen;
+				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_fourteen.get();
 			case 15:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_fifteen;
+				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_fifteen.get();
 			default:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron;
+				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron.get();
 		}
 	}
 
 	@Override
-	public void tick(BlockState state, ServerLevel level, BlockPos pos, Random rnd) {
+	public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource rnd) {
 		int signal = this.getNeighborSignal(level, pos, state);
 		List<LightSourceSconceRedFloor.Toggle> list = RECENT_TOGGLES.get(level);
 
@@ -195,7 +196,7 @@ public class LightSourceSconceRedFloor extends LightSourceSconceGlowFloor implem
 	}
 
 	@Override
-	public void animateTick(BlockState state, Level level, BlockPos pos, Random rnd) {
+	public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource rnd) {
 		if (GetLightLevel() <= 0)
 			return;
 

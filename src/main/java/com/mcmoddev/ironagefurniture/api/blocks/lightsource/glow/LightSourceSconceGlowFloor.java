@@ -34,7 +34,7 @@ public class LightSourceSconceGlowFloor extends LightSourceSconceTorchFloor impl
 
 	@Override
 	protected Block LightDrop() {
-		return BlockObjectHolder.light_metal_ironage_block_floor_glow_clear;
+		return BlockObjectHolder.light_metal_ironage_block_floor_glow_clear.get();
 	}
 
 	public LightSourceSconceGlowFloor(BlockBehaviour.Properties properties) {
@@ -49,7 +49,7 @@ public class LightSourceSconceGlowFloor extends LightSourceSconceTorchFloor impl
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
-		this.setRegistryName(name);
+		//this.setRegistryName(name);
 	}
 
 	@Override

@@ -33,7 +33,7 @@ public class Seat extends Entity {
     protected boolean canRide(Entity entity) { return true; }
 
     @Override
-    public Packet<?> getAddEntityPacket() { return NetworkHooks.getEntitySpawningPacket(this); }
+    public Packet getAddEntityPacket() { return NetworkHooks.getEntitySpawningPacket(this); }
 
     @Override
     protected void defineSynchedData() {}

@@ -8,6 +8,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -57,7 +58,7 @@ public class LightSourceSconceLavaFloor extends LightSourceSconceGlowFloor imple
 
 	@Override
 	protected Block LightDrop() {
-		return BlockObjectHolder.light_metal_ironage_block_floor_lava_clear;
+		return BlockObjectHolder.light_metal_ironage_block_floor_lava_clear.get();
 	}
 
 	@Override
@@ -106,11 +107,11 @@ public class LightSourceSconceLavaFloor extends LightSourceSconceGlowFloor imple
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
-		this.setRegistryName(name);
+		//this.setRegistryName(name);
 	}
 
 	@Override
-	public void animateTick(BlockState state, Level level, BlockPos pos, Random rnd) {
+	public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource rnd) {
 		BlockPos blockpos = pos.above();
 		if (level.getBlockState(blockpos).isAir() && !level.getBlockState(blockpos).isSolidRender(level, blockpos)) {
 			if (rnd.nextInt(25) == 0) {
@@ -150,7 +151,7 @@ public class LightSourceSconceLavaFloor extends LightSourceSconceGlowFloor imple
 				world.playSound(null, pos, SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, friction, explosionResistance);
 
 				Block.dropResources(blockState, null);
-				world.setBlock(pos.below(), BlockObjectHolder.obsidian_chunk.defaultBlockState(), Block.UPDATE_ALL_IMMEDIATE, Block.UPDATE_ALL);
+				world.setBlock(pos.below(), BlockObjectHolder.obsidian_chunk.get().defaultBlockState(), Block.UPDATE_ALL_IMMEDIATE, Block.UPDATE_ALL);
 
 				world.scheduleTick(pos, fluidState.getType(), fluidState.getType().getTickDelay(world));
 			}
