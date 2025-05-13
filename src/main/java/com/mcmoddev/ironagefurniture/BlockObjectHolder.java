@@ -80,33 +80,9 @@ public class BlockObjectHolder {
 	public static RegistryObject<Block> light_metal_ironage_sconce_wall_soultorch_iron;
 	public static RegistryObject<Block> obsidian_chunk;
 
-	public static RegistryObject<Block> chair_wood_ironage_classic_oak;
-	public static RegistryObject<Block> chair_wood_ironage_classic_acacia;
-	public static RegistryObject<Block> chair_wood_ironage_classic_dark_oak;
-	public static RegistryObject<Block> chair_wood_ironage_classic_birch;
-	public static RegistryObject<Block> chair_wood_ironage_classic_jungle;
-	public static RegistryObject<Block> chair_wood_ironage_classic_spruce;
 
-	public static RegistryObject<Block> chair_wood_ironage_shield_oak;
-	public static RegistryObject<Block> chair_wood_ironage_shield_acacia;
-	public static RegistryObject<Block> chair_wood_ironage_shield_dark_oak;
-	public static RegistryObject<Block> chair_wood_ironage_shield_birch;
-	public static RegistryObject<Block> chair_wood_ironage_shield_jungle;
-	public static RegistryObject<Block> chair_wood_ironage_shield_spruce;
 
-	public static RegistryObject<Block> chair_wood_ironage_stool_short_oak;
-	public static RegistryObject<Block> chair_wood_ironage_stool_short_acacia;
-	public static RegistryObject<Block> chair_wood_ironage_stool_short_dark_oak;
-	public static RegistryObject<Block> chair_wood_ironage_stool_short_birch;
-	public static RegistryObject<Block> chair_wood_ironage_stool_short_jungle;
-	public static RegistryObject<Block> chair_wood_ironage_stool_short_spruce;
-
-	public static RegistryObject<Block> chair_wood_ironage_stool_tall_acacia;
-	public static RegistryObject<Block> chair_wood_ironage_stool_tall_dark_oak;
-	public static RegistryObject<Block> chair_wood_ironage_stool_tall_birch;
-	public static RegistryObject<Block> chair_wood_ironage_stool_tall_jungle;
-	public static RegistryObject<Block> chair_wood_ironage_stool_tall_oak;
-	public static RegistryObject<Block> chair_wood_ironage_stool_tall_spruce;
+	
 
 	public static RegistryObject<Block> chair_wood_ironage_bench_single_oak;
 	public static RegistryObject<Block> chair_wood_ironage_bench_single_acacia;

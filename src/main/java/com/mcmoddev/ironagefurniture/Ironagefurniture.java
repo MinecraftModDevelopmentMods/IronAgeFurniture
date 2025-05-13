@@ -9,15 +9,15 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import com.mcmoddev.ironagefurniture.api.entity.Entities;
 import com.mcmoddev.ironagefurniture.client.renderer.ClientHandler;
+import com.mcmoddev.ironagefurniture.init.ModVanillaChairs;
+import com.mcmoddev.ironagefurniture.init.ModVanillaShieldChairs;
+import com.mcmoddev.ironagefurniture.init.ModVanillaStools;
+import com.mcmoddev.ironagefurniture.init.ModVanillaTallStools;
 import com.mcmoddev.ironagefurniture.proxy.CommonProxy;
 import net.minecraftforge.fml.config.ModConfig;
 
 import com.mojang.logging.LogUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.slf4j.Logger;
@@ -30,15 +30,16 @@ public class Ironagefurniture
     public static final CommonProxy PROXY = DistExecutor.runForDist(() -> com.mcmoddev.ironagefurniture.proxy.ClientProxy::new, () -> CommonProxy::new);
     private static final Logger LOGGER = LogUtils.getLogger();
     
-//    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
-//    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
-//    
-	
 	public Ironagefurniture(FMLJavaModLoadingContext context) {
+		LOGGER.info("Iron Age Furniture Mod is loading...");
 		
         IEventBus modEventBus = context.getModEventBus();
         
         ModVanillaChairs.REGISTER.register(modEventBus);
+        ModVanillaShieldChairs.REGISTER.register(modEventBus);
+		ModVanillaStools.REGISTER.register(modEventBus);
+		ModVanillaTallStools.REGISTER.register(modEventBus);
+		
         ModItems.REGISTER.register(modEventBus);
         Entities.REGISTER.register(modEventBus);
         
@@ -51,41 +52,29 @@ public class Ironagefurniture
         	modEventBus.addListener(ClientHandler::onRegisterCreativeTab);
         });
         
-        context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+        context.registerConfig(ModConfig.Type.COMMON, IronAgeFurnitureConfiguration.SPEC);
         
     }
     
     private void commonSetup(final FMLCommonSetupEvent event)
     {
-        // Some common setup code
-//        LOGGER.info("HELLO FROM COMMON SETUP");
-//
-//        if (Config.logDirtBlock)
-//            LOGGER.info("DIRT BLOCK >> {}", ForgeRegistries.BLOCKS.getKey(Blocks.DIRT));
-//
-//        LOGGER.info(Config.magicNumberIntroduction + Config.magicNumber);
-//
-//        Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
+
     }
 
-    // You can use SubscribeEvent and let the Event Bus discover methods to call
+
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event)
     {
-        // Do something when the server starts
-        LOGGER.info("HELLO from server starting");
+
     }
 
-    // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
     @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientModEvents
     {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event)
         {
-            // Some client setup code
-            LOGGER.info("HELLO FROM CLIENT SETUP");
-            LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+
         }
     }
 }

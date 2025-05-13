@@ -1,9 +1,9 @@
 package com.mcmoddev.ironagefurniture.client.renderer;
 
 import com.mcmoddev.ironagefurniture.Ironagefurniture;
-import com.mcmoddev.ironagefurniture.ModVanillaChairs;
 import com.mcmoddev.ironagefurniture.ModItems;
 import com.mcmoddev.ironagefurniture.api.entity.Entities;
+import com.mcmoddev.ironagefurniture.init.ModVanillaChairs;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
