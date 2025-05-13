@@ -9,6 +9,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import com.mcmoddev.ironagefurniture.api.entity.Entities;
 import com.mcmoddev.ironagefurniture.client.renderer.ClientHandler;
+import com.mcmoddev.ironagefurniture.init.ModVanillaBackBench;
 import com.mcmoddev.ironagefurniture.init.ModVanillaChairs;
 import com.mcmoddev.ironagefurniture.init.ModVanillaShieldChairs;
 import com.mcmoddev.ironagefurniture.init.ModVanillaStools;
@@ -39,6 +40,7 @@ public class Ironagefurniture
         ModVanillaShieldChairs.REGISTER.register(modEventBus);
 		ModVanillaStools.REGISTER.register(modEventBus);
 		ModVanillaTallStools.REGISTER.register(modEventBus);
+		ModVanillaBackBench.REGISTER.register(modEventBus);
 		
         ModItems.REGISTER.register(modEventBus);
         Entities.REGISTER.register(modEventBus);
