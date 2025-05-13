@@ -14,6 +14,8 @@ import net.minecraftforge.fml.config.ModConfig;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -31,13 +33,7 @@ public class Ironagefurniture
 //    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
 //    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
 //    
-//	public static final CreativeModeTab IAF_GROUP = new CreativeModeTab(MODID) {
-//	    @Override
-//	    public ItemStack makeIcon() {
-//	        return new ItemStack(BlockObjectHolder.chair_wood_ironage_classic_dark_oak);
-//	    }
-//	};
-//	
+	
 	public Ironagefurniture(FMLJavaModLoadingContext context) {
 		
         IEventBus modEventBus = context.getModEventBus();
@@ -49,11 +45,10 @@ public class Ironagefurniture
         modEventBus.addListener(this::commonSetup);
 
         MinecraftForge.EVENT_BUS.register(this);
-
-        modEventBus.addListener(this::addCreative);
         
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
         	modEventBus.addListener(ClientHandler::onRegisterRenderers);
+        	modEventBus.addListener(ClientHandler::onRegisterCreativeTab);
         });
         
         context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
@@ -71,12 +66,6 @@ public class Ironagefurniture
 //        LOGGER.info(Config.magicNumberIntroduction + Config.magicNumber);
 //
 //        Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
-    }
-
-    private void addCreative(CreativeModeTabEvent.BuildContents event)
-    {
-//        if (event.getTab() == CreativeModeTabs.BUILDING_BLOCKS)
-//            event.accept(EXAMPLE_BLOCK_ITEM);
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
