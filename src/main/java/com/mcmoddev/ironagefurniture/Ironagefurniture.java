@@ -8,6 +8,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import com.mcmoddev.ironagefurniture.api.entity.Entities;
+import com.mcmoddev.ironagefurniture.client.renderer.ClientHandler;
 import com.mcmoddev.ironagefurniture.proxy.CommonProxy;
 import net.minecraftforge.fml.config.ModConfig;
 
@@ -50,7 +51,11 @@ public class Ironagefurniture
         MinecraftForge.EVENT_BUS.register(this);
 
         modEventBus.addListener(this::addCreative);
-
+        
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+        	modEventBus.addListener(ClientHandler::onRegisterRenderers);
+        });
+        
         context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
         
     }
