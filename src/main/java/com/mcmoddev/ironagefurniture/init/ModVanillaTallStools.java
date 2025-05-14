@@ -10,8 +10,6 @@ import net.minecraftforge.registries.RegistryObject;
 
 import com.mcmoddev.ironagefurniture.Ironagefurniture;
 import com.mcmoddev.ironagefurniture.ModItems;
-import com.mcmoddev.ironagefurniture.api.blocks.furniture.Chair;
-import com.mcmoddev.ironagefurniture.api.blocks.furniture.Stool;
 import com.mcmoddev.ironagefurniture.api.blocks.furniture.TallStool;
 import java.util.function.Supplier;
 
