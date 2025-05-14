@@ -16,7 +16,7 @@ import net.minecraft.world.InteractionHand;
 
 import java.util.Random;
 
-import com.mcmoddev.ironagefurniture.BlockObjectHolder;
+import com.mcmoddev.ironagefurniture.init.ModVanillaLights;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.BlockHitResult;
@@ -44,13 +44,13 @@ public class LightSourceSconceTorchWallUnlit extends LightSourceSconceTorchWall 
 	}
 
 	private void Light(BlockState state, Level world, BlockPos pos) {
-		world.setBlock(pos, BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron.get().defaultBlockState()
+		world.setBlock(pos, ModVanillaLights.light_metal_ironage_sconce_wall_torch_iron.get().defaultBlockState()
 			.setValue(DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
 			.setValue(WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)), UPDATE_ALL);
 	}
 
 	protected Block GetEmptyVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_wall_empty_iron.get();
+		return ModVanillaLights.light_metal_ironage_sconce_wall_empty_iron.get();
 	}
 
 	@Override

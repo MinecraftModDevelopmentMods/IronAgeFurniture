@@ -1,9 +1,10 @@
 package com.mcmoddev.ironagefurniture.api.blocks.lightsource.red;
 
 import com.google.common.collect.Lists;
-import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 import com.mcmoddev.ironagefurniture.api.blocks.base.FurnitureBlock;
 import com.mcmoddev.ironagefurniture.api.blocks.lightsource.glow.LightSourceSconceGlowFloor;
+import com.mcmoddev.ironagefurniture.init.ModVanillaLights;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.DustParticleOptions;
@@ -43,7 +44,7 @@ public class LightSourceSconceRedFloor extends LightSourceSconceGlowFloor implem
 
 	@Override
 	protected Block LightDrop() {
-		return BlockObjectHolder.light_metal_ironage_block_floor_red_clear.get();
+		return ModVanillaLights.light_metal_ironage_block_floor_red_clear.get();
 	}
 
 	@Override
@@ -99,37 +100,37 @@ public class LightSourceSconceRedFloor extends LightSourceSconceGlowFloor implem
 	protected LightSourceSconceRedFloor getBlockBySignalLevel(int level) {
 		switch (level) {
 			case 1:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_one.get();
+				return (LightSourceSconceRedFloor) ModVanillaLights.light_metal_ironage_sconce_floor_red_iron_one.get();
 			case 2:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_two.get();
+				return (LightSourceSconceRedFloor) ModVanillaLights.light_metal_ironage_sconce_floor_red_iron_two.get();
 			case 3:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_three.get();
+				return (LightSourceSconceRedFloor) ModVanillaLights.light_metal_ironage_sconce_floor_red_iron_three.get();
 			case 4:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_four.get();
+				return (LightSourceSconceRedFloor) ModVanillaLights.light_metal_ironage_sconce_floor_red_iron_four.get();
 			case 5:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_five.get();
+				return (LightSourceSconceRedFloor) ModVanillaLights.light_metal_ironage_sconce_floor_red_iron_five.get();
 			case 6:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_six.get();
+				return (LightSourceSconceRedFloor) ModVanillaLights.light_metal_ironage_sconce_floor_red_iron_six.get();
 			case 7:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_seven.get();
+				return (LightSourceSconceRedFloor) ModVanillaLights.light_metal_ironage_sconce_floor_red_iron_seven.get();
 			case 8:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_eight.get();
+				return (LightSourceSconceRedFloor) ModVanillaLights.light_metal_ironage_sconce_floor_red_iron_eight.get();
 			case 9:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_nine.get();
+				return (LightSourceSconceRedFloor) ModVanillaLights.light_metal_ironage_sconce_floor_red_iron_nine.get();
 			case 10:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_ten.get();
+				return (LightSourceSconceRedFloor) ModVanillaLights.light_metal_ironage_sconce_floor_red_iron_ten.get();
 			case 11:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_eleven.get();
+				return (LightSourceSconceRedFloor) ModVanillaLights.light_metal_ironage_sconce_floor_red_iron_eleven.get();
 			case 12:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_twelve.get();
+				return (LightSourceSconceRedFloor) ModVanillaLights.light_metal_ironage_sconce_floor_red_iron_twelve.get();
 			case 13:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_thirteen.get();
+				return (LightSourceSconceRedFloor) ModVanillaLights.light_metal_ironage_sconce_floor_red_iron_thirteen.get();
 			case 14:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_fourteen.get();
+				return (LightSourceSconceRedFloor) ModVanillaLights.light_metal_ironage_sconce_floor_red_iron_fourteen.get();
 			case 15:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_fifteen.get();
+				return (LightSourceSconceRedFloor) ModVanillaLights.light_metal_ironage_sconce_floor_red_iron_fifteen.get();
 			default:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron.get();
+				return (LightSourceSconceRedFloor) ModVanillaLights.light_metal_ironage_sconce_floor_red_iron.get();
 		}
 	}
 

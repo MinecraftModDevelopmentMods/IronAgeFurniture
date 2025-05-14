@@ -11,6 +11,7 @@ import com.mcmoddev.ironagefurniture.api.entity.Entities;
 import com.mcmoddev.ironagefurniture.client.renderer.ClientHandler;
 import com.mcmoddev.ironagefurniture.init.ModVanillaBackBench;
 import com.mcmoddev.ironagefurniture.init.ModVanillaChairs;
+import com.mcmoddev.ironagefurniture.init.ModVanillaLights;
 import com.mcmoddev.ironagefurniture.init.ModVanillaShieldChairs;
 import com.mcmoddev.ironagefurniture.init.ModVanillaStools;
 import com.mcmoddev.ironagefurniture.init.ModVanillaTallStools;
@@ -27,7 +28,7 @@ import org.slf4j.Logger;
 public class Ironagefurniture
 {
     public static final String MODID = "ironagefurniture";
-    public static final String VERSION = "0.2.5.0";
+    public static final String VERSION = "0.3.0.0";
     public static final CommonProxy PROXY = DistExecutor.runForDist(() -> com.mcmoddev.ironagefurniture.proxy.ClientProxy::new, () -> CommonProxy::new);
     private static final Logger LOGGER = LogUtils.getLogger();
     
@@ -41,6 +42,7 @@ public class Ironagefurniture
 		ModVanillaStools.REGISTER.register(modEventBus);
 		ModVanillaTallStools.REGISTER.register(modEventBus);
 		ModVanillaBackBench.REGISTER.register(modEventBus);
+		ModVanillaLights.REGISTER.register(modEventBus);
 		
         ModItems.REGISTER.register(modEventBus);
         Entities.REGISTER.register(modEventBus);

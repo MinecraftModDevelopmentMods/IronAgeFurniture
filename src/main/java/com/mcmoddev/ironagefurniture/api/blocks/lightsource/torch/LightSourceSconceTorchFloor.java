@@ -1,6 +1,8 @@
 package com.mcmoddev.ironagefurniture.api.blocks.lightsource.torch;
 
 import com.mcmoddev.ironagefurniture.api.blocks.lightholder.LightHolderSconceFloor;
+import com.mcmoddev.ironagefurniture.init.ModVanillaLights;
+
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlockContainer;
@@ -29,7 +31,6 @@ import java.util.Random;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.BlockHitResult;
@@ -177,11 +178,11 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor implemen
 	}
 
 	protected Block UnlitVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron_unlit.get();
+		return ModVanillaLights.light_metal_ironage_sconce_floor_torch_iron_unlit.get();
 	}
 
 	protected Block EmptyVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron.get();
+		return ModVanillaLights.light_metal_ironage_sconce_floor_empty_iron.get();
 	}
 
 	protected Block DropVariant() {

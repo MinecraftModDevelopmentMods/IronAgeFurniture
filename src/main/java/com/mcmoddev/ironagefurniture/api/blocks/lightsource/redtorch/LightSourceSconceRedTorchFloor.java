@@ -2,6 +2,8 @@ package com.mcmoddev.ironagefurniture.api.blocks.lightsource.redtorch;
 
 import com.mcmoddev.ironagefurniture.api.blocks.base.FurnitureBlock;
 import com.mcmoddev.ironagefurniture.api.blocks.lightsource.torch.LightSourceSconceTorchFloor;
+import com.mcmoddev.ironagefurniture.init.ModVanillaLights;
+
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlockContainer;
@@ -21,7 +23,6 @@ import java.util.Random;
 import java.util.WeakHashMap;
 
 import com.google.common.collect.Lists;
-import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
@@ -106,7 +107,7 @@ public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor 
 
 		if (flag) {
 			level.setBlock(pos,
-					BlockObjectHolder.light_metal_ironage_sconce_floor_redtorch_iron_unlit.get().defaultBlockState()
+					ModVanillaLights.light_metal_ironage_sconce_floor_redtorch_iron_unlit.get().defaultBlockState()
 							.setValue(FurnitureBlock.DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
 							.setValue(FurnitureBlock.WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)),
 					Block.UPDATE_ALL);
@@ -170,6 +171,6 @@ public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor 
 
 	@Override
 	protected Block UnlitVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_floor_redtorch_iron_unlit.get();
+		return ModVanillaLights.light_metal_ironage_sconce_floor_redtorch_iron_unlit.get();
 	}
 }

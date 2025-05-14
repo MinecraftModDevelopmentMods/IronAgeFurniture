@@ -9,9 +9,10 @@ import java.util.WeakHashMap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
-import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 
 import com.mcmoddev.ironagefurniture.api.blocks.base.FallingFurnitureBlock;
+import com.mcmoddev.ironagefurniture.init.ModVanillaLights;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.DustParticleOptions;
@@ -58,7 +59,7 @@ public class LightSourceRed extends FallingFurnitureBlock {
 	public List<ItemStack> getDrops(BlockState state, Builder builder) {
 		List<ItemStack> drops;
 
-		Item item = BlockObjectHolder.light_metal_ironage_block_floor_red_clear.get().asItem();
+		Item item = ModVanillaLights.light_metal_ironage_block_floor_red_clear.get().asItem();
 		ItemStack stack = new ItemStack(item, 1);
 		drops = new ArrayList<>();
 		drops.add(stack);
@@ -136,37 +137,37 @@ public class LightSourceRed extends FallingFurnitureBlock {
 	protected LightSourceRed getBlockBySignalLevel(int level) {
 		switch (level) {
 			case 1:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_one.get();
+				return (LightSourceRed) ModVanillaLights.light_metal_ironage_block_floor_red_clear_one.get();
 			case 2:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_two.get();
+				return (LightSourceRed) ModVanillaLights.light_metal_ironage_block_floor_red_clear_two.get();
 			case 3:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_three.get();
+				return (LightSourceRed) ModVanillaLights.light_metal_ironage_block_floor_red_clear_three.get();
 			case 4:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_four.get();
+				return (LightSourceRed) ModVanillaLights.light_metal_ironage_block_floor_red_clear_four.get();
 			case 5:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_five.get();
+				return (LightSourceRed) ModVanillaLights.light_metal_ironage_block_floor_red_clear_five.get();
 			case 6:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_six.get();
+				return (LightSourceRed) ModVanillaLights.light_metal_ironage_block_floor_red_clear_six.get();
 			case 7:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_seven.get();
+				return (LightSourceRed) ModVanillaLights.light_metal_ironage_block_floor_red_clear_seven.get();
 			case 8:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_eight.get();
+				return (LightSourceRed) ModVanillaLights.light_metal_ironage_block_floor_red_clear_eight.get();
 			case 9:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_nine.get();
+				return (LightSourceRed) ModVanillaLights.light_metal_ironage_block_floor_red_clear_nine.get();
 			case 10:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_ten.get();
+				return (LightSourceRed) ModVanillaLights.light_metal_ironage_block_floor_red_clear_ten.get();
 			case 11:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_eleven.get();
+				return (LightSourceRed) ModVanillaLights.light_metal_ironage_block_floor_red_clear_eleven.get();
 			case 12:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_twelve.get();
+				return (LightSourceRed) ModVanillaLights.light_metal_ironage_block_floor_red_clear_twelve.get();
 			case 13:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_thirteen.get();
+				return (LightSourceRed) ModVanillaLights.light_metal_ironage_block_floor_red_clear_thirteen.get();
 			case 14:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_fourteen.get();
+				return (LightSourceRed) ModVanillaLights.light_metal_ironage_block_floor_red_clear_fourteen.get();
 			case 15:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_fifteen.get();
+				return (LightSourceRed) ModVanillaLights.light_metal_ironage_block_floor_red_clear_fifteen.get();
 			default:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear.get();
+				return (LightSourceRed) ModVanillaLights.light_metal_ironage_block_floor_red_clear.get();
 		}
 	}
 

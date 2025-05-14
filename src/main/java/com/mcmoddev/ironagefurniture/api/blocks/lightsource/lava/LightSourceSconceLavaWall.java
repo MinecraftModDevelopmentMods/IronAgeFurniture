@@ -2,6 +2,8 @@ package com.mcmoddev.ironagefurniture.api.blocks.lightsource.lava;
 
 import com.mcmoddev.ironagefurniture.api.blocks.base.FurnitureBlock;
 import com.mcmoddev.ironagefurniture.api.blocks.lightsource.glow.LightSourceSconceGlowWall;
+import com.mcmoddev.ironagefurniture.init.ModVanillaLights;
+
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -17,8 +19,6 @@ import net.minecraft.util.RandomSource;
 
 import java.util.Map;
 import java.util.Random;
-
-import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
@@ -80,7 +80,7 @@ public class LightSourceSconceLavaWall extends LightSourceSconceGlowWall {
 
 	@Override
 	protected Block LightDrop() {
-		return BlockObjectHolder.light_metal_ironage_block_floor_lava_clear.get();
+		return ModVanillaLights.light_metal_ironage_block_floor_lava_clear.get();
 	}
 
 	@Override
@@ -93,7 +93,6 @@ public class LightSourceSconceLavaWall extends LightSourceSconceGlowWall {
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
-		//this.setRegistryName(name);
 	}
 
 	@Override

@@ -5,9 +5,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 import com.mcmoddev.ironagefurniture.api.blocks.base.FurnitureBlock;
 import com.mcmoddev.ironagefurniture.api.blocks.lightsource.glow.LightSourceGlowdust;
+import com.mcmoddev.ironagefurniture.init.ModVanillaLights;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -49,7 +50,7 @@ public class LightSourceLava extends LightSourceGlowdust {
 		if (target.getFluidState().getType() == Fluids.WATER) {
 			level.playSound(null, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, friction, explosionResistance);
 			level.playSound(null, pos, SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, friction, explosionResistance);
-			level.setBlock(pos, BlockObjectHolder.obsidian_chunk.get().defaultBlockState(), UPDATE_ALL_IMMEDIATE, UPDATE_ALL);
+			level.setBlock(pos, ModVanillaLights.obsidian_chunk.get().defaultBlockState(), UPDATE_ALL_IMMEDIATE, UPDATE_ALL);
 		} else {
 			level.playSound(null, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, friction, explosionResistance);
 			level.setBlock(pos, Blocks.FIRE.defaultBlockState(), UPDATE_ALL_IMMEDIATE, UPDATE_ALL);
@@ -131,7 +132,7 @@ public class LightSourceLava extends LightSourceGlowdust {
 		if (target.getFluidState().getType() == Fluids.WATER) {
 			level.playSound(context.getPlayer(), context.getClickedPos(), SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, friction, explosionResistance);
 			level.playSound(context.getPlayer(), context.getClickedPos(), SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, friction, explosionResistance);
-			return BlockObjectHolder.obsidian_chunk.get().defaultBlockState();
+			return ModVanillaLights.obsidian_chunk.get().defaultBlockState();
 		}
 
 		return super.getStateForPlacement(context);
@@ -145,11 +146,11 @@ public class LightSourceLava extends LightSourceGlowdust {
 			if (!world.isClientSide()) {
 				world.playSound(null, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, friction, explosionResistance);
 				world.playSound(null, pos, SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, friction, explosionResistance);
-				world.setBlock(pos, BlockObjectHolder.obsidian_chunk.get().defaultBlockState().setValue(DIRECTION, blockState.getValue(BlockStateProperties.HORIZONTAL_FACING)).setValue(WATERLOGGED, Boolean.valueOf(true)), UPDATE_ALL);
+				world.setBlock(pos, ModVanillaLights.obsidian_chunk.get().defaultBlockState().setValue(DIRECTION, blockState.getValue(BlockStateProperties.HORIZONTAL_FACING)).setValue(WATERLOGGED, Boolean.valueOf(true)), UPDATE_ALL);
 				world.scheduleTick(pos, fluidState.getType(), fluidState.getType().getTickDelay(world));
 			}
 		} else {
-			world.setBlock(pos, BlockObjectHolder.obsidian_chunk.get().defaultBlockState().setValue(DIRECTION, blockState.getValue(BlockStateProperties.HORIZONTAL_FACING)).setValue(WATERLOGGED, blockState.getValue(BlockStateProperties.WATERLOGGED)), UPDATE_ALL);
+			world.setBlock(pos, ModVanillaLights.obsidian_chunk.get().defaultBlockState().setValue(DIRECTION, blockState.getValue(BlockStateProperties.HORIZONTAL_FACING)).setValue(WATERLOGGED, blockState.getValue(BlockStateProperties.WATERLOGGED)), UPDATE_ALL);
 		}
 
 		return success;

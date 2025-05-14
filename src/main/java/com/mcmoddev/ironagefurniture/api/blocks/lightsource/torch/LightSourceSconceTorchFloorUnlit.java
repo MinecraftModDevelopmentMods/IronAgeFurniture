@@ -13,13 +13,10 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
-import java.util.Random;
-
-import com.mcmoddev.ironagefurniture.BlockObjectHolder;
+import com.mcmoddev.ironagefurniture.init.ModVanillaLights;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 
 public class LightSourceSconceTorchFloorUnlit extends LightSourceSconceTorchFloor {
@@ -39,11 +36,11 @@ public class LightSourceSconceTorchFloorUnlit extends LightSourceSconceTorchFloo
     }
 
 	protected Block GetLitVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron.get();
+		return ModVanillaLights.light_metal_ironage_sconce_floor_torch_iron.get();
 	}
 
 	protected Block GetEmptyVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron.get();
+		return ModVanillaLights.light_metal_ironage_sconce_floor_empty_iron.get();
 	}
 
 	private void Light(BlockState state, Level world, BlockPos pos) {

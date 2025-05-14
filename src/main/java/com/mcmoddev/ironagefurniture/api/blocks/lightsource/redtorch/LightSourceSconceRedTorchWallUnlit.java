@@ -1,6 +1,8 @@
 package com.mcmoddev.ironagefurniture.api.blocks.lightsource.redtorch;
 
 import com.mcmoddev.ironagefurniture.api.blocks.base.FurnitureBlock;
+import com.mcmoddev.ironagefurniture.init.ModVanillaLights;
+
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -14,8 +16,6 @@ import net.minecraft.util.RandomSource;
 
 import java.util.List;
 import java.util.Random;
-
-import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
@@ -40,7 +40,7 @@ public class LightSourceSconceRedTorchWallUnlit extends LightSourceSconceRedTorc
 			list.remove(0);
 
 		level.setBlock(pos,
-				BlockObjectHolder.light_metal_ironage_sconce_wall_redtorch_iron.get().defaultBlockState()
+				ModVanillaLights.light_metal_ironage_sconce_wall_redtorch_iron.get().defaultBlockState()
 						.setValue(FurnitureBlock.DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
 						.setValue(FurnitureBlock.WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)),
 				Block.UPDATE_ALL);

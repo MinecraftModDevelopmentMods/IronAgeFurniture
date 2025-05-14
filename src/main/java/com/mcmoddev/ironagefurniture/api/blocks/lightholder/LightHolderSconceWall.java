@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.mcmoddev.ironagefurniture.BlockObjectHolder;
+import com.mcmoddev.ironagefurniture.init.ModVanillaLights;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -67,7 +67,7 @@ public class LightHolderSconceWall extends LightHolderSconceFloor {
 		List<ItemStack> drops;
 		drops = new ArrayList<ItemStack>();
 
-		Item item = BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron.get().asItem();
+		Item item = ModVanillaLights.light_metal_ironage_sconce_floor_empty_iron.get().asItem();
 		ItemStack stack = new ItemStack(item, 1);
 
 		drops.add(stack);
@@ -77,36 +77,36 @@ public class LightHolderSconceWall extends LightHolderSconceFloor {
 
 	@Override
 	protected Block GetGlowVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_wall_glow_iron.get();
+		return ModVanillaLights.light_metal_ironage_sconce_wall_glow_iron.get();
 	}
 
 	@Override
 	protected Block GetTorchVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron.get();
+		return ModVanillaLights.light_metal_ironage_sconce_wall_torch_iron.get();
 	}
 
 	@Override
 	protected Block GetLavaVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_wall_lava_iron.get();
+		return ModVanillaLights.light_metal_ironage_sconce_wall_lava_iron.get();
 	}
 
 	@Override
 	protected Block GetUnlitTorchVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron_unlit.get();
+		return ModVanillaLights.light_metal_ironage_sconce_wall_torch_iron_unlit.get();
 	}
 
 	@Override
 	protected Block GetRedTorchVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_wall_redtorch_iron.get();
+		return ModVanillaLights.light_metal_ironage_sconce_wall_redtorch_iron.get();
 	}
 
 	@Override
 	protected Block GetRedVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron.get();
+		return ModVanillaLights.light_metal_ironage_sconce_wall_red_iron.get();
 	}
 
 	@Override
 	protected Block GetSoulTorchVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_wall_soultorch_iron.get();
+		return ModVanillaLights.light_metal_ironage_sconce_wall_soultorch_iron.get();
 	}
 }

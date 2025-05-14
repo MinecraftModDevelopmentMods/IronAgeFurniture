@@ -2,6 +2,8 @@ package com.mcmoddev.ironagefurniture.api.blocks.lightsource.redtorch;
 
 import com.mcmoddev.ironagefurniture.api.blocks.base.FurnitureBlock;
 import com.mcmoddev.ironagefurniture.api.blocks.lightsource.torch.LightSourceSconceTorchWall;
+import com.mcmoddev.ironagefurniture.init.ModVanillaLights;
+
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -21,7 +23,6 @@ import java.util.Random;
 import java.util.WeakHashMap;
 
 import com.google.common.collect.Lists;
-import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
@@ -34,7 +35,7 @@ public class LightSourceSconceRedTorchWall extends LightSourceSconceTorchWall {
 	public static final int RESTART_DELAY = 160;
 
 	protected Block GetRedVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_wall_redtorch_iron.get();
+		return ModVanillaLights.light_metal_ironage_sconce_wall_redtorch_iron.get();
 	}
 
 	@Override
@@ -178,7 +179,7 @@ public class LightSourceSconceRedTorchWall extends LightSourceSconceTorchWall {
 
 	@Override
 	protected Block UnlitVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_wall_redtorch_iron_unlit.get();
+		return ModVanillaLights.light_metal_ironage_sconce_wall_redtorch_iron_unlit.get();
 	}
 
 	public LightSourceSconceRedTorchWall(float hardness, float blastResistance, SoundType sound, String name) {
