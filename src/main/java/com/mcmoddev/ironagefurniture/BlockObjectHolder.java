@@ -4,113 +4,12 @@
 //import net.minecraftforge.registries.RegistryObject;
 //
 //public class BlockObjectHolder {	    
-//	public static RegistryObject<Block> light_metal_ironage_sconce_floor_empty_iron;
-//	public static RegistryObject<Block> light_metal_ironage_sconce_wall_empty_iron;
+
+
 //
-//	public static RegistryObject<Block> light_metal_ironage_sconce_floor_torch_iron;
-//	public static RegistryObject<Block> light_metal_ironage_sconce_floor_torch_iron_unlit;
-//	public static RegistryObject<Block> light_metal_ironage_sconce_wall_torch_iron;
-//	public static RegistryObject<Block> light_metal_ironage_sconce_wall_torch_iron_unlit;
+
 //
-//	public static RegistryObject<Block> light_metal_ironage_sconce_floor_redtorch_iron;
-//	public static RegistryObject<Block> light_metal_ironage_sconce_floor_redtorch_iron_unlit;
-//	public static RegistryObject<Block> light_metal_ironage_sconce_wall_redtorch_iron;
-//	public static RegistryObject<Block> light_metal_ironage_sconce_wall_redtorch_iron_unlit;
-//
-//	public static RegistryObject<Block> light_metal_ironage_block_floor_glow_clear;
-//	public static RegistryObject<Block> light_metal_ironage_sconce_floor_glow_iron;
-//	public static RegistryObject<Block> light_metal_ironage_sconce_wall_glow_iron;
-//
-//	public static RegistryObject<Block> light_metal_ironage_block_floor_lava_clear;
-//	public static RegistryObject<Block> light_metal_ironage_sconce_floor_lava_iron;
-//	public static RegistryObject<Block> light_metal_ironage_sconce_wall_lava_iron;
-//
-//	public static RegistryObject<Block> light_metal_ironage_block_floor_red_clear;
-//	public static RegistryObject<Block> light_metal_ironage_block_floor_red_clear_one;
-//	public static RegistryObject<Block> light_metal_ironage_block_floor_red_clear_two;
-//	public static RegistryObject<Block> light_metal_ironage_block_floor_red_clear_three;
-//	public static RegistryObject<Block> light_metal_ironage_block_floor_red_clear_four;
-//	public static RegistryObject<Block> light_metal_ironage_block_floor_red_clear_five;
-//	public static RegistryObject<Block> light_metal_ironage_block_floor_red_clear_six;
-//	public static RegistryObject<Block> light_metal_ironage_block_floor_red_clear_seven;
-//	public static RegistryObject<Block> light_metal_ironage_block_floor_red_clear_eight;
-//	public static RegistryObject<Block> light_metal_ironage_block_floor_red_clear_nine;
-//	public static RegistryObject<Block> light_metal_ironage_block_floor_red_clear_ten;
-//	public static RegistryObject<Block> light_metal_ironage_block_floor_red_clear_eleven;
-//	public static RegistryObject<Block> light_metal_ironage_block_floor_red_clear_twelve;
-//	public static RegistryObject<Block> light_metal_ironage_block_floor_red_clear_thirteen;
-//	public static RegistryObject<Block> light_metal_ironage_block_floor_red_clear_fourteen;
-//	public static RegistryObject<Block> light_metal_ironage_block_floor_red_clear_fifteen;
-//
-//	public static RegistryObject<Block> light_metal_ironage_sconce_floor_red_iron;
-//	public static RegistryObject<Block> light_metal_ironage_sconce_floor_red_iron_one;
-//	public static RegistryObject<Block> light_metal_ironage_sconce_floor_red_iron_two;
-//	public static RegistryObject<Block> light_metal_ironage_sconce_floor_red_iron_three;
-//	public static RegistryObject<Block> light_metal_ironage_sconce_floor_red_iron_four;
-//	public static RegistryObject<Block> light_metal_ironage_sconce_floor_red_iron_five;
-//	public static RegistryObject<Block> light_metal_ironage_sconce_floor_red_iron_six;
-//	public static RegistryObject<Block> light_metal_ironage_sconce_floor_red_iron_seven;
-//	public static RegistryObject<Block> light_metal_ironage_sconce_floor_red_iron_eight;
-//	public static RegistryObject<Block> light_metal_ironage_sconce_floor_red_iron_nine;
-//	public static RegistryObject<Block> light_metal_ironage_sconce_floor_red_iron_ten;
-//	public static RegistryObject<Block> light_metal_ironage_sconce_floor_red_iron_eleven;
-//	public static RegistryObject<Block> light_metal_ironage_sconce_floor_red_iron_twelve;
-//	public static RegistryObject<Block> light_metal_ironage_sconce_floor_red_iron_thirteen;
-//	public static RegistryObject<Block> light_metal_ironage_sconce_floor_red_iron_fourteen;
-//	public static RegistryObject<Block> light_metal_ironage_sconce_floor_red_iron_fifteen;
-//
-//	public static RegistryObject<Block> light_metal_ironage_sconce_wall_red_iron;
-//	public static RegistryObject<Block> light_metal_ironage_sconce_wall_red_iron_one;
-//	public static RegistryObject<Block> light_metal_ironage_sconce_wall_red_iron_two;
-//	public static RegistryObject<Block> light_metal_ironage_sconce_wall_red_iron_three;
-//	public static RegistryObject<Block> light_metal_ironage_sconce_wall_red_iron_four;
-//	public static RegistryObject<Block> light_metal_ironage_sconce_wall_red_iron_five;
-//	public static RegistryObject<Block> light_metal_ironage_sconce_wall_red_iron_six;
-//	public static RegistryObject<Block> light_metal_ironage_sconce_wall_red_iron_seven;
-//	public static RegistryObject<Block> light_metal_ironage_sconce_wall_red_iron_eight;
-//	public static RegistryObject<Block> light_metal_ironage_sconce_wall_red_iron_nine;
-//	public static RegistryObject<Block> light_metal_ironage_sconce_wall_red_iron_ten;
-//	public static RegistryObject<Block> light_metal_ironage_sconce_wall_red_iron_eleven;
-//	public static RegistryObject<Block> light_metal_ironage_sconce_wall_red_iron_twelve;
-//	public static RegistryObject<Block> light_metal_ironage_sconce_wall_red_iron_thirteen;
-//	public static RegistryObject<Block> light_metal_ironage_sconce_wall_red_iron_fourteen;
-//	public static RegistryObject<Block> light_metal_ironage_sconce_wall_red_iron_fifteen;
-//
-//	public static RegistryObject<Block> light_metal_ironage_sconce_floor_soultorch_iron;
-//	public static RegistryObject<Block> light_metal_ironage_sconce_wall_soultorch_iron;
-//	public static RegistryObject<Block> obsidian_chunk;
-//
-//
-//
-//	
-//
-//	public static RegistryObject<Block> chair_wood_ironage_bench_single_oak;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_single_acacia;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_single_dark_oak;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_single_birch;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_single_jungle;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_single_spruce;
-//
-//	public static RegistryObject<Block> chair_wood_ironage_bench_back_single_oak;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_back_single_acacia;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_back_single_dark_oak;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_back_single_birch;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_back_single_jungle;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_back_single_spruce;
-//
-//	public static RegistryObject<Block> chair_wood_ironage_bench_log_single_oak;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_log_single_acacia;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_log_single_dark_oak;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_log_single_birch;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_log_single_jungle;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_log_single_spruce;
-//
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_green_single_oak;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_green_single_acacia;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_green_single_dark_oak;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_green_single_birch;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_green_single_jungle;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_green_single_spruce;
+
 //
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_green_single_oak;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_green_single_acacia;
@@ -118,13 +17,8 @@
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_green_single_birch;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_green_single_jungle;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_green_single_spruce;
-//
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_light_blue_single_oak;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_light_blue_single_acacia;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_light_blue_single_dark_oak;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_light_blue_single_birch;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_light_blue_single_jungle;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_light_blue_single_spruce;
+
+//	
 //
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_light_blue_single_oak;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_light_blue_single_acacia;
@@ -133,12 +27,7 @@
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_light_blue_single_jungle;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_light_blue_single_spruce;
 //
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_light_gray_single_oak;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_light_gray_single_acacia;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_light_gray_single_dark_oak;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_light_gray_single_birch;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_light_gray_single_jungle;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_light_gray_single_spruce;
+
 //
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_light_gray_single_oak;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_light_gray_single_acacia;
@@ -146,13 +35,7 @@
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_light_gray_single_birch;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_light_gray_single_jungle;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_light_gray_single_spruce;
-//
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_lime_single_oak;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_lime_single_acacia;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_lime_single_dark_oak;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_lime_single_birch;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_lime_single_jungle;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_lime_single_spruce;
+
 //
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_lime_single_oak;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_lime_single_acacia;
@@ -161,26 +44,14 @@
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_lime_single_jungle;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_lime_single_spruce;
 //
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_magenta_single_oak;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_magenta_single_acacia;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_magenta_single_dark_oak;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_magenta_single_birch;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_magenta_single_jungle;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_magenta_single_spruce;
-//
+
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_magenta_single_oak;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_magenta_single_acacia;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_magenta_single_dark_oak;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_magenta_single_birch;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_magenta_single_jungle;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_magenta_single_spruce;
-//
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_orange_single_oak;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_orange_single_acacia;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_orange_single_dark_oak;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_orange_single_birch;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_orange_single_jungle;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_orange_single_spruce;
+
 //
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_orange_single_oak;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_orange_single_acacia;
@@ -189,26 +60,14 @@
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_orange_single_jungle;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_orange_single_spruce;
 //
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_pink_single_oak;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_pink_single_acacia;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_pink_single_dark_oak;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_pink_single_birch;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_pink_single_jungle;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_pink_single_spruce;
-//
+
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_pink_single_oak;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_pink_single_acacia;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_pink_single_dark_oak;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_pink_single_birch;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_pink_single_jungle;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_pink_single_spruce;
-//
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_purple_single_oak;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_purple_single_acacia;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_purple_single_dark_oak;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_purple_single_birch;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_purple_single_jungle;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_purple_single_spruce;
+
 //
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_purple_single_oak;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_purple_single_acacia;
@@ -217,12 +76,7 @@
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_purple_single_jungle;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_purple_single_spruce;
 //
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_red_single_oak;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_red_single_acacia;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_red_single_dark_oak;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_red_single_birch;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_red_single_jungle;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_red_single_spruce;
+
 //
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_red_single_oak;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_red_single_acacia;
@@ -230,13 +84,7 @@
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_red_single_birch;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_red_single_jungle;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_red_single_spruce;
-//
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_white_single_oak;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_white_single_acacia;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_white_single_dark_oak;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_white_single_birch;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_white_single_jungle;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_white_single_spruce;
+
 //
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_white_single_oak;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_white_single_acacia;
@@ -245,13 +93,9 @@
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_white_single_jungle;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_white_single_spruce;
 //
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_yellow_single_oak;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_yellow_single_acacia;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_yellow_single_dark_oak;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_yellow_single_birch;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_yellow_single_jungle;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_yellow_single_spruce;
-//
+
+
+
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_yellow_single_oak;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_yellow_single_acacia;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_yellow_single_dark_oak;
@@ -259,13 +103,7 @@
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_yellow_single_jungle;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_yellow_single_spruce;
 //
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_black_single_oak;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_black_single_acacia;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_black_single_dark_oak;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_black_single_birch;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_black_single_jungle;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_black_single_spruce;
-//
+
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_black_single_oak;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_black_single_acacia;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_black_single_dark_oak;
@@ -273,27 +111,14 @@
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_black_single_jungle;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_black_single_spruce;
 //
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_blue_single_oak;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_blue_single_acacia;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_blue_single_dark_oak;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_blue_single_birch;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_blue_single_jungle;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_blue_single_spruce;
-//
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_blue_single_oak;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_blue_single_acacia;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_blue_single_dark_oak;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_blue_single_birch;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_blue_single_jungle;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_blue_single_spruce;
-//
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_brown_single_oak;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_brown_single_acacia;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_brown_single_dark_oak;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_brown_single_birch;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_brown_single_jungle;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_brown_single_spruce;
-//
+
+
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_brown_single_oak;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_brown_single_acacia;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_brown_single_dark_oak;
@@ -301,12 +126,7 @@
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_brown_single_jungle;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_brown_single_spruce;
 //
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_cyan_single_oak;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_cyan_single_acacia;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_cyan_single_dark_oak;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_cyan_single_birch;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_cyan_single_jungle;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_cyan_single_spruce;
+
 //
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_cyan_single_oak;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_cyan_single_acacia;
@@ -315,12 +135,7 @@
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_cyan_single_jungle;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_cyan_single_spruce;
 //
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_gray_single_oak;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_gray_single_acacia;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_gray_single_dark_oak;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_gray_single_birch;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_gray_single_jungle;
-//	public static RegistryObject<Block> chair_wood_ironage_bench_padded_gray_single_spruce;
+
 //
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_gray_single_oak;
 //	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_gray_single_acacia;

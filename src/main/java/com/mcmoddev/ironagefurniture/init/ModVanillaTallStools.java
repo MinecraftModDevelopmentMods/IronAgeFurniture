@@ -11,6 +11,8 @@ import net.minecraftforge.registries.RegistryObject;
 import com.mcmoddev.ironagefurniture.Ironagefurniture;
 import com.mcmoddev.ironagefurniture.ModItems;
 import com.mcmoddev.ironagefurniture.api.blocks.furniture.TallStool;
+import com.mcmoddev.ironagefurniture.api.blocks.furniture.TallStoolNether;
+
 import java.util.function.Supplier;
 
 public class ModVanillaTallStools {
@@ -34,4 +36,6 @@ public class ModVanillaTallStools {
 	public static RegistryObject<Block> chair_wood_ironage_stool_tall_jungle = register("chair_wood_ironage_stool_tall_jungle", () -> new TallStool(1, 10, SoundType.WOOD, "chair_wood_ironage_stool_tall_jungle"));
 	public static RegistryObject<Block> chair_wood_ironage_stool_tall_oak = register("chair_wood_ironage_stool_tall_oak", () -> new TallStool(1, 10, SoundType.WOOD, "chair_wood_ironage_stool_tall_oak"));
 	public static RegistryObject<Block> chair_wood_ironage_stool_tall_spruce = register("chair_wood_ironage_stool_tall_spruce", () -> new TallStool(1, 10, SoundType.WOOD, "chair_wood_ironage_stool_tall_spruce"));
+	public static RegistryObject<Block> chair_wood_ironage_stool_tall_warped = register("chair_wood_ironage_stool_tall_warped", () -> new TallStoolNether(1, 10, SoundType.WOOD, "chair_wood_ironage_stool_tall_warped"));
+	public static RegistryObject<Block> chair_wood_ironage_stool_tall_crimson = register("chair_wood_ironage_stool_tall_crimson", () -> new TallStoolNether(1, 10, SoundType.WOOD, "chair_wood_ironage_stool_tall_crimson"));
 }

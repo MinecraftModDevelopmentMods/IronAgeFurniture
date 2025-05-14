@@ -10,8 +10,12 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import com.mcmoddev.ironagefurniture.api.entity.Entities;
 import com.mcmoddev.ironagefurniture.client.renderer.ClientHandler;
 import com.mcmoddev.ironagefurniture.init.ModVanillaBackBench;
+import com.mcmoddev.ironagefurniture.init.ModVanillaBench;
 import com.mcmoddev.ironagefurniture.init.ModVanillaChairs;
 import com.mcmoddev.ironagefurniture.init.ModVanillaLights;
+import com.mcmoddev.ironagefurniture.init.ModVanillaLogBench;
+import com.mcmoddev.ironagefurniture.init.ModVanillaPaddedBackBench;
+import com.mcmoddev.ironagefurniture.init.ModVanillaPaddedBench;
 import com.mcmoddev.ironagefurniture.init.ModVanillaShieldChairs;
 import com.mcmoddev.ironagefurniture.init.ModVanillaStools;
 import com.mcmoddev.ironagefurniture.init.ModVanillaTallStools;
@@ -41,8 +45,12 @@ public class Ironagefurniture
         ModVanillaShieldChairs.REGISTER.register(modEventBus);
 		ModVanillaStools.REGISTER.register(modEventBus);
 		ModVanillaTallStools.REGISTER.register(modEventBus);
+		ModVanillaBench.REGISTER.register(modEventBus);
 		ModVanillaBackBench.REGISTER.register(modEventBus);
 		ModVanillaLights.REGISTER.register(modEventBus);
+		ModVanillaLogBench.REGISTER.register(modEventBus);
+		ModVanillaPaddedBench.REGISTER.register(modEventBus);
+		ModVanillaPaddedBackBench.REGISTER.register(modEventBus);
 		
         ModItems.REGISTER.register(modEventBus);
         Entities.REGISTER.register(modEventBus);

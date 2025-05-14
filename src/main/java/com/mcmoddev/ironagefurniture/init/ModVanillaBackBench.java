@@ -11,6 +11,8 @@ import net.minecraftforge.registries.RegistryObject;
 import com.mcmoddev.ironagefurniture.Ironagefurniture;
 import com.mcmoddev.ironagefurniture.ModItems;
 import com.mcmoddev.ironagefurniture.api.blocks.furniture.BackBench;
+import com.mcmoddev.ironagefurniture.api.blocks.furniture.BackBenchNether;
+
 import java.util.function.Supplier;
 
 public class ModVanillaBackBench {
@@ -34,6 +36,7 @@ public class ModVanillaBackBench {
 	public static RegistryObject<Block> chair_wood_ironage_bench_back_single_birch = register("chair_wood_ironage_bench_back_single_birch", () -> new BackBench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_back_single_birch"));
 	public static RegistryObject<Block> chair_wood_ironage_bench_back_single_jungle = register("chair_wood_ironage_bench_back_single_jungle", () -> new BackBench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_back_single_jungle"));
 	public static RegistryObject<Block> chair_wood_ironage_bench_back_single_spruce = register("chair_wood_ironage_bench_back_single_spruce", () -> new BackBench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_back_single_spruce"));
-	
+	public static RegistryObject<Block> chair_wood_ironage_bench_back_single_warped = register("chair_wood_ironage_bench_back_single_warped", () -> new BackBenchNether(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_back_single_warped"));
+	public static RegistryObject<Block> chair_wood_ironage_bench_back_single_crimson = register("chair_wood_ironage_bench_back_single_crimson", () -> new BackBenchNether(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_back_single_crimson"));
 	
 }
