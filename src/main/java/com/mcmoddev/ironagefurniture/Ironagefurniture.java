@@ -11,6 +11,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import com.mcmoddev.ironagefurniture.api.entity.Entities;
 import com.mcmoddev.ironagefurniture.client.renderer.ClientHandler;
 import com.mcmoddev.ironagefurniture.init.ModBOPBlocks;
+import com.mcmoddev.ironagefurniture.init.ModIEBlocks;
 import com.mcmoddev.ironagefurniture.init.ModVanillaBackBench;
 import com.mcmoddev.ironagefurniture.init.ModVanillaBench;
 import com.mcmoddev.ironagefurniture.init.ModVanillaChairs;
@@ -58,7 +59,12 @@ public class Ironagefurniture
 			LOGGER.info("Iron Age Furniture Biomes O Plenty Integration is loading...");
 			ModBOPBlocks.REGISTER.register(modEventBus);
 		}
+		
+		if (ModList.get().isLoaded("immersiveengineering")) {
 			
+			LOGGER.info("Iron Age Furniture Immersive Engineering Integration is loading...");
+			ModIEBlocks.REGISTER.register(modEventBus);
+		}
 		
         ModItems.REGISTER.register(modEventBus);
         Entities.REGISTER.register(modEventBus);
