@@ -11,6 +11,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import com.mcmoddev.ironagefurniture.api.entity.Entities;
 import com.mcmoddev.ironagefurniture.client.renderer.ClientHandler;
 import com.mcmoddev.ironagefurniture.init.ModBOPBlocks;
+import com.mcmoddev.ironagefurniture.init.ModBYGBlocks;
 import com.mcmoddev.ironagefurniture.init.ModIEBlocks;
 import com.mcmoddev.ironagefurniture.init.ModVanillaBackBench;
 import com.mcmoddev.ironagefurniture.init.ModVanillaBench;
@@ -35,7 +36,7 @@ import org.slf4j.Logger;
 public class Ironagefurniture
 {
     public static final String MODID = "ironagefurniture";
-    public static final String VERSION = "0.3.0.3";
+    public static final String VERSION = "0.3.0.7";
     public static final CommonProxy PROXY = DistExecutor.runForDist(() -> com.mcmoddev.ironagefurniture.proxy.ClientProxy::new, () -> CommonProxy::new);
     private static final Logger LOGGER = LogUtils.getLogger();
     
@@ -64,6 +65,11 @@ public class Ironagefurniture
 			
 			LOGGER.info("Iron Age Furniture Immersive Engineering Integration is loading...");
 			ModIEBlocks.REGISTER.register(modEventBus);
+		}
+
+		if (ModList.get().isLoaded("byg")) {
+			LOGGER.info("Iron Age Furniture BYG Integration is loading...");
+			ModBYGBlocks.REGISTER.register(modEventBus);
 		}
 		
         ModItems.REGISTER.register(modEventBus);

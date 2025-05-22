@@ -1,7 +1,7 @@
 {
   "parent": "ironagefurniture:block/template_chair_wood_ironage_stool_tall",
   "textures": {
-    "log": "byg:block/holly_log",
-    "planks": "byg:block/holly_planks"
+    "log": "byg:block/holly/log",
+    "planks": "byg:block/holly/planks"
   }
 }

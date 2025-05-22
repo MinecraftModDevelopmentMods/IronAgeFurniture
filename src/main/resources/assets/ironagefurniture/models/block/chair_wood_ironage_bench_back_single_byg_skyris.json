@@ -1,7 +1,7 @@
 {
   "parent": "ironagefurniture:block/template_chair_wood_ironage_bench_back_single",
   "textures": {
-    "log": "byg:block/skyris_log",
-    "planks": "byg:block/skyris_planks"
+    "log": "byg:block/skyris/log",
+    "planks": "byg:block/skyris/planks"
   }
 }

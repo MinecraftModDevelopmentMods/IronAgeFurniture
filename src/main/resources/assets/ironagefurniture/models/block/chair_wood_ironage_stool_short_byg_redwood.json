@@ -1,7 +1,7 @@
 {
   "parent": "ironagefurniture:block/template_chair_wood_ironage_stool_short",
   "textures": {
-    "log": "byg:block/redwood_log",
-    "planks": "byg:block/redwood_planks"
+    "log": "byg:block/redwood/log",
+    "planks": "byg:block/redwood/planks"
   }
 }
