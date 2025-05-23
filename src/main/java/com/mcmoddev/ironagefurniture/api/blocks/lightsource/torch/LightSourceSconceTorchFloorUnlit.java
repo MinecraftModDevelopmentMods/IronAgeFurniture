@@ -11,14 +11,12 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
-import java.util.Random;
-
-import com.mcmoddev.ironagefurniture.BlockObjectHolder;
+import com.mcmoddev.ironagefurniture.init.ModVanillaLights;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 
 public class LightSourceSconceTorchFloorUnlit extends LightSourceSconceTorchFloor {
@@ -27,22 +25,22 @@ public class LightSourceSconceTorchFloorUnlit extends LightSourceSconceTorchFloo
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
-		this.setRegistryName(name);
+		//this.setRegistryName(name);
 	}
 
 	@Override
-	public void animateTick(BlockState state, Level level, BlockPos pos, Random random)
+	public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random)
 	{
 		if (level.hasNeighborSignal(pos))
 	    	  Light(state, level, pos);
     }
 
 	protected Block GetLitVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron;
+		return ModVanillaLights.light_metal_ironage_sconce_floor_torch_iron.get();
 	}
 
 	protected Block GetEmptyVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron;
+		return ModVanillaLights.light_metal_ironage_sconce_floor_empty_iron.get();
 	}
 
 	private void Light(BlockState state, Level world, BlockPos pos) {

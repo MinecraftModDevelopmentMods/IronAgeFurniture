@@ -32,7 +32,7 @@ public class LightSourceSconceSoulTorchWall extends LightSourceSconceTorchWall {
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
-		this.setRegistryName(name);
+		//this.setRegistryName(name);
 		this.flameParticle = ParticleTypes.SOUL_FIRE_FLAME;
 	}
 

@@ -81,7 +81,7 @@ public class Chair extends FallingFurnitureBlock implements SimpleWaterloggedBlo
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
-		this.setRegistryName(name);
+		//this.setRegistryName(name);
 	}
 
 	protected void generateShapes(ImmutableList<BlockState> states) {

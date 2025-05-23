@@ -1,6 +1,8 @@
 package com.mcmoddev.ironagefurniture.api.blocks.lightsource.redtorch;
 
 import com.mcmoddev.ironagefurniture.api.blocks.base.FurnitureBlock;
+import com.mcmoddev.ironagefurniture.init.ModVanillaLights;
+
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -10,11 +12,10 @@ import net.minecraft.world.level.material.Material;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 
 import java.util.List;
 import java.util.Random;
-
-import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
@@ -22,7 +23,7 @@ import net.minecraft.world.level.Level;
 
 public class LightSourceSconceRedTorchWallUnlit extends LightSourceSconceRedTorchWall {
 	@Override
-	public void animateTick(BlockState state, Level level, BlockPos pos, Random rand) {
+	public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource rand) {
 		//
 	}
 
@@ -32,14 +33,14 @@ public class LightSourceSconceRedTorchWallUnlit extends LightSourceSconceRedTorc
 	}
 
 	@Override
-	public void tick(BlockState state, ServerLevel level, BlockPos pos, Random rnd) {
+	public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource rnd) {
 		List<LightSourceSconceRedTorchWallUnlit.Toggle> list = RECENT_TOGGLES.get(level);
 
 		while (list != null && !list.isEmpty() && level.getGameTime() - (list.get(0)).when > 60L)
 			list.remove(0);
 
 		level.setBlock(pos,
-				BlockObjectHolder.light_metal_ironage_sconce_wall_redtorch_iron.defaultBlockState()
+				ModVanillaLights.light_metal_ironage_sconce_wall_redtorch_iron.get().defaultBlockState()
 						.setValue(FurnitureBlock.DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
 						.setValue(FurnitureBlock.WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)),
 				Block.UPDATE_ALL);
@@ -63,7 +64,7 @@ public class LightSourceSconceRedTorchWallUnlit extends LightSourceSconceRedTorc
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
-		this.setRegistryName(name);
+		//this.setRegistryName(name);
 		this.flameParticle = ParticleTypes.FLAME;
 	}
 }

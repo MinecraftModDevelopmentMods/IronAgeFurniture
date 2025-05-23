@@ -29,7 +29,7 @@ public class LightSourceSconceSoulTorchFloor extends LightSourceSconceTorchFloor
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
-		this.setRegistryName(name);
+		//this.setRegistryName(name);
 		this.flameParticle = ParticleTypes.SOUL_FIRE_FLAME;
 	}
 

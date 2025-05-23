@@ -1,31 +1,34 @@
 {
-  "rewards": {
-    "recipes": [
-      "ironagefurniture:chair_wood_ironage_bench_back_padded_yellow_single_byg_cherry"
-    ]
-  },
+  "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_the_recipe": {
-      "trigger": "minecraft:recipe_unlocked",
-      "conditions": {
-        "recipe": "ironagefurniture:chair_wood_ironage_bench_back_padded_yellow_single_byg_cherry"
-      }
-    },
-    "has_rock": {
-      "trigger": "minecraft:inventory_changed",
+    "has_planks": {
       "conditions": {
         "items": [
           {
-            "item": "byg:cherry_planks"
+            "items": [
+              "byg:cherry_planks"
+            ]
           }
         ]
-      }
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "ironagefurniture:chair_wood_ironage_bench_back_padded_yellow_single_byg_cherry"
+      },
+      "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_rock"
+      "has_planks",
+      "has_the_recipe"
     ]
-  ]
+  ],
+  "rewards": {
+    "recipes": [
+      "ironagefurniture:chair_wood_ironage_bench_back_padded_yellow_single_byg_cherry"
+    ]
+  }
 }

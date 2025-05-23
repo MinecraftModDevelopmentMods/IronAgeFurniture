@@ -2,6 +2,8 @@ package com.mcmoddev.ironagefurniture.api.blocks.lightsource.redtorch;
 
 import com.mcmoddev.ironagefurniture.api.blocks.base.FurnitureBlock;
 import com.mcmoddev.ironagefurniture.api.blocks.lightsource.torch.LightSourceSconceTorchFloor;
+import com.mcmoddev.ironagefurniture.init.ModVanillaLights;
+
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlockContainer;
@@ -13,13 +15,14 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.WeakHashMap;
 
 import com.google.common.collect.Lists;
-import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
@@ -54,12 +57,12 @@ public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor 
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
-		this.setRegistryName(name);
+		// this.setRegistryName(name);
 		this.flameParticle = DustParticleOptions.REDSTONE;
 	}
 
 	@Override
-	public void animateTick(BlockState state, Level level, BlockPos pos, Random rand) {
+	public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource rand) {
 		if (HasFlame()) {
 			double d0 = (double)pos.getX() + 0.5D + (rand.nextDouble() - 0.5D) * 0.2D;
 	         double d1 = (double)pos.getY() + 0.7D + (rand.nextDouble() - 0.5D) * 0.2D;
@@ -94,7 +97,7 @@ public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor 
 	}
 
 	@Override
-	public void tick(BlockState state, ServerLevel level, BlockPos pos, Random rnd) {
+	public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource rnd) {
 		boolean flag = this.hasNeighborSignal(level, pos, state);
 		List<LightSourceSconceRedTorchFloor.Toggle> list = RECENT_TOGGLES.get(level);
 
@@ -104,7 +107,7 @@ public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor 
 
 		if (flag) {
 			level.setBlock(pos,
-					BlockObjectHolder.light_metal_ironage_sconce_floor_redtorch_iron_unlit.defaultBlockState()
+					ModVanillaLights.light_metal_ironage_sconce_floor_redtorch_iron_unlit.get().defaultBlockState()
 							.setValue(FurnitureBlock.DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
 							.setValue(FurnitureBlock.WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)),
 					Block.UPDATE_ALL);
@@ -168,6 +171,6 @@ public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor 
 
 	@Override
 	protected Block UnlitVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_floor_redtorch_iron_unlit;
+		return ModVanillaLights.light_metal_ironage_sconce_floor_redtorch_iron_unlit.get();
 	}
 }

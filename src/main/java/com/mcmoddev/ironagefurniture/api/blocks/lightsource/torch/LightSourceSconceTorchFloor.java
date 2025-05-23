@@ -1,6 +1,8 @@
 package com.mcmoddev.ironagefurniture.api.blocks.lightsource.torch;
 
 import com.mcmoddev.ironagefurniture.api.blocks.lightholder.LightHolderSconceFloor;
+import com.mcmoddev.ironagefurniture.init.ModVanillaLights;
+
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlockContainer;
@@ -20,6 +22,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 
 import java.util.ArrayList;
@@ -28,7 +31,6 @@ import java.util.Random;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.BlockHitResult;
@@ -81,7 +83,7 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor implemen
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
-		this.setRegistryName(name);
+		//this.setRegistryName(name);
 		this.flameParticle = ParticleTypes.FLAME;
 	}
 
@@ -100,7 +102,7 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor implemen
 	}
 
 	@Override
-	public void animateTick(BlockState state, Level level, BlockPos pos, Random random) {
+	public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
 		if (HasFlame()) {
 			double d0 = (double) pos.getX() + 0.5D;
 			double d1 = (double) pos.getY() + 0.9D;
@@ -112,7 +114,7 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor implemen
 	}
 
 	@Override
-	public void tick(BlockState state, ServerLevel level, BlockPos pos, Random rnd) {
+	public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource rnd) {
 		if (CanEx() && !level.hasNeighborSignal(pos)) {
 			if (state.getValue(BlockStateProperties.WATERLOGGED))
 				Unlight(state, level, pos);
@@ -176,11 +178,11 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor implemen
 	}
 
 	protected Block UnlitVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron_unlit;
+		return ModVanillaLights.light_metal_ironage_sconce_floor_torch_iron_unlit.get();
 	}
 
 	protected Block EmptyVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron;
+		return ModVanillaLights.light_metal_ironage_sconce_floor_empty_iron.get();
 	}
 
 	protected Block DropVariant() {

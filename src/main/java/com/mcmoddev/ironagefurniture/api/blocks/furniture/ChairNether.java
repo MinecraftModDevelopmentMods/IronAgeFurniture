@@ -27,6 +27,5 @@ public class ChairNether extends Chair implements SimpleWaterloggedBlock {
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
-		this.setRegistryName(name);
 	}
 }

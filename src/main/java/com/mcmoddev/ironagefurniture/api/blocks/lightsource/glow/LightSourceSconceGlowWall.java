@@ -2,6 +2,8 @@ package com.mcmoddev.ironagefurniture.api.blocks.lightsource.glow;
 
 import com.mcmoddev.ironagefurniture.api.blocks.base.FurnitureBlock;
 import com.mcmoddev.ironagefurniture.api.blocks.lightsource.torch.LightSourceSconceTorchWall;
+import com.mcmoddev.ironagefurniture.init.ModVanillaLights;
+
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -13,7 +15,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.core.Direction;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 
 public class LightSourceSconceGlowWall extends LightSourceSconceTorchWall {
 	public LightSourceSconceGlowWall(BlockBehaviour.Properties properties) {
@@ -35,7 +36,7 @@ public class LightSourceSconceGlowWall extends LightSourceSconceTorchWall {
 
 	@Override
 	protected Block LightDrop() {
-		return BlockObjectHolder.light_metal_ironage_block_floor_glow_clear;
+		return ModVanillaLights.light_metal_ironage_block_floor_glow_clear.get();
 	}
 
 	@Override
@@ -58,6 +59,6 @@ public class LightSourceSconceGlowWall extends LightSourceSconceTorchWall {
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
-		this.setRegistryName(name);
+		//this.setRegistryName(name);
 	}
 }

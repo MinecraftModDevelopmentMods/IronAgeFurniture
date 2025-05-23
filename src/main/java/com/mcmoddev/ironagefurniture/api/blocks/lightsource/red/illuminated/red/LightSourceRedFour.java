@@ -21,7 +21,7 @@ public class LightSourceRedFour extends LightSourceRed {
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
-		this.setRegistryName(name);
+		//this.setRegistryName(name);
 		this.flameParticle = DustParticleOptions.REDSTONE;
 	}
 }

@@ -31,11 +31,6 @@ public class LogBench extends BackBench {
         return Seat.create(world, pos, 0.2, player);
     }
 
-	@Override
-	public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
-		return true;
-	}
-	
 	 @Override
 	protected void generateShapes(ImmutableList<BlockState> states)
     {

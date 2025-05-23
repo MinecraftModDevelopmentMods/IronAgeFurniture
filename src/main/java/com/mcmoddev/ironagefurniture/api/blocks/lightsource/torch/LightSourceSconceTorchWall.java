@@ -11,12 +11,13 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import oshi.util.tuples.Pair;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.util.RandomSource;
 
 import java.util.Random;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.mcmoddev.ironagefurniture.BlockObjectHolder;
+import com.mcmoddev.ironagefurniture.init.ModVanillaLights;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -33,7 +34,7 @@ public class LightSourceSconceTorchWall extends LightSourceSconceTorchFloor {
 	}
 
     @Override
-	public void animateTick(BlockState state, Level level, BlockPos pos, Random rand) {
+	public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource rand) {
     	if (HasFlame()) {
     		Direction direction = state.getValue(DIRECTION);
 
@@ -52,17 +53,17 @@ public class LightSourceSconceTorchWall extends LightSourceSconceTorchFloor {
 
 	@Override
 	protected Block UnlitVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron_unlit;
+		return ModVanillaLights.light_metal_ironage_sconce_wall_torch_iron_unlit.get();
 	}
 
 	@Override
 	protected Block EmptyVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_wall_empty_iron;
+		return ModVanillaLights.light_metal_ironage_sconce_wall_empty_iron.get();
 	}
 
 	@Override
 	protected Block DropVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron;
+		return ModVanillaLights.light_metal_ironage_sconce_floor_empty_iron.get();
 	}
 	
 	@Override
@@ -85,7 +86,7 @@ public class LightSourceSconceTorchWall extends LightSourceSconceTorchFloor {
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
-		this.setRegistryName(name);
+		//this.setRegistryName(name);
 		this.flameParticle = ParticleTypes.FLAME;
 	}
 

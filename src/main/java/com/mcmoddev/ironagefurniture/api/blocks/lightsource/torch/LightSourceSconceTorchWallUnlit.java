@@ -11,11 +11,12 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 
 import java.util.Random;
 
-import com.mcmoddev.ironagefurniture.BlockObjectHolder;
+import com.mcmoddev.ironagefurniture.init.ModVanillaLights;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.BlockHitResult;
@@ -28,11 +29,11 @@ public class LightSourceSconceTorchWallUnlit extends LightSourceSconceTorchWall 
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
-		this.setRegistryName(name);
+		//this.setRegistryName(name);
 	}
 
 	@Override
-	public void animateTick(BlockState state, Level level, BlockPos pos, Random random) {
+	public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
 		if (level.hasNeighborSignal(pos))
 			Light(state, level, pos);
 	}
@@ -43,13 +44,13 @@ public class LightSourceSconceTorchWallUnlit extends LightSourceSconceTorchWall 
 	}
 
 	private void Light(BlockState state, Level world, BlockPos pos) {
-		world.setBlock(pos, BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron.defaultBlockState()
+		world.setBlock(pos, ModVanillaLights.light_metal_ironage_sconce_wall_torch_iron.get().defaultBlockState()
 			.setValue(DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
 			.setValue(WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)), UPDATE_ALL);
 	}
 
 	protected Block GetEmptyVariant() {
-		return BlockObjectHolder.light_metal_ironage_sconce_wall_empty_iron;
+		return ModVanillaLights.light_metal_ironage_sconce_wall_empty_iron.get();
 	}
 
 	@Override
