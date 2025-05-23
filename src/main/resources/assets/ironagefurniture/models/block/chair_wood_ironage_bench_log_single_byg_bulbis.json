@@ -2,6 +2,6 @@
   "parent": "ironagefurniture:block/template_chair_wood_ironage_bench_log_single",
   "textures": {
     "log": "byg:block/bulbis/planks",
-    "logtop": "byg:block/bulbis/stem_top"
+    "logtop": "byg:block/bulbis/log_top"
   }
 }
