@@ -30,6 +30,7 @@ classes
 secret.json
 libs/*
 !/libs/README.txt
+!/libs/ForgeGradle-2.2.2.jar
 
 .DS_Store
 .okhttpcache/*
