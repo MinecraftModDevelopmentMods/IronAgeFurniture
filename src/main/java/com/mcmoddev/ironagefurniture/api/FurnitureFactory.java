@@ -4,6 +4,8 @@ import com.mcmoddev.ironagefurniture.Ironagefurniture;
 import com.mcmoddev.ironagefurniture.api.Blocks.BackBench;
 import com.mcmoddev.ironagefurniture.api.Blocks.Bench;
 import com.mcmoddev.ironagefurniture.api.Blocks.Chair;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightHolderSconceFloor;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightHolderSconceWall;
 import com.mcmoddev.ironagefurniture.api.Blocks.Stool;
 import com.mcmoddev.ironagefurniture.init.ItemInitialiser;
 
@@ -105,6 +107,22 @@ public class FurnitureFactory {
 	
 	public static Block CreateWoodChair(String name, float resistance, float hardness) {
 		return  registerBlock(new Chair(Material.WOOD, name, resistance, hardness), name);
+	}
+	
+	public static Block CreateIronWallSconce(String name) {
+		return CreateIronWallSconce(name, 10, 1);
+	}
+	
+	public static Block CreateIronFloorSconce(String name) {
+		return CreateIronFloorSconce(name, 10, 1);
+	}
+	
+	public static Block CreateIronWallSconce(String name, float resistance, float hardness) {
+		return  registerBlock(new LightHolderSconceWall(Material.WOOD, name, resistance, hardness), name);
+	}
+	
+	public static Block CreateIronFloorSconce(String name, float resistance, float hardness) {
+		return  registerBlock(new LightHolderSconceFloor(Material.WOOD, name, resistance, hardness), name);
 	}
 	
 	public static Block CreateWoodChair(String name) {

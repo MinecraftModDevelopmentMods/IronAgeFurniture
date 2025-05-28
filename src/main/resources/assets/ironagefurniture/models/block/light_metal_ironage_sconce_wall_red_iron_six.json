@@ -1,0 +1,7 @@
+{
+	"parent": "ironagefurniture:block/template_light_metal_ironage_sconce_wall_vial",
+	"textures": {
+		"contents": "minecraft:block/redstone_block",
+		"metal": "minecraft:block/iron_block"
+	}
+}

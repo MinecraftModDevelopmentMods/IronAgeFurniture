@@ -27,7 +27,16 @@ public class BlockInitialiser {
 	 *
 	 */
 	public static void init() {
-		generateChairs();
+		generateChairs(); // and on the seventh day he was tired of standing around, and so he created chairs.
+		generateLights(); // and then he saw that the vanilla torches were boring and said, let there be light!
+	}
+	
+	private static void generateLights() {
+		//if (IronAgeFurnitureConfiguration.GENERATE_CLASSIC_CHAIRS) {
+			BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron = FurnitureFactory.CreateIronFloorSconce("light_metal_ironage_sconce_floor_empty_iron");
+			BlockObjectHolder.light_metal_ironage_sconce_wall_empty_iron = FurnitureFactory.CreateIronWallSconce("light_metal_ironage_sconce_wall_empty_iron"); 
+			
+		//}
 	}
 	
 	private static void generateChairs() {
