@@ -7,7 +7,6 @@ import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 import com.mcmoddev.ironagefurniture.Ironagefurniture;
 import com.mcmoddev.ironagefurniture.api.Enumerations.Rotation;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockTorch;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -86,13 +85,6 @@ public class LightHolderSconceFloor extends BlockHBase {
 		return new BlockStateContainer(this, new IProperty[] { FACING });
 	}
 	
-//	@Override
-//    public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
-//        return worldIn.getBlockState(pos.down()).isSideSolid(worldIn, pos.down(), EnumFacing.UP)
-//            && super.canPlaceBlockAt(worldIn, pos);
-//    }
-
-	
 	private boolean canPlaceOn(World worldIn, BlockPos pos)
     {
         IBlockState state = worldIn.getBlockState(pos);
@@ -116,6 +108,11 @@ public class LightHolderSconceFloor extends BlockHBase {
             }
         }
 
+        if (this.canPlaceAt(worldIn, pos, EnumFacing.UP)) 
+        {
+            return true;
+        }
+        
         return false;
     }
 
@@ -132,36 +129,29 @@ public class LightHolderSconceFloor extends BlockHBase {
         return flag && worldIn.isSideSolid(blockpos, facing, true) || facing.equals(EnumFacing.UP) && this.canPlaceOn(worldIn, blockpos);
     }
 	
-	
-	
 	@Override
 	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing side,
 	        float hitX, float hitY, float hitZ, int meta,
 	        EntityLivingBase placer, ItemStack stack) {
 
-	    // 1) Can we sit on something below? If so, floor‐sconce
+
+	    if (side.getAxis().isHorizontal()) {
+	        Block wall = GetWallVariant();
+	        EnumFacing attachFace = side; 
+	        return wall.getDefaultState().withProperty(FACING, attachFace);
+	    }
+
 	    if (world.getBlockState(pos.down()).isSideSolid(world, pos.down(), EnumFacing.UP)) {
-	        // Face the player (opposite of their look direction)
 	        EnumFacing playerFacing = placer.getHorizontalFacing();
 	        return this.getDefaultState().withProperty(FACING, playerFacing);
 	    }
 
-	    // 2) Otherwise, if they clicked a horizontal face, attach to that wall
-	    if (side.getAxis().isHorizontal()) {
-	        Block wall = GetWallVariant();
-	        EnumFacing attachFace = side; 
-	        // You may need to cast to your wall‐sconce class or call .getDefaultState()
-	        return wall.getDefaultState().withProperty(FACING, attachFace);
-	    }
-
-	    // 3) Otherwise, nowhere to put it
 	    return null;
 	}
 
 
     @Override
     public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
-        // if the block below is no longer a solid top surface, drop ourselves
         if (!worldIn.getBlockState(pos.down()).isSideSolid(worldIn, pos.down(), EnumFacing.UP)) {
             worldIn.setBlockToAir(pos);
         }
@@ -177,8 +167,7 @@ public class LightHolderSconceFloor extends BlockHBase {
 	@Override
 	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox,
 			List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
-		
-		// holder + stand, rotated by facing
+
 		  switch (state.getValue(FACING)) {
 		    case NORTH:
 		      super.addCollisionBoxToList(pos, entityBox, collidingBoxes, STAND_NORTH);
