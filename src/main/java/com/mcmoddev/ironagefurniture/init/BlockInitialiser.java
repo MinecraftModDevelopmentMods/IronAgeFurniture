@@ -35,7 +35,7 @@ public class BlockInitialiser {
 		//if (IronAgeFurnitureConfiguration.GENERATE_CLASSIC_CHAIRS) {
 			BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron = FurnitureFactory.CreateIronFloorSconce("light_metal_ironage_sconce_floor_empty_iron");
 			BlockObjectHolder.light_metal_ironage_sconce_wall_empty_iron = FurnitureFactory.CreateIronWallSconce("light_metal_ironage_sconce_wall_empty_iron"); 
-			
+			BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron = FurnitureFactory.CreateIronFloorTorchSconce("light_metal_ironage_sconce_floor_torch_iron"); 
 		//}
 	}
 	
