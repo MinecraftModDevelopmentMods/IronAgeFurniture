@@ -1,7 +1,7 @@
 {
 	"parent": "ironagefurniture:block/template_light_metal_ironage_sconce_wall_vial",
 	"textures": {
-		"contents": "minecraft:block/glowstone",
-		"metal": "minecraft:block/iron_block"
+		"contents": "minecraft:blocks/glowstone",
+		"metal": "minecraft:blocks/iron_block"
 	}
 }

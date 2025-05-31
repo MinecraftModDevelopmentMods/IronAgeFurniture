@@ -2,8 +2,8 @@
 	"credit": "Made by FoxNekitsune",
 	"ambientocclusion": false,
 	"textures": {
-	    "1": "minecraft:block/iron_block",
-	    "particle": "minecraft:block/iron_block"
+	    "1": "minecraft:blocks/iron_block",
+	    "particle": "minecraft:blocks/iron_block"
 
 	},
 	"elements": [
