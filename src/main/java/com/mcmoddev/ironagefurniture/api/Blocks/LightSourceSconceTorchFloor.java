@@ -113,7 +113,7 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
         Block newBlock = null;
 
         if (heldItem.getItem() == Item.getItemFromBlock(Blocks.TORCH)) {
-            newBlock = GetTorchVariant();
+            newBlock = DropVariant();
         }
         else if (heldItem.getItem() == Item.getItemFromBlock(BlockObjectHolder.light_metal_ironage_block_floor_glow_clear)) {
             newBlock = GetGlowVariant();

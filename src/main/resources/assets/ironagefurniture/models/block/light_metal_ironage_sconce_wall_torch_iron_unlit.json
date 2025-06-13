@@ -2,6 +2,6 @@
 	"parent": "ironagefurniture:block/template_light_metal_ironage_sconce_wall_torch",
 	"textures": {
 	  "metal": "minecraft:blocks/iron_block",
-	  "torchtexture": "minecraft:blocks/torch"
+	  "torchtexture": "minecraft:blocks/torch_on"
 	}
 }
