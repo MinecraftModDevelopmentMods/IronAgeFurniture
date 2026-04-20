@@ -7,6 +7,9 @@ import com.mcmoddev.ironagefurniture.api.Blocks.Chair;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightHolderSconceFloor;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightHolderSconceWall;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchFloor;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchFloorUnlit;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchWall;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchWallUnlit;
 import com.mcmoddev.ironagefurniture.api.Blocks.Stool;
 import com.mcmoddev.ironagefurniture.init.ItemInitialiser;
 
@@ -18,6 +21,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
@@ -72,6 +76,16 @@ public class FurnitureFactory {
 	
 	public static void AddChairConversionRecipe(Block chairIn, Block chairOut) {
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(chairOut, 1), new ItemStack(chairIn,1)));
+	}
+
+	public static void AddIronSconceRecipe(Block sconce) {
+		Object ironInput = "nuggetIron";
+
+		if (!OreDictionary.doesOreNameExist("nuggetIron") || OreDictionary.getOres("nuggetIron").isEmpty()) {
+			ironInput = "ingotIron";
+		}
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(sconce, 5), "xxx", "x  ", "x  ", 'x', ironInput));
 	}
 	
 	public static Block CreateWoodShieldChair(String name, float resistance, float hardness) {
@@ -132,6 +146,30 @@ public class FurnitureFactory {
 	
 	public static Block CreateIronFloorTorchSconce(String name, float resistance, float hardness) {
 		return  registerBlock(new LightSourceSconceTorchFloor(Material.WOOD, name, resistance, hardness), name);
+	}
+
+	public static Block CreateIronFloorTorchSconceUnlit(String name) {
+		return CreateIronFloorTorchSconceUnlit(name, 10, 1);
+	}
+
+	public static Block CreateIronFloorTorchSconceUnlit(String name, float resistance, float hardness) {
+		return registerBlock(new LightSourceSconceTorchFloorUnlit(Material.WOOD, name, resistance, hardness), name);
+	}
+
+	public static Block CreateIronWallTorchSconce(String name) {
+		return CreateIronWallTorchSconce(name, 10, 1);
+	}
+
+	public static Block CreateIronWallTorchSconce(String name, float resistance, float hardness) {
+		return registerBlock(new LightSourceSconceTorchWall(Material.WOOD, name, resistance, hardness), name);
+	}
+
+	public static Block CreateIronWallTorchSconceUnlit(String name) {
+		return CreateIronWallTorchSconceUnlit(name, 10, 1);
+	}
+
+	public static Block CreateIronWallTorchSconceUnlit(String name, float resistance, float hardness) {
+		return registerBlock(new LightSourceSconceTorchWallUnlit(Material.WOOD, name, resistance, hardness), name);
 	}
 	
 	public static Block CreateWoodChair(String name) {

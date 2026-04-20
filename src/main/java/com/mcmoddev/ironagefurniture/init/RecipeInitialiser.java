@@ -19,8 +19,12 @@ public class RecipeInitialiser {
 	 */
 	public static void init() {
 		generateChairRecipes();
+		generateLightRecipes();
 	}
 	
+	private static void generateLightRecipes() {
+		FurnitureFactory.AddIronSconceRecipe(BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron);
+	}
 
 	
 	private static void generateChairRecipes() {

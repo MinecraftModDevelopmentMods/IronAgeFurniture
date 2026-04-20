@@ -57,6 +57,7 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
     public LightSourceSconceTorchFloor(Material materialIn, String name, float resistance, float hardness) {
         super(materialIn, name, resistance, hardness);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
+        this.setLightLevel(14.0F / 15.0F);
     }
 
     
@@ -175,7 +176,7 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
 
     @Override
     protected Block GetWallVariant() {
-        return BlockObjectHolder.light_metal_ironage_sconce_wall_empty_iron;
+        return BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron;
     }
     @Override
     protected Block GetGlowVariant() {
