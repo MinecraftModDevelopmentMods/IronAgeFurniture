@@ -14,6 +14,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
@@ -21,6 +22,8 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 
 public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
@@ -52,6 +55,12 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
     
     @Override
     public boolean isOpaqueCube(IBlockState bs) { return false; }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public BlockRenderLayer getBlockLayer() {
+        return BlockRenderLayer.CUTOUT;
+    }
 
     
     public LightSourceSconceTorchFloor(Material materialIn, String name, float resistance, float hardness) {

@@ -39,6 +39,10 @@ public class BlockInitialiser {
 			BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron_unlit = FurnitureFactory.CreateIronFloorTorchSconceUnlit("light_metal_ironage_sconce_floor_torch_iron_unlit");
 			BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron = FurnitureFactory.CreateIronWallTorchSconce("light_metal_ironage_sconce_wall_torch_iron");
 			BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron_unlit = FurnitureFactory.CreateIronWallTorchSconceUnlit("light_metal_ironage_sconce_wall_torch_iron_unlit");
+			BlockObjectHolder.light_metal_ironage_sconce_floor_redtorch_iron = FurnitureFactory.CreateIronFloorRedTorchSconce("light_metal_ironage_sconce_floor_redtorch_iron");
+			BlockObjectHolder.light_metal_ironage_sconce_floor_redtorch_iron_unlit = FurnitureFactory.CreateIronFloorRedTorchSconceUnlit("light_metal_ironage_sconce_floor_redtorch_iron_unlit");
+			BlockObjectHolder.light_metal_ironage_sconce_wall_redtorch_iron = FurnitureFactory.CreateIronWallRedTorchSconce("light_metal_ironage_sconce_wall_redtorch_iron");
+			BlockObjectHolder.light_metal_ironage_sconce_wall_redtorch_iron_unlit = FurnitureFactory.CreateIronWallRedTorchSconceUnlit("light_metal_ironage_sconce_wall_redtorch_iron_unlit");
 		//}
 	}
 	

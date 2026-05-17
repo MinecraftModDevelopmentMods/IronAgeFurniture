@@ -2,6 +2,6 @@
 	"parent": "ironagefurniture:block/template_light_metal_ironage_sconce_floor_redtorch",
 	"textures": {
 	  "metal": "minecraft:blocks/iron_block",
-	  "torchtexture": "minecraft:blocks/redstone_torch"
+	  "torchtexture": "minecraft:blocks/redstone_torch_on"
 	}
 }

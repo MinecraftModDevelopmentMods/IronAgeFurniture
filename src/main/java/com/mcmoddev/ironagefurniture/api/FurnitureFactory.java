@@ -6,6 +6,10 @@ import com.mcmoddev.ironagefurniture.api.Blocks.Bench;
 import com.mcmoddev.ironagefurniture.api.Blocks.Chair;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightHolderSconceFloor;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightHolderSconceWall;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceRedTorchFloor;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceRedTorchFloorUnlit;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceRedTorchWall;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceRedTorchWallUnlit;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchFloor;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchFloorUnlit;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchWall;
@@ -170,6 +174,38 @@ public class FurnitureFactory {
 
 	public static Block CreateIronWallTorchSconceUnlit(String name, float resistance, float hardness) {
 		return registerBlock(new LightSourceSconceTorchWallUnlit(Material.WOOD, name, resistance, hardness), name);
+	}
+
+	public static Block CreateIronFloorRedTorchSconce(String name) {
+		return CreateIronFloorRedTorchSconce(name, 10, 1);
+	}
+
+	public static Block CreateIronFloorRedTorchSconce(String name, float resistance, float hardness) {
+		return registerBlock(new LightSourceSconceRedTorchFloor(Material.WOOD, name, resistance, hardness), name);
+	}
+
+	public static Block CreateIronFloorRedTorchSconceUnlit(String name) {
+		return CreateIronFloorRedTorchSconceUnlit(name, 10, 1);
+	}
+
+	public static Block CreateIronFloorRedTorchSconceUnlit(String name, float resistance, float hardness) {
+		return registerBlock(new LightSourceSconceRedTorchFloorUnlit(Material.WOOD, name, resistance, hardness), name);
+	}
+
+	public static Block CreateIronWallRedTorchSconce(String name) {
+		return CreateIronWallRedTorchSconce(name, 10, 1);
+	}
+
+	public static Block CreateIronWallRedTorchSconce(String name, float resistance, float hardness) {
+		return registerBlock(new LightSourceSconceRedTorchWall(Material.WOOD, name, resistance, hardness), name);
+	}
+
+	public static Block CreateIronWallRedTorchSconceUnlit(String name) {
+		return CreateIronWallRedTorchSconceUnlit(name, 10, 1);
+	}
+
+	public static Block CreateIronWallRedTorchSconceUnlit(String name, float resistance, float hardness) {
+		return registerBlock(new LightSourceSconceRedTorchWallUnlit(Material.WOOD, name, resistance, hardness), name);
 	}
 	
 	public static Block CreateWoodChair(String name) {
