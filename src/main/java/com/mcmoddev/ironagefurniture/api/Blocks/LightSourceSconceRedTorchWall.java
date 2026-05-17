@@ -48,10 +48,33 @@ public class LightSourceSconceRedTorchWall extends LightSourceSconceTorchWall {
             return;
         }
 
-        EnumFacing facing = state.getValue(FACING).getOpposite();
-        double x = pos.getX() + 0.5D + (0.27D * facing.getFrontOffsetX());
-        double y = pos.getY() + 0.82D;
-        double z = pos.getZ() + 0.5D + (0.27D * facing.getFrontOffsetZ());
+        EnumFacing facing = state.getValue(FACING);
+        double baseX;
+        double baseZ;
+
+        switch (facing) {
+            case WEST:
+                baseX = 0.4D;
+                baseZ = 0.5D;
+                break;
+            case NORTH:
+                baseX = 0.5D;
+                baseZ = 0.4D;
+                break;
+            case SOUTH:
+                baseX = 0.5D;
+                baseZ = 0.6D;
+                break;
+            default:
+                baseX = 0.6D;
+                baseZ = 0.5D;
+                break;
+        }
+
+        EnumFacing opposite = facing.getOpposite();
+        double x = pos.getX() + baseX + (0.27D * opposite.getFrontOffsetX());
+        double y = pos.getY() + 1.02D;
+        double z = pos.getZ() + baseZ + (0.27D * opposite.getFrontOffsetZ());
 
         world.spawnParticle(EnumParticleTypes.REDSTONE, x, y, z, 0.0D, 0.0D, 0.0D);
     }
