@@ -10,6 +10,7 @@ import com.mcmoddev.ironagefurniture.client.particle.CandleFlameParticle;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -18,6 +19,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -25,6 +27,14 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class LightSourceSconceCandleFloor extends LightSourceSconceTorchFloor {
+    private static final AxisAlignedBB AABB_NORTH = new AxisAlignedBB(
+        5.0D / 16.0D, 0.0D / 16.0D, 3.0D / 16.0D,
+        11.0D / 16.0D, 15.0D / 16.0D, 11.0D / 16.0D
+    );
+    private static final AxisAlignedBB AABB_EAST = rotateClockwise(AABB_NORTH);
+    private static final AxisAlignedBB AABB_SOUTH = rotateHalfTurn(AABB_NORTH);
+    private static final AxisAlignedBB AABB_WEST = rotateCounterClockwise(AABB_NORTH);
+
     private final int candleCount;
 
     public LightSourceSconceCandleFloor(Material materialIn, String name, float resistance, float hardness, int candleCount) {
@@ -39,6 +49,17 @@ public class LightSourceSconceCandleFloor extends LightSourceSconceTorchFloor {
         drops.add(new ItemStack(BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron, 1));
         drops.add(new ItemStack(BlockObjectHolder.light_metal_ironage_candle_floor, candleCount));
         return drops;
+    }
+
+    @Override
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+        return getShape(state);
+    }
+
+    @Override
+    public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos,
+            AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
+        super.addCollisionBoxToList(pos, entityBox, collidingBoxes, getShape(state));
     }
 
     @Override
@@ -183,6 +204,52 @@ public class LightSourceSconceCandleFloor extends LightSourceSconceTorchFloor {
             default:
                 return new double[] { x, z };
         }
+    }
+
+    protected AxisAlignedBB getShape(IBlockState state) {
+        switch (state.getValue(FACING)) {
+            case EAST:
+                return AABB_EAST;
+            case SOUTH:
+                return AABB_SOUTH;
+            case WEST:
+                return AABB_WEST;
+            default:
+                return AABB_NORTH;
+        }
+    }
+
+    private static AxisAlignedBB rotateClockwise(AxisAlignedBB bb) {
+        return new AxisAlignedBB(
+            1.0D - bb.maxZ,
+            bb.minY,
+            bb.minX,
+            1.0D - bb.minZ,
+            bb.maxY,
+            bb.maxX
+        );
+    }
+
+    private static AxisAlignedBB rotateHalfTurn(AxisAlignedBB bb) {
+        return new AxisAlignedBB(
+            1.0D - bb.maxX,
+            bb.minY,
+            1.0D - bb.maxZ,
+            1.0D - bb.minX,
+            bb.maxY,
+            1.0D - bb.minZ
+        );
+    }
+
+    private static AxisAlignedBB rotateCounterClockwise(AxisAlignedBB bb) {
+        return new AxisAlignedBB(
+            bb.minZ,
+            bb.minY,
+            1.0D - bb.maxX,
+            bb.maxZ,
+            bb.maxY,
+            1.0D - bb.minX
+        );
     }
 
     protected Item CandleItem() {

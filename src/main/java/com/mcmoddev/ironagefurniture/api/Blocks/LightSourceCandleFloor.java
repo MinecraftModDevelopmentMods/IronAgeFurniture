@@ -32,10 +32,13 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class LightSourceCandleFloor extends BlockHBase {
-    protected static final AxisAlignedBB FLOOR_AABB = new AxisAlignedBB(
+    protected static final AxisAlignedBB FLOOR_NORTH = new AxisAlignedBB(
         4.0D / 16.0D, 0.0D, 4.0D / 16.0D,
-        11.0D / 16.0D, 6.0D / 16.0D, 11.0D / 16.0D
+        9.0D / 16.0D, 6.0D / 16.0D, 11.0D / 16.0D
     );
+    protected static final AxisAlignedBB FLOOR_EAST = rotateClockwise(FLOOR_NORTH);
+    protected static final AxisAlignedBB FLOOR_SOUTH = rotateHalfTurn(FLOOR_NORTH);
+    protected static final AxisAlignedBB FLOOR_WEST = rotateCounterClockwise(FLOOR_NORTH);
 
     public LightSourceCandleFloor(Material materialIn, String name, float resistance, float hardness) {
         super(materialIn);
@@ -125,13 +128,13 @@ public class LightSourceCandleFloor extends BlockHBase {
 
     @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-        return FLOOR_AABB;
+        return getShape(state);
     }
 
     @Override
     public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos,
             AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
-        super.addCollisionBoxToList(pos, entityBox, collidingBoxes, FLOOR_AABB);
+        super.addCollisionBoxToList(pos, entityBox, collidingBoxes, getShape(state));
     }
 
     @Override
@@ -204,6 +207,52 @@ public class LightSourceCandleFloor extends BlockHBase {
             default:
                 return new double[] { x, z };
         }
+    }
+
+    protected AxisAlignedBB getShape(IBlockState state) {
+        switch (state.getValue(FACING)) {
+            case EAST:
+                return FLOOR_EAST;
+            case SOUTH:
+                return FLOOR_SOUTH;
+            case WEST:
+                return FLOOR_WEST;
+            default:
+                return FLOOR_NORTH;
+        }
+    }
+
+    protected static AxisAlignedBB rotateClockwise(AxisAlignedBB bb) {
+        return new AxisAlignedBB(
+            1.0D - bb.maxZ,
+            bb.minY,
+            bb.minX,
+            1.0D - bb.minZ,
+            bb.maxY,
+            bb.maxX
+        );
+    }
+
+    protected static AxisAlignedBB rotateHalfTurn(AxisAlignedBB bb) {
+        return new AxisAlignedBB(
+            1.0D - bb.maxX,
+            bb.minY,
+            1.0D - bb.maxZ,
+            1.0D - bb.minX,
+            bb.maxY,
+            1.0D - bb.minZ
+        );
+    }
+
+    protected static AxisAlignedBB rotateCounterClockwise(AxisAlignedBB bb) {
+        return new AxisAlignedBB(
+            bb.minZ,
+            bb.minY,
+            1.0D - bb.maxX,
+            bb.maxZ,
+            bb.maxY,
+            1.0D - bb.minX
+        );
     }
 
     protected boolean IsLit() {

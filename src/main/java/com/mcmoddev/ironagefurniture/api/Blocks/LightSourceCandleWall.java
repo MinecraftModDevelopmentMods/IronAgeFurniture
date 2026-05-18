@@ -24,14 +24,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nullable;
 
 public class LightSourceCandleWall extends LightSourceCandleFloor {
-    protected static final AxisAlignedBB WALL_EAST = new AxisAlignedBB(
-        0.0D / 16.0D, 2.0D / 16.0D, 5.5D / 16.0D,
-        6.5D / 16.0D, 11.0D / 16.0D, 10.5D / 16.0D
+    protected static final AxisAlignedBB WALL_SOUTH = new AxisAlignedBB(
+        5.0D / 16.0D, 5.0D / 16.0D, 0.0D / 16.0D,
+        10.0D / 16.0D, 14.0D / 16.0D, 4.0D / 16.0D
     );
-
-    protected static final AxisAlignedBB WALL_NORTH = rotateCounterClockwise(WALL_EAST);
-    protected static final AxisAlignedBB WALL_SOUTH = rotateClockwise(WALL_EAST);
-    protected static final AxisAlignedBB WALL_WEST = rotateHalfTurn(WALL_EAST);
+    protected static final AxisAlignedBB WALL_WEST = rotateClockwise(WALL_SOUTH);
+    protected static final AxisAlignedBB WALL_NORTH = rotateHalfTurn(WALL_SOUTH);
+    protected static final AxisAlignedBB WALL_EAST = rotateCounterClockwise(WALL_SOUTH);
 
     public LightSourceCandleWall(Material materialIn, String name, float resistance, float hardness) {
         super(materialIn, name, resistance, hardness);
@@ -74,12 +73,14 @@ public class LightSourceCandleWall extends LightSourceCandleFloor {
         switch (state.getValue(FACING)) {
             case NORTH:
                 return WALL_NORTH;
+            case EAST:
+                return WALL_EAST;
             case SOUTH:
                 return WALL_SOUTH;
             case WEST:
                 return WALL_WEST;
             default:
-                return WALL_EAST;
+                return WALL_SOUTH;
         }
     }
 

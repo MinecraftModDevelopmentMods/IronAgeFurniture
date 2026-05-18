@@ -22,15 +22,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nullable;
 
 public class LightSourceSconceCandleWall extends LightSourceSconceCandleFloor {
-    private static final AxisAlignedBB AABB_EAST = new AxisAlignedBB(
-        0.0D / 16.0D, 2.0D / 16.0D, 5.5D / 16.0D,
-        6.5D / 16.0D, 13.0D / 16.0D, 10.5D / 16.0D
-    );
-
-    private static final AxisAlignedBB AABB_NORTH = rotateCounterClockwise(AABB_EAST);
-    private static final AxisAlignedBB AABB_SOUTH = rotateClockwise(AABB_EAST);
-    private static final AxisAlignedBB AABB_WEST = rotateHalfTurn(AABB_EAST);
-
     public LightSourceSconceCandleWall(Material materialIn, String name, float resistance, float hardness, int candleCount) {
         super(materialIn, name, resistance, hardness, candleCount);
     }
@@ -68,16 +59,27 @@ public class LightSourceSconceCandleWall extends LightSourceSconceCandleFloor {
         );
     }
 
-    private AxisAlignedBB getShape(IBlockState state) {
+    protected AxisAlignedBB getShape(IBlockState state) {
+        AxisAlignedBB southShape = new AxisAlignedBB(
+            5.0D / 16.0D,
+            9.0D / 16.0D,
+            0.0D / 16.0D,
+            11.0D / 16.0D,
+            (CandleCount() >= 4 ? 16.0D : 15.0D) / 16.0D,
+            8.0D / 16.0D
+        );
+
         switch (state.getValue(FACING)) {
             case NORTH:
-                return AABB_NORTH;
+                return rotateHalfTurn(southShape);
+            case EAST:
+                return rotateCounterClockwise(southShape);
             case SOUTH:
-                return AABB_SOUTH;
+                return southShape;
             case WEST:
-                return AABB_WEST;
+                return rotateClockwise(southShape);
             default:
-                return AABB_EAST;
+                return southShape;
         }
     }
 
