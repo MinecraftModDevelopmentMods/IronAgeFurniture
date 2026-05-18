@@ -88,8 +88,7 @@ public class FurnitureFactory {
 
 		if (!OreDictionary.doesOreNameExist("nuggetIron") || OreDictionary.getOres("nuggetIron").isEmpty()) {
 			ironInput = "ingotIron";
-			// Preserve the 1.19 nugget economy when old 1.10 environments only expose ingots.
-			outputCount = 45;
+			outputCount = 32;
 		}
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(sconce, outputCount), "xxx", "x  ", "x  ", 'x', ironInput));
