@@ -3,9 +3,9 @@
 	"ambientocclusion": false,
 	"textures": {
 		"1": "#metal",
-		"2": "minecraft:block/glass",
+		"2": "minecraft:blocks/glass",
 		"3": "#contents",
-		"particle": "minecraft:block/glass"
+		"particle": "minecraft:blocks/glass"
 	},
 	"elements": [
 		{

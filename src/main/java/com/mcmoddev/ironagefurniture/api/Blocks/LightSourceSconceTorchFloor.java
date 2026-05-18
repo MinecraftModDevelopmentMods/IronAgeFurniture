@@ -74,7 +74,7 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
     public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
         List<ItemStack> drops = Lists.newArrayList();
         drops.add(new ItemStack(BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron, 1));
-        drops.add(new ItemStack(Blocks.TORCH, 1));
+        drops.add(new ItemStack(LightDrop(), 1));
         return drops;
     }
 
