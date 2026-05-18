@@ -120,36 +120,57 @@ public class LightSourceSconceCandleWall extends LightSourceSconceCandleFloor {
     @SideOnly(Side.CLIENT)
     public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand) {
         EnumFacing facing = state.getValue(FACING);
-        EnumFacing opposite = facing.getOpposite();
 
         for (int i = 0; i < CandleCount(); i++) {
-            double spread = getWallFlameSpread(i, CandleCount());
-            double x = pos.getX() + 0.5D + 0.29D * opposite.getFrontOffsetX();
-            double y = pos.getY() + 0.98D;
-            double z = pos.getZ() + 0.5D + 0.29D * opposite.getFrontOffsetZ();
-
-            if (facing.getAxis() == EnumFacing.Axis.X) {
-                z += spread;
-            } else {
-                x += spread;
-            }
-
-            spawnFlame(world, rand, x, y, z);
+            double[] offset = getWallFlameOffset(i, CandleCount());
+            double[] rotated = rotateWallPoint(facing, offset[0], offset[2]);
+            spawnFlame(world, rand, pos.getX() + rotated[0], pos.getY() + offset[1], pos.getZ() + rotated[1]);
         }
     }
 
-    private double getWallFlameSpread(int index, int count) {
+    private double[] getWallFlameOffset(int index, int count) {
         if (count == 1) {
-            return 0.0D;
+            return new double[] { 7.5D / 16.0D, 15.6D / 16.0D, 5.5D / 16.0D };
         }
         if (count == 2) {
-            return index == 0 ? -0.08D : 0.08D;
+            return index == 0
+                ? new double[] { 9.5D / 16.0D, 15.6D / 16.0D, 3.5D / 16.0D }
+                : new double[] { 6.5D / 16.0D, 13.6D / 16.0D, 6.5D / 16.0D };
         }
         if (count == 3) {
-            return (index - 1) * 0.08D;
+            switch (index) {
+                case 0:
+                    return new double[] { 9.5D / 16.0D, 15.6D / 16.0D, 3.5D / 16.0D };
+                case 1:
+                    return new double[] { 9.5D / 16.0D, 14.6D / 16.0D, 6.5D / 16.0D };
+                default:
+                    return new double[] { 6.5D / 16.0D, 13.6D / 16.0D, 6.5D / 16.0D };
+            }
         }
 
-        return (index - 1.5D) * 0.07D;
+        switch (index) {
+            case 0:
+                return new double[] { 9.5D / 16.0D, 15.6D / 16.0D, 3.5D / 16.0D };
+            case 1:
+                return new double[] { 9.5D / 16.0D, 14.6D / 16.0D, 6.5D / 16.0D };
+            case 2:
+                return new double[] { 6.5D / 16.0D, 16.25D / 16.0D, 3.5D / 16.0D };
+            default:
+                return new double[] { 6.5D / 16.0D, 13.6D / 16.0D, 6.5D / 16.0D };
+        }
+    }
+
+    private double[] rotateWallPoint(EnumFacing facing, double x, double z) {
+        switch (facing) {
+            case WEST:
+                return new double[] { 1.0D - z, x };
+            case NORTH:
+                return new double[] { 1.0D - x, 1.0D - z };
+            case EAST:
+                return new double[] { z, 1.0D - x };
+            default:
+                return new double[] { x, z };
+        }
     }
 
     @Override

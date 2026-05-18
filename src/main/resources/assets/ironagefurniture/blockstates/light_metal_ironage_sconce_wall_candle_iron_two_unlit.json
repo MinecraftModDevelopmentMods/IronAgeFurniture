@@ -1,8 +1,8 @@
 ﻿{
   "variants": {
-    "facing=north": { "model": "ironagefurniture:light_metal_ironage_sconce_wall_candle_iron_two", "y": 270 },
-    "facing=east": { "model": "ironagefurniture:light_metal_ironage_sconce_wall_candle_iron_two", "y": 0 },
-    "facing=south": { "model": "ironagefurniture:light_metal_ironage_sconce_wall_candle_iron_two", "y": 90 },
-    "facing=west": { "model": "ironagefurniture:light_metal_ironage_sconce_wall_candle_iron_two", "y": 180 }
+    "facing=north": { "model": "ironagefurniture:light_metal_ironage_sconce_wall_candle_iron_two", "y": 180 },
+    "facing=east": { "model": "ironagefurniture:light_metal_ironage_sconce_wall_candle_iron_two", "y": 270 },
+    "facing=south": { "model": "ironagefurniture:light_metal_ironage_sconce_wall_candle_iron_two", "y": 0 },
+    "facing=west": { "model": "ironagefurniture:light_metal_ironage_sconce_wall_candle_iron_two", "y": 90 }
   }
 }

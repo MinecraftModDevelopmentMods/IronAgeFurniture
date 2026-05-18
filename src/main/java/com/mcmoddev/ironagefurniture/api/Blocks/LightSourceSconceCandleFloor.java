@@ -79,17 +79,7 @@ public class LightSourceSconceCandleFloor extends LightSourceSconceTorchFloor {
             return true;
         }
 
-        Block replacement = getReplacementForHeldItem(heldItem);
-        if (replacement != null) {
-            if (!worldIn.isRemote) {
-                setSconceState(worldIn, pos, state, replacement);
-
-                if (!playerIn.capabilities.isCreativeMode) {
-                    heldItem.stackSize--;
-                    giveCandles(playerIn, hand, heldItem, candleCount);
-                }
-            }
-
+        if (isLightSourceItem(heldItem)) {
             return true;
         }
 
@@ -100,24 +90,12 @@ public class LightSourceSconceCandleFloor extends LightSourceSconceTorchFloor {
         worldIn.setBlockState(pos, block.getDefaultState().withProperty(FACING, state.getValue(FACING)), 3);
     }
 
-    protected Block getReplacementForHeldItem(ItemStack heldItem) {
-        if (heldItem.getItem() == Item.getItemFromBlock(Blocks.TORCH)) {
-            return GetTorchVariant();
-        }
-        else if (heldItem.getItem() == Item.getItemFromBlock(BlockObjectHolder.light_metal_ironage_block_floor_glow_clear)) {
-            return GetGlowVariant();
-        }
-        else if (heldItem.getItem() == Item.getItemFromBlock(BlockObjectHolder.light_metal_ironage_block_floor_lava_clear)) {
-            return GetLavaVariant();
-        }
-        else if (heldItem.getItem() == Item.getItemFromBlock(Blocks.REDSTONE_TORCH)) {
-            return GetRedTorchVariant();
-        }
-        else if (heldItem.getItem() == Item.getItemFromBlock(BlockObjectHolder.light_metal_ironage_block_floor_red_clear)) {
-            return GetRedVariant();
-        }
-
-        return null;
+    protected boolean isLightSourceItem(ItemStack heldItem) {
+        return heldItem.getItem() == Item.getItemFromBlock(Blocks.TORCH)
+            || heldItem.getItem() == Item.getItemFromBlock(BlockObjectHolder.light_metal_ironage_block_floor_glow_clear)
+            || heldItem.getItem() == Item.getItemFromBlock(BlockObjectHolder.light_metal_ironage_block_floor_lava_clear)
+            || heldItem.getItem() == Item.getItemFromBlock(Blocks.REDSTONE_TORCH)
+            || heldItem.getItem() == Item.getItemFromBlock(BlockObjectHolder.light_metal_ironage_block_floor_red_clear);
     }
 
     protected void giveCandles(EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, int count) {
