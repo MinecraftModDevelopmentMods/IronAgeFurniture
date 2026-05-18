@@ -2,12 +2,16 @@ package com.mcmoddev.ironagefurniture.init;
 
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 import com.mcmoddev.ironagefurniture.IronAgeFurnitureConfiguration;
+import com.mcmoddev.ironagefurniture.ItemObjectHolder;
 import com.mcmoddev.ironagefurniture.api.FurnitureFactory;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 public class RecipeInitialiser {
 	protected RecipeInitialiser() {
@@ -24,6 +28,14 @@ public class RecipeInitialiser {
 	
 	private static void generateLightRecipes() {
 		FurnitureFactory.AddIronSconceRecipe(BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron);
+		GameRegistry.addSmelting(Items.COOKED_PORKCHOP, new ItemStack(ItemObjectHolder.tallow, 3), 0.1F);
+		GameRegistry.addSmelting(Items.COOKED_BEEF, new ItemStack(ItemObjectHolder.tallow, 2), 0.1F);
+		GameRegistry.addSmelting(Items.COOKED_MUTTON, new ItemStack(ItemObjectHolder.tallow, 2), 0.1F);
+		GameRegistry.addSmelting(Items.COOKED_RABBIT, new ItemStack(ItemObjectHolder.tallow, 1), 0.1F);
+		GameRegistry.addSmelting(Items.COOKED_CHICKEN, new ItemStack(ItemObjectHolder.tallow, 1), 0.1F);
+		GameRegistry.addSmelting(Items.ROTTEN_FLESH, new ItemStack(ItemObjectHolder.tallow, 1), 0.1F);
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockObjectHolder.light_metal_ironage_candle_floor, 8),
+			new ItemStack(ItemObjectHolder.tallow, 1), Items.STRING));
 	}
 
 	

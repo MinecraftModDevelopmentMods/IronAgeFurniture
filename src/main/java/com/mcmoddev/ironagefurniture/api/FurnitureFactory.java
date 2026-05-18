@@ -6,6 +6,14 @@ import com.mcmoddev.ironagefurniture.api.Blocks.Bench;
 import com.mcmoddev.ironagefurniture.api.Blocks.Chair;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightHolderSconceFloor;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightHolderSconceWall;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceCandleFloor;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceCandleFloorUnlit;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceCandleWall;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceCandleWallUnlit;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceCandleFloor;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceCandleFloorUnlit;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceCandleWall;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceCandleWallUnlit;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceRedTorchFloor;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceRedTorchFloorUnlit;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceRedTorchWall;
@@ -208,6 +216,70 @@ public class FurnitureFactory {
 
 	public static Block CreateIronWallRedTorchSconceUnlit(String name, float resistance, float hardness) {
 		return registerBlockWithoutItem(new LightSourceSconceRedTorchWallUnlit(Material.WOOD, name, resistance, hardness), name);
+	}
+
+	public static Block CreateCandleFloor(String name) {
+		return CreateCandleFloor(name, 1, 0.1F);
+	}
+
+	public static Block CreateCandleFloor(String name, float resistance, float hardness) {
+		return registerBlock(new LightSourceCandleFloor(Material.CIRCUITS, name, resistance, hardness), name, 64);
+	}
+
+	public static Block CreateCandleWall(String name) {
+		return CreateCandleWall(name, 1, 0.1F);
+	}
+
+	public static Block CreateCandleWall(String name, float resistance, float hardness) {
+		return registerBlockWithoutItem(new LightSourceCandleWall(Material.CIRCUITS, name, resistance, hardness), name);
+	}
+
+	public static Block CreateCandleFloorUnlit(String name) {
+		return CreateCandleFloorUnlit(name, 1, 0.1F);
+	}
+
+	public static Block CreateCandleFloorUnlit(String name, float resistance, float hardness) {
+		return registerBlockWithoutItem(new LightSourceCandleFloorUnlit(Material.CIRCUITS, name, resistance, hardness), name);
+	}
+
+	public static Block CreateCandleWallUnlit(String name) {
+		return CreateCandleWallUnlit(name, 1, 0.1F);
+	}
+
+	public static Block CreateCandleWallUnlit(String name, float resistance, float hardness) {
+		return registerBlockWithoutItem(new LightSourceCandleWallUnlit(Material.CIRCUITS, name, resistance, hardness), name);
+	}
+
+	public static Block CreateIronFloorCandleSconce(String name, int candleCount) {
+		return CreateIronFloorCandleSconce(name, 10, 1, candleCount);
+	}
+
+	public static Block CreateIronFloorCandleSconce(String name, float resistance, float hardness, int candleCount) {
+		return registerBlockWithoutItem(new LightSourceSconceCandleFloor(Material.WOOD, name, resistance, hardness, candleCount), name);
+	}
+
+	public static Block CreateIronFloorCandleSconceUnlit(String name, int candleCount) {
+		return CreateIronFloorCandleSconceUnlit(name, 10, 1, candleCount);
+	}
+
+	public static Block CreateIronFloorCandleSconceUnlit(String name, float resistance, float hardness, int candleCount) {
+		return registerBlockWithoutItem(new LightSourceSconceCandleFloorUnlit(Material.WOOD, name, resistance, hardness, candleCount), name);
+	}
+
+	public static Block CreateIronWallCandleSconce(String name, int candleCount) {
+		return CreateIronWallCandleSconce(name, 10, 1, candleCount);
+	}
+
+	public static Block CreateIronWallCandleSconce(String name, float resistance, float hardness, int candleCount) {
+		return registerBlockWithoutItem(new LightSourceSconceCandleWall(Material.WOOD, name, resistance, hardness, candleCount), name);
+	}
+
+	public static Block CreateIronWallCandleSconceUnlit(String name, int candleCount) {
+		return CreateIronWallCandleSconceUnlit(name, 10, 1, candleCount);
+	}
+
+	public static Block CreateIronWallCandleSconceUnlit(String name, float resistance, float hardness, int candleCount) {
+		return registerBlockWithoutItem(new LightSourceSconceCandleWallUnlit(Material.WOOD, name, resistance, hardness, candleCount), name);
 	}
 	
 	public static Block CreateWoodChair(String name) {

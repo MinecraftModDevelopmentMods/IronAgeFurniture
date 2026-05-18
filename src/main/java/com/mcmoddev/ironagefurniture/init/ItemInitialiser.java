@@ -1,6 +1,7 @@
 package com.mcmoddev.ironagefurniture.init;
 
 import com.mcmoddev.ironagefurniture.Ironagefurniture;
+import com.mcmoddev.ironagefurniture.ItemObjectHolder;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -8,6 +9,10 @@ import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ItemInitialiser {
+	public static void init() {
+		ItemObjectHolder.tallow = RegisterItem(new Item().setCreativeTab(Ironagefurniture.ironagefurnitureTab), "tallow");
+	}
+
 	public static Item RegisterItem(Item item, String name) {
 		GameRegistry.register(item.setRegistryName(Ironagefurniture.MODID, name));
 		Ironagefurniture.ItemRegistry.put(name, item);

@@ -43,6 +43,26 @@ public class BlockInitialiser {
 			BlockObjectHolder.light_metal_ironage_sconce_floor_redtorch_iron_unlit = FurnitureFactory.CreateIronFloorRedTorchSconceUnlit("light_metal_ironage_sconce_floor_redtorch_iron_unlit");
 			BlockObjectHolder.light_metal_ironage_sconce_wall_redtorch_iron = FurnitureFactory.CreateIronWallRedTorchSconce("light_metal_ironage_sconce_wall_redtorch_iron");
 			BlockObjectHolder.light_metal_ironage_sconce_wall_redtorch_iron_unlit = FurnitureFactory.CreateIronWallRedTorchSconceUnlit("light_metal_ironage_sconce_wall_redtorch_iron_unlit");
+			BlockObjectHolder.light_metal_ironage_candle_floor = FurnitureFactory.CreateCandleFloor("light_metal_ironage_candle_floor");
+			BlockObjectHolder.light_metal_ironage_candle_wall = FurnitureFactory.CreateCandleWall("light_metal_ironage_candle_wall");
+			BlockObjectHolder.light_metal_ironage_candle_floor_unlit = FurnitureFactory.CreateCandleFloorUnlit("light_metal_ironage_candle_floor_unlit");
+			BlockObjectHolder.light_metal_ironage_candle_wall_unlit = FurnitureFactory.CreateCandleWallUnlit("light_metal_ironage_candle_wall_unlit");
+			BlockObjectHolder.light_metal_ironage_sconce_floor_candle_iron = FurnitureFactory.CreateIronFloorCandleSconce("light_metal_ironage_sconce_floor_candle_iron", 1);
+			BlockObjectHolder.light_metal_ironage_sconce_floor_candle_iron_two = FurnitureFactory.CreateIronFloorCandleSconce("light_metal_ironage_sconce_floor_candle_iron_two", 2);
+			BlockObjectHolder.light_metal_ironage_sconce_floor_candle_iron_three = FurnitureFactory.CreateIronFloorCandleSconce("light_metal_ironage_sconce_floor_candle_iron_three", 3);
+			BlockObjectHolder.light_metal_ironage_sconce_floor_candle_iron_four = FurnitureFactory.CreateIronFloorCandleSconce("light_metal_ironage_sconce_floor_candle_iron_four", 4);
+			BlockObjectHolder.light_metal_ironage_sconce_floor_candle_iron_unlit = FurnitureFactory.CreateIronFloorCandleSconceUnlit("light_metal_ironage_sconce_floor_candle_iron_unlit", 1);
+			BlockObjectHolder.light_metal_ironage_sconce_floor_candle_iron_two_unlit = FurnitureFactory.CreateIronFloorCandleSconceUnlit("light_metal_ironage_sconce_floor_candle_iron_two_unlit", 2);
+			BlockObjectHolder.light_metal_ironage_sconce_floor_candle_iron_three_unlit = FurnitureFactory.CreateIronFloorCandleSconceUnlit("light_metal_ironage_sconce_floor_candle_iron_three_unlit", 3);
+			BlockObjectHolder.light_metal_ironage_sconce_floor_candle_iron_four_unlit = FurnitureFactory.CreateIronFloorCandleSconceUnlit("light_metal_ironage_sconce_floor_candle_iron_four_unlit", 4);
+			BlockObjectHolder.light_metal_ironage_sconce_wall_candle_iron = FurnitureFactory.CreateIronWallCandleSconce("light_metal_ironage_sconce_wall_candle_iron", 1);
+			BlockObjectHolder.light_metal_ironage_sconce_wall_candle_iron_two = FurnitureFactory.CreateIronWallCandleSconce("light_metal_ironage_sconce_wall_candle_iron_two", 2);
+			BlockObjectHolder.light_metal_ironage_sconce_wall_candle_iron_three = FurnitureFactory.CreateIronWallCandleSconce("light_metal_ironage_sconce_wall_candle_iron_three", 3);
+			BlockObjectHolder.light_metal_ironage_sconce_wall_candle_iron_four = FurnitureFactory.CreateIronWallCandleSconce("light_metal_ironage_sconce_wall_candle_iron_four", 4);
+			BlockObjectHolder.light_metal_ironage_sconce_wall_candle_iron_unlit = FurnitureFactory.CreateIronWallCandleSconceUnlit("light_metal_ironage_sconce_wall_candle_iron_unlit", 1);
+			BlockObjectHolder.light_metal_ironage_sconce_wall_candle_iron_two_unlit = FurnitureFactory.CreateIronWallCandleSconceUnlit("light_metal_ironage_sconce_wall_candle_iron_two_unlit", 2);
+			BlockObjectHolder.light_metal_ironage_sconce_wall_candle_iron_three_unlit = FurnitureFactory.CreateIronWallCandleSconceUnlit("light_metal_ironage_sconce_wall_candle_iron_three_unlit", 3);
+			BlockObjectHolder.light_metal_ironage_sconce_wall_candle_iron_four_unlit = FurnitureFactory.CreateIronWallCandleSconceUnlit("light_metal_ironage_sconce_wall_candle_iron_four_unlit", 4);
 		//}
 	}
 	

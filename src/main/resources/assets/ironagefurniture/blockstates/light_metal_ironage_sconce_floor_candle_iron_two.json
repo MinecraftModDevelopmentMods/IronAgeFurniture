@@ -1,0 +1,8 @@
+﻿{
+  "variants": {
+    "facing=north": { "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_two", "y": 0 },
+    "facing=east": { "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_two", "y": 90 },
+    "facing=south": { "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_two", "y": 180 },
+    "facing=west": { "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_two", "y": 270 }
+  }
+}

@@ -16,6 +16,28 @@ public class BlockObjectHolder {
 	public static Block light_metal_ironage_sconce_wall_redtorch_iron;
 	public static Block light_metal_ironage_sconce_wall_redtorch_iron_unlit;
 
+	public static Block light_metal_ironage_candle_floor;
+	public static Block light_metal_ironage_candle_wall;
+	public static Block light_metal_ironage_candle_floor_unlit;
+	public static Block light_metal_ironage_candle_wall_unlit;
+
+	public static Block light_metal_ironage_sconce_floor_candle_iron;
+	public static Block light_metal_ironage_sconce_floor_candle_iron_two;
+	public static Block light_metal_ironage_sconce_floor_candle_iron_three;
+	public static Block light_metal_ironage_sconce_floor_candle_iron_four;
+	public static Block light_metal_ironage_sconce_floor_candle_iron_unlit;
+	public static Block light_metal_ironage_sconce_floor_candle_iron_two_unlit;
+	public static Block light_metal_ironage_sconce_floor_candle_iron_three_unlit;
+	public static Block light_metal_ironage_sconce_floor_candle_iron_four_unlit;
+	public static Block light_metal_ironage_sconce_wall_candle_iron;
+	public static Block light_metal_ironage_sconce_wall_candle_iron_two;
+	public static Block light_metal_ironage_sconce_wall_candle_iron_three;
+	public static Block light_metal_ironage_sconce_wall_candle_iron_four;
+	public static Block light_metal_ironage_sconce_wall_candle_iron_unlit;
+	public static Block light_metal_ironage_sconce_wall_candle_iron_two_unlit;
+	public static Block light_metal_ironage_sconce_wall_candle_iron_three_unlit;
+	public static Block light_metal_ironage_sconce_wall_candle_iron_four_unlit;
+
 	public static Block light_metal_ironage_block_floor_glow_clear;
 	public static Block light_metal_ironage_sconce_floor_glow_iron;
 	public static Block light_metal_ironage_sconce_wall_glow_iron;

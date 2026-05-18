@@ -224,6 +224,9 @@ public class LightHolderSconceFloor extends BlockHBase {
 		else if (heldItem.getItem() == Item.getItemFromBlock(Blocks.REDSTONE_TORCH)) {
 			newBlock = GetRedTorchVariant(); // redstone torch
 		}
+		else if (heldItem.getItem() == Item.getItemFromBlock(BlockObjectHolder.light_metal_ironage_candle_floor)) {
+			newBlock = GetCandleVariant();
+		}
 		else if (heldItem.getItem() == Item.getItemFromBlock(BlockObjectHolder.light_metal_ironage_block_floor_red_clear)) {
 			newBlock = GetRedVariant(); // redstone lamp
 		}
@@ -271,6 +274,9 @@ public class LightHolderSconceFloor extends BlockHBase {
 	    else if (heldItem.getItem() == Item.getItemFromBlock(Blocks.REDSTONE_TORCH)) {
 	        newBlock = GetRedTorchVariant();
 	    }
+	    else if (heldItem.getItem() == Item.getItemFromBlock(BlockObjectHolder.light_metal_ironage_candle_floor)) {
+	        newBlock = GetCandleVariant();
+	    }
 //	    // Soul torch // leaving as a placeholder for now for the candle variant
 //	    else if (heldItem.getItem() == Item.getItemFromBlock(Blocks.SOUL_TORCH)) {
 //	        newBlock = GetSoulTorchVariant();
@@ -302,6 +308,7 @@ public class LightHolderSconceFloor extends BlockHBase {
     protected Block GetTorchVariant()		{ return BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron; }
     protected Block GetLavaVariant()		{ return BlockObjectHolder.light_metal_ironage_sconce_floor_lava_iron; }
     protected Block GetRedTorchVariant()	{ return BlockObjectHolder.light_metal_ironage_sconce_floor_redtorch_iron; }
+    protected Block GetCandleVariant()	    { return BlockObjectHolder.light_metal_ironage_sconce_floor_candle_iron; }
     protected Block GetSoulTorchVariant()	{ return BlockObjectHolder.light_metal_ironage_sconce_floor_soultorch_iron; }
     protected Block GetRedVariant()   		{ return BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron; }
     protected Block GetSoulVariant()  		{ return BlockObjectHolder.light_metal_ironage_sconce_floor_soultorch_iron; }
