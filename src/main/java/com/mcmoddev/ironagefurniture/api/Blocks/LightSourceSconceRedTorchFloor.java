@@ -19,9 +19,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraft.init.SoundEvents;
 
 public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor {
     protected static final Map<World, List<Toggle>> RECENT_TOGGLES = new WeakHashMap<World, List<Toggle>>();
@@ -44,7 +46,7 @@ public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor 
 
     @Override
     public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand) {
-        if (!HasFlame()) {
+        if (!IsLit()) {
             return;
         }
 
@@ -58,8 +60,8 @@ public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor 
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state,
                                     EntityPlayer playerIn, EnumHand hand, ItemStack heldItem,
                                     EnumFacing side, float hitX, float hitY, float hitZ) {
-        if (heldItem == null || heldItem.stackSize <= 0) {
-            return super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
+        if (tryTakeLightOut(worldIn, pos, state, playerIn, hand, heldItem)) {
+            return true;
         }
 
         if (heldItem.getItem() == Items.WATER_BUCKET) {
@@ -96,12 +98,11 @@ public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor 
 
         if (!worldIn.isRemote) {
             worldIn.setBlockState(pos, newBlock.getDefaultState().withProperty(FACING, state.getValue(FACING)), 3);
-        }
-
-        if (!playerIn.capabilities.isCreativeMode
-            && heldItem.getItem() != Item.getItemFromBlock(Blocks.REDSTONE_TORCH)) {
-            heldItem.stackSize--;
-            playerIn.inventory.addItemStackToInventory(new ItemStack(LightDrop(), 1));
+            
+            if (!playerIn.capabilities.isCreativeMode) {
+                heldItem.stackSize--;
+                playerIn.inventory.addItemStackToInventory(new ItemStack(LightDrop(), 1));
+            }
         }
 
         return true;
@@ -110,12 +111,16 @@ public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor 
     @Override
     public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
         super.onBlockAdded(worldIn, pos, state);
-        notifyNeighbors(worldIn, pos);
+        if (IsLit()) {
+            notifyNeighbors(worldIn, pos);
+        }
     }
 
     @Override
     public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
-        notifyNeighbors(worldIn, pos);
+        if (IsLit()) {
+            notifyNeighbors(worldIn, pos);
+        }
         super.breakBlock(worldIn, pos, state);
     }
 
@@ -127,7 +132,7 @@ public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor 
             return;
         }
 
-        if (hasNeighborSignal(worldIn, pos, state) && !worldIn.isUpdateScheduled(pos, this)) {
+        if (IsLit() == hasNeighborSignal(worldIn, pos, state) && !worldIn.isUpdateScheduled(pos, this)) {
             worldIn.scheduleUpdate(pos, this, tickRate(worldIn));
         }
     }
@@ -137,17 +142,30 @@ public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor 
         boolean hasSignal = hasNeighborSignal(worldIn, pos, state);
         pruneRecentToggles(worldIn);
 
-        if (!hasSignal) {
-            return;
-        }
+        if (IsLit()) {
+            if (hasSignal) {
+                worldIn.setBlockState(pos,
+                    GetUnlitTorchVariant().getDefaultState().withProperty(FACING, state.getValue(FACING)),
+                    3);
 
-        worldIn.setBlockState(pos,
-            GetUnlitTorchVariant().getDefaultState().withProperty(FACING, state.getValue(FACING)),
-            3);
+                if (isToggledTooFrequently(worldIn, pos, true)) {
+                    worldIn.playSound(null, pos, SoundEvents.BLOCK_REDSTONE_TORCH_BURNOUT, SoundCategory.BLOCKS,
+                        0.5F, 2.6F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.8F);
 
-        if (isToggledTooFrequently(worldIn, pos, true)) {
-            worldIn.playEvent(1502, pos, 0);
-            worldIn.scheduleUpdate(pos, worldIn.getBlockState(pos).getBlock(), RESTART_DELAY);
+                    for (int i = 0; i < 5; ++i) {
+                        double x = pos.getX() + rand.nextDouble() * 0.6D + 0.2D;
+                        double y = pos.getY() + rand.nextDouble() * 0.6D + 0.2D;
+                        double z = pos.getZ() + rand.nextDouble() * 0.6D + 0.2D;
+                        worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x, y, z, 0.0D, 0.0D, 0.0D);
+                    }
+
+                    worldIn.scheduleUpdate(pos, worldIn.getBlockState(pos).getBlock(), RESTART_DELAY);
+                }
+            }
+        } else if (!hasSignal && !isToggledTooFrequently(worldIn, pos, false)) {
+            worldIn.setBlockState(pos,
+                GetLitVariant().getDefaultState().withProperty(FACING, state.getValue(FACING)),
+                3);
         }
     }
 
@@ -158,7 +176,7 @@ public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor 
 
     @Override
     public int getWeakPower(IBlockState state, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
-        return side != EnumFacing.UP ? 15 : 0;
+        return IsLit() && side != EnumFacing.UP ? 15 : 0;
     }
 
     @Override
@@ -218,6 +236,10 @@ public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor 
         }
     }
 
+    protected Block GetLitVariant() {
+        return BlockObjectHolder.light_metal_ironage_sconce_floor_redtorch_iron;
+    }
+
     @Override
     protected Block LightDrop() {
         return Blocks.REDSTONE_TORCH;
@@ -226,6 +248,10 @@ public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor 
     @Override
     protected boolean CanEx() {
         return false;
+    }
+
+    protected boolean IsLit() {
+        return true;
     }
 
     @Override

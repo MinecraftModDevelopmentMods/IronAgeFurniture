@@ -15,7 +15,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class LightSourceSconceRedTorchFloorUnlit extends LightSourceSconceRedTorchFloor {
@@ -61,39 +60,13 @@ public class LightSourceSconceRedTorchFloorUnlit extends LightSourceSconceRedTor
         return super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
     }
 
-    @Override
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
-        super.neighborChanged(state, worldIn, pos, blockIn);
-
-        if (worldIn.getBlockState(pos).getBlock() != this) {
-            return;
-        }
-
-        if (!hasNeighborSignal(worldIn, pos, state) && !worldIn.isUpdateScheduled(pos, this)) {
-            worldIn.scheduleUpdate(pos, this, tickRate(worldIn));
-        }
-    }
-
-    @Override
-    public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-        pruneRecentToggles(worldIn);
-        worldIn.setBlockState(pos,
-            GetLitVariant().getDefaultState().withProperty(FACING, state.getValue(FACING)),
-            3);
-    }
-
-    @Override
-    public int getWeakPower(IBlockState state, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
-        return 0;
-    }
-
-    @Override
-    public int getStrongPower(IBlockState state, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
-        return 0;
-    }
-
     protected Block GetLitVariant() {
         return BlockObjectHolder.light_metal_ironage_sconce_floor_redtorch_iron;
+    }
+
+    @Override
+    protected boolean IsLit() {
+        return false;
     }
 
     @Override

@@ -84,12 +84,15 @@ public class FurnitureFactory {
 
 	public static void AddIronSconceRecipe(Block sconce) {
 		Object ironInput = "nuggetIron";
+		int outputCount = 5;
 
 		if (!OreDictionary.doesOreNameExist("nuggetIron") || OreDictionary.getOres("nuggetIron").isEmpty()) {
 			ironInput = "ingotIron";
+			// Preserve the 1.19 nugget economy when old 1.10 environments only expose ingots.
+			outputCount = 45;
 		}
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(sconce, 5), "xxx", "x  ", "x  ", 'x', ironInput));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(sconce, outputCount), "xxx", "x  ", "x  ", 'x', ironInput));
 	}
 	
 	public static Block CreateWoodShieldChair(String name, float resistance, float hardness) {
@@ -137,11 +140,11 @@ public class FurnitureFactory {
 	}
 	
 	public static Block CreateIronWallSconce(String name, float resistance, float hardness) {
-		return  registerBlock(new LightHolderSconceWall(Material.WOOD, name, resistance, hardness), name);
+		return registerBlockWithoutItem(new LightHolderSconceWall(Material.WOOD, name, resistance, hardness), name);
 	}
 	
 	public static Block CreateIronFloorSconce(String name, float resistance, float hardness) {
-		return  registerBlock(new LightHolderSconceFloor(Material.WOOD, name, resistance, hardness), name);
+		return registerBlock(new LightHolderSconceFloor(Material.WOOD, name, resistance, hardness), name, 64);
 	}
 	
 	public static Block CreateIronFloorTorchSconce(String name) {
@@ -149,7 +152,7 @@ public class FurnitureFactory {
 	}
 	
 	public static Block CreateIronFloorTorchSconce(String name, float resistance, float hardness) {
-		return  registerBlock(new LightSourceSconceTorchFloor(Material.WOOD, name, resistance, hardness), name);
+		return registerBlockWithoutItem(new LightSourceSconceTorchFloor(Material.WOOD, name, resistance, hardness), name);
 	}
 
 	public static Block CreateIronFloorTorchSconceUnlit(String name) {
@@ -157,7 +160,7 @@ public class FurnitureFactory {
 	}
 
 	public static Block CreateIronFloorTorchSconceUnlit(String name, float resistance, float hardness) {
-		return registerBlock(new LightSourceSconceTorchFloorUnlit(Material.WOOD, name, resistance, hardness), name);
+		return registerBlockWithoutItem(new LightSourceSconceTorchFloorUnlit(Material.WOOD, name, resistance, hardness), name);
 	}
 
 	public static Block CreateIronWallTorchSconce(String name) {
@@ -165,7 +168,7 @@ public class FurnitureFactory {
 	}
 
 	public static Block CreateIronWallTorchSconce(String name, float resistance, float hardness) {
-		return registerBlock(new LightSourceSconceTorchWall(Material.WOOD, name, resistance, hardness), name);
+		return registerBlockWithoutItem(new LightSourceSconceTorchWall(Material.WOOD, name, resistance, hardness), name);
 	}
 
 	public static Block CreateIronWallTorchSconceUnlit(String name) {
@@ -173,7 +176,7 @@ public class FurnitureFactory {
 	}
 
 	public static Block CreateIronWallTorchSconceUnlit(String name, float resistance, float hardness) {
-		return registerBlock(new LightSourceSconceTorchWallUnlit(Material.WOOD, name, resistance, hardness), name);
+		return registerBlockWithoutItem(new LightSourceSconceTorchWallUnlit(Material.WOOD, name, resistance, hardness), name);
 	}
 
 	public static Block CreateIronFloorRedTorchSconce(String name) {
@@ -181,7 +184,7 @@ public class FurnitureFactory {
 	}
 
 	public static Block CreateIronFloorRedTorchSconce(String name, float resistance, float hardness) {
-		return registerBlock(new LightSourceSconceRedTorchFloor(Material.WOOD, name, resistance, hardness), name);
+		return registerBlockWithoutItem(new LightSourceSconceRedTorchFloor(Material.WOOD, name, resistance, hardness), name);
 	}
 
 	public static Block CreateIronFloorRedTorchSconceUnlit(String name) {
@@ -189,7 +192,7 @@ public class FurnitureFactory {
 	}
 
 	public static Block CreateIronFloorRedTorchSconceUnlit(String name, float resistance, float hardness) {
-		return registerBlock(new LightSourceSconceRedTorchFloorUnlit(Material.WOOD, name, resistance, hardness), name);
+		return registerBlockWithoutItem(new LightSourceSconceRedTorchFloorUnlit(Material.WOOD, name, resistance, hardness), name);
 	}
 
 	public static Block CreateIronWallRedTorchSconce(String name) {
@@ -197,7 +200,7 @@ public class FurnitureFactory {
 	}
 
 	public static Block CreateIronWallRedTorchSconce(String name, float resistance, float hardness) {
-		return registerBlock(new LightSourceSconceRedTorchWall(Material.WOOD, name, resistance, hardness), name);
+		return registerBlockWithoutItem(new LightSourceSconceRedTorchWall(Material.WOOD, name, resistance, hardness), name);
 	}
 
 	public static Block CreateIronWallRedTorchSconceUnlit(String name) {
@@ -205,7 +208,7 @@ public class FurnitureFactory {
 	}
 
 	public static Block CreateIronWallRedTorchSconceUnlit(String name, float resistance, float hardness) {
-		return registerBlock(new LightSourceSconceRedTorchWallUnlit(Material.WOOD, name, resistance, hardness), name);
+		return registerBlockWithoutItem(new LightSourceSconceRedTorchWallUnlit(Material.WOOD, name, resistance, hardness), name);
 	}
 	
 	public static Block CreateWoodChair(String name) {
@@ -219,20 +222,28 @@ public class FurnitureFactory {
 	public static Block CreateWoodTallStool(String name) {
 		return registerBlock(new Stool(Material.WOOD, name, 10, true, 0.6, 1), name);
 	}
-    private static Block registerBlock(Block block, String name, int maxStackSize) {
+    private static Block registerBlock(Block block, String name, int maxStackSize, boolean registerItem) {
     	GameRegistry.register(block.setRegistryName(Ironagefurniture.MODID, name));
     	block.setUnlocalizedName(Ironagefurniture.MODID + "." + name);
 		
-		ItemBlock itemBlock = new ItemBlock(block);
-		
-		itemBlock.setMaxStackSize(maxStackSize);
-		
-		ItemInitialiser.RegisterItem(itemBlock, name);
+		if (registerItem) {
+			ItemBlock itemBlock = new ItemBlock(block);
+			itemBlock.setMaxStackSize(maxStackSize);
+			ItemInitialiser.RegisterItem(itemBlock, name);
+		}
 		Ironagefurniture.BlockRegistry.put(name, block);
 		
 		return block;
     }
     
+    private static Block registerBlockWithoutItem(Block block, String name) {
+		return registerBlock(block, name, 16, false);
+	}
+
+    private static Block registerBlock(Block block, String name, int maxStackSize) {
+		return registerBlock(block, name, maxStackSize, true);
+	}
+
 	private static Block registerBlock(Block block, String name) {
 		return registerBlock(block, name, 16);
 	}

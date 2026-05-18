@@ -44,7 +44,7 @@ public class LightSourceSconceRedTorchWall extends LightSourceSconceTorchWall {
 
     @Override
     public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand) {
-        if (!HasFlame()) {
+        if (!IsLit()) {
             return;
         }
 
@@ -135,12 +135,16 @@ public class LightSourceSconceRedTorchWall extends LightSourceSconceTorchWall {
     @Override
     public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
         super.onBlockAdded(worldIn, pos, state);
-        notifyNeighbors(worldIn, pos);
+        if (IsLit()) {
+            notifyNeighbors(worldIn, pos);
+        }
     }
 
     @Override
     public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
-        notifyNeighbors(worldIn, pos);
+        if (IsLit()) {
+            notifyNeighbors(worldIn, pos);
+        }
         super.breakBlock(worldIn, pos, state);
     }
 
@@ -152,7 +156,7 @@ public class LightSourceSconceRedTorchWall extends LightSourceSconceTorchWall {
             return;
         }
 
-        if (hasNeighborSignal(worldIn, pos, state) && !worldIn.isUpdateScheduled(pos, this)) {
+        if (IsLit() == hasNeighborSignal(worldIn, pos, state) && !worldIn.isUpdateScheduled(pos, this)) {
             worldIn.scheduleUpdate(pos, this, tickRate(worldIn));
         }
     }
@@ -162,17 +166,21 @@ public class LightSourceSconceRedTorchWall extends LightSourceSconceTorchWall {
         boolean hasSignal = hasNeighborSignal(worldIn, pos, state);
         pruneRecentToggles(worldIn);
 
-        if (!hasSignal) {
-            return;
-        }
+        if (IsLit()) {
+            if (hasSignal) {
+                worldIn.setBlockState(pos,
+                    GetUnlitTorchVariant().getDefaultState().withProperty(FACING, state.getValue(FACING)),
+                    3);
 
-        worldIn.setBlockState(pos,
-            GetUnlitTorchVariant().getDefaultState().withProperty(FACING, state.getValue(FACING)),
-            3);
-
-        if (isToggledTooFrequently(worldIn, pos, true)) {
-            worldIn.playEvent(1502, pos, 0);
-            worldIn.scheduleUpdate(pos, worldIn.getBlockState(pos).getBlock(), RESTART_DELAY);
+                if (isToggledTooFrequently(worldIn, pos, true)) {
+                    worldIn.playEvent(1502, pos, 0);
+                    worldIn.scheduleUpdate(pos, worldIn.getBlockState(pos).getBlock(), RESTART_DELAY);
+                }
+            }
+        } else if (!hasSignal && !isToggledTooFrequently(worldIn, pos, false)) {
+            worldIn.setBlockState(pos,
+                GetLitVariant().getDefaultState().withProperty(FACING, state.getValue(FACING)),
+                3);
         }
     }
 
@@ -183,7 +191,7 @@ public class LightSourceSconceRedTorchWall extends LightSourceSconceTorchWall {
 
     @Override
     public int getWeakPower(IBlockState state, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
-        return state.getValue(FACING) != side ? 15 : 0;
+        return IsLit() && state.getValue(FACING) != side ? 15 : 0;
     }
 
     @Override
@@ -252,6 +260,14 @@ public class LightSourceSconceRedTorchWall extends LightSourceSconceTorchWall {
     @Override
     protected boolean CanEx() {
         return false;
+    }
+
+    protected boolean IsLit() {
+        return true;
+    }
+
+    protected Block GetLitVariant() {
+        return BlockObjectHolder.light_metal_ironage_sconce_wall_redtorch_iron;
     }
 
     @Override

@@ -141,7 +141,7 @@ public class LightHolderSconceFloor extends BlockHBase {
 	        return wall.getDefaultState().withProperty(FACING, attachFace);
 	    }
 
-	    if (world.getBlockState(pos.down()).isSideSolid(world, pos.down(), EnumFacing.UP)) {
+	    if (this.canPlaceOn(world, pos.down())) {
 	        EnumFacing playerFacing = placer.getHorizontalFacing();
 	        return this.getDefaultState().withProperty(FACING, playerFacing);
 	    }
@@ -152,7 +152,7 @@ public class LightHolderSconceFloor extends BlockHBase {
 
     @Override
     public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
-        if (!worldIn.getBlockState(pos.down()).isSideSolid(worldIn, pos.down(), EnumFacing.UP)) {
+        if (!this.canPlaceOn(worldIn, pos.down())) {
             if (!worldIn.isRemote) {
                 this.dropBlockAsItem(worldIn, pos, state, 0);
             }
