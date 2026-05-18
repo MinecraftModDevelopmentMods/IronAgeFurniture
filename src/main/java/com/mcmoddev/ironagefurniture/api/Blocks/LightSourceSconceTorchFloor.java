@@ -89,15 +89,6 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
             world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x, y, z, 0.0D, 0.0D, 0.0D);
             world.spawnParticle(EnumParticleTypes.FLAME,       x, y, z, 0.0D, 0.0D, 0.0D);
         }
-
-        boolean canBeExtinguishedBySignal = true; // TODO: CanEx() logic
-        if (canBeExtinguishedBySignal) {
-            if (shouldBeOff(world, pos, state)) {
-            	// TODO: Check waterlogging logic
-                Block unlit = GetUnlitTorchVariant();
-                world.setBlockState(pos, unlit.getDefaultState().withProperty(FACING, state.getValue(FACING)),3 /* UPDATE_ALL */);
-            }
-        }
     }
 
 
@@ -105,8 +96,8 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state,
                                     EntityPlayer playerIn, EnumHand hand, ItemStack heldItem,
                                     EnumFacing side, float hitX, float hitY, float hitZ) {
-        if (heldItem == null || heldItem.stackSize <= 0) {
-            return super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
+        if (tryTakeLightOut(worldIn, pos, state, playerIn, hand, heldItem)) {
+            return true;
         }
 
         
@@ -142,14 +133,11 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
             if (!worldIn.isRemote) {
                 worldIn.setBlockState(pos, 
                     newBlock.getDefaultState().withProperty(FACING, state.getValue(FACING)),3 /*UPDATE_ALL*/);
-            }
-            
-            
-            if (!playerIn.capabilities.isCreativeMode) {
-                if (heldItem.getItem() != Item.getItemFromBlock(Blocks.TORCH)) {
+                
+                if (!playerIn.capabilities.isCreativeMode) {
                     heldItem.stackSize--;
                     playerIn.inventory.addItemStackToInventory(
-                        new ItemStack(Blocks.TORCH, 1));
+                        new ItemStack(LightDrop(), 1));
                 }
             }
             
@@ -157,6 +145,45 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
         }
 
         return super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
+    }
+
+    protected boolean tryTakeLightOut(World worldIn, BlockPos pos, IBlockState state,
+                                      EntityPlayer playerIn, EnumHand hand, ItemStack heldItem) {
+        Item lightItem = Item.getItemFromBlock(LightDrop());
+
+        if (heldItem == null || heldItem.stackSize <= 0) {
+            if (!worldIn.isRemote) {
+                worldIn.setBlockState(pos,
+                    DropVariant().getDefaultState().withProperty(FACING, state.getValue(FACING)),
+                    3);
+
+                if (!playerIn.capabilities.isCreativeMode) {
+                    playerIn.setHeldItem(hand, new ItemStack(LightDrop(), 1));
+                }
+            }
+
+            return true;
+        }
+
+        if (heldItem.getItem() != lightItem) {
+            return false;
+        }
+
+        if (!worldIn.isRemote) {
+            worldIn.setBlockState(pos,
+                DropVariant().getDefaultState().withProperty(FACING, state.getValue(FACING)),
+                3);
+
+            if (!playerIn.capabilities.isCreativeMode) {
+                if (heldItem.stackSize < heldItem.getMaxStackSize()) {
+                    heldItem.stackSize++;
+                } else {
+                    playerIn.inventory.addItemStackToInventory(new ItemStack(LightDrop(), 1));
+                }
+            }
+        }
+
+        return true;
     }
 
     protected Block UnlitVariant() {

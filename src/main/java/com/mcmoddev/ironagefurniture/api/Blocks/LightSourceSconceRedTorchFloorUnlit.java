@@ -31,32 +31,6 @@ public class LightSourceSconceRedTorchFloorUnlit extends LightSourceSconceRedTor
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state,
                                     EntityPlayer playerIn, EnumHand hand, ItemStack heldItem,
                                     EnumFacing side, float hitX, float hitY, float hitZ) {
-        if (heldItem != null && heldItem.stackSize > 0) {
-            if (heldItem.getItem() == Items.FLINT_AND_STEEL) {
-                if (!worldIn.isRemote) {
-                    worldIn.setBlockState(pos,
-                        GetLitVariant().getDefaultState().withProperty(FACING, state.getValue(FACING)),
-                        3);
-
-                    if (!playerIn.capabilities.isCreativeMode) {
-                        heldItem.damageItem(1, playerIn);
-                    }
-                }
-
-                return true;
-            }
-
-            if (heldItem.getItem() == Item.getItemFromBlock(Blocks.REDSTONE_TORCH)) {
-                if (!worldIn.isRemote) {
-                    worldIn.setBlockState(pos,
-                        GetLitVariant().getDefaultState().withProperty(FACING, state.getValue(FACING)),
-                        3);
-                }
-
-                return true;
-            }
-        }
-
         return super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
     }
 

@@ -146,11 +146,6 @@ public class LightSourceSconceTorchWall extends LightSourceSconceTorchFloor {
             world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x, y, z, 0.0D, 0.0D, 0.0D);
             world.spawnParticle(EnumParticleTypes.FLAME, x, y, z, 0.0D, 0.0D, 0.0D);
         }
-
-        if (CanEx() && world.isBlockPowered(pos)) {
-            Block unlit = GetUnlitTorchVariant();
-            world.setBlockState(pos, unlit.getDefaultState().withProperty(FACING, state.getValue(FACING)), 3);
-        }
     }
 
     @Override

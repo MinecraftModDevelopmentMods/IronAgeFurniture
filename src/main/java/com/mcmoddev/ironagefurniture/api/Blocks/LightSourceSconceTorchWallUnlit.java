@@ -57,6 +57,38 @@ public class LightSourceSconceTorchWallUnlit extends LightSourceSconceTorchWall 
         return super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
     }
 
+    @Override
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
+        super.neighborChanged(state, worldIn, pos, blockIn);
+
+        if (worldIn.getBlockState(pos).getBlock() != this) {
+            return;
+        }
+
+        if (shouldRelightFromSignal(worldIn, pos) && !worldIn.isUpdateScheduled(pos, this)) {
+            worldIn.scheduleUpdate(pos, this, tickRate(worldIn));
+        }
+    }
+
+    public void updateTick(World worldIn, BlockPos pos, IBlockState state, java.util.Random rand) {
+        if (!shouldRelightFromSignal(worldIn, pos)) {
+            return;
+        }
+
+        worldIn.setBlockState(pos,
+            GetLitVariant().getDefaultState().withProperty(FACING, state.getValue(FACING)),
+            3);
+    }
+
+    @Override
+    public int tickRate(World worldIn) {
+        return 2;
+    }
+
+    protected boolean shouldRelightFromSignal(World worldIn, BlockPos pos) {
+        return worldIn.isBlockPowered(pos);
+    }
+
     protected Block GetLitVariant() {
         return BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron;
     }
