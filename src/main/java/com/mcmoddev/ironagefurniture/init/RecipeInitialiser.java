@@ -41,6 +41,8 @@ public class RecipeInitialiser {
 			Items.GLOWSTONE_DUST, Items.GLASS_BOTTLE));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockObjectHolder.light_metal_ironage_block_floor_lava_clear, 8),
 			"yyy", "yxy", "yyy", 'y', Items.GLASS_BOTTLE, 'x', Items.LAVA_BUCKET));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.OBSIDIAN, 1),
+			"yyy", "yyy", "yyy", 'y', BlockObjectHolder.obsidian_chunk));
 	}
 
 	

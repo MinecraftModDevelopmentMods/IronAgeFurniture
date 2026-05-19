@@ -129,17 +129,8 @@ public class LightSourceSconceGlowWall extends LightSourceSconceTorchWall {
     }
 
     private boolean isBlockedInteractionItem(ItemStack heldItem) {
-        Item item = heldItem.getItem();
-        return item == Items.WATER_BUCKET
-            || item == Item.getItemFromBlock(Blocks.TORCH)
-            || item == Item.getItemFromBlock(Blocks.REDSTONE_TORCH)
-            || isItemFromBlock(item, BlockObjectHolder.light_metal_ironage_candle_floor)
-            || isItemFromBlock(item, BlockObjectHolder.light_metal_ironage_block_floor_lava_clear)
-            || isItemFromBlock(item, BlockObjectHolder.light_metal_ironage_block_floor_red_clear);
-    }
-
-    private boolean isItemFromBlock(Item item, Block block) {
-        return block != null && item == Item.getItemFromBlock(block);
+        return heldItem.getItem() == Items.WATER_BUCKET
+            || isSconceLightSourceItem(heldItem);
     }
 
     @Override

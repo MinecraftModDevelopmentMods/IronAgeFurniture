@@ -74,38 +74,11 @@ public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor 
             return true;
         }
 
-        Block newBlock = null;
-
-        if (heldItem.getItem() == Item.getItemFromBlock(Blocks.TORCH)) {
-            newBlock = GetTorchVariant();
-        }
-        else if (heldItem.getItem() == Item.getItemFromBlock(BlockObjectHolder.light_metal_ironage_block_floor_glow_clear)) {
-            newBlock = GetGlowVariant();
-        }
-        else if (heldItem.getItem() == Item.getItemFromBlock(BlockObjectHolder.light_metal_ironage_block_floor_lava_clear)) {
-            newBlock = GetLavaVariant();
-        }
-        else if (heldItem.getItem() == Item.getItemFromBlock(Blocks.REDSTONE_TORCH)) {
-            newBlock = DropVariant();
-        }
-        else if (heldItem.getItem() == Item.getItemFromBlock(BlockObjectHolder.light_metal_ironage_block_floor_red_clear)) {
-            newBlock = GetRedVariant();
+        if (isSconceLightSourceItem(heldItem)) {
+            return true;
         }
 
-        if (newBlock == null) {
-            return super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
-        }
-
-        if (!worldIn.isRemote) {
-            worldIn.setBlockState(pos, newBlock.getDefaultState().withProperty(FACING, state.getValue(FACING)), 3);
-            
-            if (!playerIn.capabilities.isCreativeMode) {
-                heldItem.stackSize--;
-                playerIn.inventory.addItemStackToInventory(new ItemStack(LightDrop(), 1));
-            }
-        }
-
-        return true;
+        return super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
     }
 
     @Override

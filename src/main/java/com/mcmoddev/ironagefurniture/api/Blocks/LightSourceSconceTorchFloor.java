@@ -111,36 +111,7 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
         }
         
 
-        Block newBlock = null;
-
-        if (heldItem.getItem() == Item.getItemFromBlock(Blocks.TORCH)) {
-            newBlock = DropVariant();
-        }
-        else if (heldItem.getItem() == Item.getItemFromBlock(BlockObjectHolder.light_metal_ironage_block_floor_glow_clear)) {
-            newBlock = GetGlowVariant();
-        }
-        else if (heldItem.getItem() == Item.getItemFromBlock(BlockObjectHolder.light_metal_ironage_block_floor_lava_clear)) {
-            newBlock = GetLavaVariant();
-        }
-        else if (heldItem.getItem() == Item.getItemFromBlock(Blocks.REDSTONE_TORCH)) {
-            newBlock = GetRedTorchVariant();
-        }
-        else if (heldItem.getItem() == Item.getItemFromBlock(BlockObjectHolder.light_metal_ironage_block_floor_red_clear)) {
-            newBlock = GetRedVariant();
-        }
-
-        if (newBlock != null) {
-            if (!worldIn.isRemote) {
-                worldIn.setBlockState(pos, 
-                    newBlock.getDefaultState().withProperty(FACING, state.getValue(FACING)),3 /*UPDATE_ALL*/);
-                
-                if (!playerIn.capabilities.isCreativeMode) {
-                    heldItem.stackSize--;
-                    playerIn.inventory.addItemStackToInventory(
-                        new ItemStack(LightDrop(), 1));
-                }
-            }
-            
+        if (isSconceLightSourceItem(heldItem)) {
             return true;
         }
 
@@ -184,6 +155,24 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
         }
 
         return true;
+    }
+
+    protected boolean isSconceLightSourceItem(ItemStack heldItem) {
+        if (heldItem == null || heldItem.stackSize <= 0) {
+            return false;
+        }
+
+        Item item = heldItem.getItem();
+        return item == Item.getItemFromBlock(Blocks.TORCH)
+            || item == Item.getItemFromBlock(Blocks.REDSTONE_TORCH)
+            || isItemFromBlock(item, BlockObjectHolder.light_metal_ironage_candle_floor)
+            || isItemFromBlock(item, BlockObjectHolder.light_metal_ironage_block_floor_glow_clear)
+            || isItemFromBlock(item, BlockObjectHolder.light_metal_ironage_block_floor_lava_clear)
+            || isItemFromBlock(item, BlockObjectHolder.light_metal_ironage_block_floor_red_clear);
+    }
+
+    protected boolean isItemFromBlock(Item item, Block block) {
+        return block != null && item == Item.getItemFromBlock(block);
     }
 
     protected Block UnlitVariant() {

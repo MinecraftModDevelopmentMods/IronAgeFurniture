@@ -46,6 +46,7 @@ public class BlockInitialiser {
 			BlockObjectHolder.light_metal_ironage_block_floor_glow_clear = FurnitureFactory.CreateGlowdustLamp("light_metal_ironage_block_floor_glow_clear");
 			BlockObjectHolder.light_metal_ironage_sconce_floor_glow_iron = FurnitureFactory.CreateIronFloorGlowSconce("light_metal_ironage_sconce_floor_glow_iron");
 			BlockObjectHolder.light_metal_ironage_sconce_wall_glow_iron = FurnitureFactory.CreateIronWallGlowSconce("light_metal_ironage_sconce_wall_glow_iron");
+			BlockObjectHolder.obsidian_chunk = FurnitureFactory.CreateObsidianChunk("obsidian_chunk");
 			BlockObjectHolder.light_metal_ironage_block_floor_lava_clear = FurnitureFactory.CreateLavaLamp("light_metal_ironage_block_floor_lava_clear");
 			BlockObjectHolder.light_metal_ironage_sconce_floor_lava_iron = FurnitureFactory.CreateIronFloorLavaSconce("light_metal_ironage_sconce_floor_lava_iron");
 			BlockObjectHolder.light_metal_ironage_sconce_wall_lava_iron = FurnitureFactory.CreateIronWallLavaSconce("light_metal_ironage_sconce_wall_lava_iron");

@@ -1,16 +1,21 @@
 package com.mcmoddev.ironagefurniture.api.Blocks;
 
 import java.util.List;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Random;
+import java.util.Set;
+import java.util.WeakHashMap;
 
 import com.google.common.collect.Lists;
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockFalling;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -18,6 +23,7 @@ import net.minecraft.init.Enchantments;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
@@ -25,6 +31,8 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class LightSourceLava extends LightSourceGlowdust {
+    private static final Map<World, Set<BlockPos>> WATER_LANDINGS = new WeakHashMap<World, Set<BlockPos>>();
+
     public LightSourceLava(Material materialIn, String name, float resistance, float hardness) {
         super(materialIn, name, resistance, hardness);
     }
@@ -32,13 +40,40 @@ public class LightSourceLava extends LightSourceGlowdust {
     @Override
     protected void onStartFalling(EntityFallingBlock fallingEntity) {
         fallingEntity.shouldDropItem = false;
+
+        if (!fallingEntity.world.isRemote) {
+            BlockPos waterLanding = findWaterLanding(fallingEntity.world, new BlockPos(fallingEntity));
+            if (waterLanding != null) {
+                rememberWaterLanding(fallingEntity.world, waterLanding);
+            }
+        }
     }
 
     @Override
     public void onEndFalling(World worldIn, BlockPos pos) {
         if (!worldIn.isRemote) {
-            breakIntoFire(worldIn, pos, null);
+            if (consumeWaterLanding(worldIn, pos)) {
+                breakIntoObsidianChunk(worldIn, pos, null, EnumFacing.NORTH);
+            } else {
+                breakIntoFire(worldIn, pos, null);
+            }
         }
+    }
+
+    @Override
+    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing side,
+            float hitX, float hitY, float hitZ, int meta,
+            EntityLivingBase placer, ItemStack stack) {
+        if (world.getBlockState(pos).getMaterial() == Material.WATER) {
+            if (!world.isRemote) {
+                playWaterBreakSounds(world, pos, null);
+            }
+
+            return BlockObjectHolder.obsidian_chunk.getDefaultState()
+                .withProperty(BlockHBase.FACING, placer.getHorizontalFacing());
+        }
+
+        return super.getStateForPlacement(world, pos, side, hitX, hitY, hitZ, meta, placer, stack);
     }
 
     @Override
@@ -94,6 +129,51 @@ public class LightSourceLava extends LightSourceGlowdust {
     protected void breakIntoFire(World worldIn, BlockPos pos, EntityPlayer player) {
         worldIn.playSound(player, pos, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
         worldIn.setBlockState(pos, Blocks.FIRE.getDefaultState(), 3);
+    }
+
+    protected void breakIntoObsidianChunk(World worldIn, BlockPos pos, EntityPlayer player, EnumFacing facing) {
+        playWaterBreakSounds(worldIn, pos, player);
+        worldIn.setBlockState(pos, BlockObjectHolder.obsidian_chunk.getDefaultState()
+            .withProperty(BlockHBase.FACING, facing), 3);
+    }
+
+    private void playWaterBreakSounds(World worldIn, BlockPos pos, EntityPlayer player) {
+        worldIn.playSound(player, pos, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
+        worldIn.playSound(player, pos, SoundEvents.BLOCK_LAVA_EXTINGUISH, SoundCategory.BLOCKS,
+            0.5F, 2.6F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.8F);
+    }
+
+    private BlockPos findWaterLanding(World world, BlockPos start) {
+        BlockPos cursor = start.down();
+        BlockPos lastFallThrough = start;
+        boolean touchedWater = false;
+
+        while (cursor.getY() > 0
+                && (world.isAirBlock(cursor) || BlockFalling.canFallThrough(world.getBlockState(cursor)))) {
+            if (world.getBlockState(cursor).getMaterial() == Material.WATER) {
+                touchedWater = true;
+            }
+
+            lastFallThrough = cursor;
+            cursor = cursor.down();
+        }
+
+        return touchedWater ? lastFallThrough : null;
+    }
+
+    private static void rememberWaterLanding(World world, BlockPos pos) {
+        Set<BlockPos> landings = WATER_LANDINGS.get(world);
+        if (landings == null) {
+            landings = new HashSet<BlockPos>();
+            WATER_LANDINGS.put(world, landings);
+        }
+
+        landings.add(pos.toImmutable());
+    }
+
+    private static boolean consumeWaterLanding(World world, BlockPos pos) {
+        Set<BlockPos> landings = WATER_LANDINGS.get(world);
+        return landings != null && landings.remove(pos);
     }
 
     protected Block LavaLampBlock() {

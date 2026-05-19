@@ -28,6 +28,7 @@ import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchFloor;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchFloorUnlit;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchWall;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchWallUnlit;
+import com.mcmoddev.ironagefurniture.api.Blocks.ObsideanLump;
 import com.mcmoddev.ironagefurniture.api.Blocks.Stool;
 import com.mcmoddev.ironagefurniture.init.ItemInitialiser;
 
@@ -270,6 +271,14 @@ public class FurnitureFactory {
 
 	public static Block CreateIronWallLavaSconce(String name, float resistance, float hardness) {
 		return registerBlockWithoutItem(new LightSourceSconceLavaWall(Material.WOOD, name, resistance, hardness), name);
+	}
+
+	public static Block CreateObsidianChunk(String name) {
+		return CreateObsidianChunk(name, 10, 1);
+	}
+
+	public static Block CreateObsidianChunk(String name, float resistance, float hardness) {
+		return registerBlock(new ObsideanLump(Material.ROCK, name, resistance, hardness), name, 64);
 	}
 
 	public static Block CreateCandleFloor(String name) {
