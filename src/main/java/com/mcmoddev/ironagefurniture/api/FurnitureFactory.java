@@ -11,12 +11,15 @@ import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceCandleFloorUnlit;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceCandleWall;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceCandleWallUnlit;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceGlowdust;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceLava;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceCandleFloor;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceCandleFloorUnlit;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceCandleWall;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceCandleWallUnlit;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceGlowFloor;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceGlowWall;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceLavaFloor;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceLavaWall;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceRedTorchFloor;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceRedTorchFloorUnlit;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceRedTorchWall;
@@ -243,6 +246,30 @@ public class FurnitureFactory {
 
 	public static Block CreateIronWallGlowSconce(String name, float resistance, float hardness) {
 		return registerBlockWithoutItem(new LightSourceSconceGlowWall(Material.WOOD, name, resistance, hardness), name);
+	}
+
+	public static Block CreateLavaLamp(String name) {
+		return CreateLavaLamp(name, 10, 1);
+	}
+
+	public static Block CreateLavaLamp(String name, float resistance, float hardness) {
+		return registerBlock(new LightSourceLava(Material.GLASS, name, resistance, hardness), name, 64);
+	}
+
+	public static Block CreateIronFloorLavaSconce(String name) {
+		return CreateIronFloorLavaSconce(name, 10, 1);
+	}
+
+	public static Block CreateIronFloorLavaSconce(String name, float resistance, float hardness) {
+		return registerBlockWithoutItem(new LightSourceSconceLavaFloor(Material.WOOD, name, resistance, hardness), name);
+	}
+
+	public static Block CreateIronWallLavaSconce(String name) {
+		return CreateIronWallLavaSconce(name, 10, 1);
+	}
+
+	public static Block CreateIronWallLavaSconce(String name, float resistance, float hardness) {
+		return registerBlockWithoutItem(new LightSourceSconceLavaWall(Material.WOOD, name, resistance, hardness), name);
 	}
 
 	public static Block CreateCandleFloor(String name) {

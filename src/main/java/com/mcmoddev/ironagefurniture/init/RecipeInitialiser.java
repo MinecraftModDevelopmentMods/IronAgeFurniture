@@ -11,6 +11,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 public class RecipeInitialiser {
@@ -38,6 +39,8 @@ public class RecipeInitialiser {
 			new ItemStack(ItemObjectHolder.tallow, 1), Items.STRING));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockObjectHolder.light_metal_ironage_block_floor_glow_clear, 1),
 			Items.GLOWSTONE_DUST, Items.GLASS_BOTTLE));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockObjectHolder.light_metal_ironage_block_floor_lava_clear, 8),
+			"yyy", "yxy", "yyy", 'y', Items.GLASS_BOTTLE, 'x', Items.LAVA_BUCKET));
 	}
 
 	

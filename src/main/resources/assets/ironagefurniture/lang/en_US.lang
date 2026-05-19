@@ -2,6 +2,7 @@ itemGroup.ironagefurnitureTab=Iron Age Furniture
 tile.ironagefurniture.light_metal_ironage_sconce_floor_empty_iron.name=Sconce
 tile.ironagefurniture.light_metal_ironage_candle_floor.name=Candle
 tile.ironagefurniture.light_metal_ironage_block_floor_glow_clear.name=Glow Dust Lamp
+tile.ironagefurniture.light_metal_ironage_block_floor_lava_clear.name=Lava Lamp
 item.ironagefurniture.tallow.name=Tallow
 tile.ironagefurniture.chair_wood_ironage_bench_end_acacia.name=Acacia Bench End
 tile.ironagefurniture.chair_wood_ironage_bench_end_big_oak.name=Dark Oak Bench End

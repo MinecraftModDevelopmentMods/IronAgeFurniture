@@ -46,6 +46,9 @@ public class BlockInitialiser {
 			BlockObjectHolder.light_metal_ironage_block_floor_glow_clear = FurnitureFactory.CreateGlowdustLamp("light_metal_ironage_block_floor_glow_clear");
 			BlockObjectHolder.light_metal_ironage_sconce_floor_glow_iron = FurnitureFactory.CreateIronFloorGlowSconce("light_metal_ironage_sconce_floor_glow_iron");
 			BlockObjectHolder.light_metal_ironage_sconce_wall_glow_iron = FurnitureFactory.CreateIronWallGlowSconce("light_metal_ironage_sconce_wall_glow_iron");
+			BlockObjectHolder.light_metal_ironage_block_floor_lava_clear = FurnitureFactory.CreateLavaLamp("light_metal_ironage_block_floor_lava_clear");
+			BlockObjectHolder.light_metal_ironage_sconce_floor_lava_iron = FurnitureFactory.CreateIronFloorLavaSconce("light_metal_ironage_sconce_floor_lava_iron");
+			BlockObjectHolder.light_metal_ironage_sconce_wall_lava_iron = FurnitureFactory.CreateIronWallLavaSconce("light_metal_ironage_sconce_wall_lava_iron");
 			BlockObjectHolder.light_metal_ironage_candle_floor = FurnitureFactory.CreateCandleFloor("light_metal_ironage_candle_floor");
 			BlockObjectHolder.light_metal_ironage_candle_wall = FurnitureFactory.CreateCandleWall("light_metal_ironage_candle_wall");
 			BlockObjectHolder.light_metal_ironage_candle_floor_unlit = FurnitureFactory.CreateCandleFloorUnlit("light_metal_ironage_candle_floor_unlit");
