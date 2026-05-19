@@ -12,7 +12,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -28,7 +27,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class LightSourceSconceCandleFloor extends LightSourceSconceTorchFloor {
     private static final AxisAlignedBB AABB_NORTH = new AxisAlignedBB(
-        5.0D / 16.0D, 0.0D / 16.0D, 3.0D / 16.0D,
+        5.0D / 16.0D, 0.0D / 16.0D, 5.0D / 16.0D,
         11.0D / 16.0D, 15.0D / 16.0D, 11.0D / 16.0D
     );
     private static final AxisAlignedBB AABB_EAST = rotateClockwise(AABB_NORTH);
@@ -100,7 +99,7 @@ public class LightSourceSconceCandleFloor extends LightSourceSconceTorchFloor {
             return true;
         }
 
-        if (isLightSourceItem(heldItem)) {
+        if (isBlockedFilledSconceItem(heldItem)) {
             return true;
         }
 
@@ -109,14 +108,6 @@ public class LightSourceSconceCandleFloor extends LightSourceSconceTorchFloor {
 
     protected void setSconceState(World worldIn, BlockPos pos, IBlockState state, Block block) {
         worldIn.setBlockState(pos, block.getDefaultState().withProperty(FACING, state.getValue(FACING)), 3);
-    }
-
-    protected boolean isLightSourceItem(ItemStack heldItem) {
-        return heldItem.getItem() == Item.getItemFromBlock(Blocks.TORCH)
-            || heldItem.getItem() == Item.getItemFromBlock(BlockObjectHolder.light_metal_ironage_block_floor_glow_clear)
-            || heldItem.getItem() == Item.getItemFromBlock(BlockObjectHolder.light_metal_ironage_block_floor_lava_clear)
-            || heldItem.getItem() == Item.getItemFromBlock(Blocks.REDSTONE_TORCH)
-            || heldItem.getItem() == Item.getItemFromBlock(BlockObjectHolder.light_metal_ironage_block_floor_red_clear);
     }
 
     protected void giveCandles(EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, int count) {

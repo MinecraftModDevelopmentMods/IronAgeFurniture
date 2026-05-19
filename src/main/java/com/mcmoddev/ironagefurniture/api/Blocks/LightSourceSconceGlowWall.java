@@ -130,7 +130,7 @@ public class LightSourceSconceGlowWall extends LightSourceSconceTorchWall {
 
     private boolean isBlockedInteractionItem(ItemStack heldItem) {
         return heldItem.getItem() == Items.WATER_BUCKET
-            || isSconceLightSourceItem(heldItem);
+            || isBlockedFilledSconceItem(heldItem);
     }
 
     @Override

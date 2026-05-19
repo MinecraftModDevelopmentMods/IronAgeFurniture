@@ -74,7 +74,7 @@ public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor 
             return true;
         }
 
-        if (isSconceLightSourceItem(heldItem)) {
+        if (isBlockedFilledSconceItem(heldItem)) {
             return true;
         }
 

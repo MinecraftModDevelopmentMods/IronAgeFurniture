@@ -111,7 +111,7 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
         }
         
 
-        if (isSconceLightSourceItem(heldItem)) {
+        if (isBlockedFilledSconceItem(heldItem)) {
             return true;
         }
 
@@ -169,6 +169,21 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
             || isItemFromBlock(item, BlockObjectHolder.light_metal_ironage_block_floor_glow_clear)
             || isItemFromBlock(item, BlockObjectHolder.light_metal_ironage_block_floor_lava_clear)
             || isItemFromBlock(item, BlockObjectHolder.light_metal_ironage_block_floor_red_clear);
+    }
+
+    protected boolean isBlockedFilledSconceItem(ItemStack heldItem) {
+        return isSconceLightSourceItem(heldItem)
+            || isEmptySconceItem(heldItem);
+    }
+
+    protected boolean isEmptySconceItem(ItemStack heldItem) {
+        if (heldItem == null || heldItem.stackSize <= 0) {
+            return false;
+        }
+
+        Item item = heldItem.getItem();
+        return isItemFromBlock(item, BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron)
+            || isItemFromBlock(item, BlockObjectHolder.light_metal_ironage_sconce_wall_empty_iron);
     }
 
     protected boolean isItemFromBlock(Item item, Block block) {
