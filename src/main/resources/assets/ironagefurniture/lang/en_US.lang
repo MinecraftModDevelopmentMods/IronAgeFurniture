@@ -1,6 +1,8 @@
 itemGroup.ironagefurnitureTab=Iron Age Furniture
 tile.ironagefurniture.light_metal_ironage_sconce_floor_empty_iron.name=Sconce
 tile.ironagefurniture.light_metal_ironage_candle_floor.name=Candle
+tile.ironagefurniture.chain_top.name=Chain
+tile.ironagefurniture.chandelier_candle.name=Candle Chandelier
 tile.ironagefurniture.light_metal_ironage_block_floor_glow_clear.name=Glow Dust Lamp
 tile.ironagefurniture.light_metal_ironage_block_floor_red_clear.name=Red Lamp
 tile.ironagefurniture.light_metal_ironage_block_floor_lava_clear.name=Lava Lamp

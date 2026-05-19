@@ -37,6 +37,10 @@ public class RecipeInitialiser {
 		GameRegistry.addSmelting(Items.ROTTEN_FLESH, new ItemStack(ItemObjectHolder.tallow, 1), 0.1F);
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockObjectHolder.light_metal_ironage_candle_floor, 8),
 			new ItemStack(ItemObjectHolder.tallow, 1), Items.STRING));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockObjectHolder.chain_top, 3),
+			Blocks.IRON_BARS));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockObjectHolder.chandelier_candle, 1),
+			"x x", " y ", "x x", 'x', BlockObjectHolder.light_metal_ironage_candle_floor, 'y', Items.IRON_INGOT));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockObjectHolder.light_metal_ironage_block_floor_glow_clear, 1),
 			Items.GLOWSTONE_DUST, Items.GLASS_BOTTLE));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockObjectHolder.light_metal_ironage_block_floor_red_clear, 1),

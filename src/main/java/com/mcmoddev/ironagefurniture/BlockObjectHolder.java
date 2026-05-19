@@ -63,6 +63,9 @@ public class BlockObjectHolder {
 	public static Block light_metal_ironage_block_floor_red_clear_fourteen;
 	public static Block light_metal_ironage_block_floor_red_clear_fifteen;
 
+	public static Block chain_top;
+	public static Block chandelier_candle;
+
 	public static Block light_metal_ironage_sconce_floor_red_iron;
 	public static Block light_metal_ironage_sconce_floor_red_iron_one;
 	public static Block light_metal_ironage_sconce_floor_red_iron_two;

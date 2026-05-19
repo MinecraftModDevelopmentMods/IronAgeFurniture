@@ -3,9 +3,11 @@ package com.mcmoddev.ironagefurniture.api;
 import com.mcmoddev.ironagefurniture.Ironagefurniture;
 import com.mcmoddev.ironagefurniture.api.Blocks.BackBench;
 import com.mcmoddev.ironagefurniture.api.Blocks.Bench;
+import com.mcmoddev.ironagefurniture.api.Blocks.ChainTop;
 import com.mcmoddev.ironagefurniture.api.Blocks.Chair;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightHolderSconceFloor;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightHolderSconceWall;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceChandelierCandle;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceCandleFloor;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceCandleFloorUnlit;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceCandleWall;
@@ -318,6 +320,22 @@ public class FurnitureFactory {
 
 	public static Block CreateCandleFloor(String name, float resistance, float hardness) {
 		return registerBlock(new LightSourceCandleFloor(Material.CIRCUITS, name, resistance, hardness), name, 64);
+	}
+
+	public static Block CreateChainTop(String name) {
+		return CreateChainTop(name, 10, 1);
+	}
+
+	public static Block CreateChainTop(String name, float resistance, float hardness) {
+		return registerBlock(new ChainTop(Material.IRON, name, resistance, hardness), name, 64);
+	}
+
+	public static Block CreateCandleChandelier(String name) {
+		return CreateCandleChandelier(name, 10, 1);
+	}
+
+	public static Block CreateCandleChandelier(String name, float resistance, float hardness) {
+		return registerBlock(new LightSourceChandelierCandle(Material.IRON, name, resistance, hardness), name, 64);
 	}
 
 	public static Block CreateCandleWall(String name) {
