@@ -104,6 +104,7 @@ public class BlockInitialiser {
 			BlockObjectHolder.light_metal_ironage_candle_wall_unlit = FurnitureFactory.CreateCandleWallUnlit("light_metal_ironage_candle_wall_unlit");
 			BlockObjectHolder.chain_top = FurnitureFactory.CreateChainTop("chain_top");
 			BlockObjectHolder.chandelier_candle = FurnitureFactory.CreateCandleChandelier("chandelier_candle");
+			BlockObjectHolder.chandelier_candle_unlit = FurnitureFactory.CreateCandleChandelierUnlit("chandelier_candle_unlit");
 			BlockObjectHolder.light_metal_ironage_sconce_floor_candle_iron = FurnitureFactory.CreateIronFloorCandleSconce("light_metal_ironage_sconce_floor_candle_iron", 1);
 			BlockObjectHolder.light_metal_ironage_sconce_floor_candle_iron_two = FurnitureFactory.CreateIronFloorCandleSconce("light_metal_ironage_sconce_floor_candle_iron_two", 2);
 			BlockObjectHolder.light_metal_ironage_sconce_floor_candle_iron_three = FurnitureFactory.CreateIronFloorCandleSconce("light_metal_ironage_sconce_floor_candle_iron_three", 3);

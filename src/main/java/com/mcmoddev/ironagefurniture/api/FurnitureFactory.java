@@ -8,6 +8,7 @@ import com.mcmoddev.ironagefurniture.api.Blocks.Chair;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightHolderSconceFloor;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightHolderSconceWall;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceChandelierCandle;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceChandelierCandleUnlit;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceCandleFloor;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceCandleFloorUnlit;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceCandleWall;
@@ -336,6 +337,14 @@ public class FurnitureFactory {
 
 	public static Block CreateCandleChandelier(String name, float resistance, float hardness) {
 		return registerBlock(new LightSourceChandelierCandle(Material.IRON, name, resistance, hardness), name, 64);
+	}
+
+	public static Block CreateCandleChandelierUnlit(String name) {
+		return CreateCandleChandelierUnlit(name, 10, 1);
+	}
+
+	public static Block CreateCandleChandelierUnlit(String name, float resistance, float hardness) {
+		return registerBlockWithoutItem(new LightSourceChandelierCandleUnlit(Material.IRON, name, resistance, hardness), name);
 	}
 
 	public static Block CreateCandleWall(String name) {
