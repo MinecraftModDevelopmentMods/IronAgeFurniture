@@ -65,8 +65,8 @@ public class LightSourceSconceCandleWall extends LightSourceSconceCandleFloor {
             9.0D / 16.0D,
             0.0D / 16.0D,
             11.0D / 16.0D,
-            (CandleCount() >= 4 ? 16.0D : 15.0D) / 16.0D,
-            8.0D / 16.0D
+            11.0D / 16.0D,
+            7.0D / 16.0D
         );
 
         switch (state.getValue(FACING)) {
@@ -132,33 +132,33 @@ public class LightSourceSconceCandleWall extends LightSourceSconceCandleFloor {
 
     private double[] getWallFlameOffset(int index, int count) {
         if (count == 1) {
-            return new double[] { 7.5D / 16.0D, 15.6D / 16.0D, 5.5D / 16.0D };
+            return new double[] { 7.5D / 16.0D, 15.6D / 16.0D, 4.5D / 16.0D };
         }
         if (count == 2) {
             return index == 0
-                ? new double[] { 9.5D / 16.0D, 15.6D / 16.0D, 3.5D / 16.0D }
-                : new double[] { 6.5D / 16.0D, 13.6D / 16.0D, 6.5D / 16.0D };
+                ? new double[] { 9.5D / 16.0D, 15.6D / 16.0D, 2.5D / 16.0D }
+                : new double[] { 6.5D / 16.0D, 13.6D / 16.0D, 5.5D / 16.0D };
         }
         if (count == 3) {
             switch (index) {
                 case 0:
-                    return new double[] { 9.5D / 16.0D, 15.6D / 16.0D, 3.5D / 16.0D };
+                    return new double[] { 9.5D / 16.0D, 15.6D / 16.0D, 2.5D / 16.0D };
                 case 1:
-                    return new double[] { 9.5D / 16.0D, 14.6D / 16.0D, 6.5D / 16.0D };
+                    return new double[] { 9.5D / 16.0D, 14.6D / 16.0D, 5.5D / 16.0D };
                 default:
-                    return new double[] { 6.5D / 16.0D, 13.6D / 16.0D, 6.5D / 16.0D };
+                    return new double[] { 6.5D / 16.0D, 13.6D / 16.0D, 5.5D / 16.0D };
             }
         }
 
         switch (index) {
             case 0:
-                return new double[] { 9.5D / 16.0D, 15.6D / 16.0D, 3.5D / 16.0D };
+                return new double[] { 9.5D / 16.0D, 15.6D / 16.0D, 2.5D / 16.0D };
             case 1:
-                return new double[] { 9.5D / 16.0D, 14.6D / 16.0D, 6.5D / 16.0D };
+                return new double[] { 9.5D / 16.0D, 14.6D / 16.0D, 5.5D / 16.0D };
             case 2:
-                return new double[] { 6.5D / 16.0D, 16.25D / 16.0D, 3.5D / 16.0D };
+                return new double[] { 6.5D / 16.0D, 16.25D / 16.0D, 2.5D / 16.0D };
             default:
-                return new double[] { 6.5D / 16.0D, 13.6D / 16.0D, 6.5D / 16.0D };
+                return new double[] { 6.5D / 16.0D, 13.6D / 16.0D, 5.5D / 16.0D };
         }
     }
 

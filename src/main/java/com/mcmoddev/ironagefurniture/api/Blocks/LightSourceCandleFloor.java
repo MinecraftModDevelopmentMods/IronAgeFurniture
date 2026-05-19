@@ -34,7 +34,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class LightSourceCandleFloor extends BlockHBase {
     protected static final AxisAlignedBB FLOOR_NORTH = new AxisAlignedBB(
         4.0D / 16.0D, 0.0D, 4.0D / 16.0D,
-        9.0D / 16.0D, 6.0D / 16.0D, 11.0D / 16.0D
+        9.0D / 16.0D, 3.0D / 16.0D, 11.0D / 16.0D
     );
     protected static final AxisAlignedBB FLOOR_EAST = rotateClockwise(FLOOR_NORTH);
     protected static final AxisAlignedBB FLOOR_SOUTH = rotateHalfTurn(FLOOR_NORTH);

@@ -27,8 +27,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class LightSourceSconceCandleFloor extends LightSourceSconceTorchFloor {
     private static final AxisAlignedBB AABB_NORTH = new AxisAlignedBB(
-        5.0D / 16.0D, 0.0D / 16.0D, 5.0D / 16.0D,
-        11.0D / 16.0D, 15.0D / 16.0D, 11.0D / 16.0D
+        5.0D / 16.0D, 8.0D / 16.0D, 5.0D / 16.0D,
+        11.0D / 16.0D, 11.0D / 16.0D, 11.0D / 16.0D
     );
     private static final AxisAlignedBB AABB_EAST = rotateClockwise(AABB_NORTH);
     private static final AxisAlignedBB AABB_SOUTH = rotateHalfTurn(AABB_NORTH);

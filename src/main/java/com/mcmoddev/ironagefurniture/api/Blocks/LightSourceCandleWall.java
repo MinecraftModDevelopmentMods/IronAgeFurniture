@@ -26,7 +26,7 @@ import javax.annotation.Nullable;
 public class LightSourceCandleWall extends LightSourceCandleFloor {
     protected static final AxisAlignedBB WALL_SOUTH = new AxisAlignedBB(
         5.0D / 16.0D, 5.0D / 16.0D, 0.0D / 16.0D,
-        10.0D / 16.0D, 14.0D / 16.0D, 4.0D / 16.0D
+        10.0D / 16.0D, 10.0D / 16.0D, 4.0D / 16.0D
     );
     protected static final AxisAlignedBB WALL_WEST = rotateClockwise(WALL_SOUTH);
     protected static final AxisAlignedBB WALL_NORTH = rotateHalfTurn(WALL_SOUTH);
