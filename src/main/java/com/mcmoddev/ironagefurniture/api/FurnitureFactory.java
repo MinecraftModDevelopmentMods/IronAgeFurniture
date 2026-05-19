@@ -12,6 +12,7 @@ import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceCandleWall;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceCandleWallUnlit;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceGlowdust;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceLava;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceRed;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceCandleFloor;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceCandleFloorUnlit;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceCandleWall;
@@ -20,6 +21,8 @@ import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceGlowFloor;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceGlowWall;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceLavaFloor;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceLavaWall;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceRedFloor;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceRedWall;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceRedTorchFloor;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceRedTorchFloorUnlit;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceRedTorchWall;
@@ -233,6 +236,18 @@ public class FurnitureFactory {
 		return registerBlock(new LightSourceGlowdust(Material.GLASS, name, resistance, hardness), name, 64);
 	}
 
+	public static Block CreateRedLamp(String name) {
+		return CreateRedLamp(name, 0, true, 10, 1);
+	}
+
+	public static Block CreateRedLampVariant(String name, int lightLevel) {
+		return CreateRedLamp(name, lightLevel, false, 10, 1);
+	}
+
+	private static Block CreateRedLamp(String name, int lightLevel, boolean registerItem, float resistance, float hardness) {
+		return registerBlock(new LightSourceRed(Material.GLASS, name, resistance, hardness, lightLevel), name, 64, registerItem);
+	}
+
 	public static Block CreateIronFloorGlowSconce(String name) {
 		return CreateIronFloorGlowSconce(name, 10, 1);
 	}
@@ -247,6 +262,22 @@ public class FurnitureFactory {
 
 	public static Block CreateIronWallGlowSconce(String name, float resistance, float hardness) {
 		return registerBlockWithoutItem(new LightSourceSconceGlowWall(Material.WOOD, name, resistance, hardness), name);
+	}
+
+	public static Block CreateIronFloorRedSconce(String name, int lightLevel) {
+		return CreateIronFloorRedSconce(name, 10, 1, lightLevel);
+	}
+
+	public static Block CreateIronFloorRedSconce(String name, float resistance, float hardness, int lightLevel) {
+		return registerBlockWithoutItem(new LightSourceSconceRedFloor(Material.WOOD, name, resistance, hardness, lightLevel), name);
+	}
+
+	public static Block CreateIronWallRedSconce(String name, int lightLevel) {
+		return CreateIronWallRedSconce(name, 10, 1, lightLevel);
+	}
+
+	public static Block CreateIronWallRedSconce(String name, float resistance, float hardness, int lightLevel) {
+		return registerBlockWithoutItem(new LightSourceSconceRedWall(Material.WOOD, name, resistance, hardness, lightLevel), name);
 	}
 
 	public static Block CreateLavaLamp(String name) {

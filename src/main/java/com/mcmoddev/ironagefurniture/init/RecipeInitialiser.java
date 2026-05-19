@@ -39,6 +39,8 @@ public class RecipeInitialiser {
 			new ItemStack(ItemObjectHolder.tallow, 1), Items.STRING));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockObjectHolder.light_metal_ironage_block_floor_glow_clear, 1),
 			Items.GLOWSTONE_DUST, Items.GLASS_BOTTLE));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockObjectHolder.light_metal_ironage_block_floor_red_clear, 1),
+			Items.REDSTONE, Items.GLASS_BOTTLE));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockObjectHolder.light_metal_ironage_block_floor_lava_clear, 8),
 			"yyy", "yxy", "yyy", 'y', Items.GLASS_BOTTLE, 'x', Items.LAVA_BUCKET));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.OBSIDIAN, 1),
