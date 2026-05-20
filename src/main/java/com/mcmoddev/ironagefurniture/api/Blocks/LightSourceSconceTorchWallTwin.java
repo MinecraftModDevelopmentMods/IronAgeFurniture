@@ -127,8 +127,8 @@ public class LightSourceSconceTorchWallTwin extends LightSourceSconceTorchFloorT
 
     private double[] getWallFlameOffset(int index) {
         return index == 0
-            ? new double[] { 3.5D / 16.0D, 15.0D / 16.0D, 9.6D / 16.0D }
-            : new double[] { 3.5D / 16.0D, 15.0D / 16.0D, 6.4D / 16.0D };
+            ? new double[] { 3.5D / 16.0D, 15.6D / 16.0D, 10.5D / 16.0D }
+            : new double[] { 3.5D / 16.0D, 15.6D / 16.0D, 5.5D / 16.0D };
     }
 
     private double[] rotateWallPoint(EnumFacing facing, double x, double z) {
