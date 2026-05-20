@@ -28,35 +28,65 @@ public class RecipeInitialiser {
 	}
 	
 	private static void generateLightRecipes() {
-		FurnitureFactory.AddIronSconceRecipe(BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron);
-		GameRegistry.addSmelting(Items.COOKED_PORKCHOP, new ItemStack(ItemObjectHolder.tallow, 3), 0.1F);
-		GameRegistry.addSmelting(Items.COOKED_BEEF, new ItemStack(ItemObjectHolder.tallow, 2), 0.1F);
-		GameRegistry.addSmelting(Items.COOKED_MUTTON, new ItemStack(ItemObjectHolder.tallow, 2), 0.1F);
-		GameRegistry.addSmelting(Items.COOKED_RABBIT, new ItemStack(ItemObjectHolder.tallow, 1), 0.1F);
-		GameRegistry.addSmelting(Items.COOKED_CHICKEN, new ItemStack(ItemObjectHolder.tallow, 1), 0.1F);
-		GameRegistry.addSmelting(Items.ROTTEN_FLESH, new ItemStack(ItemObjectHolder.tallow, 1), 0.1F);
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockObjectHolder.light_metal_ironage_candle_floor, 8),
-			new ItemStack(ItemObjectHolder.tallow, 1), Items.STRING));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockObjectHolder.chain_top, 3),
-			Blocks.IRON_BARS));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockObjectHolder.chandelier_candle, 1),
-			"x x", " y ", "x x", 'x', BlockObjectHolder.light_metal_ironage_candle_floor, 'y', Items.IRON_INGOT));
+		if (!IronAgeFurnitureConfiguration.GENERATE_LIGHTS) {
+			return;
+		}
+
+		if (IronAgeFurnitureConfiguration.GENERATE_SCONCES) {
+			FurnitureFactory.AddIronSconceRecipe(BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron);
+		}
+		if (IronAgeFurnitureConfiguration.GENERATE_CANDLES) {
+			GameRegistry.addSmelting(Items.COOKED_PORKCHOP, new ItemStack(ItemObjectHolder.tallow, 3), 0.1F);
+			GameRegistry.addSmelting(Items.COOKED_BEEF, new ItemStack(ItemObjectHolder.tallow, 2), 0.1F);
+			GameRegistry.addSmelting(Items.COOKED_MUTTON, new ItemStack(ItemObjectHolder.tallow, 2), 0.1F);
+			GameRegistry.addSmelting(Items.COOKED_RABBIT, new ItemStack(ItemObjectHolder.tallow, 1), 0.1F);
+			GameRegistry.addSmelting(Items.COOKED_CHICKEN, new ItemStack(ItemObjectHolder.tallow, 1), 0.1F);
+			GameRegistry.addSmelting(Items.ROTTEN_FLESH, new ItemStack(ItemObjectHolder.tallow, 1), 0.1F);
+			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockObjectHolder.light_metal_ironage_candle_floor, 8),
+				new ItemStack(ItemObjectHolder.tallow, 1), Items.STRING));
+		}
+		if (IronAgeFurnitureConfiguration.GENERATE_CHAINS) {
+			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockObjectHolder.chain_top, 3),
+				Blocks.IRON_BARS));
+		}
+		if (IronAgeFurnitureConfiguration.GENERATE_GLOW_LAMPS) {
+			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockObjectHolder.light_metal_ironage_block_floor_glow_clear, 1),
+				Items.GLOWSTONE_DUST, Items.GLASS_BOTTLE));
+		}
+		if (IronAgeFurnitureConfiguration.GENERATE_REDSTONE_LAMPS) {
+			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockObjectHolder.light_metal_ironage_block_floor_red_clear, 1),
+				Items.REDSTONE, Items.GLASS_BOTTLE));
+		}
+		if (IronAgeFurnitureConfiguration.GENERATE_LAVA_LAMPS) {
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockObjectHolder.light_metal_ironage_block_floor_lava_clear, 8),
+				"yyy", "yxy", "yyy", 'y', Items.GLASS_BOTTLE, 'x', Items.LAVA_BUCKET));
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.OBSIDIAN, 1),
+				"yyy", "yyy", "yyy", 'y', BlockObjectHolder.obsidian_chunk));
+		}
+		if (IronAgeFurnitureConfiguration.GENERATE_CHANDELIERS) {
+			generateChandelierRecipes();
+		}
+	}
+
+	private static void generateChandelierRecipes() {
+		if (IronAgeFurnitureConfiguration.GENERATE_CANDLES) {
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockObjectHolder.chandelier_candle, 1),
+				"x x", " y ", "x x", 'x', BlockObjectHolder.light_metal_ironage_candle_floor, 'y', Items.IRON_INGOT));
+		}
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockObjectHolder.chandelier_torch, 1),
 			"x x", " y ", "x x", 'x', Blocks.TORCH, 'y', Items.IRON_INGOT));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockObjectHolder.chandelier_glowstone, 1),
-			BlockObjectHolder.light_metal_ironage_block_floor_glow_clear, Items.IRON_INGOT));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockObjectHolder.chandelier_lava, 1),
-			BlockObjectHolder.light_metal_ironage_block_floor_lava_clear, Items.IRON_INGOT));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockObjectHolder.chandelier_redstone, 1),
-			BlockObjectHolder.light_metal_ironage_block_floor_red_clear, Items.IRON_INGOT));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockObjectHolder.light_metal_ironage_block_floor_glow_clear, 1),
-			Items.GLOWSTONE_DUST, Items.GLASS_BOTTLE));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockObjectHolder.light_metal_ironage_block_floor_red_clear, 1),
-			Items.REDSTONE, Items.GLASS_BOTTLE));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockObjectHolder.light_metal_ironage_block_floor_lava_clear, 8),
-			"yyy", "yxy", "yyy", 'y', Items.GLASS_BOTTLE, 'x', Items.LAVA_BUCKET));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.OBSIDIAN, 1),
-			"yyy", "yyy", "yyy", 'y', BlockObjectHolder.obsidian_chunk));
+		if (IronAgeFurnitureConfiguration.GENERATE_GLOW_LAMPS) {
+			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockObjectHolder.chandelier_glowstone, 1),
+				BlockObjectHolder.light_metal_ironage_block_floor_glow_clear, Items.IRON_INGOT));
+		}
+		if (IronAgeFurnitureConfiguration.GENERATE_LAVA_LAMPS) {
+			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockObjectHolder.chandelier_lava, 1),
+				BlockObjectHolder.light_metal_ironage_block_floor_lava_clear, Items.IRON_INGOT));
+		}
+		if (IronAgeFurnitureConfiguration.GENERATE_REDSTONE_LAMPS) {
+			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockObjectHolder.chandelier_redstone, 1),
+				BlockObjectHolder.light_metal_ironage_block_floor_red_clear, Items.IRON_INGOT));
+		}
 	}
 
 	

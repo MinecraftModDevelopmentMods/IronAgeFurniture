@@ -1,6 +1,7 @@
 package com.mcmoddev.ironagefurniture.init;
 
 import com.mcmoddev.ironagefurniture.Ironagefurniture;
+import com.mcmoddev.ironagefurniture.IronAgeFurnitureConfiguration;
 import com.mcmoddev.ironagefurniture.ItemObjectHolder;
 
 import net.minecraft.client.Minecraft;
@@ -10,7 +11,9 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ItemInitialiser {
 	public static void init() {
-		ItemObjectHolder.tallow = RegisterItem(new Item().setCreativeTab(Ironagefurniture.ironagefurnitureTab), "tallow");
+		if (IronAgeFurnitureConfiguration.GENERATE_LIGHTS && IronAgeFurnitureConfiguration.GENERATE_CANDLES) {
+			ItemObjectHolder.tallow = RegisterItem(new Item().setCreativeTab(Ironagefurniture.ironagefurnitureTab), "tallow");
+		}
 	}
 
 	public static Item RegisterItem(Item item, String name) {

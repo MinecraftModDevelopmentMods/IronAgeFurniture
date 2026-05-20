@@ -12,6 +12,7 @@ import com.mcmoddev.ironagefurniture.init.RecipeInitialiser;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -32,7 +33,13 @@ public class Ironagefurniture
     public static CreativeTabs ironagefurnitureTab = new CreativeTabs("ironagefurnitureTab"){
 		@Override
 		public Item getTabIconItem(){
-			return Item.getItemFromBlock(BlockObjectHolder.chair_wood_ironage_classic_big_oak);
+			if (BlockObjectHolder.chair_wood_ironage_classic_big_oak != null) {
+				return Item.getItemFromBlock(BlockObjectHolder.chair_wood_ironage_classic_big_oak);
+			}
+			if (BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron != null) {
+				return Item.getItemFromBlock(BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron);
+			}
+			return Items.IRON_INGOT;
 		}
 		
 		public boolean hasSearchBar() {

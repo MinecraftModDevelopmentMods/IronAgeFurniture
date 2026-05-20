@@ -9,6 +9,14 @@ public class IronAgeFurnitureConfiguration {
 	public static boolean GENERATE_SHORT_STOOLS = true;
 	public static boolean GENERATE_TALL_STOOLS = true;
 	public static boolean GENERATE_WOOD_BENCHES = true;
+	public static boolean GENERATE_LIGHTS = true;
+	public static boolean GENERATE_SCONCES = true;
+	public static boolean GENERATE_CANDLES = true;
+	public static boolean GENERATE_GLOW_LAMPS = true;
+	public static boolean GENERATE_LAVA_LAMPS = true;
+	public static boolean GENERATE_REDSTONE_LAMPS = true;
+	public static boolean GENERATE_CHAINS = true;
+	public static boolean GENERATE_CHANDELIERS = true;
 	public static boolean CFM_CONVERSION_RECIPES = true;
 	public static boolean INTEGRATION_BIOMESOPLENTY = true;
 	public static boolean INTEGRATION_NATURA = true;
@@ -31,6 +39,15 @@ public class IronAgeFurnitureConfiguration {
 		GENERATE_TALL_STOOLS = config.getBoolean("GENERATE_TALL_STOOLS", "options", GENERATE_TALL_STOOLS, "If true, then tall stools will be generated");
 		
 		GENERATE_WOOD_BENCHES = config.getBoolean("GENERATE_WOOD_BENCHES", "options", GENERATE_WOOD_BENCHES, "If true, then wooden benches will be generated");
+
+		GENERATE_LIGHTS = config.getBoolean("GENERATE_LIGHTS", "options", GENERATE_LIGHTS, "If true, then lighting blocks and items will be generated");
+		GENERATE_SCONCES = config.getBoolean("GENERATE_SCONCES", "options", GENERATE_SCONCES, "If true, then sconces and sconce light variants will be generated");
+		GENERATE_CANDLES = config.getBoolean("GENERATE_CANDLES", "options", GENERATE_CANDLES, "If true, then tallow, candles, and candle variants will be generated");
+		GENERATE_GLOW_LAMPS = config.getBoolean("GENERATE_GLOW_LAMPS", "options", GENERATE_GLOW_LAMPS, "If true, then glow lamps and glow lamp variants will be generated");
+		GENERATE_LAVA_LAMPS = config.getBoolean("GENERATE_LAVA_LAMPS", "options", GENERATE_LAVA_LAMPS, "If true, then lava lamps and lava lamp variants will be generated");
+		GENERATE_REDSTONE_LAMPS = config.getBoolean("GENERATE_REDSTONE_LAMPS", "options", GENERATE_REDSTONE_LAMPS, "If true, then redstone lamps and redstone lamp variants will be generated");
+		GENERATE_CHAINS = config.getBoolean("GENERATE_CHAINS", "options", GENERATE_CHAINS, "If true, then chain blocks will be generated");
+		GENERATE_CHANDELIERS = config.getBoolean("GENERATE_CHANDELIERS", "options", GENERATE_CHANDELIERS, "If true, then chandelier blocks will be generated");
 		
 		CFM_CONVERSION_RECIPES = config.getBoolean("CFM_CONVERSION_RECIPES", "options", CFM_CONVERSION_RECIPES, "If true, recipes for converting chairs from Crayfish Furniture Mod will be added");
 		config.save();
