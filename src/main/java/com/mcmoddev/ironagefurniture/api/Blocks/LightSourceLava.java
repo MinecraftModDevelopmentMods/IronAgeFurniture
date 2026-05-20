@@ -9,6 +9,7 @@ import java.util.WeakHashMap;
 
 import com.google.common.collect.Lists;
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
+import com.mcmoddev.ironagefurniture.api.CreativeModeBreakTracker;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
@@ -52,6 +53,11 @@ public class LightSourceLava extends LightSourceGlowdust {
     @Override
     public void onEndFalling(World worldIn, BlockPos pos) {
         if (!worldIn.isRemote) {
+            if (CreativeModeBreakTracker.shouldSuppressFallingLavaBreak(worldIn, pos)) {
+                consumeWaterLanding(worldIn, pos);
+                return;
+            }
+
             if (consumeWaterLanding(worldIn, pos)) {
                 breakIntoObsidianChunk(worldIn, pos, null, EnumFacing.NORTH);
             } else {
@@ -107,14 +113,31 @@ public class LightSourceLava extends LightSourceGlowdust {
     }
 
     @Override
+    public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
+        if (player != null && player.capabilities.isCreativeMode) {
+            world.setBlockToAir(pos);
+            return true;
+        }
+
+        boolean silkTouch = player != null && hasSilkTouch(player.getHeldItemMainhand());
+
+        if (!silkTouch) {
+            if (!world.isRemote) {
+                breakIntoFire(world, pos, player);
+            } else {
+                world.setBlockToAir(pos);
+            }
+
+            return true;
+        }
+
+        return super.removedByPlayer(state, world, pos, player, willHarvest);
+    }
+
+    @Override
     public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state,
             TileEntity te, ItemStack stack) {
-        boolean silkTouch = hasSilkTouch(stack);
         super.harvestBlock(worldIn, player, pos, state, te, stack);
-
-        if (!silkTouch && !player.capabilities.isCreativeMode && !worldIn.isRemote) {
-            breakIntoFire(worldIn, pos, player);
-        }
     }
 
     @Override

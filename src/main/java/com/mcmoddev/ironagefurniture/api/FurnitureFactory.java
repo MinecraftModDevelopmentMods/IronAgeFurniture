@@ -237,7 +237,7 @@ public class FurnitureFactory {
 	}
 
 	public static Block CreateGlowdustLamp(String name) {
-		return CreateGlowdustLamp(name, 10, 1);
+		return CreateGlowdustLamp(name, 1.5F, 0.3F);
 	}
 
 	public static Block CreateGlowdustLamp(String name, float resistance, float hardness) {
@@ -245,11 +245,11 @@ public class FurnitureFactory {
 	}
 
 	public static Block CreateRedLamp(String name) {
-		return CreateRedLamp(name, 0, true, 10, 1);
+		return CreateRedLamp(name, 0, true, 1.5F, 0.3F);
 	}
 
 	public static Block CreateRedLampVariant(String name, int lightLevel) {
-		return CreateRedLamp(name, lightLevel, false, 10, 1);
+		return CreateRedLamp(name, lightLevel, false, 1.5F, 0.3F);
 	}
 
 	private static Block CreateRedLamp(String name, int lightLevel, boolean registerItem, float resistance, float hardness) {
@@ -289,7 +289,7 @@ public class FurnitureFactory {
 	}
 
 	public static Block CreateLavaLamp(String name) {
-		return CreateLavaLamp(name, 10, 1);
+		return CreateLavaLamp(name, 1.5F, 0.3F);
 	}
 
 	public static Block CreateLavaLamp(String name, float resistance, float hardness) {

@@ -3,6 +3,7 @@ package com.mcmoddev.ironagefurniture;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.mcmoddev.ironagefurniture.api.CreativeModeBreakTracker;
 import com.mcmoddev.ironagefurniture.api.entity.Seat;
 import com.mcmoddev.ironagefurniture.init.BlockInitialiser;
 import com.mcmoddev.ironagefurniture.init.ItemInitialiser;
@@ -12,6 +13,7 @@ import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -55,6 +57,7 @@ public class Ironagefurniture
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
     	IronAgeFurnitureConfiguration.init(event);
+    	MinecraftForge.EVENT_BUS.register(new CreativeModeBreakTracker());
 		ItemInitialiser.init();
     	BlockInitialiser.init();
     	

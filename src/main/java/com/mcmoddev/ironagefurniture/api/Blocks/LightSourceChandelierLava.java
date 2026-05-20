@@ -9,6 +9,7 @@ import java.util.WeakHashMap;
 
 import com.google.common.collect.Lists;
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
+import com.mcmoddev.ironagefurniture.api.CreativeModeBreakTracker;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
@@ -86,6 +87,11 @@ public class LightSourceChandelierLava extends LightSourceChandelierGlowstone {
             return;
         }
 
+        if (CreativeModeBreakTracker.shouldSuppressFallingLavaBreak(worldIn, pos)) {
+            consumeWaterLanding(worldIn, pos);
+            return;
+        }
+
         if (consumeWaterLanding(worldIn, pos) || worldIn.getBlockState(pos).getMaterial() == Material.WATER) {
             breakIntoObsidianChunk(worldIn, pos, null, EnumFacing.NORTH);
             return;
@@ -120,19 +126,31 @@ public class LightSourceChandelierLava extends LightSourceChandelierGlowstone {
     }
 
     @Override
+    public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
+        if (player != null && player.capabilities.isCreativeMode) {
+            world.setBlockToAir(pos);
+            return true;
+        }
+
+        boolean silkTouch = player != null && hasSilkTouch(player.getHeldItemMainhand());
+
+        if (!silkTouch) {
+            if (!world.isRemote) {
+                breakIntoFire(world, pos, player);
+            } else {
+                world.setBlockToAir(pos);
+            }
+
+            return true;
+        }
+
+        return super.removedByPlayer(state, world, pos, player, willHarvest);
+    }
+
+    @Override
     public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state,
             TileEntity te, ItemStack stack) {
-        boolean silkTouch = hasSilkTouch(stack);
-
-        if (silkTouch && !player.capabilities.isCreativeMode && !worldIn.isRemote) {
-            spawnAsEntity(worldIn, pos, new ItemStack(VisibleDropBlock(), 1));
-        }
-
         super.harvestBlock(worldIn, player, pos, state, te, stack);
-
-        if (!silkTouch && !player.capabilities.isCreativeMode && !worldIn.isRemote) {
-            breakIntoFire(worldIn, pos, player);
-        }
     }
 
     @Override
@@ -147,7 +165,15 @@ public class LightSourceChandelierLava extends LightSourceChandelierGlowstone {
     protected void breakIntoFire(World worldIn, BlockPos pos, EntityPlayer player) {
         worldIn.playSound(player, pos, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
         dropSurvivingIron(worldIn, pos);
-        worldIn.setBlockState(pos, Blocks.FIRE.getDefaultState(), 3);
+
+        BlockPos firePos = findFirePosition(worldIn, pos);
+
+        if (firePos.equals(pos)) {
+            worldIn.setBlockState(pos, Blocks.FIRE.getDefaultState(), 3);
+        } else {
+            worldIn.setBlockToAir(pos);
+            worldIn.setBlockState(firePos, Blocks.FIRE.getDefaultState(), 3);
+        }
     }
 
     protected void breakIntoObsidianChunk(World worldIn, BlockPos pos, EntityPlayer player, EnumFacing facing) {
@@ -167,6 +193,27 @@ public class LightSourceChandelierLava extends LightSourceChandelierGlowstone {
         worldIn.playSound(player, pos, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
         worldIn.playSound(player, pos, SoundEvents.BLOCK_LAVA_EXTINGUISH, SoundCategory.BLOCKS,
             0.5F, 2.6F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.8F);
+    }
+
+    private BlockPos findFirePosition(World worldIn, BlockPos pos) {
+        if (Blocks.FIRE.canPlaceBlockAt(worldIn, pos)) {
+            return pos;
+        }
+
+        BlockPos cursor = pos.down();
+        BlockPos lastFallThrough = pos;
+
+        while (cursor.getY() > 0
+                && (worldIn.isAirBlock(cursor) || BlockFalling.canFallThrough(worldIn.getBlockState(cursor)))) {
+            lastFallThrough = cursor;
+            cursor = cursor.down();
+        }
+
+        if (lastFallThrough != pos && Blocks.FIRE.canPlaceBlockAt(worldIn, lastFallThrough)) {
+            return lastFallThrough;
+        }
+
+        return pos;
     }
 
     private BlockPos findWaterLanding(World world, BlockPos start) {

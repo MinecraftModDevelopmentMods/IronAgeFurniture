@@ -7,6 +7,7 @@ import com.google.common.collect.Lists;
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockFalling;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -50,6 +51,27 @@ public class LightSourceSconceLavaFloor extends LightSourceSconceGlowFloor {
     }
 
     @Override
+    public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
+        if (player != null && player.capabilities.isCreativeMode) {
+            return super.removedByPlayer(state, world, pos, player, willHarvest);
+        }
+
+        boolean silkTouch = player != null && hasSilkTouch(player.getHeldItemMainhand());
+
+        if (!silkTouch) {
+            if (!world.isRemote) {
+                breakIntoFire(world, pos, player);
+            } else {
+                world.setBlockToAir(pos);
+            }
+
+            return true;
+        }
+
+        return super.removedByPlayer(state, world, pos, player, willHarvest);
+    }
+
+    @Override
     public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state,
             TileEntity te, ItemStack stack) {
         boolean silkTouch = hasSilkTouch(stack);
@@ -59,10 +81,6 @@ public class LightSourceSconceLavaFloor extends LightSourceSconceGlowFloor {
         }
 
         super.harvestBlock(worldIn, player, pos, state, te, stack);
-
-        if (!silkTouch && !player.capabilities.isCreativeMode && !worldIn.isRemote) {
-            breakIntoFire(worldIn, pos, player);
-        }
     }
 
     @Override
@@ -100,7 +118,35 @@ public class LightSourceSconceLavaFloor extends LightSourceSconceGlowFloor {
 
     protected void breakIntoFire(World worldIn, BlockPos pos, EntityPlayer player) {
         worldIn.playSound(player, pos, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
-        worldIn.setBlockState(pos, Blocks.FIRE.getDefaultState(), 3);
+        BlockPos firePos = findFirePosition(worldIn, pos);
+
+        if (firePos.equals(pos)) {
+            worldIn.setBlockState(pos, Blocks.FIRE.getDefaultState(), 3);
+        } else {
+            worldIn.setBlockToAir(pos);
+            worldIn.setBlockState(firePos, Blocks.FIRE.getDefaultState(), 3);
+        }
+    }
+
+    private BlockPos findFirePosition(World worldIn, BlockPos pos) {
+        if (Blocks.FIRE.canPlaceBlockAt(worldIn, pos)) {
+            return pos;
+        }
+
+        BlockPos cursor = pos.down();
+        BlockPos lastFallThrough = pos;
+
+        while (cursor.getY() > 0
+                && (worldIn.isAirBlock(cursor) || BlockFalling.canFallThrough(worldIn.getBlockState(cursor)))) {
+            lastFallThrough = cursor;
+            cursor = cursor.down();
+        }
+
+        if (!lastFallThrough.equals(pos) && Blocks.FIRE.canPlaceBlockAt(worldIn, lastFallThrough)) {
+            return lastFallThrough;
+        }
+
+        return pos;
     }
 
     @Override
