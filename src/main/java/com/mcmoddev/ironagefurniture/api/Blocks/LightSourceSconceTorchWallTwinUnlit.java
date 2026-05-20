@@ -15,9 +15,9 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class LightSourceSconceTorchFloorUnlit extends LightSourceSconceTorchFloor {
+public class LightSourceSconceTorchWallTwinUnlit extends LightSourceSconceTorchWallTwin {
 
-    public LightSourceSconceTorchFloorUnlit(Material materialIn, String name, float resistance, float hardness) {
+    public LightSourceSconceTorchWallTwinUnlit(Material materialIn, String name, float resistance, float hardness) {
         super(materialIn, name, resistance, hardness);
         this.setLightLevel(0.0F);
     }
@@ -92,11 +92,16 @@ public class LightSourceSconceTorchFloorUnlit extends LightSourceSconceTorchFloo
     }
 
     protected Block GetLitVariant() {
-        return BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron;
+        return BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron_twin;
     }
 
     @Override
     protected Block GetWallVariant() {
-        return BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron_unlit;
+        return BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron_twin_unlit;
+    }
+
+    @Override
+    protected Block GetTwinTorchVariant() {
+        return BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron_twin_unlit;
     }
 }

@@ -1,13 +1,14 @@
 package com.mcmoddev.ironagefurniture.api.Blocks;
 
 import java.util.List;
+import java.util.Random;
 
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -15,20 +16,22 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 
-public class LightSourceSconceTorchWall extends LightSourceSconceTorchFloor {
+public class LightSourceSconceTorchWallTwin extends LightSourceSconceTorchFloorTwin {
     private static final AxisAlignedBB AABB_EAST = new AxisAlignedBB(
-        0.0 / 16.0, 2.0 / 16.0, 5.5 / 16.0,
-        6.5 / 16.0, 13.0 / 16.0, 10.5 / 16.0
+        0.0D / 16.0D, 2.0D / 16.0D, 5.0D / 16.0D,
+        7.0D / 16.0D, 15.0D / 16.0D, 11.0D / 16.0D
     );
 
     private static final AxisAlignedBB AABB_NORTH = rotateCounterClockwise(AABB_EAST);
     private static final AxisAlignedBB AABB_SOUTH = rotateClockwise(AABB_EAST);
     private static final AxisAlignedBB AABB_WEST = rotateHalfTurn(AABB_EAST);
 
-    public LightSourceSconceTorchWall(Material materialIn, String name, float resistance, float hardness) {
+    public LightSourceSconceTorchWallTwin(Material materialIn, String name, float resistance, float hardness) {
         super(materialIn, name, resistance, hardness);
     }
 
@@ -113,38 +116,31 @@ public class LightSourceSconceTorchWall extends LightSourceSconceTorchFloor {
     }
 
     @Override
-    public void randomDisplayTick(IBlockState state, World world, BlockPos pos, java.util.Random rand) {
-        if (HasFlame()) {
-            EnumFacing facing = state.getValue(FACING);
-            double baseX;
-            double baseZ;
+    @SideOnly(Side.CLIENT)
+    public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand) {
+        for (int i = 0; i < 2; i++) {
+            double[] offset = getWallFlameOffset(i);
+            double[] rotated = rotateWallPoint(state.getValue(FACING), offset[0], offset[2]);
+            spawnTorchFlame(world, pos.getX() + rotated[0], pos.getY() + offset[1], pos.getZ() + rotated[1]);
+        }
+    }
 
-            switch (facing) {
-                case WEST:
-                    baseX = 0.4D;
-                    baseZ = 0.5D;
-                    break;
-                case NORTH:
-                    baseX = 0.5D;
-                    baseZ = 0.4D;
-                    break;
-                case SOUTH:
-                    baseX = 0.5D;
-                    baseZ = 0.6D;
-                    break;
-                default:
-                    baseX = 0.6D;
-                    baseZ = 0.5D;
-                    break;
-            }
+    private double[] getWallFlameOffset(int index) {
+        return index == 0
+            ? new double[] { 3.5D / 16.0D, 15.0D / 16.0D, 9.6D / 16.0D }
+            : new double[] { 3.5D / 16.0D, 15.0D / 16.0D, 6.4D / 16.0D };
+    }
 
-            EnumFacing opposite = facing.getOpposite();
-            double x = pos.getX() + baseX + (0.27D * opposite.getFrontOffsetX());
-            double y = pos.getY() + 1.02D;
-            double z = pos.getZ() + baseZ + (0.27D * opposite.getFrontOffsetZ());
-
-            world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x, y, z, 0.0D, 0.0D, 0.0D);
-            world.spawnParticle(EnumParticleTypes.FLAME, x, y, z, 0.0D, 0.0D, 0.0D);
+    private double[] rotateWallPoint(EnumFacing facing, double x, double z) {
+        switch (facing) {
+            case SOUTH:
+                return new double[] { 1.0D - z, x };
+            case WEST:
+                return new double[] { 1.0D - x, 1.0D - z };
+            case NORTH:
+                return new double[] { z, 1.0D - x };
+            default:
+                return new double[] { x, z };
         }
     }
 
@@ -155,17 +151,12 @@ public class LightSourceSconceTorchWall extends LightSourceSconceTorchFloor {
 
     @Override
     protected Block GetWallVariant() {
-        return BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron;
-    }
-
-    @Override
-    protected Block GetGlowVariant() {
-        return BlockObjectHolder.light_metal_ironage_sconce_wall_glow_iron;
+        return BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron_twin;
     }
 
     @Override
     protected Block GetTorchVariant() {
-        return BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron;
+        return BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron_twin;
     }
 
     @Override
@@ -174,22 +165,7 @@ public class LightSourceSconceTorchWall extends LightSourceSconceTorchFloor {
     }
 
     @Override
-    protected Block GetLavaVariant() {
-        return BlockObjectHolder.light_metal_ironage_sconce_wall_lava_iron;
-    }
-
-    @Override
-    protected Block GetRedTorchVariant() {
-        return BlockObjectHolder.light_metal_ironage_sconce_wall_redtorch_iron;
-    }
-
-    @Override
-    protected Block GetRedVariant() {
-        return BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron;
-    }
-
-    @Override
     protected Block GetUnlitTorchVariant() {
-        return BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron_unlit;
+        return BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron_twin_unlit;
     }
 }

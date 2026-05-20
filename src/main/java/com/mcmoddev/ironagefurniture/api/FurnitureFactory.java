@@ -36,8 +36,12 @@ import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceRedTorchFloorUn
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceRedTorchWall;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceRedTorchWallUnlit;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchFloor;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchFloorTwin;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchFloorTwinUnlit;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchFloorUnlit;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchWall;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchWallTwin;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchWallTwinUnlit;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchWallUnlit;
 import com.mcmoddev.ironagefurniture.api.Blocks.ObsideanLump;
 import com.mcmoddev.ironagefurniture.api.Blocks.Stool;
@@ -188,6 +192,22 @@ public class FurnitureFactory {
 		return registerBlockWithoutItem(new LightSourceSconceTorchFloorUnlit(Material.WOOD, name, resistance, hardness), name);
 	}
 
+	public static Block CreateIronFloorTorchSconceTwin(String name) {
+		return CreateIronFloorTorchSconceTwin(name, 10, 1);
+	}
+
+	public static Block CreateIronFloorTorchSconceTwin(String name, float resistance, float hardness) {
+		return registerBlockWithoutItem(new LightSourceSconceTorchFloorTwin(Material.WOOD, name, resistance, hardness), name);
+	}
+
+	public static Block CreateIronFloorTorchSconceTwinUnlit(String name) {
+		return CreateIronFloorTorchSconceTwinUnlit(name, 10, 1);
+	}
+
+	public static Block CreateIronFloorTorchSconceTwinUnlit(String name, float resistance, float hardness) {
+		return registerBlockWithoutItem(new LightSourceSconceTorchFloorTwinUnlit(Material.WOOD, name, resistance, hardness), name);
+	}
+
 	public static Block CreateIronWallTorchSconce(String name) {
 		return CreateIronWallTorchSconce(name, 10, 1);
 	}
@@ -202,6 +222,22 @@ public class FurnitureFactory {
 
 	public static Block CreateIronWallTorchSconceUnlit(String name, float resistance, float hardness) {
 		return registerBlockWithoutItem(new LightSourceSconceTorchWallUnlit(Material.WOOD, name, resistance, hardness), name);
+	}
+
+	public static Block CreateIronWallTorchSconceTwin(String name) {
+		return CreateIronWallTorchSconceTwin(name, 10, 1);
+	}
+
+	public static Block CreateIronWallTorchSconceTwin(String name, float resistance, float hardness) {
+		return registerBlockWithoutItem(new LightSourceSconceTorchWallTwin(Material.WOOD, name, resistance, hardness), name);
+	}
+
+	public static Block CreateIronWallTorchSconceTwinUnlit(String name) {
+		return CreateIronWallTorchSconceTwinUnlit(name, 10, 1);
+	}
+
+	public static Block CreateIronWallTorchSconceTwinUnlit(String name, float resistance, float hardness) {
+		return registerBlockWithoutItem(new LightSourceSconceTorchWallTwinUnlit(Material.WOOD, name, resistance, hardness), name);
 	}
 
 	public static Block CreateIronFloorRedTorchSconce(String name) {

@@ -96,6 +96,10 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state,
                                     EntityPlayer playerIn, EnumHand hand, ItemStack heldItem,
                                     EnumFacing side, float hitX, float hitY, float hitZ) {
+        if (tryAddSecondTorch(worldIn, pos, state, playerIn, heldItem)) {
+            return true;
+        }
+
         if (tryTakeLightOut(worldIn, pos, state, playerIn, hand, heldItem)) {
             return true;
         }
@@ -116,6 +120,28 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
         }
 
         return super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
+    }
+
+    protected boolean tryAddSecondTorch(World worldIn, BlockPos pos, IBlockState state,
+                                        EntityPlayer playerIn, ItemStack heldItem) {
+        if (heldItem == null || heldItem.stackSize <= 0 || heldItem.getItem() != Item.getItemFromBlock(Blocks.TORCH)) {
+            return false;
+        }
+
+        Block twin = GetTwinTorchVariant();
+        if (twin == null) {
+            return false;
+        }
+
+        if (!worldIn.isRemote) {
+            worldIn.setBlockState(pos, twin.getDefaultState().withProperty(FACING, state.getValue(FACING)), 3);
+
+            if (!playerIn.capabilities.isCreativeMode) {
+                heldItem.stackSize--;
+            }
+        }
+
+        return true;
     }
 
     protected boolean tryTakeLightOut(World worldIn, BlockPos pos, IBlockState state,
@@ -225,6 +251,10 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
     @Override
     protected Block GetTorchVariant() {
         return BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron;
+    }
+
+    protected Block GetTwinTorchVariant() {
+        return BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron_twin;
     }
     @Override
     protected Block GetLavaVariant() {

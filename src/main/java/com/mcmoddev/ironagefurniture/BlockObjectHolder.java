@@ -8,8 +8,12 @@ public class BlockObjectHolder {
 
 	public static Block light_metal_ironage_sconce_floor_torch_iron;
 	public static Block light_metal_ironage_sconce_floor_torch_iron_unlit;
+	public static Block light_metal_ironage_sconce_floor_torch_iron_twin;
+	public static Block light_metal_ironage_sconce_floor_torch_iron_twin_unlit;
 	public static Block light_metal_ironage_sconce_wall_torch_iron;
 	public static Block light_metal_ironage_sconce_wall_torch_iron_unlit;
+	public static Block light_metal_ironage_sconce_wall_torch_iron_twin;
+	public static Block light_metal_ironage_sconce_wall_torch_iron_twin_unlit;
 
 	public static Block light_metal_ironage_sconce_floor_redtorch_iron;
 	public static Block light_metal_ironage_sconce_floor_redtorch_iron_unlit;

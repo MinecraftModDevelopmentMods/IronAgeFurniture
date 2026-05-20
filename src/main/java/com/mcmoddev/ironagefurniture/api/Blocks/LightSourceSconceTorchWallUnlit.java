@@ -44,7 +44,8 @@ public class LightSourceSconceTorchWallUnlit extends LightSourceSconceTorchWall 
                 return true;
             }
 
-            if (heldItem.getItem() == Item.getItemFromBlock(Blocks.TORCH)) {
+            if (heldItem.getItem() == Item.getItemFromBlock(Blocks.TORCH)
+                || isItemFromBlock(heldItem.getItem(), BlockObjectHolder.light_metal_ironage_candle_floor)) {
                 if (!worldIn.isRemote) {
                     worldIn.setBlockState(pos,
                         GetLitVariant().getDefaultState().withProperty(FACING, state.getValue(FACING)), 3);
