@@ -66,6 +66,26 @@ public class BlockObjectHolder {
 	public static Block chain_top;
 	public static Block chandelier_candle;
 	public static Block chandelier_candle_unlit;
+	public static Block chandelier_torch;
+	public static Block chandelier_torch_unlit;
+	public static Block chandelier_glowstone;
+	public static Block chandelier_lava;
+	public static Block chandelier_redstone;
+	public static Block chandelier_redstone_one;
+	public static Block chandelier_redstone_two;
+	public static Block chandelier_redstone_three;
+	public static Block chandelier_redstone_four;
+	public static Block chandelier_redstone_five;
+	public static Block chandelier_redstone_six;
+	public static Block chandelier_redstone_seven;
+	public static Block chandelier_redstone_eight;
+	public static Block chandelier_redstone_nine;
+	public static Block chandelier_redstone_ten;
+	public static Block chandelier_redstone_eleven;
+	public static Block chandelier_redstone_twelve;
+	public static Block chandelier_redstone_thirteen;
+	public static Block chandelier_redstone_fourteen;
+	public static Block chandelier_redstone_fifteen;
 
 	public static Block light_metal_ironage_sconce_floor_red_iron;
 	public static Block light_metal_ironage_sconce_floor_red_iron_one;

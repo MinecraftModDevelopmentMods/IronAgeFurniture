@@ -1,0 +1,6 @@
+﻿{
+  "parent": "ironagefurniture:block/template_chandelier_redstone",
+  "textures": {
+    "contents": "minecraft:blocks/redstone_lamp_on"
+  }
+}

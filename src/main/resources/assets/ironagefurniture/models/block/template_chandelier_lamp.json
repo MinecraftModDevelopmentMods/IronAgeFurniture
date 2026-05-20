@@ -1,11 +1,10 @@
 {
-	"format_version": "1.21.11",
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "Textures/wroughtiron_lamp",
-		"1": "Textures/48385078_1096024937238245_694927400709914624_n",
-		"2": "Textures/white velvet 16",
-		"particle": "Textures/wroughtiron_lamp"
+		"0": "minecraft:blocks/iron_block",
+		"1": "minecraft:blocks/iron_block",
+		"2": "#contents",
+		"particle": "#contents"
 	},
 	"elements": [
 		{

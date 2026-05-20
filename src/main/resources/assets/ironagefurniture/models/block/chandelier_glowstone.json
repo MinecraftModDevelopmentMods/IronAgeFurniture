@@ -1,0 +1,6 @@
+﻿{
+  "parent": "ironagefurniture:block/template_chandelier_lamp",
+  "textures": {
+    "contents": "minecraft:blocks/glowstone"
+  }
+}

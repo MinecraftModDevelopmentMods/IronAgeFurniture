@@ -41,6 +41,14 @@ public class RecipeInitialiser {
 			Blocks.IRON_BARS));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockObjectHolder.chandelier_candle, 1),
 			"x x", " y ", "x x", 'x', BlockObjectHolder.light_metal_ironage_candle_floor, 'y', Items.IRON_INGOT));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockObjectHolder.chandelier_torch, 1),
+			"x x", " y ", "x x", 'x', Blocks.TORCH, 'y', Items.IRON_INGOT));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockObjectHolder.chandelier_glowstone, 1),
+			BlockObjectHolder.light_metal_ironage_block_floor_glow_clear, Items.IRON_INGOT));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockObjectHolder.chandelier_lava, 1),
+			BlockObjectHolder.light_metal_ironage_block_floor_lava_clear, Items.IRON_INGOT));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockObjectHolder.chandelier_redstone, 1),
+			BlockObjectHolder.light_metal_ironage_block_floor_red_clear, Items.IRON_INGOT));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockObjectHolder.light_metal_ironage_block_floor_glow_clear, 1),
 			Items.GLOWSTONE_DUST, Items.GLASS_BOTTLE));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockObjectHolder.light_metal_ironage_block_floor_red_clear, 1),

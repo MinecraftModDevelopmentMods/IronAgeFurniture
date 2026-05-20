@@ -13,6 +13,7 @@ import net.minecraft.block.BlockFalling;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -22,13 +23,21 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nullable;
+
 public class LightSourceChandelierCandle extends BlockFalling {
-    private static final AxisAlignedBB AABB = new AxisAlignedBB(
+    private static final AxisAlignedBB DISC_AABB = new AxisAlignedBB(
+        0.0D, 2.0D / 16.0D, 0.0D,
+        1.0D, 5.0D / 16.0D, 1.0D
+    );
+    private static final AxisAlignedBB INTERACTION_AABB = new AxisAlignedBB(
         0.0D, 2.0D / 16.0D, 0.0D,
         1.0D, 1.0D, 1.0D
     );
@@ -143,12 +152,35 @@ public class LightSourceChandelierCandle extends BlockFalling {
 
     @Override
     public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-        return Lists.newArrayList(new ItemStack(BlockObjectHolder.chandelier_candle, 1));
+        return Lists.newArrayList(new ItemStack(VisibleDropBlock(), 1));
     }
 
     @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-        return AABB;
+        return INTERACTION_AABB;
+    }
+
+    @Nullable
+    @Override
+    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
+        return DISC_AABB;
+    }
+
+    @Override
+    public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos,
+            AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
+        super.addCollisionBoxToList(pos, entityBox, collidingBoxes, DISC_AABB);
+    }
+
+    @Override
+    public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos) {
+        return DISC_AABB.offset(pos);
+    }
+
+    @Nullable
+    @Override
+    public RayTraceResult collisionRayTrace(IBlockState state, World worldIn, BlockPos pos, Vec3d start, Vec3d end) {
+        return this.rayTrace(pos, start, end, INTERACTION_AABB);
     }
 
     @Override
@@ -203,6 +235,10 @@ public class LightSourceChandelierCandle extends BlockFalling {
     }
 
     protected Block GetLitVariant() {
+        return BlockObjectHolder.chandelier_candle;
+    }
+
+    protected Block VisibleDropBlock() {
         return BlockObjectHolder.chandelier_candle;
     }
 }

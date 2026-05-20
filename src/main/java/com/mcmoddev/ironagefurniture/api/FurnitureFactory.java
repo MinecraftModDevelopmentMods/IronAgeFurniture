@@ -9,6 +9,11 @@ import com.mcmoddev.ironagefurniture.api.Blocks.LightHolderSconceFloor;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightHolderSconceWall;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceChandelierCandle;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceChandelierCandleUnlit;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceChandelierGlowstone;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceChandelierLava;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceChandelierRedstone;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceChandelierTorch;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceChandelierTorchUnlit;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceCandleFloor;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceCandleFloorUnlit;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceCandleWall;
@@ -345,6 +350,50 @@ public class FurnitureFactory {
 
 	public static Block CreateCandleChandelierUnlit(String name, float resistance, float hardness) {
 		return registerBlockWithoutItem(new LightSourceChandelierCandleUnlit(Material.IRON, name, resistance, hardness), name);
+	}
+
+	public static Block CreateTorchChandelier(String name) {
+		return CreateTorchChandelier(name, 10, 1);
+	}
+
+	public static Block CreateTorchChandelier(String name, float resistance, float hardness) {
+		return registerBlock(new LightSourceChandelierTorch(Material.IRON, name, resistance, hardness), name, 64);
+	}
+
+	public static Block CreateTorchChandelierUnlit(String name) {
+		return CreateTorchChandelierUnlit(name, 10, 1);
+	}
+
+	public static Block CreateTorchChandelierUnlit(String name, float resistance, float hardness) {
+		return registerBlockWithoutItem(new LightSourceChandelierTorchUnlit(Material.IRON, name, resistance, hardness), name);
+	}
+
+	public static Block CreateGlowstoneChandelier(String name) {
+		return CreateGlowstoneChandelier(name, 10, 1);
+	}
+
+	public static Block CreateGlowstoneChandelier(String name, float resistance, float hardness) {
+		return registerBlock(new LightSourceChandelierGlowstone(Material.GLASS, name, resistance, hardness), name, 64);
+	}
+
+	public static Block CreateLavaChandelier(String name) {
+		return CreateLavaChandelier(name, 10, 1);
+	}
+
+	public static Block CreateLavaChandelier(String name, float resistance, float hardness) {
+		return registerBlock(new LightSourceChandelierLava(Material.GLASS, name, resistance, hardness), name, 64);
+	}
+
+	public static Block CreateRedstoneChandelier(String name) {
+		return CreateRedstoneChandelier(name, 0, true, 10, 1);
+	}
+
+	public static Block CreateRedstoneChandelierVariant(String name, int lightLevel) {
+		return CreateRedstoneChandelier(name, lightLevel, false, 10, 1);
+	}
+
+	private static Block CreateRedstoneChandelier(String name, int lightLevel, boolean registerItem, float resistance, float hardness) {
+		return registerBlock(new LightSourceChandelierRedstone(Material.GLASS, name, resistance, hardness, lightLevel), name, 64, registerItem);
 	}
 
 	public static Block CreateCandleWall(String name) {
