@@ -1,5 +1,7 @@
 package com.mcmoddev.ironagefurniture.api;
 
+import com.mcmoddev.ironagefurniture.BlockObjectHolder;
+import com.mcmoddev.ironagefurniture.IronAgeFurnitureConfiguration;
 import com.mcmoddev.ironagefurniture.Ironagefurniture;
 import com.mcmoddev.ironagefurniture.api.Blocks.BackBench;
 import com.mcmoddev.ironagefurniture.api.Blocks.Bench;
@@ -43,6 +45,7 @@ import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchWall;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchWallTwin;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchWallTwinUnlit;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchWallUnlit;
+import com.mcmoddev.ironagefurniture.api.Blocks.MultiBlockChair;
 import com.mcmoddev.ironagefurniture.api.Blocks.ObsideanLump;
 import com.mcmoddev.ironagefurniture.api.Blocks.Stool;
 import com.mcmoddev.ironagefurniture.init.ItemInitialiser;
@@ -63,6 +66,21 @@ public class FurnitureFactory {
 
 	public static void AddClassicChairRecipe(ItemStack planks, Block chair) {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(chair, 1), "x  ", "xxx", "y y", 'x', planks, 'y', "stickWood"));
+		AddDerivedTallChairRecipes(planks, chair);
+	}
+
+	public static void AddWingbackChairRecipe(ItemStack planks, Block chairIn, Block chairOut) {
+		for (int i = 0; i < 16; i++) {
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(chairOut, 1), "z", "x", "y",
+				'z', new ItemStack(Blocks.CARPET, 1, i), 'x', planks, 'y', chairIn));
+		}
+	}
+
+	public static void AddThroneChairRecipe(ItemStack planks, Block chairIn, Block chairOut) {
+		for (int i = 0; i < 16; i++) {
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(chairOut, 1), "z", "x", "y",
+				'z', new ItemStack(Blocks.CARPET, 1, i), 'x', planks, 'y', chairIn));
+		}
 	}
 	
 	public static void AddShortStoolRecipe(ItemStack planks, Block stool) {
@@ -112,6 +130,36 @@ public class FurnitureFactory {
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(chairOut, 1), new ItemStack(chairIn,1)));
 	}
 
+	private static void AddDerivedTallChairRecipes(ItemStack planks, Block classicChair) {
+		if (!IronAgeFurnitureConfiguration.GENERATE_WINGBACK_CHAIRS || classicChair == null || classicChair.getRegistryName() == null) {
+			return;
+		}
+
+		String name = classicChair.getRegistryName().getResourcePath();
+		String prefix = "chair_wood_ironage_classic_";
+
+		if (!name.startsWith(prefix)) {
+			return;
+		}
+
+		String suffix = name.substring(prefix.length());
+		Block wingback = BlockObjectHolder.chair_wood_ironage_wingback.get(suffix);
+
+		if (wingback == null) {
+			return;
+		}
+
+		AddWingbackChairRecipe(planks, classicChair, wingback);
+
+		if (IronAgeFurnitureConfiguration.GENERATE_THRONES) {
+			Block throne = BlockObjectHolder.chair_wood_ironage_throne.get(suffix);
+
+			if (throne != null) {
+				AddThroneChairRecipe(planks, wingback, throne);
+			}
+		}
+	}
+
 	public static void AddIronSconceRecipe(Block sconce) {
 		Object ironInput = "nuggetIron";
 		int outputCount = 5;
@@ -158,6 +206,42 @@ public class FurnitureFactory {
 	
 	public static Block CreateWoodChair(String name, float resistance, float hardness) {
 		return  registerBlock(new Chair(Material.WOOD, name, resistance, hardness), name);
+	}
+
+	public static Block CreateWoodWingbackChair(String name) {
+		return CreateWoodWingbackChair(name, 10, 2);
+	}
+
+	public static Block CreateWoodWingbackChair(String name, float resistance, float hardness) {
+		return CreateWoodMultiBlockChair(name, resistance, hardness, new String[] { "", "_upper" });
+	}
+
+	public static Block CreateWoodThroneChair(String name) {
+		return CreateWoodThroneChair(name, 10, 3);
+	}
+
+	public static Block CreateWoodThroneChair(String name, float resistance, float hardness) {
+		return CreateWoodMultiBlockChair(name, resistance, hardness, new String[] { "", "_middle", "_upper" });
+	}
+
+	private static Block CreateWoodMultiBlockChair(String name, float resistance, float hardness, String[] partSuffixes) {
+		Block[] parts = new Block[partSuffixes.length];
+
+		for (int i = 0; i < partSuffixes.length; i++) {
+			MultiBlockChair part = new MultiBlockChair(Material.WOOD, name + partSuffixes[i], resistance, hardness, partSuffixes.length, i);
+
+			if (i == 0) {
+				parts[i] = registerBlock(part, name);
+			} else {
+				parts[i] = registerBlockWithoutItem(part, name + partSuffixes[i]);
+			}
+		}
+
+		for (Block part : parts) {
+			((MultiBlockChair)part).setParts(parts);
+		}
+
+		return parts[0];
 	}
 	
 	public static Block CreateIronWallSconce(String name) {

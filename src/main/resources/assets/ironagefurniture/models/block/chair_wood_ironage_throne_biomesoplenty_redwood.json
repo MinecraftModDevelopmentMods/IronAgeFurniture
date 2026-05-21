@@ -1,0 +1,9 @@
+{
+  "parent": "ironagefurniture:block/template_chair_throne_lower",
+  "textures": {
+    "log": "biomesoplenty:blocks/redwood_log",
+    "planks": "biomesoplenty:blocks/redwood_planks",
+    "cloth": "minecraft:blocks/wool_colored_red",
+    "particle": "biomesoplenty:blocks/redwood_log"
+  }
+}

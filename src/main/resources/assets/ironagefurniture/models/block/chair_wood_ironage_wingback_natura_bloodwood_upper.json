@@ -1,0 +1,9 @@
+{
+  "parent": "ironagefurniture:block/template_chair_wingback_upper",
+  "textures": {
+    "log": "natura:blocks/logs/nether/bloodwood_bark",
+    "planks": "natura:blocks/planks/nether/bloodwood_planks",
+    "cloth": "minecraft:blocks/wool_colored_red",
+    "particle": "natura:blocks/logs/nether/bloodwood_bark"
+  }
+}

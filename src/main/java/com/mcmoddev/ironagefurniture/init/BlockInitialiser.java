@@ -1,5 +1,8 @@
 package com.mcmoddev.ironagefurniture.init;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 import com.mcmoddev.ironagefurniture.IronAgeFurnitureConfiguration;
 import com.mcmoddev.ironagefurniture.Ironagefurniture;
@@ -890,6 +893,35 @@ public class BlockInitialiser {
 				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_forestry_wenge 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_forestry_wenge");
 				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_forestry_willow 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_forestry_willow");
 				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_forestry_zebrawood 	= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_padded_single_forestry_zebrawood");
+			}
+		}
+
+		generateWingbackAndThroneChairs();
+	}
+
+	private static void generateWingbackAndThroneChairs() {
+		if (!IronAgeFurnitureConfiguration.GENERATE_WINGBACK_CHAIRS) {
+			return;
+		}
+
+		String classicPrefix = "chair_wood_ironage_classic_";
+		List<String> classicChairNames = new ArrayList<String>();
+
+		for (String name : Ironagefurniture.BlockRegistry.keySet()) {
+			if (name.startsWith(classicPrefix)) {
+				classicChairNames.add(name);
+			}
+		}
+
+		for (String classicName : classicChairNames) {
+			String suffix = classicName.substring(classicPrefix.length());
+			String wingbackName = "chair_wood_ironage_wingback_" + suffix;
+			Block wingback = FurnitureFactory.CreateWoodWingbackChair(wingbackName);
+			BlockObjectHolder.chair_wood_ironage_wingback.put(suffix, wingback);
+
+			if (IronAgeFurnitureConfiguration.GENERATE_THRONES) {
+				String throneName = "chair_wood_ironage_throne_" + suffix;
+				BlockObjectHolder.chair_wood_ironage_throne.put(suffix, FurnitureFactory.CreateWoodThroneChair(throneName));
 			}
 		}
 	}

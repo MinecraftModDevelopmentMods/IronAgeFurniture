@@ -1,0 +1,9 @@
+{
+  "parent": "ironagefurniture:block/template_chair_wingback_inventory",
+  "textures": {
+    "log": "forestry:blocks/wood/bark.pine",
+    "planks": "forestry:blocks/wood/planks.pine",
+    "cloth": "minecraft:blocks/wool_colored_red",
+    "particle": "forestry:blocks/wood/bark.pine"
+  }
+}

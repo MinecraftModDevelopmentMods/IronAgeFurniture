@@ -1,0 +1,9 @@
+{
+  "parent": "ironagefurniture:block/template_chair_wingback_lower",
+  "textures": {
+    "log": "forestry:blocks/wood/bark.zebrawood",
+    "planks": "forestry:blocks/wood/planks.zebrawood",
+    "cloth": "minecraft:blocks/wool_colored_red",
+    "particle": "forestry:blocks/wood/bark.zebrawood"
+  }
+}

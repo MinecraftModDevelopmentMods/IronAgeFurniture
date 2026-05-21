@@ -1,0 +1,9 @@
+{
+  "parent": "ironagefurniture:block/template_chair_throne_middle",
+  "textures": {
+    "log": "forestry:blocks/wood/bark.wenge",
+    "planks": "forestry:blocks/wood/planks.wenge",
+    "cloth": "minecraft:blocks/wool_colored_red",
+    "particle": "forestry:blocks/wood/bark.wenge"
+  }
+}

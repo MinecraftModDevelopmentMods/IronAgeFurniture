@@ -1,0 +1,9 @@
+{
+  "parent": "ironagefurniture:block/template_chair_wingback_upper",
+  "textures": {
+    "log": "natura:blocks/logs/overworld/hopseed_log",
+    "planks": "natura:blocks/planks/overworld/hopseed_planks",
+    "cloth": "minecraft:blocks/wool_colored_red",
+    "particle": "natura:blocks/logs/overworld/hopseed_log"
+  }
+}

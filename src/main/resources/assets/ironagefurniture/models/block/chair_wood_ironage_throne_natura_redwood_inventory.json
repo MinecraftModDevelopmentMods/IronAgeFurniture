@@ -1,0 +1,9 @@
+{
+  "parent": "ironagefurniture:block/template_chair_throne_inventory",
+  "textures": {
+    "log": "natura:blocks/logs/overworld/redwood_bark",
+    "planks": "natura:blocks/planks/overworld/redwood_planks",
+    "cloth": "minecraft:blocks/wool_colored_red",
+    "particle": "natura:blocks/logs/overworld/redwood_bark"
+  }
+}

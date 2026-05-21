@@ -1,0 +1,9 @@
+{
+  "parent": "ironagefurniture:block/template_chair_throne_lower",
+  "textures": {
+    "log": "immersiveengineering:blocks/treatedWood_packaged",
+    "planks": "immersiveengineering:blocks/treatedWood_vertical",
+    "cloth": "minecraft:blocks/wool_colored_red",
+    "particle": "immersiveengineering:blocks/treatedWood_packaged"
+  }
+}

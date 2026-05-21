@@ -1,0 +1,9 @@
+{
+  "parent": "ironagefurniture:block/template_chair_throne_upper",
+  "textures": {
+    "log": "natura:blocks/logs/overworld/amaranth_log",
+    "planks": "natura:blocks/planks/overworld/amaranth_planks",
+    "cloth": "minecraft:blocks/wool_colored_red",
+    "particle": "natura:blocks/logs/overworld/amaranth_log"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "parent": "ironagefurniture:block/template_chair_throne_upper",
+  "textures": {
+    "log": "biomesoplenty:blocks/fir_log",
+    "planks": "biomesoplenty:blocks/fir_planks",
+    "cloth": "minecraft:blocks/wool_colored_red",
+    "particle": "biomesoplenty:blocks/fir_log"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "parent": "ironagefurniture:block/template_chair_wingback_inventory",
+  "textures": {
+    "log": "natura:blocks/logs/nether/fusewood_log",
+    "planks": "natura:blocks/planks/nether/fusewood_planks",
+    "cloth": "minecraft:blocks/wool_colored_red",
+    "particle": "natura:blocks/logs/nether/fusewood_log"
+  }
+}
