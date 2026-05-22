@@ -5,7 +5,9 @@ import java.util.Map;
 
 import com.mcmoddev.ironagefurniture.api.CreativeModeBreakTracker;
 import com.mcmoddev.ironagefurniture.api.entity.Seat;
+import com.mcmoddev.ironagefurniture.api.tile.TileEntityDiningTable;
 import com.mcmoddev.ironagefurniture.init.BlockInitialiser;
+import com.mcmoddev.ironagefurniture.init.ClientRenderInitialiser;
 import com.mcmoddev.ironagefurniture.init.ItemInitialiser;
 import com.mcmoddev.ironagefurniture.init.RecipeInitialiser;
 
@@ -20,6 +22,7 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 @Mod(modid = Ironagefurniture.MODID, version = Ironagefurniture.VERSION)
 public class Ironagefurniture
@@ -54,8 +57,10 @@ public class Ironagefurniture
     	// register renderers
     	if(event.getSide().isClient()) {
     		ItemInitialiser.RegisterItemRenders();
+    		ClientRenderInitialiser.RegisterTileEntityRenderers();
     	}
     	
+    	GameRegistry.registerTileEntity(TileEntityDiningTable.class, MODID + ":table_dining");
     	EntityRegistry.registerModEntity(Seat.class, MODID + ":seat", 0, this, 80, 1, false);
     	
     	RecipeInitialiser.init();

@@ -1,0 +1,8 @@
+{
+  "parent": "ironagefurniture:block/template_table_dining_10",
+  "textures": {
+    "log": "minecraft:blocks/log_birch",
+    "planks": "minecraft:blocks/planks_birch",
+    "particle": "minecraft:blocks/log_birch"
+  }
+}

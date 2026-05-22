@@ -1,0 +1,8 @@
+{
+  "parent": "ironagefurniture:block/template_table_dining_0",
+  "textures": {
+    "log": "natura:blocks/logs/overworld/maple_log",
+    "planks": "natura:blocks/planks/overworld/maple_planks",
+    "particle": "natura:blocks/logs/overworld/maple_log"
+  }
+}

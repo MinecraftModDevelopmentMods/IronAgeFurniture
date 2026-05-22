@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "connections=0": {
+      "model": "ironagefurniture:table_dining_natura_redwood_0"
+    },
+    "connections=1": {
+      "model": "ironagefurniture:table_dining_natura_redwood_1"
+    },
+    "connections=2": {
+      "model": "ironagefurniture:table_dining_natura_redwood_2"
+    },
+    "connections=3": {
+      "model": "ironagefurniture:table_dining_natura_redwood_3"
+    },
+    "connections=4": {
+      "model": "ironagefurniture:table_dining_natura_redwood_4"
+    },
+    "connections=5": {
+      "model": "ironagefurniture:table_dining_natura_redwood_5"
+    },
+    "connections=6": {
+      "model": "ironagefurniture:table_dining_natura_redwood_6"
+    },
+    "connections=7": {
+      "model": "ironagefurniture:table_dining_natura_redwood_7"
+    },
+    "connections=8": {
+      "model": "ironagefurniture:table_dining_natura_redwood_8"
+    },
+    "connections=9": {
+      "model": "ironagefurniture:table_dining_natura_redwood_9"
+    },
+    "connections=10": {
+      "model": "ironagefurniture:table_dining_natura_redwood_10"
+    },
+    "connections=11": {
+      "model": "ironagefurniture:table_dining_natura_redwood_11"
+    },
+    "connections=12": {
+      "model": "ironagefurniture:table_dining_natura_redwood_12"
+    },
+    "connections=13": {
+      "model": "ironagefurniture:table_dining_natura_redwood_13"
+    },
+    "connections=14": {
+      "model": "ironagefurniture:table_dining_natura_redwood_14"
+    },
+    "connections=15": {
+      "model": "ironagefurniture:table_dining_natura_redwood_15"
+    }
+  }
+}

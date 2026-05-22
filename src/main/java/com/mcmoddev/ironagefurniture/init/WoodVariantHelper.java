@@ -78,6 +78,20 @@ final class WoodVariantHelper {
 		addForestryPlankVariants(consumer);
 	}
 
+	static void forEachEnabledSlabVariant(ItemStackVariantConsumer consumer) {
+		consumer.accept("oak", new ItemStack(Blocks.WOODEN_SLAB, 1, 0));
+		consumer.accept("spruce", new ItemStack(Blocks.WOODEN_SLAB, 1, 1));
+		consumer.accept("birch", new ItemStack(Blocks.WOODEN_SLAB, 1, 2));
+		consumer.accept("jungle", new ItemStack(Blocks.WOODEN_SLAB, 1, 3));
+		consumer.accept("acacia", new ItemStack(Blocks.WOODEN_SLAB, 1, 4));
+		consumer.accept("big_oak", new ItemStack(Blocks.WOODEN_SLAB, 1, 5));
+
+		addBiomesOPlentySlabVariants(consumer);
+		addNaturaSlabVariants(consumer);
+		addImmersiveEngineeringSlabVariants(consumer);
+		addForestrySlabVariants(consumer);
+	}
+
 	static void forEachEnabledLogVariant(ItemStackVariantConsumer consumer) {
 		consumer.accept("oak", new ItemStack(Blocks.LOG, 1, 0));
 		consumer.accept("spruce", new ItemStack(Blocks.LOG, 1, 1));
@@ -159,6 +173,32 @@ final class WoodVariantHelper {
 		accept(consumer, "biomesoplenty_eucalyptus", logs3, 7);
 	}
 
+	private static void addBiomesOPlentySlabVariants(ItemStackVariantConsumer consumer) {
+		if (!IronAgeFurnitureConfiguration.INTEGRATION_BIOMESOPLENTY || !Loader.isModLoaded("BiomesOPlenty")) {
+			return;
+		}
+
+		Block slabs0 = Block.getBlockFromName("BiomesOPlenty:wood_slab_0");
+		accept(consumer, "biomesoplenty_sacred_oak", slabs0, 0);
+		accept(consumer, "biomesoplenty_cherry", slabs0, 1);
+		accept(consumer, "biomesoplenty_umbran", slabs0, 2);
+		accept(consumer, "biomesoplenty_fir", slabs0, 3);
+		accept(consumer, "biomesoplenty_ethereal", slabs0, 4);
+		accept(consumer, "biomesoplenty_magic", slabs0, 5);
+		accept(consumer, "biomesoplenty_mangrove", slabs0, 6);
+		accept(consumer, "biomesoplenty_palm", slabs0, 7);
+
+		Block slabs1 = Block.getBlockFromName("BiomesOPlenty:wood_slab_1");
+		accept(consumer, "biomesoplenty_redwood", slabs1, 0);
+		accept(consumer, "biomesoplenty_willow", slabs1, 1);
+		accept(consumer, "biomesoplenty_pine", slabs1, 2);
+		accept(consumer, "biomesoplenty_hellbark", slabs1, 3);
+		accept(consumer, "biomesoplenty_jacaranda", slabs1, 4);
+		accept(consumer, "biomesoplenty_mahogany", slabs1, 5);
+		accept(consumer, "biomesoplenty_ebony", slabs1, 6);
+		accept(consumer, "biomesoplenty_eucalyptus", slabs1, 7);
+	}
+
 	private static void addNaturaPlankVariants(ItemStackVariantConsumer consumer) {
 		if (!IronAgeFurnitureConfiguration.INTEGRATION_NATURA || !Loader.isModLoaded("natura")) {
 			return;
@@ -208,6 +248,31 @@ final class WoodVariantHelper {
 		accept(consumer, "natura_bloodwood", netherLogs2, 0);
 	}
 
+	private static void addNaturaSlabVariants(ItemStackVariantConsumer consumer) {
+		if (!IronAgeFurnitureConfiguration.INTEGRATION_NATURA || !Loader.isModLoaded("natura")) {
+			return;
+		}
+
+		Block overworldSlabs = Block.getBlockFromName("natura:overworld_slab");
+		accept(consumer, "natura_maple", overworldSlabs, 0);
+		accept(consumer, "natura_silverbell", overworldSlabs, 1);
+		accept(consumer, "natura_amaranth", overworldSlabs, 2);
+		accept(consumer, "natura_tiger", overworldSlabs, 3);
+		accept(consumer, "natura_willow", overworldSlabs, 4);
+
+		Block overworldSlabs2 = Block.getBlockFromName("natura:overworld_slab2");
+		accept(consumer, "natura_eucalyptus", overworldSlabs2, 0);
+		accept(consumer, "natura_hopseed", overworldSlabs2, 1);
+		accept(consumer, "natura_sakura", overworldSlabs2, 2);
+		accept(consumer, "natura_redwood", overworldSlabs2, 3);
+
+		Block netherSlabs = Block.getBlockFromName("natura:nether_slab");
+		accept(consumer, "natura_ghostwood", netherSlabs, 0);
+		accept(consumer, "natura_bloodwood", netherSlabs, 1);
+		accept(consumer, "natura_darkwood", netherSlabs, 2);
+		accept(consumer, "natura_fusewood", netherSlabs, 3);
+	}
+
 	private static void addImmersiveEngineeringPlankVariants(ItemStackVariantConsumer consumer) {
 		if (!IronAgeFurnitureConfiguration.INTEGRATION_IMMERSIVEENGINEERING || !Loader.isModLoaded("immersiveengineering")) {
 			return;
@@ -217,6 +282,17 @@ final class WoodVariantHelper {
 		accept(consumer, "immersiveengineering_treatedWood", treatedWood, 0);
 		accept(consumer, "immersiveengineering_treatedWood", treatedWood, 1);
 		accept(consumer, "immersiveengineering_treatedWood", treatedWood, 2);
+	}
+
+	private static void addImmersiveEngineeringSlabVariants(ItemStackVariantConsumer consumer) {
+		if (!IronAgeFurnitureConfiguration.INTEGRATION_IMMERSIVEENGINEERING || !Loader.isModLoaded("immersiveengineering")) {
+			return;
+		}
+
+		Block treatedWoodSlab = Block.getBlockFromName("immersiveengineering:treatedWoodSlab");
+		accept(consumer, "immersiveengineering_treatedWood", treatedWoodSlab, 0);
+		accept(consumer, "immersiveengineering_treatedWood", treatedWoodSlab, 1);
+		accept(consumer, "immersiveengineering_treatedWood", treatedWoodSlab, 2);
 	}
 
 	private static void addForestryPlankVariants(ItemStackVariantConsumer consumer) {
@@ -256,6 +332,49 @@ final class WoodVariantHelper {
 		accept(consumer, "forestry_padauk", planks1, 10);
 		accept(consumer, "forestry_cocobolo", planks1, 11);
 		accept(consumer, "forestry_zebrawood", planks1, 12);
+	}
+
+	private static void addForestrySlabVariants(ItemStackVariantConsumer consumer) {
+		if (!IronAgeFurnitureConfiguration.INTEGRATION_FORESTRY || !Loader.isModLoaded("forestry")) {
+			return;
+		}
+
+		Block slabs0 = Block.getBlockFromName("forestry:slabs.0");
+		accept(consumer, "forestry_larch", slabs0, 0);
+		accept(consumer, "forestry_teak", slabs0, 1);
+		accept(consumer, "forestry_acacia", slabs0, 2);
+		accept(consumer, "forestry_lime", slabs0, 3);
+		accept(consumer, "forestry_chestnut", slabs0, 4);
+		accept(consumer, "forestry_wenge", slabs0, 5);
+		accept(consumer, "forestry_baobab", slabs0, 6);
+		accept(consumer, "forestry_sequoia", slabs0, 7);
+
+		Block slabs1 = Block.getBlockFromName("forestry:slabs.1");
+		accept(consumer, "forestry_kapok", slabs1, 0);
+		accept(consumer, "forestry_ebony", slabs1, 1);
+		accept(consumer, "forestry_mahogany", slabs1, 2);
+		accept(consumer, "forestry_balsa", slabs1, 3);
+		accept(consumer, "forestry_willow", slabs1, 4);
+		accept(consumer, "forestry_walnut", slabs1, 5);
+		accept(consumer, "forestry_greenheart", slabs1, 6);
+		accept(consumer, "forestry_cherry", slabs1, 7);
+
+		Block slabs2 = Block.getBlockFromName("forestry:slabs.2");
+		accept(consumer, "forestry_mahoe", slabs2, 0);
+		accept(consumer, "forestry_poplar", slabs2, 1);
+		accept(consumer, "forestry_palm", slabs2, 2);
+		accept(consumer, "forestry_papaya", slabs2, 3);
+		accept(consumer, "forestry_pine", slabs2, 4);
+		accept(consumer, "forestry_plum", slabs2, 5);
+		accept(consumer, "forestry_maple", slabs2, 6);
+		accept(consumer, "forestry_citrus", slabs2, 7);
+
+		Block slabs3 = Block.getBlockFromName("forestry:slabs.3");
+		accept(consumer, "forestry_giganteum", slabs3, 0);
+		accept(consumer, "forestry_ipe", slabs3, 1);
+		accept(consumer, "forestry_padauk", slabs3, 2);
+		accept(consumer, "forestry_cocobolo", slabs3, 3);
+		accept(consumer, "forestry_zebrawood", slabs3, 4);
 	}
 
 	private static void addForestryLogVariants(ItemStackVariantConsumer consumer) {

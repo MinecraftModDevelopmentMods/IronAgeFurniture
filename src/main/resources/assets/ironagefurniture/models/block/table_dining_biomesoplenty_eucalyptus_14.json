@@ -1,0 +1,8 @@
+{
+  "parent": "ironagefurniture:block/template_table_dining_14",
+  "textures": {
+    "log": "biomesoplenty:blocks/eucalyptus_log",
+    "planks": "biomesoplenty:blocks/eucalyptus_planks",
+    "particle": "biomesoplenty:blocks/eucalyptus_log"
+  }
+}

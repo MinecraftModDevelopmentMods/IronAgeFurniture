@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "connections=0": {
+      "model": "ironagefurniture:table_dining_forestry_balsa_0"
+    },
+    "connections=1": {
+      "model": "ironagefurniture:table_dining_forestry_balsa_1"
+    },
+    "connections=2": {
+      "model": "ironagefurniture:table_dining_forestry_balsa_2"
+    },
+    "connections=3": {
+      "model": "ironagefurniture:table_dining_forestry_balsa_3"
+    },
+    "connections=4": {
+      "model": "ironagefurniture:table_dining_forestry_balsa_4"
+    },
+    "connections=5": {
+      "model": "ironagefurniture:table_dining_forestry_balsa_5"
+    },
+    "connections=6": {
+      "model": "ironagefurniture:table_dining_forestry_balsa_6"
+    },
+    "connections=7": {
+      "model": "ironagefurniture:table_dining_forestry_balsa_7"
+    },
+    "connections=8": {
+      "model": "ironagefurniture:table_dining_forestry_balsa_8"
+    },
+    "connections=9": {
+      "model": "ironagefurniture:table_dining_forestry_balsa_9"
+    },
+    "connections=10": {
+      "model": "ironagefurniture:table_dining_forestry_balsa_10"
+    },
+    "connections=11": {
+      "model": "ironagefurniture:table_dining_forestry_balsa_11"
+    },
+    "connections=12": {
+      "model": "ironagefurniture:table_dining_forestry_balsa_12"
+    },
+    "connections=13": {
+      "model": "ironagefurniture:table_dining_forestry_balsa_13"
+    },
+    "connections=14": {
+      "model": "ironagefurniture:table_dining_forestry_balsa_14"
+    },
+    "connections=15": {
+      "model": "ironagefurniture:table_dining_forestry_balsa_15"
+    }
+  }
+}

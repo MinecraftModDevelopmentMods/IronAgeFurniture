@@ -30,7 +30,36 @@ public class RecipeInitialiser {
 	public static void init() {
 		generateChairRecipes();
 		generateBedRecipes();
+		generateTableRecipes();
 		generateLightRecipes();
+	}
+
+	private static void generateTableRecipes() {
+		if (!IronAgeFurnitureConfiguration.GENERATE_DINING_TABLES) {
+			return;
+		}
+
+		final List<String> recipeSuffixes = new ArrayList<String>();
+
+		WoodVariantHelper.forEachEnabledSlabVariant(new WoodVariantHelper.ItemStackVariantConsumer() {
+			@Override
+			public void accept(String suffix, ItemStack slab) {
+				Block table = BlockObjectHolder.table_dining.get(suffix);
+
+				if (table != null) {
+					FurnitureFactory.AddDiningTableRecipe(slab, table);
+					recipeSuffixes.add(suffix);
+				}
+			}
+		});
+
+		List<String> missing = new ArrayList<String>(BlockObjectHolder.table_dining.keySet());
+		missing.removeAll(recipeSuffixes);
+
+		if (!missing.isEmpty()) {
+			Collections.sort(missing);
+			throw new IllegalStateException("Missing dining table slab recipe mappings: " + missing);
+		}
 	}
 
 	private static void generateBedRecipes() {

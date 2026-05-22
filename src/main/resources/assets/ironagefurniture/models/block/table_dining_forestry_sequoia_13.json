@@ -1,0 +1,8 @@
+{
+  "parent": "ironagefurniture:block/template_table_dining_13",
+  "textures": {
+    "log": "forestry:blocks/wood/bark.sequoia",
+    "planks": "forestry:blocks/wood/planks.sequoia",
+    "particle": "forestry:blocks/wood/bark.sequoia"
+  }
+}

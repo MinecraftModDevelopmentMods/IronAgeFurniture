@@ -7,6 +7,7 @@ import com.mcmoddev.ironagefurniture.api.Blocks.BackBench;
 import com.mcmoddev.ironagefurniture.api.Blocks.Bench;
 import com.mcmoddev.ironagefurniture.api.Blocks.ChainTop;
 import com.mcmoddev.ironagefurniture.api.Blocks.Chair;
+import com.mcmoddev.ironagefurniture.api.Blocks.DiningTable;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightHolderSconceFloor;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightHolderSconceWall;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceChandelierCandle;
@@ -108,6 +109,15 @@ public class FurnitureFactory {
 	public static void AddDoubleWoodBedRecipe(Block singleBed, Block doubleBed) {
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(doubleBed, 1),
 			new ItemStack(singleBed, 1), new ItemStack(singleBed, 1)));
+	}
+
+	public static void AddDiningTableRecipe(ItemStack slab, Block table) {
+		if (table == null) {
+			return;
+		}
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(table, 1), "xxx", "y y",
+			'x', slab, 'y', "stickWood"));
 	}
 	
 	public static void AddShortStoolRecipe(ItemStack planks, Block stool) {
@@ -298,6 +308,15 @@ public class FurnitureFactory {
 
 	public static Block CreateDoubleWoodBed(String suffix) {
 		return CreateDoubleWoodBed(suffix, 10, 6);
+	}
+
+	public static Block CreateDiningTable(String suffix, float resistance, float hardness) {
+		String name = "table_dining_" + suffix;
+		return registerBlock(new DiningTable(Material.WOOD, name, resistance, hardness), name, 16);
+	}
+
+	public static Block CreateDiningTable(String suffix) {
+		return CreateDiningTable(suffix, 10, 1);
 	}
 
 	public static Block CreateIronWallSconce(String name) {

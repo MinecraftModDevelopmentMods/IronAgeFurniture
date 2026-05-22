@@ -1,0 +1,8 @@
+{
+  "parent": "ironagefurniture:block/template_table_dining_0",
+  "textures": {
+    "log": "natura:blocks/logs/nether/fusewood_log",
+    "planks": "natura:blocks/planks/nether/fusewood_planks",
+    "particle": "natura:blocks/logs/nether/fusewood_log"
+  }
+}

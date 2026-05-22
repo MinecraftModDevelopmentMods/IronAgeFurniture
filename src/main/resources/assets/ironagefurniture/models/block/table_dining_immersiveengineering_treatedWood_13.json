@@ -1,0 +1,8 @@
+{
+  "parent": "ironagefurniture:block/template_table_dining_13",
+  "textures": {
+    "log": "immersiveengineering:blocks/treatedWood_packaged",
+    "planks": "immersiveengineering:blocks/treatedWood_vertical",
+    "particle": "immersiveengineering:blocks/treatedWood_packaged"
+  }
+}

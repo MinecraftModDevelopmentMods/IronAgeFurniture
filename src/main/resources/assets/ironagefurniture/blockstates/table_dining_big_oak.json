@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "connections=0": {
+      "model": "ironagefurniture:table_dining_big_oak_0"
+    },
+    "connections=1": {
+      "model": "ironagefurniture:table_dining_big_oak_1"
+    },
+    "connections=2": {
+      "model": "ironagefurniture:table_dining_big_oak_2"
+    },
+    "connections=3": {
+      "model": "ironagefurniture:table_dining_big_oak_3"
+    },
+    "connections=4": {
+      "model": "ironagefurniture:table_dining_big_oak_4"
+    },
+    "connections=5": {
+      "model": "ironagefurniture:table_dining_big_oak_5"
+    },
+    "connections=6": {
+      "model": "ironagefurniture:table_dining_big_oak_6"
+    },
+    "connections=7": {
+      "model": "ironagefurniture:table_dining_big_oak_7"
+    },
+    "connections=8": {
+      "model": "ironagefurniture:table_dining_big_oak_8"
+    },
+    "connections=9": {
+      "model": "ironagefurniture:table_dining_big_oak_9"
+    },
+    "connections=10": {
+      "model": "ironagefurniture:table_dining_big_oak_10"
+    },
+    "connections=11": {
+      "model": "ironagefurniture:table_dining_big_oak_11"
+    },
+    "connections=12": {
+      "model": "ironagefurniture:table_dining_big_oak_12"
+    },
+    "connections=13": {
+      "model": "ironagefurniture:table_dining_big_oak_13"
+    },
+    "connections=14": {
+      "model": "ironagefurniture:table_dining_big_oak_14"
+    },
+    "connections=15": {
+      "model": "ironagefurniture:table_dining_big_oak_15"
+    }
+  }
+}
