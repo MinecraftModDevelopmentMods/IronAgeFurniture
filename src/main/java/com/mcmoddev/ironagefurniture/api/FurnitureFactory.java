@@ -54,7 +54,6 @@ import com.mcmoddev.ironagefurniture.api.Blocks.WingbackChair;
 import com.mcmoddev.ironagefurniture.init.ItemInitialiser;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockCarpet;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -68,10 +67,12 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 public class FurnitureFactory {
 
 	public static void AddClassicChairRecipe(ItemStack planks, Block chair) {
+		if (chair == null) {
+			return;
+		}
+
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(chair, 1), "x  ", "xxx", "y y", 'x', planks, 'y', "stickWood"));
 		AddDerivedTallChairRecipes(planks, chair);
-		AddDerivedCanopyBedRecipes(planks, chair);
-		AddDerivedWoodBedRecipes(planks, chair);
 	}
 
 	public static void AddWingbackChairRecipe(ItemStack planks, Block chairIn, Block chairOut) {
@@ -157,7 +158,8 @@ public class FurnitureFactory {
 	}
 
 	private static void AddDerivedTallChairRecipes(ItemStack planks, Block classicChair) {
-		if (!IronAgeFurnitureConfiguration.GENERATE_WINGBACK_CHAIRS || classicChair == null || classicChair.getRegistryName() == null) {
+		if (!IronAgeFurnitureConfiguration.GENERATE_CLASSIC_CHAIRS || !IronAgeFurnitureConfiguration.GENERATE_WINGBACK_CHAIRS
+			|| classicChair == null || classicChair.getRegistryName() == null) {
 			return;
 		}
 
@@ -184,50 +186,6 @@ public class FurnitureFactory {
 				AddThroneChairRecipe(planks, wingback, throne);
 			}
 		}
-	}
-
-	private static void AddDerivedCanopyBedRecipes(ItemStack planks, Block classicChair) {
-		if (!IronAgeFurnitureConfiguration.GENERATE_CANOPY_BEDS || classicChair == null || classicChair.getRegistryName() == null) {
-			return;
-		}
-
-		String name = classicChair.getRegistryName().getResourcePath();
-		String prefix = "chair_wood_ironage_classic_";
-
-		if (!name.startsWith(prefix)) {
-			return;
-		}
-
-		String suffix = name.substring(prefix.length());
-		Block singleBed = BlockObjectHolder.bed_canopy_single.get(suffix);
-
-		if (singleBed == null) {
-			return;
-		}
-
-		AddSingleCanopyBedRecipe(planks, singleBed);
-	}
-
-	private static void AddDerivedWoodBedRecipes(ItemStack planks, Block classicChair) {
-		if (!IronAgeFurnitureConfiguration.GENERATE_WOOD_BEDS || classicChair == null || classicChair.getRegistryName() == null) {
-			return;
-		}
-
-		String name = classicChair.getRegistryName().getResourcePath();
-		String prefix = "chair_wood_ironage_classic_";
-
-		if (!name.startsWith(prefix)) {
-			return;
-		}
-
-		String suffix = name.substring(prefix.length());
-		Block singleBed = BlockObjectHolder.bed_wood_single.get(suffix);
-
-		if (singleBed == null) {
-			return;
-		}
-
-		AddSingleWoodBedRecipe(planks, singleBed);
 	}
 
 	public static void AddIronSconceRecipe(Block sconce) {
