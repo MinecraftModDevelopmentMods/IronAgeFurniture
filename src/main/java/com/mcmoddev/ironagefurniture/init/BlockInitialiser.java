@@ -1,6 +1,7 @@
 package com.mcmoddev.ironagefurniture.init;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
@@ -31,7 +32,33 @@ public class BlockInitialiser {
 	 */
 	public static void init() {
 		generateChairs(); // and on the seventh day he was tired of standing around, and so he created chairs.
+		generateBeds(); // and then, inevitably, he wanted somewhere nicer to sleep.
 		generateLights(); // and then he saw that the vanilla torches were boring and said, let there be light!
+	}
+
+	private static void generateBeds() {
+		if (!IronAgeFurnitureConfiguration.GENERATE_CANOPY_BEDS) {
+			return;
+		}
+
+		String classicPrefix = "chair_wood_ironage_classic_";
+		List<String> classicChairNames = new ArrayList<String>();
+
+		for (String name : Ironagefurniture.BlockRegistry.keySet()) {
+			if (name.startsWith(classicPrefix)) {
+				classicChairNames.add(name);
+			}
+		}
+
+		Collections.sort(classicChairNames);
+
+		for (String classicName : classicChairNames) {
+			String suffix = classicName.substring(classicPrefix.length());
+			BlockObjectHolder.bed_canopy_single.put(suffix, FurnitureFactory.CreateSingleCanopyBed(suffix));
+			Block[] doubleBed = FurnitureFactory.CreateDoubleCanopyBed(suffix);
+			BlockObjectHolder.bed_canopy_double_left.put(suffix, doubleBed[0]);
+			BlockObjectHolder.bed_canopy_double_right.put(suffix, doubleBed[1]);
+		}
 	}
 	
 	private static void generateLights() {

@@ -1,5 +1,9 @@
 package com.mcmoddev.ironagefurniture.init;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 import com.mcmoddev.ironagefurniture.IronAgeFurnitureConfiguration;
 import com.mcmoddev.ironagefurniture.ItemObjectHolder;
@@ -24,7 +28,24 @@ public class RecipeInitialiser {
 	 */
 	public static void init() {
 		generateChairRecipes();
+		generateBedRecipes();
 		generateLightRecipes();
+	}
+
+	private static void generateBedRecipes() {
+		if (IronAgeFurnitureConfiguration.GENERATE_CANOPY_BEDS) {
+			List<String> suffixes = new ArrayList<String>(BlockObjectHolder.bed_canopy_single.keySet());
+			Collections.sort(suffixes);
+
+			for (String suffix : suffixes) {
+				Block singleBed = BlockObjectHolder.bed_canopy_single.get(suffix);
+				Block doubleBed = BlockObjectHolder.bed_canopy_double_left.get(suffix);
+
+				if (singleBed != null && doubleBed != null) {
+					FurnitureFactory.AddDoubleCanopyBedRecipe(singleBed, doubleBed);
+				}
+			}
+		}
 	}
 	
 	private static void generateLightRecipes() {

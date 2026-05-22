@@ -45,6 +45,7 @@ import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchWall;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchWallTwin;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchWallTwinUnlit;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchWallUnlit;
+import com.mcmoddev.ironagefurniture.api.Blocks.MultiBlockBed;
 import com.mcmoddev.ironagefurniture.api.Blocks.MultiBlockChair;
 import com.mcmoddev.ironagefurniture.api.Blocks.ObsideanLump;
 import com.mcmoddev.ironagefurniture.api.Blocks.Stool;
@@ -67,6 +68,7 @@ public class FurnitureFactory {
 	public static void AddClassicChairRecipe(ItemStack planks, Block chair) {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(chair, 1), "x  ", "xxx", "y y", 'x', planks, 'y', "stickWood"));
 		AddDerivedTallChairRecipes(planks, chair);
+		AddDerivedCanopyBedRecipes(planks, chair);
 	}
 
 	public static void AddWingbackChairRecipe(ItemStack planks, Block chairIn, Block chairOut) {
@@ -81,6 +83,18 @@ public class FurnitureFactory {
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(chairOut, 1), "z", "x", "y",
 				'z', new ItemStack(Blocks.CARPET, 1, i), 'x', planks, 'y', chairIn));
 		}
+	}
+
+	public static void AddSingleCanopyBedRecipe(ItemStack planks, Block bed) {
+		for (int i = 0; i < 16; i++) {
+			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(bed, 1),
+				Items.BED, planks, new ItemStack(Blocks.CARPET, 1, i)));
+		}
+	}
+
+	public static void AddDoubleCanopyBedRecipe(Block singleBed, Block doubleBed) {
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(doubleBed, 1),
+			new ItemStack(singleBed, 1), new ItemStack(singleBed, 1)));
 	}
 	
 	public static void AddShortStoolRecipe(ItemStack planks, Block stool) {
@@ -160,6 +174,28 @@ public class FurnitureFactory {
 		}
 	}
 
+	private static void AddDerivedCanopyBedRecipes(ItemStack planks, Block classicChair) {
+		if (!IronAgeFurnitureConfiguration.GENERATE_CANOPY_BEDS || classicChair == null || classicChair.getRegistryName() == null) {
+			return;
+		}
+
+		String name = classicChair.getRegistryName().getResourcePath();
+		String prefix = "chair_wood_ironage_classic_";
+
+		if (!name.startsWith(prefix)) {
+			return;
+		}
+
+		String suffix = name.substring(prefix.length());
+		Block singleBed = BlockObjectHolder.bed_canopy_single.get(suffix);
+
+		if (singleBed == null) {
+			return;
+		}
+
+		AddSingleCanopyBedRecipe(planks, singleBed);
+	}
+
 	public static void AddIronSconceRecipe(Block sconce) {
 		Object ironInput = "nuggetIron";
 		int outputCount = 5;
@@ -213,7 +249,7 @@ public class FurnitureFactory {
 	}
 
 	public static Block CreateWoodWingbackChair(String name, float resistance, float hardness) {
-		return CreateWoodMultiBlockChair(name, resistance, hardness, new String[] { "", "_upper" });
+		return CreateWoodMultiBlockChair(name, resistance, hardness, 2);
 	}
 
 	public static Block CreateWoodThroneChair(String name) {
@@ -221,27 +257,41 @@ public class FurnitureFactory {
 	}
 
 	public static Block CreateWoodThroneChair(String name, float resistance, float hardness) {
-		return CreateWoodMultiBlockChair(name, resistance, hardness, new String[] { "", "_middle", "_upper" });
+		return CreateWoodMultiBlockChair(name, resistance, hardness, 3);
 	}
 
-	private static Block CreateWoodMultiBlockChair(String name, float resistance, float hardness, String[] partSuffixes) {
-		Block[] parts = new Block[partSuffixes.length];
+	public static Block CreateSingleCanopyBed(String suffix, float resistance, float hardness) {
+		String name = "bed_canopy_foot_lower_" + suffix;
+		MultiBlockBed bed = new MultiBlockBed(Material.WOOD, name, resistance, hardness, MultiBlockBed.SINGLE_SIDE);
+		Block registeredBed = registerBlock(bed, name, 1);
+		bed.setSingleBlock(registeredBed);
+		return registeredBed;
+	}
 
-		for (int i = 0; i < partSuffixes.length; i++) {
-			MultiBlockChair part = new MultiBlockChair(Material.WOOD, name + partSuffixes[i], resistance, hardness, partSuffixes.length, i);
+	public static Block CreateSingleCanopyBed(String suffix) {
+		return CreateSingleCanopyBed(suffix, 10, 3);
+	}
 
-			if (i == 0) {
-				parts[i] = registerBlock(part, name);
-			} else {
-				parts[i] = registerBlockWithoutItem(part, name + partSuffixes[i]);
-			}
-		}
+	public static Block[] CreateDoubleCanopyBed(String suffix, float resistance, float hardness) {
+		String leftName = "bed_canopy_foot_left_lower_" + suffix;
+		String rightName = "bed_canopy_foot_right_lower_" + suffix;
+		MultiBlockBed leftBed = new MultiBlockBed(Material.WOOD, leftName, resistance, hardness, MultiBlockBed.LEFT_SIDE);
+		MultiBlockBed rightBed = new MultiBlockBed(Material.WOOD, rightName, resistance, hardness, MultiBlockBed.RIGHT_SIDE);
+		Block leftBlock = registerBlock(leftBed, leftName, 1);
+		Block rightBlock = registerBlockWithoutItem(rightBed, rightName);
 
-		for (Block part : parts) {
-			((MultiBlockChair)part).setParts(parts);
-		}
+		leftBed.setDoubleBlocks(leftBlock, rightBlock);
+		rightBed.setDoubleBlocks(leftBlock, rightBlock);
 
-		return parts[0];
+		return new Block[] { leftBlock, rightBlock };
+	}
+
+	public static Block[] CreateDoubleCanopyBed(String suffix) {
+		return CreateDoubleCanopyBed(suffix, 10, 6);
+	}
+
+	private static Block CreateWoodMultiBlockChair(String name, float resistance, float hardness, int height) {
+		return registerBlock(new MultiBlockChair(Material.WOOD, name, resistance, hardness, height), name);
 	}
 	
 	public static Block CreateIronWallSconce(String name) {

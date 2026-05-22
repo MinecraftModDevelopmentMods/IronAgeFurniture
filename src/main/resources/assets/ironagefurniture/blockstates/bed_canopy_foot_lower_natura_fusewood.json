@@ -1,0 +1,64 @@
+{
+  "variants": {
+    "facing=north,part=foot_lower": {
+      "model": "ironagefurniture:bed_canopy_foot_lower_natura_fusewood",
+      "y": 180
+    },
+    "facing=east,part=foot_lower": {
+      "model": "ironagefurniture:bed_canopy_foot_lower_natura_fusewood",
+      "y": 270
+    },
+    "facing=south,part=foot_lower": {
+      "model": "ironagefurniture:bed_canopy_foot_lower_natura_fusewood"
+    },
+    "facing=west,part=foot_lower": {
+      "model": "ironagefurniture:bed_canopy_foot_lower_natura_fusewood",
+      "y": 90
+    },
+    "facing=north,part=foot_upper": {
+      "model": "ironagefurniture:bed_canopy_foot_upper_natura_fusewood",
+      "y": 180
+    },
+    "facing=east,part=foot_upper": {
+      "model": "ironagefurniture:bed_canopy_foot_upper_natura_fusewood",
+      "y": 270
+    },
+    "facing=south,part=foot_upper": {
+      "model": "ironagefurniture:bed_canopy_foot_upper_natura_fusewood"
+    },
+    "facing=west,part=foot_upper": {
+      "model": "ironagefurniture:bed_canopy_foot_upper_natura_fusewood",
+      "y": 90
+    },
+    "facing=north,part=head_lower": {
+      "model": "ironagefurniture:bed_canopy_head_lower_natura_fusewood",
+      "y": 180
+    },
+    "facing=east,part=head_lower": {
+      "model": "ironagefurniture:bed_canopy_head_lower_natura_fusewood",
+      "y": 270
+    },
+    "facing=south,part=head_lower": {
+      "model": "ironagefurniture:bed_canopy_head_lower_natura_fusewood"
+    },
+    "facing=west,part=head_lower": {
+      "model": "ironagefurniture:bed_canopy_head_lower_natura_fusewood",
+      "y": 90
+    },
+    "facing=north,part=head_upper": {
+      "model": "ironagefurniture:bed_canopy_head_upper_natura_fusewood",
+      "y": 180
+    },
+    "facing=east,part=head_upper": {
+      "model": "ironagefurniture:bed_canopy_head_upper_natura_fusewood",
+      "y": 270
+    },
+    "facing=south,part=head_upper": {
+      "model": "ironagefurniture:bed_canopy_head_upper_natura_fusewood"
+    },
+    "facing=west,part=head_upper": {
+      "model": "ironagefurniture:bed_canopy_head_upper_natura_fusewood",
+      "y": 90
+    }
+  }
+}

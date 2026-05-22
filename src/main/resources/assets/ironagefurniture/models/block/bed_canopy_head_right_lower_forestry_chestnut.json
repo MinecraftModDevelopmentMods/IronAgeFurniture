@@ -1,0 +1,10 @@
+{
+  "parent": "ironagefurniture:block/template_bed_canopy_head_right_lower",
+  "textures": {
+    "log": "forestry:blocks/wood/bark.chestnut",
+    "planks": "forestry:blocks/wood/planks.chestnut",
+    "cloth": "minecraft:blocks/wool_colored_red",
+    "sheet": "minecraft:blocks/wool_colored_white",
+    "particle": "forestry:blocks/wood/bark.chestnut"
+  }
+}

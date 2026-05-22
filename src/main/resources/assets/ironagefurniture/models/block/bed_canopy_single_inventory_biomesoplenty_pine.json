@@ -1,0 +1,10 @@
+{
+  "parent": "ironagefurniture:block/template_bed_canopy_single_inventory",
+  "textures": {
+    "log": "biomesoplenty:blocks/pine_log",
+    "planks": "biomesoplenty:blocks/pine_planks",
+    "cloth": "minecraft:blocks/wool_colored_red",
+    "sheet": "minecraft:blocks/wool_colored_white",
+    "particle": "biomesoplenty:blocks/pine_log"
+  }
+}

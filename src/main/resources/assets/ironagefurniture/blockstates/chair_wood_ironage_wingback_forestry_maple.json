@@ -1,18 +1,48 @@
 {
   "variants": {
-    "facing=north": {
+    "facing=north,part=lower": {
       "model": "ironagefurniture:chair_wood_ironage_wingback_forestry_maple",
       "y": 180
     },
-    "facing=east": {
+    "facing=east,part=lower": {
       "model": "ironagefurniture:chair_wood_ironage_wingback_forestry_maple",
       "y": 270
     },
-    "facing=south": {
+    "facing=south,part=lower": {
       "model": "ironagefurniture:chair_wood_ironage_wingback_forestry_maple"
     },
-    "facing=west": {
+    "facing=west,part=lower": {
       "model": "ironagefurniture:chair_wood_ironage_wingback_forestry_maple",
+      "y": 90
+    },
+    "facing=north,part=middle": {
+      "model": "ironagefurniture:chair_wood_ironage_wingback_forestry_maple_upper",
+      "y": 180
+    },
+    "facing=east,part=middle": {
+      "model": "ironagefurniture:chair_wood_ironage_wingback_forestry_maple_upper",
+      "y": 270
+    },
+    "facing=south,part=middle": {
+      "model": "ironagefurniture:chair_wood_ironage_wingback_forestry_maple_upper"
+    },
+    "facing=west,part=middle": {
+      "model": "ironagefurniture:chair_wood_ironage_wingback_forestry_maple_upper",
+      "y": 90
+    },
+    "facing=north,part=upper": {
+      "model": "ironagefurniture:chair_wood_ironage_wingback_forestry_maple_upper",
+      "y": 180
+    },
+    "facing=east,part=upper": {
+      "model": "ironagefurniture:chair_wood_ironage_wingback_forestry_maple_upper",
+      "y": 270
+    },
+    "facing=south,part=upper": {
+      "model": "ironagefurniture:chair_wood_ironage_wingback_forestry_maple_upper"
+    },
+    "facing=west,part=upper": {
+      "model": "ironagefurniture:chair_wood_ironage_wingback_forestry_maple_upper",
       "y": 90
     }
   }
