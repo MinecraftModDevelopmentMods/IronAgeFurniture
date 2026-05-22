@@ -7,6 +7,7 @@ import java.util.Set;
 
 import com.google.common.collect.Lists;
 import com.mcmoddev.ironagefurniture.api.Enumerations.ChairPart;
+import com.mcmoddev.ironagefurniture.api.entity.Seat;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -25,20 +26,23 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class MultiBlockChair extends Chair {
+public abstract class MultiBlockChair extends Chair {
 	public static final PropertyEnum<ChairPart> PART = PropertyEnum.<ChairPart>create("part", ChairPart.class);
 
-	private static final AxisAlignedBB LOWER_BB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D);
-	private static final AxisAlignedBB WINGBACK_UPPER_BB = new AxisAlignedBB(0.0D, 0.0D, 0.4375D, 1.0D, 0.75D, 1.0D);
-	private static final AxisAlignedBB THRONE_MIDDLE_BB = new AxisAlignedBB(0.0D, 0.0D, 0.5625D, 1.0D, 1.0D, 1.0D);
-	private static final AxisAlignedBB THRONE_UPPER_BB = new AxisAlignedBB(0.0D, 0.0D, 0.4375D, 1.0D, 0.9375D, 1.0D);
+	protected static final AxisAlignedBB LOWER_BB = new AxisAlignedBB(0.0625D, 0.375D, 0.125D, 0.9375D, 0.5D, 0.9375D);
+	private static final AxisAlignedBB LEFT_ARM_COLLISION_BB = new AxisAlignedBB(0.0D, 0.0D, 0.125D, 0.125D, 0.8125D, 0.9375D);
+	private static final AxisAlignedBB RIGHT_ARM_COLLISION_BB = new AxisAlignedBB(0.875D, 0.0D, 0.125D, 1.0D, 0.8125D, 0.9375D);
+	private static final AxisAlignedBB LOWER_BACK_COLLISION_BB = new AxisAlignedBB(0.125D, 0.0D, 0.875D, 0.875D, 1.0D, 1.0D);
+	private static final AxisAlignedBB[] LOWER_COLLISION_BOXES = new AxisAlignedBB[] {
+		LOWER_BB,
+		LEFT_ARM_COLLISION_BB,
+		RIGHT_ARM_COLLISION_BB,
+		LOWER_BACK_COLLISION_BB
+	};
 	private static final Set<BlockPos> REMOVING_PARTS = new HashSet<BlockPos>();
 
-	private final int height;
-
-	public MultiBlockChair(Material materialIn, String name, float resistance, float hardness, int height) {
+	public MultiBlockChair(Material materialIn, String name, float resistance, float hardness) {
 		super(materialIn, name, resistance, hardness);
-		this.height = height;
 		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.SOUTH)
 			.withProperty(PART, ChairPart.LOWER));
 	}
@@ -49,7 +53,7 @@ public class MultiBlockChair extends Chair {
 			return false;
 		}
 
-		for (int i = 1; i < this.height; i++) {
+		for (int i = 1; i < this.getChairHeight(); i++) {
 			if (!worldIn.isAirBlock(pos.up(i))) {
 				return false;
 			}
@@ -78,7 +82,7 @@ public class MultiBlockChair extends Chair {
 		if (!worldIn.isRemote) {
 			EnumFacing facing = state.getValue(FACING);
 
-			for (int i = 1; i < this.height; i++) {
+			for (int i = 1; i < this.getChairHeight(); i++) {
 				worldIn.setBlockState(pos.up(i), this.getDefaultState().withProperty(FACING, facing)
 					.withProperty(PART, this.getPartForOffset(i)), 3);
 			}
@@ -128,14 +132,14 @@ public class MultiBlockChair extends Chair {
 
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-		return this.rotateBoundingBox(this.getPartBoundingBox(state), state.getValue(FACING));
+		return this.rotateBoundingBox(this.getPartBoundingBox(state.getValue(PART)), state.getValue(FACING));
 	}
 
 	@Override
 	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox,
 			List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
-		if (state.getValue(PART) == ChairPart.LOWER) {
-			super.addCollisionBoxToList(state, worldIn, pos, entityBox, collidingBoxes, entityIn);
+		if (!(entityIn instanceof Seat)) {
+			this.addRotatedCollisionBoxes(state, pos, entityBox, collidingBoxes);
 		}
 	}
 
@@ -158,53 +162,17 @@ public class MultiBlockChair extends Chair {
 		return new BlockStateContainer(this, new IProperty[] { FACING, PART });
 	}
 
-	private BlockPos getLowerPos(BlockPos pos, IBlockState state) {
-		return pos.down(this.getPartOffset(state.getValue(PART)));
+	protected abstract int getChairHeight();
+
+	protected abstract AxisAlignedBB getUpperPartBoundingBox(ChairPart part);
+
+	protected abstract AxisAlignedBB[] getUpperPartCollisionBoxes(ChairPart part);
+
+	protected AxisAlignedBB[] getLowerCollisionBoxes() {
+		return LOWER_COLLISION_BOXES;
 	}
 
-	private ChairPart getPartForOffset(int offset) {
-		if (offset <= 0) {
-			return ChairPart.LOWER;
-		}
-
-		if (this.height == 2) {
-			return ChairPart.UPPER;
-		}
-
-		return offset == 1 ? ChairPart.MIDDLE : ChairPart.UPPER;
-	}
-
-	private int getPartOffset(ChairPart part) {
-		if (part == ChairPart.LOWER) {
-			return 0;
-		}
-
-		if (this.height == 2 || part == ChairPart.MIDDLE) {
-			return 1;
-		}
-
-		return 2;
-	}
-
-	private AxisAlignedBB getPartBoundingBox(IBlockState state) {
-		ChairPart part = state.getValue(PART);
-
-		if (part == ChairPart.LOWER) {
-			return LOWER_BB;
-		}
-
-		if (this.height == 2) {
-			return WINGBACK_UPPER_BB;
-		}
-
-		if (part == ChairPart.MIDDLE) {
-			return THRONE_MIDDLE_BB;
-		}
-
-		return THRONE_UPPER_BB;
-	}
-
-	private AxisAlignedBB rotateBoundingBox(AxisAlignedBB bb, EnumFacing facing) {
+	protected AxisAlignedBB rotateBoundingBox(AxisAlignedBB bb, EnumFacing facing) {
 		switch (facing) {
 		case NORTH:
 			return new AxisAlignedBB(1.0D - bb.maxX, bb.minY, 1.0D - bb.maxZ, 1.0D - bb.minX, bb.maxY, 1.0D - bb.minZ);
@@ -217,18 +185,71 @@ public class MultiBlockChair extends Chair {
 		}
 	}
 
+	private BlockPos getLowerPos(BlockPos pos, IBlockState state) {
+		return pos.down(this.getPartOffset(state.getValue(PART)));
+	}
+
+	private ChairPart getPartForOffset(int offset) {
+		if (offset <= 0) {
+			return ChairPart.LOWER;
+		}
+
+		if (this.getChairHeight() <= 2 || offset >= this.getChairHeight() - 1) {
+			return ChairPart.UPPER;
+		}
+
+		return ChairPart.MIDDLE;
+	}
+
+	private int getPartOffset(ChairPart part) {
+		if (part == ChairPart.LOWER) {
+			return 0;
+		}
+
+		if (part == ChairPart.UPPER) {
+			return Math.max(1, this.getChairHeight() - 1);
+		}
+
+		return 1;
+	}
+
+	private AxisAlignedBB getPartBoundingBox(ChairPart part) {
+		if (part == ChairPart.LOWER) {
+			return LOWER_BB;
+		}
+
+		return this.getUpperPartBoundingBox(part);
+	}
+
+	private AxisAlignedBB[] getPartCollisionBoxes(ChairPart part) {
+		if (part == ChairPart.LOWER) {
+			return this.getLowerCollisionBoxes();
+		}
+
+		return this.getUpperPartCollisionBoxes(part);
+	}
+
+	private void addRotatedCollisionBoxes(IBlockState state, BlockPos pos, AxisAlignedBB entityBox,
+			List<AxisAlignedBB> collidingBoxes) {
+		EnumFacing facing = state.getValue(FACING);
+
+		for (AxisAlignedBB bb : this.getPartCollisionBoxes(state.getValue(PART))) {
+			super.addCollisionBoxToList(pos, entityBox, collidingBoxes, this.rotateBoundingBox(bb, facing));
+		}
+	}
+
 	private void removeOtherParts(World worldIn, BlockPos pos, IBlockState state) {
 		BlockPos lowerPos = this.getLowerPos(pos, state);
 		Set<BlockPos> structurePositions = new HashSet<BlockPos>();
 
-		for (int i = 0; i < this.height; i++) {
+		for (int i = 0; i < this.getChairHeight(); i++) {
 			structurePositions.add(lowerPos.up(i));
 		}
 
 		REMOVING_PARTS.addAll(structurePositions);
 
 		try {
-			for (int i = 0; i < this.height; i++) {
+			for (int i = 0; i < this.getChairHeight(); i++) {
 				BlockPos partPos = lowerPos.up(i);
 
 				if (!partPos.equals(pos) && this.isExpectedPart(worldIn, partPos, i)) {

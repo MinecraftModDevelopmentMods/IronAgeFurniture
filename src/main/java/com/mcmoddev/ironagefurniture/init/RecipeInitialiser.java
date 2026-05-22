@@ -33,6 +33,20 @@ public class RecipeInitialiser {
 	}
 
 	private static void generateBedRecipes() {
+		if (IronAgeFurnitureConfiguration.GENERATE_WOOD_BEDS) {
+			List<String> suffixes = new ArrayList<String>(BlockObjectHolder.bed_wood_single.keySet());
+			Collections.sort(suffixes);
+
+			for (String suffix : suffixes) {
+				Block singleBed = BlockObjectHolder.bed_wood_single.get(suffix);
+				Block doubleBed = BlockObjectHolder.bed_wood_double.get(suffix);
+
+				if (singleBed != null && doubleBed != null) {
+					FurnitureFactory.AddDoubleWoodBedRecipe(singleBed, doubleBed);
+				}
+			}
+		}
+
 		if (IronAgeFurnitureConfiguration.GENERATE_CANOPY_BEDS) {
 			List<String> suffixes = new ArrayList<String>(BlockObjectHolder.bed_canopy_single.keySet());
 			Collections.sort(suffixes);

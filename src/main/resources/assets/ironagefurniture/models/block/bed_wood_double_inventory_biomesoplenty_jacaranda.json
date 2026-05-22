@@ -1,0 +1,10 @@
+{
+  "parent": "ironagefurniture:block/template_bed_wood_double_inventory",
+  "textures": {
+    "log": "biomesoplenty:blocks/jacaranda_log",
+    "planks": "biomesoplenty:blocks/jacaranda_planks",
+    "cloth": "minecraft:blocks/wool_colored_red",
+    "sheet": "minecraft:blocks/wool_colored_white",
+    "particle": "biomesoplenty:blocks/jacaranda_log"
+  }
+}

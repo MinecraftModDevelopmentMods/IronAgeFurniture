@@ -38,7 +38,8 @@ public class MultiBlockBed extends BlockHBase {
 	public static final int SINGLE_SIDE = 0;
 	public static final int RIGHT_SIDE = 1;
 
-	private static final AxisAlignedBB LOWER_BB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.5625D, 1.0D);
+	private static final AxisAlignedBB FOOT_LOWER_BB = new AxisAlignedBB(0.0D, 0.3125D, 0.0D, 1.0D, 0.625D, 0.9375D);
+	private static final AxisAlignedBB HEAD_LOWER_BB = new AxisAlignedBB(0.0D, 0.3125D, 0.0625D, 1.0D, 0.625D, 1.0D);
 	private static final AxisAlignedBB CANOPY_BB = new AxisAlignedBB(0.0D, 0.8125D, 0.0D, 1.0D, 1.0D, 1.0D);
 	private static final Set<BlockPos> REMOVING_PARTS = new HashSet<BlockPos>();
 	private static final CanopyBedPart[] PARTS = new CanopyBedPart[] {
@@ -251,13 +252,13 @@ public class MultiBlockBed extends BlockHBase {
 
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-		return ((CanopyBedPart)state.getValue(PART)).isUpper() ? CANOPY_BB : LOWER_BB;
+		return this.rotateBoundingBox(this.getPartBoundingBox(state), state.getValue(FACING));
 	}
 
 	@Override
 	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox,
 			List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
-		AxisAlignedBB bb = ((CanopyBedPart)state.getValue(PART)).isUpper() ? CANOPY_BB : LOWER_BB;
+		AxisAlignedBB bb = this.rotateBoundingBox(this.getPartBoundingBox(state), state.getValue(FACING));
 		super.addCollisionBoxToList(pos, entityBox, collidingBoxes, bb);
 	}
 
@@ -499,5 +500,28 @@ public class MultiBlockBed extends BlockHBase {
 
 		return state.getBlock() == this.getStructureBlock(side)
 			&& state.getValue(PART) == part;
+	}
+
+	private AxisAlignedBB getPartBoundingBox(IBlockState state) {
+		CanopyBedPart part = state.getValue(PART);
+
+		if (part.isUpper()) {
+			return CANOPY_BB;
+		}
+
+		return part.isHead() ? HEAD_LOWER_BB : FOOT_LOWER_BB;
+	}
+
+	private AxisAlignedBB rotateBoundingBox(AxisAlignedBB bb, EnumFacing facing) {
+		switch (facing) {
+		case NORTH:
+			return new AxisAlignedBB(1.0D - bb.maxX, bb.minY, 1.0D - bb.maxZ, 1.0D - bb.minX, bb.maxY, 1.0D - bb.minZ);
+		case EAST:
+			return new AxisAlignedBB(bb.minZ, bb.minY, 1.0D - bb.maxX, bb.maxZ, bb.maxY, 1.0D - bb.minX);
+		case WEST:
+			return new AxisAlignedBB(1.0D - bb.maxZ, bb.minY, bb.minX, 1.0D - bb.minZ, bb.maxY, bb.maxX);
+		default:
+			return bb;
+		}
 	}
 }

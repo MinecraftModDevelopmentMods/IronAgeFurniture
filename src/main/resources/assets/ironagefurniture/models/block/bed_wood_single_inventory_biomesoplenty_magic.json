@@ -1,0 +1,10 @@
+{
+  "parent": "ironagefurniture:block/template_bed_wood_single_inventory",
+  "textures": {
+    "log": "biomesoplenty:blocks/magic_log",
+    "planks": "biomesoplenty:blocks/magic_planks",
+    "cloth": "minecraft:blocks/wool_colored_red",
+    "sheet": "minecraft:blocks/wool_colored_white",
+    "particle": "biomesoplenty:blocks/magic_log"
+  }
+}

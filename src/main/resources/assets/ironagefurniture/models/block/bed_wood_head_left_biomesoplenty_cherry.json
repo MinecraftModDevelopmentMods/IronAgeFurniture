@@ -1,0 +1,10 @@
+{
+  "parent": "ironagefurniture:block/template_bed_wood_head_left",
+  "textures": {
+    "log": "biomesoplenty:blocks/cherry_log",
+    "planks": "biomesoplenty:blocks/cherry_planks",
+    "cloth": "minecraft:blocks/wool_colored_red",
+    "sheet": "minecraft:blocks/wool_colored_white",
+    "particle": "biomesoplenty:blocks/cherry_log"
+  }
+}

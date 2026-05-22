@@ -1,0 +1,10 @@
+{
+  "parent": "ironagefurniture:block/template_bed_wood_foot_left",
+  "textures": {
+    "log": "forestry:blocks/wood/bark.palm",
+    "planks": "forestry:blocks/wood/planks.palm",
+    "cloth": "minecraft:blocks/wool_colored_red",
+    "sheet": "minecraft:blocks/wool_colored_white",
+    "particle": "forestry:blocks/wood/bark.palm"
+  }
+}

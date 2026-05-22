@@ -37,7 +37,7 @@ public class BlockInitialiser {
 	}
 
 	private static void generateBeds() {
-		if (!IronAgeFurnitureConfiguration.GENERATE_CANOPY_BEDS) {
+		if (!IronAgeFurnitureConfiguration.GENERATE_CANOPY_BEDS && !IronAgeFurnitureConfiguration.GENERATE_WOOD_BEDS) {
 			return;
 		}
 
@@ -54,10 +54,18 @@ public class BlockInitialiser {
 
 		for (String classicName : classicChairNames) {
 			String suffix = classicName.substring(classicPrefix.length());
-			BlockObjectHolder.bed_canopy_single.put(suffix, FurnitureFactory.CreateSingleCanopyBed(suffix));
-			Block[] doubleBed = FurnitureFactory.CreateDoubleCanopyBed(suffix);
-			BlockObjectHolder.bed_canopy_double_left.put(suffix, doubleBed[0]);
-			BlockObjectHolder.bed_canopy_double_right.put(suffix, doubleBed[1]);
+
+			if (IronAgeFurnitureConfiguration.GENERATE_CANOPY_BEDS) {
+				BlockObjectHolder.bed_canopy_single.put(suffix, FurnitureFactory.CreateSingleCanopyBed(suffix));
+				Block[] doubleBed = FurnitureFactory.CreateDoubleCanopyBed(suffix);
+				BlockObjectHolder.bed_canopy_double_left.put(suffix, doubleBed[0]);
+				BlockObjectHolder.bed_canopy_double_right.put(suffix, doubleBed[1]);
+			}
+
+			if (IronAgeFurnitureConfiguration.GENERATE_WOOD_BEDS) {
+				BlockObjectHolder.bed_wood_single.put(suffix, FurnitureFactory.CreateSingleWoodBed(suffix));
+				BlockObjectHolder.bed_wood_double.put(suffix, FurnitureFactory.CreateDoubleWoodBed(suffix));
+			}
 		}
 	}
 	

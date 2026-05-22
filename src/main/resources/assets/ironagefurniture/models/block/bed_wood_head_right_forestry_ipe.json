@@ -1,0 +1,10 @@
+{
+  "parent": "ironagefurniture:block/template_bed_wood_head_right",
+  "textures": {
+    "log": "forestry:blocks/wood/bark.ipe",
+    "planks": "forestry:blocks/wood/planks.ipe",
+    "cloth": "minecraft:blocks/wool_colored_red",
+    "sheet": "minecraft:blocks/wool_colored_white",
+    "particle": "forestry:blocks/wood/bark.ipe"
+  }
+}

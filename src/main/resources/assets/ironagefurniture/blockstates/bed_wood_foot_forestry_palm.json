@@ -1,0 +1,64 @@
+{
+  "variants": {
+    "facing=north,part=foot,side=left": {
+      "model": "ironagefurniture:bed_wood_foot_forestry_palm",
+      "y": 180
+    },
+    "facing=north,part=foot,side=right": {
+      "model": "ironagefurniture:bed_wood_foot_forestry_palm",
+      "y": 180
+    },
+    "facing=north,part=head,side=left": {
+      "model": "ironagefurniture:bed_wood_head_forestry_palm",
+      "y": 180
+    },
+    "facing=north,part=head,side=right": {
+      "model": "ironagefurniture:bed_wood_head_forestry_palm",
+      "y": 180
+    },
+    "facing=east,part=foot,side=left": {
+      "model": "ironagefurniture:bed_wood_foot_forestry_palm",
+      "y": 270
+    },
+    "facing=east,part=foot,side=right": {
+      "model": "ironagefurniture:bed_wood_foot_forestry_palm",
+      "y": 270
+    },
+    "facing=east,part=head,side=left": {
+      "model": "ironagefurniture:bed_wood_head_forestry_palm",
+      "y": 270
+    },
+    "facing=east,part=head,side=right": {
+      "model": "ironagefurniture:bed_wood_head_forestry_palm",
+      "y": 270
+    },
+    "facing=south,part=foot,side=left": {
+      "model": "ironagefurniture:bed_wood_foot_forestry_palm"
+    },
+    "facing=south,part=foot,side=right": {
+      "model": "ironagefurniture:bed_wood_foot_forestry_palm"
+    },
+    "facing=south,part=head,side=left": {
+      "model": "ironagefurniture:bed_wood_head_forestry_palm"
+    },
+    "facing=south,part=head,side=right": {
+      "model": "ironagefurniture:bed_wood_head_forestry_palm"
+    },
+    "facing=west,part=foot,side=left": {
+      "model": "ironagefurniture:bed_wood_foot_forestry_palm",
+      "y": 90
+    },
+    "facing=west,part=foot,side=right": {
+      "model": "ironagefurniture:bed_wood_foot_forestry_palm",
+      "y": 90
+    },
+    "facing=west,part=head,side=left": {
+      "model": "ironagefurniture:bed_wood_head_forestry_palm",
+      "y": 90
+    },
+    "facing=west,part=head,side=right": {
+      "model": "ironagefurniture:bed_wood_head_forestry_palm",
+      "y": 90
+    }
+  }
+}
