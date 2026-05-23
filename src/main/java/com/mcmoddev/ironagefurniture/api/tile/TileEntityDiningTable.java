@@ -10,6 +10,7 @@ import net.minecraft.world.World;
 
 public class TileEntityDiningTable extends TileEntity {
 	private ItemStack displayedItem;
+	private int blockedConnections;
 
 	public boolean hasDisplayedItem() {
 		return this.displayedItem != null && this.displayedItem.stackSize > 0;
@@ -39,6 +40,26 @@ public class TileEntityDiningTable extends TileEntity {
 		}
 	}
 
+	public boolean isConnectionBlocked(net.minecraft.util.EnumFacing direction) {
+		return (this.blockedConnections & this.directionToMask(direction)) != 0;
+	}
+
+	public void setConnectionBlocked(net.minecraft.util.EnumFacing direction, boolean blocked) {
+		int mask = this.directionToMask(direction);
+
+		if (mask == 0) {
+			return;
+		}
+
+		if (blocked) {
+			this.blockedConnections |= mask;
+		} else {
+			this.blockedConnections &= ~mask;
+		}
+
+		this.markForUpdate();
+	}
+
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
@@ -48,6 +69,8 @@ public class TileEntityDiningTable extends TileEntity {
 		} else {
 			this.displayedItem = null;
 		}
+
+		this.blockedConnections = compound.getInteger("BlockedConnections") & 15;
 	}
 
 	@Override
@@ -61,6 +84,8 @@ public class TileEntityDiningTable extends TileEntity {
 		} else {
 			compound.removeTag("DisplayedItem");
 		}
+
+		compound.setInteger("BlockedConnections", this.blockedConnections & 15);
 
 		return compound;
 	}
@@ -86,6 +111,21 @@ public class TileEntityDiningTable extends TileEntity {
 		if (this.world != null && !this.world.isRemote) {
 			this.world.notifyBlockUpdate(this.pos, this.world.getBlockState(this.pos),
 				this.world.getBlockState(this.pos), 3);
+		}
+	}
+
+	private int directionToMask(net.minecraft.util.EnumFacing direction) {
+		switch (direction) {
+		case NORTH:
+			return 1;
+		case EAST:
+			return 2;
+		case SOUTH:
+			return 4;
+		case WEST:
+			return 8;
+		default:
+			return 0;
 		}
 	}
 }

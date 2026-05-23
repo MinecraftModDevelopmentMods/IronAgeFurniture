@@ -1,6 +1,9 @@
 package com.mcmoddev.ironagefurniture.api.Blocks;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import com.mcmoddev.ironagefurniture.Ironagefurniture;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityDiningTable;
@@ -39,6 +42,7 @@ public class DiningTable extends Block {
 	private static final AxisAlignedBB LEG_NORTH_EAST = new AxisAlignedBB(0.75D, 0.0D, 0.125D, 0.875D, 0.8125D, 0.25D);
 	private static final AxisAlignedBB LEG_SOUTH_WEST = new AxisAlignedBB(0.125D, 0.0D, 0.75D, 0.25D, 0.8125D, 0.875D);
 	private static final AxisAlignedBB LEG_SOUTH_EAST = new AxisAlignedBB(0.75D, 0.0D, 0.75D, 0.875D, 0.8125D, 0.875D);
+	private static final Map<UUID, EnumFacing> PENDING_SNEAK_PLACEMENT_SIDES = new HashMap<UUID, EnumFacing>();
 
 	public DiningTable(Material materialIn, String name, float resistance, float hardness) {
 		super(materialIn);
@@ -52,7 +56,9 @@ public class DiningTable extends Block {
 
 	@Override
 	public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
-		return super.canPlaceBlockAt(worldIn, pos) && this.hasSupport(worldIn, pos);
+		int connections = this.getConnectionMask(worldIn, pos);
+		return super.canPlaceBlockAt(worldIn, pos)
+			&& (this.hasSupport(worldIn, pos) || !this.requiresSupport(connections));
 	}
 
 	@Override
@@ -63,7 +69,27 @@ public class DiningTable extends Block {
 	@Override
 	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY,
 			float hitZ, int meta, EntityLivingBase placer, ItemStack stack) {
+		if (placer != null) {
+			if (placer.isSneaking() && facing.getAxis().isHorizontal()) {
+				PENDING_SNEAK_PLACEMENT_SIDES.put(placer.getUniqueID(), facing);
+			} else {
+				PENDING_SNEAK_PLACEMENT_SIDES.remove(placer.getUniqueID());
+			}
+		}
+
 		return this.getDefaultState().withProperty(CONNECTIONS, Integer.valueOf(this.getConnectionMask(world, pos)));
+	}
+
+	@Override
+	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer,
+			ItemStack stack) {
+		if (!worldIn.isRemote && placer != null) {
+			EnumFacing clickedSide = PENDING_SNEAK_PLACEMENT_SIDES.remove(placer.getUniqueID());
+
+			if (clickedSide != null && clickedSide.getAxis().isHorizontal()) {
+				this.blockConnectionBetween(worldIn, pos, clickedSide.getOpposite());
+			}
+		}
 	}
 
 	@Override
@@ -77,7 +103,7 @@ public class DiningTable extends Block {
 
 	@Override
 	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
-		if (!this.hasSupport(worldIn, pos)) {
+		if (this.requiresSupport(state) && !this.hasSupport(worldIn, pos)) {
 			this.dropBlockAsItem(worldIn, pos, state, 0);
 			worldIn.setBlockState(pos, Blocks.AIR.getDefaultState(), 3);
 			return;
@@ -108,6 +134,10 @@ public class DiningTable extends Block {
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
 			EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+		if (playerIn.isSneaking()) {
+			return false;
+		}
+
 		TileEntity tileEntity = worldIn.getTileEntity(pos);
 
 		if (!(tileEntity instanceof TileEntityDiningTable)) {
@@ -242,7 +272,14 @@ public class DiningTable extends Block {
 			return;
 		}
 
+		this.clearOrphanedBlockedConnections(worldIn, pos);
 		int connections = this.getConnectionMask(worldIn, pos);
+
+		if (this.requiresSupport(connections) && !this.hasSupport(worldIn, pos)) {
+			this.dropBlockAsItem(worldIn, pos, state, 0);
+			worldIn.setBlockState(pos, Blocks.AIR.getDefaultState(), 3);
+			return;
+		}
 
 		if (state.getValue(CONNECTIONS).intValue() != connections) {
 			worldIn.setBlockState(pos, state.withProperty(CONNECTIONS, Integer.valueOf(connections)), 3);
@@ -252,24 +289,28 @@ public class DiningTable extends Block {
 	private int getConnectionMask(World worldIn, BlockPos pos) {
 		int connections = 0;
 
-		if (this.connectsTo(worldIn, pos.north())) {
+		if (this.connectsTo(worldIn, pos, EnumFacing.NORTH)) {
 			connections |= NORTH;
 		}
-		if (this.connectsTo(worldIn, pos.east())) {
+		if (this.connectsTo(worldIn, pos, EnumFacing.EAST)) {
 			connections |= EAST;
 		}
-		if (this.connectsTo(worldIn, pos.south())) {
+		if (this.connectsTo(worldIn, pos, EnumFacing.SOUTH)) {
 			connections |= SOUTH;
 		}
-		if (this.connectsTo(worldIn, pos.west())) {
+		if (this.connectsTo(worldIn, pos, EnumFacing.WEST)) {
 			connections |= WEST;
 		}
 
 		return connections;
 	}
 
-	private boolean connectsTo(World worldIn, BlockPos pos) {
-		return worldIn.getBlockState(pos).getBlock() == this;
+	private boolean connectsTo(World worldIn, BlockPos pos, EnumFacing direction) {
+		BlockPos neighborPos = pos.offset(direction);
+
+		return worldIn.getBlockState(neighborPos).getBlock() == this
+			&& !this.isConnectionBlocked(worldIn, pos, direction)
+			&& !this.isConnectionBlocked(worldIn, neighborPos, direction.getOpposite());
 	}
 
 	private AxisAlignedBB getTopBoundingBox(IBlockState state) {
@@ -284,5 +325,63 @@ public class DiningTable extends Block {
 
 	private boolean isConnected(int connections, int mask) {
 		return (connections & mask) != 0;
+	}
+
+	private boolean requiresSupport(IBlockState state) {
+		return this.requiresSupport(state.getValue(CONNECTIONS).intValue());
+	}
+
+	private boolean requiresSupport(int connections) {
+		boolean north = this.isConnected(connections, NORTH);
+		boolean east = this.isConnected(connections, EAST);
+		boolean south = this.isConnected(connections, SOUTH);
+		boolean west = this.isConnected(connections, WEST);
+
+		return (!north && !west) || (!north && !east) || (!south && !west) || (!south && !east);
+	}
+
+	private void blockConnectionBetween(World worldIn, BlockPos pos, EnumFacing direction) {
+		BlockPos neighborPos = pos.offset(direction);
+
+		if (worldIn.getBlockState(neighborPos).getBlock() != this) {
+			return;
+		}
+
+		this.setConnectionBlocked(worldIn, pos, direction, true);
+		this.setConnectionBlocked(worldIn, neighborPos, direction.getOpposite(), true);
+		this.updateTableState(worldIn, pos);
+		this.updateTableState(worldIn, neighborPos);
+	}
+
+	private boolean isConnectionBlocked(World worldIn, BlockPos pos, EnumFacing direction) {
+		TileEntity tileEntity = worldIn.getTileEntity(pos);
+
+		return tileEntity instanceof TileEntityDiningTable
+			&& ((TileEntityDiningTable)tileEntity).isConnectionBlocked(direction);
+	}
+
+	private void setConnectionBlocked(World worldIn, BlockPos pos, EnumFacing direction, boolean blocked) {
+		TileEntity tileEntity = worldIn.getTileEntity(pos);
+
+		if (tileEntity instanceof TileEntityDiningTable) {
+			((TileEntityDiningTable)tileEntity).setConnectionBlocked(direction, blocked);
+		}
+	}
+
+	private void clearOrphanedBlockedConnections(World worldIn, BlockPos pos) {
+		TileEntity tileEntity = worldIn.getTileEntity(pos);
+
+		if (!(tileEntity instanceof TileEntityDiningTable)) {
+			return;
+		}
+
+		TileEntityDiningTable table = (TileEntityDiningTable)tileEntity;
+
+		for (EnumFacing direction : EnumFacing.Plane.HORIZONTAL) {
+			if (table.isConnectionBlocked(direction)
+				&& worldIn.getBlockState(pos.offset(direction)).getBlock() != this) {
+				table.setConnectionBlocked(direction, false);
+			}
+		}
 	}
 }
