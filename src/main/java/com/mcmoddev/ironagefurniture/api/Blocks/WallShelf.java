@@ -486,9 +486,12 @@ public class WallShelf extends BlockHBase {
 			&& !this.canAttachTo(worldIn, pos, facing);
 
 		if (shelfSupportedCorner
-				&& (connections == (RIGHT | LEFT_CORNER) || connections == (LEFT | RIGHT_CORNER))) {
-			return this.rotateToFacing(new AxisAlignedBB(0.0D, INTERACTION_NORTH.minY, 0.0D,
+				&& connections == (RIGHT | LEFT_CORNER)) {
+			return this.rotateToFacing(new AxisAlignedBB(0.25D, INTERACTION_NORTH.minY, 0.25D,
 				1.0D, INTERACTION_NORTH.maxY, 1.0D), facing);
+		} else if (shelfSupportedCorner && connections == (LEFT | RIGHT_CORNER)) {
+			return this.rotateToFacing(new AxisAlignedBB(0.0D, INTERACTION_NORTH.minY, 0.25D,
+				0.75D, INTERACTION_NORTH.maxY, 1.0D), facing);
 		}
 
 		return this.rotateToFacing(INTERACTION_NORTH, facing);
@@ -504,10 +507,14 @@ public class WallShelf extends BlockHBase {
 		double minZ = BOARD_NORTH.minZ;
 
 		if (shelfSupportedCorner
-				&& (connections == (RIGHT | LEFT_CORNER) || connections == (LEFT | RIGHT_CORNER))) {
-			minX = 0.0D;
+				&& connections == (RIGHT | LEFT_CORNER)) {
+			minX = 0.25D;
 			maxX = 1.0D;
-			minZ = 0.0D;
+			minZ = 0.25D;
+		} else if (shelfSupportedCorner && connections == (LEFT | RIGHT_CORNER)) {
+			minX = 0.0D;
+			maxX = 0.75D;
+			minZ = 0.25D;
 		}
 
 		AxisAlignedBB board = new AxisAlignedBB(minX, BOARD_NORTH.minY, minZ,
