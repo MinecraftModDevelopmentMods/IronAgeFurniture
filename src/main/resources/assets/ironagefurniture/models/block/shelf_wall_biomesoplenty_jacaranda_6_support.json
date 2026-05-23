@@ -1,0 +1,8 @@
+{
+  "parent": "ironagefurniture:block/template_shelf_wall_6_support",
+  "textures": {
+    "log": "biomesoplenty:blocks/jacaranda_log",
+    "planks": "biomesoplenty:blocks/jacaranda_planks",
+    "particle": "biomesoplenty:blocks/jacaranda_log"
+  }
+}

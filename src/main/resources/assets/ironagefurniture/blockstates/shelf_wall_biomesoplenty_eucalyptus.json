@@ -1,0 +1,516 @@
+{
+  "variants": {
+    "connections=0,facing=north,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_0_plain",
+      "y": 0
+    },
+    "connections=0,facing=north,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_0_support",
+      "y": 0
+    },
+    "connections=0,facing=east,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_0_plain",
+      "y": 90
+    },
+    "connections=0,facing=east,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_0_support",
+      "y": 90
+    },
+    "connections=0,facing=south,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_0_plain",
+      "y": 180
+    },
+    "connections=0,facing=south,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_0_support",
+      "y": 180
+    },
+    "connections=0,facing=west,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_0_plain",
+      "y": 270
+    },
+    "connections=0,facing=west,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_0_support",
+      "y": 270
+    },
+    "connections=1,facing=north,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_1_plain",
+      "y": 0
+    },
+    "connections=1,facing=north,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_1_support",
+      "y": 0
+    },
+    "connections=1,facing=east,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_1_plain",
+      "y": 90
+    },
+    "connections=1,facing=east,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_1_support",
+      "y": 90
+    },
+    "connections=1,facing=south,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_1_plain",
+      "y": 180
+    },
+    "connections=1,facing=south,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_1_support",
+      "y": 180
+    },
+    "connections=1,facing=west,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_1_plain",
+      "y": 270
+    },
+    "connections=1,facing=west,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_1_support",
+      "y": 270
+    },
+    "connections=2,facing=north,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_2_plain",
+      "y": 0
+    },
+    "connections=2,facing=north,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_2_support",
+      "y": 0
+    },
+    "connections=2,facing=east,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_2_plain",
+      "y": 90
+    },
+    "connections=2,facing=east,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_2_support",
+      "y": 90
+    },
+    "connections=2,facing=south,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_2_plain",
+      "y": 180
+    },
+    "connections=2,facing=south,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_2_support",
+      "y": 180
+    },
+    "connections=2,facing=west,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_2_plain",
+      "y": 270
+    },
+    "connections=2,facing=west,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_2_support",
+      "y": 270
+    },
+    "connections=3,facing=north,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_3_plain",
+      "y": 0
+    },
+    "connections=3,facing=north,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_3_support",
+      "y": 0
+    },
+    "connections=3,facing=east,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_3_plain",
+      "y": 90
+    },
+    "connections=3,facing=east,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_3_support",
+      "y": 90
+    },
+    "connections=3,facing=south,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_3_plain",
+      "y": 180
+    },
+    "connections=3,facing=south,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_3_support",
+      "y": 180
+    },
+    "connections=3,facing=west,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_3_plain",
+      "y": 270
+    },
+    "connections=3,facing=west,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_3_support",
+      "y": 270
+    },
+    "connections=4,facing=north,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_4_plain",
+      "y": 0
+    },
+    "connections=4,facing=north,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_4_support",
+      "y": 0
+    },
+    "connections=4,facing=east,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_4_plain",
+      "y": 90
+    },
+    "connections=4,facing=east,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_4_support",
+      "y": 90
+    },
+    "connections=4,facing=south,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_4_plain",
+      "y": 180
+    },
+    "connections=4,facing=south,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_4_support",
+      "y": 180
+    },
+    "connections=4,facing=west,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_4_plain",
+      "y": 270
+    },
+    "connections=4,facing=west,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_4_support",
+      "y": 270
+    },
+    "connections=5,facing=north,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_5_plain",
+      "y": 0
+    },
+    "connections=5,facing=north,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_5_support",
+      "y": 0
+    },
+    "connections=5,facing=east,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_5_plain",
+      "y": 90
+    },
+    "connections=5,facing=east,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_5_support",
+      "y": 90
+    },
+    "connections=5,facing=south,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_5_plain",
+      "y": 180
+    },
+    "connections=5,facing=south,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_5_support",
+      "y": 180
+    },
+    "connections=5,facing=west,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_5_plain",
+      "y": 270
+    },
+    "connections=5,facing=west,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_5_support",
+      "y": 270
+    },
+    "connections=6,facing=north,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_6_plain",
+      "y": 0
+    },
+    "connections=6,facing=north,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_6_support",
+      "y": 0
+    },
+    "connections=6,facing=east,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_6_plain",
+      "y": 90
+    },
+    "connections=6,facing=east,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_6_support",
+      "y": 90
+    },
+    "connections=6,facing=south,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_6_plain",
+      "y": 180
+    },
+    "connections=6,facing=south,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_6_support",
+      "y": 180
+    },
+    "connections=6,facing=west,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_6_plain",
+      "y": 270
+    },
+    "connections=6,facing=west,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_6_support",
+      "y": 270
+    },
+    "connections=7,facing=north,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_7_plain",
+      "y": 0
+    },
+    "connections=7,facing=north,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_7_support",
+      "y": 0
+    },
+    "connections=7,facing=east,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_7_plain",
+      "y": 90
+    },
+    "connections=7,facing=east,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_7_support",
+      "y": 90
+    },
+    "connections=7,facing=south,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_7_plain",
+      "y": 180
+    },
+    "connections=7,facing=south,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_7_support",
+      "y": 180
+    },
+    "connections=7,facing=west,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_7_plain",
+      "y": 270
+    },
+    "connections=7,facing=west,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_7_support",
+      "y": 270
+    },
+    "connections=8,facing=north,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_8_plain",
+      "y": 0
+    },
+    "connections=8,facing=north,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_8_support",
+      "y": 0
+    },
+    "connections=8,facing=east,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_8_plain",
+      "y": 90
+    },
+    "connections=8,facing=east,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_8_support",
+      "y": 90
+    },
+    "connections=8,facing=south,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_8_plain",
+      "y": 180
+    },
+    "connections=8,facing=south,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_8_support",
+      "y": 180
+    },
+    "connections=8,facing=west,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_8_plain",
+      "y": 270
+    },
+    "connections=8,facing=west,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_8_support",
+      "y": 270
+    },
+    "connections=9,facing=north,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_9_plain",
+      "y": 0
+    },
+    "connections=9,facing=north,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_9_support",
+      "y": 0
+    },
+    "connections=9,facing=east,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_9_plain",
+      "y": 90
+    },
+    "connections=9,facing=east,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_9_support",
+      "y": 90
+    },
+    "connections=9,facing=south,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_9_plain",
+      "y": 180
+    },
+    "connections=9,facing=south,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_9_support",
+      "y": 180
+    },
+    "connections=9,facing=west,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_9_plain",
+      "y": 270
+    },
+    "connections=9,facing=west,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_9_support",
+      "y": 270
+    },
+    "connections=10,facing=north,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_10_plain",
+      "y": 0
+    },
+    "connections=10,facing=north,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_10_support",
+      "y": 0
+    },
+    "connections=10,facing=east,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_10_plain",
+      "y": 90
+    },
+    "connections=10,facing=east,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_10_support",
+      "y": 90
+    },
+    "connections=10,facing=south,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_10_plain",
+      "y": 180
+    },
+    "connections=10,facing=south,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_10_support",
+      "y": 180
+    },
+    "connections=10,facing=west,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_10_plain",
+      "y": 270
+    },
+    "connections=10,facing=west,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_10_support",
+      "y": 270
+    },
+    "connections=11,facing=north,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_11_plain",
+      "y": 0
+    },
+    "connections=11,facing=north,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_11_support",
+      "y": 0
+    },
+    "connections=11,facing=east,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_11_plain",
+      "y": 90
+    },
+    "connections=11,facing=east,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_11_support",
+      "y": 90
+    },
+    "connections=11,facing=south,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_11_plain",
+      "y": 180
+    },
+    "connections=11,facing=south,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_11_support",
+      "y": 180
+    },
+    "connections=11,facing=west,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_11_plain",
+      "y": 270
+    },
+    "connections=11,facing=west,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_11_support",
+      "y": 270
+    },
+    "connections=12,facing=north,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_12_plain",
+      "y": 0
+    },
+    "connections=12,facing=north,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_12_support",
+      "y": 0
+    },
+    "connections=12,facing=east,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_12_plain",
+      "y": 90
+    },
+    "connections=12,facing=east,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_12_support",
+      "y": 90
+    },
+    "connections=12,facing=south,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_12_plain",
+      "y": 180
+    },
+    "connections=12,facing=south,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_12_support",
+      "y": 180
+    },
+    "connections=12,facing=west,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_12_plain",
+      "y": 270
+    },
+    "connections=12,facing=west,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_12_support",
+      "y": 270
+    },
+    "connections=13,facing=north,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_13_plain",
+      "y": 0
+    },
+    "connections=13,facing=north,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_13_support",
+      "y": 0
+    },
+    "connections=13,facing=east,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_13_plain",
+      "y": 90
+    },
+    "connections=13,facing=east,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_13_support",
+      "y": 90
+    },
+    "connections=13,facing=south,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_13_plain",
+      "y": 180
+    },
+    "connections=13,facing=south,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_13_support",
+      "y": 180
+    },
+    "connections=13,facing=west,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_13_plain",
+      "y": 270
+    },
+    "connections=13,facing=west,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_13_support",
+      "y": 270
+    },
+    "connections=14,facing=north,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_14_plain",
+      "y": 0
+    },
+    "connections=14,facing=north,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_14_support",
+      "y": 0
+    },
+    "connections=14,facing=east,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_14_plain",
+      "y": 90
+    },
+    "connections=14,facing=east,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_14_support",
+      "y": 90
+    },
+    "connections=14,facing=south,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_14_plain",
+      "y": 180
+    },
+    "connections=14,facing=south,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_14_support",
+      "y": 180
+    },
+    "connections=14,facing=west,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_14_plain",
+      "y": 270
+    },
+    "connections=14,facing=west,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_14_support",
+      "y": 270
+    },
+    "connections=15,facing=north,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_15_plain",
+      "y": 0
+    },
+    "connections=15,facing=north,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_15_support",
+      "y": 0
+    },
+    "connections=15,facing=east,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_15_plain",
+      "y": 90
+    },
+    "connections=15,facing=east,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_15_support",
+      "y": 90
+    },
+    "connections=15,facing=south,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_15_plain",
+      "y": 180
+    },
+    "connections=15,facing=south,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_15_support",
+      "y": 180
+    },
+    "connections=15,facing=west,support=false": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_15_plain",
+      "y": 270
+    },
+    "connections=15,facing=west,support=true": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_eucalyptus_15_support",
+      "y": 270
+    }
+  }
+}

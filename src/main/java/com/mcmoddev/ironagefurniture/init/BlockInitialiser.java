@@ -31,7 +31,18 @@ public class BlockInitialiser {
 		generateChairs(); // and on the seventh day he was tired of standing around, and so he created chairs.
 		generateBeds(); // and then, inevitably, he wanted somewhere nicer to sleep.
 		generateTables(); // and then he had somewhere civilized to put dinner.
+		generateShelves(); // and then he looked at the wall and saw useful empty space.
 		generateLights(); // and then he saw that the vanilla torches were boring and said, let there be light!
+	}
+
+	private static void generateShelves() {
+		if (!IronAgeFurnitureConfiguration.GENERATE_WALL_SHELVES) {
+			return;
+		}
+
+		for (String suffix : WoodVariantHelper.getEnabledWoodSuffixes()) {
+			BlockObjectHolder.shelf_wall.put(suffix, FurnitureFactory.CreateWallShelf(suffix));
+		}
 	}
 
 	private static void generateTables() {

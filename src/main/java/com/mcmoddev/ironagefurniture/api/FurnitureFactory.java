@@ -51,7 +51,9 @@ import com.mcmoddev.ironagefurniture.api.Blocks.MultiBlockWoodBed;
 import com.mcmoddev.ironagefurniture.api.Blocks.ObsideanLump;
 import com.mcmoddev.ironagefurniture.api.Blocks.Stool;
 import com.mcmoddev.ironagefurniture.api.Blocks.ThroneChair;
+import com.mcmoddev.ironagefurniture.api.Blocks.WallShelf;
 import com.mcmoddev.ironagefurniture.api.Blocks.WingbackChair;
+import com.mcmoddev.ironagefurniture.api.Items.ItemBlockWallShelf;
 import com.mcmoddev.ironagefurniture.init.ItemInitialiser;
 
 import net.minecraft.block.Block;
@@ -117,6 +119,15 @@ public class FurnitureFactory {
 		}
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(table, 1), "xxx", "y y",
+			'x', slab, 'y', "stickWood"));
+	}
+
+	public static void AddWallShelfRecipe(ItemStack slab, Block shelf) {
+		if (shelf == null) {
+			return;
+		}
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(shelf, 3), "xxx", " y ",
 			'x', slab, 'y', "stickWood"));
 	}
 	
@@ -317,6 +328,15 @@ public class FurnitureFactory {
 
 	public static Block CreateDiningTable(String suffix) {
 		return CreateDiningTable(suffix, 10, 1);
+	}
+
+	public static Block CreateWallShelf(String suffix, float resistance, float hardness) {
+		String name = "shelf_wall_" + suffix;
+		return registerBlock(new WallShelf(Material.WOOD, name, resistance, hardness), name, 16);
+	}
+
+	public static Block CreateWallShelf(String suffix) {
+		return CreateWallShelf(suffix, 10, 1);
 	}
 
 	public static Block CreateIronWallSconce(String name) {
@@ -663,7 +683,7 @@ public class FurnitureFactory {
     	block.setUnlocalizedName(Ironagefurniture.MODID + "." + name);
 		
 		if (registerItem) {
-			ItemBlock itemBlock = new ItemBlock(block);
+			ItemBlock itemBlock = block instanceof WallShelf ? new ItemBlockWallShelf(block) : new ItemBlock(block);
 			itemBlock.setMaxStackSize(maxStackSize);
 			ItemInitialiser.RegisterItem(itemBlock, name);
 		}

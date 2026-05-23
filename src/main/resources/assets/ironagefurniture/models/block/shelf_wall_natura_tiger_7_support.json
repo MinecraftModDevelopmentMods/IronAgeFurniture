@@ -1,0 +1,8 @@
+{
+  "parent": "ironagefurniture:block/template_shelf_wall_7_support",
+  "textures": {
+    "log": "natura:blocks/logs/overworld/tiger_log",
+    "planks": "natura:blocks/planks/overworld/tiger_planks",
+    "particle": "natura:blocks/logs/overworld/tiger_log"
+  }
+}

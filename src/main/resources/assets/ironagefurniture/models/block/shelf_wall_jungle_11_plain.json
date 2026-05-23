@@ -1,0 +1,8 @@
+{
+  "parent": "ironagefurniture:block/template_shelf_wall_11_plain",
+  "textures": {
+    "log": "minecraft:blocks/log_jungle",
+    "planks": "minecraft:blocks/planks_jungle",
+    "particle": "minecraft:blocks/log_jungle"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "ironagefurniture:block/template_shelf_wall_4_support",
+  "textures": {
+    "log": "natura:blocks/logs/overworld/amaranth_log",
+    "planks": "natura:blocks/planks/overworld/amaranth_planks",
+    "particle": "natura:blocks/logs/overworld/amaranth_log"
+  }
+}

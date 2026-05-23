@@ -1,0 +1,8 @@
+{
+  "parent": "ironagefurniture:block/template_shelf_wall_1_plain",
+  "textures": {
+    "log": "forestry:blocks/wood/bark.lime",
+    "planks": "forestry:blocks/wood/planks.lime",
+    "particle": "forestry:blocks/wood/bark.lime"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "ironagefurniture:block/template_shelf_wall_13_support",
+  "textures": {
+    "log": "forestry:blocks/wood/bark.willow",
+    "planks": "forestry:blocks/wood/planks.willow",
+    "particle": "forestry:blocks/wood/bark.willow"
+  }
+}

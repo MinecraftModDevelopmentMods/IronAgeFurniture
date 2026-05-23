@@ -1,0 +1,8 @@
+{
+  "parent": "ironagefurniture:block/template_shelf_wall_6_plain",
+  "textures": {
+    "log": "natura:blocks/logs/nether/bloodwood_bark",
+    "planks": "natura:blocks/planks/nether/bloodwood_planks",
+    "particle": "natura:blocks/logs/nether/bloodwood_bark"
+  }
+}

@@ -1,7 +1,9 @@
 package com.mcmoddev.ironagefurniture.init;
 
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityDiningTable;
+import com.mcmoddev.ironagefurniture.api.tile.TileEntityWallShelf;
 import com.mcmoddev.ironagefurniture.client.render.TileEntityDiningTableRenderer;
+import com.mcmoddev.ironagefurniture.client.render.TileEntityWallShelfRenderer;
 
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 
@@ -12,5 +14,6 @@ public class ClientRenderInitialiser {
 
 	public static void RegisterTileEntityRenderers() {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDiningTable.class, new TileEntityDiningTableRenderer());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityWallShelf.class, new TileEntityWallShelfRenderer());
 	}
 }

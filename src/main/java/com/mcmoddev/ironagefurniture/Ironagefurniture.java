@@ -6,6 +6,7 @@ import java.util.Map;
 import com.mcmoddev.ironagefurniture.api.CreativeModeBreakTracker;
 import com.mcmoddev.ironagefurniture.api.entity.Seat;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityDiningTable;
+import com.mcmoddev.ironagefurniture.api.tile.TileEntityWallShelf;
 import com.mcmoddev.ironagefurniture.init.BlockInitialiser;
 import com.mcmoddev.ironagefurniture.init.ClientRenderInitialiser;
 import com.mcmoddev.ironagefurniture.init.ItemInitialiser;
@@ -61,6 +62,7 @@ public class Ironagefurniture
     	}
     	
     	GameRegistry.registerTileEntity(TileEntityDiningTable.class, MODID + ":table_dining");
+		GameRegistry.registerTileEntity(TileEntityWallShelf.class, MODID + ":shelf_wall");
     	EntityRegistry.registerModEntity(Seat.class, MODID + ":seat", 0, this, 80, 1, false);
     	
     	RecipeInitialiser.init();
