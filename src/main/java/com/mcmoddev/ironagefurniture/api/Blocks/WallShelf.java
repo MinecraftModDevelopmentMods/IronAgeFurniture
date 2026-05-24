@@ -276,7 +276,9 @@ public class WallShelf extends BlockHBase {
 			return true;
 		}
 
-		if (this.tryPlaceShelf(worldIn, pos.offset(placementSide), placementSide.getOpposite(), shelfBlock, playerIn,
+		EnumFacing outerCornerFacing = this.getOuterCornerPlacementFacing(currentFacing, placementSide);
+
+		if (this.tryPlaceShelf(worldIn, pos.offset(placementSide), outerCornerFacing, shelfBlock, playerIn,
 				hand, heldItem, hitX, hitY, hitZ)) {
 			return true;
 		}
@@ -309,6 +311,18 @@ public class WallShelf extends BlockHBase {
 	private boolean isShelfLateralSide(EnumFacing shelfFacing, EnumFacing clickedSide) {
 		return clickedSide == this.rotateClockwise(shelfFacing)
 			|| clickedSide == this.rotateCounterClockwise(shelfFacing);
+	}
+
+	private EnumFacing getOuterCornerPlacementFacing(EnumFacing shelfFacing, EnumFacing placementSide) {
+		if (placementSide == this.rotateCounterClockwise(shelfFacing)) {
+			return this.rotateClockwise(shelfFacing);
+		}
+
+		if (placementSide == this.rotateClockwise(shelfFacing)) {
+			return shelfFacing.getOpposite();
+		}
+
+		return placementSide.getOpposite();
 	}
 
 	private boolean tryPlaceShelf(World worldIn, BlockPos placePos, EnumFacing shelfFacing, Block shelfBlock,
