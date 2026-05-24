@@ -34,10 +34,10 @@ public class WallShelf extends BlockHBase {
 
 	private static final AxisAlignedBB BOARD_STRAIGHT_NORTH = new AxisAlignedBB(0.0D, 0.625D, 0.25D, 1.0D, 0.8125D, 1.0D);
 	private static final AxisAlignedBB BOARD_INNER_CORNER_NORTH = new AxisAlignedBB(0.0D, 0.625D, 0.0D, 1.0D, 0.8125D, 1.0D);
-	private static final AxisAlignedBB BOARD_OUTER_CORNER_NORTH = new AxisAlignedBB(0.25D, 0.625D, 0.25D, 1.0D, 0.8125D, 1.0D);
+	private static final AxisAlignedBB BOARD_OUTER_CORNER_NORTH = new AxisAlignedBB(0.0D, 0.625D, 0.25D, 0.75D, 0.8125D, 1.0D);
 	private static final AxisAlignedBB INTERACTION_STRAIGHT_NORTH = new AxisAlignedBB(0.0D, 0.5D, 0.25D, 1.0D, 1.0D, 1.0D);
 	private static final AxisAlignedBB INTERACTION_INNER_CORNER_NORTH = new AxisAlignedBB(0.0D, 0.5D, 0.0D, 1.0D, 1.0D, 1.0D);
-	private static final AxisAlignedBB INTERACTION_OUTER_CORNER_NORTH = new AxisAlignedBB(0.25D, 0.5D, 0.25D, 1.0D, 1.0D, 1.0D);
+	private static final AxisAlignedBB INTERACTION_OUTER_CORNER_NORTH = new AxisAlignedBB(0.0D, 0.5D, 0.25D, 0.75D, 1.0D, 1.0D);
 	private static final AxisAlignedBB BRACKET_BACK_NORTH = new AxisAlignedBB(0.4375D, 0.0625D, 0.875D, 0.5625D, 0.625D, 1.0D);
 	private static final AxisAlignedBB BRACKET_LOW_NORTH = new AxisAlignedBB(0.375D, 0.0625D, 0.875D, 0.625D, 0.1875D, 1.0D);
 	private static final AxisAlignedBB BRACKET_STEP_ONE_NORTH = new AxisAlignedBB(0.4375D, 0.4375D, 0.6875D, 0.5625D, 0.5625D, 0.875D);
@@ -547,7 +547,7 @@ public class WallShelf extends BlockHBase {
 		case INNER_CORNER:
 			return this.rotateToFacing(INTERACTION_INNER_CORNER_NORTH, renderState.facing);
 		case OUTER_CORNER:
-			return this.rotateToFacing(INTERACTION_OUTER_CORNER_NORTH, renderState.facing.getOpposite());
+			return this.rotateToFacing(INTERACTION_OUTER_CORNER_NORTH, renderState.facing);
 		default:
 			return this.rotateToFacing(INTERACTION_STRAIGHT_NORTH, renderState.facing);
 		}
@@ -558,7 +558,7 @@ public class WallShelf extends BlockHBase {
 		case INNER_CORNER:
 			return this.rotateToFacing(BOARD_INNER_CORNER_NORTH, renderState.facing);
 		case OUTER_CORNER:
-			return this.rotateToFacing(BOARD_OUTER_CORNER_NORTH, renderState.facing.getOpposite());
+			return this.rotateToFacing(BOARD_OUTER_CORNER_NORTH, renderState.facing);
 		default:
 			return this.rotateToFacing(BOARD_STRAIGHT_NORTH, renderState.facing);
 		}

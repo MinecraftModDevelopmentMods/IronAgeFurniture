@@ -50,19 +50,19 @@
                                                           },
                      "facing=north,support=outer_corner":  {
                                                                "model":  "ironagefurniture:shelf_wall_forestry_baobab_outer_corner",
-                                                               "y":  180
+                                                               "y":  0
                                                            },
                      "facing=east,support=outer_corner":  {
                                                               "model":  "ironagefurniture:shelf_wall_forestry_baobab_outer_corner",
-                                                              "y":  270
+                                                              "y":  90
                                                           },
                      "facing=south,support=outer_corner":  {
                                                                "model":  "ironagefurniture:shelf_wall_forestry_baobab_outer_corner",
-                                                               "y":  0
+                                                               "y":  180
                                                            },
                      "facing=west,support=outer_corner":  {
                                                               "model":  "ironagefurniture:shelf_wall_forestry_baobab_outer_corner",
-                                                              "y":  90
+                                                              "y":  270
                                                           }
                  }
 }
