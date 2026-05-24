@@ -1,4 +1,5 @@
 {
+  "credit": "By FoxNekitsune",
   "parent": "ironagefurniture:block/template_chair_throne_lower",
   "textures": {
     "log": "biomesoplenty:blocks/mahogany_log",

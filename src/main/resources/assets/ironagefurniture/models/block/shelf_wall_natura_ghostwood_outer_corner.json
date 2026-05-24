@@ -1,4 +1,5 @@
 {
+  "credit": "By FoxNekitsune",
   "parent": "ironagefurniture:block/template_shelf_wall_outer_corner",
   "textures": {
     "log": "natura:blocks/logs/nether/ghostwood_log",

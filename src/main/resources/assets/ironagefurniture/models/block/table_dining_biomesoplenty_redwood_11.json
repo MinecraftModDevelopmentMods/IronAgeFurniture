@@ -1,4 +1,5 @@
 {
+  "credit": "By FoxNekitsune",
   "parent": "ironagefurniture:block/template_table_dining_11",
   "textures": {
     "log": "biomesoplenty:blocks/redwood_log",

@@ -35,14 +35,6 @@ public class WallShelf extends BlockHBase {
 	private static final AxisAlignedBB BOARD_STRAIGHT_NORTH = new AxisAlignedBB(0.0D, 0.625D, 0.25D, 1.0D, 0.8125D, 1.0D);
 	private static final AxisAlignedBB BOARD_INNER_CORNER_NORTH = new AxisAlignedBB(0.0D, 0.625D, 0.0D, 1.0D, 0.8125D, 1.0D);
 	private static final AxisAlignedBB BOARD_OUTER_CORNER_NORTH = new AxisAlignedBB(0.0D, 0.625D, 0.25D, 0.75D, 0.8125D, 1.0D);
-	private static final AxisAlignedBB INTERACTION_STRAIGHT_NORTH = new AxisAlignedBB(0.0D, 0.5D, 0.25D, 1.0D, 1.0D, 1.0D);
-	private static final AxisAlignedBB INTERACTION_INNER_CORNER_NORTH = new AxisAlignedBB(0.0D, 0.5D, 0.0D, 1.0D, 1.0D, 1.0D);
-	private static final AxisAlignedBB INTERACTION_OUTER_CORNER_NORTH = new AxisAlignedBB(0.0D, 0.5D, 0.25D, 0.75D, 1.0D, 1.0D);
-	private static final AxisAlignedBB BRACKET_BACK_NORTH = new AxisAlignedBB(0.4375D, 0.0625D, 0.875D, 0.5625D, 0.625D, 1.0D);
-	private static final AxisAlignedBB BRACKET_LOW_NORTH = new AxisAlignedBB(0.375D, 0.0625D, 0.875D, 0.625D, 0.1875D, 1.0D);
-	private static final AxisAlignedBB BRACKET_STEP_ONE_NORTH = new AxisAlignedBB(0.4375D, 0.4375D, 0.6875D, 0.5625D, 0.5625D, 0.875D);
-	private static final AxisAlignedBB BRACKET_STEP_TWO_NORTH = new AxisAlignedBB(0.4375D, 0.3125D, 0.5D, 0.5625D, 0.4375D, 0.6875D);
-	private static final AxisAlignedBB BRACKET_STEP_THREE_NORTH = new AxisAlignedBB(0.4375D, 0.1875D, 0.3125D, 0.5625D, 0.3125D, 0.5D);
 
 	private enum ShelfShape {
 		STRAIGHT,
@@ -389,12 +381,12 @@ public class WallShelf extends BlockHBase {
 
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-		return this.getInteractionBox(state, source, pos);
+		return this.getBoardBox(state, source, pos);
 	}
 
 	@Override
 	public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos) {
-		return this.getInteractionBox(state, worldIn, pos).offset(pos);
+		return this.getBoardBox(state, worldIn, pos).offset(pos);
 	}
 
 	@Override
@@ -402,14 +394,6 @@ public class WallShelf extends BlockHBase {
 			List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
 		ShelfRenderState renderState = this.getRenderState(worldIn, pos, state.getValue(FACING));
 		super.addCollisionBoxToList(pos, entityBox, collidingBoxes, this.getBoardBox(renderState));
-
-		if (renderState.support != ShelfSupport.STRAIGHT && renderState.support != ShelfSupport.OUTER_CORNER) {
-			this.addRotatedCollisionBox(pos, entityBox, collidingBoxes, BRACKET_BACK_NORTH, renderState.facing);
-			this.addRotatedCollisionBox(pos, entityBox, collidingBoxes, BRACKET_LOW_NORTH, renderState.facing);
-			this.addRotatedCollisionBox(pos, entityBox, collidingBoxes, BRACKET_STEP_ONE_NORTH, renderState.facing);
-			this.addRotatedCollisionBox(pos, entityBox, collidingBoxes, BRACKET_STEP_TWO_NORTH, renderState.facing);
-			this.addRotatedCollisionBox(pos, entityBox, collidingBoxes, BRACKET_STEP_THREE_NORTH, renderState.facing);
-		}
 	}
 
 	@Override
@@ -537,20 +521,9 @@ public class WallShelf extends BlockHBase {
 		return Math.floorMod(runCoordinate, 3) == 0;
 	}
 
-	private AxisAlignedBB getInteractionBox(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+	private AxisAlignedBB getBoardBox(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
 		ShelfRenderState renderState = this.getRenderState(worldIn, pos, state.getValue(FACING));
-		return this.getInteractionBox(renderState);
-	}
-
-	private AxisAlignedBB getInteractionBox(ShelfRenderState renderState) {
-		switch (renderState.support) {
-		case INNER_CORNER:
-			return this.rotateToFacing(INTERACTION_INNER_CORNER_NORTH, renderState.facing);
-		case OUTER_CORNER:
-			return this.rotateToFacing(INTERACTION_OUTER_CORNER_NORTH, renderState.facing);
-		default:
-			return this.rotateToFacing(INTERACTION_STRAIGHT_NORTH, renderState.facing);
-		}
+		return this.getBoardBox(renderState);
 	}
 
 	private AxisAlignedBB getBoardBox(ShelfRenderState renderState) {
@@ -587,11 +560,6 @@ public class WallShelf extends BlockHBase {
 		if (state.getBlock() == this) {
 			worldIn.notifyBlockUpdate(pos, state, state, 3);
 		}
-	}
-
-	private void addRotatedCollisionBox(BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes,
-			AxisAlignedBB box, EnumFacing facing) {
-		super.addCollisionBoxToList(pos, entityBox, collidingBoxes, this.rotateToFacing(box, facing));
 	}
 
 	private AxisAlignedBB rotateToFacing(AxisAlignedBB box, EnumFacing facing) {

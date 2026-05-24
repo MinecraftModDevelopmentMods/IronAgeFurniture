@@ -1,4 +1,5 @@
 {
+  "credit": "By FoxNekitsune",
   "parent": "ironagefurniture:block/template_shelf_wall_straight_support",
   "textures": {
     "log": "biomesoplenty:blocks/redwood_log",

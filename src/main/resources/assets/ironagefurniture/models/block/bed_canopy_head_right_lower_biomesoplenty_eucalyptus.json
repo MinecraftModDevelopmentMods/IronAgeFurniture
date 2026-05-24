@@ -1,4 +1,5 @@
 {
+  "credit": "By FoxNekitsune",
   "parent": "ironagefurniture:block/template_bed_canopy_head_right_lower",
   "textures": {
     "log": "biomesoplenty:blocks/eucalyptus_log",

@@ -1,4 +1,5 @@
 {
+  "credit": "By FoxNekitsune",
   "parent": "ironagefurniture:block/template_bed_wood_foot_right",
   "textures": {
     "log": "biomesoplenty:blocks/sacred_oak_log",

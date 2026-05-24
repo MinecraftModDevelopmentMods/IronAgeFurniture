@@ -1,4 +1,5 @@
 {
+  "credit": "By FoxNekitsune",
   "parent": "ironagefurniture:block/template_bed_wood_head_right",
   "textures": {
     "log": "natura:blocks/logs/nether/darkwood_log",

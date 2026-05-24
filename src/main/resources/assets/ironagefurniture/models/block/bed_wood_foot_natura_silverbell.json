@@ -1,4 +1,5 @@
 {
+  "credit": "By FoxNekitsune",
   "parent": "ironagefurniture:block/template_bed_wood_foot",
   "textures": {
     "log": "natura:blocks/logs/overworld/silverbell_log",

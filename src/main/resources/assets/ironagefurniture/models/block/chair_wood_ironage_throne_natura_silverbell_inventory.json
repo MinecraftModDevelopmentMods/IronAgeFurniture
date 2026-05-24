@@ -1,4 +1,5 @@
 {
+  "credit": "By FoxNekitsune",
   "parent": "ironagefurniture:block/template_chair_throne_inventory",
   "textures": {
     "log": "natura:blocks/logs/overworld/silverbell_log",

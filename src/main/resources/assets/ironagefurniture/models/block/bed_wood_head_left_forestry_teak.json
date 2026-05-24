@@ -1,4 +1,5 @@
 {
+  "credit": "By FoxNekitsune",
   "parent": "ironagefurniture:block/template_bed_wood_head_left",
   "textures": {
     "log": "forestry:blocks/wood/bark.teak",

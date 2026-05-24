@@ -1,4 +1,5 @@
 {
+  "credit": "By FoxNekitsune",
   "parent": "ironagefurniture:block/template_bed_wood_single_inventory",
   "textures": {
     "log": "natura:blocks/logs/overworld/redwood_bark",

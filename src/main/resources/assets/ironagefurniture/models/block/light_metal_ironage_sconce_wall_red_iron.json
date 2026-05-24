@@ -1,7 +1,8 @@
 {
-	"parent": "ironagefurniture:block/template_light_metal_ironage_sconce_wall_vial",
-	"textures": {
-		"contents": "minecraft:blocks/redstone_block",
-		"metal": "minecraft:blocks/iron_block"
-	}
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_light_metal_ironage_sconce_wall_vial",
+  "textures": {
+    "contents": "minecraft:blocks/redstone_block",
+    "metal": "minecraft:blocks/iron_block"
+  }
 }

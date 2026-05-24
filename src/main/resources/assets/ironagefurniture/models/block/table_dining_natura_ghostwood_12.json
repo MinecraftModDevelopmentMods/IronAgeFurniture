@@ -1,4 +1,5 @@
 {
+  "credit": "By FoxNekitsune",
   "parent": "ironagefurniture:block/template_table_dining_12",
   "textures": {
     "log": "natura:blocks/logs/nether/ghostwood_log",

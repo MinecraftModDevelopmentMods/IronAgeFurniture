@@ -1,4 +1,5 @@
 {
+  "credit": "By FoxNekitsune",
   "parent": "ironagefurniture:block/template_bed_canopy_head_lower",
   "textures": {
     "log": "forestry:blocks/wood/bark.palm",
