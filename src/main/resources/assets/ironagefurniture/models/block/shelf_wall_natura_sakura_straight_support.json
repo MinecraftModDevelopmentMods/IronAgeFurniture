@@ -1,0 +1,8 @@
+{
+  "parent": "ironagefurniture:block/template_shelf_wall_straight_support",
+  "textures": {
+    "log": "natura:blocks/logs/overworld/sakura_log",
+    "planks": "natura:blocks/planks/overworld/sakura_planks",
+    "particle": "natura:blocks/logs/overworld/sakura_log"
+  }
+}

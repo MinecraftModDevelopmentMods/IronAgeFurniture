@@ -1,516 +1,68 @@
 {
-  "variants": {
-    "connections=0,facing=north,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_0_plain",
-      "y": 0
-    },
-    "connections=0,facing=north,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_0_support",
-      "y": 0
-    },
-    "connections=0,facing=east,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_0_plain",
-      "y": 90
-    },
-    "connections=0,facing=east,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_0_support",
-      "y": 90
-    },
-    "connections=0,facing=south,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_0_plain",
-      "y": 180
-    },
-    "connections=0,facing=south,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_0_support",
-      "y": 180
-    },
-    "connections=0,facing=west,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_0_plain",
-      "y": 270
-    },
-    "connections=0,facing=west,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_0_support",
-      "y": 270
-    },
-    "connections=1,facing=north,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_1_plain",
-      "y": 0
-    },
-    "connections=1,facing=north,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_1_support",
-      "y": 0
-    },
-    "connections=1,facing=east,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_1_plain",
-      "y": 90
-    },
-    "connections=1,facing=east,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_1_support",
-      "y": 90
-    },
-    "connections=1,facing=south,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_1_plain",
-      "y": 180
-    },
-    "connections=1,facing=south,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_1_support",
-      "y": 180
-    },
-    "connections=1,facing=west,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_1_plain",
-      "y": 270
-    },
-    "connections=1,facing=west,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_1_support",
-      "y": 270
-    },
-    "connections=2,facing=north,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_2_plain",
-      "y": 0
-    },
-    "connections=2,facing=north,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_2_support",
-      "y": 0
-    },
-    "connections=2,facing=east,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_2_plain",
-      "y": 90
-    },
-    "connections=2,facing=east,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_2_support",
-      "y": 90
-    },
-    "connections=2,facing=south,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_2_plain",
-      "y": 180
-    },
-    "connections=2,facing=south,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_2_support",
-      "y": 180
-    },
-    "connections=2,facing=west,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_2_plain",
-      "y": 270
-    },
-    "connections=2,facing=west,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_2_support",
-      "y": 270
-    },
-    "connections=3,facing=north,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_3_plain",
-      "y": 0
-    },
-    "connections=3,facing=north,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_3_support",
-      "y": 0
-    },
-    "connections=3,facing=east,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_3_plain",
-      "y": 90
-    },
-    "connections=3,facing=east,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_3_support",
-      "y": 90
-    },
-    "connections=3,facing=south,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_3_plain",
-      "y": 180
-    },
-    "connections=3,facing=south,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_3_support",
-      "y": 180
-    },
-    "connections=3,facing=west,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_3_plain",
-      "y": 270
-    },
-    "connections=3,facing=west,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_3_support",
-      "y": 270
-    },
-    "connections=4,facing=north,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_4_plain",
-      "y": 0
-    },
-    "connections=4,facing=north,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_4_support",
-      "y": 0
-    },
-    "connections=4,facing=east,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_4_plain",
-      "y": 90
-    },
-    "connections=4,facing=east,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_4_support",
-      "y": 90
-    },
-    "connections=4,facing=south,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_4_plain",
-      "y": 180
-    },
-    "connections=4,facing=south,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_4_support",
-      "y": 180
-    },
-    "connections=4,facing=west,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_4_plain",
-      "y": 270
-    },
-    "connections=4,facing=west,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_4_support",
-      "y": 270
-    },
-    "connections=5,facing=north,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_5_plain",
-      "y": 0
-    },
-    "connections=5,facing=north,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_5_support",
-      "y": 0
-    },
-    "connections=5,facing=east,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_5_plain",
-      "y": 90
-    },
-    "connections=5,facing=east,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_5_support",
-      "y": 90
-    },
-    "connections=5,facing=south,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_5_plain",
-      "y": 180
-    },
-    "connections=5,facing=south,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_5_support",
-      "y": 180
-    },
-    "connections=5,facing=west,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_5_plain",
-      "y": 270
-    },
-    "connections=5,facing=west,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_5_support",
-      "y": 270
-    },
-    "connections=6,facing=north,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_6_plain",
-      "y": 0
-    },
-    "connections=6,facing=north,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_6_support",
-      "y": 0
-    },
-    "connections=6,facing=east,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_6_plain",
-      "y": 90
-    },
-    "connections=6,facing=east,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_6_support",
-      "y": 90
-    },
-    "connections=6,facing=south,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_6_plain",
-      "y": 180
-    },
-    "connections=6,facing=south,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_6_support",
-      "y": 180
-    },
-    "connections=6,facing=west,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_6_plain",
-      "y": 270
-    },
-    "connections=6,facing=west,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_6_support",
-      "y": 270
-    },
-    "connections=7,facing=north,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_7_plain",
-      "y": 0
-    },
-    "connections=7,facing=north,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_7_support",
-      "y": 0
-    },
-    "connections=7,facing=east,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_7_plain",
-      "y": 90
-    },
-    "connections=7,facing=east,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_7_support",
-      "y": 90
-    },
-    "connections=7,facing=south,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_7_plain",
-      "y": 180
-    },
-    "connections=7,facing=south,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_7_support",
-      "y": 180
-    },
-    "connections=7,facing=west,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_7_plain",
-      "y": 270
-    },
-    "connections=7,facing=west,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_7_support",
-      "y": 270
-    },
-    "connections=8,facing=north,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_8_plain",
-      "y": 0
-    },
-    "connections=8,facing=north,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_8_support",
-      "y": 0
-    },
-    "connections=8,facing=east,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_8_plain",
-      "y": 90
-    },
-    "connections=8,facing=east,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_8_support",
-      "y": 90
-    },
-    "connections=8,facing=south,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_8_plain",
-      "y": 180
-    },
-    "connections=8,facing=south,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_8_support",
-      "y": 180
-    },
-    "connections=8,facing=west,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_8_plain",
-      "y": 270
-    },
-    "connections=8,facing=west,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_8_support",
-      "y": 270
-    },
-    "connections=9,facing=north,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_9_plain",
-      "y": 0
-    },
-    "connections=9,facing=north,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_9_support",
-      "y": 0
-    },
-    "connections=9,facing=east,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_9_plain",
-      "y": 90
-    },
-    "connections=9,facing=east,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_9_support",
-      "y": 90
-    },
-    "connections=9,facing=south,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_9_plain",
-      "y": 180
-    },
-    "connections=9,facing=south,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_9_support",
-      "y": 180
-    },
-    "connections=9,facing=west,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_9_plain",
-      "y": 270
-    },
-    "connections=9,facing=west,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_9_support",
-      "y": 270
-    },
-    "connections=10,facing=north,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_10_plain",
-      "y": 0
-    },
-    "connections=10,facing=north,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_10_support",
-      "y": 0
-    },
-    "connections=10,facing=east,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_10_plain",
-      "y": 90
-    },
-    "connections=10,facing=east,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_10_support",
-      "y": 90
-    },
-    "connections=10,facing=south,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_10_plain",
-      "y": 180
-    },
-    "connections=10,facing=south,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_10_support",
-      "y": 180
-    },
-    "connections=10,facing=west,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_10_plain",
-      "y": 270
-    },
-    "connections=10,facing=west,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_10_support",
-      "y": 270
-    },
-    "connections=11,facing=north,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_11_plain",
-      "y": 0
-    },
-    "connections=11,facing=north,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_11_support",
-      "y": 0
-    },
-    "connections=11,facing=east,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_11_plain",
-      "y": 90
-    },
-    "connections=11,facing=east,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_11_support",
-      "y": 90
-    },
-    "connections=11,facing=south,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_11_plain",
-      "y": 180
-    },
-    "connections=11,facing=south,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_11_support",
-      "y": 180
-    },
-    "connections=11,facing=west,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_11_plain",
-      "y": 270
-    },
-    "connections=11,facing=west,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_11_support",
-      "y": 270
-    },
-    "connections=12,facing=north,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_12_plain",
-      "y": 0
-    },
-    "connections=12,facing=north,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_12_support",
-      "y": 0
-    },
-    "connections=12,facing=east,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_12_plain",
-      "y": 90
-    },
-    "connections=12,facing=east,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_12_support",
-      "y": 90
-    },
-    "connections=12,facing=south,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_12_plain",
-      "y": 180
-    },
-    "connections=12,facing=south,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_12_support",
-      "y": 180
-    },
-    "connections=12,facing=west,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_12_plain",
-      "y": 270
-    },
-    "connections=12,facing=west,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_12_support",
-      "y": 270
-    },
-    "connections=13,facing=north,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_13_plain",
-      "y": 0
-    },
-    "connections=13,facing=north,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_13_support",
-      "y": 0
-    },
-    "connections=13,facing=east,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_13_plain",
-      "y": 90
-    },
-    "connections=13,facing=east,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_13_support",
-      "y": 90
-    },
-    "connections=13,facing=south,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_13_plain",
-      "y": 180
-    },
-    "connections=13,facing=south,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_13_support",
-      "y": 180
-    },
-    "connections=13,facing=west,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_13_plain",
-      "y": 270
-    },
-    "connections=13,facing=west,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_13_support",
-      "y": 270
-    },
-    "connections=14,facing=north,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_14_plain",
-      "y": 0
-    },
-    "connections=14,facing=north,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_14_support",
-      "y": 0
-    },
-    "connections=14,facing=east,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_14_plain",
-      "y": 90
-    },
-    "connections=14,facing=east,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_14_support",
-      "y": 90
-    },
-    "connections=14,facing=south,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_14_plain",
-      "y": 180
-    },
-    "connections=14,facing=south,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_14_support",
-      "y": 180
-    },
-    "connections=14,facing=west,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_14_plain",
-      "y": 270
-    },
-    "connections=14,facing=west,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_14_support",
-      "y": 270
-    },
-    "connections=15,facing=north,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_15_plain",
-      "y": 0
-    },
-    "connections=15,facing=north,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_15_support",
-      "y": 0
-    },
-    "connections=15,facing=east,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_15_plain",
-      "y": 90
-    },
-    "connections=15,facing=east,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_15_support",
-      "y": 90
-    },
-    "connections=15,facing=south,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_15_plain",
-      "y": 180
-    },
-    "connections=15,facing=south,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_15_support",
-      "y": 180
-    },
-    "connections=15,facing=west,support=false": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_15_plain",
-      "y": 270
-    },
-    "connections=15,facing=west,support=true": {
-      "model": "ironagefurniture:shelf_wall_biomesoplenty_umbran_15_support",
-      "y": 270
-    }
-  }
+    "variants":  {
+                     "facing=north,support=straight":  {
+                                                           "model":  "ironagefurniture:shelf_wall_biomesoplenty_umbran_straight",
+                                                           "y":  0
+                                                       },
+                     "facing=east,support=straight":  {
+                                                          "model":  "ironagefurniture:shelf_wall_biomesoplenty_umbran_straight",
+                                                          "y":  90
+                                                      },
+                     "facing=south,support=straight":  {
+                                                           "model":  "ironagefurniture:shelf_wall_biomesoplenty_umbran_straight",
+                                                           "y":  180
+                                                       },
+                     "facing=west,support=straight":  {
+                                                          "model":  "ironagefurniture:shelf_wall_biomesoplenty_umbran_straight",
+                                                          "y":  270
+                                                      },
+                     "facing=north,support=straight_support":  {
+                                                                   "model":  "ironagefurniture:shelf_wall_biomesoplenty_umbran_straight_support",
+                                                                   "y":  0
+                                                               },
+                     "facing=east,support=straight_support":  {
+                                                                  "model":  "ironagefurniture:shelf_wall_biomesoplenty_umbran_straight_support",
+                                                                  "y":  90
+                                                              },
+                     "facing=south,support=straight_support":  {
+                                                                   "model":  "ironagefurniture:shelf_wall_biomesoplenty_umbran_straight_support",
+                                                                   "y":  180
+                                                               },
+                     "facing=west,support=straight_support":  {
+                                                                  "model":  "ironagefurniture:shelf_wall_biomesoplenty_umbran_straight_support",
+                                                                  "y":  270
+                                                              },
+                     "facing=north,support=inner_corner":  {
+                                                               "model":  "ironagefurniture:shelf_wall_biomesoplenty_umbran_inner_corner",
+                                                               "y":  270
+                                                           },
+                     "facing=east,support=inner_corner":  {
+                                                              "model":  "ironagefurniture:shelf_wall_biomesoplenty_umbran_inner_corner",
+                                                              "y":  0
+                                                          },
+                     "facing=south,support=inner_corner":  {
+                                                               "model":  "ironagefurniture:shelf_wall_biomesoplenty_umbran_inner_corner",
+                                                               "y":  90
+                                                           },
+                     "facing=west,support=inner_corner":  {
+                                                              "model":  "ironagefurniture:shelf_wall_biomesoplenty_umbran_inner_corner",
+                                                              "y":  180
+                                                          },
+                     "facing=north,support=outer_corner":  {
+                                                               "model":  "ironagefurniture:shelf_wall_biomesoplenty_umbran_outer_corner",
+                                                               "y":  180
+                                                           },
+                     "facing=east,support=outer_corner":  {
+                                                              "model":  "ironagefurniture:shelf_wall_biomesoplenty_umbran_outer_corner",
+                                                              "y":  270
+                                                          },
+                     "facing=south,support=outer_corner":  {
+                                                               "model":  "ironagefurniture:shelf_wall_biomesoplenty_umbran_outer_corner",
+                                                               "y":  0
+                                                           },
+                     "facing=west,support=outer_corner":  {
+                                                              "model":  "ironagefurniture:shelf_wall_biomesoplenty_umbran_outer_corner",
+                                                              "y":  90
+                                                          }
+                 }
 }

@@ -1,8 +1,0 @@
-{
-  "parent": "ironagefurniture:block/template_shelf_wall_2_plain",
-  "textures": {
-    "log": "minecraft:blocks/log_acacia",
-    "planks": "minecraft:blocks/planks_acacia",
-    "particle": "minecraft:blocks/log_acacia"
-  }
-}

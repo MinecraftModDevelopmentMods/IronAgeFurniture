@@ -1,8 +1,0 @@
-{
-  "parent": "ironagefurniture:block/template_shelf_wall_15_support",
-  "textures": {
-    "log": "minecraft:blocks/log_birch",
-    "planks": "minecraft:blocks/planks_birch",
-    "particle": "minecraft:blocks/log_birch"
-  }
-}

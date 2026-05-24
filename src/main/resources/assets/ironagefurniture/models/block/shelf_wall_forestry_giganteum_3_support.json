@@ -1,8 +1,0 @@
-{
-  "parent": "ironagefurniture:block/template_shelf_wall_3_support",
-  "textures": {
-    "log": "forestry:blocks/wood/bark.giganteum",
-    "planks": "forestry:blocks/wood/planks.giganteum",
-    "particle": "forestry:blocks/wood/bark.giganteum"
-  }
-}

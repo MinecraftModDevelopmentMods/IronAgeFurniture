@@ -1,8 +1,0 @@
-{
-  "parent": "ironagefurniture:block/template_shelf_wall_13_plain",
-  "textures": {
-    "log": "natura:blocks/logs/overworld/eucalyptus_log",
-    "planks": "natura:blocks/planks/overworld/eucalyptus_planks",
-    "particle": "natura:blocks/logs/overworld/eucalyptus_log"
-  }
-}

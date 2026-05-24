@@ -1,8 +1,0 @@
-{
-  "parent": "ironagefurniture:block/template_shelf_wall_9_support",
-  "textures": {
-    "log": "immersiveengineering:blocks/treatedWood_packaged",
-    "planks": "immersiveengineering:blocks/treatedWood_vertical",
-    "particle": "immersiveengineering:blocks/treatedWood_packaged"
-  }
-}

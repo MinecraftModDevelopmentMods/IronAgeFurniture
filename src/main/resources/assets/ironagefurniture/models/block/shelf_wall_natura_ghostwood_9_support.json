@@ -1,8 +1,0 @@
-{
-  "parent": "ironagefurniture:block/template_shelf_wall_9_support",
-  "textures": {
-    "log": "natura:blocks/logs/nether/ghostwood_log",
-    "planks": "natura:blocks/planks/nether/ghostwood_planks",
-    "particle": "natura:blocks/logs/nether/ghostwood_log"
-  }
-}

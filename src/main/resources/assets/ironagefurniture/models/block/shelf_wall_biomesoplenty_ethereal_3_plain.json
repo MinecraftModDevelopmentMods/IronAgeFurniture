@@ -1,8 +1,0 @@
-{
-  "parent": "ironagefurniture:block/template_shelf_wall_3_plain",
-  "textures": {
-    "log": "biomesoplenty:blocks/ethereal_log",
-    "planks": "biomesoplenty:blocks/ethereal_planks",
-    "particle": "biomesoplenty:blocks/ethereal_log"
-  }
-}

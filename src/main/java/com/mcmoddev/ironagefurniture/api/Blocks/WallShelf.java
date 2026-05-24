@@ -9,8 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.properties.PropertyInteger;
+import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -23,6 +22,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -30,21 +30,60 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class WallShelf extends BlockHBase {
-	public static final PropertyInteger CONNECTIONS = PropertyInteger.create("connections", 0, 15);
-	public static final PropertyBool SUPPORT = PropertyBool.create("support");
+	public static final PropertyEnum<ShelfSupport> SUPPORT = PropertyEnum.create("support", ShelfSupport.class);
 
-	private static final int LEFT = 1;
-	private static final int RIGHT = 2;
-	private static final int LEFT_CORNER = 4;
-	private static final int RIGHT_CORNER = 8;
-
-	private static final AxisAlignedBB BOARD_NORTH = new AxisAlignedBB(0.0D, 0.625D, 0.25D, 1.0D, 0.8125D, 1.0D);
-	private static final AxisAlignedBB INTERACTION_NORTH = new AxisAlignedBB(0.0D, 0.5D, 0.25D, 1.0D, 1.0D, 1.0D);
+	private static final AxisAlignedBB BOARD_STRAIGHT_NORTH = new AxisAlignedBB(0.0D, 0.625D, 0.25D, 1.0D, 0.8125D, 1.0D);
+	private static final AxisAlignedBB BOARD_INNER_CORNER_NORTH = new AxisAlignedBB(0.0D, 0.625D, 0.0D, 1.0D, 0.8125D, 1.0D);
+	private static final AxisAlignedBB BOARD_OUTER_CORNER_NORTH = new AxisAlignedBB(0.25D, 0.625D, 0.25D, 1.0D, 0.8125D, 1.0D);
+	private static final AxisAlignedBB INTERACTION_STRAIGHT_NORTH = new AxisAlignedBB(0.0D, 0.5D, 0.25D, 1.0D, 1.0D, 1.0D);
+	private static final AxisAlignedBB INTERACTION_INNER_CORNER_NORTH = new AxisAlignedBB(0.0D, 0.5D, 0.0D, 1.0D, 1.0D, 1.0D);
+	private static final AxisAlignedBB INTERACTION_OUTER_CORNER_NORTH = new AxisAlignedBB(0.25D, 0.5D, 0.25D, 1.0D, 1.0D, 1.0D);
 	private static final AxisAlignedBB BRACKET_BACK_NORTH = new AxisAlignedBB(0.4375D, 0.0625D, 0.875D, 0.5625D, 0.625D, 1.0D);
 	private static final AxisAlignedBB BRACKET_LOW_NORTH = new AxisAlignedBB(0.375D, 0.0625D, 0.875D, 0.625D, 0.1875D, 1.0D);
 	private static final AxisAlignedBB BRACKET_STEP_ONE_NORTH = new AxisAlignedBB(0.4375D, 0.4375D, 0.6875D, 0.5625D, 0.5625D, 0.875D);
 	private static final AxisAlignedBB BRACKET_STEP_TWO_NORTH = new AxisAlignedBB(0.4375D, 0.3125D, 0.5D, 0.5625D, 0.4375D, 0.6875D);
 	private static final AxisAlignedBB BRACKET_STEP_THREE_NORTH = new AxisAlignedBB(0.4375D, 0.1875D, 0.3125D, 0.5625D, 0.3125D, 0.5D);
+
+	private enum ShelfShape {
+		STRAIGHT,
+		INNER_LEFT,
+		INNER_RIGHT,
+		OUTER_LEFT,
+		OUTER_RIGHT
+	}
+
+	public static enum ShelfSupport implements IStringSerializable {
+		STRAIGHT("straight"),
+		STRAIGHT_SUPPORT("straight_support"),
+		INNER_CORNER("inner_corner"),
+		OUTER_CORNER("outer_corner");
+
+		private final String name;
+
+		private ShelfSupport(String name) {
+			this.name = name;
+		}
+
+		@Override
+		public String getName() {
+			return this.name;
+		}
+
+		@Override
+		public String toString() {
+			return this.name;
+		}
+	}
+
+	private static class ShelfRenderState {
+		private final EnumFacing facing;
+		private final ShelfSupport support;
+
+		private ShelfRenderState(EnumFacing facing, ShelfSupport support) {
+			this.facing = facing;
+			this.support = support;
+		}
+	}
 
 	public WallShelf(Material materialIn, String name, float resistance, float hardness) {
 		super(materialIn);
@@ -55,14 +94,13 @@ public class WallShelf extends BlockHBase {
 		this.setCreativeTab(Ironagefurniture.ironagefurnitureTab);
 		this.setDefaultState(this.blockState.getBaseState()
 			.withProperty(FACING, EnumFacing.NORTH)
-			.withProperty(CONNECTIONS, Integer.valueOf(0))
-			.withProperty(SUPPORT, Boolean.valueOf(true)));
+			.withProperty(SUPPORT, ShelfSupport.STRAIGHT_SUPPORT));
 	}
 
 	@Override
 	public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
 		for (EnumFacing facing : FACING.getAllowedValues()) {
-			if (this.canAttachTo(worldIn, pos, facing)) {
+			if (this.canShelfStay(worldIn, pos, facing)) {
 				return super.canPlaceBlockAt(worldIn, pos);
 			}
 		}
@@ -72,7 +110,7 @@ public class WallShelf extends BlockHBase {
 
 	@Override
 	public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, EnumFacing side) {
-		return side.getAxis().isHorizontal() && this.canAttachTo(worldIn, pos, side)
+		return side.getAxis().isHorizontal() && this.canShelfStay(worldIn, pos, side)
 			&& super.canPlaceBlockOnSide(worldIn, pos, side);
 	}
 
@@ -81,7 +119,7 @@ public class WallShelf extends BlockHBase {
 			float hitZ, int meta, EntityLivingBase placer, ItemStack stack) {
 		EnumFacing facing = side.getAxis().isHorizontal() ? side : EnumFacing.NORTH;
 
-		if (!this.canAttachTo(world, pos, facing)) {
+		if (!this.canShelfStay(world, pos, facing)) {
 			for (EnumFacing candidate : FACING.getAllowedValues()) {
 				if (this.canAttachTo(world, pos, candidate)) {
 					facing = candidate;
@@ -91,20 +129,13 @@ public class WallShelf extends BlockHBase {
 		}
 
 		return this.getDefaultState().withProperty(FACING, facing)
-			.withProperty(CONNECTIONS, Integer.valueOf(this.getConnectionMask(world, pos, facing)))
-			.withProperty(SUPPORT, Boolean.valueOf(this.hasVisibleBracket(world, pos, facing)));
+			.withProperty(SUPPORT, this.getRenderState(world, pos, facing).support);
 	}
 
 	@Override
 	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-		EnumFacing facing = state.getValue(FACING);
-		int connections = this.getConnectionMask(worldIn, pos, facing);
-		boolean shelfSupportedCorner = this.hasShelfCornerSupport(worldIn, pos, facing, this)
-			&& !this.canAttachTo(worldIn, pos, facing);
-
-		return state.withProperty(CONNECTIONS, Integer.valueOf(connections))
-			.withProperty(SUPPORT, Boolean.valueOf(!shelfSupportedCorner
-				&& this.hasVisibleBracket(worldIn, pos, facing, connections)));
+		ShelfRenderState renderState = this.getRenderState(worldIn, pos, state.getValue(FACING));
+		return state.withProperty(FACING, renderState.facing).withProperty(SUPPORT, renderState.support);
 	}
 
 	@Override
@@ -115,7 +146,7 @@ public class WallShelf extends BlockHBase {
 
 	@Override
 	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
-		if (!this.canStayAt(worldIn, pos, state.getValue(FACING))) {
+		if (!this.canShelfStay(worldIn, pos, state.getValue(FACING))) {
 			if (!worldIn.isRemote) {
 				this.dropBlockAsItem(worldIn, pos, state, 0);
 			}
@@ -240,20 +271,23 @@ public class WallShelf extends BlockHBase {
 	private boolean tryPlaceShelfFromShelfClickSide(World worldIn, BlockPos pos, EnumFacing currentFacing,
 			EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing placementSide, float hitX, float hitY,
 			float hitZ, Block shelfBlock) {
-		BlockPos sidePos = pos.offset(placementSide);
-
-		if (this.isShelfFacing(worldIn, sidePos.offset(currentFacing.getOpposite()), placementSide, shelfBlock)
-				&& this.tryPlaceShelfCorner(worldIn, sidePos, currentFacing, shelfBlock, playerIn, hand, heldItem,
-						placementSide, hitX, hitY, hitZ)) {
+		if (this.tryPlaceShelf(worldIn, pos.offset(placementSide), currentFacing, shelfBlock, playerIn, hand,
+				heldItem, hitX, hitY, hitZ)) {
 			return true;
 		}
 
-		if (this.tryPlaceShelf(worldIn, sidePos, currentFacing, shelfBlock, playerIn, hand, heldItem,
-				placementSide, hitX, hitY, hitZ)) {
+		if (this.tryPlaceShelf(worldIn, pos.offset(placementSide), placementSide.getOpposite(), shelfBlock, playerIn,
+				hand, heldItem, hitX, hitY, hitZ)) {
 			return true;
 		}
 
-		return false;
+		if (this.tryPlaceShelf(worldIn, pos.offset(placementSide).offset(currentFacing.getOpposite()),
+				placementSide, shelfBlock, playerIn, hand, heldItem, hitX, hitY, hitZ)) {
+			return true;
+		}
+
+		return this.tryPlaceShelf(worldIn, pos.offset(placementSide).offset(currentFacing),
+			placementSide.getOpposite(), shelfBlock, playerIn, hand, heldItem, hitX, hitY, hitZ);
 	}
 
 	private EnumFacing getShelfPlacementSide(EnumFacing shelfFacing, EnumFacing clickedSide, float hitX, float hitZ) {
@@ -278,11 +312,10 @@ public class WallShelf extends BlockHBase {
 	}
 
 	private boolean tryPlaceShelf(World worldIn, BlockPos placePos, EnumFacing shelfFacing, Block shelfBlock,
-			EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing clickedSide, float hitX, float hitY,
-			float hitZ) {
+			EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, float hitX, float hitY, float hitZ) {
 		if (!(shelfBlock instanceof WallShelf)
 				|| !worldIn.getBlockState(placePos).getBlock().isReplaceable(worldIn, placePos)
-				|| !((WallShelf)shelfBlock).canAttachTo(worldIn, placePos, shelfFacing)
+				|| !((WallShelf)shelfBlock).canShelfStay(worldIn, placePos, shelfFacing)
 				|| !playerIn.canPlayerEdit(placePos, shelfFacing, heldItem)) {
 			return false;
 		}
@@ -293,51 +326,6 @@ public class WallShelf extends BlockHBase {
 
 		IBlockState placedState = shelfBlock.getStateForPlacement(worldIn, placePos, shelfFacing, hitX, hitY, hitZ,
 			heldItem.getMetadata(), playerIn, heldItem);
-
-		if (placedState == null || !worldIn.setBlockState(placePos, placedState, 3)) {
-			return false;
-		}
-
-		IBlockState actualState = worldIn.getBlockState(placePos);
-
-		if (actualState.getBlock() == shelfBlock) {
-			ItemBlock.setTileEntityNBT(worldIn, playerIn, placePos, heldItem);
-			shelfBlock.onBlockPlacedBy(worldIn, placePos, actualState, playerIn, heldItem);
-		}
-
-		SoundType soundType = shelfBlock.getSoundType(actualState, worldIn, placePos, playerIn);
-		worldIn.playSound(playerIn, placePos, soundType.getPlaceSound(), SoundCategory.BLOCKS,
-			(soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.8F);
-
-		if (!playerIn.capabilities.isCreativeMode) {
-			heldItem.stackSize--;
-
-			if (heldItem.stackSize <= 0) {
-				playerIn.setHeldItem(hand, null);
-			}
-		}
-
-		return true;
-	}
-
-	private boolean tryPlaceShelfCorner(World worldIn, BlockPos placePos, EnumFacing shelfFacing, Block shelfBlock,
-			EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing clickedSide, float hitX, float hitY,
-			float hitZ) {
-		if (!(shelfBlock instanceof WallShelf)
-				|| !worldIn.getBlockState(placePos).getBlock().isReplaceable(worldIn, placePos)
-				|| !this.hasShelfCornerSupport(worldIn, placePos, shelfFacing, shelfBlock)
-				|| !playerIn.canPlayerEdit(placePos, shelfFacing, heldItem)) {
-			return false;
-		}
-
-		if (worldIn.isRemote) {
-			return true;
-		}
-
-		WallShelf shelf = (WallShelf)shelfBlock;
-		IBlockState placedState = shelfBlock.getDefaultState().withProperty(FACING, shelfFacing)
-			.withProperty(CONNECTIONS, Integer.valueOf(shelf.getConnectionMask(worldIn, placePos, shelfFacing)))
-			.withProperty(SUPPORT, Boolean.valueOf(shelf.hasVisibleBracket(worldIn, placePos, shelfFacing)));
 
 		if (placedState == null || !worldIn.setBlockState(placePos, placedState, 3)) {
 			return false;
@@ -398,17 +386,15 @@ public class WallShelf extends BlockHBase {
 	@Override
 	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox,
 			List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
-		super.addCollisionBoxToList(pos, entityBox, collidingBoxes, this.getBoardBox(state, worldIn, pos));
+		ShelfRenderState renderState = this.getRenderState(worldIn, pos, state.getValue(FACING));
+		super.addCollisionBoxToList(pos, entityBox, collidingBoxes, this.getBoardBox(renderState));
 
-		EnumFacing facing = state.getValue(FACING);
-		int connections = this.getConnectionMask(worldIn, pos, facing);
-
-		if (this.hasVisibleBracket(worldIn, pos, facing, connections)) {
-			this.addRotatedCollisionBox(pos, entityBox, collidingBoxes, BRACKET_BACK_NORTH, facing);
-			this.addRotatedCollisionBox(pos, entityBox, collidingBoxes, BRACKET_LOW_NORTH, facing);
-			this.addRotatedCollisionBox(pos, entityBox, collidingBoxes, BRACKET_STEP_ONE_NORTH, facing);
-			this.addRotatedCollisionBox(pos, entityBox, collidingBoxes, BRACKET_STEP_TWO_NORTH, facing);
-			this.addRotatedCollisionBox(pos, entityBox, collidingBoxes, BRACKET_STEP_THREE_NORTH, facing);
+		if (renderState.support != ShelfSupport.STRAIGHT && renderState.support != ShelfSupport.OUTER_CORNER) {
+			this.addRotatedCollisionBox(pos, entityBox, collidingBoxes, BRACKET_BACK_NORTH, renderState.facing);
+			this.addRotatedCollisionBox(pos, entityBox, collidingBoxes, BRACKET_LOW_NORTH, renderState.facing);
+			this.addRotatedCollisionBox(pos, entityBox, collidingBoxes, BRACKET_STEP_ONE_NORTH, renderState.facing);
+			this.addRotatedCollisionBox(pos, entityBox, collidingBoxes, BRACKET_STEP_TWO_NORTH, renderState.facing);
+			this.addRotatedCollisionBox(pos, entityBox, collidingBoxes, BRACKET_STEP_THREE_NORTH, renderState.facing);
 		}
 	}
 
@@ -424,7 +410,7 @@ public class WallShelf extends BlockHBase {
 
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] { FACING, CONNECTIONS, SUPPORT });
+		return new BlockStateContainer(this, new IProperty[] { FACING, SUPPORT });
 	}
 
 	private boolean canAttachTo(IBlockAccess worldIn, BlockPos pos, EnumFacing facing) {
@@ -432,145 +418,104 @@ public class WallShelf extends BlockHBase {
 		return worldIn.getBlockState(supportPos).isSideSolid(worldIn, supportPos, facing);
 	}
 
-	private boolean canStayAt(World worldIn, BlockPos pos, EnumFacing facing) {
-		return this.canAttachTo(worldIn, pos, facing)
-			|| this.hasShelfCornerSupport(worldIn, pos, facing, this);
+	private boolean canShelfStay(IBlockAccess worldIn, BlockPos pos, EnumFacing facing) {
+		return this.canAttachTo(worldIn, pos, facing) || this.isShelfSupportedOutsideCorner(worldIn, pos, facing);
 	}
 
-	private boolean hasShelfCornerSupport(IBlockAccess worldIn, BlockPos pos, EnumFacing facing, Block shelfBlock) {
-		BlockPos behindPos = pos.offset(facing.getOpposite());
-		IBlockState behindState = worldIn.getBlockState(behindPos);
+	private ShelfRenderState getRenderState(IBlockAccess worldIn, BlockPos pos, EnumFacing facing) {
+		ShelfShape shape = this.getShelfShape(worldIn, pos, facing);
 
-		if (behindState.getBlock() != shelfBlock) {
-			return false;
+		switch (shape) {
+		case OUTER_LEFT:
+			return new ShelfRenderState(this.canAttachTo(worldIn, pos, facing)
+				? facing : facing.getOpposite(), ShelfSupport.OUTER_CORNER);
+		case OUTER_RIGHT:
+			return new ShelfRenderState(this.canAttachTo(worldIn, pos, facing)
+				? this.rotateClockwise(facing) : this.rotateCounterClockwise(facing), ShelfSupport.OUTER_CORNER);
+		case INNER_LEFT:
+			return new ShelfRenderState(facing, ShelfSupport.INNER_CORNER);
+		case INNER_RIGHT:
+			return new ShelfRenderState(this.rotateClockwise(facing), ShelfSupport.INNER_CORNER);
+		default:
+			return new ShelfRenderState(facing, this.hasStraightSupport(worldIn, pos, facing)
+				? ShelfSupport.STRAIGHT_SUPPORT : ShelfSupport.STRAIGHT);
 		}
-
-		EnumFacing behindFacing = behindState.getValue(FACING);
-
-		if (!behindFacing.getAxis().isHorizontal()
-				|| behindFacing == facing || behindFacing == facing.getOpposite()) {
-			return false;
-		}
-
-		return this.isShelfFacing(worldIn, pos.offset(behindFacing.getOpposite()), facing, shelfBlock);
 	}
 
-	private int getShelfSupportedCornerMask(IBlockAccess worldIn, BlockPos pos, EnumFacing facing) {
-		BlockPos behindPos = pos.offset(facing.getOpposite());
-		IBlockState behindState = worldIn.getBlockState(behindPos);
-
-		if (behindState.getBlock() != this) {
-			return 0;
+	private ShelfShape getShelfShape(IBlockAccess worldIn, BlockPos pos, EnumFacing facing) {
+		if (!this.canAttachTo(worldIn, pos, facing)) {
+			return this.getShelfSupportedOutsideCornerShape(worldIn, pos, facing);
 		}
 
-		EnumFacing behindFacing = behindState.getValue(FACING);
+		IBlockState frontState = worldIn.getBlockState(pos.offset(facing));
 
-		if (!this.hasShelfCornerSupport(worldIn, pos, facing, this)) {
-			return 0;
+		if (this.isWallSupportedShelf(frontState, worldIn, pos.offset(facing))) {
+			EnumFacing frontFacing = frontState.getValue(FACING);
+
+			if (frontFacing.getAxis() != facing.getAxis()
+					&& this.isDifferentShelf(worldIn, pos, facing, frontFacing.getOpposite())) {
+				if (this.canAttachTo(worldIn, pos, frontFacing)) {
+					return frontFacing == this.rotateCounterClockwise(facing)
+						? ShelfShape.INNER_LEFT : ShelfShape.INNER_RIGHT;
+				}
+			}
 		}
 
-		if (behindFacing == this.rotateCounterClockwise(facing)) {
-			return LEFT_CORNER;
-		}
-		if (behindFacing == this.rotateClockwise(facing)) {
-			return RIGHT_CORNER;
+		IBlockState backState = worldIn.getBlockState(pos.offset(facing.getOpposite()));
+
+		if (this.isWallSupportedShelf(backState, worldIn, pos.offset(facing.getOpposite()))) {
+			EnumFacing backFacing = backState.getValue(FACING);
+
+			if (backFacing.getAxis() != facing.getAxis()
+					&& this.isDifferentShelf(worldIn, pos, facing, backFacing)) {
+				return backFacing == this.rotateCounterClockwise(facing)
+					? ShelfShape.INNER_LEFT : ShelfShape.INNER_RIGHT;
+			}
 		}
 
-		return 0;
+		return ShelfShape.STRAIGHT;
 	}
 
-	private AxisAlignedBB getInteractionBox(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-		EnumFacing facing = state.getValue(FACING);
-		int connections = this.getConnectionMask(worldIn, pos, facing);
-		boolean shelfSupportedCorner = this.hasShelfCornerSupport(worldIn, pos, facing, this)
-			&& !this.canAttachTo(worldIn, pos, facing);
-
-		if (shelfSupportedCorner
-				&& connections == (RIGHT | LEFT_CORNER)) {
-			return this.rotateToFacing(new AxisAlignedBB(0.25D, INTERACTION_NORTH.minY, 0.25D,
-				1.0D, INTERACTION_NORTH.maxY, 1.0D), facing);
-		} else if (shelfSupportedCorner && connections == (LEFT | RIGHT_CORNER)) {
-			return this.rotateToFacing(new AxisAlignedBB(0.0D, INTERACTION_NORTH.minY, 0.25D,
-				0.75D, INTERACTION_NORTH.maxY, 1.0D), facing);
-		}
-
-		return this.rotateToFacing(INTERACTION_NORTH, facing);
+	private boolean isShelfSupportedOutsideCorner(IBlockAccess worldIn, BlockPos pos, EnumFacing facing) {
+		return this.getShelfSupportedOutsideCornerShape(worldIn, pos, facing) != ShelfShape.STRAIGHT;
 	}
 
-	private AxisAlignedBB getBoardBox(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-		EnumFacing facing = state.getValue(FACING);
-		int connections = this.getConnectionMask(worldIn, pos, facing);
-		boolean shelfSupportedCorner = this.hasShelfCornerSupport(worldIn, pos, facing, this)
-			&& !this.canAttachTo(worldIn, pos, facing);
-		double minX = this.isConnected(connections, LEFT) || this.isConnected(connections, LEFT_CORNER) ? 0.0D : 0.0625D;
-		double maxX = this.isConnected(connections, RIGHT) || this.isConnected(connections, RIGHT_CORNER) ? 1.0D : 0.9375D;
-		double minZ = BOARD_NORTH.minZ;
+	private ShelfShape getShelfSupportedOutsideCornerShape(IBlockAccess worldIn, BlockPos pos, EnumFacing facing) {
+		IBlockState frontState = worldIn.getBlockState(pos.offset(facing));
 
-		if (shelfSupportedCorner
-				&& connections == (RIGHT | LEFT_CORNER)) {
-			minX = 0.25D;
-			maxX = 1.0D;
-			minZ = 0.25D;
-		} else if (shelfSupportedCorner && connections == (LEFT | RIGHT_CORNER)) {
-			minX = 0.0D;
-			maxX = 0.75D;
-			minZ = 0.25D;
+		if (this.isWallSupportedShelf(frontState, worldIn, pos.offset(facing))) {
+			EnumFacing frontFacing = frontState.getValue(FACING);
+
+			if (frontFacing.getAxis() != facing.getAxis()
+					&& !this.canAttachTo(worldIn, pos, frontFacing)
+					&& this.isDifferentShelf(worldIn, pos, facing, frontFacing.getOpposite())) {
+				return frontFacing == this.rotateCounterClockwise(facing)
+					? ShelfShape.OUTER_LEFT : ShelfShape.OUTER_RIGHT;
+			}
 		}
 
-		AxisAlignedBB board = new AxisAlignedBB(minX, BOARD_NORTH.minY, minZ,
-			maxX, BOARD_NORTH.maxY, BOARD_NORTH.maxZ);
-
-		return this.rotateToFacing(board, facing);
+		return ShelfShape.STRAIGHT;
 	}
 
-	private int getConnectionMask(IBlockAccess worldIn, BlockPos pos, EnumFacing facing) {
-		int connections = 0;
-		EnumFacing left = this.rotateCounterClockwise(facing);
-		EnumFacing right = this.rotateClockwise(facing);
-
-		if (this.isShelfFacing(worldIn, pos.offset(left), facing)) {
-			connections |= LEFT;
-		}
-		if (this.isShelfFacing(worldIn, pos.offset(right), facing)) {
-			connections |= RIGHT;
-		}
-		if (this.hasCornerConnection(worldIn, pos, facing, left)) {
-			connections |= LEFT_CORNER;
-		}
-		if (this.hasCornerConnection(worldIn, pos, facing, right)) {
-			connections |= RIGHT_CORNER;
-		}
-
-		connections |= this.getShelfSupportedCornerMask(worldIn, pos, facing);
-
-		return connections;
+	private boolean isWallSupportedShelf(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+		return state.getBlock() == this && this.canAttachTo(worldIn, pos, state.getValue(FACING));
 	}
 
-	private boolean hasCornerConnection(IBlockAccess worldIn, BlockPos pos, EnumFacing facing, EnumFacing side) {
-		return this.isShelfFacing(worldIn, pos.offset(side), side)
-			|| this.isShelfFacing(worldIn, pos.offset(side).offset(facing), side)
-			|| this.isShelfFacing(worldIn, pos.offset(side).offset(facing.getOpposite()), side);
-	}
-
-	private boolean isShelfFacing(IBlockAccess worldIn, BlockPos pos, EnumFacing facing) {
-		return this.isShelfFacing(worldIn, pos, facing, this);
-	}
-
-	private boolean isShelfFacing(IBlockAccess worldIn, BlockPos pos, EnumFacing facing, Block shelfBlock) {
+	private boolean isWallSupportedShelfFacing(IBlockAccess worldIn, BlockPos pos, EnumFacing facing) {
 		IBlockState state = worldIn.getBlockState(pos);
-		return state.getBlock() == shelfBlock && state.getValue(FACING) == facing;
+		return state.getBlock() == this && state.getValue(FACING) == facing && this.canAttachTo(worldIn, pos, facing);
 	}
 
-	private boolean hasVisibleBracket(IBlockAccess worldIn, BlockPos pos, EnumFacing facing) {
-		return this.hasVisibleBracket(worldIn, pos, facing, this.getConnectionMask(worldIn, pos, facing));
+	private boolean isDifferentShelf(IBlockAccess worldIn, BlockPos pos, EnumFacing facing, EnumFacing offset) {
+		return !this.isWallSupportedShelfFacing(worldIn, pos.offset(offset), facing);
 	}
 
-	private boolean hasVisibleBracket(IBlockAccess worldIn, BlockPos pos, EnumFacing facing, int connections) {
-		boolean hasLeft = this.isConnected(connections, LEFT) || this.isConnected(connections, LEFT_CORNER);
-		boolean hasRight = this.isConnected(connections, RIGHT) || this.isConnected(connections, RIGHT_CORNER);
+	private boolean hasStraightSupport(IBlockAccess worldIn, BlockPos pos, EnumFacing facing) {
+		boolean hasLeft = this.isWallSupportedShelfFacing(worldIn, pos.offset(this.rotateCounterClockwise(facing)),
+			facing);
+		boolean hasRight = this.isWallSupportedShelfFacing(worldIn, pos.offset(this.rotateClockwise(facing)), facing);
 
-		if (!hasLeft || !hasRight || this.isConnected(connections, LEFT_CORNER)
-				|| this.isConnected(connections, RIGHT_CORNER)) {
+		if (!hasLeft || !hasRight) {
 			return true;
 		}
 
@@ -578,8 +523,31 @@ public class WallShelf extends BlockHBase {
 		return Math.floorMod(runCoordinate, 3) == 0;
 	}
 
-	private boolean isConnected(int connections, int mask) {
-		return (connections & mask) != 0;
+	private AxisAlignedBB getInteractionBox(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+		ShelfRenderState renderState = this.getRenderState(worldIn, pos, state.getValue(FACING));
+		return this.getInteractionBox(renderState);
+	}
+
+	private AxisAlignedBB getInteractionBox(ShelfRenderState renderState) {
+		switch (renderState.support) {
+		case INNER_CORNER:
+			return this.rotateToFacing(INTERACTION_INNER_CORNER_NORTH, renderState.facing);
+		case OUTER_CORNER:
+			return this.rotateToFacing(INTERACTION_OUTER_CORNER_NORTH, renderState.facing.getOpposite());
+		default:
+			return this.rotateToFacing(INTERACTION_STRAIGHT_NORTH, renderState.facing);
+		}
+	}
+
+	private AxisAlignedBB getBoardBox(ShelfRenderState renderState) {
+		switch (renderState.support) {
+		case INNER_CORNER:
+			return this.rotateToFacing(BOARD_INNER_CORNER_NORTH, renderState.facing);
+		case OUTER_CORNER:
+			return this.rotateToFacing(BOARD_OUTER_CORNER_NORTH, renderState.facing.getOpposite());
+		default:
+			return this.rotateToFacing(BOARD_STRAIGHT_NORTH, renderState.facing);
+		}
 	}
 
 	private void notifyShelfAndNeighbors(World worldIn, BlockPos pos) {

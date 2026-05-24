@@ -1,8 +1,0 @@
-{
-  "parent": "ironagefurniture:block/template_shelf_wall_12_support",
-  "textures": {
-    "log": "natura:blocks/logs/overworld/redwood_bark",
-    "planks": "natura:blocks/planks/overworld/redwood_planks",
-    "particle": "natura:blocks/logs/overworld/redwood_bark"
-  }
-}
