@@ -2,6 +2,7 @@ package com.mcmoddev.ironagefurniture.api.Blocks;
 
 import java.util.List;
 
+import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 import com.mcmoddev.ironagefurniture.Ironagefurniture;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityWallShelf;
 
@@ -18,6 +19,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -184,6 +186,10 @@ public class WallShelf extends BlockHBase {
 			return false;
 		}
 
+		if (this.isDisplayExcluded(heldItem)) {
+			return false;
+		}
+
 		if (worldIn.isRemote) {
 			return true;
 		}
@@ -228,6 +234,20 @@ public class WallShelf extends BlockHBase {
 		}
 
 		return true;
+	}
+
+	private boolean isDisplayExcluded(ItemStack heldItem) {
+		if (heldItem == null || heldItem.stackSize <= 0) {
+			return false;
+		}
+
+		return this.isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_block_floor_glow_clear)
+			|| this.isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_block_floor_red_clear)
+			|| this.isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_block_floor_lava_clear);
+	}
+
+	private boolean isItemFromBlock(ItemStack heldItem, Block block) {
+		return block != null && heldItem.getItem() == Item.getItemFromBlock(block);
 	}
 
 	private boolean isWallShelfItem(ItemStack heldItem) {
