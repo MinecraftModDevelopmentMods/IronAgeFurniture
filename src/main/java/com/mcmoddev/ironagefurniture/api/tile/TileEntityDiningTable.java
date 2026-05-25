@@ -16,6 +16,14 @@ public class TileEntityDiningTable extends TileEntity {
 		return this.displayedItem != null && this.displayedItem.stackSize > 0;
 	}
 
+	public boolean hasBlockedConnections() {
+		return (this.blockedConnections & 15) != 0;
+	}
+
+	public boolean hasStoredData() {
+		return this.hasDisplayedItem() || this.hasBlockedConnections();
+	}
+
 	public ItemStack getDisplayedItem() {
 		return this.displayedItem;
 	}
@@ -51,13 +59,17 @@ public class TileEntityDiningTable extends TileEntity {
 			return;
 		}
 
+		int oldBlockedConnections = this.blockedConnections;
+
 		if (blocked) {
 			this.blockedConnections |= mask;
 		} else {
 			this.blockedConnections &= ~mask;
 		}
 
-		this.markForUpdate();
+		if (this.blockedConnections != oldBlockedConnections) {
+			this.markForUpdate();
+		}
 	}
 
 	@Override

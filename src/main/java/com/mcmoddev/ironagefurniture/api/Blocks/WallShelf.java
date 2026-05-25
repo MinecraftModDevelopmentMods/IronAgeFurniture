@@ -9,6 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -31,6 +32,7 @@ import net.minecraft.world.World;
 
 public class WallShelf extends BlockHBase {
 	public static final PropertyEnum<ShelfSupport> SUPPORT = PropertyEnum.create("support", ShelfSupport.class);
+	public static final PropertyBool DATA = PropertyBool.create("data");
 
 	private static final AxisAlignedBB BOARD_STRAIGHT_NORTH = new AxisAlignedBB(0.0D, 0.625D, 0.25D, 1.0D, 0.8125D, 1.0D);
 	private static final AxisAlignedBB BOARD_INNER_CORNER_NORTH = new AxisAlignedBB(0.0D, 0.625D, 0.0D, 1.0D, 0.8125D, 1.0D);
@@ -86,7 +88,8 @@ public class WallShelf extends BlockHBase {
 		this.setCreativeTab(Ironagefurniture.ironagefurnitureTab);
 		this.setDefaultState(this.blockState.getBaseState()
 			.withProperty(FACING, EnumFacing.NORTH)
-			.withProperty(SUPPORT, ShelfSupport.STRAIGHT_SUPPORT));
+			.withProperty(SUPPORT, ShelfSupport.STRAIGHT_SUPPORT)
+			.withProperty(DATA, Boolean.valueOf(false)));
 	}
 
 	@Override
@@ -121,6 +124,7 @@ public class WallShelf extends BlockHBase {
 		}
 
 		return this.getDefaultState().withProperty(FACING, facing)
+			.withProperty(DATA, Boolean.valueOf(false))
 			.withProperty(SUPPORT, this.getRenderState(world, pos, facing).support);
 	}
 
@@ -180,19 +184,19 @@ public class WallShelf extends BlockHBase {
 			return false;
 		}
 
-		TileEntity tileEntity = worldIn.getTileEntity(pos);
-
-		if (!(tileEntity instanceof TileEntityWallShelf)) {
-			return true;
-		}
-
-		TileEntityWallShelf shelf = (TileEntityWallShelf)tileEntity;
-
 		if (worldIn.isRemote) {
 			return true;
 		}
 
-		if (!shelf.hasDisplayedItem() && heldItem != null && heldItem.stackSize > 0) {
+		TileEntityWallShelf shelf = this.getShelfEntity(worldIn, pos, false);
+
+		if ((shelf == null || !shelf.hasDisplayedItem()) && heldItem != null && heldItem.stackSize > 0) {
+			shelf = this.getShelfEntity(worldIn, pos, true);
+
+			if (shelf == null) {
+				return true;
+			}
+
 			ItemStack displayedItem = heldItem.copy();
 			displayedItem.stackSize = 1;
 			shelf.setDisplayedItem(displayedItem);
@@ -208,7 +212,7 @@ public class WallShelf extends BlockHBase {
 			return true;
 		}
 
-		if (shelf.hasDisplayedItem() && (heldItem == null || heldItem.stackSize <= 0)) {
+		if (shelf != null && shelf.hasDisplayedItem() && (heldItem == null || heldItem.stackSize <= 0)) {
 			ItemStack displayedItem = shelf.removeDisplayedItem();
 
 			if (displayedItem != null) {
@@ -219,6 +223,7 @@ public class WallShelf extends BlockHBase {
 				}
 			}
 
+			this.removeShelfEntityIfEmpty(worldIn, pos);
 			return true;
 		}
 
@@ -361,12 +366,12 @@ public class WallShelf extends BlockHBase {
 
 	@Override
 	public boolean hasTileEntity(IBlockState state) {
-		return true;
+		return state.getValue(DATA).booleanValue();
 	}
 
 	@Override
 	public TileEntity createTileEntity(World world, IBlockState state) {
-		return new TileEntityWallShelf();
+		return state.getValue(DATA).booleanValue() ? new TileEntityWallShelf() : null;
 	}
 
 	@Override
@@ -398,17 +403,20 @@ public class WallShelf extends BlockHBase {
 
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-		return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta & 3));
+		return this.getDefaultState()
+			.withProperty(FACING, EnumFacing.getHorizontal(meta & 3))
+			.withProperty(DATA, Boolean.valueOf((meta & 4) != 0));
 	}
 
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return state.getValue(FACING).getHorizontalIndex();
+		int meta = state.getValue(FACING).getHorizontalIndex();
+		return state.getValue(DATA).booleanValue() ? meta | 4 : meta;
 	}
 
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] { FACING, SUPPORT });
+		return new BlockStateContainer(this, new IProperty[] { FACING, SUPPORT, DATA });
 	}
 
 	private boolean canAttachTo(IBlockAccess worldIn, BlockPos pos, EnumFacing facing) {
@@ -617,6 +625,65 @@ public class WallShelf extends BlockHBase {
 			return EnumFacing.NORTH;
 		default:
 			return facing;
+		}
+	}
+
+	private TileEntityWallShelf getShelfEntity(World worldIn, BlockPos pos, boolean create) {
+		IBlockState state = worldIn.getBlockState(pos);
+
+		if (state.getBlock() != this) {
+			return null;
+		}
+
+		if (!state.getValue(DATA).booleanValue()) {
+			if (!create || worldIn.isRemote
+					|| !worldIn.setBlockState(pos, state.withProperty(DATA, Boolean.valueOf(true)), 2)) {
+				return null;
+			}
+
+			state = worldIn.getBlockState(pos);
+		}
+
+		TileEntity tileEntity = worldIn.getTileEntity(pos);
+
+		if (tileEntity instanceof TileEntityWallShelf) {
+			return (TileEntityWallShelf)tileEntity;
+		}
+
+		if (!create || worldIn.isRemote) {
+			return null;
+		}
+
+		tileEntity = this.createTileEntity(worldIn, state);
+
+		if (tileEntity != null) {
+			worldIn.setTileEntity(pos, tileEntity);
+		}
+
+		return tileEntity instanceof TileEntityWallShelf ? (TileEntityWallShelf)tileEntity : null;
+	}
+
+	private void removeShelfEntityIfEmpty(World worldIn, BlockPos pos) {
+		if (worldIn.isRemote) {
+			return;
+		}
+
+		TileEntity tileEntity = worldIn.getTileEntity(pos);
+
+		if (!(tileEntity instanceof TileEntityWallShelf)) {
+			return;
+		}
+
+		if (((TileEntityWallShelf)tileEntity).hasDisplayedItem()) {
+			return;
+		}
+
+		IBlockState state = worldIn.getBlockState(pos);
+
+		if (state.getBlock() == this && state.getValue(DATA).booleanValue()) {
+			worldIn.setBlockState(pos, state.withProperty(DATA, Boolean.valueOf(false)), 2);
+		} else {
+			worldIn.removeTileEntity(pos);
 		}
 	}
 }

@@ -12,6 +12,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -31,6 +32,7 @@ import net.minecraft.world.World;
 
 public class DiningTable extends Block {
 	public static final PropertyInteger CONNECTIONS = PropertyInteger.create("connections", 0, 15);
+	public static final PropertyBool DATA = PropertyBool.create("data");
 
 	private static final int NORTH = 1;
 	private static final int EAST = 2;
@@ -51,7 +53,9 @@ public class DiningTable extends Block {
 		this.setSoundType(SoundType.WOOD);
 		this.setHarvestLevel("axe", 0);
 		this.setCreativeTab(Ironagefurniture.ironagefurnitureTab);
-		this.setDefaultState(this.blockState.getBaseState().withProperty(CONNECTIONS, Integer.valueOf(0)));
+		this.setDefaultState(this.blockState.getBaseState()
+			.withProperty(CONNECTIONS, Integer.valueOf(0))
+			.withProperty(DATA, Boolean.valueOf(false)));
 	}
 
 	@Override
@@ -77,7 +81,7 @@ public class DiningTable extends Block {
 			}
 		}
 
-		return this.getDefaultState().withProperty(CONNECTIONS, Integer.valueOf(this.getConnectionMask(world, pos)));
+		return this.getDefaultState();
 	}
 
 	@Override
@@ -103,7 +107,7 @@ public class DiningTable extends Block {
 
 	@Override
 	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
-		if (this.requiresSupport(state) && !this.hasSupport(worldIn, pos)) {
+		if (this.requiresSupport(this.getConnectionMask(worldIn, pos)) && !this.hasSupport(worldIn, pos)) {
 			this.dropBlockAsItem(worldIn, pos, state, 0);
 			worldIn.setBlockState(pos, Blocks.AIR.getDefaultState(), 3);
 			return;
@@ -138,19 +142,19 @@ public class DiningTable extends Block {
 			return false;
 		}
 
-		TileEntity tileEntity = worldIn.getTileEntity(pos);
-
-		if (!(tileEntity instanceof TileEntityDiningTable)) {
-			return true;
-		}
-
-		TileEntityDiningTable table = (TileEntityDiningTable)tileEntity;
-
 		if (worldIn.isRemote) {
 			return true;
 		}
 
-		if (!table.hasDisplayedItem() && heldItem != null && heldItem.stackSize > 0) {
+		TileEntityDiningTable table = this.getTableEntity(worldIn, pos, false);
+
+		if ((table == null || !table.hasDisplayedItem()) && heldItem != null && heldItem.stackSize > 0) {
+			table = this.getTableEntity(worldIn, pos, true);
+
+			if (table == null) {
+				return true;
+			}
+
 			ItemStack displayedItem = heldItem.copy();
 			displayedItem.stackSize = 1;
 			table.setDisplayedItem(displayedItem);
@@ -166,7 +170,7 @@ public class DiningTable extends Block {
 			return true;
 		}
 
-		if (table.hasDisplayedItem() && (heldItem == null || heldItem.stackSize <= 0)) {
+		if (table != null && table.hasDisplayedItem() && (heldItem == null || heldItem.stackSize <= 0)) {
 			ItemStack displayedItem = table.removeDisplayedItem();
 
 			if (displayedItem != null) {
@@ -177,6 +181,7 @@ public class DiningTable extends Block {
 				}
 			}
 
+			this.removeTableEntityIfEmpty(worldIn, pos);
 			return true;
 		}
 
@@ -185,12 +190,12 @@ public class DiningTable extends Block {
 
 	@Override
 	public boolean hasTileEntity(IBlockState state) {
-		return true;
+		return state.getValue(DATA).booleanValue();
 	}
 
 	@Override
 	public TileEntity createTileEntity(World world, IBlockState state) {
-		return new TileEntityDiningTable();
+		return state.getValue(DATA).booleanValue() ? new TileEntityDiningTable() : null;
 	}
 
 	@Override
@@ -205,15 +210,14 @@ public class DiningTable extends Block {
 
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-		return this.getTopBoundingBox(state);
+		return this.getTopBoundingBox(this.getConnectionMask(source, pos));
 	}
 
 	@Override
 	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox,
 			List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
-		super.addCollisionBoxToList(pos, entityBox, collidingBoxes, this.getTopBoundingBox(state));
-
-		int connections = state.getValue(CONNECTIONS).intValue();
+		int connections = this.getConnectionMask(worldIn, pos);
+		super.addCollisionBoxToList(pos, entityBox, collidingBoxes, this.getTopBoundingBox(connections));
 
 		if (!this.isConnected(connections, NORTH) && !this.isConnected(connections, WEST)) {
 			super.addCollisionBoxToList(pos, entityBox, collidingBoxes, LEG_NORTH_WEST);
@@ -231,17 +235,22 @@ public class DiningTable extends Block {
 
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-		return this.getDefaultState().withProperty(CONNECTIONS, Integer.valueOf(meta & 15));
+		return this.getDefaultState().withProperty(DATA, Boolean.valueOf((meta & 1) != 0));
 	}
 
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return state.getValue(CONNECTIONS).intValue() & 15;
+		return state.getValue(DATA).booleanValue() ? 1 : 0;
+	}
+
+	@Override
+	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+		return state.withProperty(CONNECTIONS, Integer.valueOf(this.getConnectionMask(worldIn, pos)));
 	}
 
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] { CONNECTIONS });
+		return new BlockStateContainer(this, new IProperty[] { CONNECTIONS, DATA });
 	}
 
 	private boolean hasSupport(World worldIn, BlockPos pos) {
@@ -281,12 +290,11 @@ public class DiningTable extends Block {
 			return;
 		}
 
-		if (state.getValue(CONNECTIONS).intValue() != connections) {
-			worldIn.setBlockState(pos, state.withProperty(CONNECTIONS, Integer.valueOf(connections)), 3);
-		}
+		this.removeTableEntityIfEmpty(worldIn, pos);
+		worldIn.notifyBlockUpdate(pos, state, state, 3);
 	}
 
-	private int getConnectionMask(World worldIn, BlockPos pos) {
+	private int getConnectionMask(IBlockAccess worldIn, BlockPos pos) {
 		int connections = 0;
 
 		if (this.connectsTo(worldIn, pos, EnumFacing.NORTH)) {
@@ -305,7 +313,7 @@ public class DiningTable extends Block {
 		return connections;
 	}
 
-	private boolean connectsTo(World worldIn, BlockPos pos, EnumFacing direction) {
+	private boolean connectsTo(IBlockAccess worldIn, BlockPos pos, EnumFacing direction) {
 		BlockPos neighborPos = pos.offset(direction);
 
 		return worldIn.getBlockState(neighborPos).getBlock() == this
@@ -313,8 +321,7 @@ public class DiningTable extends Block {
 			&& !this.isConnectionBlocked(worldIn, neighborPos, direction.getOpposite());
 	}
 
-	private AxisAlignedBB getTopBoundingBox(IBlockState state) {
-		int connections = state.getValue(CONNECTIONS).intValue();
+	private AxisAlignedBB getTopBoundingBox(int connections) {
 		double minX = this.isConnected(connections, WEST) ? 0.0D : TOP_STANDALONE.minX;
 		double maxX = this.isConnected(connections, EAST) ? 1.0D : TOP_STANDALONE.maxX;
 		double minZ = this.isConnected(connections, NORTH) ? 0.0D : TOP_STANDALONE.minZ;
@@ -325,10 +332,6 @@ public class DiningTable extends Block {
 
 	private boolean isConnected(int connections, int mask) {
 		return (connections & mask) != 0;
-	}
-
-	private boolean requiresSupport(IBlockState state) {
-		return this.requiresSupport(state.getValue(CONNECTIONS).intValue());
 	}
 
 	private boolean requiresSupport(int connections) {
@@ -353,7 +356,7 @@ public class DiningTable extends Block {
 		this.updateTableState(worldIn, neighborPos);
 	}
 
-	private boolean isConnectionBlocked(World worldIn, BlockPos pos, EnumFacing direction) {
+	private boolean isConnectionBlocked(IBlockAccess worldIn, BlockPos pos, EnumFacing direction) {
 		TileEntity tileEntity = worldIn.getTileEntity(pos);
 
 		return tileEntity instanceof TileEntityDiningTable
@@ -361,10 +364,11 @@ public class DiningTable extends Block {
 	}
 
 	private void setConnectionBlocked(World worldIn, BlockPos pos, EnumFacing direction, boolean blocked) {
-		TileEntity tileEntity = worldIn.getTileEntity(pos);
+		TileEntityDiningTable table = this.getTableEntity(worldIn, pos, blocked);
 
-		if (tileEntity instanceof TileEntityDiningTable) {
-			((TileEntityDiningTable)tileEntity).setConnectionBlocked(direction, blocked);
+		if (table != null) {
+			table.setConnectionBlocked(direction, blocked);
+			this.removeTableEntityIfEmpty(worldIn, pos);
 		}
 	}
 
@@ -382,6 +386,65 @@ public class DiningTable extends Block {
 				&& worldIn.getBlockState(pos.offset(direction)).getBlock() != this) {
 				table.setConnectionBlocked(direction, false);
 			}
+		}
+	}
+
+	private TileEntityDiningTable getTableEntity(World worldIn, BlockPos pos, boolean create) {
+		IBlockState state = worldIn.getBlockState(pos);
+
+		if (state.getBlock() != this) {
+			return null;
+		}
+
+		if (!state.getValue(DATA).booleanValue()) {
+			if (!create || worldIn.isRemote
+					|| !worldIn.setBlockState(pos, state.withProperty(DATA, Boolean.valueOf(true)), 2)) {
+				return null;
+			}
+
+			state = worldIn.getBlockState(pos);
+		}
+
+		TileEntity tileEntity = worldIn.getTileEntity(pos);
+
+		if (tileEntity instanceof TileEntityDiningTable) {
+			return (TileEntityDiningTable)tileEntity;
+		}
+
+		if (!create || worldIn.isRemote) {
+			return null;
+		}
+
+		tileEntity = this.createTileEntity(worldIn, state);
+
+		if (tileEntity != null) {
+			worldIn.setTileEntity(pos, tileEntity);
+		}
+
+		return tileEntity instanceof TileEntityDiningTable ? (TileEntityDiningTable)tileEntity : null;
+	}
+
+	private void removeTableEntityIfEmpty(World worldIn, BlockPos pos) {
+		if (worldIn.isRemote) {
+			return;
+		}
+
+		TileEntity tileEntity = worldIn.getTileEntity(pos);
+
+		if (!(tileEntity instanceof TileEntityDiningTable)) {
+			return;
+		}
+
+		if (((TileEntityDiningTable)tileEntity).hasStoredData()) {
+			return;
+		}
+
+		IBlockState state = worldIn.getBlockState(pos);
+
+		if (state.getBlock() == this && state.getValue(DATA).booleanValue()) {
+			worldIn.setBlockState(pos, state.withProperty(DATA, Boolean.valueOf(false)), 2);
+		} else {
+			worldIn.removeTileEntity(pos);
 		}
 	}
 }

@@ -1,68 +1,132 @@
 {
     "variants":  {
-                     "facing=north,support=straight":  {
-                                                           "model":  "ironagefurniture:shelf_wall_forestry_acacia_straight",
-                                                           "y":  0
-                                                       },
-                     "facing=east,support=straight":  {
-                                                          "model":  "ironagefurniture:shelf_wall_forestry_acacia_straight",
-                                                          "y":  90
-                                                      },
-                     "facing=south,support=straight":  {
-                                                           "model":  "ironagefurniture:shelf_wall_forestry_acacia_straight",
-                                                           "y":  180
-                                                       },
-                     "facing=west,support=straight":  {
-                                                          "model":  "ironagefurniture:shelf_wall_forestry_acacia_straight",
-                                                          "y":  270
-                                                      },
-                     "facing=north,support=straight_support":  {
-                                                                   "model":  "ironagefurniture:shelf_wall_forestry_acacia_straight_support",
-                                                                   "y":  0
-                                                               },
-                     "facing=east,support=straight_support":  {
-                                                                  "model":  "ironagefurniture:shelf_wall_forestry_acacia_straight_support",
-                                                                  "y":  90
-                                                              },
-                     "facing=south,support=straight_support":  {
-                                                                   "model":  "ironagefurniture:shelf_wall_forestry_acacia_straight_support",
-                                                                   "y":  180
-                                                               },
-                     "facing=west,support=straight_support":  {
-                                                                  "model":  "ironagefurniture:shelf_wall_forestry_acacia_straight_support",
-                                                                  "y":  270
-                                                              },
-                     "facing=north,support=inner_corner":  {
-                                                               "model":  "ironagefurniture:shelf_wall_forestry_acacia_inner_corner",
-                                                               "y":  270
-                                                           },
-                     "facing=east,support=inner_corner":  {
-                                                              "model":  "ironagefurniture:shelf_wall_forestry_acacia_inner_corner",
-                                                              "y":  0
-                                                          },
-                     "facing=south,support=inner_corner":  {
-                                                               "model":  "ironagefurniture:shelf_wall_forestry_acacia_inner_corner",
-                                                               "y":  90
-                                                           },
-                     "facing=west,support=inner_corner":  {
-                                                              "model":  "ironagefurniture:shelf_wall_forestry_acacia_inner_corner",
-                                                              "y":  180
-                                                          },
-                     "facing=north,support=outer_corner":  {
-                                                               "model":  "ironagefurniture:shelf_wall_forestry_acacia_outer_corner",
-                                                               "y":  0
-                                                           },
-                     "facing=east,support=outer_corner":  {
-                                                              "model":  "ironagefurniture:shelf_wall_forestry_acacia_outer_corner",
-                                                              "y":  90
-                                                          },
-                     "facing=south,support=outer_corner":  {
-                                                               "model":  "ironagefurniture:shelf_wall_forestry_acacia_outer_corner",
-                                                               "y":  180
-                                                           },
-                     "facing=west,support=outer_corner":  {
-                                                              "model":  "ironagefurniture:shelf_wall_forestry_acacia_outer_corner",
-                                                              "y":  270
-                                                          }
+                     "data=false,facing=north,support=straight":  {
+                                                                      "model":  "ironagefurniture:shelf_wall_forestry_acacia_straight",
+                                                                      "y":  0
+                                                                  },
+                     "data=true,facing=north,support=straight":  {
+                                                                     "model":  "ironagefurniture:shelf_wall_forestry_acacia_straight",
+                                                                     "y":  0
+                                                                 },
+                     "data=false,facing=east,support=straight":  {
+                                                                     "model":  "ironagefurniture:shelf_wall_forestry_acacia_straight",
+                                                                     "y":  90
+                                                                 },
+                     "data=true,facing=east,support=straight":  {
+                                                                    "model":  "ironagefurniture:shelf_wall_forestry_acacia_straight",
+                                                                    "y":  90
+                                                                },
+                     "data=false,facing=south,support=straight":  {
+                                                                      "model":  "ironagefurniture:shelf_wall_forestry_acacia_straight",
+                                                                      "y":  180
+                                                                  },
+                     "data=true,facing=south,support=straight":  {
+                                                                     "model":  "ironagefurniture:shelf_wall_forestry_acacia_straight",
+                                                                     "y":  180
+                                                                 },
+                     "data=false,facing=west,support=straight":  {
+                                                                     "model":  "ironagefurniture:shelf_wall_forestry_acacia_straight",
+                                                                     "y":  270
+                                                                 },
+                     "data=true,facing=west,support=straight":  {
+                                                                    "model":  "ironagefurniture:shelf_wall_forestry_acacia_straight",
+                                                                    "y":  270
+                                                                },
+                     "data=false,facing=north,support=straight_support":  {
+                                                                              "model":  "ironagefurniture:shelf_wall_forestry_acacia_straight_support",
+                                                                              "y":  0
+                                                                          },
+                     "data=true,facing=north,support=straight_support":  {
+                                                                             "model":  "ironagefurniture:shelf_wall_forestry_acacia_straight_support",
+                                                                             "y":  0
+                                                                         },
+                     "data=false,facing=east,support=straight_support":  {
+                                                                             "model":  "ironagefurniture:shelf_wall_forestry_acacia_straight_support",
+                                                                             "y":  90
+                                                                         },
+                     "data=true,facing=east,support=straight_support":  {
+                                                                            "model":  "ironagefurniture:shelf_wall_forestry_acacia_straight_support",
+                                                                            "y":  90
+                                                                        },
+                     "data=false,facing=south,support=straight_support":  {
+                                                                              "model":  "ironagefurniture:shelf_wall_forestry_acacia_straight_support",
+                                                                              "y":  180
+                                                                          },
+                     "data=true,facing=south,support=straight_support":  {
+                                                                             "model":  "ironagefurniture:shelf_wall_forestry_acacia_straight_support",
+                                                                             "y":  180
+                                                                         },
+                     "data=false,facing=west,support=straight_support":  {
+                                                                             "model":  "ironagefurniture:shelf_wall_forestry_acacia_straight_support",
+                                                                             "y":  270
+                                                                         },
+                     "data=true,facing=west,support=straight_support":  {
+                                                                            "model":  "ironagefurniture:shelf_wall_forestry_acacia_straight_support",
+                                                                            "y":  270
+                                                                        },
+                     "data=false,facing=north,support=inner_corner":  {
+                                                                          "model":  "ironagefurniture:shelf_wall_forestry_acacia_inner_corner",
+                                                                          "y":  270
+                                                                      },
+                     "data=true,facing=north,support=inner_corner":  {
+                                                                         "model":  "ironagefurniture:shelf_wall_forestry_acacia_inner_corner",
+                                                                         "y":  270
+                                                                     },
+                     "data=false,facing=east,support=inner_corner":  {
+                                                                         "model":  "ironagefurniture:shelf_wall_forestry_acacia_inner_corner",
+                                                                         "y":  0
+                                                                     },
+                     "data=true,facing=east,support=inner_corner":  {
+                                                                        "model":  "ironagefurniture:shelf_wall_forestry_acacia_inner_corner",
+                                                                        "y":  0
+                                                                    },
+                     "data=false,facing=south,support=inner_corner":  {
+                                                                          "model":  "ironagefurniture:shelf_wall_forestry_acacia_inner_corner",
+                                                                          "y":  90
+                                                                      },
+                     "data=true,facing=south,support=inner_corner":  {
+                                                                         "model":  "ironagefurniture:shelf_wall_forestry_acacia_inner_corner",
+                                                                         "y":  90
+                                                                     },
+                     "data=false,facing=west,support=inner_corner":  {
+                                                                         "model":  "ironagefurniture:shelf_wall_forestry_acacia_inner_corner",
+                                                                         "y":  180
+                                                                     },
+                     "data=true,facing=west,support=inner_corner":  {
+                                                                        "model":  "ironagefurniture:shelf_wall_forestry_acacia_inner_corner",
+                                                                        "y":  180
+                                                                    },
+                     "data=false,facing=north,support=outer_corner":  {
+                                                                          "model":  "ironagefurniture:shelf_wall_forestry_acacia_outer_corner",
+                                                                          "y":  0
+                                                                      },
+                     "data=true,facing=north,support=outer_corner":  {
+                                                                         "model":  "ironagefurniture:shelf_wall_forestry_acacia_outer_corner",
+                                                                         "y":  0
+                                                                     },
+                     "data=false,facing=east,support=outer_corner":  {
+                                                                         "model":  "ironagefurniture:shelf_wall_forestry_acacia_outer_corner",
+                                                                         "y":  90
+                                                                     },
+                     "data=true,facing=east,support=outer_corner":  {
+                                                                        "model":  "ironagefurniture:shelf_wall_forestry_acacia_outer_corner",
+                                                                        "y":  90
+                                                                    },
+                     "data=false,facing=south,support=outer_corner":  {
+                                                                          "model":  "ironagefurniture:shelf_wall_forestry_acacia_outer_corner",
+                                                                          "y":  180
+                                                                      },
+                     "data=true,facing=south,support=outer_corner":  {
+                                                                         "model":  "ironagefurniture:shelf_wall_forestry_acacia_outer_corner",
+                                                                         "y":  180
+                                                                     },
+                     "data=false,facing=west,support=outer_corner":  {
+                                                                         "model":  "ironagefurniture:shelf_wall_forestry_acacia_outer_corner",
+                                                                         "y":  270
+                                                                     },
+                     "data=true,facing=west,support=outer_corner":  {
+                                                                        "model":  "ironagefurniture:shelf_wall_forestry_acacia_outer_corner",
+                                                                        "y":  270
+                                                                    }
                  }
 }
