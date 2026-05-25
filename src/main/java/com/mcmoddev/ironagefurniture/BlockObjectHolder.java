@@ -16,6 +16,8 @@ public class BlockObjectHolder {
 	public static final Map<String, Block> table_dining = new HashMap<String, Block>();
 	public static final Map<String, Block> shelf_wall = new HashMap<String, Block>();
 
+	public static Block surface_display_blocker;
+
 	public static Block light_metal_ironage_sconce_floor_empty_iron;
 	public static Block light_metal_ironage_sconce_wall_empty_iron;
 

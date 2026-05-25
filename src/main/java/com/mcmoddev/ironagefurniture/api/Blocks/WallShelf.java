@@ -164,6 +164,8 @@ public class WallShelf extends BlockHBase {
 			if (tileEntity instanceof TileEntityWallShelf) {
 				((TileEntityWallShelf)tileEntity).dropDisplayedItem(worldIn, pos);
 			}
+
+			SurfaceDisplayBlocker.release(worldIn, pos);
 		}
 
 		super.breakBlock(worldIn, pos, state);
@@ -197,9 +199,14 @@ public class WallShelf extends BlockHBase {
 		TileEntityWallShelf shelf = this.getShelfEntity(worldIn, pos, false);
 
 		if ((shelf == null || !shelf.hasDisplayedItem()) && heldItem != null && heldItem.stackSize > 0) {
+			if (!SurfaceDisplayBlocker.reserve(worldIn, pos)) {
+				return true;
+			}
+
 			shelf = this.getShelfEntity(worldIn, pos, true);
 
 			if (shelf == null) {
+				SurfaceDisplayBlocker.release(worldIn, pos);
 				return true;
 			}
 
@@ -220,6 +227,7 @@ public class WallShelf extends BlockHBase {
 
 		if (shelf != null && shelf.hasDisplayedItem() && (heldItem == null || heldItem.stackSize <= 0)) {
 			ItemStack displayedItem = shelf.removeDisplayedItem();
+			SurfaceDisplayBlocker.release(worldIn, pos);
 
 			if (displayedItem != null) {
 				if (!playerIn.inventory.addItemStackToInventory(displayedItem)) {
@@ -694,9 +702,13 @@ public class WallShelf extends BlockHBase {
 			return;
 		}
 
-		if (((TileEntityWallShelf)tileEntity).hasDisplayedItem()) {
+		TileEntityWallShelf shelf = (TileEntityWallShelf)tileEntity;
+
+		if (shelf.hasDisplayedItem()) {
 			return;
 		}
+
+		SurfaceDisplayBlocker.release(worldIn, pos);
 
 		IBlockState state = worldIn.getBlockState(pos);
 

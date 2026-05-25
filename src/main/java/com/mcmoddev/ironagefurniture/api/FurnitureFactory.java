@@ -50,6 +50,7 @@ import com.mcmoddev.ironagefurniture.api.Blocks.MultiBlockBed;
 import com.mcmoddev.ironagefurniture.api.Blocks.MultiBlockWoodBed;
 import com.mcmoddev.ironagefurniture.api.Blocks.ObsideanLump;
 import com.mcmoddev.ironagefurniture.api.Blocks.Stool;
+import com.mcmoddev.ironagefurniture.api.Blocks.SurfaceDisplayBlocker;
 import com.mcmoddev.ironagefurniture.api.Blocks.ThroneChair;
 import com.mcmoddev.ironagefurniture.api.Blocks.WallShelf;
 import com.mcmoddev.ironagefurniture.api.Blocks.WingbackChair;
@@ -337,6 +338,10 @@ public class FurnitureFactory {
 
 	public static Block CreateWallShelf(String suffix) {
 		return CreateWallShelf(suffix, 10, 1);
+	}
+
+	public static Block CreateSurfaceDisplayBlocker(String name) {
+		return registerBlockWithoutItem(new SurfaceDisplayBlocker(Material.BARRIER, name), name);
 	}
 
 	public static Block CreateIronWallSconce(String name) {

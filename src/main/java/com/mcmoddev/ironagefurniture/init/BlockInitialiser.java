@@ -30,9 +30,17 @@ public class BlockInitialiser {
 	public static void init() {
 		generateChairs(); // and on the seventh day he was tired of standing around, and so he created chairs.
 		generateBeds(); // and then, inevitably, he wanted somewhere nicer to sleep.
+		generateSurfaceDisplayBlocker();
 		generateTables(); // and then he had somewhere civilized to put dinner.
 		generateShelves(); // and then he looked at the wall and saw useful empty space.
 		generateLights(); // and then he saw that the vanilla torches were boring and said, let there be light!
+	}
+
+	private static void generateSurfaceDisplayBlocker() {
+		if (IronAgeFurnitureConfiguration.GENERATE_DINING_TABLES
+				|| IronAgeFurnitureConfiguration.GENERATE_WALL_SHELVES) {
+			BlockObjectHolder.surface_display_blocker = FurnitureFactory.CreateSurfaceDisplayBlocker("surface_display_blocker");
+		}
 	}
 
 	private static void generateShelves() {

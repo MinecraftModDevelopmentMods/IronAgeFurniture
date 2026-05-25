@@ -1,5 +1,7 @@
 package com.mcmoddev.ironagefurniture.api.tile;
 
+import com.mcmoddev.ironagefurniture.api.Blocks.SurfaceDisplayBlocker;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -33,6 +35,7 @@ public class TileEntityWallShelf extends TileEntity {
 
 	public void dropDisplayedItem(World worldIn, BlockPos pos) {
 		ItemStack itemStack = this.removeDisplayedItem();
+		SurfaceDisplayBlocker.release(worldIn, pos);
 
 		if (itemStack != null) {
 			net.minecraft.block.Block.spawnAsEntity(worldIn, pos, itemStack);

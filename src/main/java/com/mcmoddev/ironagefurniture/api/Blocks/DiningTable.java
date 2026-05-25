@@ -128,6 +128,8 @@ public class DiningTable extends Block {
 			if (tileEntity instanceof TileEntityDiningTable) {
 				((TileEntityDiningTable)tileEntity).dropDisplayedItem(worldIn, pos);
 			}
+
+			SurfaceDisplayBlocker.release(worldIn, pos);
 		}
 
 		super.breakBlock(worldIn, pos, state);
@@ -155,9 +157,14 @@ public class DiningTable extends Block {
 		TileEntityDiningTable table = this.getTableEntity(worldIn, pos, false);
 
 		if ((table == null || !table.hasDisplayedItem()) && heldItem != null && heldItem.stackSize > 0) {
+			if (!SurfaceDisplayBlocker.reserve(worldIn, pos)) {
+				return true;
+			}
+
 			table = this.getTableEntity(worldIn, pos, true);
 
 			if (table == null) {
+				SurfaceDisplayBlocker.release(worldIn, pos);
 				return true;
 			}
 
@@ -178,6 +185,7 @@ public class DiningTable extends Block {
 
 		if (table != null && table.hasDisplayedItem() && (heldItem == null || heldItem.stackSize <= 0)) {
 			ItemStack displayedItem = table.removeDisplayedItem();
+			SurfaceDisplayBlocker.release(worldIn, pos);
 
 			if (displayedItem != null) {
 				if (!playerIn.inventory.addItemStackToInventory(displayedItem)) {
@@ -455,7 +463,13 @@ public class DiningTable extends Block {
 			return;
 		}
 
-		if (((TileEntityDiningTable)tileEntity).hasStoredData()) {
+		TileEntityDiningTable table = (TileEntityDiningTable)tileEntity;
+
+		if (!table.hasDisplayedItem()) {
+			SurfaceDisplayBlocker.release(worldIn, pos);
+		}
+
+		if (table.hasStoredData()) {
 			return;
 		}
 
