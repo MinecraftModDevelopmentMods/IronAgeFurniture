@@ -6,7 +6,10 @@ import com.mcmoddev.ironagefurniture.api.tile.TileEntityWallShelf;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.block.model.ItemTransformVec3f;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -14,6 +17,11 @@ import net.minecraft.world.World;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 
 public class TileEntityWallShelfRenderer extends TileEntitySpecialRenderer<TileEntityWallShelf> {
+	private static final double ITEM_Y = 0.86D;
+	private static final double SHELF_TOP_Y = 0.8125D;
+	private static final float ITEM_SCALE = 0.45F;
+	private static final float BLOCK_ITEM_SCALE = 0.35F;
+
 	@Override
 	public void renderTileEntityAt(TileEntityWallShelf te, double x, double y, double z, float partialTicks,
 			int destroyStage) {
@@ -28,10 +36,23 @@ public class TileEntityWallShelfRenderer extends TileEntitySpecialRenderer<TileE
 		double itemZ = 0.5D - facing.getFrontOffsetZ() * 0.125D;
 
 		GlStateManager.pushMatrix();
-		GlStateManager.translate(x + itemX, y + 0.86D, z + itemZ);
-		GlStateManager.rotate(90.0F, 1.0F, 0.0F, 0.0F);
-		GlStateManager.scale(0.45F, 0.45F, 0.45F);
-		Minecraft.getMinecraft().getRenderItem().renderItem(itemStack, ItemCameraTransforms.TransformType.FIXED);
+
+		ItemCameraTransforms.TransformType transformType = ItemCameraTransforms.TransformType.FIXED;
+
+		if (itemStack.getItem() instanceof ItemBlock) {
+			ItemTransformVec3f fixedTransform = this.getFixedTransform(itemStack);
+			transformType = this.hasTiltedTransform(fixedTransform) ? ItemCameraTransforms.TransformType.NONE
+					: ItemCameraTransforms.TransformType.FIXED;
+			GlStateManager.translate(x + itemX, y + SHELF_TOP_Y + this.getBlockItemLift(fixedTransform, transformType)
+					+ 0.01D, z + itemZ);
+			GlStateManager.scale(BLOCK_ITEM_SCALE, BLOCK_ITEM_SCALE, BLOCK_ITEM_SCALE);
+		} else {
+			GlStateManager.translate(x + itemX, y + ITEM_Y, z + itemZ);
+			GlStateManager.rotate(90.0F, 1.0F, 0.0F, 0.0F);
+			GlStateManager.scale(ITEM_SCALE, ITEM_SCALE, ITEM_SCALE);
+		}
+
+		Minecraft.getMinecraft().getRenderItem().renderItem(itemStack, transformType);
 		GlStateManager.popMatrix();
 	}
 
@@ -48,5 +69,23 @@ public class TileEntityWallShelfRenderer extends TileEntitySpecialRenderer<TileE
 		}
 
 		return EnumFacing.NORTH;
+	}
+
+	private ItemTransformVec3f getFixedTransform(ItemStack itemStack) {
+		IBakedModel model = Minecraft.getMinecraft().getRenderItem().getItemModelMesher().getItemModel(itemStack);
+		return model.getItemCameraTransforms().getTransform(ItemCameraTransforms.TransformType.FIXED);
+	}
+
+	private boolean hasTiltedTransform(ItemTransformVec3f transform) {
+		return Math.abs(transform.rotation.x) > 0.001F || Math.abs(transform.rotation.z) > 0.001F;
+	}
+
+	private double getBlockItemLift(ItemTransformVec3f fixedTransform,
+			ItemCameraTransforms.TransformType transformType) {
+		if (transformType == ItemCameraTransforms.TransformType.NONE) {
+			return BLOCK_ITEM_SCALE / 2.0D;
+		}
+
+		return BLOCK_ITEM_SCALE * ((fixedTransform.scale.y / 2.0D) - fixedTransform.translation.y);
 	}
 }
