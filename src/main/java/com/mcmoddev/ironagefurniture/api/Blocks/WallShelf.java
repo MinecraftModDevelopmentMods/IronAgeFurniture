@@ -153,6 +153,7 @@ public class WallShelf extends BlockHBase {
 			return;
 		}
 
+		this.refreshDisplayBlocker(worldIn, pos);
 		this.notifyShelfAndNeighbors(worldIn, pos);
 	}
 
@@ -199,7 +200,7 @@ public class WallShelf extends BlockHBase {
 		TileEntityWallShelf shelf = this.getShelfEntity(worldIn, pos, false);
 
 		if ((shelf == null || !shelf.hasDisplayedItem()) && heldItem != null && heldItem.stackSize > 0) {
-			if (!SurfaceDisplayBlocker.reserve(worldIn, pos)) {
+			if (!SurfaceDisplayBlocker.reserveForShelf(worldIn, pos)) {
 				return true;
 			}
 
@@ -716,6 +717,18 @@ public class WallShelf extends BlockHBase {
 			worldIn.setBlockState(pos, state.withProperty(DATA, Boolean.valueOf(false)), 2);
 		} else {
 			worldIn.removeTileEntity(pos);
+		}
+	}
+
+	private void refreshDisplayBlocker(World worldIn, BlockPos pos) {
+		if (worldIn.isRemote) {
+			return;
+		}
+
+		TileEntityWallShelf shelf = this.getShelfEntity(worldIn, pos, false);
+
+		if (shelf != null && shelf.hasDisplayedItem()) {
+			SurfaceDisplayBlocker.reserveForShelf(worldIn, pos);
 		}
 	}
 }

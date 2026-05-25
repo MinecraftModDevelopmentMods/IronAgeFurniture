@@ -28,6 +28,14 @@ public class SurfaceDisplayBlocker extends Block {
 	}
 
 	public static boolean reserve(World worldIn, BlockPos surfacePos) {
+		return reserve(worldIn, surfacePos, false);
+	}
+
+	public static boolean reserveForShelf(World worldIn, BlockPos surfacePos) {
+		return reserve(worldIn, surfacePos, true);
+	}
+
+	private static boolean reserve(World worldIn, BlockPos surfacePos, boolean allowShelfAbove) {
 		if (worldIn.isRemote) {
 			return true;
 		}
@@ -41,6 +49,10 @@ public class SurfaceDisplayBlocker extends Block {
 		Block blocker = blockerState.getBlock();
 
 		if (blocker == BlockObjectHolder.surface_display_blocker) {
+			return true;
+		}
+
+		if (allowShelfAbove && blocker instanceof WallShelf) {
 			return true;
 		}
 
