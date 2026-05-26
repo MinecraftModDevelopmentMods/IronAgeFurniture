@@ -1,0 +1,12 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_shelf_wall_straight_books_2",
+  "textures": {
+    "log": "forestry:blocks/wood/bark.zebrawood",
+    "planks": "forestry:blocks/wood/planks.zebrawood",
+    "particle": "forestry:blocks/wood/bark.zebrawood",
+    "book_0": "minecraft:items/book_normal",
+    "book_1": "minecraft:items/writable_book",
+    "book_2": "minecraft:items/written_book"
+  }
+}

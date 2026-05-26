@@ -1,0 +1,10 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_shelf_wall_straight_support_records_3",
+  "textures": {
+    "log": "biomesoplenty:blocks/eucalyptus_log",
+    "planks": "biomesoplenty:blocks/eucalyptus_planks",
+    "particle": "biomesoplenty:blocks/eucalyptus_log",
+    "record": "minecraft:items/record_13"
+  }
+}

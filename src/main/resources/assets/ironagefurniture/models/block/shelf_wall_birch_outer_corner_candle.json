@@ -1,0 +1,12 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_shelf_wall_outer_corner_candle",
+  "textures": {
+    "log": "minecraft:blocks/log_birch",
+    "planks": "minecraft:blocks/planks_birch",
+    "particle": "minecraft:blocks/log_birch",
+    "wax": "ironagefurniture:blocks/candle_wax",
+    "metal": "minecraft:blocks/iron_block",
+    "wick": "minecraft:blocks/coal_block"
+  }
+}

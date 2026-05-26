@@ -1,0 +1,10 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_shelf_wall_inner_corner_records_3",
+  "textures": {
+    "log": "biomesoplenty:blocks/ebony_log",
+    "planks": "biomesoplenty:blocks/ebony_planks",
+    "particle": "biomesoplenty:blocks/ebony_log",
+    "record": "minecraft:items/record_13"
+  }
+}

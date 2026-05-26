@@ -1,0 +1,12 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_shelf_wall_inner_corner_books_3",
+  "textures": {
+    "log": "natura:blocks/logs/overworld/tiger_log",
+    "planks": "natura:blocks/planks/overworld/tiger_planks",
+    "particle": "natura:blocks/logs/overworld/tiger_log",
+    "book_0": "minecraft:items/book_normal",
+    "book_1": "minecraft:items/writable_book",
+    "book_2": "minecraft:items/written_book"
+  }
+}

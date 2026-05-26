@@ -18,9 +18,11 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemRecord;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
@@ -37,7 +39,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class WallShelf extends BlockHBase {
 	public static final PropertyEnum<ShelfSupport> SUPPORT = PropertyEnum.create("support", ShelfSupport.class);
-	public static final PropertyEnum<ShelfLamp> LAMP = PropertyEnum.create("lamp", ShelfLamp.class);
+	public static final PropertyEnum<ShelfContents> CONTENTS = PropertyEnum.create("contents", ShelfContents.class);
 	public static final PropertyBool DATA = PropertyBool.create("data");
 
 	private static final AxisAlignedBB BOARD_STRAIGHT_NORTH = new AxisAlignedBB(0.0D, 0.625D, 0.25D, 1.0D, 0.8125D, 1.0D);
@@ -75,16 +77,21 @@ public class WallShelf extends BlockHBase {
 		}
 	}
 
-	public static enum ShelfLamp implements IStringSerializable {
-		NONE("none", 0),
-		GLOW("glow", 15),
-		LAVA("lava", 15);
+	public static enum ShelfContentKind implements IStringSerializable {
+		NONE("none", 0, 0),
+		GLOW("glow", 1, 15),
+		LAVA("lava", 1, 15),
+		CANDLE("candle", 1, 12),
+		BOOKS("books", 3, 0),
+		RECORDS("records", 3, 0);
 
 		private final String name;
+		private final int capacity;
 		private final int lightLevel;
 
-		private ShelfLamp(String name, int lightLevel) {
+		private ShelfContentKind(String name, int capacity, int lightLevel) {
 			this.name = name;
+			this.capacity = capacity;
 			this.lightLevel = lightLevel;
 		}
 
@@ -93,14 +100,69 @@ public class WallShelf extends BlockHBase {
 			return this.name;
 		}
 
+		public int getCapacity() {
+			return this.capacity;
+		}
+
 		public int getLightLevel() {
 			return this.lightLevel;
 		}
 
-		public static ShelfLamp byName(String name) {
-			for (ShelfLamp lamp : values()) {
-				if (lamp.name.equals(name)) {
-					return lamp;
+		public static ShelfContentKind byName(String name) {
+			for (ShelfContentKind kind : values()) {
+				if (kind.name.equals(name)) {
+					return kind;
+				}
+			}
+
+			return NONE;
+		}
+
+		@Override
+		public String toString() {
+			return this.name;
+		}
+	}
+
+	public static enum ShelfContents implements IStringSerializable {
+		NONE("none", ShelfContentKind.NONE, 0),
+		GLOW("glow", ShelfContentKind.GLOW, 1),
+		LAVA("lava", ShelfContentKind.LAVA, 1),
+		CANDLE("candle", ShelfContentKind.CANDLE, 1),
+		BOOKS_1("books_1", ShelfContentKind.BOOKS, 1),
+		BOOKS_2("books_2", ShelfContentKind.BOOKS, 2),
+		BOOKS_3("books_3", ShelfContentKind.BOOKS, 3),
+		RECORDS_1("records_1", ShelfContentKind.RECORDS, 1),
+		RECORDS_2("records_2", ShelfContentKind.RECORDS, 2),
+		RECORDS_3("records_3", ShelfContentKind.RECORDS, 3);
+
+		private final String name;
+		private final ShelfContentKind kind;
+		private final int count;
+
+		private ShelfContents(String name, ShelfContentKind kind, int count) {
+			this.name = name;
+			this.kind = kind;
+			this.count = count;
+		}
+
+		@Override
+		public String getName() {
+			return this.name;
+		}
+
+		public int getLightLevel() {
+			return this.kind.getLightLevel();
+		}
+
+		public static ShelfContents fromKindAndCount(ShelfContentKind kind, int count) {
+			if (kind == null || kind == ShelfContentKind.NONE || count <= 0) {
+				return NONE;
+			}
+
+			for (ShelfContents contents : values()) {
+				if (contents.kind == kind && contents.count == count) {
+					return contents;
 				}
 			}
 
@@ -134,7 +196,7 @@ public class WallShelf extends BlockHBase {
 		this.setDefaultState(this.blockState.getBaseState()
 			.withProperty(FACING, EnumFacing.NORTH)
 			.withProperty(SUPPORT, ShelfSupport.STRAIGHT_SUPPORT)
-			.withProperty(LAMP, ShelfLamp.NONE)
+			.withProperty(CONTENTS, ShelfContents.NONE)
 			.withProperty(DATA, Boolean.valueOf(false)));
 	}
 
@@ -171,7 +233,7 @@ public class WallShelf extends BlockHBase {
 
 		return this.getDefaultState().withProperty(FACING, facing)
 			.withProperty(DATA, Boolean.valueOf(false))
-			.withProperty(LAMP, ShelfLamp.NONE)
+			.withProperty(CONTENTS, ShelfContents.NONE)
 			.withProperty(SUPPORT, this.getRenderState(world, pos, facing).support);
 	}
 
@@ -180,7 +242,7 @@ public class WallShelf extends BlockHBase {
 		ShelfRenderState renderState = this.getRenderState(worldIn, pos, state.getValue(FACING));
 		return state.withProperty(FACING, renderState.facing)
 			.withProperty(SUPPORT, renderState.support)
-			.withProperty(LAMP, this.getEmbeddedLamp(worldIn, pos));
+			.withProperty(CONTENTS, this.getShelfContents(worldIn, pos));
 	}
 
 	@Override
@@ -212,7 +274,7 @@ public class WallShelf extends BlockHBase {
 			if (tileEntity instanceof TileEntityWallShelf) {
 				TileEntityWallShelf shelf = (TileEntityWallShelf)tileEntity;
 				shelf.dropDisplayedItem(worldIn, pos);
-				this.dropEmbeddedLamp(worldIn, pos, shelf);
+				shelf.dropEmbeddedItems(worldIn, pos);
 			}
 
 			SurfaceDisplayBlocker.release(worldIn, pos);
@@ -238,20 +300,19 @@ public class WallShelf extends BlockHBase {
 			return false;
 		}
 
-		ShelfLamp heldLamp = this.getLampForItem(heldItem);
+		ShelfContentKind heldContent = this.getEmbeddedContentKindForItem(heldItem);
 
-		if (heldLamp != ShelfLamp.NONE) {
+		if (heldContent != ShelfContentKind.NONE) {
 			if (worldIn.isRemote) {
 				return true;
 			}
 
 			TileEntityWallShelf shelf = this.getShelfEntity(worldIn, pos, false);
 
-			if (shelf == null || !shelf.hasStoredData()) {
+			if (shelf == null || shelf.canAddEmbeddedContent(heldContent)) {
 				shelf = this.getShelfEntity(worldIn, pos, true);
 
-				if (shelf != null) {
-					shelf.setEmbeddedLamp(heldLamp);
+				if (shelf != null && shelf.addEmbeddedContent(heldContent, heldItem)) {
 
 					if (!playerIn.capabilities.isCreativeMode) {
 						heldItem.stackSize--;
@@ -303,12 +364,12 @@ public class WallShelf extends BlockHBase {
 			return true;
 		}
 
-		if (shelf != null && shelf.hasEmbeddedLamp() && (heldItem == null || heldItem.stackSize <= 0)) {
-			ItemStack lampItem = this.getLampStack(shelf.removeEmbeddedLamp());
+		if (shelf != null && shelf.hasEmbeddedContent() && (heldItem == null || heldItem.stackSize <= 0)) {
+			ItemStack embeddedItem = shelf.removeLastEmbeddedItem();
 
-			if (lampItem != null && !playerIn.inventory.addItemStackToInventory(lampItem)) {
+			if (embeddedItem != null && !playerIn.inventory.addItemStackToInventory(embeddedItem)) {
 				EntityItem entityItem = new EntityItem(worldIn, pos.getX() + 0.5D, pos.getY() + 0.9D,
-					pos.getZ() + 0.5D, lampItem);
+					pos.getZ() + 0.5D, embeddedItem);
 				worldIn.spawnEntity(entityItem);
 			}
 
@@ -340,48 +401,72 @@ public class WallShelf extends BlockHBase {
 			return false;
 		}
 
-		return this.isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_block_floor_red_clear);
+		Block heldBlock = this.getHeldItemBlock(heldItem);
+		return this.isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_block_floor_red_clear)
+			|| this.hasRegistryPath(heldBlock, "light_metal_ironage_block_floor_red_clear")
+			|| heldBlock instanceof LightSourceRed;
 	}
 
-	private ShelfLamp getLampForItem(ItemStack heldItem) {
+	private ShelfContentKind getEmbeddedContentKindForItem(ItemStack heldItem) {
 		if (heldItem == null || heldItem.stackSize <= 0) {
-			return ShelfLamp.NONE;
+			return ShelfContentKind.NONE;
+		}
+
+		Block heldBlock = this.getHeldItemBlock(heldItem);
+
+		if (this.isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_block_floor_lava_clear)) {
+			return ShelfContentKind.LAVA;
+		}
+
+		if (this.hasRegistryPath(heldBlock, "light_metal_ironage_block_floor_lava_clear")
+				|| heldBlock instanceof LightSourceLava) {
+			return ShelfContentKind.LAVA;
+		}
+
+		if (heldBlock instanceof LightSourceRed) {
+			return ShelfContentKind.NONE;
 		}
 
 		if (this.isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_block_floor_glow_clear)) {
-			return ShelfLamp.GLOW;
+			return ShelfContentKind.GLOW;
 		}
 
-		if (this.isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_block_floor_lava_clear)) {
-			return ShelfLamp.LAVA;
+		if (this.hasRegistryPath(heldBlock, "light_metal_ironage_block_floor_glow_clear")
+				|| heldBlock instanceof LightSourceGlowdust) {
+			return ShelfContentKind.GLOW;
 		}
 
-		return ShelfLamp.NONE;
+		if (this.isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_candle_floor)) {
+			return ShelfContentKind.CANDLE;
+		}
+
+		if (this.hasRegistryPath(heldBlock, "light_metal_ironage_candle_floor")
+				|| heldBlock instanceof LightSourceCandleFloor) {
+			return ShelfContentKind.CANDLE;
+		}
+
+		Item item = heldItem.getItem();
+
+		if (item == Items.BOOK || item == Items.WRITABLE_BOOK || item == Items.WRITTEN_BOOK
+				|| item == Items.ENCHANTED_BOOK) {
+			return ShelfContentKind.BOOKS;
+		}
+
+		if (item instanceof ItemRecord) {
+			return ShelfContentKind.RECORDS;
+		}
+
+		return ShelfContentKind.NONE;
 	}
 
-	private ItemStack getLampStack(ShelfLamp lamp) {
-		switch (lamp) {
-		case GLOW:
-			return BlockObjectHolder.light_metal_ironage_block_floor_glow_clear == null ? null
-				: new ItemStack(BlockObjectHolder.light_metal_ironage_block_floor_glow_clear, 1);
-		case LAVA:
-			return BlockObjectHolder.light_metal_ironage_block_floor_lava_clear == null ? null
-				: new ItemStack(BlockObjectHolder.light_metal_ironage_block_floor_lava_clear, 1);
-		default:
-			return null;
-		}
+	private Block getHeldItemBlock(ItemStack heldItem) {
+		return heldItem != null && heldItem.getItem() instanceof ItemBlock
+			? ((ItemBlock)heldItem.getItem()).getBlock() : null;
 	}
 
-	private void dropEmbeddedLamp(World worldIn, BlockPos pos, TileEntityWallShelf shelf) {
-		if (!shelf.hasEmbeddedLamp()) {
-			return;
-		}
-
-		ItemStack lampItem = this.getLampStack(shelf.removeEmbeddedLamp());
-
-		if (lampItem != null) {
-			Block.spawnAsEntity(worldIn, pos, lampItem);
-		}
+	private boolean hasRegistryPath(Block block, String path) {
+		return block != null && block.getRegistryName() != null
+			&& path.equals(block.getRegistryName().getResourcePath());
 	}
 
 	private boolean isItemFromBlock(ItemStack heldItem, Block block) {
@@ -544,7 +629,7 @@ public class WallShelf extends BlockHBase {
 
 	@Override
 	public float getAmbientOcclusionLightValue(IBlockState state) {
-		return state.getValue(LAMP) == ShelfLamp.NONE ? super.getAmbientOcclusionLightValue(state) : 1.0F;
+		return state.getValue(CONTENTS) == ShelfContents.NONE ? super.getAmbientOcclusionLightValue(state) : 1.0F;
 	}
 
 	@Override
@@ -574,7 +659,7 @@ public class WallShelf extends BlockHBase {
 	public IBlockState getStateFromMeta(int meta) {
 		return this.getDefaultState()
 			.withProperty(FACING, EnumFacing.getHorizontal(meta & 3))
-			.withProperty(LAMP, ShelfLamp.NONE)
+			.withProperty(CONTENTS, ShelfContents.NONE)
 			.withProperty(DATA, Boolean.valueOf((meta & 4) != 0));
 	}
 
@@ -586,12 +671,12 @@ public class WallShelf extends BlockHBase {
 
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] { FACING, SUPPORT, LAMP, DATA });
+		return new BlockStateContainer(this, new IProperty[] { FACING, SUPPORT, CONTENTS, DATA });
 	}
 
 	@Override
 	public int getLightValue(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-		return this.getEmbeddedLamp(worldIn, pos).getLightLevel();
+		return this.getShelfContents(worldIn, pos).getLightLevel();
 	}
 
 	private boolean canAttachTo(IBlockAccess worldIn, BlockPos pos, EnumFacing facing) {
@@ -878,9 +963,9 @@ public class WallShelf extends BlockHBase {
 		}
 	}
 
-	private ShelfLamp getEmbeddedLamp(IBlockAccess worldIn, BlockPos pos) {
+	private ShelfContents getShelfContents(IBlockAccess worldIn, BlockPos pos) {
 		TileEntity tileEntity = worldIn.getTileEntity(pos);
 		return tileEntity instanceof TileEntityWallShelf
-			? ((TileEntityWallShelf)tileEntity).getEmbeddedLamp() : ShelfLamp.NONE;
+			? ((TileEntityWallShelf)tileEntity).getShelfContents() : ShelfContents.NONE;
 	}
 }

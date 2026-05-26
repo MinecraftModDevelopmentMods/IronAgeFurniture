@@ -1,0 +1,523 @@
+{
+  "credit": "By FoxNekitsune",
+  "format_version": "1.21.11",
+  "textures": {
+    "log": "",
+    "planks": "",
+    "particle": "",
+    "book_0": "minecraft:items/book_normal",
+    "book_1": "minecraft:items/writable_book",
+    "book_2": "minecraft:items/written_book"
+  },
+  "elements": [
+    {
+      "from": [
+        2,
+        10,
+        0
+      ],
+      "to": [
+        12,
+        13,
+        4
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "y",
+        "origin": [
+          0,
+          0,
+          -10
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            4,
+            3,
+            14,
+            6
+          ],
+          "texture": "#planks"
+        },
+        "east": {
+          "uv": [
+            12,
+            3,
+            16,
+            6
+          ],
+          "texture": "#planks"
+        },
+        "south": {
+          "uv": [
+            2,
+            3,
+            12,
+            6
+          ],
+          "texture": "#planks"
+        },
+        "west": {
+          "uv": [
+            0,
+            3,
+            4,
+            6
+          ],
+          "texture": "#planks"
+        },
+        "up": {
+          "uv": [
+            2,
+            0,
+            12,
+            4
+          ],
+          "texture": "#planks"
+        },
+        "down": {
+          "uv": [
+            2,
+            12,
+            12,
+            16
+          ],
+          "texture": "#planks"
+        }
+      }
+    },
+    {
+      "from": [
+        2,
+        10,
+        4
+      ],
+      "to": [
+        16,
+        13,
+        14
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            3,
+            14,
+            6
+          ],
+          "texture": "#planks"
+        },
+        "east": {
+          "uv": [
+            2,
+            3,
+            12,
+            6
+          ],
+          "texture": "#planks"
+        },
+        "south": {
+          "uv": [
+            2,
+            3,
+            16,
+            6
+          ],
+          "texture": "#planks"
+        },
+        "west": {
+          "uv": [
+            4,
+            3,
+            14,
+            6
+          ],
+          "texture": "#planks"
+        },
+        "up": {
+          "uv": [
+            2,
+            4,
+            16,
+            14
+          ],
+          "texture": "#planks"
+        },
+        "down": {
+          "uv": [
+            2,
+            2,
+            16,
+            12
+          ],
+          "texture": "#planks"
+        }
+      }
+    },
+    {
+      "from": [
+        0,
+        9,
+        14
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            7
+          ],
+          "texture": "#log"
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            2,
+            7
+          ],
+          "texture": "#log"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            7
+          ],
+          "texture": "#log"
+        },
+        "west": {
+          "uv": [
+            14,
+            0,
+            16,
+            7
+          ],
+          "texture": "#log"
+        },
+        "up": {
+          "uv": [
+            0,
+            14,
+            16,
+            16
+          ],
+          "texture": "#log"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            2
+          ],
+          "texture": "#log"
+        }
+      }
+    },
+    {
+      "from": [
+        0,
+        9,
+        0
+      ],
+      "to": [
+        2,
+        16,
+        16
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            14,
+            0,
+            16,
+            7
+          ],
+          "texture": "#log"
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            7
+          ],
+          "texture": "#log"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            2,
+            7
+          ],
+          "texture": "#log"
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            7
+          ],
+          "texture": "#log"
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            2,
+            16
+          ],
+          "texture": "#log"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            2,
+            16
+          ],
+          "texture": "#log"
+        }
+      }
+    },
+    {
+      "name": "embedded book 1",
+      "from": [
+        5,
+        13,
+        10.65
+      ],
+      "to": [
+        7.9,
+        19.5,
+        12.75
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#book_0"
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#book_0"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#book_0"
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#book_0"
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#book_0"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#book_0"
+        }
+      }
+    },
+    {
+      "name": "embedded book 2",
+      "from": [
+        8.1,
+        13,
+        10.65
+      ],
+      "to": [
+        11,
+        18.75,
+        12.75
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#book_1"
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#book_1"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#book_1"
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#book_1"
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#book_1"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#book_1"
+        }
+      }
+    }
+  ],
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [
+        75,
+        45,
+        0
+      ],
+      "translation": [
+        0,
+        2,
+        0
+      ],
+      "scale": [
+        0.32,
+        0.32,
+        0.32
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        45,
+        0
+      ],
+      "scale": [
+        0.36,
+        0.36,
+        0.36
+      ]
+    },
+    "ground": {
+      "translation": [
+        0,
+        3,
+        0
+      ],
+      "scale": [
+        0.32,
+        0.32,
+        0.32
+      ]
+    },
+    "gui": {
+      "rotation": [
+        30,
+        -135,
+        0
+      ],
+      "translation": [
+        0,
+        1,
+        0
+      ],
+      "scale": [
+        0.62,
+        0.62,
+        0.62
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        0,
+        -180,
+        0
+      ],
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    }
+  },
+  "groups": [
+    0,
+    {
+      "name": "group",
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "scope": 0,
+      "color": 0,
+      "children": [
+        1
+      ]
+    },
+    2,
+    3
+  ]
+}

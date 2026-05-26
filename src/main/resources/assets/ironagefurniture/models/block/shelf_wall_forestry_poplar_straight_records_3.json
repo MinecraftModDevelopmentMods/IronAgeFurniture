@@ -1,0 +1,10 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_shelf_wall_straight_records_3",
+  "textures": {
+    "log": "forestry:blocks/wood/bark.poplar",
+    "planks": "forestry:blocks/wood/planks.poplar",
+    "particle": "forestry:blocks/wood/bark.poplar",
+    "record": "minecraft:items/record_13"
+  }
+}

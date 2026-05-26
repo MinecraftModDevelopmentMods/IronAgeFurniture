@@ -1,0 +1,10 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_shelf_wall_outer_corner_records_3",
+  "textures": {
+    "log": "biomesoplenty:blocks/umbran_log",
+    "planks": "biomesoplenty:blocks/umbran_planks",
+    "particle": "biomesoplenty:blocks/umbran_log",
+    "record": "minecraft:items/record_13"
+  }
+}

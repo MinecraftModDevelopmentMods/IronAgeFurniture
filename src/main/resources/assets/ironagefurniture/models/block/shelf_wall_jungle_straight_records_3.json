@@ -1,0 +1,10 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_shelf_wall_straight_records_3",
+  "textures": {
+    "log": "minecraft:blocks/log_jungle",
+    "planks": "minecraft:blocks/planks_jungle",
+    "particle": "minecraft:blocks/log_jungle",
+    "record": "minecraft:items/record_13"
+  }
+}

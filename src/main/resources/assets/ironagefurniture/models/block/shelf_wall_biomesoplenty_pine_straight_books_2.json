@@ -1,0 +1,12 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_shelf_wall_straight_books_2",
+  "textures": {
+    "log": "biomesoplenty:blocks/pine_log",
+    "planks": "biomesoplenty:blocks/pine_planks",
+    "particle": "biomesoplenty:blocks/pine_log",
+    "book_0": "minecraft:items/book_normal",
+    "book_1": "minecraft:items/writable_book",
+    "book_2": "minecraft:items/written_book"
+  }
+}

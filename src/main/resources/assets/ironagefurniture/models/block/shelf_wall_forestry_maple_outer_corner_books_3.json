@@ -1,0 +1,12 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_shelf_wall_outer_corner_books_3",
+  "textures": {
+    "log": "forestry:blocks/wood/bark.maple",
+    "planks": "forestry:blocks/wood/planks.maple",
+    "particle": "forestry:blocks/wood/bark.maple",
+    "book_0": "minecraft:items/book_normal",
+    "book_1": "minecraft:items/writable_book",
+    "book_2": "minecraft:items/written_book"
+  }
+}

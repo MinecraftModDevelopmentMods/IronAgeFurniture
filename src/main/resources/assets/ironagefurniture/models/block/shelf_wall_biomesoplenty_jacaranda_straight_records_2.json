@@ -1,0 +1,10 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_shelf_wall_straight_records_2",
+  "textures": {
+    "log": "biomesoplenty:blocks/jacaranda_log",
+    "planks": "biomesoplenty:blocks/jacaranda_planks",
+    "particle": "biomesoplenty:blocks/jacaranda_log",
+    "record": "minecraft:items/record_13"
+  }
+}

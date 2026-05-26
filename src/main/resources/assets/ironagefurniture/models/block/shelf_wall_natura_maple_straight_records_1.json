@@ -1,0 +1,10 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_shelf_wall_straight_records_1",
+  "textures": {
+    "log": "natura:blocks/logs/overworld/maple_log",
+    "planks": "natura:blocks/planks/overworld/maple_planks",
+    "particle": "natura:blocks/logs/overworld/maple_log",
+    "record": "minecraft:items/record_13"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_shelf_wall_outer_corner_records_3",
+  "textures": {
+    "log": "forestry:blocks/wood/bark.mahogany",
+    "planks": "forestry:blocks/wood/planks.mahogany",
+    "particle": "forestry:blocks/wood/bark.mahogany",
+    "record": "minecraft:items/record_13"
+  }
+}

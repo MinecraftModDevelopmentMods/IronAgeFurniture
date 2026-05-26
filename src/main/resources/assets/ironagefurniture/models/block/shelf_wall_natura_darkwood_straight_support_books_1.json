@@ -1,0 +1,12 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_shelf_wall_straight_support_books_1",
+  "textures": {
+    "log": "natura:blocks/logs/nether/darkwood_log",
+    "planks": "natura:blocks/planks/nether/darkwood_planks",
+    "particle": "natura:blocks/logs/nether/darkwood_log",
+    "book_0": "minecraft:items/book_normal",
+    "book_1": "minecraft:items/writable_book",
+    "book_2": "minecraft:items/written_book"
+  }
+}

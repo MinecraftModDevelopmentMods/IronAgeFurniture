@@ -1,0 +1,10 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_shelf_wall_straight_support_records_2",
+  "textures": {
+    "log": "natura:blocks/logs/nether/fusewood_log",
+    "planks": "natura:blocks/planks/nether/fusewood_planks",
+    "particle": "natura:blocks/logs/nether/fusewood_log",
+    "record": "minecraft:items/record_13"
+  }
+}

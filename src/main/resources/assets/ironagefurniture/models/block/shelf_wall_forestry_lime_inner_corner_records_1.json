@@ -1,0 +1,10 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_shelf_wall_inner_corner_records_1",
+  "textures": {
+    "log": "forestry:blocks/wood/bark.lime",
+    "planks": "forestry:blocks/wood/planks.lime",
+    "particle": "forestry:blocks/wood/bark.lime",
+    "record": "minecraft:items/record_13"
+  }
+}
