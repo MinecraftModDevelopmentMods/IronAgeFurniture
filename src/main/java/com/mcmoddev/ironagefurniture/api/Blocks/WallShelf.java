@@ -312,6 +312,12 @@ public class WallShelf extends BlockHBase {
 
 			TileEntityWallShelf shelf = this.getShelfEntity(worldIn, pos, false);
 
+			if (shelf != null && shelf.hasEmbeddedContent() && !shelf.canAddEmbeddedContent(heldContent)
+					&& this.isSameShelfStack(shelf.getLastEmbeddedItem(), heldItem)) {
+				this.removeLastEmbeddedItemFromShelf(worldIn, pos, shelf, playerIn);
+				return true;
+			}
+
 			if (shelf == null || shelf.canAddEmbeddedContent(heldContent)) {
 				shelf = this.getShelfEntity(worldIn, pos, true);
 
@@ -339,6 +345,11 @@ public class WallShelf extends BlockHBase {
 		}
 
 		TileEntityWallShelf shelf = this.getShelfEntity(worldIn, pos, false);
+
+		if (shelf != null && shelf.hasDisplayedItem() && this.isSameShelfStack(shelf.getDisplayedItem(), heldItem)) {
+			this.removeDisplayedItemFromShelf(worldIn, pos, shelf, playerIn);
+			return true;
+		}
 
 		if ((shelf == null || !shelf.hasStoredData()) && heldItem != null && heldItem.stackSize > 0) {
 			if (!SurfaceDisplayBlocker.reserveForShelf(worldIn, pos)) {
@@ -368,35 +379,53 @@ public class WallShelf extends BlockHBase {
 		}
 
 		if (shelf != null && shelf.hasEmbeddedContent() && (heldItem == null || heldItem.stackSize <= 0)) {
-			ItemStack embeddedItem = shelf.removeLastEmbeddedItem();
-
-			if (embeddedItem != null && !playerIn.inventory.addItemStackToInventory(embeddedItem)) {
-				EntityItem entityItem = new EntityItem(worldIn, pos.getX() + 0.5D, pos.getY() + 0.9D,
-					pos.getZ() + 0.5D, embeddedItem);
-				worldIn.spawnEntity(entityItem);
-			}
-
-			this.removeShelfEntityIfEmpty(worldIn, pos);
+			this.removeLastEmbeddedItemFromShelf(worldIn, pos, shelf, playerIn);
 			return true;
 		}
 
 		if (shelf != null && shelf.hasDisplayedItem() && (heldItem == null || heldItem.stackSize <= 0)) {
-			ItemStack displayedItem = shelf.removeDisplayedItem();
-			SurfaceDisplayBlocker.release(worldIn, pos);
-
-			if (displayedItem != null) {
-				if (!playerIn.inventory.addItemStackToInventory(displayedItem)) {
-					EntityItem entityItem = new EntityItem(worldIn, pos.getX() + 0.5D, pos.getY() + 0.9D,
-						pos.getZ() + 0.5D, displayedItem);
-					worldIn.spawnEntity(entityItem);
-				}
-			}
-
-			this.removeShelfEntityIfEmpty(worldIn, pos);
+			this.removeDisplayedItemFromShelf(worldIn, pos, shelf, playerIn);
 			return true;
 		}
 
 		return true;
+	}
+
+	private boolean isSameShelfStack(ItemStack storedItem, ItemStack heldItem) {
+		return storedItem != null && heldItem != null && heldItem.stackSize > 0
+			&& storedItem.isItemEqual(heldItem)
+			&& ItemStack.areItemStackTagsEqual(storedItem, heldItem);
+	}
+
+	private void removeLastEmbeddedItemFromShelf(World worldIn, BlockPos pos, TileEntityWallShelf shelf,
+			EntityPlayer playerIn) {
+		ItemStack embeddedItem = shelf.removeLastEmbeddedItem();
+
+		if (embeddedItem != null) {
+			this.returnShelfItem(worldIn, pos, playerIn, embeddedItem);
+		}
+
+		this.removeShelfEntityIfEmpty(worldIn, pos);
+	}
+
+	private void removeDisplayedItemFromShelf(World worldIn, BlockPos pos, TileEntityWallShelf shelf,
+			EntityPlayer playerIn) {
+		ItemStack displayedItem = shelf.removeDisplayedItem();
+		SurfaceDisplayBlocker.release(worldIn, pos);
+
+		if (displayedItem != null) {
+			this.returnShelfItem(worldIn, pos, playerIn, displayedItem);
+		}
+
+		this.removeShelfEntityIfEmpty(worldIn, pos);
+	}
+
+	private void returnShelfItem(World worldIn, BlockPos pos, EntityPlayer playerIn, ItemStack itemStack) {
+		if (!playerIn.inventory.addItemStackToInventory(itemStack)) {
+			EntityItem entityItem = new EntityItem(worldIn, pos.getX() + 0.5D, pos.getY() + 0.9D,
+				pos.getZ() + 0.5D, itemStack);
+			worldIn.spawnEntity(entityItem);
+		}
 	}
 
 	private boolean isDisplayExcluded(ItemStack heldItem) {

@@ -42,6 +42,18 @@ public class TileEntityWallShelf extends TileEntity {
 		return this.embeddedKind != ShelfContentKind.NONE && this.getEmbeddedCount() > 0;
 	}
 
+	public ItemStack getLastEmbeddedItem() {
+		for (int i = this.embeddedItems.length - 1; i >= 0; i--) {
+			ItemStack itemStack = this.embeddedItems[i];
+
+			if (itemStack != null && itemStack.stackSize > 0) {
+				return itemStack;
+			}
+		}
+
+		return null;
+	}
+
 	public ShelfContentKind getEmbeddedKind() {
 		return this.hasEmbeddedContent() ? this.embeddedKind : ShelfContentKind.NONE;
 	}
