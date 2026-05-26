@@ -1,132 +1,388 @@
 {
-    "variants":  {
-                     "data=false,facing=north,support=straight":  {
-                                                                      "model":  "ironagefurniture:shelf_wall_forestry_chestnut_straight",
-                                                                      "y":  0
-                                                                  },
-                     "data=true,facing=north,support=straight":  {
-                                                                     "model":  "ironagefurniture:shelf_wall_forestry_chestnut_straight",
-                                                                     "y":  0
-                                                                 },
-                     "data=false,facing=east,support=straight":  {
-                                                                     "model":  "ironagefurniture:shelf_wall_forestry_chestnut_straight",
-                                                                     "y":  90
-                                                                 },
-                     "data=true,facing=east,support=straight":  {
-                                                                    "model":  "ironagefurniture:shelf_wall_forestry_chestnut_straight",
-                                                                    "y":  90
-                                                                },
-                     "data=false,facing=south,support=straight":  {
-                                                                      "model":  "ironagefurniture:shelf_wall_forestry_chestnut_straight",
-                                                                      "y":  180
-                                                                  },
-                     "data=true,facing=south,support=straight":  {
-                                                                     "model":  "ironagefurniture:shelf_wall_forestry_chestnut_straight",
-                                                                     "y":  180
-                                                                 },
-                     "data=false,facing=west,support=straight":  {
-                                                                     "model":  "ironagefurniture:shelf_wall_forestry_chestnut_straight",
-                                                                     "y":  270
-                                                                 },
-                     "data=true,facing=west,support=straight":  {
-                                                                    "model":  "ironagefurniture:shelf_wall_forestry_chestnut_straight",
-                                                                    "y":  270
-                                                                },
-                     "data=false,facing=north,support=straight_support":  {
-                                                                              "model":  "ironagefurniture:shelf_wall_forestry_chestnut_straight_support",
-                                                                              "y":  0
-                                                                          },
-                     "data=true,facing=north,support=straight_support":  {
-                                                                             "model":  "ironagefurniture:shelf_wall_forestry_chestnut_straight_support",
-                                                                             "y":  0
-                                                                         },
-                     "data=false,facing=east,support=straight_support":  {
-                                                                             "model":  "ironagefurniture:shelf_wall_forestry_chestnut_straight_support",
-                                                                             "y":  90
-                                                                         },
-                     "data=true,facing=east,support=straight_support":  {
-                                                                            "model":  "ironagefurniture:shelf_wall_forestry_chestnut_straight_support",
-                                                                            "y":  90
-                                                                        },
-                     "data=false,facing=south,support=straight_support":  {
-                                                                              "model":  "ironagefurniture:shelf_wall_forestry_chestnut_straight_support",
-                                                                              "y":  180
-                                                                          },
-                     "data=true,facing=south,support=straight_support":  {
-                                                                             "model":  "ironagefurniture:shelf_wall_forestry_chestnut_straight_support",
-                                                                             "y":  180
-                                                                         },
-                     "data=false,facing=west,support=straight_support":  {
-                                                                             "model":  "ironagefurniture:shelf_wall_forestry_chestnut_straight_support",
-                                                                             "y":  270
-                                                                         },
-                     "data=true,facing=west,support=straight_support":  {
-                                                                            "model":  "ironagefurniture:shelf_wall_forestry_chestnut_straight_support",
-                                                                            "y":  270
-                                                                        },
-                     "data=false,facing=north,support=inner_corner":  {
-                                                                          "model":  "ironagefurniture:shelf_wall_forestry_chestnut_inner_corner",
-                                                                          "y":  270
-                                                                      },
-                     "data=true,facing=north,support=inner_corner":  {
-                                                                         "model":  "ironagefurniture:shelf_wall_forestry_chestnut_inner_corner",
-                                                                         "y":  270
-                                                                     },
-                     "data=false,facing=east,support=inner_corner":  {
-                                                                         "model":  "ironagefurniture:shelf_wall_forestry_chestnut_inner_corner",
-                                                                         "y":  0
-                                                                     },
-                     "data=true,facing=east,support=inner_corner":  {
-                                                                        "model":  "ironagefurniture:shelf_wall_forestry_chestnut_inner_corner",
-                                                                        "y":  0
-                                                                    },
-                     "data=false,facing=south,support=inner_corner":  {
-                                                                          "model":  "ironagefurniture:shelf_wall_forestry_chestnut_inner_corner",
-                                                                          "y":  90
-                                                                      },
-                     "data=true,facing=south,support=inner_corner":  {
-                                                                         "model":  "ironagefurniture:shelf_wall_forestry_chestnut_inner_corner",
-                                                                         "y":  90
-                                                                     },
-                     "data=false,facing=west,support=inner_corner":  {
-                                                                         "model":  "ironagefurniture:shelf_wall_forestry_chestnut_inner_corner",
-                                                                         "y":  180
-                                                                     },
-                     "data=true,facing=west,support=inner_corner":  {
-                                                                        "model":  "ironagefurniture:shelf_wall_forestry_chestnut_inner_corner",
-                                                                        "y":  180
-                                                                    },
-                     "data=false,facing=north,support=outer_corner":  {
-                                                                          "model":  "ironagefurniture:shelf_wall_forestry_chestnut_outer_corner",
-                                                                          "y":  0
-                                                                      },
-                     "data=true,facing=north,support=outer_corner":  {
-                                                                         "model":  "ironagefurniture:shelf_wall_forestry_chestnut_outer_corner",
-                                                                         "y":  0
-                                                                     },
-                     "data=false,facing=east,support=outer_corner":  {
-                                                                         "model":  "ironagefurniture:shelf_wall_forestry_chestnut_outer_corner",
-                                                                         "y":  90
-                                                                     },
-                     "data=true,facing=east,support=outer_corner":  {
-                                                                        "model":  "ironagefurniture:shelf_wall_forestry_chestnut_outer_corner",
-                                                                        "y":  90
-                                                                    },
-                     "data=false,facing=south,support=outer_corner":  {
-                                                                          "model":  "ironagefurniture:shelf_wall_forestry_chestnut_outer_corner",
-                                                                          "y":  180
-                                                                      },
-                     "data=true,facing=south,support=outer_corner":  {
-                                                                         "model":  "ironagefurniture:shelf_wall_forestry_chestnut_outer_corner",
-                                                                         "y":  180
-                                                                     },
-                     "data=false,facing=west,support=outer_corner":  {
-                                                                         "model":  "ironagefurniture:shelf_wall_forestry_chestnut_outer_corner",
-                                                                         "y":  270
-                                                                     },
-                     "data=true,facing=west,support=outer_corner":  {
-                                                                        "model":  "ironagefurniture:shelf_wall_forestry_chestnut_outer_corner",
-                                                                        "y":  270
-                                                                    }
-                 }
+  "variants": {
+    "data=false,facing=north,lamp=none,support=straight": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight",
+      "y": 0
+    },
+    "data=false,facing=north,lamp=glow,support=straight": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight_glow",
+      "y": 0
+    },
+    "data=false,facing=north,lamp=lava,support=straight": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight_lava",
+      "y": 0
+    },
+    "data=true,facing=north,lamp=none,support=straight": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight",
+      "y": 0
+    },
+    "data=true,facing=north,lamp=glow,support=straight": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight_glow",
+      "y": 0
+    },
+    "data=true,facing=north,lamp=lava,support=straight": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight_lava",
+      "y": 0
+    },
+    "data=false,facing=east,lamp=none,support=straight": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight",
+      "y": 90
+    },
+    "data=false,facing=east,lamp=glow,support=straight": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight_glow",
+      "y": 90
+    },
+    "data=false,facing=east,lamp=lava,support=straight": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight_lava",
+      "y": 90
+    },
+    "data=true,facing=east,lamp=none,support=straight": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight",
+      "y": 90
+    },
+    "data=true,facing=east,lamp=glow,support=straight": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight_glow",
+      "y": 90
+    },
+    "data=true,facing=east,lamp=lava,support=straight": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight_lava",
+      "y": 90
+    },
+    "data=false,facing=south,lamp=none,support=straight": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight",
+      "y": 180
+    },
+    "data=false,facing=south,lamp=glow,support=straight": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight_glow",
+      "y": 180
+    },
+    "data=false,facing=south,lamp=lava,support=straight": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight_lava",
+      "y": 180
+    },
+    "data=true,facing=south,lamp=none,support=straight": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight",
+      "y": 180
+    },
+    "data=true,facing=south,lamp=glow,support=straight": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight_glow",
+      "y": 180
+    },
+    "data=true,facing=south,lamp=lava,support=straight": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight_lava",
+      "y": 180
+    },
+    "data=false,facing=west,lamp=none,support=straight": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight",
+      "y": 270
+    },
+    "data=false,facing=west,lamp=glow,support=straight": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight_glow",
+      "y": 270
+    },
+    "data=false,facing=west,lamp=lava,support=straight": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight_lava",
+      "y": 270
+    },
+    "data=true,facing=west,lamp=none,support=straight": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight",
+      "y": 270
+    },
+    "data=true,facing=west,lamp=glow,support=straight": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight_glow",
+      "y": 270
+    },
+    "data=true,facing=west,lamp=lava,support=straight": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight_lava",
+      "y": 270
+    },
+    "data=false,facing=north,lamp=none,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight_support",
+      "y": 0
+    },
+    "data=false,facing=north,lamp=glow,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight_support_glow",
+      "y": 0
+    },
+    "data=false,facing=north,lamp=lava,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight_support_lava",
+      "y": 0
+    },
+    "data=true,facing=north,lamp=none,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight_support",
+      "y": 0
+    },
+    "data=true,facing=north,lamp=glow,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight_support_glow",
+      "y": 0
+    },
+    "data=true,facing=north,lamp=lava,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight_support_lava",
+      "y": 0
+    },
+    "data=false,facing=east,lamp=none,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight_support",
+      "y": 90
+    },
+    "data=false,facing=east,lamp=glow,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight_support_glow",
+      "y": 90
+    },
+    "data=false,facing=east,lamp=lava,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight_support_lava",
+      "y": 90
+    },
+    "data=true,facing=east,lamp=none,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight_support",
+      "y": 90
+    },
+    "data=true,facing=east,lamp=glow,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight_support_glow",
+      "y": 90
+    },
+    "data=true,facing=east,lamp=lava,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight_support_lava",
+      "y": 90
+    },
+    "data=false,facing=south,lamp=none,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight_support",
+      "y": 180
+    },
+    "data=false,facing=south,lamp=glow,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight_support_glow",
+      "y": 180
+    },
+    "data=false,facing=south,lamp=lava,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight_support_lava",
+      "y": 180
+    },
+    "data=true,facing=south,lamp=none,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight_support",
+      "y": 180
+    },
+    "data=true,facing=south,lamp=glow,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight_support_glow",
+      "y": 180
+    },
+    "data=true,facing=south,lamp=lava,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight_support_lava",
+      "y": 180
+    },
+    "data=false,facing=west,lamp=none,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight_support",
+      "y": 270
+    },
+    "data=false,facing=west,lamp=glow,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight_support_glow",
+      "y": 270
+    },
+    "data=false,facing=west,lamp=lava,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight_support_lava",
+      "y": 270
+    },
+    "data=true,facing=west,lamp=none,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight_support",
+      "y": 270
+    },
+    "data=true,facing=west,lamp=glow,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight_support_glow",
+      "y": 270
+    },
+    "data=true,facing=west,lamp=lava,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_straight_support_lava",
+      "y": 270
+    },
+    "data=false,facing=north,lamp=none,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_inner_corner",
+      "y": 270
+    },
+    "data=false,facing=north,lamp=glow,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_inner_corner_glow",
+      "y": 270
+    },
+    "data=false,facing=north,lamp=lava,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_inner_corner_lava",
+      "y": 270
+    },
+    "data=true,facing=north,lamp=none,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_inner_corner",
+      "y": 270
+    },
+    "data=true,facing=north,lamp=glow,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_inner_corner_glow",
+      "y": 270
+    },
+    "data=true,facing=north,lamp=lava,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_inner_corner_lava",
+      "y": 270
+    },
+    "data=false,facing=east,lamp=none,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_inner_corner",
+      "y": 0
+    },
+    "data=false,facing=east,lamp=glow,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_inner_corner_glow",
+      "y": 0
+    },
+    "data=false,facing=east,lamp=lava,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_inner_corner_lava",
+      "y": 0
+    },
+    "data=true,facing=east,lamp=none,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_inner_corner",
+      "y": 0
+    },
+    "data=true,facing=east,lamp=glow,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_inner_corner_glow",
+      "y": 0
+    },
+    "data=true,facing=east,lamp=lava,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_inner_corner_lava",
+      "y": 0
+    },
+    "data=false,facing=south,lamp=none,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_inner_corner",
+      "y": 90
+    },
+    "data=false,facing=south,lamp=glow,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_inner_corner_glow",
+      "y": 90
+    },
+    "data=false,facing=south,lamp=lava,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_inner_corner_lava",
+      "y": 90
+    },
+    "data=true,facing=south,lamp=none,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_inner_corner",
+      "y": 90
+    },
+    "data=true,facing=south,lamp=glow,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_inner_corner_glow",
+      "y": 90
+    },
+    "data=true,facing=south,lamp=lava,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_inner_corner_lava",
+      "y": 90
+    },
+    "data=false,facing=west,lamp=none,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_inner_corner",
+      "y": 180
+    },
+    "data=false,facing=west,lamp=glow,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_inner_corner_glow",
+      "y": 180
+    },
+    "data=false,facing=west,lamp=lava,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_inner_corner_lava",
+      "y": 180
+    },
+    "data=true,facing=west,lamp=none,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_inner_corner",
+      "y": 180
+    },
+    "data=true,facing=west,lamp=glow,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_inner_corner_glow",
+      "y": 180
+    },
+    "data=true,facing=west,lamp=lava,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_inner_corner_lava",
+      "y": 180
+    },
+    "data=false,facing=north,lamp=none,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_outer_corner",
+      "y": 0
+    },
+    "data=false,facing=north,lamp=glow,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_outer_corner_glow",
+      "y": 0
+    },
+    "data=false,facing=north,lamp=lava,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_outer_corner_lava",
+      "y": 0
+    },
+    "data=true,facing=north,lamp=none,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_outer_corner",
+      "y": 0
+    },
+    "data=true,facing=north,lamp=glow,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_outer_corner_glow",
+      "y": 0
+    },
+    "data=true,facing=north,lamp=lava,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_outer_corner_lava",
+      "y": 0
+    },
+    "data=false,facing=east,lamp=none,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_outer_corner",
+      "y": 90
+    },
+    "data=false,facing=east,lamp=glow,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_outer_corner_glow",
+      "y": 90
+    },
+    "data=false,facing=east,lamp=lava,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_outer_corner_lava",
+      "y": 90
+    },
+    "data=true,facing=east,lamp=none,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_outer_corner",
+      "y": 90
+    },
+    "data=true,facing=east,lamp=glow,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_outer_corner_glow",
+      "y": 90
+    },
+    "data=true,facing=east,lamp=lava,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_outer_corner_lava",
+      "y": 90
+    },
+    "data=false,facing=south,lamp=none,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_outer_corner",
+      "y": 180
+    },
+    "data=false,facing=south,lamp=glow,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_outer_corner_glow",
+      "y": 180
+    },
+    "data=false,facing=south,lamp=lava,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_outer_corner_lava",
+      "y": 180
+    },
+    "data=true,facing=south,lamp=none,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_outer_corner",
+      "y": 180
+    },
+    "data=true,facing=south,lamp=glow,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_outer_corner_glow",
+      "y": 180
+    },
+    "data=true,facing=south,lamp=lava,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_outer_corner_lava",
+      "y": 180
+    },
+    "data=false,facing=west,lamp=none,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_outer_corner",
+      "y": 270
+    },
+    "data=false,facing=west,lamp=glow,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_outer_corner_glow",
+      "y": 270
+    },
+    "data=false,facing=west,lamp=lava,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_outer_corner_lava",
+      "y": 270
+    },
+    "data=true,facing=west,lamp=none,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_outer_corner",
+      "y": 270
+    },
+    "data=true,facing=west,lamp=glow,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_outer_corner_glow",
+      "y": 270
+    },
+    "data=true,facing=west,lamp=lava,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_forestry_chestnut_outer_corner_lava",
+      "y": 270
+    }
+  }
 }

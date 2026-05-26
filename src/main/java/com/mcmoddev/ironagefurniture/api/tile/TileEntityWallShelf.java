@@ -1,17 +1,20 @@
 package com.mcmoddev.ironagefurniture.api.tile;
 
 import com.mcmoddev.ironagefurniture.api.Blocks.SurfaceDisplayBlocker;
+import com.mcmoddev.ironagefurniture.api.Blocks.WallShelf.ShelfLamp;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class TileEntityWallShelf extends TileEntity {
 	private ItemStack displayedItem;
+	private ShelfLamp embeddedLamp = ShelfLamp.NONE;
 
 	public boolean hasDisplayedItem() {
 		return this.displayedItem != null && this.displayedItem.stackSize > 0;
@@ -19,6 +22,18 @@ public class TileEntityWallShelf extends TileEntity {
 
 	public ItemStack getDisplayedItem() {
 		return this.displayedItem;
+	}
+
+	public boolean hasStoredData() {
+		return this.hasDisplayedItem() || this.hasEmbeddedLamp();
+	}
+
+	public boolean hasEmbeddedLamp() {
+		return this.embeddedLamp != ShelfLamp.NONE;
+	}
+
+	public ShelfLamp getEmbeddedLamp() {
+		return this.embeddedLamp;
 	}
 
 	public void setDisplayedItem(ItemStack displayedItem) {
@@ -31,6 +46,19 @@ public class TileEntityWallShelf extends TileEntity {
 		this.displayedItem = null;
 		this.markForUpdate();
 		return itemStack;
+	}
+
+	public void setEmbeddedLamp(ShelfLamp embeddedLamp) {
+		ShelfLamp oldLamp = this.embeddedLamp;
+		this.embeddedLamp = embeddedLamp == null ? ShelfLamp.NONE : embeddedLamp;
+		this.markForUpdate(oldLamp != this.embeddedLamp);
+	}
+
+	public ShelfLamp removeEmbeddedLamp() {
+		ShelfLamp lamp = this.embeddedLamp;
+		this.embeddedLamp = ShelfLamp.NONE;
+		this.markForUpdate(lamp != this.embeddedLamp);
+		return lamp;
 	}
 
 	public void dropDisplayedItem(World worldIn, BlockPos pos) {
@@ -51,6 +79,12 @@ public class TileEntityWallShelf extends TileEntity {
 		} else {
 			this.displayedItem = null;
 		}
+
+		if (compound.hasKey("EmbeddedLamp")) {
+			this.embeddedLamp = ShelfLamp.byName(compound.getString("EmbeddedLamp"));
+		} else {
+			this.embeddedLamp = ShelfLamp.NONE;
+		}
 	}
 
 	@Override
@@ -65,6 +99,12 @@ public class TileEntityWallShelf extends TileEntity {
 			compound.removeTag("DisplayedItem");
 		}
 
+		if (this.hasEmbeddedLamp()) {
+			compound.setString("EmbeddedLamp", this.embeddedLamp.getName());
+		} else {
+			compound.removeTag("EmbeddedLamp");
+		}
+
 		return compound;
 	}
 
@@ -75,7 +115,12 @@ public class TileEntityWallShelf extends TileEntity {
 
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+		ShelfLamp oldLamp = this.embeddedLamp;
 		this.readFromNBT(pkt.getNbtCompound());
+
+		if (oldLamp != this.embeddedLamp) {
+			this.refreshLighting();
+		}
 	}
 
 	@Override
@@ -84,11 +129,35 @@ public class TileEntityWallShelf extends TileEntity {
 	}
 
 	private void markForUpdate() {
+		this.markForUpdate(false);
+	}
+
+	private void markForUpdate(boolean lightChanged) {
 		this.markDirty();
 
 		if (this.world != null && !this.world.isRemote) {
 			this.world.notifyBlockUpdate(this.pos, this.world.getBlockState(this.pos),
 				this.world.getBlockState(this.pos), 3);
+		}
+
+		if (lightChanged) {
+			this.refreshLighting();
+		}
+	}
+
+	private void refreshLighting() {
+		if (this.world == null || this.pos == null) {
+			return;
+		}
+
+		this.world.checkLight(this.pos);
+
+		for (EnumFacing facing : EnumFacing.values()) {
+			this.world.checkLight(this.pos.offset(facing));
+		}
+
+		if (this.world.isRemote) {
+			this.world.markBlockRangeForRenderUpdate(this.pos.add(-15, -15, -15), this.pos.add(15, 15, 15));
 		}
 	}
 }
