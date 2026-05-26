@@ -1,10 +1,12 @@
 package com.mcmoddev.ironagefurniture.api.Blocks;
 
 import java.util.List;
+import java.util.Random;
 
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 import com.mcmoddev.ironagefurniture.Ironagefurniture;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityWallShelf;
+import com.mcmoddev.ironagefurniture.client.particle.CandleFlameParticle;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -28,6 +30,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -677,6 +680,39 @@ public class WallShelf extends BlockHBase {
 	@Override
 	public int getLightValue(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
 		return this.getShelfContents(worldIn, pos).getLightLevel();
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand) {
+		if (this.getShelfContents(world, pos) != ShelfContents.CANDLE) {
+			return;
+		}
+
+		ShelfRenderState renderState = this.getRenderState(world, pos, state.getValue(FACING));
+		double[] flamePoint = this.rotateShelfPoint(renderState.facing, 8.0D / 16.0D, 8.5D / 16.0D);
+		double x = pos.getX() + flamePoint[0];
+		double y = pos.getY() + 19.7D / 16.0D;
+		double z = pos.getZ() + flamePoint[1];
+
+		if (rand.nextInt(3) == 0) {
+			world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x, y + 0.04D, z, 0.0D, 0.0D, 0.0D);
+		}
+
+		CandleFlameParticle.spawn(world, x, y, z);
+	}
+
+	private double[] rotateShelfPoint(EnumFacing facing, double x, double z) {
+		switch (facing) {
+		case EAST:
+			return new double[] { 1.0D - z, x };
+		case SOUTH:
+			return new double[] { 1.0D - x, 1.0D - z };
+		case WEST:
+			return new double[] { z, 1.0D - x };
+		default:
+			return new double[] { x, z };
+		}
 	}
 
 	private boolean canAttachTo(IBlockAccess worldIn, BlockPos pos, EnumFacing facing) {
