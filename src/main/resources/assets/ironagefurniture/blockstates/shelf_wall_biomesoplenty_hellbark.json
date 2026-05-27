@@ -32,6 +32,10 @@
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_straight_books_4",
       "y": 0
     },
+    "contents=books_5,data=false,facing=north,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_straight_books_5",
+      "y": 0
+    },
     "contents=records_1,data=false,facing=north,support=straight": {
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_straight_records_1",
       "y": 0
@@ -86,6 +90,10 @@
     },
     "contents=books_4,data=true,facing=north,support=straight": {
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_straight_books_4",
+      "y": 0
+    },
+    "contents=books_5,data=true,facing=north,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_straight_books_5",
       "y": 0
     },
     "contents=records_1,data=true,facing=north,support=straight": {
@@ -144,6 +152,10 @@
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_straight_books_4",
       "y": 90
     },
+    "contents=books_5,data=false,facing=east,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_straight_books_5",
+      "y": 90
+    },
     "contents=records_1,data=false,facing=east,support=straight": {
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_straight_records_1",
       "y": 90
@@ -198,6 +210,10 @@
     },
     "contents=books_4,data=true,facing=east,support=straight": {
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_straight_books_4",
+      "y": 90
+    },
+    "contents=books_5,data=true,facing=east,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_straight_books_5",
       "y": 90
     },
     "contents=records_1,data=true,facing=east,support=straight": {
@@ -256,6 +272,10 @@
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_straight_books_4",
       "y": 180
     },
+    "contents=books_5,data=false,facing=south,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_straight_books_5",
+      "y": 180
+    },
     "contents=records_1,data=false,facing=south,support=straight": {
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_straight_records_1",
       "y": 180
@@ -310,6 +330,10 @@
     },
     "contents=books_4,data=true,facing=south,support=straight": {
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_straight_books_4",
+      "y": 180
+    },
+    "contents=books_5,data=true,facing=south,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_straight_books_5",
       "y": 180
     },
     "contents=records_1,data=true,facing=south,support=straight": {
@@ -368,6 +392,10 @@
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_straight_books_4",
       "y": 270
     },
+    "contents=books_5,data=false,facing=west,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_straight_books_5",
+      "y": 270
+    },
     "contents=records_1,data=false,facing=west,support=straight": {
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_straight_records_1",
       "y": 270
@@ -422,6 +450,10 @@
     },
     "contents=books_4,data=true,facing=west,support=straight": {
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_straight_books_4",
+      "y": 270
+    },
+    "contents=books_5,data=true,facing=west,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_straight_books_5",
       "y": 270
     },
     "contents=records_1,data=true,facing=west,support=straight": {
@@ -480,6 +512,10 @@
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_straight_support_books_4",
       "y": 0
     },
+    "contents=books_5,data=false,facing=north,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_straight_support_books_5",
+      "y": 0
+    },
     "contents=records_1,data=false,facing=north,support=straight_support": {
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_straight_support_records_1",
       "y": 0
@@ -534,6 +570,10 @@
     },
     "contents=books_4,data=true,facing=north,support=straight_support": {
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_straight_support_books_4",
+      "y": 0
+    },
+    "contents=books_5,data=true,facing=north,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_straight_support_books_5",
       "y": 0
     },
     "contents=records_1,data=true,facing=north,support=straight_support": {
@@ -592,6 +632,10 @@
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_straight_support_books_4",
       "y": 90
     },
+    "contents=books_5,data=false,facing=east,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_straight_support_books_5",
+      "y": 90
+    },
     "contents=records_1,data=false,facing=east,support=straight_support": {
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_straight_support_records_1",
       "y": 90
@@ -646,6 +690,10 @@
     },
     "contents=books_4,data=true,facing=east,support=straight_support": {
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_straight_support_books_4",
+      "y": 90
+    },
+    "contents=books_5,data=true,facing=east,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_straight_support_books_5",
       "y": 90
     },
     "contents=records_1,data=true,facing=east,support=straight_support": {
@@ -704,6 +752,10 @@
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_straight_support_books_4",
       "y": 180
     },
+    "contents=books_5,data=false,facing=south,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_straight_support_books_5",
+      "y": 180
+    },
     "contents=records_1,data=false,facing=south,support=straight_support": {
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_straight_support_records_1",
       "y": 180
@@ -758,6 +810,10 @@
     },
     "contents=books_4,data=true,facing=south,support=straight_support": {
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_straight_support_books_4",
+      "y": 180
+    },
+    "contents=books_5,data=true,facing=south,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_straight_support_books_5",
       "y": 180
     },
     "contents=records_1,data=true,facing=south,support=straight_support": {
@@ -816,6 +872,10 @@
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_straight_support_books_4",
       "y": 270
     },
+    "contents=books_5,data=false,facing=west,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_straight_support_books_5",
+      "y": 270
+    },
     "contents=records_1,data=false,facing=west,support=straight_support": {
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_straight_support_records_1",
       "y": 270
@@ -870,6 +930,10 @@
     },
     "contents=books_4,data=true,facing=west,support=straight_support": {
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_straight_support_books_4",
+      "y": 270
+    },
+    "contents=books_5,data=true,facing=west,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_straight_support_books_5",
       "y": 270
     },
     "contents=records_1,data=true,facing=west,support=straight_support": {
@@ -928,6 +992,10 @@
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_inner_corner_books_4",
       "y": 270
     },
+    "contents=books_5,data=false,facing=north,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_inner_corner_books_5",
+      "y": 270
+    },
     "contents=records_1,data=false,facing=north,support=inner_corner": {
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_inner_corner_records_1",
       "y": 270
@@ -982,6 +1050,10 @@
     },
     "contents=books_4,data=true,facing=north,support=inner_corner": {
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_inner_corner_books_4",
+      "y": 270
+    },
+    "contents=books_5,data=true,facing=north,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_inner_corner_books_5",
       "y": 270
     },
     "contents=records_1,data=true,facing=north,support=inner_corner": {
@@ -1040,6 +1112,10 @@
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_inner_corner_books_4",
       "y": 0
     },
+    "contents=books_5,data=false,facing=east,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_inner_corner_books_5",
+      "y": 0
+    },
     "contents=records_1,data=false,facing=east,support=inner_corner": {
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_inner_corner_records_1",
       "y": 0
@@ -1094,6 +1170,10 @@
     },
     "contents=books_4,data=true,facing=east,support=inner_corner": {
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_inner_corner_books_4",
+      "y": 0
+    },
+    "contents=books_5,data=true,facing=east,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_inner_corner_books_5",
       "y": 0
     },
     "contents=records_1,data=true,facing=east,support=inner_corner": {
@@ -1152,6 +1232,10 @@
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_inner_corner_books_4",
       "y": 90
     },
+    "contents=books_5,data=false,facing=south,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_inner_corner_books_5",
+      "y": 90
+    },
     "contents=records_1,data=false,facing=south,support=inner_corner": {
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_inner_corner_records_1",
       "y": 90
@@ -1206,6 +1290,10 @@
     },
     "contents=books_4,data=true,facing=south,support=inner_corner": {
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_inner_corner_books_4",
+      "y": 90
+    },
+    "contents=books_5,data=true,facing=south,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_inner_corner_books_5",
       "y": 90
     },
     "contents=records_1,data=true,facing=south,support=inner_corner": {
@@ -1264,6 +1352,10 @@
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_inner_corner_books_4",
       "y": 180
     },
+    "contents=books_5,data=false,facing=west,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_inner_corner_books_5",
+      "y": 180
+    },
     "contents=records_1,data=false,facing=west,support=inner_corner": {
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_inner_corner_records_1",
       "y": 180
@@ -1318,6 +1410,10 @@
     },
     "contents=books_4,data=true,facing=west,support=inner_corner": {
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_inner_corner_books_4",
+      "y": 180
+    },
+    "contents=books_5,data=true,facing=west,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_inner_corner_books_5",
       "y": 180
     },
     "contents=records_1,data=true,facing=west,support=inner_corner": {
@@ -1376,6 +1472,10 @@
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_outer_corner_books_4",
       "y": 0
     },
+    "contents=books_5,data=false,facing=north,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_outer_corner_books_5",
+      "y": 0
+    },
     "contents=records_1,data=false,facing=north,support=outer_corner": {
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_outer_corner_records_1",
       "y": 0
@@ -1430,6 +1530,10 @@
     },
     "contents=books_4,data=true,facing=north,support=outer_corner": {
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_outer_corner_books_4",
+      "y": 0
+    },
+    "contents=books_5,data=true,facing=north,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_outer_corner_books_5",
       "y": 0
     },
     "contents=records_1,data=true,facing=north,support=outer_corner": {
@@ -1488,6 +1592,10 @@
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_outer_corner_books_4",
       "y": 90
     },
+    "contents=books_5,data=false,facing=east,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_outer_corner_books_5",
+      "y": 90
+    },
     "contents=records_1,data=false,facing=east,support=outer_corner": {
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_outer_corner_records_1",
       "y": 90
@@ -1542,6 +1650,10 @@
     },
     "contents=books_4,data=true,facing=east,support=outer_corner": {
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_outer_corner_books_4",
+      "y": 90
+    },
+    "contents=books_5,data=true,facing=east,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_outer_corner_books_5",
       "y": 90
     },
     "contents=records_1,data=true,facing=east,support=outer_corner": {
@@ -1600,6 +1712,10 @@
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_outer_corner_books_4",
       "y": 180
     },
+    "contents=books_5,data=false,facing=south,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_outer_corner_books_5",
+      "y": 180
+    },
     "contents=records_1,data=false,facing=south,support=outer_corner": {
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_outer_corner_records_1",
       "y": 180
@@ -1654,6 +1770,10 @@
     },
     "contents=books_4,data=true,facing=south,support=outer_corner": {
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_outer_corner_books_4",
+      "y": 180
+    },
+    "contents=books_5,data=true,facing=south,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_outer_corner_books_5",
       "y": 180
     },
     "contents=records_1,data=true,facing=south,support=outer_corner": {
@@ -1712,6 +1832,10 @@
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_outer_corner_books_4",
       "y": 270
     },
+    "contents=books_5,data=false,facing=west,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_outer_corner_books_5",
+      "y": 270
+    },
     "contents=records_1,data=false,facing=west,support=outer_corner": {
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_outer_corner_records_1",
       "y": 270
@@ -1766,6 +1890,10 @@
     },
     "contents=books_4,data=true,facing=west,support=outer_corner": {
       "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_outer_corner_books_4",
+      "y": 270
+    },
+    "contents=books_5,data=true,facing=west,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_hellbark_outer_corner_books_5",
       "y": 270
     },
     "contents=records_1,data=true,facing=west,support=outer_corner": {

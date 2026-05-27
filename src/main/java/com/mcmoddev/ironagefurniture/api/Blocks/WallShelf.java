@@ -85,7 +85,7 @@ public class WallShelf extends BlockHBase {
 		GLOW("glow", 1, 15),
 		LAVA("lava", 1, 15),
 		CANDLE("candle", 1, 12),
-		BOOKS("books", 4, 0),
+		BOOKS("books", 5, 0),
 		RECORDS("records", 6, 0);
 
 		private final String name;
@@ -136,6 +136,7 @@ public class WallShelf extends BlockHBase {
 		BOOKS_2("books_2", ShelfContentKind.BOOKS, 2),
 		BOOKS_3("books_3", ShelfContentKind.BOOKS, 3),
 		BOOKS_4("books_4", ShelfContentKind.BOOKS, 4),
+		BOOKS_5("books_5", ShelfContentKind.BOOKS, 5),
 		RECORDS_1("records_1", ShelfContentKind.RECORDS, 1),
 		RECORDS_2("records_2", ShelfContentKind.RECORDS, 2),
 		RECORDS_3("records_3", ShelfContentKind.RECORDS, 3),
@@ -316,16 +317,18 @@ public class WallShelf extends BlockHBase {
 
 			TileEntityWallShelf shelf = this.getShelfEntity(worldIn, pos, false);
 
-			if (shelf != null && shelf.hasEmbeddedContent() && !shelf.canAddEmbeddedContent(heldContent)
+			if (shelf != null && shelf.hasEmbeddedContent()
+					&& !this.canAddEmbeddedContentAt(worldIn, pos, shelf, heldContent)
 					&& this.isSameShelfStack(shelf.getLastEmbeddedItem(), heldItem)) {
 				this.removeLastEmbeddedItemFromShelf(worldIn, pos, shelf, playerIn);
 				return true;
 			}
 
-			if (shelf == null || shelf.canAddEmbeddedContent(heldContent)) {
+			if (shelf == null || this.canAddEmbeddedContentAt(worldIn, pos, shelf, heldContent)) {
 				shelf = this.getShelfEntity(worldIn, pos, true);
 
-				if (shelf != null && shelf.addEmbeddedContent(heldContent, heldItem)) {
+				if (shelf != null && this.canAddEmbeddedContentAt(worldIn, pos, shelf, heldContent)
+						&& shelf.addEmbeddedContent(heldContent, heldItem)) {
 
 					if (!playerIn.capabilities.isCreativeMode) {
 						heldItem.stackSize--;
@@ -1036,5 +1039,33 @@ public class WallShelf extends BlockHBase {
 		TileEntity tileEntity = worldIn.getTileEntity(pos);
 		return tileEntity instanceof TileEntityWallShelf
 			? ((TileEntityWallShelf)tileEntity).getShelfContents() : ShelfContents.NONE;
+	}
+
+	private boolean canAddEmbeddedContentAt(IBlockAccess worldIn, BlockPos pos, TileEntityWallShelf shelf,
+			ShelfContentKind kind) {
+		if (shelf == null) {
+			return kind != null && kind != ShelfContentKind.NONE
+				&& this.getEmbeddedCapacityForPosition(worldIn, pos, kind) > 0;
+		}
+
+		return shelf.canAddEmbeddedContent(kind)
+			&& shelf.getEmbeddedCount() < this.getEmbeddedCapacityForPosition(worldIn, pos, kind);
+	}
+
+	private int getEmbeddedCapacityForPosition(IBlockAccess worldIn, BlockPos pos, ShelfContentKind kind) {
+		if (kind != ShelfContentKind.BOOKS) {
+			return kind.getCapacity();
+		}
+
+		IBlockState state = worldIn.getBlockState(pos);
+
+		if (state.getBlock() != this) {
+			return kind.getCapacity();
+		}
+
+		ShelfRenderState renderState = this.getRenderState(worldIn, pos, state.getValue(FACING));
+
+		return renderState.support == ShelfSupport.INNER_CORNER || renderState.support == ShelfSupport.OUTER_CORNER
+			? Math.min(4, kind.getCapacity()) : kind.getCapacity();
 	}
 }

@@ -6,9 +6,10 @@
     "planks": "",
     "particle": "",
     "book_0": "ironagefurniture:blocks/shelf_book_red",
-    "book_1": "ironagefurniture:blocks/shelf_book_blue",
-    "book_2": "ironagefurniture:blocks/shelf_book_green",
-    "book_3": "ironagefurniture:blocks/shelf_book_purple",
+    "book_1": "ironagefurniture:blocks/shelf_book_green",
+    "book_2": "ironagefurniture:blocks/shelf_book_blue",
+    "book_3": "ironagefurniture:blocks/shelf_book_brown",
+    "book_4": "ironagefurniture:blocks/shelf_book_purple",
     "book_pages": "ironagefurniture:blocks/shelf_book_pages"
   },
   "elements": [
@@ -626,14 +627,14 @@
       }
     },
     {
-      "name": "embedded upright book 1 page ridge",
+      "name": "embedded upright book 1 gold ridge",
       "from": [
-        6.27,
-        13.4,
+        6.29,
+        13.45,
         6.92
       ],
       "to": [
-        9.73,
+        9.71,
         19.55,
         7.1
       ],

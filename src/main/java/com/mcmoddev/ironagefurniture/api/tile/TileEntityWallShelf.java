@@ -249,7 +249,7 @@ public class TileEntityWallShelf extends TileEntity {
 		return this.writeToNBT(new NBTTagCompound());
 	}
 
-	private int getEmbeddedCount() {
+	public int getEmbeddedCount() {
 		int count = 0;
 
 		for (ItemStack itemStack : this.embeddedItems) {

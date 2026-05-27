@@ -6,9 +6,10 @@
     "planks": "",
     "particle": "",
     "book_0": "ironagefurniture:blocks/shelf_book_red",
-    "book_1": "ironagefurniture:blocks/shelf_book_blue",
-    "book_2": "ironagefurniture:blocks/shelf_book_green",
-    "book_3": "ironagefurniture:blocks/shelf_book_purple",
+    "book_1": "ironagefurniture:blocks/shelf_book_green",
+    "book_2": "ironagefurniture:blocks/shelf_book_blue",
+    "book_3": "ironagefurniture:blocks/shelf_book_brown",
+    "book_4": "ironagefurniture:blocks/shelf_book_purple",
     "book_pages": "ironagefurniture:blocks/shelf_book_pages"
   },
   "elements": [
@@ -296,12 +297,12 @@
     {
       "name": "embedded upright book 1",
       "from": [
-        3.0,
+        4.455,
         13.0,
         7.0
       ],
       "to": [
-        5.55,
+        7.105,
         20.0,
         14.0
       ],
@@ -363,14 +364,14 @@
       }
     },
     {
-      "name": "embedded upright book 1 page ridge",
+      "name": "embedded upright book 1 gold ridge",
       "from": [
-        3.12,
-        13.4,
+        4.595,
+        13.45,
         6.92
       ],
       "to": [
-        5.43,
+        6.965,
         19.55,
         7.1
       ],
@@ -434,12 +435,12 @@
     {
       "name": "embedded upright book 2",
       "from": [
-        6.05,
+        7.525,
         13.0,
         7.0
       ],
       "to": [
-        8.8,
+        10.175,
         20.45,
         14.0
       ],
@@ -501,14 +502,14 @@
       }
     },
     {
-      "name": "embedded upright book 2 page ridge",
+      "name": "embedded upright book 2 gold ridge",
       "from": [
-        6.17,
-        13.4,
+        7.665,
+        13.45,
         6.92
       ],
       "to": [
-        8.68,
+        10.035,
         20.0,
         7.1
       ],
@@ -572,12 +573,12 @@
     {
       "name": "embedded upright book 3",
       "from": [
-        9.3,
+        10.595,
         13.0,
         7.0
       ],
       "to": [
-        11.85,
+        13.245,
         20.2,
         14.0
       ],
@@ -639,14 +640,14 @@
       }
     },
     {
-      "name": "embedded upright book 3 page ridge",
+      "name": "embedded upright book 3 gold ridge",
       "from": [
-        9.42,
-        13.4,
+        10.735,
+        13.45,
         6.92
       ],
       "to": [
-        11.73,
+        13.105,
         19.75,
         7.1
       ],

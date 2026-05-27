@@ -6,9 +6,10 @@
     "planks": "forestry:blocks/wood/planks.walnut",
     "particle": "forestry:blocks/wood/bark.walnut",
     "book_0": "ironagefurniture:blocks/shelf_book_red",
-    "book_1": "ironagefurniture:blocks/shelf_book_blue",
-    "book_2": "ironagefurniture:blocks/shelf_book_green",
+    "book_1": "ironagefurniture:blocks/shelf_book_green",
+    "book_2": "ironagefurniture:blocks/shelf_book_blue",
     "book_pages": "ironagefurniture:blocks/shelf_book_pages",
-    "book_3": "ironagefurniture:blocks/shelf_book_purple"
+    "book_3": "ironagefurniture:blocks/shelf_book_brown",
+    "book_4": "ironagefurniture:blocks/shelf_book_purple"
   }
 }
