@@ -5,8 +5,9 @@
     "log": "biomesoplenty:blocks/ethereal_log",
     "planks": "biomesoplenty:blocks/ethereal_planks",
     "particle": "biomesoplenty:blocks/ethereal_log",
-    "book_0": "minecraft:items/book_normal",
-    "book_1": "minecraft:items/writable_book",
-    "book_2": "minecraft:items/written_book"
+    "book_0": "ironagefurniture:blocks/shelf_book_red",
+    "book_1": "ironagefurniture:blocks/shelf_book_blue",
+    "book_2": "ironagefurniture:blocks/shelf_book_green",
+    "book_pages": "ironagefurniture:blocks/shelf_book_pages"
   }
 }

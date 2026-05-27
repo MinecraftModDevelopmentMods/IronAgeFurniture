@@ -5,7 +5,13 @@
     "log": "",
     "planks": "",
     "particle": "",
-    "record": "minecraft:items/record_13"
+    "record_0": "ironagefurniture:blocks/shelf_record_brown",
+    "record_1": "ironagefurniture:blocks/shelf_record_red",
+    "record_2": "ironagefurniture:blocks/shelf_record_blue",
+    "record_3": "ironagefurniture:blocks/shelf_record_green",
+    "record_4": "ironagefurniture:blocks/shelf_record_purple",
+    "record_5": "ironagefurniture:blocks/shelf_record_gold",
+    "record_edge": "ironagefurniture:blocks/shelf_record_edge"
   },
   "elements": [
     {
@@ -553,154 +559,430 @@
       }
     },
     {
-      "name": "embedded record rack front",
+      "name": "embedded vinyl record 1",
       "from": [
-        3.75,
-        13,
+        7.625,
+        13.35,
+        8.05
+      ],
+      "to": [
+        8.375,
+        19.0,
+        12.35
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#record_edge"
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#record_0"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#record_edge"
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#record_0"
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#record_edge"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#record_edge"
+        }
+      }
+    },
+    {
+      "name": "embedded record rack front rail",
+      "from": [
+        3.1,
+        13.0,
+        7.0
+      ],
+      "to": [
+        12.9,
+        13.8,
+        7.55
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#planks"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#planks"
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#planks"
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#planks"
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#planks"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#planks"
+        }
+      }
+    },
+    {
+      "name": "embedded record rack back rail",
+      "from": [
+        3.1,
+        13.0,
+        13.75
+      ],
+      "to": [
+        12.9,
+        13.8,
+        14.3
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#planks"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#planks"
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#planks"
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#planks"
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#planks"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#planks"
+        }
+      }
+    },
+    {
+      "name": "embedded record rack left stop",
+      "from": [
+        2.8,
+        13.0,
+        7.0
+      ],
+      "to": [
+        3.35,
+        16.2,
+        14.3
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#planks"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#planks"
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#planks"
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#planks"
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#planks"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#planks"
+        }
+      }
+    },
+    {
+      "name": "embedded record rack right stop",
+      "from": [
+        12.65,
+        13.0,
+        7.0
+      ],
+      "to": [
+        13.2,
+        16.2,
+        14.3
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#planks"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#planks"
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#planks"
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#planks"
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#planks"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#planks"
+        }
+      }
+    },
+    {
+      "name": "embedded record sleeve 1",
+      "from": [
+        7.28,
+        13.35,
         7.35
       ],
       "to": [
-        12.25,
-        14,
-        8
+        7.72,
+        20.05,
+        14.05
       ],
       "faces": {
         "north": {
           "uv": [
             0,
             0,
-            9,
-            1
+            16,
+            16
           ],
-          "texture": "#planks"
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            9,
-            1
-          ],
-          "texture": "#planks"
+          "texture": "#record_0"
         },
         "south": {
           "uv": [
             0,
             0,
-            9,
-            1
+            16,
+            16
           ],
-          "texture": "#planks"
+          "texture": "#record_0"
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#record_edge"
         },
         "west": {
           "uv": [
             0,
             0,
-            9,
-            1
+            16,
+            16
           ],
-          "texture": "#planks"
+          "texture": "#record_edge"
         },
         "up": {
           "uv": [
             0,
             0,
-            9,
-            1
+            16,
+            16
           ],
-          "texture": "#planks"
+          "texture": "#record_edge"
         },
         "down": {
           "uv": [
             0,
             0,
-            9,
-            1
+            16,
+            16
           ],
-          "texture": "#planks"
+          "texture": "#record_edge"
         }
       }
     },
     {
-      "name": "embedded record rack back",
+      "name": "embedded record label 1",
       "from": [
-        3.75,
-        13,
-        12.35
+        7.265,
+        15.55,
+        7.22
       ],
       "to": [
-        12.25,
-        14,
-        13
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            0,
-            9,
-            1
-          ],
-          "texture": "#planks"
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            9,
-            1
-          ],
-          "texture": "#planks"
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            9,
-            1
-          ],
-          "texture": "#planks"
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            9,
-            1
-          ],
-          "texture": "#planks"
-        },
-        "up": {
-          "uv": [
-            0,
-            0,
-            9,
-            1
-          ],
-          "texture": "#planks"
-        },
-        "down": {
-          "uv": [
-            0,
-            0,
-            9,
-            1
-          ],
-          "texture": "#planks"
-        }
-      }
-    },
-    {
-      "name": "embedded record 1",
-      "from": [
-        7.35,
-        14,
-        8.15
-      ],
-      "to": [
-        9.35,
-        18.5,
-        12.15
+        7.735,
+        17.7,
+        9.25
       ],
       "faces": {
         "north": {
@@ -710,16 +992,7 @@
             16,
             16
           ],
-          "texture": "#record"
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            16,
-            16
-          ],
-          "texture": "#record"
+          "texture": "#record_edge"
         },
         "south": {
           "uv": [
@@ -728,7 +1001,16 @@
             16,
             16
           ],
-          "texture": "#record"
+          "texture": "#record_edge"
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#record_edge"
         },
         "west": {
           "uv": [
@@ -737,7 +1019,7 @@
             16,
             16
           ],
-          "texture": "#record"
+          "texture": "#record_edge"
         },
         "up": {
           "uv": [
@@ -746,7 +1028,7 @@
             16,
             16
           ],
-          "texture": "#record"
+          "texture": "#record_edge"
         },
         "down": {
           "uv": [
@@ -755,81 +1037,9 @@
             16,
             16
           ],
-          "texture": "#record"
+          "texture": "#record_edge"
         }
       }
     }
-  ],
-  "display": {
-    "thirdperson_righthand": {
-      "rotation": [
-        75,
-        45,
-        0
-      ],
-      "translation": [
-        0,
-        2,
-        0
-      ],
-      "scale": [
-        0.32,
-        0.32,
-        0.32
-      ]
-    },
-    "firstperson_righthand": {
-      "rotation": [
-        0,
-        45,
-        0
-      ],
-      "scale": [
-        0.36,
-        0.36,
-        0.36
-      ]
-    },
-    "ground": {
-      "translation": [
-        0,
-        3,
-        0
-      ],
-      "scale": [
-        0.32,
-        0.32,
-        0.32
-      ]
-    },
-    "gui": {
-      "rotation": [
-        30,
-        -135,
-        0
-      ],
-      "translation": [
-        0,
-        1,
-        0
-      ],
-      "scale": [
-        0.62,
-        0.62,
-        0.62
-      ]
-    },
-    "fixed": {
-      "rotation": [
-        0,
-        -180,
-        0
-      ],
-      "scale": [
-        0.5,
-        0.5,
-        0.5
-      ]
-    }
-  }
+  ]
 }

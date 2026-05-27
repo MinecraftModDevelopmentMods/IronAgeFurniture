@@ -4,9 +4,10 @@
   "textures": {
     "planks": "",
     "particle": "",
-    "book_0": "minecraft:items/book_normal",
-    "book_1": "minecraft:items/writable_book",
-    "book_2": "minecraft:items/written_book"
+    "book_0": "ironagefurniture:blocks/shelf_book_red",
+    "book_1": "ironagefurniture:blocks/shelf_book_blue",
+    "book_2": "ironagefurniture:blocks/shelf_book_green",
+    "book_pages": "ironagefurniture:blocks/shelf_book_pages"
   },
   "elements": [
     {
@@ -164,28 +165,19 @@
       }
     },
     {
-      "name": "embedded book 1",
+      "name": "embedded upright book 1",
       "from": [
-        6.5,
-        13,
-        10.65
+        5.8,
+        13.0,
+        7.15
       ],
       "to": [
-        9.5,
-        19.5,
-        12.75
+        10.2,
+        20.0,
+        13.65
       ],
       "faces": {
         "north": {
-          "uv": [
-            0,
-            0,
-            16,
-            16
-          ],
-          "texture": "#book_0"
-        },
-        "east": {
           "uv": [
             0,
             0,
@@ -203,6 +195,15 @@
           ],
           "texture": "#book_0"
         },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#book_pages"
+        },
         "west": {
           "uv": [
             0,
@@ -210,7 +211,7 @@
             16,
             16
           ],
-          "texture": "#book_0"
+          "texture": "#book_pages"
         },
         "up": {
           "uv": [
@@ -219,7 +220,7 @@
             16,
             16
           ],
-          "texture": "#book_0"
+          "texture": "#book_pages"
         },
         "down": {
           "uv": [
@@ -228,81 +229,78 @@
             16,
             16
           ],
-          "texture": "#book_0"
+          "texture": "#book_pages"
+        }
+      }
+    },
+    {
+      "name": "embedded upright book 1 spine band",
+      "from": [
+        5.92,
+        13.45,
+        7.05
+      ],
+      "to": [
+        10.08,
+        19.55,
+        7.22
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#book_pages"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#book_pages"
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#book_pages"
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#book_pages"
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#book_pages"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#book_pages"
         }
       }
     }
-  ],
-  "display": {
-    "thirdperson_righthand": {
-      "rotation": [
-        75,
-        45,
-        0
-      ],
-      "translation": [
-        0,
-        2,
-        0
-      ],
-      "scale": [
-        0.32,
-        0.32,
-        0.32
-      ]
-    },
-    "firstperson_righthand": {
-      "rotation": [
-        0,
-        45,
-        0
-      ],
-      "scale": [
-        0.36,
-        0.36,
-        0.36
-      ]
-    },
-    "ground": {
-      "translation": [
-        0,
-        3,
-        0
-      ],
-      "scale": [
-        0.32,
-        0.32,
-        0.32
-      ]
-    },
-    "gui": {
-      "rotation": [
-        30,
-        -135,
-        0
-      ],
-      "translation": [
-        0,
-        1,
-        0
-      ],
-      "scale": [
-        0.62,
-        0.62,
-        0.62
-      ]
-    },
-    "fixed": {
-      "rotation": [
-        0,
-        -180,
-        0
-      ],
-      "scale": [
-        0.5,
-        0.5,
-        0.5
-      ]
-    }
-  }
+  ]
 }

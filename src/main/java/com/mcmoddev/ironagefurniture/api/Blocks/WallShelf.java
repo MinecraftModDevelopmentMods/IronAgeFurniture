@@ -86,7 +86,7 @@ public class WallShelf extends BlockHBase {
 		LAVA("lava", 1, 15),
 		CANDLE("candle", 1, 12),
 		BOOKS("books", 3, 0),
-		RECORDS("records", 3, 0);
+		RECORDS("records", 6, 0);
 
 		private final String name;
 		private final int capacity;
@@ -137,7 +137,10 @@ public class WallShelf extends BlockHBase {
 		BOOKS_3("books_3", ShelfContentKind.BOOKS, 3),
 		RECORDS_1("records_1", ShelfContentKind.RECORDS, 1),
 		RECORDS_2("records_2", ShelfContentKind.RECORDS, 2),
-		RECORDS_3("records_3", ShelfContentKind.RECORDS, 3);
+		RECORDS_3("records_3", ShelfContentKind.RECORDS, 3),
+		RECORDS_4("records_4", ShelfContentKind.RECORDS, 4),
+		RECORDS_5("records_5", ShelfContentKind.RECORDS, 5),
+		RECORDS_6("records_6", ShelfContentKind.RECORDS, 6);
 
 		private final String name;
 		private final ShelfContentKind kind;

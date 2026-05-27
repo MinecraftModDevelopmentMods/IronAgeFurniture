@@ -20,7 +20,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class TileEntityWallShelf extends TileEntity {
-	private static final int MAX_EMBEDDED_SLOTS = 3;
+	private static final int MAX_EMBEDDED_SLOTS = 6;
 
 	private ItemStack displayedItem;
 	private ShelfContentKind embeddedKind = ShelfContentKind.NONE;
@@ -237,6 +237,7 @@ public class TileEntityWallShelf extends TileEntity {
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
 		int oldLight = this.getEmbeddedLightLevel();
 		this.readFromNBT(pkt.getNbtCompound());
+		this.refreshRender();
 
 		if (oldLight != this.getEmbeddedLightLevel()) {
 			this.refreshLighting();
@@ -314,6 +315,12 @@ public class TileEntityWallShelf extends TileEntity {
 
 		if (this.world.isRemote) {
 			this.world.markBlockRangeForRenderUpdate(this.pos.add(-15, -15, -15), this.pos.add(15, 15, 15));
+		}
+	}
+
+	private void refreshRender() {
+		if (this.world != null && this.world.isRemote && this.pos != null) {
+			this.world.markBlockRangeForRenderUpdate(this.pos, this.pos);
 		}
 	}
 }
