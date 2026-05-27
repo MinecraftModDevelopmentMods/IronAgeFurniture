@@ -8,6 +8,7 @@
     "book_0": "ironagefurniture:blocks/shelf_book_red",
     "book_1": "ironagefurniture:blocks/shelf_book_blue",
     "book_2": "ironagefurniture:blocks/shelf_book_green",
+    "book_3": "ironagefurniture:blocks/shelf_book_purple",
     "book_pages": "ironagefurniture:blocks/shelf_book_pages"
   },
   "elements": [
@@ -558,26 +559,17 @@
     {
       "name": "embedded upright book 1",
       "from": [
-        3.9,
+        4.2,
         13.0,
-        7.15
+        7.0
       ],
       "to": [
-        7.4,
-        19.4,
-        13.65
+        7.05,
+        20.0,
+        14.0
       ],
       "faces": {
         "north": {
-          "uv": [
-            0,
-            0,
-            16,
-            16
-          ],
-          "texture": "#book_0"
-        },
-        "south": {
           "uv": [
             0,
             0,
@@ -595,6 +587,15 @@
           ],
           "texture": "#book_pages"
         },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#book_0"
+        },
         "west": {
           "uv": [
             0,
@@ -602,7 +603,7 @@
             16,
             16
           ],
-          "texture": "#book_pages"
+          "texture": "#book_0"
         },
         "up": {
           "uv": [
@@ -625,16 +626,16 @@
       }
     },
     {
-      "name": "embedded upright book 1 spine band",
+      "name": "embedded upright book 1 page ridge",
       "from": [
-        4.02,
-        13.45,
-        7.05
+        4.32,
+        13.4,
+        6.92
       ],
       "to": [
-        7.28,
-        18.95,
-        7.22
+        6.93,
+        19.55,
+        7.1
       ],
       "faces": {
         "north": {
@@ -644,16 +645,7 @@
             16,
             16
           ],
-          "texture": "#book_pages"
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            16,
-            16
-          ],
-          "texture": "#book_pages"
+          "texture": "#book_0"
         },
         "east": {
           "uv": [
@@ -662,7 +654,16 @@
             16,
             16
           ],
-          "texture": "#book_pages"
+          "texture": "#book_0"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#book_0"
         },
         "west": {
           "uv": [
@@ -671,7 +672,7 @@
             16,
             16
           ],
-          "texture": "#book_pages"
+          "texture": "#book_0"
         },
         "up": {
           "uv": [
@@ -680,7 +681,7 @@
             16,
             16
           ],
-          "texture": "#book_pages"
+          "texture": "#book_0"
         },
         "down": {
           "uv": [
@@ -689,24 +690,33 @@
             16,
             16
           ],
-          "texture": "#book_pages"
+          "texture": "#book_0"
         }
       }
     },
     {
       "name": "embedded upright book 2",
       "from": [
-        8.0,
+        7.55,
         13.0,
-        7.15
+        7.0
       ],
       "to": [
-        12.1,
-        20.0,
-        13.65
+        10.55,
+        20.45,
+        14.0
       ],
       "faces": {
         "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#book_1"
+        },
+        "east": {
           "uv": [
             0,
             0,
@@ -723,15 +733,6 @@
             16
           ],
           "texture": "#book_1"
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            16,
-            16
-          ],
-          "texture": "#book_pages"
         },
         "west": {
           "uv": [
@@ -763,16 +764,16 @@
       }
     },
     {
-      "name": "embedded upright book 2 spine band",
+      "name": "embedded upright book 2 page ridge",
       "from": [
-        8.12,
-        13.45,
-        7.05
+        7.67,
+        13.4,
+        6.92
       ],
       "to": [
-        11.98,
-        19.55,
-        7.22
+        10.43,
+        20.0,
+        7.1
       ],
       "faces": {
         "north": {
@@ -782,16 +783,7 @@
             16,
             16
           ],
-          "texture": "#book_pages"
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            16,
-            16
-          ],
-          "texture": "#book_pages"
+          "texture": "#book_1"
         },
         "east": {
           "uv": [
@@ -800,7 +792,16 @@
             16,
             16
           ],
-          "texture": "#book_pages"
+          "texture": "#book_1"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#book_1"
         },
         "west": {
           "uv": [
@@ -809,7 +810,7 @@
             16,
             16
           ],
-          "texture": "#book_pages"
+          "texture": "#book_1"
         },
         "up": {
           "uv": [
@@ -818,7 +819,7 @@
             16,
             16
           ],
-          "texture": "#book_pages"
+          "texture": "#book_1"
         },
         "down": {
           "uv": [
@@ -827,7 +828,7 @@
             16,
             16
           ],
-          "texture": "#book_pages"
+          "texture": "#book_1"
         }
       }
     }

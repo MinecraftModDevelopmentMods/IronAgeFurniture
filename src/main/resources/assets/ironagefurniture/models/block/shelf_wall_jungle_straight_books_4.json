@@ -1,0 +1,14 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_shelf_wall_straight_books_4",
+  "textures": {
+    "log": "minecraft:blocks/log_jungle",
+    "planks": "minecraft:blocks/planks_jungle",
+    "particle": "minecraft:blocks/log_jungle",
+    "book_0": "ironagefurniture:blocks/shelf_book_red",
+    "book_1": "ironagefurniture:blocks/shelf_book_blue",
+    "book_2": "ironagefurniture:blocks/shelf_book_green",
+    "book_pages": "ironagefurniture:blocks/shelf_book_pages",
+    "book_3": "ironagefurniture:blocks/shelf_book_purple"
+  }
+}

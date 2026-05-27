@@ -1,0 +1,14 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_shelf_wall_outer_corner_books_4",
+  "textures": {
+    "log": "biomesoplenty:blocks/jacaranda_log",
+    "planks": "biomesoplenty:blocks/jacaranda_planks",
+    "particle": "biomesoplenty:blocks/jacaranda_log",
+    "book_0": "ironagefurniture:blocks/shelf_book_red",
+    "book_1": "ironagefurniture:blocks/shelf_book_blue",
+    "book_2": "ironagefurniture:blocks/shelf_book_green",
+    "book_pages": "ironagefurniture:blocks/shelf_book_pages",
+    "book_3": "ironagefurniture:blocks/shelf_book_purple"
+  }
+}
