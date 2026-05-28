@@ -47,6 +47,7 @@ import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchWallTwin;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchWallTwinUnlit;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchWallUnlit;
 import com.mcmoddev.ironagefurniture.api.Blocks.MultiBlockBed;
+import com.mcmoddev.ironagefurniture.api.Blocks.MultiBlockChair;
 import com.mcmoddev.ironagefurniture.api.Blocks.MultiBlockWoodBed;
 import com.mcmoddev.ironagefurniture.api.Blocks.ObsideanLump;
 import com.mcmoddev.ironagefurniture.api.Blocks.Stool;
@@ -70,6 +71,8 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 public class FurnitureFactory {
+	private static final int WOOD_FURNITURE_FIRE_SPREAD_SPEED = 5;
+	private static final int WOOD_FURNITURE_FLAMMABILITY = 20;
 
 	public static void AddClassicChairRecipe(ItemStack planks, Block chair) {
 		if (chair == null) {
@@ -687,6 +690,7 @@ public class FurnitureFactory {
     private static Block registerBlock(Block block, String name, int maxStackSize, boolean registerItem) {
     	GameRegistry.register(block.setRegistryName(Ironagefurniture.MODID, name));
     	block.setUnlocalizedName(Ironagefurniture.MODID + "." + name);
+		registerWoodFurnitureFireInfo(block);
 		
 		if (registerItem) {
 			ItemBlock itemBlock = block instanceof WallShelf ? new ItemBlockWallShelf(block)
@@ -709,5 +713,12 @@ public class FurnitureFactory {
 
 	private static Block registerBlock(Block block, String name) {
 		return registerBlock(block, name, 16);
+	}
+
+	private static void registerWoodFurnitureFireInfo(Block block) {
+		if (block instanceof Chair || block instanceof MultiBlockChair || block instanceof MultiBlockBed
+				|| block instanceof MultiBlockWoodBed || block instanceof DiningTable || block instanceof WallShelf) {
+			Blocks.FIRE.setFireInfo(block, WOOD_FURNITURE_FIRE_SPREAD_SPEED, WOOD_FURNITURE_FLAMMABILITY);
+		}
 	}
 }
