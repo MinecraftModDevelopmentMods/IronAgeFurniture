@@ -54,6 +54,7 @@ import com.mcmoddev.ironagefurniture.api.Blocks.SurfaceDisplayBlocker;
 import com.mcmoddev.ironagefurniture.api.Blocks.ThroneChair;
 import com.mcmoddev.ironagefurniture.api.Blocks.WallShelf;
 import com.mcmoddev.ironagefurniture.api.Blocks.WingbackChair;
+import com.mcmoddev.ironagefurniture.api.Items.ItemBlockThrowableLavaLamp;
 import com.mcmoddev.ironagefurniture.api.Items.ItemBlockWallShelf;
 import com.mcmoddev.ironagefurniture.init.ItemInitialiser;
 
@@ -688,7 +689,8 @@ public class FurnitureFactory {
     	block.setUnlocalizedName(Ironagefurniture.MODID + "." + name);
 		
 		if (registerItem) {
-			ItemBlock itemBlock = block instanceof WallShelf ? new ItemBlockWallShelf(block) : new ItemBlock(block);
+			ItemBlock itemBlock = block instanceof WallShelf ? new ItemBlockWallShelf(block)
+				: block instanceof LightSourceLava ? new ItemBlockThrowableLavaLamp(block) : new ItemBlock(block);
 			itemBlock.setMaxStackSize(maxStackSize);
 			ItemInitialiser.RegisterItem(itemBlock, name);
 		}
