@@ -29,6 +29,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -146,7 +148,9 @@ public class DiningTable extends Block {
 			return false;
 		}
 
-		if (this.isDisplayExcluded(heldItem)) {
+		boolean canRetrievePlacedBlock = this.canRetrievePlacedBlockAbove(worldIn, pos, playerIn, heldItem);
+
+		if (this.isDisplayExcluded(heldItem) && !canRetrievePlacedBlock) {
 			return false;
 		}
 
@@ -155,6 +159,27 @@ public class DiningTable extends Block {
 		}
 
 		TileEntityDiningTable table = this.getTableEntity(worldIn, pos, false);
+
+		if (table != null && table.hasDisplayedItem() && this.canRetrieveDisplayedItem(table, heldItem)) {
+			ItemStack displayedItem = table.removeDisplayedItem();
+			SurfaceDisplayBlocker.release(worldIn, pos);
+
+			if (displayedItem != null) {
+				if (!playerIn.inventory.addItemStackToInventory(displayedItem)) {
+					EntityItem entityItem = new EntityItem(worldIn, pos.getX() + 0.5D, pos.getY() + 1.1D,
+						pos.getZ() + 0.5D, displayedItem);
+					worldIn.spawnEntity(entityItem);
+				}
+			}
+
+			this.removeTableEntityIfEmpty(worldIn, pos);
+			return true;
+		}
+
+		if ((table == null || !table.hasDisplayedItem()) && canRetrievePlacedBlock
+				&& this.tryRetrievePlacedBlockAbove(worldIn, pos, playerIn, heldItem)) {
+			return true;
+		}
 
 		if ((table == null || !table.hasDisplayedItem()) && heldItem != null && heldItem.stackSize > 0) {
 			if (!SurfaceDisplayBlocker.reserve(worldIn, pos)) {
@@ -183,22 +208,6 @@ public class DiningTable extends Block {
 			return true;
 		}
 
-		if (table != null && table.hasDisplayedItem() && (heldItem == null || heldItem.stackSize <= 0)) {
-			ItemStack displayedItem = table.removeDisplayedItem();
-			SurfaceDisplayBlocker.release(worldIn, pos);
-
-			if (displayedItem != null) {
-				if (!playerIn.inventory.addItemStackToInventory(displayedItem)) {
-					EntityItem entityItem = new EntityItem(worldIn, pos.getX() + 0.5D, pos.getY() + 1.1D,
-						pos.getZ() + 0.5D, displayedItem);
-					worldIn.spawnEntity(entityItem);
-				}
-			}
-
-			this.removeTableEntityIfEmpty(worldIn, pos);
-			return true;
-		}
-
 		return true;
 	}
 
@@ -209,11 +218,106 @@ public class DiningTable extends Block {
 
 		return this.isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_block_floor_glow_clear)
 			|| this.isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_block_floor_red_clear)
-			|| this.isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_block_floor_lava_clear);
+			|| this.isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_block_floor_lava_clear)
+			|| this.isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_candle_floor);
 	}
 
 	private boolean isItemFromBlock(ItemStack heldItem, Block block) {
 		return block != null && heldItem.getItem() == Item.getItemFromBlock(block);
+	}
+
+	private boolean canRetrieveDisplayedItem(TileEntityDiningTable table, ItemStack heldItem) {
+		if (heldItem == null || heldItem.stackSize <= 0) {
+			return true;
+		}
+
+		ItemStack displayedItem = table.getDisplayedItem();
+		return displayedItem != null && displayedItem.stackSize > 0
+			&& this.isSameItemStack(displayedItem, heldItem);
+	}
+
+	private boolean canRetrievePlacedBlockAbove(World worldIn, BlockPos pos, EntityPlayer playerIn, ItemStack heldItem) {
+		ItemStack placedBlockItem = this.getPlacedBlockItem(worldIn, pos, playerIn);
+
+		if (placedBlockItem == null || placedBlockItem.stackSize <= 0) {
+			return false;
+		}
+
+		return heldItem == null || heldItem.stackSize <= 0
+			|| this.isSameItemStack(placedBlockItem, heldItem);
+	}
+
+	public boolean tryRetrievePlacedBlockAbove(World worldIn, BlockPos pos, EntityPlayer playerIn, ItemStack heldItem) {
+		TileEntityDiningTable table = this.getTableEntity(worldIn, pos, false);
+
+		if (table != null && table.hasDisplayedItem()) {
+			return false;
+		}
+
+		if (!this.canRetrievePlacedBlockAbove(worldIn, pos, playerIn, heldItem)) {
+			return false;
+		}
+
+		if (worldIn.isRemote) {
+			return true;
+		}
+
+		if (this.retrievePlacedBlockAbove(worldIn, pos, playerIn, heldItem)) {
+			this.removeTableEntityIfEmpty(worldIn, pos);
+			return true;
+		}
+
+		return false;
+	}
+
+	private boolean retrievePlacedBlockAbove(World worldIn, BlockPos pos, EntityPlayer playerIn, ItemStack heldItem) {
+		BlockPos abovePos = pos.up();
+		ItemStack placedBlockItem = this.getPlacedBlockItem(worldIn, pos, playerIn);
+
+		if (placedBlockItem == null || placedBlockItem.stackSize <= 0
+				|| (heldItem != null && heldItem.stackSize > 0 && !this.isSameItemStack(placedBlockItem, heldItem))) {
+			return false;
+		}
+
+		if (!worldIn.setBlockState(abovePos, Blocks.AIR.getDefaultState(), 3)) {
+			return false;
+		}
+
+		if (!playerIn.inventory.addItemStackToInventory(placedBlockItem)) {
+			EntityItem entityItem = new EntityItem(worldIn, pos.getX() + 0.5D, pos.getY() + 1.1D,
+				pos.getZ() + 0.5D, placedBlockItem);
+			worldIn.spawnEntity(entityItem);
+		}
+
+		return true;
+	}
+
+	private ItemStack getPlacedBlockItem(World worldIn, BlockPos pos, EntityPlayer playerIn) {
+		BlockPos abovePos = pos.up();
+		IBlockState aboveState = worldIn.getBlockState(abovePos);
+		Block aboveBlock = aboveState.getBlock();
+
+		if (aboveBlock == Blocks.AIR || aboveBlock == BlockObjectHolder.surface_display_blocker
+				|| aboveBlock.hasTileEntity(aboveState)) {
+			return null;
+		}
+
+		RayTraceResult target = new RayTraceResult(new Vec3d(abovePos.getX() + 0.5D, abovePos.getY() + 0.5D,
+			abovePos.getZ() + 0.5D), EnumFacing.UP, abovePos);
+		ItemStack placedBlockItem = aboveBlock.getPickBlock(aboveState, target, worldIn, abovePos, playerIn);
+
+		if (placedBlockItem != null) {
+			placedBlockItem = placedBlockItem.copy();
+			placedBlockItem.stackSize = 1;
+		}
+
+		return placedBlockItem;
+	}
+
+	private boolean isSameItemStack(ItemStack storedItem, ItemStack heldItem) {
+		return storedItem != null && heldItem != null
+			&& storedItem.isItemEqual(heldItem)
+			&& ItemStack.areItemStackTagsEqual(storedItem, heldItem);
 	}
 
 	@Override

@@ -67,6 +67,10 @@ public class LightSourceCandleFloor extends BlockHBase {
 
     protected boolean canPlaceOn(World worldIn, BlockPos pos) {
         IBlockState state = worldIn.getBlockState(pos);
+        if (state.getBlock() instanceof DiningTable) {
+            return true;
+        }
+
         if (state.isSideSolid(worldIn, pos, EnumFacing.UP)) {
             return true;
         }

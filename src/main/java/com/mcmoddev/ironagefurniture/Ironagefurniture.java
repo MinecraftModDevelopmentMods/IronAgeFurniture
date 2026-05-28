@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.mcmoddev.ironagefurniture.api.CreativeModeBreakTracker;
+import com.mcmoddev.ironagefurniture.api.DiningTableSurfaceInteractionHandler;
 import com.mcmoddev.ironagefurniture.api.entity.Seat;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityDiningTable;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityWallShelf;
@@ -72,6 +73,7 @@ public class Ironagefurniture
     public void preInit(FMLPreInitializationEvent event) {
     	IronAgeFurnitureConfiguration.init(event);
     	MinecraftForge.EVENT_BUS.register(new CreativeModeBreakTracker());
+    	MinecraftForge.EVENT_BUS.register(new DiningTableSurfaceInteractionHandler());
 		ItemInitialiser.init();
     	BlockInitialiser.init();
     	
