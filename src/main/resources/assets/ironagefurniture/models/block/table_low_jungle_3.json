@@ -1,0 +1,9 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_table_low_3",
+  "textures": {
+    "log": "minecraft:blocks/log_jungle",
+    "planks": "minecraft:blocks/planks_jungle",
+    "particle": "minecraft:blocks/log_jungle"
+  }
+}

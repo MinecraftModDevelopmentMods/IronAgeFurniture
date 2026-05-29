@@ -1,0 +1,9 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_table_low_3",
+  "textures": {
+    "log": "forestry:blocks/wood/bark.teak",
+    "planks": "forestry:blocks/wood/planks.teak",
+    "particle": "forestry:blocks/wood/bark.teak"
+  }
+}

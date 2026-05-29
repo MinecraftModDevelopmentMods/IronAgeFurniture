@@ -38,10 +38,10 @@ public class DiningTable extends Block {
 	public static final PropertyInteger CONNECTIONS = PropertyInteger.create("connections", 0, 15);
 	public static final PropertyBool DATA = PropertyBool.create("data");
 
-	private static final int NORTH = 1;
-	private static final int EAST = 2;
-	private static final int SOUTH = 4;
-	private static final int WEST = 8;
+	protected static final int NORTH = 1;
+	protected static final int EAST = 2;
+	protected static final int SOUTH = 4;
+	protected static final int WEST = 8;
 
 	private static final AxisAlignedBB TOP_STANDALONE = new AxisAlignedBB(0.0625D, 0.8125D, 0.0625D, 0.9375D, 1.0D, 0.9375D);
 	private static final AxisAlignedBB LEG_NORTH_WEST = new AxisAlignedBB(0.125D, 0.0D, 0.125D, 0.25D, 0.8125D, 0.25D);
@@ -345,6 +345,10 @@ public class DiningTable extends Block {
 		return this.getTopBoundingBox(this.getConnectionMask(source, pos));
 	}
 
+	public double getDisplayItemYOffset() {
+		return 1.04D;
+	}
+
 	@Override
 	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox,
 			List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
@@ -426,7 +430,7 @@ public class DiningTable extends Block {
 		worldIn.notifyBlockUpdate(pos, state, state, 3);
 	}
 
-	private int getConnectionMask(IBlockAccess worldIn, BlockPos pos) {
+	protected int getConnectionMask(IBlockAccess worldIn, BlockPos pos) {
 		int connections = 0;
 
 		if (this.connectsTo(worldIn, pos, EnumFacing.NORTH)) {
@@ -462,7 +466,7 @@ public class DiningTable extends Block {
 		return new AxisAlignedBB(minX, TOP_STANDALONE.minY, minZ, maxX, TOP_STANDALONE.maxY, maxZ);
 	}
 
-	private boolean isConnected(int connections, int mask) {
+	protected boolean isConnected(int connections, int mask) {
 		return (connections & mask) != 0;
 	}
 

@@ -14,6 +14,7 @@ public class BlockObjectHolder {
 	public static final Map<String, Block> bed_wood_single = new HashMap<String, Block>();
 	public static final Map<String, Block> bed_wood_double = new HashMap<String, Block>();
 	public static final Map<String, Block> table_dining = new HashMap<String, Block>();
+	public static final Map<String, Block> table_low = new HashMap<String, Block>();
 	public static final Map<String, Block> shelf_wall = new HashMap<String, Block>();
 
 	public static Block surface_display_blocker;

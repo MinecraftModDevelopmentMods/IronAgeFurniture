@@ -1,7 +1,10 @@
 package com.mcmoddev.ironagefurniture.client.render;
 
+import com.mcmoddev.ironagefurniture.api.Blocks.DiningTable;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityDiningTable;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.block.model.IBakedModel;
@@ -28,16 +31,17 @@ public class TileEntityDiningTableRenderer extends TileEntitySpecialRenderer<Til
 		GlStateManager.pushMatrix();
 
 		ItemCameraTransforms.TransformType transformType = ItemCameraTransforms.TransformType.FIXED;
+		double itemY = this.getItemYOffset(te);
 
 		if (itemStack.getItem() instanceof ItemBlock) {
 			ItemTransformVec3f fixedTransform = this.getFixedTransform(itemStack);
 			transformType = this.hasTiltedTransform(fixedTransform) ? ItemCameraTransforms.TransformType.NONE
 					: ItemCameraTransforms.TransformType.FIXED;
-			GlStateManager.translate(x + 0.5D, y + ITEM_Y + this.getBlockItemLift(fixedTransform, transformType),
+			GlStateManager.translate(x + 0.5D, y + itemY + this.getBlockItemLift(fixedTransform, transformType),
 					z + 0.5D);
 			GlStateManager.scale(BLOCK_ITEM_SCALE, BLOCK_ITEM_SCALE, BLOCK_ITEM_SCALE);
 		} else {
-			GlStateManager.translate(x + 0.5D, y + ITEM_Y, z + 0.5D);
+			GlStateManager.translate(x + 0.5D, y + itemY, z + 0.5D);
 			GlStateManager.rotate(90.0F, 1.0F, 0.0F, 0.0F);
 			GlStateManager.scale(ITEM_SCALE, ITEM_SCALE, ITEM_SCALE);
 		}
@@ -62,5 +66,16 @@ public class TileEntityDiningTableRenderer extends TileEntitySpecialRenderer<Til
 		}
 
 		return BLOCK_ITEM_SCALE * ((fixedTransform.scale.y / 2.0D) - fixedTransform.translation.y);
+	}
+
+	private double getItemYOffset(TileEntityDiningTable te) {
+		if (te.getWorld() == null) {
+			return ITEM_Y;
+		}
+
+		IBlockState state = te.getWorld().getBlockState(te.getPos());
+		Block block = state.getBlock();
+
+		return block instanceof DiningTable ? ((DiningTable)block).getDisplayItemYOffset() : ITEM_Y;
 	}
 }

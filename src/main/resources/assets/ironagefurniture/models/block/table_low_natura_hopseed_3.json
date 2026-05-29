@@ -1,0 +1,9 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_table_low_3",
+  "textures": {
+    "log": "natura:blocks/logs/overworld/hopseed_log",
+    "planks": "natura:blocks/planks/overworld/hopseed_planks",
+    "particle": "natura:blocks/logs/overworld/hopseed_log"
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "variants": {
+    "connections=0,data=false": {
+      "model": "ironagefurniture:table_low_forestry_poplar_0"
+    },
+    "connections=0,data=true": {
+      "model": "ironagefurniture:table_low_forestry_poplar_0"
+    },
+    "connections=1,data=false": {
+      "model": "ironagefurniture:table_low_forestry_poplar_1"
+    },
+    "connections=1,data=true": {
+      "model": "ironagefurniture:table_low_forestry_poplar_1"
+    },
+    "connections=2,data=false": {
+      "model": "ironagefurniture:table_low_forestry_poplar_2"
+    },
+    "connections=2,data=true": {
+      "model": "ironagefurniture:table_low_forestry_poplar_2"
+    },
+    "connections=3,data=false": {
+      "model": "ironagefurniture:table_low_forestry_poplar_3"
+    },
+    "connections=3,data=true": {
+      "model": "ironagefurniture:table_low_forestry_poplar_3"
+    },
+    "connections=4,data=false": {
+      "model": "ironagefurniture:table_low_forestry_poplar_4"
+    },
+    "connections=4,data=true": {
+      "model": "ironagefurniture:table_low_forestry_poplar_4"
+    },
+    "connections=5,data=false": {
+      "model": "ironagefurniture:table_low_forestry_poplar_5"
+    },
+    "connections=5,data=true": {
+      "model": "ironagefurniture:table_low_forestry_poplar_5"
+    },
+    "connections=6,data=false": {
+      "model": "ironagefurniture:table_low_forestry_poplar_6"
+    },
+    "connections=6,data=true": {
+      "model": "ironagefurniture:table_low_forestry_poplar_6"
+    },
+    "connections=7,data=false": {
+      "model": "ironagefurniture:table_low_forestry_poplar_7"
+    },
+    "connections=7,data=true": {
+      "model": "ironagefurniture:table_low_forestry_poplar_7"
+    },
+    "connections=8,data=false": {
+      "model": "ironagefurniture:table_low_forestry_poplar_8"
+    },
+    "connections=8,data=true": {
+      "model": "ironagefurniture:table_low_forestry_poplar_8"
+    },
+    "connections=9,data=false": {
+      "model": "ironagefurniture:table_low_forestry_poplar_9"
+    },
+    "connections=9,data=true": {
+      "model": "ironagefurniture:table_low_forestry_poplar_9"
+    },
+    "connections=10,data=false": {
+      "model": "ironagefurniture:table_low_forestry_poplar_10"
+    },
+    "connections=10,data=true": {
+      "model": "ironagefurniture:table_low_forestry_poplar_10"
+    },
+    "connections=11,data=false": {
+      "model": "ironagefurniture:table_low_forestry_poplar_11"
+    },
+    "connections=11,data=true": {
+      "model": "ironagefurniture:table_low_forestry_poplar_11"
+    },
+    "connections=12,data=false": {
+      "model": "ironagefurniture:table_low_forestry_poplar_12"
+    },
+    "connections=12,data=true": {
+      "model": "ironagefurniture:table_low_forestry_poplar_12"
+    },
+    "connections=13,data=false": {
+      "model": "ironagefurniture:table_low_forestry_poplar_13"
+    },
+    "connections=13,data=true": {
+      "model": "ironagefurniture:table_low_forestry_poplar_13"
+    },
+    "connections=14,data=false": {
+      "model": "ironagefurniture:table_low_forestry_poplar_14"
+    },
+    "connections=14,data=true": {
+      "model": "ironagefurniture:table_low_forestry_poplar_14"
+    },
+    "connections=15,data=false": {
+      "model": "ironagefurniture:table_low_forestry_poplar_15"
+    },
+    "connections=15,data=true": {
+      "model": "ironagefurniture:table_low_forestry_poplar_15"
+    }
+  }
+}

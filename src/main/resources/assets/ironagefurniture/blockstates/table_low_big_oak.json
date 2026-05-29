@@ -1,0 +1,100 @@
+{
+  "variants": {
+    "connections=0,data=false": {
+      "model": "ironagefurniture:table_low_big_oak_0"
+    },
+    "connections=0,data=true": {
+      "model": "ironagefurniture:table_low_big_oak_0"
+    },
+    "connections=1,data=false": {
+      "model": "ironagefurniture:table_low_big_oak_1"
+    },
+    "connections=1,data=true": {
+      "model": "ironagefurniture:table_low_big_oak_1"
+    },
+    "connections=2,data=false": {
+      "model": "ironagefurniture:table_low_big_oak_2"
+    },
+    "connections=2,data=true": {
+      "model": "ironagefurniture:table_low_big_oak_2"
+    },
+    "connections=3,data=false": {
+      "model": "ironagefurniture:table_low_big_oak_3"
+    },
+    "connections=3,data=true": {
+      "model": "ironagefurniture:table_low_big_oak_3"
+    },
+    "connections=4,data=false": {
+      "model": "ironagefurniture:table_low_big_oak_4"
+    },
+    "connections=4,data=true": {
+      "model": "ironagefurniture:table_low_big_oak_4"
+    },
+    "connections=5,data=false": {
+      "model": "ironagefurniture:table_low_big_oak_5"
+    },
+    "connections=5,data=true": {
+      "model": "ironagefurniture:table_low_big_oak_5"
+    },
+    "connections=6,data=false": {
+      "model": "ironagefurniture:table_low_big_oak_6"
+    },
+    "connections=6,data=true": {
+      "model": "ironagefurniture:table_low_big_oak_6"
+    },
+    "connections=7,data=false": {
+      "model": "ironagefurniture:table_low_big_oak_7"
+    },
+    "connections=7,data=true": {
+      "model": "ironagefurniture:table_low_big_oak_7"
+    },
+    "connections=8,data=false": {
+      "model": "ironagefurniture:table_low_big_oak_8"
+    },
+    "connections=8,data=true": {
+      "model": "ironagefurniture:table_low_big_oak_8"
+    },
+    "connections=9,data=false": {
+      "model": "ironagefurniture:table_low_big_oak_9"
+    },
+    "connections=9,data=true": {
+      "model": "ironagefurniture:table_low_big_oak_9"
+    },
+    "connections=10,data=false": {
+      "model": "ironagefurniture:table_low_big_oak_10"
+    },
+    "connections=10,data=true": {
+      "model": "ironagefurniture:table_low_big_oak_10"
+    },
+    "connections=11,data=false": {
+      "model": "ironagefurniture:table_low_big_oak_11"
+    },
+    "connections=11,data=true": {
+      "model": "ironagefurniture:table_low_big_oak_11"
+    },
+    "connections=12,data=false": {
+      "model": "ironagefurniture:table_low_big_oak_12"
+    },
+    "connections=12,data=true": {
+      "model": "ironagefurniture:table_low_big_oak_12"
+    },
+    "connections=13,data=false": {
+      "model": "ironagefurniture:table_low_big_oak_13"
+    },
+    "connections=13,data=true": {
+      "model": "ironagefurniture:table_low_big_oak_13"
+    },
+    "connections=14,data=false": {
+      "model": "ironagefurniture:table_low_big_oak_14"
+    },
+    "connections=14,data=true": {
+      "model": "ironagefurniture:table_low_big_oak_14"
+    },
+    "connections=15,data=false": {
+      "model": "ironagefurniture:table_low_big_oak_15"
+    },
+    "connections=15,data=true": {
+      "model": "ironagefurniture:table_low_big_oak_15"
+    }
+  }
+}

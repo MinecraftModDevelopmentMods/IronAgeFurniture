@@ -38,6 +38,7 @@ public class BlockInitialiser {
 
 	private static void generateSurfaceDisplayBlocker() {
 		if (IronAgeFurnitureConfiguration.GENERATE_DINING_TABLES
+				|| IronAgeFurnitureConfiguration.GENERATE_LOW_TABLES
 				|| IronAgeFurnitureConfiguration.GENERATE_WALL_SHELVES) {
 			BlockObjectHolder.surface_display_blocker = FurnitureFactory.CreateSurfaceDisplayBlocker("surface_display_blocker");
 		}
@@ -54,12 +55,18 @@ public class BlockInitialiser {
 	}
 
 	private static void generateTables() {
-		if (!IronAgeFurnitureConfiguration.GENERATE_DINING_TABLES) {
+		if (!IronAgeFurnitureConfiguration.GENERATE_DINING_TABLES
+				&& !IronAgeFurnitureConfiguration.GENERATE_LOW_TABLES) {
 			return;
 		}
 
 		for (String suffix : WoodVariantHelper.getEnabledWoodSuffixes()) {
-			BlockObjectHolder.table_dining.put(suffix, FurnitureFactory.CreateDiningTable(suffix));
+			if (IronAgeFurnitureConfiguration.GENERATE_DINING_TABLES) {
+				BlockObjectHolder.table_dining.put(suffix, FurnitureFactory.CreateDiningTable(suffix));
+			}
+			if (IronAgeFurnitureConfiguration.GENERATE_LOW_TABLES) {
+				BlockObjectHolder.table_low.put(suffix, FurnitureFactory.CreateLowTable(suffix));
+			}
 		}
 	}
 

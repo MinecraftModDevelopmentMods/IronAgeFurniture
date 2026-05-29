@@ -10,6 +10,7 @@ public class IronAgeFurnitureConfiguration {
 	public static boolean GENERATE_CANOPY_BEDS = true;
 	public static boolean GENERATE_WOOD_BEDS = true;
 	public static boolean GENERATE_DINING_TABLES = true;
+	public static boolean GENERATE_LOW_TABLES = true;
 	public static boolean GENERATE_WALL_SHELVES = true;
 	public static boolean GENERATE_SHIELD_CHAIRS = true;
 	public static boolean GENERATE_SHORT_STOOLS = true;
@@ -45,6 +46,7 @@ public class IronAgeFurnitureConfiguration {
 		GENERATE_CANOPY_BEDS = config.getBoolean("GENERATE_CANOPY_BEDS", "options", GENERATE_CANOPY_BEDS, "If true, then canopy beds will be generated");
 		GENERATE_WOOD_BEDS = config.getBoolean("GENERATE_WOOD_BEDS", "options", GENERATE_WOOD_BEDS, "If true, then wooden beds will be generated");
 		GENERATE_DINING_TABLES = config.getBoolean("GENERATE_DINING_TABLES", "options", GENERATE_DINING_TABLES, "If true, then dining tables will be generated");
+		GENERATE_LOW_TABLES = config.getBoolean("GENERATE_LOW_TABLES", "options", GENERATE_LOW_TABLES, "If true, then low tables will be generated");
 		GENERATE_WALL_SHELVES = config.getBoolean("GENERATE_WALL_SHELVES", "options", GENERATE_WALL_SHELVES, "If true, then wall shelves will be generated");
 	
 		GENERATE_SHORT_STOOLS = config.getBoolean("GENERATE_SHORT_STOOLS", "options", GENERATE_SHORT_STOOLS, "If true, then short stools will be generated");

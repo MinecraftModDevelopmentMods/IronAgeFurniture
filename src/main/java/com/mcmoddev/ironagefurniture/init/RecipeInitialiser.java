@@ -64,30 +64,48 @@ public class RecipeInitialiser {
 	}
 
 	private static void generateTableRecipes() {
-		if (!IronAgeFurnitureConfiguration.GENERATE_DINING_TABLES) {
+		if (!IronAgeFurnitureConfiguration.GENERATE_DINING_TABLES
+				&& !IronAgeFurnitureConfiguration.GENERATE_LOW_TABLES) {
 			return;
 		}
 
-		final List<String> recipeSuffixes = new ArrayList<String>();
+		final List<String> diningRecipeSuffixes = new ArrayList<String>();
+		final List<String> lowRecipeSuffixes = new ArrayList<String>();
 
 		WoodVariantHelper.forEachEnabledSlabVariant(new WoodVariantHelper.ItemStackVariantConsumer() {
 			@Override
 			public void accept(String suffix, ItemStack slab) {
-				Block table = BlockObjectHolder.table_dining.get(suffix);
+				if (IronAgeFurnitureConfiguration.GENERATE_DINING_TABLES) {
+					Block table = BlockObjectHolder.table_dining.get(suffix);
 
-				if (table != null) {
-					FurnitureFactory.AddDiningTableRecipe(slab, table);
-					recipeSuffixes.add(suffix);
+					if (table != null) {
+						FurnitureFactory.AddDiningTableRecipe(slab, table);
+						diningRecipeSuffixes.add(suffix);
+					}
+				}
+				if (IronAgeFurnitureConfiguration.GENERATE_LOW_TABLES) {
+					Block table = BlockObjectHolder.table_low.get(suffix);
+
+					if (table != null) {
+						FurnitureFactory.AddLowTableRecipe(slab, table);
+						lowRecipeSuffixes.add(suffix);
+					}
 				}
 			}
 		});
 
-		List<String> missing = new ArrayList<String>(BlockObjectHolder.table_dining.keySet());
+		validateSlabRecipeMappings(BlockObjectHolder.table_dining, diningRecipeSuffixes, "dining table");
+		validateSlabRecipeMappings(BlockObjectHolder.table_low, lowRecipeSuffixes, "low table");
+	}
+
+	private static void validateSlabRecipeMappings(java.util.Map<String, Block> blocks, List<String> recipeSuffixes,
+			String familyName) {
+		List<String> missing = new ArrayList<String>(blocks.keySet());
 		missing.removeAll(recipeSuffixes);
 
 		if (!missing.isEmpty()) {
 			Collections.sort(missing);
-			throw new IllegalStateException("Missing dining table slab recipe mappings: " + missing);
+			throw new IllegalStateException("Missing " + familyName + " slab recipe mappings: " + missing);
 		}
 	}
 
