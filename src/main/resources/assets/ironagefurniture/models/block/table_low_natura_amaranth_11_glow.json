@@ -1,0 +1,10 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_table_low_11_glow",
+  "textures": {
+    "log": "natura:blocks/logs/overworld/amaranth_log",
+    "planks": "natura:blocks/planks/overworld/amaranth_planks",
+    "particle": "natura:blocks/logs/overworld/amaranth_log",
+    "contents": "minecraft:blocks/glowstone"
+  }
+}

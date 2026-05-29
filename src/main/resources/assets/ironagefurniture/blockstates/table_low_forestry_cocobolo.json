@@ -1,100 +1,388 @@
 {
   "variants": {
-    "connections=0,data=false": {
+    "connections=0,contents=none,data=false": {
       "model": "ironagefurniture:table_low_forestry_cocobolo_0"
     },
-    "connections=0,data=true": {
+    "connections=0,contents=none,data=true": {
       "model": "ironagefurniture:table_low_forestry_cocobolo_0"
     },
-    "connections=1,data=false": {
+    "connections=0,contents=glow,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_0_glow"
+    },
+    "connections=0,contents=glow,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_0_glow"
+    },
+    "connections=0,contents=lava,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_0_lava"
+    },
+    "connections=0,contents=lava,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_0_lava"
+    },
+    "connections=0,contents=candle,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_0_candle"
+    },
+    "connections=0,contents=candle,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_0_candle"
+    },
+    "connections=1,contents=none,data=false": {
       "model": "ironagefurniture:table_low_forestry_cocobolo_1"
     },
-    "connections=1,data=true": {
+    "connections=1,contents=none,data=true": {
       "model": "ironagefurniture:table_low_forestry_cocobolo_1"
     },
-    "connections=2,data=false": {
+    "connections=1,contents=glow,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_1_glow"
+    },
+    "connections=1,contents=glow,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_1_glow"
+    },
+    "connections=1,contents=lava,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_1_lava"
+    },
+    "connections=1,contents=lava,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_1_lava"
+    },
+    "connections=1,contents=candle,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_1_candle"
+    },
+    "connections=1,contents=candle,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_1_candle"
+    },
+    "connections=2,contents=none,data=false": {
       "model": "ironagefurniture:table_low_forestry_cocobolo_2"
     },
-    "connections=2,data=true": {
+    "connections=2,contents=none,data=true": {
       "model": "ironagefurniture:table_low_forestry_cocobolo_2"
     },
-    "connections=3,data=false": {
+    "connections=2,contents=glow,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_2_glow"
+    },
+    "connections=2,contents=glow,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_2_glow"
+    },
+    "connections=2,contents=lava,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_2_lava"
+    },
+    "connections=2,contents=lava,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_2_lava"
+    },
+    "connections=2,contents=candle,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_2_candle"
+    },
+    "connections=2,contents=candle,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_2_candle"
+    },
+    "connections=3,contents=none,data=false": {
       "model": "ironagefurniture:table_low_forestry_cocobolo_3"
     },
-    "connections=3,data=true": {
+    "connections=3,contents=none,data=true": {
       "model": "ironagefurniture:table_low_forestry_cocobolo_3"
     },
-    "connections=4,data=false": {
+    "connections=3,contents=glow,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_3_glow"
+    },
+    "connections=3,contents=glow,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_3_glow"
+    },
+    "connections=3,contents=lava,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_3_lava"
+    },
+    "connections=3,contents=lava,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_3_lava"
+    },
+    "connections=3,contents=candle,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_3_candle"
+    },
+    "connections=3,contents=candle,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_3_candle"
+    },
+    "connections=4,contents=none,data=false": {
       "model": "ironagefurniture:table_low_forestry_cocobolo_4"
     },
-    "connections=4,data=true": {
+    "connections=4,contents=none,data=true": {
       "model": "ironagefurniture:table_low_forestry_cocobolo_4"
     },
-    "connections=5,data=false": {
+    "connections=4,contents=glow,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_4_glow"
+    },
+    "connections=4,contents=glow,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_4_glow"
+    },
+    "connections=4,contents=lava,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_4_lava"
+    },
+    "connections=4,contents=lava,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_4_lava"
+    },
+    "connections=4,contents=candle,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_4_candle"
+    },
+    "connections=4,contents=candle,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_4_candle"
+    },
+    "connections=5,contents=none,data=false": {
       "model": "ironagefurniture:table_low_forestry_cocobolo_5"
     },
-    "connections=5,data=true": {
+    "connections=5,contents=none,data=true": {
       "model": "ironagefurniture:table_low_forestry_cocobolo_5"
     },
-    "connections=6,data=false": {
+    "connections=5,contents=glow,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_5_glow"
+    },
+    "connections=5,contents=glow,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_5_glow"
+    },
+    "connections=5,contents=lava,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_5_lava"
+    },
+    "connections=5,contents=lava,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_5_lava"
+    },
+    "connections=5,contents=candle,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_5_candle"
+    },
+    "connections=5,contents=candle,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_5_candle"
+    },
+    "connections=6,contents=none,data=false": {
       "model": "ironagefurniture:table_low_forestry_cocobolo_6"
     },
-    "connections=6,data=true": {
+    "connections=6,contents=none,data=true": {
       "model": "ironagefurniture:table_low_forestry_cocobolo_6"
     },
-    "connections=7,data=false": {
+    "connections=6,contents=glow,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_6_glow"
+    },
+    "connections=6,contents=glow,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_6_glow"
+    },
+    "connections=6,contents=lava,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_6_lava"
+    },
+    "connections=6,contents=lava,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_6_lava"
+    },
+    "connections=6,contents=candle,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_6_candle"
+    },
+    "connections=6,contents=candle,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_6_candle"
+    },
+    "connections=7,contents=none,data=false": {
       "model": "ironagefurniture:table_low_forestry_cocobolo_7"
     },
-    "connections=7,data=true": {
+    "connections=7,contents=none,data=true": {
       "model": "ironagefurniture:table_low_forestry_cocobolo_7"
     },
-    "connections=8,data=false": {
+    "connections=7,contents=glow,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_7_glow"
+    },
+    "connections=7,contents=glow,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_7_glow"
+    },
+    "connections=7,contents=lava,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_7_lava"
+    },
+    "connections=7,contents=lava,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_7_lava"
+    },
+    "connections=7,contents=candle,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_7_candle"
+    },
+    "connections=7,contents=candle,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_7_candle"
+    },
+    "connections=8,contents=none,data=false": {
       "model": "ironagefurniture:table_low_forestry_cocobolo_8"
     },
-    "connections=8,data=true": {
+    "connections=8,contents=none,data=true": {
       "model": "ironagefurniture:table_low_forestry_cocobolo_8"
     },
-    "connections=9,data=false": {
+    "connections=8,contents=glow,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_8_glow"
+    },
+    "connections=8,contents=glow,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_8_glow"
+    },
+    "connections=8,contents=lava,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_8_lava"
+    },
+    "connections=8,contents=lava,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_8_lava"
+    },
+    "connections=8,contents=candle,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_8_candle"
+    },
+    "connections=8,contents=candle,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_8_candle"
+    },
+    "connections=9,contents=none,data=false": {
       "model": "ironagefurniture:table_low_forestry_cocobolo_9"
     },
-    "connections=9,data=true": {
+    "connections=9,contents=none,data=true": {
       "model": "ironagefurniture:table_low_forestry_cocobolo_9"
     },
-    "connections=10,data=false": {
+    "connections=9,contents=glow,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_9_glow"
+    },
+    "connections=9,contents=glow,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_9_glow"
+    },
+    "connections=9,contents=lava,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_9_lava"
+    },
+    "connections=9,contents=lava,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_9_lava"
+    },
+    "connections=9,contents=candle,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_9_candle"
+    },
+    "connections=9,contents=candle,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_9_candle"
+    },
+    "connections=10,contents=none,data=false": {
       "model": "ironagefurniture:table_low_forestry_cocobolo_10"
     },
-    "connections=10,data=true": {
+    "connections=10,contents=none,data=true": {
       "model": "ironagefurniture:table_low_forestry_cocobolo_10"
     },
-    "connections=11,data=false": {
+    "connections=10,contents=glow,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_10_glow"
+    },
+    "connections=10,contents=glow,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_10_glow"
+    },
+    "connections=10,contents=lava,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_10_lava"
+    },
+    "connections=10,contents=lava,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_10_lava"
+    },
+    "connections=10,contents=candle,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_10_candle"
+    },
+    "connections=10,contents=candle,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_10_candle"
+    },
+    "connections=11,contents=none,data=false": {
       "model": "ironagefurniture:table_low_forestry_cocobolo_11"
     },
-    "connections=11,data=true": {
+    "connections=11,contents=none,data=true": {
       "model": "ironagefurniture:table_low_forestry_cocobolo_11"
     },
-    "connections=12,data=false": {
+    "connections=11,contents=glow,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_11_glow"
+    },
+    "connections=11,contents=glow,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_11_glow"
+    },
+    "connections=11,contents=lava,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_11_lava"
+    },
+    "connections=11,contents=lava,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_11_lava"
+    },
+    "connections=11,contents=candle,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_11_candle"
+    },
+    "connections=11,contents=candle,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_11_candle"
+    },
+    "connections=12,contents=none,data=false": {
       "model": "ironagefurniture:table_low_forestry_cocobolo_12"
     },
-    "connections=12,data=true": {
+    "connections=12,contents=none,data=true": {
       "model": "ironagefurniture:table_low_forestry_cocobolo_12"
     },
-    "connections=13,data=false": {
+    "connections=12,contents=glow,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_12_glow"
+    },
+    "connections=12,contents=glow,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_12_glow"
+    },
+    "connections=12,contents=lava,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_12_lava"
+    },
+    "connections=12,contents=lava,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_12_lava"
+    },
+    "connections=12,contents=candle,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_12_candle"
+    },
+    "connections=12,contents=candle,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_12_candle"
+    },
+    "connections=13,contents=none,data=false": {
       "model": "ironagefurniture:table_low_forestry_cocobolo_13"
     },
-    "connections=13,data=true": {
+    "connections=13,contents=none,data=true": {
       "model": "ironagefurniture:table_low_forestry_cocobolo_13"
     },
-    "connections=14,data=false": {
+    "connections=13,contents=glow,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_13_glow"
+    },
+    "connections=13,contents=glow,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_13_glow"
+    },
+    "connections=13,contents=lava,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_13_lava"
+    },
+    "connections=13,contents=lava,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_13_lava"
+    },
+    "connections=13,contents=candle,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_13_candle"
+    },
+    "connections=13,contents=candle,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_13_candle"
+    },
+    "connections=14,contents=none,data=false": {
       "model": "ironagefurniture:table_low_forestry_cocobolo_14"
     },
-    "connections=14,data=true": {
+    "connections=14,contents=none,data=true": {
       "model": "ironagefurniture:table_low_forestry_cocobolo_14"
     },
-    "connections=15,data=false": {
+    "connections=14,contents=glow,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_14_glow"
+    },
+    "connections=14,contents=glow,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_14_glow"
+    },
+    "connections=14,contents=lava,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_14_lava"
+    },
+    "connections=14,contents=lava,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_14_lava"
+    },
+    "connections=14,contents=candle,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_14_candle"
+    },
+    "connections=14,contents=candle,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_14_candle"
+    },
+    "connections=15,contents=none,data=false": {
       "model": "ironagefurniture:table_low_forestry_cocobolo_15"
     },
-    "connections=15,data=true": {
+    "connections=15,contents=none,data=true": {
       "model": "ironagefurniture:table_low_forestry_cocobolo_15"
+    },
+    "connections=15,contents=glow,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_15_glow"
+    },
+    "connections=15,contents=glow,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_15_glow"
+    },
+    "connections=15,contents=lava,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_15_lava"
+    },
+    "connections=15,contents=lava,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_15_lava"
+    },
+    "connections=15,contents=candle,data=false": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_15_candle"
+    },
+    "connections=15,contents=candle,data=true": {
+      "model": "ironagefurniture:table_low_forestry_cocobolo_15_candle"
     }
   }
 }

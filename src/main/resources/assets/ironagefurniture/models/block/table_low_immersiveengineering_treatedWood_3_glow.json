@@ -1,0 +1,10 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_table_low_3_glow",
+  "textures": {
+    "log": "immersiveengineering:blocks/treatedWood_packaged",
+    "planks": "immersiveengineering:blocks/treatedWood_vertical",
+    "particle": "immersiveengineering:blocks/treatedWood_packaged",
+    "contents": "minecraft:blocks/glowstone"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_table_low_2_glow",
+  "textures": {
+    "log": "natura:blocks/logs/overworld/hopseed_log",
+    "planks": "natura:blocks/planks/overworld/hopseed_planks",
+    "particle": "natura:blocks/logs/overworld/hopseed_log",
+    "contents": "minecraft:blocks/glowstone"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_table_low_1_candle",
+  "textures": {
+    "log": "forestry:blocks/wood/bark.baobab",
+    "planks": "forestry:blocks/wood/planks.baobab",
+    "particle": "forestry:blocks/wood/bark.baobab",
+    "wax": "ironagefurniture:blocks/candle_wax",
+    "metal": "minecraft:blocks/iron_block",
+    "wick": "minecraft:blocks/coal_block"
+  }
+}

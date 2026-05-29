@@ -1,0 +1,10 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_table_low_7_glow",
+  "textures": {
+    "log": "natura:blocks/logs/nether/bloodwood_bark",
+    "planks": "natura:blocks/planks/nether/bloodwood_planks",
+    "particle": "natura:blocks/logs/nether/bloodwood_bark",
+    "contents": "minecraft:blocks/glowstone"
+  }
+}

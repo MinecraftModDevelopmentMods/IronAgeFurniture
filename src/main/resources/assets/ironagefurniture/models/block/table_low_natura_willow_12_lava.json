@@ -1,0 +1,10 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_table_low_12_lava",
+  "textures": {
+    "log": "natura:blocks/logs/overworld/willow_log",
+    "planks": "natura:blocks/planks/overworld/willow_planks",
+    "particle": "natura:blocks/logs/overworld/willow_log",
+    "contents": "minecraft:blocks/lava_still"
+  }
+}

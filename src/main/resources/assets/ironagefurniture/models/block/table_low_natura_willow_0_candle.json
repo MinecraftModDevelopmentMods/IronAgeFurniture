@@ -1,0 +1,12 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_table_low_0_candle",
+  "textures": {
+    "log": "natura:blocks/logs/overworld/willow_log",
+    "planks": "natura:blocks/planks/overworld/willow_planks",
+    "particle": "natura:blocks/logs/overworld/willow_log",
+    "wax": "ironagefurniture:blocks/candle_wax",
+    "metal": "minecraft:blocks/iron_block",
+    "wick": "minecraft:blocks/coal_block"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_table_low_1_lava",
+  "textures": {
+    "log": "biomesoplenty:blocks/sacred_oak_log",
+    "planks": "biomesoplenty:blocks/sacred_oak_planks",
+    "particle": "biomesoplenty:blocks/sacred_oak_log",
+    "contents": "minecraft:blocks/lava_still"
+  }
+}

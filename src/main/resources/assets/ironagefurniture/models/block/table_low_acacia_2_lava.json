@@ -1,0 +1,10 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_table_low_2_lava",
+  "textures": {
+    "log": "minecraft:blocks/log_acacia",
+    "planks": "minecraft:blocks/planks_acacia",
+    "particle": "minecraft:blocks/log_acacia",
+    "contents": "minecraft:blocks/lava_still"
+  }
+}

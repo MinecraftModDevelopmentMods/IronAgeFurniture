@@ -1,0 +1,12 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_table_low_8_candle",
+  "textures": {
+    "log": "natura:blocks/logs/overworld/amaranth_log",
+    "planks": "natura:blocks/planks/overworld/amaranth_planks",
+    "particle": "natura:blocks/logs/overworld/amaranth_log",
+    "wax": "ironagefurniture:blocks/candle_wax",
+    "metal": "minecraft:blocks/iron_block",
+    "wick": "minecraft:blocks/coal_block"
+  }
+}

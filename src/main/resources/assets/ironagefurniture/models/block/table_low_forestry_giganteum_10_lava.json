@@ -1,0 +1,10 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_table_low_10_lava",
+  "textures": {
+    "log": "forestry:blocks/wood/bark.giganteum",
+    "planks": "forestry:blocks/wood/planks.giganteum",
+    "particle": "forestry:blocks/wood/bark.giganteum",
+    "contents": "minecraft:blocks/lava_still"
+  }
+}

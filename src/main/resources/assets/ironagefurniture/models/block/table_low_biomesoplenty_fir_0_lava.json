@@ -1,0 +1,10 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_table_low_0_lava",
+  "textures": {
+    "log": "biomesoplenty:blocks/fir_log",
+    "planks": "biomesoplenty:blocks/fir_planks",
+    "particle": "biomesoplenty:blocks/fir_log",
+    "contents": "minecraft:blocks/lava_still"
+  }
+}

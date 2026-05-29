@@ -1,0 +1,10 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_table_low_15_glow",
+  "textures": {
+    "log": "natura:blocks/logs/nether/ghostwood_log",
+    "planks": "natura:blocks/planks/nether/ghostwood_planks",
+    "particle": "natura:blocks/logs/nether/ghostwood_log",
+    "contents": "minecraft:blocks/glowstone"
+  }
+}

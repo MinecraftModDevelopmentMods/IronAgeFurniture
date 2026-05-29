@@ -1,0 +1,10 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_table_low_6_glow",
+  "textures": {
+    "log": "biomesoplenty:blocks/cherry_log",
+    "planks": "biomesoplenty:blocks/cherry_planks",
+    "particle": "biomesoplenty:blocks/cherry_log",
+    "contents": "minecraft:blocks/glowstone"
+  }
+}

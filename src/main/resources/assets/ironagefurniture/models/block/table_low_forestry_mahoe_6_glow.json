@@ -1,0 +1,10 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_table_low_6_glow",
+  "textures": {
+    "log": "forestry:blocks/wood/bark.mahoe",
+    "planks": "forestry:blocks/wood/planks.mahoe",
+    "particle": "forestry:blocks/wood/bark.mahoe",
+    "contents": "minecraft:blocks/glowstone"
+  }
+}

@@ -27,6 +27,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -37,6 +38,45 @@ import net.minecraft.world.World;
 public class DiningTable extends Block {
 	public static final PropertyInteger CONNECTIONS = PropertyInteger.create("connections", 0, 15);
 	public static final PropertyBool DATA = PropertyBool.create("data");
+
+	public static enum TableEmbeddedContent implements IStringSerializable {
+		NONE("none", 0),
+		GLOW("glow", 15),
+		LAVA("lava", 15),
+		CANDLE("candle", 12);
+
+		private final String name;
+		private final int lightLevel;
+
+		private TableEmbeddedContent(String name, int lightLevel) {
+			this.name = name;
+			this.lightLevel = lightLevel;
+		}
+
+		@Override
+		public String getName() {
+			return this.name;
+		}
+
+		public int getLightLevel() {
+			return this.lightLevel;
+		}
+
+		public static TableEmbeddedContent byName(String name) {
+			for (TableEmbeddedContent content : values()) {
+				if (content.name.equals(name)) {
+					return content;
+				}
+			}
+
+			return NONE;
+		}
+
+		@Override
+		public String toString() {
+			return this.name;
+		}
+	}
 
 	protected static final int NORTH = 1;
 	protected static final int EAST = 2;
@@ -128,7 +168,9 @@ public class DiningTable extends Block {
 			TileEntity tileEntity = worldIn.getTileEntity(pos);
 
 			if (tileEntity instanceof TileEntityDiningTable) {
-				((TileEntityDiningTable)tileEntity).dropDisplayedItem(worldIn, pos);
+				TileEntityDiningTable table = (TileEntityDiningTable)tileEntity;
+				table.dropDisplayedItem(worldIn, pos);
+				table.dropEmbeddedItem(worldIn, pos);
 			}
 
 			SurfaceDisplayBlocker.release(worldIn, pos);
@@ -211,7 +253,7 @@ public class DiningTable extends Block {
 		return true;
 	}
 
-	private boolean isDisplayExcluded(ItemStack heldItem) {
+	protected boolean isDisplayExcluded(ItemStack heldItem) {
 		if (heldItem == null || heldItem.stackSize <= 0) {
 			return false;
 		}
@@ -314,7 +356,7 @@ public class DiningTable extends Block {
 		return placedBlockItem;
 	}
 
-	private boolean isSameItemStack(ItemStack storedItem, ItemStack heldItem) {
+	protected boolean isSameItemStack(ItemStack storedItem, ItemStack heldItem) {
 		return storedItem != null && heldItem != null
 			&& storedItem.isItemEqual(heldItem)
 			&& ItemStack.areItemStackTagsEqual(storedItem, heldItem);
@@ -525,7 +567,7 @@ public class DiningTable extends Block {
 		}
 	}
 
-	private TileEntityDiningTable getTableEntity(World worldIn, BlockPos pos, boolean create) {
+	protected TileEntityDiningTable getTableEntity(World worldIn, BlockPos pos, boolean create) {
 		IBlockState state = worldIn.getBlockState(pos);
 
 		if (state.getBlock() != this) {
@@ -560,7 +602,7 @@ public class DiningTable extends Block {
 		return tileEntity instanceof TileEntityDiningTable ? (TileEntityDiningTable)tileEntity : null;
 	}
 
-	private void removeTableEntityIfEmpty(World worldIn, BlockPos pos) {
+	protected void removeTableEntityIfEmpty(World worldIn, BlockPos pos) {
 		if (worldIn.isRemote) {
 			return;
 		}

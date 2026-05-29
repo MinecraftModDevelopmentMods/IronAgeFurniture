@@ -1,0 +1,10 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_table_low_4_glow",
+  "textures": {
+    "log": "forestry:blocks/wood/bark.greenheart",
+    "planks": "forestry:blocks/wood/planks.greenheart",
+    "particle": "forestry:blocks/wood/bark.greenheart",
+    "contents": "minecraft:blocks/glowstone"
+  }
+}
