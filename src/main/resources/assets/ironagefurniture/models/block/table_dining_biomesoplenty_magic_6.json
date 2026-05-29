@@ -1,9 +1,0 @@
-{
-  "credit": "By FoxNekitsune",
-  "parent": "ironagefurniture:block/template_table_dining_6",
-  "textures": {
-    "log": "biomesoplenty:blocks/magic_log",
-    "planks": "biomesoplenty:blocks/magic_planks",
-    "particle": "biomesoplenty:blocks/magic_log"
-  }
-}

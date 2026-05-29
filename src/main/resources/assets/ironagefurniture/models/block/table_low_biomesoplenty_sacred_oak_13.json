@@ -1,9 +1,0 @@
-{
-  "credit": "By FoxNekitsune",
-  "parent": "ironagefurniture:block/template_table_low_13",
-  "textures": {
-    "log": "biomesoplenty:blocks/sacred_oak_log",
-    "planks": "biomesoplenty:blocks/sacred_oak_planks",
-    "particle": "biomesoplenty:blocks/sacred_oak_log"
-  }
-}

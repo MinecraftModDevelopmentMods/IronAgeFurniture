@@ -1,9 +1,0 @@
-{
-  "credit": "By FoxNekitsune",
-  "parent": "ironagefurniture:block/template_table_dining_2",
-  "textures": {
-    "log": "minecraft:blocks/log_acacia",
-    "planks": "minecraft:blocks/planks_acacia",
-    "particle": "minecraft:blocks/log_acacia"
-  }
-}

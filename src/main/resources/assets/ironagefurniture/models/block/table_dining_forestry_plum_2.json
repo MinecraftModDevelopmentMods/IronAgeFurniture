@@ -1,9 +1,0 @@
-{
-  "credit": "By FoxNekitsune",
-  "parent": "ironagefurniture:block/template_table_dining_2",
-  "textures": {
-    "log": "forestry:blocks/wood/bark.plum",
-    "planks": "forestry:blocks/wood/planks.plum",
-    "particle": "forestry:blocks/wood/bark.plum"
-  }
-}

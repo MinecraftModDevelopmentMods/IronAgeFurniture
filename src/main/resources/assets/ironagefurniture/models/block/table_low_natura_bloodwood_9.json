@@ -1,9 +1,0 @@
-{
-  "credit": "By FoxNekitsune",
-  "parent": "ironagefurniture:block/template_table_low_9",
-  "textures": {
-    "log": "natura:blocks/logs/nether/bloodwood_bark",
-    "planks": "natura:blocks/planks/nether/bloodwood_planks",
-    "particle": "natura:blocks/logs/nether/bloodwood_bark"
-  }
-}

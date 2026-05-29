@@ -1,388 +1,548 @@
 {
   "variants": {
     "connections=0,contents=none,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_0"
+      "model": "ironagefurniture:table_low_natura_tiger_single"
     },
     "connections=0,contents=none,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_0"
+      "model": "ironagefurniture:table_low_natura_tiger_single"
     },
     "connections=0,contents=glow,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_0_glow"
+      "model": "ironagefurniture:table_low_natura_tiger_single_glow"
     },
     "connections=0,contents=glow,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_0_glow"
+      "model": "ironagefurniture:table_low_natura_tiger_single_glow"
     },
     "connections=0,contents=lava,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_0_lava"
+      "model": "ironagefurniture:table_low_natura_tiger_single_lava"
     },
     "connections=0,contents=lava,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_0_lava"
+      "model": "ironagefurniture:table_low_natura_tiger_single_lava"
     },
     "connections=0,contents=candle,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_0_candle"
+      "model": "ironagefurniture:table_low_natura_tiger_single_candle"
     },
     "connections=0,contents=candle,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_0_candle"
+      "model": "ironagefurniture:table_low_natura_tiger_single_candle"
     },
     "connections=1,contents=none,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_1"
+      "model": "ironagefurniture:table_low_natura_tiger_end"
     },
     "connections=1,contents=none,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_1"
+      "model": "ironagefurniture:table_low_natura_tiger_end"
     },
     "connections=1,contents=glow,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_1_glow"
+      "model": "ironagefurniture:table_low_natura_tiger_end_glow"
     },
     "connections=1,contents=glow,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_1_glow"
+      "model": "ironagefurniture:table_low_natura_tiger_end_glow"
     },
     "connections=1,contents=lava,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_1_lava"
+      "model": "ironagefurniture:table_low_natura_tiger_end_lava"
     },
     "connections=1,contents=lava,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_1_lava"
+      "model": "ironagefurniture:table_low_natura_tiger_end_lava"
     },
     "connections=1,contents=candle,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_1_candle"
+      "model": "ironagefurniture:table_low_natura_tiger_end_candle"
     },
     "connections=1,contents=candle,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_1_candle"
+      "model": "ironagefurniture:table_low_natura_tiger_end_candle"
     },
     "connections=2,contents=none,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_2"
+      "model": "ironagefurniture:table_low_natura_tiger_end",
+      "y": 90,
+      "uvlock": true
     },
     "connections=2,contents=none,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_2"
+      "model": "ironagefurniture:table_low_natura_tiger_end",
+      "y": 90,
+      "uvlock": true
     },
     "connections=2,contents=glow,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_2_glow"
+      "model": "ironagefurniture:table_low_natura_tiger_end_glow",
+      "y": 90,
+      "uvlock": true
     },
     "connections=2,contents=glow,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_2_glow"
+      "model": "ironagefurniture:table_low_natura_tiger_end_glow",
+      "y": 90,
+      "uvlock": true
     },
     "connections=2,contents=lava,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_2_lava"
+      "model": "ironagefurniture:table_low_natura_tiger_end_lava",
+      "y": 90,
+      "uvlock": true
     },
     "connections=2,contents=lava,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_2_lava"
+      "model": "ironagefurniture:table_low_natura_tiger_end_lava",
+      "y": 90,
+      "uvlock": true
     },
     "connections=2,contents=candle,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_2_candle"
+      "model": "ironagefurniture:table_low_natura_tiger_end_candle",
+      "y": 90,
+      "uvlock": true
     },
     "connections=2,contents=candle,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_2_candle"
+      "model": "ironagefurniture:table_low_natura_tiger_end_candle",
+      "y": 90,
+      "uvlock": true
     },
     "connections=3,contents=none,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_3"
+      "model": "ironagefurniture:table_low_natura_tiger_corner"
     },
     "connections=3,contents=none,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_3"
+      "model": "ironagefurniture:table_low_natura_tiger_corner"
     },
     "connections=3,contents=glow,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_3_glow"
+      "model": "ironagefurniture:table_low_natura_tiger_corner_glow"
     },
     "connections=3,contents=glow,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_3_glow"
+      "model": "ironagefurniture:table_low_natura_tiger_corner_glow"
     },
     "connections=3,contents=lava,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_3_lava"
+      "model": "ironagefurniture:table_low_natura_tiger_corner_lava"
     },
     "connections=3,contents=lava,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_3_lava"
+      "model": "ironagefurniture:table_low_natura_tiger_corner_lava"
     },
     "connections=3,contents=candle,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_3_candle"
+      "model": "ironagefurniture:table_low_natura_tiger_corner_candle"
     },
     "connections=3,contents=candle,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_3_candle"
+      "model": "ironagefurniture:table_low_natura_tiger_corner_candle"
     },
     "connections=4,contents=none,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_4"
+      "model": "ironagefurniture:table_low_natura_tiger_end",
+      "y": 180,
+      "uvlock": true
     },
     "connections=4,contents=none,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_4"
+      "model": "ironagefurniture:table_low_natura_tiger_end",
+      "y": 180,
+      "uvlock": true
     },
     "connections=4,contents=glow,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_4_glow"
+      "model": "ironagefurniture:table_low_natura_tiger_end_glow",
+      "y": 180,
+      "uvlock": true
     },
     "connections=4,contents=glow,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_4_glow"
+      "model": "ironagefurniture:table_low_natura_tiger_end_glow",
+      "y": 180,
+      "uvlock": true
     },
     "connections=4,contents=lava,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_4_lava"
+      "model": "ironagefurniture:table_low_natura_tiger_end_lava",
+      "y": 180,
+      "uvlock": true
     },
     "connections=4,contents=lava,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_4_lava"
+      "model": "ironagefurniture:table_low_natura_tiger_end_lava",
+      "y": 180,
+      "uvlock": true
     },
     "connections=4,contents=candle,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_4_candle"
+      "model": "ironagefurniture:table_low_natura_tiger_end_candle",
+      "y": 180,
+      "uvlock": true
     },
     "connections=4,contents=candle,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_4_candle"
+      "model": "ironagefurniture:table_low_natura_tiger_end_candle",
+      "y": 180,
+      "uvlock": true
     },
     "connections=5,contents=none,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_5"
+      "model": "ironagefurniture:table_low_natura_tiger_straight"
     },
     "connections=5,contents=none,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_5"
+      "model": "ironagefurniture:table_low_natura_tiger_straight"
     },
     "connections=5,contents=glow,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_5_glow"
+      "model": "ironagefurniture:table_low_natura_tiger_straight_glow"
     },
     "connections=5,contents=glow,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_5_glow"
+      "model": "ironagefurniture:table_low_natura_tiger_straight_glow"
     },
     "connections=5,contents=lava,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_5_lava"
+      "model": "ironagefurniture:table_low_natura_tiger_straight_lava"
     },
     "connections=5,contents=lava,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_5_lava"
+      "model": "ironagefurniture:table_low_natura_tiger_straight_lava"
     },
     "connections=5,contents=candle,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_5_candle"
+      "model": "ironagefurniture:table_low_natura_tiger_straight_candle"
     },
     "connections=5,contents=candle,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_5_candle"
+      "model": "ironagefurniture:table_low_natura_tiger_straight_candle"
     },
     "connections=6,contents=none,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_6"
+      "model": "ironagefurniture:table_low_natura_tiger_corner",
+      "y": 90,
+      "uvlock": true
     },
     "connections=6,contents=none,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_6"
+      "model": "ironagefurniture:table_low_natura_tiger_corner",
+      "y": 90,
+      "uvlock": true
     },
     "connections=6,contents=glow,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_6_glow"
+      "model": "ironagefurniture:table_low_natura_tiger_corner_glow",
+      "y": 90,
+      "uvlock": true
     },
     "connections=6,contents=glow,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_6_glow"
+      "model": "ironagefurniture:table_low_natura_tiger_corner_glow",
+      "y": 90,
+      "uvlock": true
     },
     "connections=6,contents=lava,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_6_lava"
+      "model": "ironagefurniture:table_low_natura_tiger_corner_lava",
+      "y": 90,
+      "uvlock": true
     },
     "connections=6,contents=lava,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_6_lava"
+      "model": "ironagefurniture:table_low_natura_tiger_corner_lava",
+      "y": 90,
+      "uvlock": true
     },
     "connections=6,contents=candle,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_6_candle"
+      "model": "ironagefurniture:table_low_natura_tiger_corner_candle",
+      "y": 90,
+      "uvlock": true
     },
     "connections=6,contents=candle,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_6_candle"
+      "model": "ironagefurniture:table_low_natura_tiger_corner_candle",
+      "y": 90,
+      "uvlock": true
     },
     "connections=7,contents=none,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_7"
+      "model": "ironagefurniture:table_low_natura_tiger_tee"
     },
     "connections=7,contents=none,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_7"
+      "model": "ironagefurniture:table_low_natura_tiger_tee"
     },
     "connections=7,contents=glow,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_7_glow"
+      "model": "ironagefurniture:table_low_natura_tiger_tee_glow"
     },
     "connections=7,contents=glow,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_7_glow"
+      "model": "ironagefurniture:table_low_natura_tiger_tee_glow"
     },
     "connections=7,contents=lava,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_7_lava"
+      "model": "ironagefurniture:table_low_natura_tiger_tee_lava"
     },
     "connections=7,contents=lava,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_7_lava"
+      "model": "ironagefurniture:table_low_natura_tiger_tee_lava"
     },
     "connections=7,contents=candle,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_7_candle"
+      "model": "ironagefurniture:table_low_natura_tiger_tee_candle"
     },
     "connections=7,contents=candle,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_7_candle"
+      "model": "ironagefurniture:table_low_natura_tiger_tee_candle"
     },
     "connections=8,contents=none,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_8"
+      "model": "ironagefurniture:table_low_natura_tiger_end",
+      "y": 270,
+      "uvlock": true
     },
     "connections=8,contents=none,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_8"
+      "model": "ironagefurniture:table_low_natura_tiger_end",
+      "y": 270,
+      "uvlock": true
     },
     "connections=8,contents=glow,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_8_glow"
+      "model": "ironagefurniture:table_low_natura_tiger_end_glow",
+      "y": 270,
+      "uvlock": true
     },
     "connections=8,contents=glow,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_8_glow"
+      "model": "ironagefurniture:table_low_natura_tiger_end_glow",
+      "y": 270,
+      "uvlock": true
     },
     "connections=8,contents=lava,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_8_lava"
+      "model": "ironagefurniture:table_low_natura_tiger_end_lava",
+      "y": 270,
+      "uvlock": true
     },
     "connections=8,contents=lava,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_8_lava"
+      "model": "ironagefurniture:table_low_natura_tiger_end_lava",
+      "y": 270,
+      "uvlock": true
     },
     "connections=8,contents=candle,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_8_candle"
+      "model": "ironagefurniture:table_low_natura_tiger_end_candle",
+      "y": 270,
+      "uvlock": true
     },
     "connections=8,contents=candle,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_8_candle"
+      "model": "ironagefurniture:table_low_natura_tiger_end_candle",
+      "y": 270,
+      "uvlock": true
     },
     "connections=9,contents=none,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_9"
+      "model": "ironagefurniture:table_low_natura_tiger_corner",
+      "y": 270,
+      "uvlock": true
     },
     "connections=9,contents=none,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_9"
+      "model": "ironagefurniture:table_low_natura_tiger_corner",
+      "y": 270,
+      "uvlock": true
     },
     "connections=9,contents=glow,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_9_glow"
+      "model": "ironagefurniture:table_low_natura_tiger_corner_glow",
+      "y": 270,
+      "uvlock": true
     },
     "connections=9,contents=glow,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_9_glow"
+      "model": "ironagefurniture:table_low_natura_tiger_corner_glow",
+      "y": 270,
+      "uvlock": true
     },
     "connections=9,contents=lava,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_9_lava"
+      "model": "ironagefurniture:table_low_natura_tiger_corner_lava",
+      "y": 270,
+      "uvlock": true
     },
     "connections=9,contents=lava,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_9_lava"
+      "model": "ironagefurniture:table_low_natura_tiger_corner_lava",
+      "y": 270,
+      "uvlock": true
     },
     "connections=9,contents=candle,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_9_candle"
+      "model": "ironagefurniture:table_low_natura_tiger_corner_candle",
+      "y": 270,
+      "uvlock": true
     },
     "connections=9,contents=candle,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_9_candle"
+      "model": "ironagefurniture:table_low_natura_tiger_corner_candle",
+      "y": 270,
+      "uvlock": true
     },
     "connections=10,contents=none,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_10"
+      "model": "ironagefurniture:table_low_natura_tiger_straight",
+      "y": 90,
+      "uvlock": true
     },
     "connections=10,contents=none,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_10"
+      "model": "ironagefurniture:table_low_natura_tiger_straight",
+      "y": 90,
+      "uvlock": true
     },
     "connections=10,contents=glow,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_10_glow"
+      "model": "ironagefurniture:table_low_natura_tiger_straight_glow",
+      "y": 90,
+      "uvlock": true
     },
     "connections=10,contents=glow,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_10_glow"
+      "model": "ironagefurniture:table_low_natura_tiger_straight_glow",
+      "y": 90,
+      "uvlock": true
     },
     "connections=10,contents=lava,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_10_lava"
+      "model": "ironagefurniture:table_low_natura_tiger_straight_lava",
+      "y": 90,
+      "uvlock": true
     },
     "connections=10,contents=lava,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_10_lava"
+      "model": "ironagefurniture:table_low_natura_tiger_straight_lava",
+      "y": 90,
+      "uvlock": true
     },
     "connections=10,contents=candle,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_10_candle"
+      "model": "ironagefurniture:table_low_natura_tiger_straight_candle",
+      "y": 90,
+      "uvlock": true
     },
     "connections=10,contents=candle,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_10_candle"
+      "model": "ironagefurniture:table_low_natura_tiger_straight_candle",
+      "y": 90,
+      "uvlock": true
     },
     "connections=11,contents=none,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_11"
+      "model": "ironagefurniture:table_low_natura_tiger_tee",
+      "y": 270,
+      "uvlock": true
     },
     "connections=11,contents=none,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_11"
+      "model": "ironagefurniture:table_low_natura_tiger_tee",
+      "y": 270,
+      "uvlock": true
     },
     "connections=11,contents=glow,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_11_glow"
+      "model": "ironagefurniture:table_low_natura_tiger_tee_glow",
+      "y": 270,
+      "uvlock": true
     },
     "connections=11,contents=glow,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_11_glow"
+      "model": "ironagefurniture:table_low_natura_tiger_tee_glow",
+      "y": 270,
+      "uvlock": true
     },
     "connections=11,contents=lava,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_11_lava"
+      "model": "ironagefurniture:table_low_natura_tiger_tee_lava",
+      "y": 270,
+      "uvlock": true
     },
     "connections=11,contents=lava,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_11_lava"
+      "model": "ironagefurniture:table_low_natura_tiger_tee_lava",
+      "y": 270,
+      "uvlock": true
     },
     "connections=11,contents=candle,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_11_candle"
+      "model": "ironagefurniture:table_low_natura_tiger_tee_candle",
+      "y": 270,
+      "uvlock": true
     },
     "connections=11,contents=candle,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_11_candle"
+      "model": "ironagefurniture:table_low_natura_tiger_tee_candle",
+      "y": 270,
+      "uvlock": true
     },
     "connections=12,contents=none,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_12"
+      "model": "ironagefurniture:table_low_natura_tiger_corner",
+      "y": 180,
+      "uvlock": true
     },
     "connections=12,contents=none,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_12"
+      "model": "ironagefurniture:table_low_natura_tiger_corner",
+      "y": 180,
+      "uvlock": true
     },
     "connections=12,contents=glow,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_12_glow"
+      "model": "ironagefurniture:table_low_natura_tiger_corner_glow",
+      "y": 180,
+      "uvlock": true
     },
     "connections=12,contents=glow,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_12_glow"
+      "model": "ironagefurniture:table_low_natura_tiger_corner_glow",
+      "y": 180,
+      "uvlock": true
     },
     "connections=12,contents=lava,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_12_lava"
+      "model": "ironagefurniture:table_low_natura_tiger_corner_lava",
+      "y": 180,
+      "uvlock": true
     },
     "connections=12,contents=lava,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_12_lava"
+      "model": "ironagefurniture:table_low_natura_tiger_corner_lava",
+      "y": 180,
+      "uvlock": true
     },
     "connections=12,contents=candle,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_12_candle"
+      "model": "ironagefurniture:table_low_natura_tiger_corner_candle",
+      "y": 180,
+      "uvlock": true
     },
     "connections=12,contents=candle,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_12_candle"
+      "model": "ironagefurniture:table_low_natura_tiger_corner_candle",
+      "y": 180,
+      "uvlock": true
     },
     "connections=13,contents=none,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_13"
+      "model": "ironagefurniture:table_low_natura_tiger_tee",
+      "y": 180,
+      "uvlock": true
     },
     "connections=13,contents=none,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_13"
+      "model": "ironagefurniture:table_low_natura_tiger_tee",
+      "y": 180,
+      "uvlock": true
     },
     "connections=13,contents=glow,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_13_glow"
+      "model": "ironagefurniture:table_low_natura_tiger_tee_glow",
+      "y": 180,
+      "uvlock": true
     },
     "connections=13,contents=glow,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_13_glow"
+      "model": "ironagefurniture:table_low_natura_tiger_tee_glow",
+      "y": 180,
+      "uvlock": true
     },
     "connections=13,contents=lava,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_13_lava"
+      "model": "ironagefurniture:table_low_natura_tiger_tee_lava",
+      "y": 180,
+      "uvlock": true
     },
     "connections=13,contents=lava,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_13_lava"
+      "model": "ironagefurniture:table_low_natura_tiger_tee_lava",
+      "y": 180,
+      "uvlock": true
     },
     "connections=13,contents=candle,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_13_candle"
+      "model": "ironagefurniture:table_low_natura_tiger_tee_candle",
+      "y": 180,
+      "uvlock": true
     },
     "connections=13,contents=candle,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_13_candle"
+      "model": "ironagefurniture:table_low_natura_tiger_tee_candle",
+      "y": 180,
+      "uvlock": true
     },
     "connections=14,contents=none,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_14"
+      "model": "ironagefurniture:table_low_natura_tiger_tee",
+      "y": 90,
+      "uvlock": true
     },
     "connections=14,contents=none,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_14"
+      "model": "ironagefurniture:table_low_natura_tiger_tee",
+      "y": 90,
+      "uvlock": true
     },
     "connections=14,contents=glow,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_14_glow"
+      "model": "ironagefurniture:table_low_natura_tiger_tee_glow",
+      "y": 90,
+      "uvlock": true
     },
     "connections=14,contents=glow,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_14_glow"
+      "model": "ironagefurniture:table_low_natura_tiger_tee_glow",
+      "y": 90,
+      "uvlock": true
     },
     "connections=14,contents=lava,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_14_lava"
+      "model": "ironagefurniture:table_low_natura_tiger_tee_lava",
+      "y": 90,
+      "uvlock": true
     },
     "connections=14,contents=lava,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_14_lava"
+      "model": "ironagefurniture:table_low_natura_tiger_tee_lava",
+      "y": 90,
+      "uvlock": true
     },
     "connections=14,contents=candle,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_14_candle"
+      "model": "ironagefurniture:table_low_natura_tiger_tee_candle",
+      "y": 90,
+      "uvlock": true
     },
     "connections=14,contents=candle,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_14_candle"
+      "model": "ironagefurniture:table_low_natura_tiger_tee_candle",
+      "y": 90,
+      "uvlock": true
     },
     "connections=15,contents=none,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_15"
+      "model": "ironagefurniture:table_low_natura_tiger_center"
     },
     "connections=15,contents=none,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_15"
+      "model": "ironagefurniture:table_low_natura_tiger_center"
     },
     "connections=15,contents=glow,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_15_glow"
+      "model": "ironagefurniture:table_low_natura_tiger_center_glow"
     },
     "connections=15,contents=glow,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_15_glow"
+      "model": "ironagefurniture:table_low_natura_tiger_center_glow"
     },
     "connections=15,contents=lava,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_15_lava"
+      "model": "ironagefurniture:table_low_natura_tiger_center_lava"
     },
     "connections=15,contents=lava,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_15_lava"
+      "model": "ironagefurniture:table_low_natura_tiger_center_lava"
     },
     "connections=15,contents=candle,data=false": {
-      "model": "ironagefurniture:table_low_natura_tiger_15_candle"
+      "model": "ironagefurniture:table_low_natura_tiger_center_candle"
     },
     "connections=15,contents=candle,data=true": {
-      "model": "ironagefurniture:table_low_natura_tiger_15_candle"
+      "model": "ironagefurniture:table_low_natura_tiger_center_candle"
     }
   }
 }

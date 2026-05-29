@@ -1,9 +1,0 @@
-{
-  "credit": "By FoxNekitsune",
-  "parent": "ironagefurniture:block/template_table_low_10",
-  "textures": {
-    "log": "biomesoplenty:blocks/jacaranda_log",
-    "planks": "biomesoplenty:blocks/jacaranda_planks",
-    "particle": "biomesoplenty:blocks/jacaranda_log"
-  }
-}

@@ -1,9 +1,0 @@
-{
-  "credit": "By FoxNekitsune",
-  "parent": "ironagefurniture:block/template_table_low_9",
-  "textures": {
-    "log": "forestry:blocks/wood/bark.wenge",
-    "planks": "forestry:blocks/wood/planks.wenge",
-    "particle": "forestry:blocks/wood/bark.wenge"
-  }
-}
