@@ -58,7 +58,7 @@ public final class SurfaceDisplayRenderHelper {
 		}
 
 		GlStateManager.pushMatrix();
-		GlStateManager.translate(x + 0.5D, y + surfaceY + 0.28D, z + 0.5D);
+		GlStateManager.translate(x + 0.5D, y + surfaceY + 0.46D, z + 0.5D);
 		GlStateManager.scale(0.52F, 0.52F, 0.52F);
 		Minecraft.getMinecraft().getRenderItem().renderItem(plantStack,
 			ItemCameraTransforms.TransformType.FIXED);
