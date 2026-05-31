@@ -5,7 +5,7 @@
     "particle": "blocks/log_oak",
     "log": "blocks/log_oak",
     "planks": "blocks/planks_oak",
-    "pot": "minecraft:blocks/flower_pot",
+    "pot": "ironagefurniture:blocks/ornament_clay_red",
     "dirt": "minecraft:blocks/dirt"
   },
   "elements": [
@@ -495,7 +495,7 @@
       ],
       "to": [
         11,
-        13,
+        14,
         6
       ],
       "faces": {
@@ -564,7 +564,7 @@
       ],
       "to": [
         11,
-        13,
+        14,
         11
       ],
       "faces": {
@@ -633,7 +633,7 @@
       ],
       "to": [
         6,
-        13,
+        14,
         10
       ],
       "faces": {
@@ -702,7 +702,7 @@
       ],
       "to": [
         11,
-        13,
+        14,
         10
       ],
       "faces": {
@@ -766,12 +766,12 @@
       "name": "embedded flower pot dirt",
       "from": [
         6,
-        13,
+        13.45,
         6
       ],
       "to": [
         10,
-        13.2,
+        13.55,
         10
       ],
       "faces": {

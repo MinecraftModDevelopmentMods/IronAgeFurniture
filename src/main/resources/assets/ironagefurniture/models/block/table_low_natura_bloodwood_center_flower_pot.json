@@ -5,7 +5,7 @@
     "log": "natura:blocks/logs/nether/bloodwood_bark",
     "planks": "natura:blocks/planks/nether/bloodwood_planks",
     "particle": "natura:blocks/logs/nether/bloodwood_bark",
-    "pot": "minecraft:blocks/flower_pot",
+    "pot": "ironagefurniture:blocks/ornament_clay_red",
     "dirt": "minecraft:blocks/dirt"
   }
 }

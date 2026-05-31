@@ -5,7 +5,7 @@
     "log": "forestry:blocks/wood/bark.palm",
     "planks": "forestry:blocks/wood/planks.palm",
     "particle": "forestry:blocks/wood/bark.palm",
-    "pot": "minecraft:blocks/flower_pot",
+    "pot": "ironagefurniture:blocks/ornament_clay_red",
     "dirt": "minecraft:blocks/dirt"
   }
 }

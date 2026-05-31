@@ -5,7 +5,7 @@
     "log": "forestry:blocks/wood/bark.wenge",
     "planks": "forestry:blocks/wood/planks.wenge",
     "particle": "forestry:blocks/wood/bark.wenge",
-    "pot": "minecraft:blocks/flower_pot",
+    "pot": "ironagefurniture:blocks/ornament_clay_red",
     "dirt": "minecraft:blocks/dirt"
   }
 }

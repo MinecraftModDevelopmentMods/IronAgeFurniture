@@ -169,6 +169,11 @@ public class LowTable extends DiningTable {
 	}
 
 	@Override
+	protected boolean supportsSurfaceBlocks() {
+		return false;
+	}
+
+	@Override
 	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
 		return super.getActualState(state, worldIn, pos)
 			.withProperty(CONTENTS, this.getEmbeddedContents(worldIn, pos));
@@ -317,7 +322,7 @@ public class LowTable extends DiningTable {
 			return TableEmbeddedContent.CANDLE;
 		}
 
-		if (this.isItemFromBlock(heldItem, Blocks.FLOWER_POT)) {
+		if (this.isFlowerPotItem(heldItem)) {
 			return TableEmbeddedContent.FLOWER_POT;
 		}
 

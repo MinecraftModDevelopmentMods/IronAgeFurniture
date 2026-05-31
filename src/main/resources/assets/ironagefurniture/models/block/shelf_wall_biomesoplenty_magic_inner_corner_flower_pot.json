@@ -5,7 +5,7 @@
     "log": "biomesoplenty:blocks/magic_log",
     "planks": "biomesoplenty:blocks/magic_planks",
     "particle": "biomesoplenty:blocks/magic_log",
-    "pot": "minecraft:blocks/flower_pot",
+    "pot": "ironagefurniture:blocks/ornament_clay_red",
     "dirt": "minecraft:blocks/dirt"
   }
 }

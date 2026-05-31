@@ -22,6 +22,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -264,12 +265,17 @@ public class DiningTable extends Block {
 			|| this.isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_block_floor_red_clear)
 			|| this.isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_block_floor_lava_clear)
 			|| this.isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_candle_floor)
-			|| this.isItemFromBlock(heldItem, Blocks.FLOWER_POT)
+			|| this.isFlowerPotItem(heldItem)
 			|| this.isOrnamentItem(heldItem);
 	}
 
 	private boolean isItemFromBlock(ItemStack heldItem, Block block) {
 		return block != null && heldItem.getItem() == Item.getItemFromBlock(block);
+	}
+
+	protected boolean isFlowerPotItem(ItemStack heldItem) {
+		return heldItem != null && heldItem.stackSize > 0
+			&& heldItem.getItem() == Items.FLOWER_POT;
 	}
 
 	private boolean isOrnamentItem(ItemStack heldItem) {
@@ -361,7 +367,7 @@ public class DiningTable extends Block {
 		}
 
 		if (aboveBlock == Blocks.FLOWER_POT) {
-			return new ItemStack(Blocks.FLOWER_POT, 1);
+			return new ItemStack(Items.FLOWER_POT, 1);
 		}
 
 		if (aboveBlock.hasTileEntity(aboveState)) {
@@ -423,6 +429,15 @@ public class DiningTable extends Block {
 	@Override
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
+	}
+
+	@Override
+	public boolean isFullyOpaque(IBlockState state) {
+		return this.supportsSurfaceBlocks() || super.isFullyOpaque(state);
+	}
+
+	protected boolean supportsSurfaceBlocks() {
+		return true;
 	}
 
 	@Override

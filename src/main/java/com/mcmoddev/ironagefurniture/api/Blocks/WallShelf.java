@@ -554,7 +554,7 @@ public class WallShelf extends BlockHBase {
 			return ShelfContentKind.CANDLE;
 		}
 
-		if (this.isItemFromBlock(heldItem, Blocks.FLOWER_POT)) {
+		if (this.isFlowerPotItem(heldItem)) {
 			return ShelfContentKind.FLOWER_POT;
 		}
 
@@ -581,6 +581,11 @@ public class WallShelf extends BlockHBase {
 			|| heldBlock == Blocks.RED_MUSHROOM
 			|| heldBlock == Blocks.DEADBUSH
 			|| heldBlock == Blocks.CACTUS;
+	}
+
+	private boolean isFlowerPotItem(ItemStack heldItem) {
+		return heldItem != null && heldItem.stackSize > 0
+			&& heldItem.getItem() == Items.FLOWER_POT;
 	}
 
 	private Block getHeldItemBlock(ItemStack heldItem) {

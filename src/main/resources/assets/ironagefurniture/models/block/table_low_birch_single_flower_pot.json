@@ -5,7 +5,7 @@
     "log": "minecraft:blocks/log_birch",
     "planks": "minecraft:blocks/planks_birch",
     "particle": "minecraft:blocks/log_birch",
-    "pot": "minecraft:blocks/flower_pot",
+    "pot": "ironagefurniture:blocks/ornament_clay_red",
     "dirt": "minecraft:blocks/dirt"
   }
 }
