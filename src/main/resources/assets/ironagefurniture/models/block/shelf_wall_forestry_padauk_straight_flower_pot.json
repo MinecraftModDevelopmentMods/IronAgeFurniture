@@ -1,0 +1,11 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_shelf_wall_straight_flower_pot",
+  "textures": {
+    "log": "forestry:blocks/wood/bark.padauk",
+    "planks": "forestry:blocks/wood/planks.padauk",
+    "particle": "forestry:blocks/wood/bark.padauk",
+    "pot": "minecraft:blocks/flower_pot",
+    "dirt": "minecraft:blocks/dirt"
+  }
+}

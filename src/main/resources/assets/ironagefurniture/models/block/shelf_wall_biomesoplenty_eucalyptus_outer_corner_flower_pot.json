@@ -1,0 +1,11 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_shelf_wall_outer_corner_flower_pot",
+  "textures": {
+    "log": "biomesoplenty:blocks/eucalyptus_log",
+    "planks": "biomesoplenty:blocks/eucalyptus_planks",
+    "particle": "biomesoplenty:blocks/eucalyptus_log",
+    "pot": "minecraft:blocks/flower_pot",
+    "dirt": "minecraft:blocks/dirt"
+  }
+}

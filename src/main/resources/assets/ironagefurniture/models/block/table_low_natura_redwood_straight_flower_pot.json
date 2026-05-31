@@ -1,0 +1,11 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_table_low_straight_flower_pot",
+  "textures": {
+    "log": "natura:blocks/logs/overworld/redwood_bark",
+    "planks": "natura:blocks/planks/overworld/redwood_planks",
+    "particle": "natura:blocks/logs/overworld/redwood_bark",
+    "pot": "minecraft:blocks/flower_pot",
+    "dirt": "minecraft:blocks/dirt"
+  }
+}

@@ -8,6 +8,7 @@ import com.mcmoddev.ironagefurniture.api.Blocks.Bench;
 import com.mcmoddev.ironagefurniture.api.Blocks.ChainTop;
 import com.mcmoddev.ironagefurniture.api.Blocks.Chair;
 import com.mcmoddev.ironagefurniture.api.Blocks.DiningTable;
+import com.mcmoddev.ironagefurniture.api.Blocks.GlassVaseBlock;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightHolderSconceFloor;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightHolderSconceWall;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceChandelierCandle;
@@ -51,21 +52,26 @@ import com.mcmoddev.ironagefurniture.api.Blocks.MultiBlockBed;
 import com.mcmoddev.ironagefurniture.api.Blocks.MultiBlockChair;
 import com.mcmoddev.ironagefurniture.api.Blocks.MultiBlockWoodBed;
 import com.mcmoddev.ironagefurniture.api.Blocks.ObsideanLump;
+import com.mcmoddev.ironagefurniture.api.Blocks.OrnamentBlock;
 import com.mcmoddev.ironagefurniture.api.Blocks.Stool;
 import com.mcmoddev.ironagefurniture.api.Blocks.SurfaceDisplayBlocker;
 import com.mcmoddev.ironagefurniture.api.Blocks.ThroneChair;
 import com.mcmoddev.ironagefurniture.api.Blocks.WallShelf;
 import com.mcmoddev.ironagefurniture.api.Blocks.WingbackChair;
+import com.mcmoddev.ironagefurniture.api.Items.ItemBlockGlassVase;
+import com.mcmoddev.ironagefurniture.api.Items.ItemBlockOrnament;
 import com.mcmoddev.ironagefurniture.api.Items.ItemBlockThrowableLavaLamp;
 import com.mcmoddev.ironagefurniture.api.Items.ItemBlockWallShelf;
 import com.mcmoddev.ironagefurniture.init.ItemInitialiser;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -365,6 +371,36 @@ public class FurnitureFactory {
 
 	public static Block CreateSurfaceDisplayBlocker(String name) {
 		return registerBlockWithoutItem(new SurfaceDisplayBlocker(Material.BARRIER, name), name);
+	}
+
+	public static Block CreateClayOrnaments(String name) {
+		return registerBlock(new OrnamentBlock(Material.CLAY, name,
+			new String[] { "clay_vase", "clay_jug", "clay_bowl", "banded_clay_urn" },
+			new String[] { "ornament_clay_vase", "ornament_clay_jug", "ornament_clay_bowl",
+				"ornament_clay_banded_urn" },
+			new AxisAlignedBB[] {
+				new AxisAlignedBB(3.0D / 16.0D, 0.0D, 3.0D / 16.0D, 13.0D / 16.0D, 15.0D / 16.0D, 13.0D / 16.0D),
+				new AxisAlignedBB(2.0D / 16.0D, 0.0D, 3.0D / 16.0D, 14.0D / 16.0D, 13.0D / 16.0D, 13.0D / 16.0D),
+				new AxisAlignedBB(3.0D / 16.0D, 0.0D, 3.0D / 16.0D, 13.0D / 16.0D, 5.0D / 16.0D, 13.0D / 16.0D),
+				new AxisAlignedBB(3.0D / 16.0D, 0.0D, 3.0D / 16.0D, 13.0D / 16.0D, 16.0D / 16.0D, 13.0D / 16.0D)
+			}, 5, 0.6F, SoundType.STONE, "pickaxe"), name, 16);
+	}
+
+	public static Block CreateObsidianOrnaments(String name) {
+		return registerBlock(new OrnamentBlock(Material.ROCK, name,
+			new String[] { "obsidian_shard_cluster", "obsidian_idol", "obsidian_urn", "obsidian_chalice" },
+			new String[] { "ornament_obsidian_shard_cluster", "ornament_obsidian_idol",
+				"ornament_obsidian_urn", "ornament_obsidian_chalice" },
+			new AxisAlignedBB[] {
+				new AxisAlignedBB(4.0D / 16.0D, 0.0D, 4.0D / 16.0D, 12.0D / 16.0D, 9.0D / 16.0D, 12.0D / 16.0D),
+				new AxisAlignedBB(4.0D / 16.0D, 0.0D, 4.0D / 16.0D, 12.0D / 16.0D, 14.0D / 16.0D, 12.0D / 16.0D),
+				new AxisAlignedBB(3.0D / 16.0D, 0.0D, 3.0D / 16.0D, 13.0D / 16.0D, 16.0D / 16.0D, 13.0D / 16.0D),
+				new AxisAlignedBB(5.0D / 16.0D, 0.0D, 5.0D / 16.0D, 11.0D / 16.0D, 12.0D / 16.0D, 11.0D / 16.0D)
+			}, 10, 1.2F, SoundType.STONE, "pickaxe"), name, 16);
+	}
+
+	public static Block CreateGlassVaseOrnaments(String name) {
+		return registerBlock(new GlassVaseBlock(Material.GLASS, name, 1, 0.3F), name, 16);
 	}
 
 	public static Block CreateIronWallSconce(String name) {
@@ -707,12 +743,14 @@ public class FurnitureFactory {
 		return registerBlock(new Stool(Material.WOOD, name, 10, true, 0.6, 1), name);
 	}
     private static Block registerBlock(Block block, String name, int maxStackSize, boolean registerItem) {
-    	GameRegistry.register(block.setRegistryName(Ironagefurniture.MODID, name));
+		GameRegistry.register(block.setRegistryName(Ironagefurniture.MODID, name));
     	block.setUnlocalizedName(Ironagefurniture.MODID + "." + name);
 		registerWoodFurnitureFireInfo(block);
 		
 		if (registerItem) {
-			ItemBlock itemBlock = block instanceof WallShelf ? new ItemBlockWallShelf(block)
+			ItemBlock itemBlock = block instanceof GlassVaseBlock ? new ItemBlockGlassVase(block)
+				: block instanceof OrnamentBlock ? new ItemBlockOrnament(block)
+				: block instanceof WallShelf ? new ItemBlockWallShelf(block)
 				: block instanceof LightSourceLava ? new ItemBlockThrowableLavaLamp(block) : new ItemBlock(block);
 			itemBlock.setMaxStackSize(maxStackSize);
 			ItemInitialiser.RegisterItem(itemBlock, name);

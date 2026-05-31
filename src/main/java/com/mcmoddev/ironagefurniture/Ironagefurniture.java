@@ -80,6 +80,9 @@ public class Ironagefurniture
     	MinecraftForge.EVENT_BUS.register(new DiningTableSurfaceInteractionHandler());
 		ItemInitialiser.init();
     	BlockInitialiser.init();
+		if(event.getSide().isClient()) {
+			ItemInitialiser.RegisterItemModels();
+		}
 		if(event.getSide().isClient() && BlockObjectHolder.light_metal_ironage_block_floor_lava_clear != null) {
 			ClientRenderInitialiser.RegisterEntityRenderers();
 		}

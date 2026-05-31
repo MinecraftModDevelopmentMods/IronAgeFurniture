@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "color=white": {
+      "model": "ironagefurniture:ornament_glass_vase_white"
+    },
+    "color=orange": {
+      "model": "ironagefurniture:ornament_glass_vase_orange"
+    },
+    "color=magenta": {
+      "model": "ironagefurniture:ornament_glass_vase_magenta"
+    },
+    "color=light_blue": {
+      "model": "ironagefurniture:ornament_glass_vase_light_blue"
+    },
+    "color=yellow": {
+      "model": "ironagefurniture:ornament_glass_vase_yellow"
+    },
+    "color=lime": {
+      "model": "ironagefurniture:ornament_glass_vase_lime"
+    },
+    "color=pink": {
+      "model": "ironagefurniture:ornament_glass_vase_pink"
+    },
+    "color=gray": {
+      "model": "ironagefurniture:ornament_glass_vase_gray"
+    },
+    "color=silver": {
+      "model": "ironagefurniture:ornament_glass_vase_silver"
+    },
+    "color=cyan": {
+      "model": "ironagefurniture:ornament_glass_vase_cyan"
+    },
+    "color=purple": {
+      "model": "ironagefurniture:ornament_glass_vase_purple"
+    },
+    "color=blue": {
+      "model": "ironagefurniture:ornament_glass_vase_blue"
+    },
+    "color=brown": {
+      "model": "ironagefurniture:ornament_glass_vase_brown"
+    },
+    "color=green": {
+      "model": "ironagefurniture:ornament_glass_vase_green"
+    },
+    "color=red": {
+      "model": "ironagefurniture:ornament_glass_vase_red"
+    },
+    "color=black": {
+      "model": "ironagefurniture:ornament_glass_vase_black"
+    }
+  }
+}

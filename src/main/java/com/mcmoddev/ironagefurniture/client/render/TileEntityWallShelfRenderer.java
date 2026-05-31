@@ -27,13 +27,23 @@ public class TileEntityWallShelfRenderer extends TileEntitySpecialRenderer<TileE
 			int destroyStage) {
 		ItemStack itemStack = te.getDisplayedItem();
 
+		EnumFacing facing = this.getFacing(te);
+		double itemX = 0.5D - facing.getFrontOffsetX() * 0.125D;
+		double itemZ = 0.5D - facing.getFrontOffsetZ() * 0.125D;
+
+		if (te.getEmbeddedKind() == WallShelf.ShelfContentKind.FLOWER_POT && te.getLastEmbeddedItem() != null
+				&& !this.isSameStack(te.getLastEmbeddedItem(), te.getFirstEmbeddedItem())) {
+			SurfaceDisplayRenderHelper.renderPottedPlant(te.getLastEmbeddedItem(), x, y, z, SHELF_TOP_Y);
+		}
+
 		if (itemStack == null || itemStack.stackSize <= 0) {
 			return;
 		}
 
-		EnumFacing facing = this.getFacing(te);
-		double itemX = 0.5D - facing.getFrontOffsetX() * 0.125D;
-		double itemZ = 0.5D - facing.getFrontOffsetZ() * 0.125D;
+		if (SurfaceDisplayRenderHelper.renderSpecialSurfaceItem(itemStack, x, y, z, itemX, itemZ, ITEM_Y,
+				SHELF_TOP_Y, this.getYaw(facing))) {
+			return;
+		}
 
 		GlStateManager.pushMatrix();
 
@@ -54,6 +64,24 @@ public class TileEntityWallShelfRenderer extends TileEntitySpecialRenderer<TileE
 
 		Minecraft.getMinecraft().getRenderItem().renderItem(itemStack, transformType);
 		GlStateManager.popMatrix();
+	}
+
+	private boolean isSameStack(ItemStack first, ItemStack second) {
+		return first != null && second != null && first.isItemEqual(second)
+			&& ItemStack.areItemStackTagsEqual(first, second);
+	}
+
+	private float getYaw(EnumFacing facing) {
+		switch (facing) {
+		case EAST:
+			return 90.0F;
+		case SOUTH:
+			return 180.0F;
+		case WEST:
+			return 270.0F;
+		default:
+			return 0.0F;
+		}
 	}
 
 	private EnumFacing getFacing(TileEntityWallShelf te) {

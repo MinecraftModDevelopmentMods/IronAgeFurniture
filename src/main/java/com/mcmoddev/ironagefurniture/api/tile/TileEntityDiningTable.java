@@ -15,6 +15,7 @@ import net.minecraft.world.World;
 public class TileEntityDiningTable extends TileEntity {
 	private ItemStack displayedItem;
 	private ItemStack embeddedItem;
+	private ItemStack embeddedFlowerPotPlant;
 	private TableEmbeddedContent embeddedContent = TableEmbeddedContent.NONE;
 	private int blockedConnections;
 
@@ -52,6 +53,14 @@ public class TileEntityDiningTable extends TileEntity {
 		return this.embeddedItem;
 	}
 
+	public ItemStack getEmbeddedFlowerPotPlant() {
+		return this.embeddedFlowerPotPlant;
+	}
+
+	public boolean hasEmbeddedFlowerPotPlant() {
+		return this.embeddedFlowerPotPlant != null && this.embeddedFlowerPotPlant.stackSize > 0;
+	}
+
 	public boolean canSetEmbeddedContent(TableEmbeddedContent content) {
 		return content != null && content != TableEmbeddedContent.NONE
 			&& !this.hasDisplayedItem()
@@ -76,8 +85,28 @@ public class TileEntityDiningTable extends TileEntity {
 		int oldLight = this.getEmbeddedLightLevel();
 		ItemStack itemStack = this.embeddedItem;
 		this.embeddedItem = null;
+		this.embeddedFlowerPotPlant = null;
 		this.embeddedContent = TableEmbeddedContent.NONE;
 		this.markForUpdate(oldLight != this.getEmbeddedLightLevel());
+		return itemStack;
+	}
+
+	public boolean setEmbeddedFlowerPotPlant(ItemStack itemStack) {
+		if (this.getEmbeddedContent() != TableEmbeddedContent.FLOWER_POT || this.hasEmbeddedFlowerPotPlant()
+				|| itemStack == null || itemStack.stackSize <= 0) {
+			return false;
+		}
+
+		this.embeddedFlowerPotPlant = itemStack.copy();
+		this.embeddedFlowerPotPlant.stackSize = 1;
+		this.markForUpdate();
+		return true;
+	}
+
+	public ItemStack removeEmbeddedFlowerPotPlant() {
+		ItemStack itemStack = this.embeddedFlowerPotPlant;
+		this.embeddedFlowerPotPlant = null;
+		this.markForUpdate();
 		return itemStack;
 	}
 
@@ -103,6 +132,12 @@ public class TileEntityDiningTable extends TileEntity {
 	}
 
 	public void dropEmbeddedItem(World worldIn, BlockPos pos) {
+		ItemStack plantStack = this.removeEmbeddedFlowerPotPlant();
+
+		if (plantStack != null) {
+			net.minecraft.block.Block.spawnAsEntity(worldIn, pos, plantStack);
+		}
+
 		ItemStack itemStack = this.removeEmbeddedItem();
 
 		if (itemStack != null) {
@@ -157,6 +192,13 @@ public class TileEntityDiningTable extends TileEntity {
 			this.embeddedItem = null;
 		}
 
+		if (compound.hasKey("EmbeddedFlowerPotPlant")) {
+			this.embeddedFlowerPotPlant = ItemStack.loadItemStackFromNBT(
+				compound.getCompoundTag("EmbeddedFlowerPotPlant"));
+		} else {
+			this.embeddedFlowerPotPlant = null;
+		}
+
 		this.blockedConnections = compound.getInteger("BlockedConnections") & 15;
 	}
 
@@ -177,9 +219,18 @@ public class TileEntityDiningTable extends TileEntity {
 			this.embeddedItem.writeToNBT(itemTag);
 			compound.setString("EmbeddedContent", this.embeddedContent.getName());
 			compound.setTag("EmbeddedItem", itemTag);
+
+			if (this.hasEmbeddedFlowerPotPlant()) {
+				NBTTagCompound plantTag = new NBTTagCompound();
+				this.embeddedFlowerPotPlant.writeToNBT(plantTag);
+				compound.setTag("EmbeddedFlowerPotPlant", plantTag);
+			} else {
+				compound.removeTag("EmbeddedFlowerPotPlant");
+			}
 		} else {
 			compound.removeTag("EmbeddedContent");
 			compound.removeTag("EmbeddedItem");
+			compound.removeTag("EmbeddedFlowerPotPlant");
 		}
 
 		compound.setInteger("BlockedConnections", this.blockedConnections & 15);

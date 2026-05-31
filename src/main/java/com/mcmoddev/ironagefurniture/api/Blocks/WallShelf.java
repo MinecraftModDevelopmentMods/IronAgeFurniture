@@ -85,6 +85,7 @@ public class WallShelf extends BlockHBase {
 		GLOW("glow", 1, 15),
 		LAVA("lava", 1, 15),
 		CANDLE("candle", 1, 12),
+		FLOWER_POT("flower_pot", 2, 0),
 		BOOKS("books", 5, 0),
 		RECORDS("records", 6, 0);
 
@@ -132,6 +133,7 @@ public class WallShelf extends BlockHBase {
 		GLOW("glow", ShelfContentKind.GLOW, 1),
 		LAVA("lava", ShelfContentKind.LAVA, 1),
 		CANDLE("candle", ShelfContentKind.CANDLE, 1),
+		FLOWER_POT("flower_pot", ShelfContentKind.FLOWER_POT, 1),
 		BOOKS_1("books_1", ShelfContentKind.BOOKS, 1),
 		BOOKS_2("books_2", ShelfContentKind.BOOKS, 2),
 		BOOKS_3("books_3", ShelfContentKind.BOOKS, 3),
@@ -170,6 +172,10 @@ public class WallShelf extends BlockHBase {
 
 			for (ShelfContents contents : values()) {
 				if (contents.kind == kind && contents.count == count) {
+					return contents;
+				}
+
+				if (kind == ShelfContentKind.FLOWER_POT && contents.kind == kind) {
 					return contents;
 				}
 			}
@@ -309,13 +315,24 @@ public class WallShelf extends BlockHBase {
 		}
 
 		ShelfContentKind heldContent = this.getEmbeddedContentKindForItem(heldItem);
+		TileEntityWallShelf shelf = this.getShelfEntity(worldIn, pos, false);
+
+		if (shelf != null && shelf.getEmbeddedKind() == ShelfContentKind.FLOWER_POT) {
+			if (this.canHandleFlowerPotClick(shelf, heldItem)) {
+				if (worldIn.isRemote) {
+					return true;
+				}
+
+				this.handleFlowerPotClick(worldIn, pos, shelf, playerIn, hand, heldItem);
+			}
+
+			return true;
+		}
 
 		if (heldContent != ShelfContentKind.NONE) {
 			if (worldIn.isRemote) {
 				return true;
 			}
-
-			TileEntityWallShelf shelf = this.getShelfEntity(worldIn, pos, false);
 
 			if (shelf != null && shelf.hasEmbeddedContent()
 					&& !this.canAddEmbeddedContentAt(worldIn, pos, shelf, heldContent)
@@ -351,7 +368,7 @@ public class WallShelf extends BlockHBase {
 			return true;
 		}
 
-		TileEntityWallShelf shelf = this.getShelfEntity(worldIn, pos, false);
+		shelf = this.getShelfEntity(worldIn, pos, false);
 
 		if (shelf != null && shelf.hasDisplayedItem() && this.isSameShelfStack(shelf.getDisplayedItem(), heldItem)) {
 			this.removeDisplayedItemFromShelf(worldIn, pos, shelf, playerIn);
@@ -359,7 +376,7 @@ public class WallShelf extends BlockHBase {
 		}
 
 		if ((shelf == null || !shelf.hasStoredData()) && heldItem != null && heldItem.stackSize > 0) {
-			if (!SurfaceDisplayBlocker.reserveForShelf(worldIn, pos)) {
+			if (!this.reserveDisplaySpace(worldIn, pos, heldItem)) {
 				return true;
 			}
 
@@ -427,6 +444,42 @@ public class WallShelf extends BlockHBase {
 		this.removeShelfEntityIfEmpty(worldIn, pos);
 	}
 
+	private boolean canHandleFlowerPotClick(TileEntityWallShelf shelf, ItemStack heldItem) {
+		ItemStack lastItem = shelf.getLastEmbeddedItem();
+
+		if (lastItem != null && !this.isSameShelfStack(lastItem, shelf.getFirstEmbeddedItem())) {
+			return heldItem == null || heldItem.stackSize <= 0 || this.isSameShelfStack(lastItem, heldItem);
+		}
+
+		return heldItem == null || heldItem.stackSize <= 0
+			|| this.isSameShelfStack(lastItem, heldItem)
+			|| this.isFlowerPotPlantItem(heldItem);
+	}
+
+	private void handleFlowerPotClick(World worldIn, BlockPos pos, TileEntityWallShelf shelf,
+			EntityPlayer playerIn, EnumHand hand, ItemStack heldItem) {
+		ItemStack lastItem = shelf.getLastEmbeddedItem();
+
+		if (lastItem != null && !this.isSameShelfStack(lastItem, shelf.getFirstEmbeddedItem())) {
+			this.removeLastEmbeddedItemFromShelf(worldIn, pos, shelf, playerIn);
+			return;
+		}
+
+		if (this.isFlowerPotPlantItem(heldItem) && shelf.addEmbeddedContent(ShelfContentKind.FLOWER_POT, heldItem)) {
+			if (!playerIn.capabilities.isCreativeMode) {
+				heldItem.stackSize--;
+
+				if (heldItem.stackSize <= 0) {
+					playerIn.setHeldItem(hand, null);
+				}
+			}
+
+			return;
+		}
+
+		this.removeLastEmbeddedItemFromShelf(worldIn, pos, shelf, playerIn);
+	}
+
 	private void returnShelfItem(World worldIn, BlockPos pos, EntityPlayer playerIn, ItemStack itemStack) {
 		if (!playerIn.inventory.addItemStackToInventory(itemStack)) {
 			EntityItem entityItem = new EntityItem(worldIn, pos.getX() + 0.5D, pos.getY() + 0.9D,
@@ -444,6 +497,23 @@ public class WallShelf extends BlockHBase {
 		return this.isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_block_floor_red_clear)
 			|| this.hasRegistryPath(heldBlock, "light_metal_ironage_block_floor_red_clear")
 			|| heldBlock instanceof LightSourceRed;
+	}
+
+	private boolean reserveDisplaySpace(World worldIn, BlockPos pos, ItemStack heldItem) {
+		return this.requiresClearBlockAbove(heldItem)
+			? SurfaceDisplayBlocker.reserve(worldIn, pos)
+			: SurfaceDisplayBlocker.reserveForShelf(worldIn, pos);
+	}
+
+	private boolean requiresClearBlockAbove(ItemStack heldItem) {
+		Block heldBlock = this.getHeldItemBlock(heldItem);
+
+		if (heldBlock instanceof OrnamentBlock) {
+			String modelName = ((OrnamentBlock)heldBlock).getModelName(heldItem.getMetadata());
+			return modelName.contains("_urn");
+		}
+
+		return false;
 	}
 
 	private ShelfContentKind getEmbeddedContentKindForItem(ItemStack heldItem) {
@@ -484,6 +554,10 @@ public class WallShelf extends BlockHBase {
 			return ShelfContentKind.CANDLE;
 		}
 
+		if (this.isItemFromBlock(heldItem, Blocks.FLOWER_POT)) {
+			return ShelfContentKind.FLOWER_POT;
+		}
+
 		Item item = heldItem.getItem();
 
 		if (item == Items.BOOK || item == Items.WRITABLE_BOOK || item == Items.WRITTEN_BOOK
@@ -496,6 +570,17 @@ public class WallShelf extends BlockHBase {
 		}
 
 		return ShelfContentKind.NONE;
+	}
+
+	private boolean isFlowerPotPlantItem(ItemStack heldItem) {
+		Block heldBlock = this.getHeldItemBlock(heldItem);
+		return heldBlock == Blocks.RED_FLOWER
+			|| heldBlock == Blocks.YELLOW_FLOWER
+			|| heldBlock == Blocks.SAPLING
+			|| heldBlock == Blocks.BROWN_MUSHROOM
+			|| heldBlock == Blocks.RED_MUSHROOM
+			|| heldBlock == Blocks.DEADBUSH
+			|| heldBlock == Blocks.CACTUS;
 	}
 
 	private Block getHeldItemBlock(ItemStack heldItem) {
@@ -1031,7 +1116,7 @@ public class WallShelf extends BlockHBase {
 		TileEntityWallShelf shelf = this.getShelfEntity(worldIn, pos, false);
 
 		if (shelf != null && shelf.hasDisplayedItem()) {
-			SurfaceDisplayBlocker.reserveForShelf(worldIn, pos);
+			this.reserveDisplaySpace(worldIn, pos, shelf.getDisplayedItem());
 		}
 	}
 

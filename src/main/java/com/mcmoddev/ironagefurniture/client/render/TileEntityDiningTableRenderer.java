@@ -22,16 +22,25 @@ public class TileEntityDiningTableRenderer extends TileEntitySpecialRenderer<Til
 	@Override
 	public void renderTileEntityAt(TileEntityDiningTable te, double x, double y, double z, float partialTicks,
 			int destroyStage) {
+		double itemY = this.getItemYOffset(te);
+		if (te.getEmbeddedFlowerPotPlant() != null) {
+			SurfaceDisplayRenderHelper.renderPottedPlant(te.getEmbeddedFlowerPotPlant(), x, y, z, itemY);
+		}
+
 		ItemStack itemStack = te.getDisplayedItem();
 
 		if (itemStack == null || itemStack.stackSize <= 0) {
 			return;
 		}
 
+		if (SurfaceDisplayRenderHelper.renderSpecialSurfaceItem(itemStack, x, y, z, 0.5D, 0.5D, itemY,
+				this.getBlockSurfaceYOffset(te), 0.0F)) {
+			return;
+		}
+
 		GlStateManager.pushMatrix();
 
 		ItemCameraTransforms.TransformType transformType = ItemCameraTransforms.TransformType.FIXED;
-		double itemY = this.getItemYOffset(te);
 
 		if (itemStack.getItem() instanceof ItemBlock) {
 			ItemTransformVec3f fixedTransform = this.getFixedTransform(itemStack);
@@ -77,5 +86,16 @@ public class TileEntityDiningTableRenderer extends TileEntitySpecialRenderer<Til
 		Block block = state.getBlock();
 
 		return block instanceof DiningTable ? ((DiningTable)block).getDisplayItemYOffset() : ITEM_Y;
+	}
+
+	private double getBlockSurfaceYOffset(TileEntityDiningTable te) {
+		if (te.getWorld() == null) {
+			return 1.0D;
+		}
+
+		IBlockState state = te.getWorld().getBlockState(te.getPos());
+		Block block = state.getBlock();
+
+		return block instanceof DiningTable ? ((DiningTable)block).getDisplayBlockSurfaceYOffset() : 1.0D;
 	}
 }

@@ -23,6 +23,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -43,7 +44,8 @@ public class DiningTable extends Block {
 		NONE("none", 0),
 		GLOW("glow", 15),
 		LAVA("lava", 15),
-		CANDLE("candle", 12);
+		CANDLE("candle", 12),
+		FLOWER_POT("flower_pot", 0);
 
 		private final String name;
 		private final int lightLevel;
@@ -261,11 +263,22 @@ public class DiningTable extends Block {
 		return this.isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_block_floor_glow_clear)
 			|| this.isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_block_floor_red_clear)
 			|| this.isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_block_floor_lava_clear)
-			|| this.isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_candle_floor);
+			|| this.isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_candle_floor)
+			|| this.isItemFromBlock(heldItem, Blocks.FLOWER_POT)
+			|| this.isOrnamentItem(heldItem);
 	}
 
 	private boolean isItemFromBlock(ItemStack heldItem, Block block) {
 		return block != null && heldItem.getItem() == Item.getItemFromBlock(block);
+	}
+
+	private boolean isOrnamentItem(ItemStack heldItem) {
+		if (!(heldItem.getItem() instanceof ItemBlock)) {
+			return false;
+		}
+
+		Block block = ((ItemBlock)heldItem.getItem()).getBlock();
+		return block instanceof OrnamentBlock || block instanceof GlassVaseBlock;
 	}
 
 	private boolean canRetrieveDisplayedItem(TileEntityDiningTable table, ItemStack heldItem) {
@@ -321,14 +334,18 @@ public class DiningTable extends Block {
 			return false;
 		}
 
-		if (!worldIn.setBlockState(abovePos, Blocks.AIR.getDefaultState(), 3)) {
+		List<ItemStack> drops = this.getPlacedBlockDrops(worldIn, pos, playerIn);
+
+		if (drops.isEmpty() || !worldIn.setBlockState(abovePos, Blocks.AIR.getDefaultState(), 3)) {
 			return false;
 		}
 
-		if (!playerIn.inventory.addItemStackToInventory(placedBlockItem)) {
-			EntityItem entityItem = new EntityItem(worldIn, pos.getX() + 0.5D, pos.getY() + 1.1D,
-				pos.getZ() + 0.5D, placedBlockItem);
-			worldIn.spawnEntity(entityItem);
+		for (ItemStack drop : drops) {
+			if (drop != null && drop.stackSize > 0 && !playerIn.inventory.addItemStackToInventory(drop)) {
+				EntityItem entityItem = new EntityItem(worldIn, pos.getX() + 0.5D, pos.getY() + 1.1D,
+					pos.getZ() + 0.5D, drop);
+				worldIn.spawnEntity(entityItem);
+			}
 		}
 
 		return true;
@@ -339,8 +356,15 @@ public class DiningTable extends Block {
 		IBlockState aboveState = worldIn.getBlockState(abovePos);
 		Block aboveBlock = aboveState.getBlock();
 
-		if (aboveBlock == Blocks.AIR || aboveBlock == BlockObjectHolder.surface_display_blocker
-				|| aboveBlock.hasTileEntity(aboveState)) {
+		if (aboveBlock == Blocks.AIR || aboveBlock == BlockObjectHolder.surface_display_blocker) {
+			return null;
+		}
+
+		if (aboveBlock == Blocks.FLOWER_POT) {
+			return new ItemStack(Blocks.FLOWER_POT, 1);
+		}
+
+		if (aboveBlock.hasTileEntity(aboveState)) {
 			return null;
 		}
 
@@ -354,6 +378,25 @@ public class DiningTable extends Block {
 		}
 
 		return placedBlockItem;
+	}
+
+	private List<ItemStack> getPlacedBlockDrops(World worldIn, BlockPos pos, EntityPlayer playerIn) {
+		BlockPos abovePos = pos.up();
+		IBlockState aboveState = worldIn.getBlockState(abovePos);
+		Block aboveBlock = aboveState.getBlock();
+
+		if (aboveBlock == Blocks.FLOWER_POT) {
+			return aboveBlock.getDrops(worldIn, abovePos, aboveState, 0);
+		}
+
+		List<ItemStack> drops = new java.util.ArrayList<ItemStack>();
+		ItemStack placedBlockItem = this.getPlacedBlockItem(worldIn, pos, playerIn);
+
+		if (placedBlockItem != null) {
+			drops.add(placedBlockItem);
+		}
+
+		return drops;
 	}
 
 	protected boolean isSameItemStack(ItemStack storedItem, ItemStack heldItem) {
@@ -389,6 +432,10 @@ public class DiningTable extends Block {
 
 	public double getDisplayItemYOffset() {
 		return 1.04D;
+	}
+
+	public double getDisplayBlockSurfaceYOffset() {
+		return 1.0D;
 	}
 
 	@Override

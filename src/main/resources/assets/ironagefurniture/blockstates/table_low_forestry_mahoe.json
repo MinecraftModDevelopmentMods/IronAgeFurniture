@@ -543,6 +543,142 @@
     },
     "connections=15,contents=candle,data=true": {
       "model": "ironagefurniture:table_low_forestry_mahoe_center_candle"
+    },
+    "connections=0,contents=flower_pot,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahoe_single_flower_pot"
+    },
+    "connections=0,contents=flower_pot,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahoe_single_flower_pot"
+    },
+    "connections=1,contents=flower_pot,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahoe_end_flower_pot"
+    },
+    "connections=1,contents=flower_pot,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahoe_end_flower_pot"
+    },
+    "connections=2,contents=flower_pot,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahoe_end_flower_pot",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=2,contents=flower_pot,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahoe_end_flower_pot",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=3,contents=flower_pot,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahoe_corner_flower_pot"
+    },
+    "connections=3,contents=flower_pot,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahoe_corner_flower_pot"
+    },
+    "connections=4,contents=flower_pot,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahoe_end_flower_pot",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=4,contents=flower_pot,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahoe_end_flower_pot",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=5,contents=flower_pot,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahoe_straight_flower_pot"
+    },
+    "connections=5,contents=flower_pot,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahoe_straight_flower_pot"
+    },
+    "connections=6,contents=flower_pot,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahoe_corner_flower_pot",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=6,contents=flower_pot,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahoe_corner_flower_pot",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=7,contents=flower_pot,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahoe_tee_flower_pot"
+    },
+    "connections=7,contents=flower_pot,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahoe_tee_flower_pot"
+    },
+    "connections=8,contents=flower_pot,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahoe_end_flower_pot",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=8,contents=flower_pot,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahoe_end_flower_pot",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=9,contents=flower_pot,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahoe_corner_flower_pot",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=9,contents=flower_pot,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahoe_corner_flower_pot",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=10,contents=flower_pot,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahoe_straight_flower_pot",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=10,contents=flower_pot,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahoe_straight_flower_pot",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=11,contents=flower_pot,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahoe_tee_flower_pot",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=11,contents=flower_pot,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahoe_tee_flower_pot",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=12,contents=flower_pot,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahoe_corner_flower_pot",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=12,contents=flower_pot,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahoe_corner_flower_pot",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=13,contents=flower_pot,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahoe_tee_flower_pot",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=13,contents=flower_pot,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahoe_tee_flower_pot",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=14,contents=flower_pot,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahoe_tee_flower_pot",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=14,contents=flower_pot,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahoe_tee_flower_pot",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=15,contents=flower_pot,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahoe_center_flower_pot"
+    },
+    "connections=15,contents=flower_pot,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahoe_center_flower_pot"
     }
   }
 }

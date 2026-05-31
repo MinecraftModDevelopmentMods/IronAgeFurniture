@@ -1919,6 +1919,134 @@
     "contents=records_6,data=true,facing=west,support=outer_corner": {
       "model": "ironagefurniture:shelf_wall_spruce_outer_corner_records_6",
       "y": 270
+    },
+    "contents=flower_pot,data=false,facing=north,support=straight": {
+      "model": "ironagefurniture:shelf_wall_spruce_straight_flower_pot",
+      "y": 0
+    },
+    "contents=flower_pot,data=true,facing=north,support=straight": {
+      "model": "ironagefurniture:shelf_wall_spruce_straight_flower_pot",
+      "y": 0
+    },
+    "contents=flower_pot,data=false,facing=east,support=straight": {
+      "model": "ironagefurniture:shelf_wall_spruce_straight_flower_pot",
+      "y": 90
+    },
+    "contents=flower_pot,data=true,facing=east,support=straight": {
+      "model": "ironagefurniture:shelf_wall_spruce_straight_flower_pot",
+      "y": 90
+    },
+    "contents=flower_pot,data=false,facing=south,support=straight": {
+      "model": "ironagefurniture:shelf_wall_spruce_straight_flower_pot",
+      "y": 180
+    },
+    "contents=flower_pot,data=true,facing=south,support=straight": {
+      "model": "ironagefurniture:shelf_wall_spruce_straight_flower_pot",
+      "y": 180
+    },
+    "contents=flower_pot,data=false,facing=west,support=straight": {
+      "model": "ironagefurniture:shelf_wall_spruce_straight_flower_pot",
+      "y": 270
+    },
+    "contents=flower_pot,data=true,facing=west,support=straight": {
+      "model": "ironagefurniture:shelf_wall_spruce_straight_flower_pot",
+      "y": 270
+    },
+    "contents=flower_pot,data=false,facing=north,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_spruce_straight_support_flower_pot",
+      "y": 0
+    },
+    "contents=flower_pot,data=true,facing=north,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_spruce_straight_support_flower_pot",
+      "y": 0
+    },
+    "contents=flower_pot,data=false,facing=east,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_spruce_straight_support_flower_pot",
+      "y": 90
+    },
+    "contents=flower_pot,data=true,facing=east,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_spruce_straight_support_flower_pot",
+      "y": 90
+    },
+    "contents=flower_pot,data=false,facing=south,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_spruce_straight_support_flower_pot",
+      "y": 180
+    },
+    "contents=flower_pot,data=true,facing=south,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_spruce_straight_support_flower_pot",
+      "y": 180
+    },
+    "contents=flower_pot,data=false,facing=west,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_spruce_straight_support_flower_pot",
+      "y": 270
+    },
+    "contents=flower_pot,data=true,facing=west,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_spruce_straight_support_flower_pot",
+      "y": 270
+    },
+    "contents=flower_pot,data=false,facing=north,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_spruce_inner_corner_flower_pot",
+      "y": 270
+    },
+    "contents=flower_pot,data=true,facing=north,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_spruce_inner_corner_flower_pot",
+      "y": 270
+    },
+    "contents=flower_pot,data=false,facing=east,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_spruce_inner_corner_flower_pot",
+      "y": 0
+    },
+    "contents=flower_pot,data=true,facing=east,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_spruce_inner_corner_flower_pot",
+      "y": 0
+    },
+    "contents=flower_pot,data=false,facing=south,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_spruce_inner_corner_flower_pot",
+      "y": 90
+    },
+    "contents=flower_pot,data=true,facing=south,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_spruce_inner_corner_flower_pot",
+      "y": 90
+    },
+    "contents=flower_pot,data=false,facing=west,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_spruce_inner_corner_flower_pot",
+      "y": 180
+    },
+    "contents=flower_pot,data=true,facing=west,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_spruce_inner_corner_flower_pot",
+      "y": 180
+    },
+    "contents=flower_pot,data=false,facing=north,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_spruce_outer_corner_flower_pot",
+      "y": 0
+    },
+    "contents=flower_pot,data=true,facing=north,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_spruce_outer_corner_flower_pot",
+      "y": 0
+    },
+    "contents=flower_pot,data=false,facing=east,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_spruce_outer_corner_flower_pot",
+      "y": 90
+    },
+    "contents=flower_pot,data=true,facing=east,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_spruce_outer_corner_flower_pot",
+      "y": 90
+    },
+    "contents=flower_pot,data=false,facing=south,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_spruce_outer_corner_flower_pot",
+      "y": 180
+    },
+    "contents=flower_pot,data=true,facing=south,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_spruce_outer_corner_flower_pot",
+      "y": 180
+    },
+    "contents=flower_pot,data=false,facing=west,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_spruce_outer_corner_flower_pot",
+      "y": 270
+    },
+    "contents=flower_pot,data=true,facing=west,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_spruce_outer_corner_flower_pot",
+      "y": 270
     }
   }
 }

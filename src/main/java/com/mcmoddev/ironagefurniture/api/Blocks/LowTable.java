@@ -19,6 +19,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
@@ -65,13 +66,24 @@ public class LowTable extends DiningTable {
 		}
 
 		TableEmbeddedContent heldContent = this.getEmbeddedContentForItem(heldItem);
+		TileEntityDiningTable table = this.getTableEntity(worldIn, pos, false);
+
+		if (table != null && table.getEmbeddedContent() == TableEmbeddedContent.FLOWER_POT) {
+			if (this.canHandleFlowerPotClick(table, heldItem)) {
+				if (worldIn.isRemote) {
+					return true;
+				}
+
+				this.handleFlowerPotClick(worldIn, pos, table, playerIn, hand, heldItem);
+			}
+
+			return true;
+		}
 
 		if (heldContent != TableEmbeddedContent.NONE) {
 			if (worldIn.isRemote) {
 				return true;
 			}
-
-			TileEntityDiningTable table = this.getTableEntity(worldIn, pos, false);
 
 			if (table != null && table.hasEmbeddedContent()) {
 				if (this.isSameItemStack(table.getEmbeddedItem(), heldItem)) {
@@ -98,7 +110,7 @@ public class LowTable extends DiningTable {
 			return true;
 		}
 
-		TileEntityDiningTable table = this.getTableEntity(worldIn, pos, false);
+		table = this.getTableEntity(worldIn, pos, false);
 
 		if (table != null && table.hasEmbeddedContent()) {
 			if (heldItem == null || heldItem.stackSize <= 0 || this.isSameItemStack(table.getEmbeddedItem(), heldItem)) {
@@ -143,7 +155,12 @@ public class LowTable extends DiningTable {
 
 	@Override
 	public double getDisplayItemYOffset() {
-		return 0.60D;
+		return 9.05D / 16.0D;
+	}
+
+	@Override
+	public double getDisplayBlockSurfaceYOffset() {
+		return 9.0D / 16.0D;
 	}
 
 	@Override
@@ -188,9 +205,10 @@ public class LowTable extends DiningTable {
 			return;
 		}
 
-		double x = pos.getX() + 8.0D / 16.0D;
+		double[] rotated = this.rotateTablePoint(this.getConnectionMask(world, pos), 8.0D / 16.0D, 8.5D / 16.0D);
+		double x = pos.getX() + rotated[0];
 		double y = pos.getY() + 15.7D / 16.0D;
-		double z = pos.getZ() + 8.5D / 16.0D;
+		double z = pos.getZ() + rotated[1];
 
 		if (rand.nextInt(3) == 0) {
 			world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x, y + 0.04D, z, 0.0D, 0.0D, 0.0D);
@@ -212,6 +230,53 @@ public class LowTable extends DiningTable {
 		}
 
 		this.removeTableEntityIfEmpty(worldIn, pos);
+	}
+
+	private boolean canHandleFlowerPotClick(TileEntityDiningTable table, ItemStack heldItem) {
+		if (table.hasEmbeddedFlowerPotPlant()) {
+			return heldItem == null || heldItem.stackSize <= 0
+				|| this.isSameItemStack(table.getEmbeddedFlowerPotPlant(), heldItem);
+		}
+
+		return heldItem == null || heldItem.stackSize <= 0
+			|| this.isSameItemStack(table.getEmbeddedItem(), heldItem)
+			|| this.isFlowerPotPlantItem(heldItem);
+	}
+
+	private void handleFlowerPotClick(World worldIn, BlockPos pos, TileEntityDiningTable table,
+			EntityPlayer playerIn, EnumHand hand, ItemStack heldItem) {
+		if (table.hasEmbeddedFlowerPotPlant()) {
+			this.returnEmbeddedItem(worldIn, pos, playerIn, table.removeEmbeddedFlowerPotPlant());
+			this.removeTableEntityIfEmpty(worldIn, pos);
+			return;
+		}
+
+		if (this.isFlowerPotPlantItem(heldItem)) {
+			ItemStack plant = heldItem.copy();
+			plant.stackSize = 1;
+			table.setEmbeddedFlowerPotPlant(plant);
+
+			if (!playerIn.capabilities.isCreativeMode) {
+				heldItem.stackSize--;
+
+				if (heldItem.stackSize <= 0) {
+					playerIn.setHeldItem(hand, null);
+				}
+			}
+
+			return;
+		}
+
+		this.returnEmbeddedItem(worldIn, pos, playerIn, table.removeEmbeddedItem());
+		this.removeTableEntityIfEmpty(worldIn, pos);
+	}
+
+	private void returnEmbeddedItem(World worldIn, BlockPos pos, EntityPlayer playerIn, ItemStack itemStack) {
+		if (itemStack != null && !playerIn.inventory.addItemStackToInventory(itemStack)) {
+			EntityItem entityItem = new EntityItem(worldIn, pos.getX() + 0.5D, pos.getY() + 0.75D,
+				pos.getZ() + 0.5D, itemStack);
+			worldIn.spawnEntity(entityItem);
+		}
 	}
 
 	private TableEmbeddedContent getEmbeddedContentForItem(ItemStack heldItem) {
@@ -252,7 +317,22 @@ public class LowTable extends DiningTable {
 			return TableEmbeddedContent.CANDLE;
 		}
 
+		if (this.isItemFromBlock(heldItem, Blocks.FLOWER_POT)) {
+			return TableEmbeddedContent.FLOWER_POT;
+		}
+
 		return TableEmbeddedContent.NONE;
+	}
+
+	private boolean isFlowerPotPlantItem(ItemStack heldItem) {
+		Block heldBlock = this.getHeldItemBlock(heldItem);
+		return heldBlock == Blocks.RED_FLOWER
+			|| heldBlock == Blocks.YELLOW_FLOWER
+			|| heldBlock == Blocks.SAPLING
+			|| heldBlock == Blocks.BROWN_MUSHROOM
+			|| heldBlock == Blocks.RED_MUSHROOM
+			|| heldBlock == Blocks.DEADBUSH
+			|| heldBlock == Blocks.CACTUS;
 	}
 
 	private Block getHeldItemBlock(ItemStack heldItem) {
@@ -267,6 +347,39 @@ public class LowTable extends DiningTable {
 
 	private boolean isItemFromBlock(ItemStack heldItem, Block block) {
 		return block != null && heldItem.getItem() == Item.getItemFromBlock(block);
+	}
+
+	private double[] rotateTablePoint(int connections, double x, double z) {
+		switch (this.getModelRotationY(connections)) {
+		case 90:
+			return new double[] { 1.0D - z, x };
+		case 180:
+			return new double[] { 1.0D - x, 1.0D - z };
+		case 270:
+			return new double[] { z, 1.0D - x };
+		default:
+			return new double[] { x, z };
+		}
+	}
+
+	private int getModelRotationY(int connections) {
+		switch (connections) {
+		case EAST:
+		case EAST | SOUTH:
+		case EAST | WEST:
+		case EAST | SOUTH | WEST:
+			return 90;
+		case SOUTH:
+		case SOUTH | WEST:
+		case NORTH | SOUTH | WEST:
+			return 180;
+		case WEST:
+		case NORTH | WEST:
+		case NORTH | EAST | WEST:
+			return 270;
+		default:
+			return 0;
+		}
 	}
 
 	private TableEmbeddedContent getEmbeddedContents(IBlockAccess worldIn, BlockPos pos) {

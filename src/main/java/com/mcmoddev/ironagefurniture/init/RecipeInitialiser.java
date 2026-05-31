@@ -13,6 +13,7 @@ import com.mcmoddev.ironagefurniture.api.FurnitureFactory;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -28,11 +29,66 @@ public class RecipeInitialiser {
 	 *
 	 */
 	public static void init() {
+		generateIronNuggetRecipes();
 		generateChairRecipes();
 		generateBedRecipes();
 		generateTableRecipes();
 		generateShelfRecipes();
 		generateLightRecipes();
+		generateOrnamentRecipes();
+	}
+
+	private static void generateIronNuggetRecipes() {
+		if (!IronAgeFurnitureConfiguration.GENERATE_IRON_NUGGETS || ItemObjectHolder.iron_nugget == null) {
+			return;
+		}
+
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ItemObjectHolder.iron_nugget, 9), "ingotIron"));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Items.IRON_INGOT, 1),
+			"xxx", "xxx", "xxx", 'x', "nuggetIron"));
+	}
+
+	private static void generateOrnamentRecipes() {
+		if (!IronAgeFurnitureConfiguration.GENERATE_ORNAMENTS) {
+			return;
+		}
+
+		Object ironSmall = hasIronNuggets() ? "nuggetIron" : "ingotIron";
+
+		if (BlockObjectHolder.ornament_clay != null) {
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockObjectHolder.ornament_clay, 1, 0),
+				" x ", "x x", " x ", 'x', Items.BRICK));
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockObjectHolder.ornament_clay, 1, 1),
+				"x  ", "xxx", " x ", 'x', Items.BRICK));
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockObjectHolder.ornament_clay, 2, 2),
+				"x x", " x ", 'x', Items.CLAY_BALL));
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockObjectHolder.ornament_clay, 1, 3),
+				" z ", "yxy", " y ", 'x', Blocks.HARDENED_CLAY, 'y', Items.BRICK, 'z', ironSmall));
+		}
+
+		if (BlockObjectHolder.ornament_obsidian != null && BlockObjectHolder.obsidian_chunk != null) {
+			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockObjectHolder.ornament_obsidian, 1, 0),
+				BlockObjectHolder.obsidian_chunk, BlockObjectHolder.obsidian_chunk, BlockObjectHolder.obsidian_chunk));
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockObjectHolder.ornament_obsidian, 1, 1),
+				" x ", "xyx", " x ", 'x', BlockObjectHolder.obsidian_chunk, 'y', ironSmall));
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockObjectHolder.ornament_obsidian, 1, 2),
+				" x ", "x x", "xxx", 'x', BlockObjectHolder.obsidian_chunk));
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockObjectHolder.ornament_obsidian, 1, 3),
+				"x x", " y ", " x ", 'x', BlockObjectHolder.obsidian_chunk, 'y', ironSmall));
+		}
+
+		if (BlockObjectHolder.ornament_glass_vase != null) {
+			for (EnumDyeColor color : EnumDyeColor.values()) {
+				GameRegistry.addRecipe(new ShapedOreRecipe(
+					new ItemStack(BlockObjectHolder.ornament_glass_vase, 1, color.getMetadata()),
+					" x ", "x x", " x ", 'x', new ItemStack(Blocks.STAINED_GLASS, 1, color.getMetadata())));
+			}
+		}
+	}
+
+	private static boolean hasIronNuggets() {
+		return net.minecraftforge.oredict.OreDictionary.doesOreNameExist("nuggetIron")
+			&& !net.minecraftforge.oredict.OreDictionary.getOres("nuggetIron").isEmpty();
 	}
 
 	private static void generateShelfRecipes() {

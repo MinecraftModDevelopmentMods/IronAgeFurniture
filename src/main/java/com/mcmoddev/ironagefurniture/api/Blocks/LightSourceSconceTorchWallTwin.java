@@ -127,7 +127,7 @@ public class LightSourceSconceTorchWallTwin extends LightSourceSconceTorchFloorT
 
     private double[] getWallFlameOffset(int index) {
         return index == 0
-            ? new double[] { 3.5D / 16.0D, 15.6D / 16.0D, 10.5D / 16.0D }
+            ? new double[] { 4.5D / 16.0D, 15.6D / 16.0D, 10.5D / 16.0D }
             : new double[] { 3.5D / 16.0D, 15.6D / 16.0D, 5.5D / 16.0D };
     }
 

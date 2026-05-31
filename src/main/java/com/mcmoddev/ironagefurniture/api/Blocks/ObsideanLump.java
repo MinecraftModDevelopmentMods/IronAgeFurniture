@@ -20,8 +20,8 @@ import net.minecraft.world.World;
 
 public class ObsideanLump extends BlockHBase {
     private static final AxisAlignedBB AABB = new AxisAlignedBB(
-        6.0D / 16.0D, 0.0D, 6.0D / 16.0D,
-        10.0D / 16.0D, 4.0D / 16.0D, 10.0D / 16.0D
+        7.0D / 16.0D, 0.0D, 6.0D / 16.0D,
+        10.0D / 16.0D, 3.0D / 16.0D, 9.0D / 16.0D
     );
 
     public ObsideanLump(Material materialIn, String name, float resistance, float hardness) {

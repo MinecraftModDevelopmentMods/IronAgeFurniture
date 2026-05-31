@@ -34,6 +34,17 @@ public class BlockInitialiser {
 		generateTables(); // and then he had somewhere civilized to put dinner.
 		generateShelves(); // and then he looked at the wall and saw useful empty space.
 		generateLights(); // and then he saw that the vanilla torches were boring and said, let there be light!
+		generateOrnaments(); // and then the house finally started to look lived in.
+	}
+
+	private static void generateOrnaments() {
+		if (!IronAgeFurnitureConfiguration.GENERATE_ORNAMENTS) {
+			return;
+		}
+
+		BlockObjectHolder.ornament_clay = FurnitureFactory.CreateClayOrnaments("ornament_clay");
+		BlockObjectHolder.ornament_obsidian = FurnitureFactory.CreateObsidianOrnaments("ornament_obsidian");
+		BlockObjectHolder.ornament_glass_vase = FurnitureFactory.CreateGlassVaseOrnaments("ornament_glass_vase");
 	}
 
 	private static void generateSurfaceDisplayBlocker() {

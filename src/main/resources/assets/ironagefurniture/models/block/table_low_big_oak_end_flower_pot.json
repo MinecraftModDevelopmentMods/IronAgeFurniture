@@ -1,0 +1,11 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_table_low_end_flower_pot",
+  "textures": {
+    "log": "minecraft:blocks/log_big_oak",
+    "planks": "minecraft:blocks/planks_big_oak",
+    "particle": "minecraft:blocks/log_big_oak",
+    "pot": "minecraft:blocks/flower_pot",
+    "dirt": "minecraft:blocks/dirt"
+  }
+}

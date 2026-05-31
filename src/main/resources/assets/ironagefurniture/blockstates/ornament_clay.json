@@ -1,0 +1,68 @@
+{
+  "variants": {
+    "facing=north,variant=0": {
+      "model": "ironagefurniture:ornament_clay_vase",
+      "y": 0
+    },
+    "facing=north,variant=1": {
+      "model": "ironagefurniture:ornament_clay_jug",
+      "y": 0
+    },
+    "facing=north,variant=2": {
+      "model": "ironagefurniture:ornament_clay_bowl",
+      "y": 0
+    },
+    "facing=north,variant=3": {
+      "model": "ironagefurniture:ornament_clay_banded_urn",
+      "y": 0
+    },
+    "facing=east,variant=0": {
+      "model": "ironagefurniture:ornament_clay_vase",
+      "y": 90
+    },
+    "facing=east,variant=1": {
+      "model": "ironagefurniture:ornament_clay_jug",
+      "y": 90
+    },
+    "facing=east,variant=2": {
+      "model": "ironagefurniture:ornament_clay_bowl",
+      "y": 90
+    },
+    "facing=east,variant=3": {
+      "model": "ironagefurniture:ornament_clay_banded_urn",
+      "y": 90
+    },
+    "facing=south,variant=0": {
+      "model": "ironagefurniture:ornament_clay_vase",
+      "y": 180
+    },
+    "facing=south,variant=1": {
+      "model": "ironagefurniture:ornament_clay_jug",
+      "y": 180
+    },
+    "facing=south,variant=2": {
+      "model": "ironagefurniture:ornament_clay_bowl",
+      "y": 180
+    },
+    "facing=south,variant=3": {
+      "model": "ironagefurniture:ornament_clay_banded_urn",
+      "y": 180
+    },
+    "facing=west,variant=0": {
+      "model": "ironagefurniture:ornament_clay_vase",
+      "y": 270
+    },
+    "facing=west,variant=1": {
+      "model": "ironagefurniture:ornament_clay_jug",
+      "y": 270
+    },
+    "facing=west,variant=2": {
+      "model": "ironagefurniture:ornament_clay_bowl",
+      "y": 270
+    },
+    "facing=west,variant=3": {
+      "model": "ironagefurniture:ornament_clay_banded_urn",
+      "y": 270
+    }
+  }
+}
