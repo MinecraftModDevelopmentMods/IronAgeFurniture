@@ -24,6 +24,7 @@ public class TileEntityWallShelf extends TileEntity {
 	private static final int MAX_EMBEDDED_SLOTS = 6;
 
 	private ItemStack displayedItem;
+	private EnumFacing displayedFacing = EnumFacing.NORTH;
 	private ShelfContentKind embeddedKind = ShelfContentKind.NONE;
 	private final ItemStack[] embeddedItems = new ItemStack[MAX_EMBEDDED_SLOTS];
 
@@ -33,6 +34,10 @@ public class TileEntityWallShelf extends TileEntity {
 
 	public ItemStack getDisplayedItem() {
 		return this.displayedItem;
+	}
+
+	public EnumFacing getDisplayedItemFacing() {
+		return this.displayedFacing;
 	}
 
 	public boolean hasStoredData() {
@@ -142,13 +147,19 @@ public class TileEntityWallShelf extends TileEntity {
 	}
 
 	public void setDisplayedItem(ItemStack displayedItem) {
+		this.setDisplayedItem(displayedItem, this.displayedFacing);
+	}
+
+	public void setDisplayedItem(ItemStack displayedItem, EnumFacing facing) {
 		this.displayedItem = displayedItem == null ? null : displayedItem.copy();
+		this.displayedFacing = this.horizontalOrNorth(facing);
 		this.markForUpdate();
 	}
 
 	public ItemStack removeDisplayedItem() {
 		ItemStack itemStack = this.displayedItem;
 		this.displayedItem = null;
+		this.displayedFacing = EnumFacing.NORTH;
 		this.markForUpdate();
 		return itemStack;
 	}
@@ -181,8 +192,12 @@ public class TileEntityWallShelf extends TileEntity {
 
 		if (compound.hasKey("DisplayedItem")) {
 			this.displayedItem = ItemStack.loadItemStackFromNBT(compound.getCompoundTag("DisplayedItem"));
+			this.displayedFacing = compound.hasKey("DisplayedFacing")
+				? EnumFacing.getHorizontal(compound.getInteger("DisplayedFacing") & 3)
+				: EnumFacing.NORTH;
 		} else {
 			this.displayedItem = null;
+			this.displayedFacing = EnumFacing.NORTH;
 		}
 
 		if (compound.hasKey("EmbeddedKind")) {
@@ -216,8 +231,10 @@ public class TileEntityWallShelf extends TileEntity {
 			NBTTagCompound itemTag = new NBTTagCompound();
 			this.displayedItem.writeToNBT(itemTag);
 			compound.setTag("DisplayedItem", itemTag);
+			compound.setInteger("DisplayedFacing", this.displayedFacing.getHorizontalIndex());
 		} else {
 			compound.removeTag("DisplayedItem");
+			compound.removeTag("DisplayedFacing");
 		}
 
 		if (this.hasEmbeddedContent()) {
@@ -339,5 +356,14 @@ public class TileEntityWallShelf extends TileEntity {
 		if (this.world != null && this.world.isRemote && this.pos != null) {
 			this.world.markBlockRangeForRenderUpdate(this.pos, this.pos);
 		}
+	}
+
+	private EnumFacing horizontalOrNorth(EnumFacing facing) {
+		if (facing == EnumFacing.NORTH || facing == EnumFacing.EAST
+				|| facing == EnumFacing.SOUTH || facing == EnumFacing.WEST) {
+			return facing;
+		}
+
+		return EnumFacing.NORTH;
 	}
 }

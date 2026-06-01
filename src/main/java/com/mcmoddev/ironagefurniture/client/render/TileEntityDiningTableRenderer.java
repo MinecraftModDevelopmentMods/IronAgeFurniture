@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.block.model.ItemTransformVec3f;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 
 public class TileEntityDiningTableRenderer extends TileEntitySpecialRenderer<TileEntityDiningTable> {
 	private static final double ITEM_Y = 1.04D;
@@ -33,8 +34,10 @@ public class TileEntityDiningTableRenderer extends TileEntitySpecialRenderer<Til
 			return;
 		}
 
+		float yaw = SurfaceDisplayRenderHelper.isBook(itemStack) ? this.getYaw(te.getDisplayedItemFacing()) : 0.0F;
+
 		if (SurfaceDisplayRenderHelper.renderSpecialSurfaceItem(itemStack, x, y, z, 0.5D, 0.5D, itemY,
-				this.getBlockSurfaceYOffset(te), 0.0F)) {
+				this.getBlockSurfaceYOffset(te), yaw)) {
 			return;
 		}
 
@@ -66,6 +69,19 @@ public class TileEntityDiningTableRenderer extends TileEntitySpecialRenderer<Til
 
 	private boolean hasTiltedTransform(ItemTransformVec3f transform) {
 		return Math.abs(transform.rotation.x) > 0.001F || Math.abs(transform.rotation.z) > 0.001F;
+	}
+
+	private float getYaw(EnumFacing facing) {
+		switch (facing) {
+		case EAST:
+			return 90.0F;
+		case SOUTH:
+			return 180.0F;
+		case WEST:
+			return 270.0F;
+		default:
+			return 0.0F;
+		}
 	}
 
 	private double getBlockItemLift(ItemTransformVec3f fixedTransform,

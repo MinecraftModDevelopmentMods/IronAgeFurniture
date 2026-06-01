@@ -15,6 +15,7 @@ import net.minecraft.world.World;
 
 public class TileEntityDiningTable extends TileEntity {
 	private ItemStack displayedItem;
+	private EnumFacing displayedFacing = EnumFacing.NORTH;
 	private ItemStack embeddedItem;
 	private ItemStack embeddedFlowerPotPlant;
 	private TableEmbeddedContent embeddedContent = TableEmbeddedContent.NONE;
@@ -34,6 +35,10 @@ public class TileEntityDiningTable extends TileEntity {
 
 	public ItemStack getDisplayedItem() {
 		return this.displayedItem;
+	}
+
+	public EnumFacing getDisplayedItemFacing() {
+		return this.displayedFacing;
 	}
 
 	public boolean hasEmbeddedContent() {
@@ -112,13 +117,19 @@ public class TileEntityDiningTable extends TileEntity {
 	}
 
 	public void setDisplayedItem(ItemStack displayedItem) {
+		this.setDisplayedItem(displayedItem, this.displayedFacing);
+	}
+
+	public void setDisplayedItem(ItemStack displayedItem, EnumFacing facing) {
 		this.displayedItem = displayedItem == null ? null : displayedItem.copy();
+		this.displayedFacing = this.horizontalOrNorth(facing);
 		this.markForUpdate();
 	}
 
 	public ItemStack removeDisplayedItem() {
 		ItemStack itemStack = this.displayedItem;
 		this.displayedItem = null;
+		this.displayedFacing = EnumFacing.NORTH;
 		this.markForUpdate();
 		return itemStack;
 	}
@@ -182,8 +193,12 @@ public class TileEntityDiningTable extends TileEntity {
 
 		if (compound.hasKey("DisplayedItem")) {
 			this.displayedItem = ItemStack.loadItemStackFromNBT(compound.getCompoundTag("DisplayedItem"));
+			this.displayedFacing = compound.hasKey("DisplayedFacing")
+				? EnumFacing.getHorizontal(compound.getInteger("DisplayedFacing") & 3)
+				: EnumFacing.NORTH;
 		} else {
 			this.displayedItem = null;
+			this.displayedFacing = EnumFacing.NORTH;
 		}
 
 		if (compound.hasKey("EmbeddedContent") && compound.hasKey("EmbeddedItem")) {
@@ -217,8 +232,10 @@ public class TileEntityDiningTable extends TileEntity {
 			NBTTagCompound itemTag = new NBTTagCompound();
 			this.displayedItem.writeToNBT(itemTag);
 			compound.setTag("DisplayedItem", itemTag);
+			compound.setInteger("DisplayedFacing", this.displayedFacing.getHorizontalIndex());
 		} else {
 			compound.removeTag("DisplayedItem");
+			compound.removeTag("DisplayedFacing");
 		}
 
 		if (this.hasEmbeddedContent()) {
@@ -318,5 +335,14 @@ public class TileEntityDiningTable extends TileEntity {
 		default:
 			return 0;
 		}
+	}
+
+	private EnumFacing horizontalOrNorth(EnumFacing facing) {
+		if (facing == EnumFacing.NORTH || facing == EnumFacing.EAST
+				|| facing == EnumFacing.SOUTH || facing == EnumFacing.WEST) {
+			return facing;
+		}
+
+		return EnumFacing.NORTH;
 	}
 }

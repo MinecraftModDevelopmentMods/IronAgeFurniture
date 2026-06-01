@@ -40,8 +40,12 @@ public class TileEntityWallShelfRenderer extends TileEntitySpecialRenderer<TileE
 			return;
 		}
 
+		float yaw = SurfaceDisplayRenderHelper.isBook(itemStack)
+			? this.getYaw(te.getDisplayedItemFacing())
+			: this.getYaw(facing);
+
 		if (SurfaceDisplayRenderHelper.renderSpecialSurfaceItem(itemStack, x, y, z, itemX, itemZ, ITEM_Y,
-				SHELF_TOP_Y, this.getYaw(facing))) {
+				SHELF_TOP_Y, yaw)) {
 			return;
 		}
 

@@ -95,7 +95,7 @@ public final class SurfaceDisplayRenderHelper {
 		renderGlassVasePlant(plantStack, x, y, z, itemX, itemZ, surfaceY, yaw);
 	}
 
-	private static boolean isBook(ItemStack itemStack) {
+	public static boolean isBook(ItemStack itemStack) {
 		return itemStack.getItem() == Items.BOOK
 			|| itemStack.getItem() == Items.WRITABLE_BOOK
 			|| itemStack.getItem() == Items.WRITTEN_BOOK

@@ -396,7 +396,7 @@ public class WallShelf extends BlockHBase {
 
 			ItemStack displayedItem = heldItem.copy();
 			displayedItem.stackSize = 1;
-			shelf.setDisplayedItem(displayedItem);
+			shelf.setDisplayedItem(displayedItem, playerIn.getHorizontalFacing());
 
 			if (!playerIn.capabilities.isCreativeMode) {
 				heldItem.stackSize--;

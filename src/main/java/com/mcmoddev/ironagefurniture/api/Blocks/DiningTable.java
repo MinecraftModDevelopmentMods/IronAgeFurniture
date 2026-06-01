@@ -248,7 +248,7 @@ public class DiningTable extends Block {
 
 			ItemStack displayedItem = heldItem.copy();
 			displayedItem.stackSize = 1;
-			table.setDisplayedItem(displayedItem);
+			table.setDisplayedItem(displayedItem, playerIn.getHorizontalFacing());
 
 			if (!playerIn.capabilities.isCreativeMode) {
 				heldItem.stackSize--;
