@@ -8,6 +8,7 @@ import com.mcmoddev.ironagefurniture.api.DiningTableSurfaceInteractionHandler;
 import com.mcmoddev.ironagefurniture.api.entity.Seat;
 import com.mcmoddev.ironagefurniture.api.entity.EntityThrownLavaLamp;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityDiningTable;
+import com.mcmoddev.ironagefurniture.api.tile.TileEntityGlassVase;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityWallShelf;
 import com.mcmoddev.ironagefurniture.init.BlockInitialiser;
 import com.mcmoddev.ironagefurniture.init.ClientRenderInitialiser;
@@ -64,6 +65,7 @@ public class Ironagefurniture
     	}
     	
     	GameRegistry.registerTileEntity(TileEntityDiningTable.class, MODID + ":table_dining");
+		GameRegistry.registerTileEntity(TileEntityGlassVase.class, MODID + ":ornament_glass_vase");
 		GameRegistry.registerTileEntity(TileEntityWallShelf.class, MODID + ":shelf_wall");
     	EntityRegistry.registerModEntity(Seat.class, MODID + ":seat", 0, this, 80, 1, false);
 		if (BlockObjectHolder.light_metal_ironage_block_floor_lava_clear != null) {

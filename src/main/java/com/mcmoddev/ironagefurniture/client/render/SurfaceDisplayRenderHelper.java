@@ -2,6 +2,7 @@ package com.mcmoddev.ironagefurniture.client.render;
 
 import com.mcmoddev.ironagefurniture.api.Items.ItemBlockGlassVase;
 import com.mcmoddev.ironagefurniture.api.Items.ItemBlockOrnament;
+import com.mcmoddev.ironagefurniture.api.VasePlantHelper;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -27,6 +28,7 @@ public final class SurfaceDisplayRenderHelper {
 
 		if (isOrnament(itemStack)) {
 			renderOrnament(itemStack, x, y, z, itemX, itemZ, blockSurfaceY, yaw);
+			renderVasePlant(itemStack, x, y, z, itemX, itemZ, blockSurfaceY, yaw);
 			return true;
 		}
 
@@ -60,6 +62,23 @@ public final class SurfaceDisplayRenderHelper {
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(x + 0.5D, y + surfaceY + 0.46D, z + 0.5D);
 		GlStateManager.scale(0.52F, 0.52F, 0.52F);
+		Minecraft.getMinecraft().getRenderItem().renderItem(plantStack,
+			ItemCameraTransforms.TransformType.FIXED);
+		GlStateManager.popMatrix();
+	}
+
+	private static void renderVasePlant(ItemStack vaseStack, double x, double y, double z, double itemX,
+			double itemZ, double surfaceY, float yaw) {
+		ItemStack plantStack = VasePlantHelper.getPlant(vaseStack);
+
+		if (plantStack == null || plantStack.stackSize <= 0) {
+			return;
+		}
+
+		GlStateManager.pushMatrix();
+		GlStateManager.translate(x + itemX, y + surfaceY + 0.44D, z + itemZ);
+		GlStateManager.rotate(yaw, 0.0F, 1.0F, 0.0F);
+		GlStateManager.scale(0.42F, 0.42F, 0.42F);
 		Minecraft.getMinecraft().getRenderItem().renderItem(plantStack,
 			ItemCameraTransforms.TransformType.FIXED);
 		GlStateManager.popMatrix();

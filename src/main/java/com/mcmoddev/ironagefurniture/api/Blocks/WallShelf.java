@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 import com.mcmoddev.ironagefurniture.Ironagefurniture;
+import com.mcmoddev.ironagefurniture.api.VasePlantHelper;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityWallShelf;
 import com.mcmoddev.ironagefurniture.client.particle.CandleFlameParticle;
 
@@ -370,6 +371,12 @@ public class WallShelf extends BlockHBase {
 
 		shelf = this.getShelfEntity(worldIn, pos, false);
 
+		if (shelf != null && shelf.hasDisplayedItem()
+				&& VasePlantHelper.canHandleVaseClick(shelf.getDisplayedItem(), heldItem)) {
+			this.handleDisplayedVaseClick(worldIn, pos, shelf, playerIn, hand, heldItem);
+			return true;
+		}
+
 		if (shelf != null && shelf.hasDisplayedItem() && this.isSameShelfStack(shelf.getDisplayedItem(), heldItem)) {
 			this.removeDisplayedItemFromShelf(worldIn, pos, shelf, playerIn);
 			return true;
@@ -442,6 +449,30 @@ public class WallShelf extends BlockHBase {
 		}
 
 		this.removeShelfEntityIfEmpty(worldIn, pos);
+	}
+
+	private void handleDisplayedVaseClick(World worldIn, BlockPos pos, TileEntityWallShelf shelf,
+			EntityPlayer playerIn, EnumHand hand, ItemStack heldItem) {
+		ItemStack displayedItem = shelf.getDisplayedItem();
+		ItemStack plant = VasePlantHelper.removePlant(displayedItem);
+
+		if (plant != null) {
+			shelf.setDisplayedItem(displayedItem);
+			this.returnShelfItem(worldIn, pos, playerIn, plant);
+			return;
+		}
+
+		if (VasePlantHelper.addPlant(displayedItem, heldItem)) {
+			shelf.setDisplayedItem(displayedItem);
+
+			if (!playerIn.capabilities.isCreativeMode) {
+				heldItem.stackSize--;
+
+				if (heldItem.stackSize <= 0) {
+					playerIn.setHeldItem(hand, null);
+				}
+			}
+		}
 	}
 
 	private boolean canHandleFlowerPotClick(TileEntityWallShelf shelf, ItemStack heldItem) {

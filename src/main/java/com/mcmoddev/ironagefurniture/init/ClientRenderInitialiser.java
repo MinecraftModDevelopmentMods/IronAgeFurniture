@@ -3,8 +3,10 @@ package com.mcmoddev.ironagefurniture.init;
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 import com.mcmoddev.ironagefurniture.api.entity.EntityThrownLavaLamp;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityDiningTable;
+import com.mcmoddev.ironagefurniture.api.tile.TileEntityGlassVase;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityWallShelf;
 import com.mcmoddev.ironagefurniture.client.render.TileEntityDiningTableRenderer;
+import com.mcmoddev.ironagefurniture.client.render.TileEntityGlassVaseRenderer;
 import com.mcmoddev.ironagefurniture.client.render.TileEntityWallShelfRenderer;
 
 import net.minecraft.client.Minecraft;
@@ -23,6 +25,7 @@ public class ClientRenderInitialiser {
 
 	public static void RegisterTileEntityRenderers() {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDiningTable.class, new TileEntityDiningTableRenderer());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGlassVase.class, new TileEntityGlassVaseRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityWallShelf.class, new TileEntityWallShelfRenderer());
 	}
 

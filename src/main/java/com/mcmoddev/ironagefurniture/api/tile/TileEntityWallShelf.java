@@ -7,6 +7,7 @@ import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 import com.mcmoddev.ironagefurniture.api.Blocks.SurfaceDisplayBlocker;
 import com.mcmoddev.ironagefurniture.api.Blocks.WallShelf.ShelfContentKind;
 import com.mcmoddev.ironagefurniture.api.Blocks.WallShelf.ShelfContents;
+import com.mcmoddev.ironagefurniture.api.VasePlantHelper;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
@@ -157,6 +158,12 @@ public class TileEntityWallShelf extends TileEntity {
 		SurfaceDisplayBlocker.release(worldIn, pos);
 
 		if (itemStack != null) {
+			ItemStack vasePlant = VasePlantHelper.removePlant(itemStack);
+
+			if (vasePlant != null) {
+				Block.spawnAsEntity(worldIn, pos, vasePlant);
+			}
+
 			Block.spawnAsEntity(worldIn, pos, itemStack);
 		}
 	}

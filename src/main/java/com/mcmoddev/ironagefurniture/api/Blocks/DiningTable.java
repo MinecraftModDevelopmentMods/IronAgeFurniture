@@ -7,7 +7,9 @@ import java.util.UUID;
 
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 import com.mcmoddev.ironagefurniture.Ironagefurniture;
+import com.mcmoddev.ironagefurniture.api.VasePlantHelper;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityDiningTable;
+import com.mcmoddev.ironagefurniture.api.tile.TileEntityGlassVase;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -205,6 +207,12 @@ public class DiningTable extends Block {
 
 		TileEntityDiningTable table = this.getTableEntity(worldIn, pos, false);
 
+		if (table != null && table.hasDisplayedItem()
+				&& VasePlantHelper.canHandleVaseClick(table.getDisplayedItem(), heldItem)) {
+			this.handleDisplayedVaseClick(worldIn, pos, table, playerIn, hand, heldItem);
+			return true;
+		}
+
 		if (table != null && table.hasDisplayedItem() && this.canRetrieveDisplayedItem(table, heldItem)) {
 			ItemStack displayedItem = table.removeDisplayedItem();
 			SurfaceDisplayBlocker.release(worldIn, pos);
@@ -297,7 +305,45 @@ public class DiningTable extends Block {
 			&& this.isSameItemStack(displayedItem, heldItem);
 	}
 
+	private void handleDisplayedVaseClick(World worldIn, BlockPos pos, TileEntityDiningTable table,
+			EntityPlayer playerIn, EnumHand hand, ItemStack heldItem) {
+		ItemStack displayedItem = table.getDisplayedItem();
+		ItemStack plant = VasePlantHelper.removePlant(displayedItem);
+
+		if (plant != null) {
+			table.setDisplayedItem(displayedItem);
+			this.returnItem(worldIn, pos, playerIn, plant);
+			return;
+		}
+
+		if (VasePlantHelper.addPlant(displayedItem, heldItem)) {
+			table.setDisplayedItem(displayedItem);
+
+			if (!playerIn.capabilities.isCreativeMode) {
+				heldItem.stackSize--;
+
+				if (heldItem.stackSize <= 0) {
+					playerIn.setHeldItem(hand, null);
+				}
+			}
+		}
+	}
+
+	private void returnItem(World worldIn, BlockPos pos, EntityPlayer playerIn, ItemStack itemStack) {
+		if (itemStack != null && itemStack.stackSize > 0
+				&& !playerIn.inventory.addItemStackToInventory(itemStack)) {
+			EntityItem entityItem = new EntityItem(worldIn, pos.getX() + 0.5D, pos.getY() + 1.1D,
+				pos.getZ() + 0.5D, itemStack);
+			worldIn.spawnEntity(entityItem);
+		}
+	}
+
 	private boolean canRetrievePlacedBlockAbove(World worldIn, BlockPos pos, EntityPlayer playerIn, ItemStack heldItem) {
+		if (this.isPottedGlassVaseAbove(worldIn, pos)
+				&& (heldItem == null || heldItem.stackSize <= 0 || VasePlantHelper.isPlantItem(heldItem))) {
+			return false;
+		}
+
 		ItemStack placedBlockItem = this.getPlacedBlockItem(worldIn, pos, playerIn);
 
 		if (placedBlockItem == null || placedBlockItem.stackSize <= 0) {
@@ -366,6 +412,10 @@ public class DiningTable extends Block {
 			return null;
 		}
 
+		if (aboveBlock instanceof GlassVaseBlock) {
+			return new ItemStack(aboveBlock, 1, aboveBlock.getMetaFromState(aboveState));
+		}
+
 		if (aboveBlock == Blocks.FLOWER_POT) {
 			return new ItemStack(Items.FLOWER_POT, 1);
 		}
@@ -391,6 +441,10 @@ public class DiningTable extends Block {
 		IBlockState aboveState = worldIn.getBlockState(abovePos);
 		Block aboveBlock = aboveState.getBlock();
 
+		if (aboveBlock instanceof GlassVaseBlock) {
+			return aboveBlock.getDrops(worldIn, abovePos, aboveState, 0);
+		}
+
 		if (aboveBlock == Blocks.FLOWER_POT) {
 			return aboveBlock.getDrops(worldIn, abovePos, aboveState, 0);
 		}
@@ -403,6 +457,19 @@ public class DiningTable extends Block {
 		}
 
 		return drops;
+	}
+
+	private boolean isPottedGlassVaseAbove(World worldIn, BlockPos pos) {
+		BlockPos abovePos = pos.up();
+		IBlockState aboveState = worldIn.getBlockState(abovePos);
+
+		if (!(aboveState.getBlock() instanceof GlassVaseBlock)) {
+			return false;
+		}
+
+		TileEntity tileEntity = worldIn.getTileEntity(abovePos);
+		return tileEntity instanceof TileEntityGlassVase
+			&& ((TileEntityGlassVase)tileEntity).hasPlant();
 	}
 
 	protected boolean isSameItemStack(ItemStack storedItem, ItemStack heldItem) {

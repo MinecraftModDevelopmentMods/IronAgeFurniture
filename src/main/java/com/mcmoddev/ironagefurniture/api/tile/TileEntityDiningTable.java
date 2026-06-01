@@ -2,6 +2,7 @@ package com.mcmoddev.ironagefurniture.api.tile;
 
 import com.mcmoddev.ironagefurniture.api.Blocks.DiningTable.TableEmbeddedContent;
 import com.mcmoddev.ironagefurniture.api.Blocks.SurfaceDisplayBlocker;
+import com.mcmoddev.ironagefurniture.api.VasePlantHelper;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -127,6 +128,12 @@ public class TileEntityDiningTable extends TileEntity {
 		SurfaceDisplayBlocker.release(worldIn, pos);
 
 		if (itemStack != null) {
+			ItemStack vasePlant = VasePlantHelper.removePlant(itemStack);
+
+			if (vasePlant != null) {
+				net.minecraft.block.Block.spawnAsEntity(worldIn, pos, vasePlant);
+			}
+
 			net.minecraft.block.Block.spawnAsEntity(worldIn, pos, itemStack);
 		}
 	}

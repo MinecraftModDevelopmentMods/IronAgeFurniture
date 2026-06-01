@@ -57,13 +57,13 @@ public class RecipeInitialiser {
 
 		if (BlockObjectHolder.ornament_clay != null) {
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockObjectHolder.ornament_clay, 1, 0),
-				" x ", "x x", " x ", 'x', Items.BRICK));
+				" x ", "x x", " x ", 'x', Items.CLAY_BALL));
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockObjectHolder.ornament_clay, 1, 1),
-				"x  ", "xxx", " x ", 'x', Items.BRICK));
+				"x  ", "xxx", " x ", 'x', Items.CLAY_BALL));
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockObjectHolder.ornament_clay, 2, 2),
 				"x x", " x ", 'x', Items.CLAY_BALL));
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockObjectHolder.ornament_clay, 1, 3),
-				" z ", "yxy", " y ", 'x', Blocks.HARDENED_CLAY, 'y', Items.BRICK, 'z', ironSmall));
+				" z ", "yxy", " y ", 'x', Blocks.HARDENED_CLAY, 'y', Items.CLAY_BALL, 'z', ironSmall));
 		}
 
 		if (BlockObjectHolder.ornament_obsidian != null && BlockObjectHolder.obsidian_chunk != null) {
@@ -80,7 +80,7 @@ public class RecipeInitialiser {
 		if (BlockObjectHolder.ornament_glass_vase != null) {
 			for (EnumDyeColor color : EnumDyeColor.values()) {
 				GameRegistry.addRecipe(new ShapedOreRecipe(
-					new ItemStack(BlockObjectHolder.ornament_glass_vase, 1, color.getMetadata()),
+					new ItemStack(BlockObjectHolder.ornament_glass_vase, 4, color.getMetadata()),
 					" x ", "x x", " x ", 'x', new ItemStack(Blocks.STAINED_GLASS, 1, color.getMetadata())));
 			}
 		}
