@@ -169,9 +169,9 @@ public final class SurfaceDisplayRenderHelper {
 		GlStateManager.disableLighting();
 		GlStateManager.disableDepth();
 
-		drawCuboid(-0.012D, 0.05D, -0.012D, 0.012D, 0.40D, 0.012D, 0.08F, 0.34F, 0.08F);
-		drawCuboid(-0.075D, 0.19D, -0.008D, -0.012D, 0.25D, 0.008D, 0.08F, 0.30F, 0.07F);
-		drawCuboid(0.012D, 0.29D, -0.008D, 0.070D, 0.35D, 0.008D, 0.08F, 0.30F, 0.07F);
+		drawCuboid(-0.012D, 0.14D, -0.012D, 0.012D, 0.40D, 0.012D, 0.08F, 0.34F, 0.08F);
+		drawCuboid(-0.075D, 0.23D, -0.008D, -0.012D, 0.29D, 0.008D, 0.08F, 0.30F, 0.07F);
+		drawCuboid(0.012D, 0.31D, -0.008D, 0.070D, 0.37D, 0.008D, 0.08F, 0.30F, 0.07F);
 
 		GlStateManager.enableDepth();
 		GlStateManager.enableLighting();
