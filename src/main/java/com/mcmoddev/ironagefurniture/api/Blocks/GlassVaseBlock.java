@@ -32,8 +32,8 @@ import net.minecraft.world.World;
 
 public class GlassVaseBlock extends BlockHBase {
 	public static final PropertyEnum<EnumDyeColor> COLOR = PropertyEnum.<EnumDyeColor>create("color", EnumDyeColor.class);
-	private static final AxisAlignedBB BOUNDS = new AxisAlignedBB(5.0D / 16.0D, 0.0D, 5.0D / 16.0D,
-		11.0D / 16.0D, 11.0D / 16.0D, 11.0D / 16.0D);
+	private static final AxisAlignedBB BOUNDS = new AxisAlignedBB(5.75D / 16.0D, 0.0D, 5.75D / 16.0D,
+		10.25D / 16.0D, 6.0D / 16.0D, 10.25D / 16.0D);
 
 	private final String name;
 
