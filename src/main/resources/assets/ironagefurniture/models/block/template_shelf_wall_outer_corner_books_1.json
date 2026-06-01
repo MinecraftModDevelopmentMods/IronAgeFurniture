@@ -170,13 +170,13 @@
       "name": "embedded upright book 1",
       "from": [
         5.175,
-        13.0,
-        7.0
+        13,
+        7
       ],
       "to": [
         7.225,
-        20.0,
-        14.0
+        20,
+        14
       ],
       "faces": {
         "north": {
@@ -195,7 +195,7 @@
             16,
             16
           ],
-          "texture": "#book_pages"
+          "texture": "#book_0"
         },
         "south": {
           "uv": [

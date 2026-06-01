@@ -298,13 +298,13 @@
       "name": "embedded upright book 1",
       "from": [
         5.425,
-        13.0,
-        7.0
+        13,
+        7
       ],
       "to": [
         7.475,
-        20.0,
-        14.0
+        20,
+        14
       ],
       "faces": {
         "north": {
@@ -323,7 +323,7 @@
             16,
             16
           ],
-          "texture": "#book_pages"
+          "texture": "#book_0"
         },
         "south": {
           "uv": [
@@ -436,13 +436,13 @@
       "name": "embedded upright book 2",
       "from": [
         7.775,
-        13.0,
-        7.0
+        13,
+        7
       ],
       "to": [
         9.825,
         20.45,
-        14.0
+        14
       ],
       "faces": {
         "north": {
@@ -479,7 +479,7 @@
             16,
             16
           ],
-          "texture": "#book_pages"
+          "texture": "#book_1"
         },
         "up": {
           "uv": [
@@ -510,7 +510,7 @@
       ],
       "to": [
         9.685,
-        20.0,
+        20,
         7.1
       ],
       "faces": {
@@ -574,13 +574,13 @@
       "name": "embedded upright book 3",
       "from": [
         10.125,
-        13.0,
-        7.0
+        13,
+        7
       ],
       "to": [
         12.175,
         20.2,
-        14.0
+        14
       ],
       "faces": {
         "north": {
@@ -599,7 +599,7 @@
             16,
             16
           ],
-          "texture": "#book_pages"
+          "texture": "#book_2"
         },
         "south": {
           "uv": [

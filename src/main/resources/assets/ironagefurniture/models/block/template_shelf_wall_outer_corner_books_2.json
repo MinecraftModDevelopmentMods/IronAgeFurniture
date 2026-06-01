@@ -170,13 +170,13 @@
       "name": "embedded upright book 1",
       "from": [
         4,
-        13.0,
-        7.0
+        13,
+        7
       ],
       "to": [
         6.05,
-        20.0,
-        14.0
+        20,
+        14
       ],
       "faces": {
         "north": {
@@ -195,7 +195,7 @@
             16,
             16
           ],
-          "texture": "#book_pages"
+          "texture": "#book_0"
         },
         "south": {
           "uv": [
@@ -308,13 +308,13 @@
       "name": "embedded upright book 2",
       "from": [
         6.35,
-        13.0,
-        7.0
+        13,
+        7
       ],
       "to": [
         8.4,
         20.45,
-        14.0
+        14
       ],
       "faces": {
         "north": {
@@ -351,7 +351,7 @@
             16,
             16
           ],
-          "texture": "#book_pages"
+          "texture": "#book_1"
         },
         "up": {
           "uv": [
@@ -382,7 +382,7 @@
       ],
       "to": [
         8.26,
-        20.0,
+        20,
         7.1
       ],
       "faces": {

@@ -36,20 +36,22 @@ public final class SurfaceDisplayRenderHelper {
 			return false;
 		}
 
+		boolean book = isBook(itemStack);
+		double displayY = blockSurfaceY + (book ? -0.003D : 0.002D);
 		GlStateManager.pushMatrix();
-		GlStateManager.translate(x + itemX, y + surfaceY + 0.012D, z + itemZ);
+		GlStateManager.translate(x + itemX, y + displayY, z + itemZ);
 		GlStateManager.rotate(yaw, 0.0F, 1.0F, 0.0F);
-		GlStateManager.disableTexture2D();
 		GlStateManager.disableLighting();
 
-		if (isBook(itemStack)) {
+		if (book) {
 			renderClosedBook(itemStack);
 		} else {
+			GlStateManager.disableTexture2D();
 			renderRecord(itemStack);
+			GlStateManager.enableTexture2D();
 		}
 
 		GlStateManager.enableLighting();
-		GlStateManager.enableTexture2D();
 		GlStateManager.popMatrix();
 		return true;
 	}
@@ -67,21 +69,30 @@ public final class SurfaceDisplayRenderHelper {
 		GlStateManager.popMatrix();
 	}
 
-	private static void renderVasePlant(ItemStack vaseStack, double x, double y, double z, double itemX,
+	public static void renderGlassVasePlant(ItemStack plantStack, double x, double y, double z, double itemX,
 			double itemZ, double surfaceY, float yaw) {
-		ItemStack plantStack = VasePlantHelper.getPlant(vaseStack);
-
 		if (plantStack == null || plantStack.stackSize <= 0) {
 			return;
 		}
 
 		GlStateManager.pushMatrix();
-		GlStateManager.translate(x + itemX, y + surfaceY + 0.44D, z + itemZ);
+		GlStateManager.translate(x + itemX, y + surfaceY, z + itemZ);
 		GlStateManager.rotate(yaw, 0.0F, 1.0F, 0.0F);
-		GlStateManager.scale(0.42F, 0.42F, 0.42F);
+
+		renderVaseStem();
+
+		GlStateManager.translate(0.0D, 0.34D, 0.0D);
+		GlStateManager.scale(0.46F, 0.46F, 0.46F);
 		Minecraft.getMinecraft().getRenderItem().renderItem(plantStack,
 			ItemCameraTransforms.TransformType.FIXED);
 		GlStateManager.popMatrix();
+	}
+
+	private static void renderVasePlant(ItemStack vaseStack, double x, double y, double z, double itemX,
+			double itemZ, double surfaceY, float yaw) {
+		ItemStack plantStack = VasePlantHelper.getPlant(vaseStack);
+
+		renderGlassVasePlant(plantStack, x, y, z, itemX, itemZ, surfaceY, yaw);
 	}
 
 	private static boolean isBook(ItemStack itemStack) {
@@ -130,15 +141,41 @@ public final class SurfaceDisplayRenderHelper {
 	}
 
 	private static void renderClosedBook(ItemStack itemStack) {
-		float[] cover = itemStack.getItem() == Items.ENCHANTED_BOOK
-			? new float[] { 0.35F, 0.08F, 0.52F }
-			: new float[] { 0.45F, 0.12F, 0.08F };
+		float[] cover = getBookCoverColor(itemStack);
+		float[] shadow = darken(cover, 0.42F);
+		float[] pages = new float[] { 0.78F, 0.72F, 0.52F };
+		float[] pageLines = new float[] { 0.48F, 0.40F, 0.25F };
+		float[] gold = new float[] { 0.86F, 0.58F, 0.12F };
 
-		drawCuboid(-0.24D, 0.0D, -0.18D, 0.24D, 0.052D, 0.18D, cover[0], cover[1], cover[2]);
-		drawCuboid(-0.20D, 0.054D, -0.14D, 0.22D, 0.066D, 0.14D, 0.78F, 0.70F, 0.50F);
-		drawCuboid(-0.24D, 0.066D, -0.18D, 0.24D, 0.078D, 0.18D, cover[0], cover[1], cover[2]);
-		drawCuboid(-0.23D, 0.080D, -0.015D, 0.20D, 0.086D, 0.015D, 0.86F, 0.62F, 0.16F);
-		drawCuboid(-0.015D, 0.080D, -0.16D, 0.015D, 0.086D, 0.16D, 0.86F, 0.62F, 0.16F);
+		GlStateManager.disableTexture2D();
+		GlStateManager.disableCull();
+		drawCuboid(-0.31D, 0.000D, -0.22D, 0.31D, 0.026D, 0.22D, shadow[0], shadow[1], shadow[2]);
+		drawCuboid(-0.235D, 0.028D, -0.178D, 0.270D, 0.098D, 0.178D, pages[0], pages[1], pages[2]);
+		drawCuboid(-0.31D, 0.100D, -0.22D, 0.31D, 0.136D, 0.22D, cover[0], cover[1], cover[2]);
+		drawCuboid(-0.330D, 0.028D, -0.22D, -0.310D, 0.098D, 0.22D, shadow[0], shadow[1], shadow[2]);
+
+		drawCuboid(0.270D, 0.034D, -0.165D, 0.286D, 0.096D, 0.165D, pageLines[0], pageLines[1],
+			pageLines[2]);
+		drawCuboid(0.232D, 0.034D, -0.165D, 0.248D, 0.096D, 0.165D, pageLines[0], pageLines[1],
+			pageLines[2]);
+
+		drawBookTopPattern(gold);
+		GlStateManager.enableCull();
+		GlStateManager.enableTexture2D();
+	}
+
+	private static void renderVaseStem() {
+		GlStateManager.disableTexture2D();
+		GlStateManager.disableLighting();
+		GlStateManager.disableDepth();
+
+		drawCuboid(-0.012D, 0.05D, -0.012D, 0.012D, 0.34D, 0.012D, 0.08F, 0.34F, 0.08F);
+		drawCuboid(-0.075D, 0.17D, -0.008D, -0.012D, 0.23D, 0.008D, 0.08F, 0.30F, 0.07F);
+		drawCuboid(0.012D, 0.25D, -0.008D, 0.070D, 0.31D, 0.008D, 0.08F, 0.30F, 0.07F);
+
+		GlStateManager.enableDepth();
+		GlStateManager.enableLighting();
+		GlStateManager.enableTexture2D();
 	}
 
 	private static void renderRecord(ItemStack itemStack) {
@@ -150,6 +187,45 @@ public final class SurfaceDisplayRenderHelper {
 		drawCuboid(-0.25D, 0.0D, -0.25D, 0.25D, 0.035D, 0.25D, 0.03F, 0.03F, 0.035F);
 		drawCuboid(-0.12D, 0.038D, -0.12D, 0.12D, 0.050D, 0.12D, labelR, labelG, labelB);
 		drawCuboid(-0.035D, 0.052D, -0.035D, 0.035D, 0.058D, 0.035D, 0.02F, 0.02F, 0.02F);
+	}
+
+	private static float[] getBookCoverColor(ItemStack itemStack) {
+		if (itemStack.getItem() == Items.ENCHANTED_BOOK) {
+			return new float[] { 0.18F, 0.07F, 0.30F };
+		}
+
+		if (itemStack.getItem() == Items.WRITABLE_BOOK) {
+			return new float[] { 0.04F, 0.22F, 0.10F };
+		}
+
+		if (itemStack.getItem() == Items.WRITTEN_BOOK) {
+			return new float[] { 0.05F, 0.10F, 0.30F };
+		}
+
+		return new float[] { 0.38F, 0.07F, 0.04F };
+	}
+
+	private static float[] darken(float[] color, float amount) {
+		return new float[] { color[0] * amount, color[1] * amount, color[2] * amount };
+	}
+
+	private static void drawBookTopPattern(float[] gold) {
+		double y1 = 0.137D;
+		double y2 = 0.143D;
+
+		drawCuboid(-0.245D, y1, -0.165D, 0.220D, y2, -0.145D, gold[0], gold[1], gold[2]);
+		drawCuboid(-0.245D, y1, 0.145D, 0.220D, y2, 0.165D, gold[0], gold[1], gold[2]);
+		drawCuboid(-0.245D, y1, -0.165D, -0.225D, y2, 0.165D, gold[0], gold[1], gold[2]);
+		drawCuboid(0.200D, y1, -0.165D, 0.220D, y2, 0.165D, gold[0], gold[1], gold[2]);
+
+		drawCuboid(-0.120D, y1, -0.075D, 0.100D, y2, -0.055D, gold[0], gold[1], gold[2]);
+		drawCuboid(-0.120D, y1, 0.055D, 0.100D, y2, 0.075D, gold[0], gold[1], gold[2]);
+		drawCuboid(-0.120D, y1, -0.075D, -0.100D, y2, 0.075D, gold[0], gold[1], gold[2]);
+		drawCuboid(0.080D, y1, -0.075D, 0.100D, y2, 0.075D, gold[0], gold[1], gold[2]);
+
+		drawCuboid(-0.300D, y1, -0.170D, -0.282D, y2, 0.170D, gold[0], gold[1], gold[2]);
+		drawCuboid(-0.318D, y1, -0.080D, -0.264D, y2, -0.060D, gold[0], gold[1], gold[2]);
+		drawCuboid(-0.318D, y1, 0.060D, -0.264D, y2, 0.080D, gold[0], gold[1], gold[2]);
 	}
 
 	private static void drawCuboid(double minX, double minY, double minZ, double maxX, double maxY,

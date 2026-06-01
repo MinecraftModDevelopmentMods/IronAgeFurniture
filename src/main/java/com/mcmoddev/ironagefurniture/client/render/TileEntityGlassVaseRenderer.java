@@ -9,7 +9,7 @@ public class TileEntityGlassVaseRenderer extends TileEntitySpecialRenderer<TileE
 	public void renderTileEntityAt(TileEntityGlassVase te, double x, double y, double z, float partialTicks,
 			int destroyStage) {
 		if (te.getPlant() != null) {
-			SurfaceDisplayRenderHelper.renderPottedPlant(te.getPlant(), x, y, z, 0.0D);
+			SurfaceDisplayRenderHelper.renderGlassVasePlant(te.getPlant(), x, y, z, 0.5D, 0.5D, 0.0D, 0.0F);
 		}
 	}
 }
