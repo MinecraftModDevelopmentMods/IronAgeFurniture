@@ -1,8 +1,372 @@
-﻿{
+{
   "variants": {
-    "facing=north": { "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron", "y": 0 },
-    "facing=east": { "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron", "y": 90 },
-    "facing=south": { "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron", "y": 180 },
-    "facing=west": { "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron", "y": 270 }
+    "facing=north,metal=iron": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron",
+      "y": 0
+    },
+    "facing=north,metal=gold": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_gold",
+      "y": 0
+    },
+    "facing=north,metal=adamantine": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_adamantine",
+      "y": 0
+    },
+    "facing=north,metal=antimony": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_antimony",
+      "y": 0
+    },
+    "facing=north,metal=aquarium": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_aquarium",
+      "y": 0
+    },
+    "facing=north,metal=bismuth": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_bismuth",
+      "y": 0
+    },
+    "facing=north,metal=brass": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_brass",
+      "y": 0
+    },
+    "facing=north,metal=bronze": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_bronze",
+      "y": 0
+    },
+    "facing=north,metal=coldiron": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_coldiron",
+      "y": 0
+    },
+    "facing=north,metal=copper": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_copper",
+      "y": 0
+    },
+    "facing=north,metal=cupronickel": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_cupronickel",
+      "y": 0
+    },
+    "facing=north,metal=electrum": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_electrum",
+      "y": 0
+    },
+    "facing=north,metal=invar": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_invar",
+      "y": 0
+    },
+    "facing=north,metal=lead": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_lead",
+      "y": 0
+    },
+    "facing=north,metal=mithril": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_mithril",
+      "y": 0
+    },
+    "facing=north,metal=nickel": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_nickel",
+      "y": 0
+    },
+    "facing=north,metal=pewter": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_pewter",
+      "y": 0
+    },
+    "facing=north,metal=platinum": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_platinum",
+      "y": 0
+    },
+    "facing=north,metal=silver": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_silver",
+      "y": 0
+    },
+    "facing=north,metal=starsteel": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_starsteel",
+      "y": 0
+    },
+    "facing=north,metal=steel": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_steel",
+      "y": 0
+    },
+    "facing=north,metal=tin": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_tin",
+      "y": 0
+    },
+    "facing=north,metal=zinc": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_zinc",
+      "y": 0
+    },
+    "facing=east,metal=iron": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron",
+      "y": 90
+    },
+    "facing=east,metal=gold": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_gold",
+      "y": 90
+    },
+    "facing=east,metal=adamantine": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_adamantine",
+      "y": 90
+    },
+    "facing=east,metal=antimony": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_antimony",
+      "y": 90
+    },
+    "facing=east,metal=aquarium": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_aquarium",
+      "y": 90
+    },
+    "facing=east,metal=bismuth": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_bismuth",
+      "y": 90
+    },
+    "facing=east,metal=brass": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_brass",
+      "y": 90
+    },
+    "facing=east,metal=bronze": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_bronze",
+      "y": 90
+    },
+    "facing=east,metal=coldiron": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_coldiron",
+      "y": 90
+    },
+    "facing=east,metal=copper": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_copper",
+      "y": 90
+    },
+    "facing=east,metal=cupronickel": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_cupronickel",
+      "y": 90
+    },
+    "facing=east,metal=electrum": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_electrum",
+      "y": 90
+    },
+    "facing=east,metal=invar": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_invar",
+      "y": 90
+    },
+    "facing=east,metal=lead": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_lead",
+      "y": 90
+    },
+    "facing=east,metal=mithril": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_mithril",
+      "y": 90
+    },
+    "facing=east,metal=nickel": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_nickel",
+      "y": 90
+    },
+    "facing=east,metal=pewter": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_pewter",
+      "y": 90
+    },
+    "facing=east,metal=platinum": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_platinum",
+      "y": 90
+    },
+    "facing=east,metal=silver": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_silver",
+      "y": 90
+    },
+    "facing=east,metal=starsteel": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_starsteel",
+      "y": 90
+    },
+    "facing=east,metal=steel": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_steel",
+      "y": 90
+    },
+    "facing=east,metal=tin": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_tin",
+      "y": 90
+    },
+    "facing=east,metal=zinc": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_zinc",
+      "y": 90
+    },
+    "facing=south,metal=iron": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron",
+      "y": 180
+    },
+    "facing=south,metal=gold": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_gold",
+      "y": 180
+    },
+    "facing=south,metal=adamantine": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_adamantine",
+      "y": 180
+    },
+    "facing=south,metal=antimony": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_antimony",
+      "y": 180
+    },
+    "facing=south,metal=aquarium": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_aquarium",
+      "y": 180
+    },
+    "facing=south,metal=bismuth": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_bismuth",
+      "y": 180
+    },
+    "facing=south,metal=brass": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_brass",
+      "y": 180
+    },
+    "facing=south,metal=bronze": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_bronze",
+      "y": 180
+    },
+    "facing=south,metal=coldiron": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_coldiron",
+      "y": 180
+    },
+    "facing=south,metal=copper": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_copper",
+      "y": 180
+    },
+    "facing=south,metal=cupronickel": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_cupronickel",
+      "y": 180
+    },
+    "facing=south,metal=electrum": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_electrum",
+      "y": 180
+    },
+    "facing=south,metal=invar": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_invar",
+      "y": 180
+    },
+    "facing=south,metal=lead": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_lead",
+      "y": 180
+    },
+    "facing=south,metal=mithril": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_mithril",
+      "y": 180
+    },
+    "facing=south,metal=nickel": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_nickel",
+      "y": 180
+    },
+    "facing=south,metal=pewter": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_pewter",
+      "y": 180
+    },
+    "facing=south,metal=platinum": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_platinum",
+      "y": 180
+    },
+    "facing=south,metal=silver": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_silver",
+      "y": 180
+    },
+    "facing=south,metal=starsteel": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_starsteel",
+      "y": 180
+    },
+    "facing=south,metal=steel": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_steel",
+      "y": 180
+    },
+    "facing=south,metal=tin": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_tin",
+      "y": 180
+    },
+    "facing=south,metal=zinc": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_zinc",
+      "y": 180
+    },
+    "facing=west,metal=iron": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron",
+      "y": 270
+    },
+    "facing=west,metal=gold": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_gold",
+      "y": 270
+    },
+    "facing=west,metal=adamantine": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_adamantine",
+      "y": 270
+    },
+    "facing=west,metal=antimony": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_antimony",
+      "y": 270
+    },
+    "facing=west,metal=aquarium": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_aquarium",
+      "y": 270
+    },
+    "facing=west,metal=bismuth": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_bismuth",
+      "y": 270
+    },
+    "facing=west,metal=brass": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_brass",
+      "y": 270
+    },
+    "facing=west,metal=bronze": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_bronze",
+      "y": 270
+    },
+    "facing=west,metal=coldiron": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_coldiron",
+      "y": 270
+    },
+    "facing=west,metal=copper": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_copper",
+      "y": 270
+    },
+    "facing=west,metal=cupronickel": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_cupronickel",
+      "y": 270
+    },
+    "facing=west,metal=electrum": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_electrum",
+      "y": 270
+    },
+    "facing=west,metal=invar": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_invar",
+      "y": 270
+    },
+    "facing=west,metal=lead": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_lead",
+      "y": 270
+    },
+    "facing=west,metal=mithril": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_mithril",
+      "y": 270
+    },
+    "facing=west,metal=nickel": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_nickel",
+      "y": 270
+    },
+    "facing=west,metal=pewter": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_pewter",
+      "y": 270
+    },
+    "facing=west,metal=platinum": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_platinum",
+      "y": 270
+    },
+    "facing=west,metal=silver": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_silver",
+      "y": 270
+    },
+    "facing=west,metal=starsteel": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_starsteel",
+      "y": 270
+    },
+    "facing=west,metal=steel": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_steel",
+      "y": 270
+    },
+    "facing=west,metal=tin": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_tin",
+      "y": 270
+    },
+    "facing=west,metal=zinc": {
+      "model": "ironagefurniture:light_metal_ironage_sconce_floor_candle_iron_zinc",
+      "y": 270
+    }
   }
 }

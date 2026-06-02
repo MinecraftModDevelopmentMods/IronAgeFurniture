@@ -1,7 +1,11 @@
-{
-  "credit": "By FoxNekitsune",
-  "parent": "ironagefurniture:block/template_chandelier_lamp",
-  "textures": {
-    "contents": "minecraft:blocks/glowstone"
-  }
+﻿{
+    "credit":  "By FoxNekitsune",
+    "parent":  "ironagefurniture:block/template_chandelier_lamp",
+    "textures":  {
+                     "0":  "minecraft:blocks/iron_block",
+                     "1":  "minecraft:blocks/iron_block",
+                     "contents":  "minecraft:blocks/glowstone",
+                     "particle":  "minecraft:blocks/iron_block"
+                 }
 }
+

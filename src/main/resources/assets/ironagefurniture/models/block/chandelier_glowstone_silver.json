@@ -1,0 +1,11 @@
+﻿{
+    "credit":  "By FoxNekitsune",
+    "parent":  "ironagefurniture:block/template_chandelier_lamp",
+    "textures":  {
+                     "0":  "basemetals:blocks/silver_block",
+                     "1":  "basemetals:blocks/silver_block",
+                     "contents":  "minecraft:blocks/glowstone",
+                     "particle":  "basemetals:blocks/silver_block"
+                 }
+}
+

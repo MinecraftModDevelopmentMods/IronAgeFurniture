@@ -7,6 +7,7 @@ import java.util.WeakHashMap;
 
 import com.google.common.collect.Lists;
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
+import com.mcmoddev.ironagefurniture.api.MetalVariantHelper;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -71,7 +72,7 @@ public class LightSourceSconceRedFloor extends LightSourceSconceGlowFloor {
 
         if (signal != GetLightLevel()) {
             Block newBlock = getBlockBySignalLevel(signal);
-            worldIn.setBlockState(pos,
+            MetalVariantHelper.replaceBlockPreservingMetal(worldIn, pos,
                 newBlock.getDefaultState().withProperty(FACING, state.getValue(FACING)),
                 3);
 

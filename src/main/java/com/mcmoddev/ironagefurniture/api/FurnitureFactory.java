@@ -59,6 +59,7 @@ import com.mcmoddev.ironagefurniture.api.Blocks.ThroneChair;
 import com.mcmoddev.ironagefurniture.api.Blocks.WallShelf;
 import com.mcmoddev.ironagefurniture.api.Blocks.WingbackChair;
 import com.mcmoddev.ironagefurniture.api.Items.ItemBlockGlassVase;
+import com.mcmoddev.ironagefurniture.api.Items.ItemBlockMetalVariant;
 import com.mcmoddev.ironagefurniture.api.Items.ItemBlockOrnament;
 import com.mcmoddev.ironagefurniture.api.Items.ItemBlockThrowableLavaLamp;
 import com.mcmoddev.ironagefurniture.api.Items.ItemBlockWallShelf;
@@ -231,15 +232,12 @@ public class FurnitureFactory {
 	}
 
 	public static void AddIronSconceRecipe(Block sconce) {
-		Object ironInput = "nuggetIron";
-		int outputCount = 5;
-
-		if (!OreDictionary.doesOreNameExist("nuggetIron") || OreDictionary.getOres("nuggetIron").isEmpty()) {
-			ironInput = "ingotIron";
-			outputCount = 32;
+		if (sconce == null || !OreDictionary.doesOreNameExist("nuggetIron")
+			|| OreDictionary.getOres("nuggetIron").isEmpty()) {
+			return;
 		}
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(sconce, outputCount), "xxx", "x  ", "x  ", 'x', ironInput));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(sconce, 4), "xxx", "x  ", "x  ", 'x', "nuggetIron"));
 	}
 	
 	public static Block CreateWoodShieldChair(String name, float resistance, float hardness) {
@@ -751,6 +749,7 @@ public class FurnitureFactory {
 			ItemBlock itemBlock = block instanceof GlassVaseBlock ? new ItemBlockGlassVase(block)
 				: block instanceof OrnamentBlock ? new ItemBlockOrnament(block)
 				: block instanceof WallShelf ? new ItemBlockWallShelf(block)
+				: MetalVariantHelper.isMetalVariantBlock(block) ? new ItemBlockMetalVariant(block)
 				: block instanceof LightSourceLava ? new ItemBlockThrowableLavaLamp(block) : new ItemBlock(block);
 			itemBlock.setMaxStackSize(maxStackSize);
 			ItemInitialiser.RegisterItem(itemBlock, name);

@@ -1,0 +1,11 @@
+﻿{
+    "credit":  "By FoxNekitsune",
+    "parent":  "ironagefurniture:block/template_chandelier_lava",
+    "textures":  {
+                     "0":  "basemetals:blocks/mithril_block",
+                     "1":  "basemetals:blocks/mithril_block",
+                     "contents":  "minecraft:blocks/lava_flow",
+                     "particle":  "basemetals:blocks/mithril_block"
+                 }
+}
+

@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.google.common.collect.Lists;
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
+import com.mcmoddev.ironagefurniture.api.MetalVariantHelper;
 import com.mcmoddev.ironagefurniture.client.particle.CandleFlameParticle;
 
 import net.minecraft.block.Block;
@@ -45,7 +46,7 @@ public class LightSourceSconceCandleFloor extends LightSourceSconceTorchFloor {
     @Override
     public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
         List<ItemStack> drops = Lists.newArrayList();
-        drops.add(new ItemStack(BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron, 1));
+        drops.add(MetalVariantHelper.getDrop(BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron, world, pos));
         drops.add(new ItemStack(BlockObjectHolder.light_metal_ironage_candle_floor, candleCount));
         return drops;
     }
@@ -107,7 +108,8 @@ public class LightSourceSconceCandleFloor extends LightSourceSconceTorchFloor {
     }
 
     protected void setSconceState(World worldIn, BlockPos pos, IBlockState state, Block block) {
-        worldIn.setBlockState(pos, block.getDefaultState().withProperty(FACING, state.getValue(FACING)), 3);
+        MetalVariantHelper.replaceBlockPreservingMetal(worldIn, pos,
+            block.getDefaultState().withProperty(FACING, state.getValue(FACING)), 3);
     }
 
     protected void giveCandles(EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, int count) {

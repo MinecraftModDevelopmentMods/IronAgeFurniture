@@ -1,6 +1,7 @@
 package com.mcmoddev.ironagefurniture.api.Blocks;
 
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
+import com.mcmoddev.ironagefurniture.api.MetalVariantHelper;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -87,13 +88,14 @@ public class LightSourceChandelierCandleUnlit extends LightSourceChandelierCandl
     }
 
     protected void setLit(World worldIn, BlockPos pos) {
-        worldIn.setBlockState(pos, GetLitVariant().getDefaultState(), 3);
+        MetalVariantHelper.replaceBlockPreservingMetal(worldIn, pos, GetLitVariant().getDefaultState(), 3);
     }
 
     @Override
     protected IBlockState getFallingState(World worldIn, BlockPos pos, IBlockState state) {
-        IBlockState fallingState = GetLitVariant().getDefaultState();
-        worldIn.setBlockState(pos, fallingState, 3);
+        IBlockState fallingState = GetLitVariant().getDefaultState()
+            .withProperty(MetalVariantHelper.METAL, state.getValue(MetalVariantHelper.METAL));
+        MetalVariantHelper.replaceBlockPreservingMetal(worldIn, pos, fallingState, 3);
         return fallingState;
     }
 

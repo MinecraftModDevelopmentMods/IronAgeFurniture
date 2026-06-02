@@ -1,0 +1,8 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_light_metal_ironage_sconce_floor_vial",
+  "textures": {
+    "contents": "minecraft:blocks/lava_still",
+    "metal": "basemetals:blocks/steel_block"
+  }
+}

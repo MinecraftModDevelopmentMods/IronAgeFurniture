@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.google.common.collect.Lists;
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
+import com.mcmoddev.ironagefurniture.api.MetalVariantHelper;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -37,7 +38,7 @@ public class LightSourceChandelierGlowstone extends LightSourceChandelierCandle 
 
     @Override
     public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-        return Lists.newArrayList(new ItemStack(VisibleDropBlock(), 1));
+        return Lists.newArrayList(MetalVariantHelper.getDrop(VisibleDropBlock(), world, pos));
     }
 
     protected Block VisibleDropBlock() {

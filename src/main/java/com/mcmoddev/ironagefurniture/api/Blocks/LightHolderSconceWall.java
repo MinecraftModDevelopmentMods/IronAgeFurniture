@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
+import com.mcmoddev.ironagefurniture.api.MetalVariantHelper;
+import com.mcmoddev.ironagefurniture.api.MetalVariantHelper.MetalVariant;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -42,7 +44,8 @@ public class LightHolderSconceWall extends LightHolderSconceFloor {
 
     public LightHolderSconceWall(Material materialIn, String name, float resistance, float hardness) {
         super(materialIn, name, resistance, hardness);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH)
+            .withProperty(MetalVariantHelper.METAL, MetalVariant.IRON));
     }
 
     private static AxisAlignedBB rotateClockwise(AxisAlignedBB bb) {
@@ -90,7 +93,8 @@ public class LightHolderSconceWall extends LightHolderSconceFloor {
 
     @Override
     public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-        return Lists.newArrayList(new ItemStack(BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron));
+        return Lists.newArrayList(MetalVariantHelper.getDrop(
+            BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron, world, pos));
     }
 
     @Override

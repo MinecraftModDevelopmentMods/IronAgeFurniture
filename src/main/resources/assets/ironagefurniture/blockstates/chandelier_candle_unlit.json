@@ -1,5 +1,73 @@
 {
   "variants": {
-    "normal": { "model": "ironagefurniture:chandelier_candle" }
+    "metal=iron": {
+      "model": "ironagefurniture:chandelier_candle"
+    },
+    "metal=gold": {
+      "model": "ironagefurniture:chandelier_candle_gold"
+    },
+    "metal=adamantine": {
+      "model": "ironagefurniture:chandelier_candle_adamantine"
+    },
+    "metal=antimony": {
+      "model": "ironagefurniture:chandelier_candle_antimony"
+    },
+    "metal=aquarium": {
+      "model": "ironagefurniture:chandelier_candle_aquarium"
+    },
+    "metal=bismuth": {
+      "model": "ironagefurniture:chandelier_candle_bismuth"
+    },
+    "metal=brass": {
+      "model": "ironagefurniture:chandelier_candle_brass"
+    },
+    "metal=bronze": {
+      "model": "ironagefurniture:chandelier_candle_bronze"
+    },
+    "metal=coldiron": {
+      "model": "ironagefurniture:chandelier_candle_coldiron"
+    },
+    "metal=copper": {
+      "model": "ironagefurniture:chandelier_candle_copper"
+    },
+    "metal=cupronickel": {
+      "model": "ironagefurniture:chandelier_candle_cupronickel"
+    },
+    "metal=electrum": {
+      "model": "ironagefurniture:chandelier_candle_electrum"
+    },
+    "metal=invar": {
+      "model": "ironagefurniture:chandelier_candle_invar"
+    },
+    "metal=lead": {
+      "model": "ironagefurniture:chandelier_candle_lead"
+    },
+    "metal=mithril": {
+      "model": "ironagefurniture:chandelier_candle_mithril"
+    },
+    "metal=nickel": {
+      "model": "ironagefurniture:chandelier_candle_nickel"
+    },
+    "metal=pewter": {
+      "model": "ironagefurniture:chandelier_candle_pewter"
+    },
+    "metal=platinum": {
+      "model": "ironagefurniture:chandelier_candle_platinum"
+    },
+    "metal=silver": {
+      "model": "ironagefurniture:chandelier_candle_silver"
+    },
+    "metal=starsteel": {
+      "model": "ironagefurniture:chandelier_candle_starsteel"
+    },
+    "metal=steel": {
+      "model": "ironagefurniture:chandelier_candle_steel"
+    },
+    "metal=tin": {
+      "model": "ironagefurniture:chandelier_candle_tin"
+    },
+    "metal=zinc": {
+      "model": "ironagefurniture:chandelier_candle_zinc"
+    }
   }
 }

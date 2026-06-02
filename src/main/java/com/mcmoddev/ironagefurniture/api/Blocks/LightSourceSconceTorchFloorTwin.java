@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.google.common.collect.Lists;
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
+import com.mcmoddev.ironagefurniture.api.MetalVariantHelper;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -34,7 +35,7 @@ public class LightSourceSconceTorchFloorTwin extends LightSourceSconceTorchFloor
     @Override
     public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
         List<ItemStack> drops = Lists.newArrayList();
-        drops.add(new ItemStack(BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron, 1));
+        drops.add(MetalVariantHelper.getDrop(BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron, world, pos));
         drops.add(new ItemStack(Blocks.TORCH, TORCH_COUNT));
         return drops;
     }
@@ -45,7 +46,7 @@ public class LightSourceSconceTorchFloorTwin extends LightSourceSconceTorchFloor
                                     EnumFacing side, float hitX, float hitY, float hitZ) {
         if (heldItem == null || heldItem.stackSize <= 0 || heldItem.getItem() == Item.getItemFromBlock(Blocks.TORCH)) {
             if (!worldIn.isRemote) {
-                worldIn.setBlockState(pos,
+                MetalVariantHelper.replaceBlockPreservingMetal(worldIn, pos,
                     DropVariant().getDefaultState().withProperty(FACING, state.getValue(FACING)),
                     3);
                 giveTorches(playerIn, hand, heldItem, TORCH_COUNT);
@@ -57,7 +58,8 @@ public class LightSourceSconceTorchFloorTwin extends LightSourceSconceTorchFloor
         if (heldItem.getItem() == Items.WATER_BUCKET) {
             if (!worldIn.isRemote) {
                 Block unlit = GetUnlitTorchVariant();
-                worldIn.setBlockState(pos, unlit.getDefaultState().withProperty(FACING, state.getValue(FACING)), 3);
+                MetalVariantHelper.replaceBlockPreservingMetal(worldIn, pos,
+                    unlit.getDefaultState().withProperty(FACING, state.getValue(FACING)), 3);
             }
 
             return true;

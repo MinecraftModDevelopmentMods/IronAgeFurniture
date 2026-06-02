@@ -1,0 +1,11 @@
+﻿{
+    "credit":  "By FoxNekitsune",
+    "parent":  "ironagefurniture:block/template_chandelier_redstone",
+    "textures":  {
+                     "0":  "basemetals:blocks/coldiron_block",
+                     "1":  "basemetals:blocks/coldiron_block",
+                     "contents":  "minecraft:blocks/redstone_lamp_off",
+                     "particle":  "basemetals:blocks/coldiron_block"
+                 }
+}
+

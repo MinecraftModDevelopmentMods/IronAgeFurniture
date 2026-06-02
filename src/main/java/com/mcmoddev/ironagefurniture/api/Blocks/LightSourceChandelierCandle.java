@@ -6,18 +6,27 @@ import java.util.Random;
 import com.google.common.collect.Lists;
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 import com.mcmoddev.ironagefurniture.Ironagefurniture;
+import com.mcmoddev.ironagefurniture.api.MetalVariantHelper;
+import com.mcmoddev.ironagefurniture.api.MetalVariantHelper.MetalVariant;
+import com.mcmoddev.ironagefurniture.api.entity.EntityFallingMetalBlock;
+import com.mcmoddev.ironagefurniture.api.tile.TileEntityMetalVariant;
 import com.mcmoddev.ironagefurniture.client.particle.CandleFlameParticle;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
@@ -32,7 +41,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 
-public class LightSourceChandelierCandle extends BlockFalling {
+public class LightSourceChandelierCandle extends BlockFalling implements ITileEntityProvider {
     private static final AxisAlignedBB DISC_AABB = new AxisAlignedBB(
         0.0D, 2.0D / 16.0D, 0.0D,
         1.0D, 5.0D / 16.0D, 1.0D
@@ -60,6 +69,47 @@ public class LightSourceChandelierCandle extends BlockFalling {
         this.blockHardness = hardness;
         this.setCreativeTab(Ironagefurniture.ironagefurnitureTab);
         this.setLightLevel(1.0F);
+        this.setDefaultState(this.blockState.getBaseState().withProperty(MetalVariantHelper.METAL, MetalVariant.IRON));
+    }
+
+    @Override
+    protected BlockStateContainer createBlockState() {
+        return new BlockStateContainer(this, new IProperty[] { MetalVariantHelper.METAL });
+    }
+
+    @Override
+    public IBlockState getStateFromMeta(int meta) {
+        return this.getDefaultState();
+    }
+
+    @Override
+    public int getMetaFromState(IBlockState state) {
+        return 0;
+    }
+
+    @Override
+    public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+        return MetalVariantHelper.withMetal(state, worldIn, pos);
+    }
+
+    @Override
+    public boolean hasTileEntity(IBlockState state) {
+        return true;
+    }
+
+    @Override
+    public TileEntity createTileEntity(World world, IBlockState state) {
+        return new TileEntityMetalVariant();
+    }
+
+    @Override
+    public TileEntity createNewTileEntity(World worldIn, int meta) {
+        return new TileEntityMetalVariant();
+    }
+
+    @Override
+    public float getBlockHardness(IBlockState blockState, World worldIn, BlockPos pos) {
+        return MetalVariantHelper.getHardness(worldIn, pos, this.blockHardness);
     }
 
     @Override
@@ -96,10 +146,13 @@ public class LightSourceChandelierCandle extends BlockFalling {
 
         int range = 32;
 
-        IBlockState state = getFallingState(worldIn, pos, worldIn.getBlockState(pos));
+        IBlockState sourceState = worldIn.getBlockState(pos)
+            .withProperty(MetalVariantHelper.METAL, MetalVariantHelper.getMetal(worldIn, pos));
+        IBlockState state = getFallingState(worldIn, pos, sourceState);
 
         if (!fallInstantly && worldIn.isAreaLoaded(pos.add(-range, -range, -range), pos.add(range, range, range))) {
-            EntityFallingBlock fallingBlock = new EntityFallingBlock(worldIn, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, state);
+            EntityFallingBlock fallingBlock = new EntityFallingMetalBlock(worldIn,
+                pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, state);
             this.onStartFalling(fallingBlock);
             worldIn.spawnEntity(fallingBlock);
             return;
@@ -116,11 +169,34 @@ public class LightSourceChandelierCandle extends BlockFalling {
 
         if (landingPos.getY() > 0) {
             worldIn.setBlockState(landingPos.up(), state);
+            MetalVariantHelper.setMetal(worldIn, landingPos.up(), state.getValue(MetalVariantHelper.METAL));
         }
     }
 
     protected IBlockState getFallingState(World worldIn, BlockPos pos, IBlockState state) {
         return state;
+    }
+
+    @Override
+    protected void onStartFalling(EntityFallingBlock fallingEntity) {
+        IBlockState state = fallingEntity.getBlock();
+
+        if (state != null && state.getProperties().containsKey(MetalVariantHelper.METAL)) {
+            if (fallingEntity.tileEntityData == null) {
+                fallingEntity.tileEntityData = new NBTTagCompound();
+            }
+
+            fallingEntity.tileEntityData.setString("Metal",
+                state.getValue(MetalVariantHelper.METAL).getName());
+        }
+    }
+
+    @Override
+    public void onEndFalling(World worldIn, BlockPos pos) {
+        if (!worldIn.isRemote) {
+            IBlockState state = worldIn.getBlockState(pos);
+            worldIn.notifyBlockUpdate(pos, state, state, 3);
+        }
     }
 
     private boolean shouldFall(World worldIn, BlockPos pos) {
@@ -141,7 +217,7 @@ public class LightSourceChandelierCandle extends BlockFalling {
             EnumFacing side, float hitX, float hitY, float hitZ) {
         if (heldItem != null && heldItem.stackSize > 0 && heldItem.getItem() == Items.WATER_BUCKET) {
             if (!worldIn.isRemote) {
-                worldIn.setBlockState(pos, GetUnlitVariant().getDefaultState(), 3);
+                MetalVariantHelper.replaceBlockPreservingMetal(worldIn, pos, GetUnlitVariant().getDefaultState(), 3);
             }
 
             return true;
@@ -152,7 +228,16 @@ public class LightSourceChandelierCandle extends BlockFalling {
 
     @Override
     public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-        return Lists.newArrayList(new ItemStack(VisibleDropBlock(), 1));
+        return Lists.newArrayList(MetalVariantHelper.getDrop(VisibleDropBlock(), world, pos));
+    }
+
+    @Override
+    public int damageDropped(IBlockState state) {
+        if (state != null && state.getProperties().containsKey(MetalVariantHelper.METAL)) {
+            return state.getValue(MetalVariantHelper.METAL).getMeta();
+        }
+
+        return 0;
     }
 
     @Override

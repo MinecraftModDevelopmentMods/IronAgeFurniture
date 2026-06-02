@@ -194,9 +194,13 @@ public class WallShelf extends BlockHBase {
 		private final EnumFacing facing;
 		private final ShelfSupport support;
 
-		private ShelfRenderState(EnumFacing facing, ShelfSupport support) {
+		ShelfRenderState(EnumFacing facing, ShelfSupport support) {
 			this.facing = facing;
 			this.support = support;
+		}
+
+		ShelfRenderState(EnumFacing facing, ShelfSupport support, ShelfRenderState ignored) {
+			this(facing, support);
 		}
 	}
 

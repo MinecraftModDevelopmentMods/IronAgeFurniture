@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.google.common.collect.Lists;
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
+import com.mcmoddev.ironagefurniture.api.MetalVariantHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -65,7 +66,9 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
     
     public LightSourceSconceTorchFloor(Material materialIn, String name, float resistance, float hardness) {
         super(materialIn, name, resistance, hardness);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
+        this.setDefaultState(this.blockState.getBaseState()
+            .withProperty(FACING, EnumFacing.NORTH)
+            .withProperty(MetalVariantHelper.METAL, MetalVariantHelper.MetalVariant.IRON));
         this.setLightLevel(14.0F / 15.0F);
     }
 
@@ -73,7 +76,7 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
     @Override
     public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
         List<ItemStack> drops = Lists.newArrayList();
-        drops.add(new ItemStack(BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron, 1));
+        drops.add(MetalVariantHelper.getDrop(BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron, world, pos));
         drops.add(new ItemStack(LightDrop(), 1));
         return drops;
     }
@@ -108,7 +111,9 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
         if (heldItem.getItem() == Items.WATER_BUCKET) {
             if (!worldIn.isRemote) {
                 Block unlit = GetUnlitTorchVariant();
-                worldIn.setBlockState(pos, unlit.getDefaultState() .withProperty(FACING, state.getValue(FACING)), 3 /*UPDATE_ALL*/);
+                MetalVariantHelper.replaceBlockPreservingMetal(worldIn, pos,
+                    unlit.getDefaultState().withProperty(FACING, state.getValue(FACING)),
+                    3 /*UPDATE_ALL*/);
             }
             
             return true;
@@ -134,7 +139,8 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
         }
 
         if (!worldIn.isRemote) {
-            worldIn.setBlockState(pos, twin.getDefaultState().withProperty(FACING, state.getValue(FACING)), 3);
+            MetalVariantHelper.replaceBlockPreservingMetal(worldIn, pos,
+                twin.getDefaultState().withProperty(FACING, state.getValue(FACING)), 3);
 
             if (!playerIn.capabilities.isCreativeMode) {
                 heldItem.stackSize--;
@@ -150,7 +156,7 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
 
         if (heldItem == null || heldItem.stackSize <= 0) {
             if (!worldIn.isRemote) {
-                worldIn.setBlockState(pos,
+                MetalVariantHelper.replaceBlockPreservingMetal(worldIn, pos,
                     DropVariant().getDefaultState().withProperty(FACING, state.getValue(FACING)),
                     3);
 
@@ -167,7 +173,7 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
         }
 
         if (!worldIn.isRemote) {
-            worldIn.setBlockState(pos,
+            MetalVariantHelper.replaceBlockPreservingMetal(worldIn, pos,
                 DropVariant().getDefaultState().withProperty(FACING, state.getValue(FACING)),
                 3);
 

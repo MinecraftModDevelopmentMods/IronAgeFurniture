@@ -4,6 +4,7 @@ import com.mcmoddev.ironagefurniture.Ironagefurniture;
 import com.mcmoddev.ironagefurniture.IronAgeFurnitureConfiguration;
 import com.mcmoddev.ironagefurniture.ItemObjectHolder;
 import com.mcmoddev.ironagefurniture.api.Items.ItemBlockGlassVase;
+import com.mcmoddev.ironagefurniture.api.Items.ItemBlockMetalVariant;
 import com.mcmoddev.ironagefurniture.api.Items.ItemBlockOrnament;
 
 import net.minecraft.client.Minecraft;
@@ -49,6 +50,13 @@ public class ItemInitialiser {
 				for (int meta = 0; meta < vase.getVariantCount(); meta++) {
 					registerItemMesherModel(i, meta, vase.getModelName(meta));
 				}
+			} else if (i instanceof ItemBlockMetalVariant) {
+				ItemBlockMetalVariant metalItem = (ItemBlockMetalVariant)i;
+
+				for (int index = 0; index < metalItem.getVariantCount(); index++) {
+					int meta = metalItem.getVariantMeta(index);
+					registerItemMesherModel(i, meta, metalItem.getModelName(meta));
+				}
 			} else {
 				registerItemMesherModel(i, 0, name);
 			}
@@ -70,6 +78,13 @@ public class ItemInitialiser {
 
 				for (int meta = 0; meta < vase.getVariantCount(); meta++) {
 					registerItemLoaderModel(i, meta, vase.getModelName(meta));
+				}
+			} else if (i instanceof ItemBlockMetalVariant) {
+				ItemBlockMetalVariant metalItem = (ItemBlockMetalVariant)i;
+
+				for (int index = 0; index < metalItem.getVariantCount(); index++) {
+					int meta = metalItem.getVariantMeta(index);
+					registerItemLoaderModel(i, meta, metalItem.getModelName(meta));
 				}
 			} else {
 				registerItemLoaderModel(i, 0, name);

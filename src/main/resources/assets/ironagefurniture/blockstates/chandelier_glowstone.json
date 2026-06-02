@@ -1,5 +1,73 @@
-﻿{
+{
   "variants": {
-    "normal": { "model": "ironagefurniture:chandelier_glowstone" }
+    "metal=iron": {
+      "model": "ironagefurniture:chandelier_glowstone"
+    },
+    "metal=gold": {
+      "model": "ironagefurniture:chandelier_glowstone_gold"
+    },
+    "metal=adamantine": {
+      "model": "ironagefurniture:chandelier_glowstone_adamantine"
+    },
+    "metal=antimony": {
+      "model": "ironagefurniture:chandelier_glowstone_antimony"
+    },
+    "metal=aquarium": {
+      "model": "ironagefurniture:chandelier_glowstone_aquarium"
+    },
+    "metal=bismuth": {
+      "model": "ironagefurniture:chandelier_glowstone_bismuth"
+    },
+    "metal=brass": {
+      "model": "ironagefurniture:chandelier_glowstone_brass"
+    },
+    "metal=bronze": {
+      "model": "ironagefurniture:chandelier_glowstone_bronze"
+    },
+    "metal=coldiron": {
+      "model": "ironagefurniture:chandelier_glowstone_coldiron"
+    },
+    "metal=copper": {
+      "model": "ironagefurniture:chandelier_glowstone_copper"
+    },
+    "metal=cupronickel": {
+      "model": "ironagefurniture:chandelier_glowstone_cupronickel"
+    },
+    "metal=electrum": {
+      "model": "ironagefurniture:chandelier_glowstone_electrum"
+    },
+    "metal=invar": {
+      "model": "ironagefurniture:chandelier_glowstone_invar"
+    },
+    "metal=lead": {
+      "model": "ironagefurniture:chandelier_glowstone_lead"
+    },
+    "metal=mithril": {
+      "model": "ironagefurniture:chandelier_glowstone_mithril"
+    },
+    "metal=nickel": {
+      "model": "ironagefurniture:chandelier_glowstone_nickel"
+    },
+    "metal=pewter": {
+      "model": "ironagefurniture:chandelier_glowstone_pewter"
+    },
+    "metal=platinum": {
+      "model": "ironagefurniture:chandelier_glowstone_platinum"
+    },
+    "metal=silver": {
+      "model": "ironagefurniture:chandelier_glowstone_silver"
+    },
+    "metal=starsteel": {
+      "model": "ironagefurniture:chandelier_glowstone_starsteel"
+    },
+    "metal=steel": {
+      "model": "ironagefurniture:chandelier_glowstone_steel"
+    },
+    "metal=tin": {
+      "model": "ironagefurniture:chandelier_glowstone_tin"
+    },
+    "metal=zinc": {
+      "model": "ironagefurniture:chandelier_glowstone_zinc"
+    }
   }
 }

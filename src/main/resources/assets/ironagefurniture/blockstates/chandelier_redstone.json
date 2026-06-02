@@ -1,5 +1,73 @@
-﻿{
+{
   "variants": {
-    "normal": { "model": "ironagefurniture:chandelier_redstone" }
+    "metal=iron": {
+      "model": "ironagefurniture:chandelier_redstone"
+    },
+    "metal=gold": {
+      "model": "ironagefurniture:chandelier_redstone_gold"
+    },
+    "metal=adamantine": {
+      "model": "ironagefurniture:chandelier_redstone_adamantine"
+    },
+    "metal=antimony": {
+      "model": "ironagefurniture:chandelier_redstone_antimony"
+    },
+    "metal=aquarium": {
+      "model": "ironagefurniture:chandelier_redstone_aquarium"
+    },
+    "metal=bismuth": {
+      "model": "ironagefurniture:chandelier_redstone_bismuth"
+    },
+    "metal=brass": {
+      "model": "ironagefurniture:chandelier_redstone_brass"
+    },
+    "metal=bronze": {
+      "model": "ironagefurniture:chandelier_redstone_bronze"
+    },
+    "metal=coldiron": {
+      "model": "ironagefurniture:chandelier_redstone_coldiron"
+    },
+    "metal=copper": {
+      "model": "ironagefurniture:chandelier_redstone_copper"
+    },
+    "metal=cupronickel": {
+      "model": "ironagefurniture:chandelier_redstone_cupronickel"
+    },
+    "metal=electrum": {
+      "model": "ironagefurniture:chandelier_redstone_electrum"
+    },
+    "metal=invar": {
+      "model": "ironagefurniture:chandelier_redstone_invar"
+    },
+    "metal=lead": {
+      "model": "ironagefurniture:chandelier_redstone_lead"
+    },
+    "metal=mithril": {
+      "model": "ironagefurniture:chandelier_redstone_mithril"
+    },
+    "metal=nickel": {
+      "model": "ironagefurniture:chandelier_redstone_nickel"
+    },
+    "metal=pewter": {
+      "model": "ironagefurniture:chandelier_redstone_pewter"
+    },
+    "metal=platinum": {
+      "model": "ironagefurniture:chandelier_redstone_platinum"
+    },
+    "metal=silver": {
+      "model": "ironagefurniture:chandelier_redstone_silver"
+    },
+    "metal=starsteel": {
+      "model": "ironagefurniture:chandelier_redstone_starsteel"
+    },
+    "metal=steel": {
+      "model": "ironagefurniture:chandelier_redstone_steel"
+    },
+    "metal=tin": {
+      "model": "ironagefurniture:chandelier_redstone_tin"
+    },
+    "metal=zinc": {
+      "model": "ironagefurniture:chandelier_redstone_zinc"
+    }
   }
 }

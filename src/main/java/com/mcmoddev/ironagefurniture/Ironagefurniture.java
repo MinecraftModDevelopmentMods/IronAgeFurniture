@@ -5,10 +5,12 @@ import java.util.Map;
 
 import com.mcmoddev.ironagefurniture.api.CreativeModeBreakTracker;
 import com.mcmoddev.ironagefurniture.api.DiningTableSurfaceInteractionHandler;
-import com.mcmoddev.ironagefurniture.api.entity.Seat;
+import com.mcmoddev.ironagefurniture.api.entity.EntityFallingMetalBlock;
 import com.mcmoddev.ironagefurniture.api.entity.EntityThrownLavaLamp;
+import com.mcmoddev.ironagefurniture.api.entity.Seat;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityDiningTable;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityGlassVase;
+import com.mcmoddev.ironagefurniture.api.tile.TileEntityMetalVariant;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityWallShelf;
 import com.mcmoddev.ironagefurniture.init.BlockInitialiser;
 import com.mcmoddev.ironagefurniture.init.ClientRenderInitialiser;
@@ -67,9 +69,14 @@ public class Ironagefurniture
     	GameRegistry.registerTileEntity(TileEntityDiningTable.class, MODID + ":table_dining");
 		GameRegistry.registerTileEntity(TileEntityGlassVase.class, MODID + ":ornament_glass_vase");
 		GameRegistry.registerTileEntity(TileEntityWallShelf.class, MODID + ":shelf_wall");
+		GameRegistry.registerTileEntity(TileEntityMetalVariant.class, MODID + ":metal_variant");
     	EntityRegistry.registerModEntity(Seat.class, MODID + ":seat", 0, this, 80, 1, false);
 		if (BlockObjectHolder.light_metal_ironage_block_floor_lava_clear != null) {
 			EntityRegistry.registerModEntity(EntityThrownLavaLamp.class, MODID + ":thrown_lava_lamp", 1, this, 64, 10, true);
+		}
+		if (hasChandelierBlocks()) {
+			EntityRegistry.registerModEntity(EntityFallingMetalBlock.class,
+				MODID + ":falling_metal_block", 2, this, 160, 20, true);
 		}
     	
     	RecipeInitialiser.init();
@@ -84,10 +91,16 @@ public class Ironagefurniture
     	BlockInitialiser.init();
 		if(event.getSide().isClient()) {
 			ItemInitialiser.RegisterItemModels();
-		}
-		if(event.getSide().isClient() && BlockObjectHolder.light_metal_ironage_block_floor_lava_clear != null) {
 			ClientRenderInitialiser.RegisterEntityRenderers();
 		}
     	
     }
+
+	private static boolean hasChandelierBlocks() {
+		return BlockObjectHolder.chandelier_candle != null
+			|| BlockObjectHolder.chandelier_torch != null
+			|| BlockObjectHolder.chandelier_glowstone != null
+			|| BlockObjectHolder.chandelier_lava != null
+			|| BlockObjectHolder.chandelier_redstone != null;
+	}
 }

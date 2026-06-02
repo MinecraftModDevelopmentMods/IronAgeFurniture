@@ -9,6 +9,8 @@ import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 import com.mcmoddev.ironagefurniture.IronAgeFurnitureConfiguration;
 import com.mcmoddev.ironagefurniture.ItemObjectHolder;
 import com.mcmoddev.ironagefurniture.api.FurnitureFactory;
+import com.mcmoddev.ironagefurniture.api.MetalVariantHelper;
+import com.mcmoddev.ironagefurniture.api.MetalVariantHelper.MetalVariant;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -17,6 +19,7 @@ import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
@@ -43,9 +46,17 @@ public class RecipeInitialiser {
 			return;
 		}
 
+		if (isBaseMetalsLoaded()) {
+			return;
+		}
+
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ItemObjectHolder.iron_nugget, 9), "ingotIron"));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Items.IRON_INGOT, 1),
 			"xxx", "xxx", "xxx", 'x', "nuggetIron"));
+	}
+
+	private static boolean isBaseMetalsLoaded() {
+		return Loader.isModLoaded("basemetals");
 	}
 
 	private static void generateOrnamentRecipes() {
@@ -230,7 +241,7 @@ public class RecipeInitialiser {
 		}
 
 		if (IronAgeFurnitureConfiguration.GENERATE_SCONCES) {
-			FurnitureFactory.AddIronSconceRecipe(BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron);
+			generateSconceRecipes();
 		}
 		if (IronAgeFurnitureConfiguration.GENERATE_CANDLES) {
 			GameRegistry.addSmelting(Items.COOKED_PORKCHOP, new ItemStack(ItemObjectHolder.tallow, 3), 0.1F);
@@ -243,8 +254,7 @@ public class RecipeInitialiser {
 				new ItemStack(ItemObjectHolder.tallow, 1), Items.STRING));
 		}
 		if (IronAgeFurnitureConfiguration.GENERATE_CHAINS) {
-			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockObjectHolder.chain_top, 3),
-				Blocks.IRON_BARS));
+			generateChainRecipes();
 		}
 		if (IronAgeFurnitureConfiguration.GENERATE_GLOW_LAMPS) {
 			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockObjectHolder.light_metal_ironage_block_floor_glow_clear, 1),
@@ -266,24 +276,74 @@ public class RecipeInitialiser {
 	}
 
 	private static void generateChandelierRecipes() {
-		if (IronAgeFurnitureConfiguration.GENERATE_CANDLES) {
-			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockObjectHolder.chandelier_candle, 1),
-				"x x", " y ", "x x", 'x', BlockObjectHolder.light_metal_ironage_candle_floor, 'y', Items.IRON_INGOT));
+		for (MetalVariant metal : MetalVariantHelper.getAvailableVariants()) {
+			String ingot = metal.getIngotOreName();
+
+			if (IronAgeFurnitureConfiguration.GENERATE_CANDLES) {
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockObjectHolder.chandelier_candle, 1,
+					metal.getMeta()), "x x", " y ", "x x", 'x', BlockObjectHolder.light_metal_ironage_candle_floor,
+					'y', ingot));
+			}
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockObjectHolder.chandelier_torch, 1,
+				metal.getMeta()), "x x", " y ", "x x", 'x', Blocks.TORCH, 'y', ingot));
+			if (IronAgeFurnitureConfiguration.GENERATE_GLOW_LAMPS) {
+				GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockObjectHolder.chandelier_glowstone, 1,
+					metal.getMeta()), BlockObjectHolder.light_metal_ironage_block_floor_glow_clear, ingot));
+			}
+			if (IronAgeFurnitureConfiguration.GENERATE_LAVA_LAMPS) {
+				GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockObjectHolder.chandelier_lava, 1,
+					metal.getMeta()), BlockObjectHolder.light_metal_ironage_block_floor_lava_clear, ingot));
+			}
+			if (IronAgeFurnitureConfiguration.GENERATE_REDSTONE_LAMPS) {
+				GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockObjectHolder.chandelier_redstone, 1,
+					metal.getMeta()), BlockObjectHolder.light_metal_ironage_block_floor_red_clear, ingot));
+			}
 		}
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockObjectHolder.chandelier_torch, 1),
-			"x x", " y ", "x x", 'x', Blocks.TORCH, 'y', Items.IRON_INGOT));
-		if (IronAgeFurnitureConfiguration.GENERATE_GLOW_LAMPS) {
-			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockObjectHolder.chandelier_glowstone, 1),
-				BlockObjectHolder.light_metal_ironage_block_floor_glow_clear, Items.IRON_INGOT));
+	}
+
+	private static void generateSconceRecipes() {
+		for (MetalVariant metal : MetalVariantHelper.getAvailableVariants()) {
+			Object nugget = getNuggetIngredient(metal);
+
+			if (nugget != null) {
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(
+					BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron, 4, metal.getMeta()),
+					"x", 'x', nugget));
+			}
 		}
-		if (IronAgeFurnitureConfiguration.GENERATE_LAVA_LAMPS) {
-			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockObjectHolder.chandelier_lava, 1),
-				BlockObjectHolder.light_metal_ironage_block_floor_lava_clear, Items.IRON_INGOT));
+	}
+
+	private static Object getNuggetIngredient(MetalVariant metal) {
+		if (metal == MetalVariant.GOLD) {
+			return Items.GOLD_NUGGET;
 		}
-		if (IronAgeFurnitureConfiguration.GENERATE_REDSTONE_LAMPS) {
-			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockObjectHolder.chandelier_redstone, 1),
-				BlockObjectHolder.light_metal_ironage_block_floor_red_clear, Items.IRON_INGOT));
+		if (hasOre(metal.getNuggetOreName())) {
+			return metal.getNuggetOreName();
 		}
+		return null;
+	}
+
+	private static void generateChainRecipes() {
+		for (MetalVariant metal : MetalVariantHelper.getAvailableVariants()) {
+			Object input;
+
+			if (metal == MetalVariant.IRON) {
+				input = Blocks.IRON_BARS;
+			} else if (hasOre(metal.getBarsOreName())) {
+				input = metal.getBarsOreName();
+			} else if (metal == MetalVariant.GOLD) {
+				input = metal.getIngotOreName();
+			} else {
+				continue;
+			}
+
+			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockObjectHolder.chain_top, 3,
+				metal.getMeta()), input));
+		}
+	}
+
+	private static boolean hasOre(String oreName) {
+		return OreDictionary.doesOreNameExist(oreName) && !OreDictionary.getOres(oreName).isEmpty();
 	}
 
 	

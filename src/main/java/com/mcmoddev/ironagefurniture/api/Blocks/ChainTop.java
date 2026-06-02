@@ -2,6 +2,9 @@ package com.mcmoddev.ironagefurniture.api.Blocks;
 
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 import com.mcmoddev.ironagefurniture.Ironagefurniture;
+import com.mcmoddev.ironagefurniture.api.MetalVariantHelper;
+import com.mcmoddev.ironagefurniture.api.MetalVariantHelper.MetalVariant;
+import com.mcmoddev.ironagefurniture.api.tile.TileEntityMetalVariant;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -10,11 +13,15 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import java.util.List;
+import com.google.common.collect.Lists;
 
 public class ChainTop extends Block {
     public static final PropertyInteger POWER = PropertyInteger.create("power", 0, 15);
@@ -30,7 +37,8 @@ public class ChainTop extends Block {
         this.blockResistance = resistance;
         this.blockHardness = hardness;
         this.setCreativeTab(Ironagefurniture.ironagefurnitureTab);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(POWER, Integer.valueOf(0)));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(POWER, Integer.valueOf(0))
+            .withProperty(MetalVariantHelper.METAL, MetalVariant.IRON));
     }
 
     @Override
@@ -45,7 +53,27 @@ public class ChainTop extends Block {
 
     @Override
     protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, new IProperty[] { POWER });
+        return new BlockStateContainer(this, new IProperty[] { POWER, MetalVariantHelper.METAL });
+    }
+
+    @Override
+    public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+        return MetalVariantHelper.withMetal(state, worldIn, pos);
+    }
+
+    @Override
+    public boolean hasTileEntity(IBlockState state) {
+        return true;
+    }
+
+    @Override
+    public TileEntity createTileEntity(World world, IBlockState state) {
+        return new TileEntityMetalVariant();
+    }
+
+    @Override
+    public float getBlockHardness(IBlockState blockState, World worldIn, BlockPos pos) {
+        return MetalVariantHelper.getHardness(worldIn, pos, this.blockHardness);
     }
 
     @Override
@@ -104,7 +132,8 @@ public class ChainTop extends Block {
         int nextPower = getPowerFromAbove(worldIn, pos);
 
         if (currentPower != nextPower) {
-            worldIn.setBlockState(pos, state.withProperty(POWER, Integer.valueOf(nextPower)), 3);
+            MetalVariantHelper.replaceBlockPreservingMetal(worldIn, pos,
+                state.withProperty(POWER, Integer.valueOf(nextPower)), 3);
             notifyPowerNeighbors(worldIn, pos);
         }
     }
@@ -126,7 +155,7 @@ public class ChainTop extends Block {
         int power = worldIn.getRedstonePower(abovePos, EnumFacing.UP);
 
         if (aboveState.getBlock() == BlockObjectHolder.chain_top && power > 0) {
-            power--;
+            power -= MetalVariantHelper.getMetal(worldIn, pos).getChainPowerLoss();
         }
 
         return Math.max(0, Math.min(15, power));
@@ -160,6 +189,11 @@ public class ChainTop extends Block {
     @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
         return AABB;
+    }
+
+    @Override
+    public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+        return Lists.newArrayList(MetalVariantHelper.getDrop(this, world, pos));
     }
 
     @Override

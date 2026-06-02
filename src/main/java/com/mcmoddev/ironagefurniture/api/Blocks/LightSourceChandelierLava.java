@@ -10,6 +10,7 @@ import java.util.WeakHashMap;
 import com.google.common.collect.Lists;
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 import com.mcmoddev.ironagefurniture.api.CreativeModeBreakTracker;
+import com.mcmoddev.ironagefurniture.api.MetalVariantHelper;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
@@ -20,7 +21,6 @@ import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Enchantments;
-import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -70,6 +70,7 @@ public class LightSourceChandelierLava extends LightSourceChandelierGlowstone {
 
     @Override
     protected void onStartFalling(EntityFallingBlock fallingEntity) {
+        super.onStartFalling(fallingEntity);
         fallingEntity.shouldDropItem = false;
 
         if (!fallingEntity.world.isRemote) {
@@ -86,6 +87,8 @@ public class LightSourceChandelierLava extends LightSourceChandelierGlowstone {
         if (worldIn.isRemote) {
             return;
         }
+
+        super.onEndFalling(worldIn, pos);
 
         if (CreativeModeBreakTracker.shouldSuppressFallingLavaBreak(worldIn, pos)) {
             consumeWaterLanding(worldIn, pos);
@@ -164,7 +167,7 @@ public class LightSourceChandelierLava extends LightSourceChandelierGlowstone {
 
     protected void breakIntoFire(World worldIn, BlockPos pos, EntityPlayer player) {
         worldIn.playSound(player, pos, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
-        dropSurvivingIron(worldIn, pos);
+        dropSurvivingMetal(worldIn, pos);
 
         BlockPos firePos = findFirePosition(worldIn, pos);
 
@@ -178,14 +181,14 @@ public class LightSourceChandelierLava extends LightSourceChandelierGlowstone {
 
     protected void breakIntoObsidianChunk(World worldIn, BlockPos pos, EntityPlayer player, EnumFacing facing) {
         playWaterBreakSounds(worldIn, pos, player);
-        dropSurvivingIron(worldIn, pos);
+        dropSurvivingMetal(worldIn, pos);
         worldIn.setBlockState(pos, BlockObjectHolder.obsidian_chunk.getDefaultState()
             .withProperty(BlockHBase.FACING, facing), 3);
     }
 
-    private void dropSurvivingIron(World worldIn, BlockPos pos) {
+    private void dropSurvivingMetal(World worldIn, BlockPos pos) {
         if (!worldIn.isRemote && worldIn.getGameRules().getBoolean("doTileDrops")) {
-            spawnAsEntity(worldIn, pos, new ItemStack(Items.IRON_INGOT, 1));
+            spawnAsEntity(worldIn, pos, MetalVariantHelper.getIngotStack(MetalVariantHelper.getMetal(worldIn, pos)));
         }
     }
 

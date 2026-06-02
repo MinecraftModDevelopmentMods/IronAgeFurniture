@@ -7,6 +7,7 @@ import java.util.WeakHashMap;
 
 import com.google.common.collect.Lists;
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
+import com.mcmoddev.ironagefurniture.api.MetalVariantHelper;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -72,7 +73,7 @@ public class LightSourceChandelierRedstone extends LightSourceChandelierGlowston
 
         if (signal != GetLightLevel()) {
             Block newBlock = getBlockBySignalLevel(signal);
-            worldIn.setBlockState(pos, newBlock.getDefaultState(), 3);
+            MetalVariantHelper.replaceBlockPreservingMetal(worldIn, pos, newBlock.getDefaultState(), 3);
             worldIn.scheduleUpdate(pos, worldIn.getBlockState(pos).getBlock(), tickRate(worldIn));
 
             if (isToggledTooFrequently(worldIn, pos, true)) {

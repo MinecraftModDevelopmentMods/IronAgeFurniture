@@ -6,6 +6,9 @@ import com.google.common.collect.Lists;
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 import com.mcmoddev.ironagefurniture.Ironagefurniture;
 import com.mcmoddev.ironagefurniture.api.Enumerations.Rotation;
+import com.mcmoddev.ironagefurniture.api.MetalVariantHelper;
+import com.mcmoddev.ironagefurniture.api.MetalVariantHelper.MetalVariant;
+import com.mcmoddev.ironagefurniture.api.tile.TileEntityMetalVariant;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -18,6 +21,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -64,7 +68,8 @@ public class LightHolderSconceFloor extends BlockHBase {
         this.blockResistance = resistance;
         this.blockHardness   = hardness;
         this.setCreativeTab(Ironagefurniture.ironagefurnitureTab);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH)
+        	.withProperty(MetalVariantHelper.METAL, MetalVariant.IRON));
 	}
 
 	@Override
@@ -82,7 +87,27 @@ public class LightHolderSconceFloor extends BlockHBase {
 	@Override
 	protected BlockStateContainer createBlockState()
 	{
-		return new BlockStateContainer(this, new IProperty[] { FACING });
+		return new BlockStateContainer(this, new IProperty[] { FACING, MetalVariantHelper.METAL });
+	}
+
+	@Override
+	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+		return MetalVariantHelper.withMetal(state, worldIn, pos);
+	}
+
+	@Override
+	public boolean hasTileEntity(IBlockState state) {
+		return true;
+	}
+
+	@Override
+	public TileEntity createTileEntity(World world, IBlockState state) {
+		return new TileEntityMetalVariant();
+	}
+
+	@Override
+	public float getBlockHardness(IBlockState blockState, World worldIn, BlockPos pos) {
+		return MetalVariantHelper.getHardness(worldIn, pos, this.blockHardness);
 	}
 	
 	private boolean canPlaceOn(World worldIn, BlockPos pos)
@@ -237,7 +262,8 @@ public class LightHolderSconceFloor extends BlockHBase {
 		}
 		
 		// replace the block, preserve facing
-		worldIn.setBlockState(pos, newBlock.getDefaultState().withProperty(FACING, state.getValue(FACING)), 3 /* UPDATE_ALL */);
+		MetalVariantHelper.replaceBlockPreservingMetal(worldIn, pos,
+			newBlock.getDefaultState().withProperty(FACING, state.getValue(FACING)), 3 /* UPDATE_ALL */);
 		
 		// consume one
 		if (!playerIn.capabilities.isCreativeMode) {
@@ -286,7 +312,8 @@ public class LightHolderSconceFloor extends BlockHBase {
 	    }
 
 	    if (newBlock != null) {
-	        worldIn.setBlockState(pos, newBlock.getDefaultState().withProperty(FACING, state.getValue(FACING)), 3 /* UPDATE_ALL */);
+	        MetalVariantHelper.replaceBlockPreservingMetal(worldIn, pos,
+	        	newBlock.getDefaultState().withProperty(FACING, state.getValue(FACING)), 3 /* UPDATE_ALL */);
 
 	        if (!playerIn.capabilities.isCreativeMode) {
 	            heldItem.stackSize--;
@@ -300,7 +327,7 @@ public class LightHolderSconceFloor extends BlockHBase {
 	 
 	 @Override
 	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-		 return Lists.newArrayList(new ItemStack(this));
+		 return Lists.newArrayList(MetalVariantHelper.getDrop(this, world, pos));
 	}
  
     protected Block GetWallVariant()		{ return BlockObjectHolder.light_metal_ironage_sconce_wall_empty_iron; }
