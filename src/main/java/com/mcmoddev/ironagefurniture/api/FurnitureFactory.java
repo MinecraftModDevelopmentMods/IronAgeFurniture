@@ -9,6 +9,7 @@ import com.mcmoddev.ironagefurniture.api.Blocks.ChainTop;
 import com.mcmoddev.ironagefurniture.api.Blocks.Chair;
 import com.mcmoddev.ironagefurniture.api.Blocks.DiningTable;
 import com.mcmoddev.ironagefurniture.api.Blocks.GlassVaseBlock;
+import com.mcmoddev.ironagefurniture.api.Blocks.GoldBars;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightHolderSconceFloor;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightHolderSconceWall;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceChandelierCandle;
@@ -74,7 +75,6 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
@@ -231,15 +231,6 @@ public class FurnitureFactory {
 		}
 	}
 
-	public static void AddIronSconceRecipe(Block sconce) {
-		if (sconce == null || !OreDictionary.doesOreNameExist("nuggetIron")
-			|| OreDictionary.getOres("nuggetIron").isEmpty()) {
-			return;
-		}
-
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(sconce, 4), "xxx", "x  ", "x  ", 'x', "nuggetIron"));
-	}
-	
 	public static Block CreateWoodShieldChair(String name, float resistance, float hardness) {
 		return registerBlock(new Chair(Material.WOOD, name, resistance, hardness), name);
 	}
@@ -611,6 +602,10 @@ public class FurnitureFactory {
 
 	public static Block CreateChainTop(String name, float resistance, float hardness) {
 		return registerBlock(new ChainTop(Material.IRON, name, resistance, hardness), name, 64);
+	}
+
+	public static Block CreateGoldBars(String name) {
+		return registerBlock(new GoldBars(), name, 64);
 	}
 
 	public static Block CreateCandleChandelier(String name) {

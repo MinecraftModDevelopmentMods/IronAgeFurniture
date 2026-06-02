@@ -21,6 +21,7 @@ public class BlockObjectHolder {
 	public static Block ornament_clay;
 	public static Block ornament_obsidian;
 	public static Block ornament_glass_vase;
+	public static Block gold_bars;
 
 	public static Block light_metal_ironage_sconce_floor_empty_iron;
 	public static Block light_metal_ironage_sconce_wall_empty_iron;

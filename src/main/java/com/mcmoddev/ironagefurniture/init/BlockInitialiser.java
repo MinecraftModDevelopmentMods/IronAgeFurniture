@@ -9,6 +9,7 @@ import com.mcmoddev.ironagefurniture.api.FurnitureFactory;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
@@ -33,8 +34,18 @@ public class BlockInitialiser {
 		generateSurfaceDisplayBlocker();
 		generateTables(); // and then he had somewhere civilized to put dinner.
 		generateShelves(); // and then he looked at the wall and saw useful empty space.
+		generateFallbackGoldBars();
 		generateLights(); // and then he saw that the vanilla torches were boring and said, let there be light!
 		generateOrnaments(); // and then the house finally started to look lived in.
+	}
+
+	private static void generateFallbackGoldBars() {
+		if (!IronAgeFurnitureConfiguration.GENERATE_LIGHTS || !IronAgeFurnitureConfiguration.GENERATE_CHAINS
+				|| Loader.isModLoaded("basemetals")) {
+			return;
+		}
+
+		BlockObjectHolder.gold_bars = FurnitureFactory.CreateGoldBars("gold_bars");
 	}
 
 	private static void generateOrnaments() {

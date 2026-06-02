@@ -37,6 +37,7 @@ public class RecipeInitialiser {
 		generateBedRecipes();
 		generateTableRecipes();
 		generateShelfRecipes();
+		generateGoldBarsRecipes();
 		generateLightRecipes();
 		generateOrnamentRecipes();
 	}
@@ -57,6 +58,17 @@ public class RecipeInitialiser {
 
 	private static boolean isBaseMetalsLoaded() {
 		return Loader.isModLoaded("basemetals");
+	}
+
+	private static void generateGoldBarsRecipes() {
+		if (BlockObjectHolder.gold_bars == null) {
+			return;
+		}
+
+		OreDictionary.registerOre("barsGold", new ItemStack(BlockObjectHolder.gold_bars));
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockObjectHolder.gold_bars, 16),
+			"xxx", "xxx", 'x', "ingotGold"));
 	}
 
 	private static void generateOrnamentRecipes() {
@@ -327,12 +339,10 @@ public class RecipeInitialiser {
 		for (MetalVariant metal : MetalVariantHelper.getAvailableVariants()) {
 			Object input;
 
-			if (metal == MetalVariant.IRON) {
-				input = Blocks.IRON_BARS;
-			} else if (hasOre(metal.getBarsOreName())) {
+			if (hasOre(metal.getBarsOreName()) || expectsExternalBarsProvider(metal)) {
 				input = metal.getBarsOreName();
-			} else if (metal == MetalVariant.GOLD) {
-				input = metal.getIngotOreName();
+			} else if (metal == MetalVariant.IRON) {
+				input = Blocks.IRON_BARS;
 			} else {
 				continue;
 			}
@@ -340,6 +350,16 @@ public class RecipeInitialiser {
 			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockObjectHolder.chain_top, 3,
 				metal.getMeta()), input));
 		}
+	}
+
+	private static boolean expectsExternalBarsProvider(MetalVariant metal) {
+		if (metal == MetalVariant.IRON) {
+			return false;
+		}
+		if (metal == MetalVariant.GOLD) {
+			return BlockObjectHolder.gold_bars != null || isBaseMetalsLoaded();
+		}
+		return isBaseMetalsLoaded();
 	}
 
 	private static boolean hasOre(String oreName) {
