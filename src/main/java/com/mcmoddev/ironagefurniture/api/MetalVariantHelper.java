@@ -61,6 +61,11 @@ public final class MetalVariantHelper {
 			return ((TileEntityMetalVariant)tileEntity).getMetal();
 		}
 
+		IBlockState state = world.getBlockState(pos);
+		if (state != null && state.getProperties().containsKey(METAL)) {
+			return state.getValue(METAL);
+		}
+
 		return MetalVariant.IRON;
 	}
 
@@ -84,13 +89,21 @@ public final class MetalVariantHelper {
 		return state;
 	}
 
+	public static IBlockState withMetal(IBlockState state, MetalVariant metal) {
+		if (state != null && state.getProperties().containsKey(METAL)) {
+			return state.withProperty(METAL, metal == null || !metal.isAvailable() ? MetalVariant.IRON : metal);
+		}
+
+		return state;
+	}
+
 	public static boolean replaceBlockPreservingMetal(World world, BlockPos pos, IBlockState newState) {
 		return replaceBlockPreservingMetal(world, pos, newState, 3);
 	}
 
 	public static boolean replaceBlockPreservingMetal(World world, BlockPos pos, IBlockState newState, int flags) {
 		MetalVariant metal = getMetal(world, pos);
-		boolean replaced = world.setBlockState(pos, newState, flags);
+		boolean replaced = world.setBlockState(pos, withMetal(newState, metal), flags);
 
 		if (replaced) {
 			setMetal(world, pos, metal);

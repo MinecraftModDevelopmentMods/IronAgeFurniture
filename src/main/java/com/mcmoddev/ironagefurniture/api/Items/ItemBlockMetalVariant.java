@@ -49,11 +49,14 @@ public class ItemBlockMetalVariant extends ItemBlock {
 	@Override
 	public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
 			EnumFacing side, float hitX, float hitY, float hitZ, IBlockState newState) {
-		if (!super.placeBlockAt(stack, player, world, pos, side, hitX, hitY, hitZ, newState)) {
+		MetalVariant metal = MetalVariant.byMeta(stack.getMetadata());
+
+		if (!super.placeBlockAt(stack, player, world, pos, side, hitX, hitY, hitZ,
+				MetalVariantHelper.withMetal(newState, metal))) {
 			return false;
 		}
 
-		MetalVariantHelper.setMetal(world, pos, MetalVariant.byMeta(stack.getMetadata()));
+		MetalVariantHelper.setMetal(world, pos, metal);
 		return true;
 	}
 

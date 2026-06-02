@@ -308,7 +308,7 @@ public class RecipeInitialiser {
 			if (nugget != null) {
 				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(
 					BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron, 4, metal.getMeta()),
-					"x", 'x', nugget));
+						"xxx", "x  ", "x  ", 'x', nugget));
 			}
 		}
 	}
