@@ -26,6 +26,7 @@ public class IronAgeFurnitureConfiguration {
 	public static boolean GENERATE_REDSTONE_LAMPS = true;
 	public static boolean GENERATE_CHAINS = true;
 	public static boolean GENERATE_CHANDELIERS = true;
+	public static boolean GENERATE_GRAND_CHANDELIERS = true;
 	public static boolean CFM_CONVERSION_RECIPES = true;
 	public static boolean INTEGRATION_BIOMESOPLENTY = true;
 	public static boolean INTEGRATION_NATURA = true;
@@ -68,7 +69,8 @@ public class IronAgeFurnitureConfiguration {
 		GENERATE_REDSTONE_LAMPS = config.getBoolean("GENERATE_REDSTONE_LAMPS", "options", GENERATE_REDSTONE_LAMPS, "If true, then redstone lamps and redstone lamp variants will be generated");
 		GENERATE_CHAINS = config.getBoolean("GENERATE_CHAINS", "options", GENERATE_CHAINS, "If true, then chain blocks will be generated");
 		GENERATE_CHANDELIERS = config.getBoolean("GENERATE_CHANDELIERS", "options", GENERATE_CHANDELIERS, "If true, then chandelier blocks will be generated");
-		
+		GENERATE_GRAND_CHANDELIERS = config.getBoolean("GENERATE_GRAND_CHANDELIERS", "options", GENERATE_GRAND_CHANDELIERS, "If true, then grand chandelier blocks will be generated");
+
 		CFM_CONVERSION_RECIPES = config.getBoolean("CFM_CONVERSION_RECIPES", "options", CFM_CONVERSION_RECIPES, "If true, recipes for converting chairs from Crayfish Furniture Mod will be added");
 		config.save();
 	}

@@ -110,6 +110,8 @@ public class BlockObjectHolder {
 	public static Block chandelier_redstone_thirteen;
 	public static Block chandelier_redstone_fourteen;
 	public static Block chandelier_redstone_fifteen;
+	public static Block chandelier_grand_hub;
+	public static Block chandelier_grand_sconce;
 
 	public static Block light_metal_ironage_sconce_floor_red_iron;
 	public static Block light_metal_ironage_sconce_floor_red_iron_one;

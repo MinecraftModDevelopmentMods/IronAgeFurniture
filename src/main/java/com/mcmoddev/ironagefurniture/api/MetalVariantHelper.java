@@ -7,6 +7,8 @@ import java.util.List;
 import com.google.common.base.Predicate;
 import com.mcmoddev.ironagefurniture.IronAgeFurnitureConfiguration;
 import com.mcmoddev.ironagefurniture.api.Blocks.ChainTop;
+import com.mcmoddev.ironagefurniture.api.Blocks.GrandChandelierHub;
+import com.mcmoddev.ironagefurniture.api.Blocks.GrandChandelierSconce;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityMetalVariant;
 
 import net.minecraft.block.Block;
@@ -167,7 +169,9 @@ public final class MetalVariantHelper {
 	public static boolean isMetalVariantBlock(Block block) {
 		return block instanceof ChainTop
 			|| block instanceof com.mcmoddev.ironagefurniture.api.Blocks.LightHolderSconceFloor
-			|| block instanceof com.mcmoddev.ironagefurniture.api.Blocks.LightSourceChandelierCandle;
+			|| block instanceof com.mcmoddev.ironagefurniture.api.Blocks.LightSourceChandelierCandle
+			|| block instanceof GrandChandelierHub
+			|| block instanceof GrandChandelierSconce;
 	}
 
 	public enum MetalVariant implements IStringSerializable {

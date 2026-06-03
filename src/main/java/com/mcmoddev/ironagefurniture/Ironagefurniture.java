@@ -10,6 +10,7 @@ import com.mcmoddev.ironagefurniture.api.entity.EntityThrownLavaLamp;
 import com.mcmoddev.ironagefurniture.api.entity.Seat;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityDiningTable;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityGlassVase;
+import com.mcmoddev.ironagefurniture.api.tile.TileEntityGrandChandelierSconce;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityMetalVariant;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityWallShelf;
 import com.mcmoddev.ironagefurniture.init.BlockInitialiser;
@@ -70,6 +71,7 @@ public class Ironagefurniture
 		GameRegistry.registerTileEntity(TileEntityGlassVase.class, MODID + ":ornament_glass_vase");
 		GameRegistry.registerTileEntity(TileEntityWallShelf.class, MODID + ":shelf_wall");
 		GameRegistry.registerTileEntity(TileEntityMetalVariant.class, MODID + ":metal_variant");
+		GameRegistry.registerTileEntity(TileEntityGrandChandelierSconce.class, MODID + ":chandelier_grand_sconce");
     	EntityRegistry.registerModEntity(Seat.class, MODID + ":seat", 0, this, 80, 1, false);
 		if (BlockObjectHolder.light_metal_ironage_block_floor_lava_clear != null) {
 			EntityRegistry.registerModEntity(EntityThrownLavaLamp.class, MODID + ":thrown_lava_lamp", 1, this, 64, 10, true);
@@ -101,6 +103,7 @@ public class Ironagefurniture
 			|| BlockObjectHolder.chandelier_torch != null
 			|| BlockObjectHolder.chandelier_glowstone != null
 			|| BlockObjectHolder.chandelier_lava != null
-			|| BlockObjectHolder.chandelier_redstone != null;
+			|| BlockObjectHolder.chandelier_redstone != null
+			|| BlockObjectHolder.chandelier_grand_hub != null;
 	}
 }

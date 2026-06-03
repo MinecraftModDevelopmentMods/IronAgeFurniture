@@ -276,6 +276,11 @@ public class BlockInitialiser {
 		if (IronAgeFurnitureConfiguration.GENERATE_REDSTONE_LAMPS) {
 			generateRedstoneChandeliers();
 		}
+		if (IronAgeFurnitureConfiguration.GENERATE_GRAND_CHANDELIERS
+				&& IronAgeFurnitureConfiguration.GENERATE_SCONCES) {
+			BlockObjectHolder.chandelier_grand_hub = FurnitureFactory.CreateGrandChandelierHub("chandelier_grand_hub");
+			BlockObjectHolder.chandelier_grand_sconce = FurnitureFactory.CreateGrandChandelierSconce("chandelier_grand_sconce");
+		}
 	}
 
 	private static void generateRedstoneChandeliers() {

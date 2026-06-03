@@ -10,6 +10,8 @@ import com.mcmoddev.ironagefurniture.api.Blocks.Chair;
 import com.mcmoddev.ironagefurniture.api.Blocks.DiningTable;
 import com.mcmoddev.ironagefurniture.api.Blocks.GlassVaseBlock;
 import com.mcmoddev.ironagefurniture.api.Blocks.GoldBars;
+import com.mcmoddev.ironagefurniture.api.Blocks.GrandChandelierHub;
+import com.mcmoddev.ironagefurniture.api.Blocks.GrandChandelierSconce;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightHolderSconceFloor;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightHolderSconceWall;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceChandelierCandle;
@@ -60,6 +62,7 @@ import com.mcmoddev.ironagefurniture.api.Blocks.ThroneChair;
 import com.mcmoddev.ironagefurniture.api.Blocks.WallShelf;
 import com.mcmoddev.ironagefurniture.api.Blocks.WingbackChair;
 import com.mcmoddev.ironagefurniture.api.Items.ItemBlockGlassVase;
+import com.mcmoddev.ironagefurniture.api.Items.ItemBlockGrandChandelier;
 import com.mcmoddev.ironagefurniture.api.Items.ItemBlockMetalVariant;
 import com.mcmoddev.ironagefurniture.api.Items.ItemBlockOrnament;
 import com.mcmoddev.ironagefurniture.api.Items.ItemBlockThrowableLavaLamp;
@@ -668,6 +671,22 @@ public class FurnitureFactory {
 		return registerBlock(new LightSourceChandelierRedstone(Material.GLASS, name, resistance, hardness, lightLevel), name, 64, registerItem);
 	}
 
+	public static Block CreateGrandChandelierHub(String name) {
+		return CreateGrandChandelierHub(name, 50, 5);
+	}
+
+	public static Block CreateGrandChandelierHub(String name, float resistance, float hardness) {
+		return registerBlock(new GrandChandelierHub(Material.IRON, name, resistance, hardness), name, 16);
+	}
+
+	public static Block CreateGrandChandelierSconce(String name) {
+		return CreateGrandChandelierSconce(name, 50, 5);
+	}
+
+	public static Block CreateGrandChandelierSconce(String name, float resistance, float hardness) {
+		return registerBlockWithoutItem(new GrandChandelierSconce(Material.IRON, name, resistance, hardness), name);
+	}
+
 	public static Block CreateCandleWall(String name) {
 		return CreateCandleWall(name, 1, 0.1F);
 	}
@@ -744,6 +763,7 @@ public class FurnitureFactory {
 			ItemBlock itemBlock = block instanceof GlassVaseBlock ? new ItemBlockGlassVase(block)
 				: block instanceof OrnamentBlock ? new ItemBlockOrnament(block)
 				: block instanceof WallShelf ? new ItemBlockWallShelf(block)
+				: block instanceof GrandChandelierHub ? new ItemBlockGrandChandelier(block)
 				: MetalVariantHelper.isMetalVariantBlock(block) ? new ItemBlockMetalVariant(block)
 				: block instanceof LightSourceLava ? new ItemBlockThrowableLavaLamp(block) : new ItemBlock(block);
 			itemBlock.setMaxStackSize(maxStackSize);

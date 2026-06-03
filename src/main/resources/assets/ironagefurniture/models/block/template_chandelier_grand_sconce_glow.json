@@ -1,0 +1,229 @@
+{
+	"format_version": "1.21.11",
+	"credit": "By FoxNekitsune",
+	"ambientocclusion": false,
+	"elements": [
+		{
+			"name": "arm_core",
+			"from": [7, 7, 6.75],
+			"to": [9, 9, 16],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"east": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#metal"}
+			}
+		},
+		{
+			"name": "lower_arm_rib",
+			"from": [7.5, 5.5, 6.75],
+			"to": [8.5, 7, 16],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"east": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#metal"}
+			}
+		},
+		{
+			"name": "outer_ring_back_top",
+			"from": [5.5, 6.25, 5.2],
+			"to": [10.5, 8, 6],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"east": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#metal"}
+			}
+		},
+		{
+			"name": "hanging_back_strap",
+			"from": [7.25, 0.5, 5.8],
+			"to": [8.75, 9.5, 7],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"east": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#metal"}
+			}
+		},
+		{
+			"name": "lamp_glass_body",
+			"from": [5.75, 1, 0.55],
+			"to": [10.25, 5.5, 5.05],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#glass"},
+				"east": {"uv": [0, 0, 16, 16], "texture": "#glass"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#glass"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#glass"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#glass"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#glass"}
+			}
+		},
+		{
+			"name": "lamp_glass_neck",
+			"from": [6.75, 5.5, 1.55],
+			"to": [9.25, 7.7, 4.05],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#glass"},
+				"east": {"uv": [0, 0, 16, 16], "texture": "#glass"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#glass"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#glass"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#glass"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#glass"}
+			}
+		},
+		{
+			"name": "lamp_contents_body",
+			"from": [6.25, 1.65, 1.05],
+			"to": [9.75, 4.6, 4.55],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#glow"},
+				"east": {"uv": [0, 0, 16, 16], "texture": "#glow"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#glow"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#glow"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#glow"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#glow"}
+			}
+		},
+		{
+			"name": "lamp_contents_neck",
+			"from": [7.1, 4.35, 1.9],
+			"to": [8.9, 5.25, 3.7],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#glow"},
+				"east": {"uv": [0, 0, 16, 16], "texture": "#glow"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#glow"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#glow"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#glow"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#glow"}
+			}
+		},
+		{
+			"name": "lamp_bottom_ring_front",
+			"from": [5.45, 0.45, 0.35],
+			"to": [10.55, 1.1, 0.95],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"east": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#metal"}
+			}
+		},
+		{
+			"name": "lamp_bottom_ring_back",
+			"from": [5.45, 0.45, 4.65],
+			"to": [10.55, 1.1, 5.25],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"east": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#metal"}
+			}
+		},
+		{
+			"name": "lamp_bottom_ring_left",
+			"from": [5.45, 0.45, 0.35],
+			"to": [6.05, 1.1, 5.25],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"east": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#metal"}
+			}
+		},
+		{
+			"name": "lamp_bottom_ring_right",
+			"from": [9.95, 0.45, 0.35],
+			"to": [10.55, 1.1, 5.25],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"east": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#metal"}
+			}
+		},
+		{
+			"name": "lamp_top_ring_front",
+			"from": [5.55, 7.35, 0.35],
+			"to": [10.45, 8.15, 0.95],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"east": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#metal"}
+			}
+		},
+		{
+			"name": "lamp_top_ring_back",
+			"from": [5.55, 7.35, 4.65],
+			"to": [10.45, 8.15, 5.25],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"east": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#metal"}
+			}
+		},
+		{
+			"name": "lamp_top_ring_left",
+			"from": [5.55, 7.35, 0.35],
+			"to": [6.15, 8.15, 5.25],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"east": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#metal"}
+			}
+		},
+		{
+			"name": "lamp_top_ring_right",
+			"from": [9.85, 7.35, 0.35],
+			"to": [10.45, 8.15, 5.25],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"east": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#metal"}
+			}
+		},
+		{
+			"name": "lamp_front_bail",
+			"from": [7.25, 0, 5.25],
+			"to": [8.75, 1.5, 5.8],
+			"rotation": {"angle": 0, "axis": "y", "origin": [0, -6, 5]},
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"east": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#metal"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#metal"}
+			}
+		}
+	]
+}

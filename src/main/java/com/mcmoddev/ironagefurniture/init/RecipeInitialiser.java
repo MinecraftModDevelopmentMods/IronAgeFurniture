@@ -310,6 +310,15 @@ public class RecipeInitialiser {
 				GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BlockObjectHolder.chandelier_redstone, 1,
 					metal.getMeta()), BlockObjectHolder.light_metal_ironage_block_floor_red_clear, ingot));
 			}
+			if (IronAgeFurnitureConfiguration.GENERATE_GRAND_CHANDELIERS
+					&& IronAgeFurnitureConfiguration.GENERATE_SCONCES
+					&& BlockObjectHolder.chandelier_grand_hub != null) {
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockObjectHolder.chandelier_grand_hub, 1,
+					metal.getMeta()), " x ", "xyx", " x ",
+					'x', new ItemStack(BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron, 1,
+						metal.getMeta()),
+					'y', ingot));
+			}
 		}
 	}
 
