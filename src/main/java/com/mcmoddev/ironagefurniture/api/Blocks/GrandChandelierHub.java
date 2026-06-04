@@ -1,6 +1,8 @@
 package com.mcmoddev.ironagefurniture.api.Blocks;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.google.common.collect.Lists;
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
@@ -38,6 +40,7 @@ public class GrandChandelierHub extends BlockFalling implements ITileEntityProvi
 	public static final PropertyInteger POWER = PropertyInteger.create("power", 0, 15);
 	private static final AxisAlignedBB HUB_AABB = new AxisAlignedBB(5.0D / 16.0D, 1.0D / 16.0D, 5.0D / 16.0D,
 		11.0D / 16.0D, 12.0D / 16.0D, 11.0D / 16.0D);
+	private static final Set<BlockPos> fallingSources = new HashSet<BlockPos>();
 	private static boolean removingStructure;
 
 	private final float baseResistance;
@@ -224,7 +227,7 @@ public class GrandChandelierHub extends BlockFalling implements ITileEntityProvi
 	public static void breakStructureFromPart(World world, BlockPos partPos, IBlockState partState, EntityPlayer player) {
 		BlockPos hubPos = findHub(world, partPos, partState);
 		if (hubPos != null) {
-			((GrandChandelierHub)BlockObjectHolder.chandelier_grand_hub).breakStructure(world, hubPos, player, true);
+			((GrandChandelierHub)BlockObjectHolder.chandelier_grand_hub).breakStructure(world, hubPos, player, false);
 		}
 	}
 
@@ -238,6 +241,7 @@ public class GrandChandelierHub extends BlockFalling implements ITileEntityProvi
 			MetalVariant metal = MetalVariantHelper.getMetal(world, hubPos);
 			int power = getHubPower(world, hubPos);
 			boolean creative = player != null && player.capabilities.isCreativeMode;
+			boolean shouldTryFalling = startFalling && !creative && canStartFalling(world, hubPos);
 			List<BlockPos> armPositions = Lists.newArrayList();
 			List<GrandChandelierLight> armLights = Lists.newArrayList();
 
@@ -250,7 +254,9 @@ public class GrandChandelierHub extends BlockFalling implements ITileEntityProvi
 			for (BlockPos armPos : armPositions) {
 				world.setBlockToAir(armPos);
 			}
-			world.setBlockToAir(hubPos);
+			if (!shouldTryFalling) {
+				world.setBlockToAir(hubPos);
+			}
 
 			for (int i = 0; i < armPositions.size(); i++) {
 				releaseArmLight(world, armPositions.get(i), armLights.get(i), !creative);
@@ -260,9 +266,15 @@ public class GrandChandelierHub extends BlockFalling implements ITileEntityProvi
 				return;
 			}
 
-			if (startFalling) {
-				spawnFallingHub(world, hubPos, metal, power);
-			} else if (world.getGameRules().getBoolean("doTileDrops")) {
+			if (shouldTryFalling && spawnFallingHub(world, hubPos, metal, power)) {
+				return;
+			}
+
+			if (shouldTryFalling) {
+				world.setBlockToAir(hubPos);
+			}
+
+			if (world.getGameRules().getBoolean("doTileDrops")) {
 				spawnAsEntity(world, hubPos, MetalVariantHelper.getDrop(BlockObjectHolder.chandelier_grand_hub, metal, 1));
 			}
 		} finally {
@@ -270,14 +282,26 @@ public class GrandChandelierHub extends BlockFalling implements ITileEntityProvi
 		}
 	}
 
-	private void spawnFallingHub(World world, BlockPos hubPos, MetalVariant metal, int power) {
+	private static boolean canStartFalling(World world, BlockPos hubPos) {
+		return BlockFalling.canFallThrough(world.getBlockState(hubPos.down()));
+	}
+
+	private boolean spawnFallingHub(World world, BlockPos hubPos, MetalVariant metal, int power) {
 		IBlockState fallingState = MetalVariantHelper.withMetal(this.getDefaultState()
 			.withProperty(POWER, Integer.valueOf(power)), metal);
 		EntityFallingMetalBlock falling = new EntityFallingMetalBlock(world,
 			hubPos.getX() + 0.5D, hubPos.getY(), hubPos.getZ() + 0.5D, fallingState);
 		falling.tileEntityData = new NBTTagCompound();
 		falling.tileEntityData.setString("Metal", metal.getName());
-		world.spawnEntity(falling);
+		BlockPos sourcePos = new BlockPos(hubPos);
+		fallingSources.add(sourcePos);
+
+		if (world.spawnEntity(falling)) {
+			return true;
+		}
+
+		fallingSources.remove(sourcePos);
+		return false;
 	}
 
 	private static GrandChandelierLight getArmLight(World world, BlockPos armPos) {
@@ -310,16 +334,26 @@ public class GrandChandelierHub extends BlockFalling implements ITileEntityProvi
 	@Override
 	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
 		if (!world.isRemote && !removingStructure) {
-			breakStructure(world, pos, player, true);
+			breakStructure(world, pos, player, false);
 			return true;
 		}
 		return super.removedByPlayer(state, world, pos, player, willHarvest);
 	}
 
 	@Override
+	public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te,
+			ItemStack stack) {
+		// The structure teardown handles the one visible drop while preserving TE-backed metal.
+	}
+
+	@Override
 	public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+		if (!worldIn.isRemote && state.getBlock() == this && fallingSources.remove(pos)) {
+			super.breakBlock(worldIn, pos, state);
+			return;
+		}
 		if (!worldIn.isRemote && !removingStructure && state.getBlock() == this) {
-			breakStructure(worldIn, pos, null, true);
+			breakStructure(worldIn, pos, null, false);
 			return;
 		}
 		super.breakBlock(worldIn, pos, state);
@@ -341,8 +375,12 @@ public class GrandChandelierHub extends BlockFalling implements ITileEntityProvi
 			return;
 		}
 
-		if (!isCompleteStructure(worldIn, pos)
-				|| (!canHangFrom(worldIn, pos.up()) && BlockFalling.canFallThrough(worldIn.getBlockState(pos.down())))) {
+		if (!isCompleteStructure(worldIn, pos)) {
+			breakStructure(worldIn, pos, null, false);
+			return;
+		}
+
+		if (!canHangFrom(worldIn, pos.up())) {
 			breakStructure(worldIn, pos, null, true);
 			return;
 		}
