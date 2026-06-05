@@ -1,5 +1,8 @@
 package com.mcmoddev.ironagefurniture.client.render;
 
+import java.util.Locale;
+
+import com.mcmoddev.ironagefurniture.IronAgeFurnitureConfiguration;
 import com.mcmoddev.ironagefurniture.api.Items.ItemBlockGlassVase;
 import com.mcmoddev.ironagefurniture.api.Items.ItemBlockOrnament;
 import com.mcmoddev.ironagefurniture.api.VasePlantHelper;
@@ -9,14 +12,31 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemRecord;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.Loader;
 
 import org.lwjgl.opengl.GL11;
 
 public final class SurfaceDisplayRenderHelper {
+	private static final String HARVESTCRAFT_MODID = "harvestcraft";
+	private static ResourceLocation whiteSurfaceTexture;
+
+	private enum FoodRenderKind {
+		NONE,
+		BOWL,
+		DRINK,
+		JAR,
+		PLATE,
+		SNACK,
+		INGREDIENT
+	}
+
 	private SurfaceDisplayRenderHelper() {
 	}
 
@@ -29,6 +49,14 @@ public final class SurfaceDisplayRenderHelper {
 		if (isOrnament(itemStack)) {
 			renderOrnament(itemStack, x, y, z, itemX, itemZ, blockSurfaceY, yaw);
 			renderVasePlant(itemStack, x, y, z, itemX, itemZ, blockSurfaceY, yaw);
+			return true;
+		}
+
+		String harvestCraftItemName = getHarvestCraftItemName(itemStack);
+		FoodRenderKind harvestCraftFood = getHarvestCraftFoodRenderKind(harvestCraftItemName);
+		if (harvestCraftFood != FoodRenderKind.NONE) {
+			renderHarvestCraftFood(harvestCraftItemName, harvestCraftFood, x, y, z, itemX, itemZ,
+				blockSurfaceY, yaw);
 			return true;
 		}
 
@@ -109,6 +137,1710 @@ public final class SurfaceDisplayRenderHelper {
 	private static boolean isOrnament(ItemStack itemStack) {
 		return itemStack.getItem() instanceof ItemBlockOrnament
 			|| itemStack.getItem() instanceof ItemBlockGlassVase;
+	}
+
+	private static String getHarvestCraftItemName(ItemStack itemStack) {
+		ResourceLocation registryName = itemStack.getItem().getRegistryName();
+		if (registryName == null || !HARVESTCRAFT_MODID.equals(registryName.getResourceDomain())) {
+			return null;
+		}
+
+		if (!IronAgeFurnitureConfiguration.INTEGRATION_HARVESTCRAFT
+				|| !Loader.isModLoaded(HARVESTCRAFT_MODID)) {
+			return null;
+		}
+
+		String itemName = registryName.getResourcePath().toLowerCase(Locale.ROOT);
+		if (itemStack.getItem() instanceof ItemFood || isHarvestCraftSurfaceItemName(itemName)) {
+			return itemName;
+		}
+
+		return null;
+	}
+
+	private static FoodRenderKind getHarvestCraftFoodRenderKind(String itemName) {
+		if (itemName == null) {
+			return FoodRenderKind.NONE;
+		}
+
+		if (isDrinkFoodName(itemName)) {
+			return FoodRenderKind.DRINK;
+		}
+
+		if (isJarFoodName(itemName)) {
+			return FoodRenderKind.JAR;
+		}
+
+		if (isBowlFoodName(itemName)) {
+			return FoodRenderKind.BOWL;
+		}
+
+		if (isLooseSnackFoodName(itemName)) {
+			return FoodRenderKind.SNACK;
+		}
+
+		if (isRawIngredientName(itemName)) {
+			return FoodRenderKind.INGREDIENT;
+		}
+
+		if (isPlateFoodName(itemName)) {
+			return FoodRenderKind.PLATE;
+		}
+
+		if (isSnackFoodName(itemName)) {
+			return FoodRenderKind.SNACK;
+		}
+
+		if (isIngredientFoodName(itemName)) {
+			return FoodRenderKind.INGREDIENT;
+		}
+
+		return FoodRenderKind.NONE;
+	}
+
+	private static boolean isDrinkFoodName(String itemName) {
+		if (containsAny(itemName, "coffeebean", "coffeeseed")) {
+			return false;
+		}
+
+		return containsAny(itemName, "juice", "smoothie", "coffee", "soda", "cider", "milkshake",
+			"hotchocolate", "eggnog", "lemonade", "lemonaide", "limeade", "freshmilk",
+			"coconutmilk", "soymilk", "freshwater", "bubblywater", "energydrink", "fruitpunch",
+			"ironbrew", "espresso", "chocolatemilk", "pinacolada")
+			|| itemName.contains("teaitem")
+			|| isBottleIngredientName(itemName);
+	}
+
+	private static boolean isBowlFoodName(String itemName) {
+		if (containsAny(itemName, "burger", "chilichocolate", "poppers", "biscuitsandgravy",
+				"lambwithmintsauce", "sardinesinhotsauce")) {
+			return false;
+		}
+
+		if (containsAny(itemName, "oatmeal", "porridge", "cereal", "museli")) {
+			return true;
+		}
+
+		if (containsAny(itemName, "flour", "powder", "spice", "pepper", "cinnamon", "nutmeg",
+				"salt", "sugar", "masala", "fivespice", "curryleaf")) {
+			return false;
+		}
+
+		return containsAny(itemName, "soup", "stew", "curry", "gumbo", "jambalaya", "chili",
+			"borscht", "noodle", "ramen", "pho", "oatmeal", "porridge", "cereal", "salad",
+			"grits", "risotto", "macncheese", "beansandrice", "friedrice", "ricepudding",
+			"sauce", "dip", "dressing", "ketchup", "gravy", "guacamole", "hummus", "coleslaw",
+			"kimchi", "yogurt", "icecream", "custard", "creamitem", "creamedcorn",
+			"steamedrice", "dhal", "museli", "refriedbeans", "salsa", "stock", "vindaloo",
+			"tikkamasala");
+	}
+
+	private static boolean isPlateFoodName(String itemName) {
+		if (itemName.contains("cornmeal")) {
+			return false;
+		}
+
+		return containsAny(itemName, "pizza", "burger", "sandwich", "toast", "taco", "burrito",
+			"quesadilla", "waffle", "pancake", "fries", "chips", "sushi", "roll", "dumpling",
+			"springroll", "pie", "cake", "cookie", "donut", "brownie", "muffin", "cupcake",
+			"cracker", "pretzel", "biscuit", "bread", "pasta", "spaghetti", "lasagna",
+			"potpie", "quiche", "omelet", "omelette", "hash", "jerky", "sausage", "bacon",
+			"ham", "steak", "roast", "chicken", "beef", "pork", "calamari", "shrimp", "crab",
+			"lobster", "mutton", "turkey", "meat", "meal", "breakfast", "lunch", "dinner",
+			"baked", "butteredpotato", "mashedpotato", "mashedpotatoes", "roastpotatoes",
+			"mashedsweetpotatoes", "potatocakes", "potatoandcheesepirogi", "tunapotato",
+			"candiedsweetpotatoes", "sweetpotatosouffle", "fritter", "cobbler", "baritem",
+			"baklava", "bananasplit",
+			"bangersandmash", "beansontoast", "blt", "cornonthecob", "futomaki", "dimsum",
+			"footlong", "hotdog", "hotwings", "kebab", "wrap", "skewers", "pasty", "wellington",
+			"macitem", "parmitem", "porkchop", "ribs", "wings", "fajita", "nachos", "tostada",
+			"enchilada", "empanada", "salisburysteak", "fishsticks", "jaffa", "lamington",
+			"stirfry", "steamed", "grilled", "stuffed", "glazed", "herbbutter", "crumble",
+			"trifle", "pudding", "tart", "snaps", "caramelapple", "candiedginger",
+			"celeryandpeanutbutter", "veggiestrips", "strips", "braised", "charsiu",
+			"chorizo", "cooked", "croissant", "damper", "fried", "bun", "lemonmeringue",
+			"manjuu", "marinated", "mochi", "naan", "nachoes", "paneer", "pavlova",
+			"pbandj", "pickled", "poached", "poutine", "scone", "patties", "sesameball",
+			"spagetti", "spicebun", "spicygreens", "suadero", "summersquash",
+			"sweetpickle", "toadinthehole", "tortilla", "mcpam", "lamb", "candied",
+			"okracreole", "peasandcelery", "pepperoni", "timtam", "zestyzucchini",
+			"zeppole", "zucchinibake", "poppers", "sardinesinhotsauce", "platter");
+	}
+
+	private static boolean isJarFoodName(String itemName) {
+		return itemName.endsWith("jellyitem")
+			|| itemName.endsWith("chutneyitem")
+			|| equalsAny(itemName, "almondbutteritem", "cashewbutteritem", "chestnutbutteritem",
+				"peanutbutteritem", "pistachiobutteritem", "honeyitem", "royaljellyitem",
+				"caramelitem", "mayoitem", "mustarditem", "nutellaitem", "vegemiteitem");
+	}
+
+	private static boolean isBottleIngredientName(String itemName) {
+		return itemName.endsWith("syrupitem")
+			|| equalsAny(itemName, "oliveoilitem", "sesameoilitem", "vinegaritem", "soysauceitem",
+				"hotsauceitem", "hoisinsauceitem", "saladdressingitem", "sweetandsoursauceitem");
+	}
+
+	private static boolean isBottleDrinkShapeName(String itemName) {
+		return containsAny(itemName, "soda", "cola", "rootbeer", "cider")
+			|| isBottleIngredientName(itemName);
+	}
+
+	private static boolean isPotatoPlateFoodName(String itemName) {
+		return containsAny(itemName, "bakedsweetpotato", "loadedbakedpotato", "scallionbakedpotato",
+			"butteredpotato", "tunapotato", "roastpotatoes", "candiedsweetpotatoes",
+			"mashedpotatoes", "garlicmashedpotatoes", "mashedsweetpotatoes", "potatocakes",
+			"potatoandcheesepirogi", "poutine", "sweetpotatosouffle", "bakedturnips");
+	}
+
+	private static boolean isSnackFoodName(String itemName) {
+		if (itemName.contains("waterchestnut") && !itemName.endsWith("seeditem")) {
+			return false;
+		}
+
+		return isLooseSnackFoodName(itemName)
+			|| containsAny(itemName, "jellybeans", "gummy", "cottoncandy", "cornflakes")
+			|| isNutSnackName(itemName)
+			|| itemName.endsWith("seedsitem")
+			|| itemName.endsWith("seeditem");
+	}
+
+	private static boolean isLooseSnackFoodName(String itemName) {
+		if (itemName.contains("waterchestnut") && !itemName.endsWith("seeditem")) {
+			return false;
+		}
+
+		return isNutSnackName(itemName)
+			|| itemName.endsWith("seedsitem")
+			|| itemName.endsWith("seeditem")
+			|| containsAny(itemName, "jellybeans", "gummy", "cottoncandy", "cornflakes",
+				"popcorn", "trailmix", "pralines", "taffy", "turkishdelight", "chocovoxels",
+				"marshmellow", "marshmellows", "marzipan", "toastedcoconut", "theatrebox")
+			|| equalsAny(itemName, "chilichocolateitem", "chocolatecaramelfudgeitem",
+				"chocolatecherryitem", "chocolatestrawberryitem");
+	}
+
+	private static boolean isNutSnackName(String itemName) {
+		return equalsAny(itemName, "almonditem", "cashewitem", "chestnutitem", "peanutitem",
+			"pecanitem", "pistachioitem", "walnutitem", "roastedchestnutitem",
+			"candiedwalnutsitem");
+	}
+
+	private static boolean isIngredientFoodName(String itemName) {
+		return itemName.endsWith("item") && !isHarvestCraftUtilityItemName(itemName);
+	}
+
+	private static boolean isHarvestCraftSurfaceItemName(String itemName) {
+		return itemName.endsWith("item") && !isHarvestCraftUtilityItemName(itemName);
+	}
+
+	private static boolean isHarvestCraftUtilityItemName(String itemName) {
+		return itemName.contains("hardenedleather")
+			|| itemName.contains("baititem")
+			|| equalsAny(itemName, "bakewareitem", "cuttingboarditem", "cropbagitem", "juiceritem",
+				"mixingbowlitem", "mortarpestleitem", "mortarandpestleitem", "potitem",
+				"saucepanitem", "skilletitem", "beeitem", "queenbeeitem", "seedbagitem",
+				"saplingbagitem");
+	}
+
+	private static boolean containsAny(String itemName, String... values) {
+		for (String value : values) {
+			if (itemName.contains(value)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private static boolean equalsAny(String itemName, String... values) {
+		for (String value : values) {
+			if (itemName.equals(value)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private static void renderHarvestCraftFood(String itemName, FoodRenderKind kind, double x, double y,
+			double z, double itemX, double itemZ, double surfaceY, float yaw) {
+		GlStateManager.pushMatrix();
+		GlStateManager.translate(x + itemX, y + surfaceY + 0.002D, z + itemZ);
+		GlStateManager.rotate(yaw, 0.0F, 1.0F, 0.0F);
+		double scale = getHarvestCraftFoodScale(kind);
+		GlStateManager.scale(scale, scale, scale);
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		GlStateManager.enableTexture2D();
+		GlStateManager.enableLighting();
+		GlStateManager.enableRescaleNormal();
+		GlStateManager.disableCull();
+		bindWhiteSurfaceTexture();
+
+		switch (kind) {
+		case BOWL:
+			renderHarvestCraftBowl(itemName);
+			break;
+		case DRINK:
+			renderHarvestCraftDrink(itemName);
+			break;
+		case JAR:
+			renderHarvestCraftJar(itemName);
+			break;
+		case PLATE:
+			renderHarvestCraftPlate(itemName);
+			break;
+		case SNACK:
+			renderHarvestCraftSnackBowl(itemName);
+			break;
+		case INGREDIENT:
+			renderHarvestCraftIngredient(itemName);
+			break;
+		default:
+			break;
+		}
+
+		GlStateManager.enableCull();
+		GlStateManager.disableRescaleNormal();
+		GlStateManager.enableLighting();
+		GlStateManager.enableTexture2D();
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		GlStateManager.popMatrix();
+	}
+
+	private static double getHarvestCraftFoodScale(FoodRenderKind kind) {
+		switch (kind) {
+		case DRINK:
+			return 0.58D;
+		case JAR:
+			return 0.66D;
+		case SNACK:
+			return 0.70D;
+		case INGREDIENT:
+			return 0.68D;
+		case BOWL:
+			return 0.72D;
+		case PLATE:
+			return 0.74D;
+		default:
+			return 0.82D;
+		}
+	}
+
+	private static void bindWhiteSurfaceTexture() {
+		if (whiteSurfaceTexture == null) {
+			DynamicTexture texture = new DynamicTexture(1, 1);
+			texture.getTextureData()[0] = 0xFFFFFFFF;
+			texture.updateDynamicTexture();
+			whiteSurfaceTexture = Minecraft.getMinecraft().getTextureManager()
+				.getDynamicTextureLocation("ironagefurniture_surface_food", texture);
+		}
+
+		Minecraft.getMinecraft().getTextureManager().bindTexture(whiteSurfaceTexture);
+	}
+
+	private static void renderHarvestCraftBowl(String itemName) {
+		float[] ceramic = new float[] { 0.78F, 0.75F, 0.68F };
+		float[] rim = darken(ceramic, 0.82F);
+		float[] shadow = darken(ceramic, 0.48F);
+		float[] food = inferFoodColor(itemName);
+		float[] accent = getFoodAccentColor(itemName, food);
+
+		drawCuboid(-0.175D, 0.000D, -0.160D, 0.175D, 0.030D, 0.160D, shadow[0], shadow[1],
+			shadow[2]);
+		drawCuboid(-0.235D, 0.030D, -0.205D, 0.235D, 0.075D, 0.205D, ceramic[0], ceramic[1],
+			ceramic[2]);
+		drawCuboid(-0.270D, 0.074D, -0.235D, 0.270D, 0.108D, 0.235D, rim[0], rim[1], rim[2]);
+		drawCuboid(-0.200D, 0.108D, -0.165D, 0.200D, 0.125D, 0.165D, food[0], food[1], food[2]);
+		drawCuboid(-0.060D, 0.127D, -0.035D, 0.020D, 0.142D, 0.025D, accent[0], accent[1],
+			accent[2]);
+		drawCuboid(0.060D, 0.127D, 0.025D, 0.135D, 0.142D, 0.085D, accent[0], accent[1],
+			accent[2]);
+		drawCuboid(-0.145D, 0.127D, 0.055D, -0.080D, 0.142D, 0.110D, accent[0], accent[1],
+			accent[2]);
+	}
+
+	private static void renderHarvestCraftDrink(String itemName) {
+		boolean mug = containsAny(itemName, "coffee", "teaitem", "hotchocolate", "cocoa");
+		float[] liquid = inferDrinkColor(itemName);
+		float[] glass = new float[] { 0.86F, 0.95F, 1.00F };
+		float[] rim = new float[] { 0.68F, 0.72F, 0.74F };
+
+		if (mug) {
+			float[] ceramic = new float[] { 0.80F, 0.77F, 0.68F };
+			float[] ceramicRim = darken(ceramic, 0.72F);
+
+			drawCuboid(-0.110D, 0.000D, -0.105D, 0.110D, 0.026D, 0.105D, ceramicRim[0],
+				ceramicRim[1], ceramicRim[2]);
+			drawCuboid(-0.125D, 0.026D, -0.125D, -0.095D, 0.235D, 0.125D, ceramic[0],
+				ceramic[1], ceramic[2]);
+			drawCuboid(0.095D, 0.026D, -0.125D, 0.125D, 0.235D, 0.125D, ceramic[0],
+				ceramic[1], ceramic[2]);
+			drawCuboid(-0.125D, 0.026D, -0.125D, 0.125D, 0.235D, -0.095D, ceramic[0],
+				ceramic[1], ceramic[2]);
+			drawCuboid(-0.125D, 0.026D, 0.095D, 0.125D, 0.235D, 0.125D, ceramic[0],
+				ceramic[1], ceramic[2]);
+			drawCuboid(-0.085D, 0.204D, -0.085D, 0.085D, 0.224D, 0.085D, liquid[0],
+				liquid[1], liquid[2]);
+			drawCuboid(-0.138D, 0.235D, -0.138D, 0.138D, 0.260D, 0.138D, ceramicRim[0],
+				ceramicRim[1], ceramicRim[2]);
+			drawCuboid(0.108D, 0.085D, -0.026D, 0.172D, 0.205D, 0.026D, ceramic[0],
+				ceramic[1], ceramic[2]);
+			drawCuboid(0.146D, 0.075D, -0.026D, 0.196D, 0.110D, 0.026D, ceramic[0],
+				ceramic[1], ceramic[2]);
+			drawCuboid(0.146D, 0.180D, -0.026D, 0.196D, 0.215D, 0.026D, ceramic[0],
+				ceramic[1], ceramic[2]);
+		} else if (isBottleDrinkShapeName(itemName)) {
+			float[] liquidHighlight = brighten(liquid, 1.12F);
+
+			drawCuboid(-0.070D, 0.026D, -0.066D, 0.070D, 0.202D, 0.066D, liquid[0], liquid[1],
+				liquid[2]);
+			drawCuboid(-0.052D, 0.202D, -0.050D, 0.052D, 0.246D, 0.050D, liquidHighlight[0],
+				liquidHighlight[1], liquidHighlight[2]);
+			drawCuboid(-0.024D, 0.246D, -0.022D, 0.024D, 0.318D, 0.022D, liquidHighlight[0],
+				liquidHighlight[1], liquidHighlight[2]);
+
+			beginGlassLayer();
+			drawCuboid(-0.085D, 0.000D, -0.080D, 0.085D, 0.030D, 0.080D, rim[0], rim[1],
+				rim[2], 0.62F);
+			drawCuboid(-0.094D, 0.030D, -0.089D, -0.074D, 0.210D, 0.089D, glass[0],
+				glass[1], glass[2], 0.34F);
+			drawCuboid(0.074D, 0.030D, -0.089D, 0.094D, 0.210D, 0.089D, glass[0], glass[1],
+				glass[2], 0.34F);
+			drawCuboid(-0.094D, 0.030D, -0.089D, 0.094D, 0.210D, -0.069D, glass[0],
+				glass[1], glass[2], 0.34F);
+			drawCuboid(-0.094D, 0.030D, 0.069D, 0.094D, 0.210D, 0.089D, glass[0], glass[1],
+				glass[2], 0.34F);
+			drawCuboid(-0.078D, 0.210D, -0.074D, 0.078D, 0.250D, 0.074D, glass[0],
+				glass[1], glass[2], 0.30F);
+			drawCuboid(-0.042D, 0.248D, -0.040D, 0.042D, 0.330D, 0.040D, glass[0],
+				glass[1], glass[2], 0.36F);
+			drawCuboid(-0.052D, 0.330D, -0.050D, 0.052D, 0.356D, 0.050D, rim[0], rim[1],
+				rim[2], 0.64F);
+			drawCuboid(-0.087D, 0.062D, -0.091D, -0.076D, 0.174D, -0.080D, 1.0F, 1.0F,
+				0.95F, 0.42F);
+			endGlassLayer();
+		} else {
+			drawCuboid(-0.085D, 0.026D, -0.080D, 0.085D, 0.190D, 0.080D, liquid[0],
+				liquid[1], liquid[2]);
+			drawCuboid(-0.074D, 0.190D, -0.070D, 0.074D, 0.208D, 0.070D,
+				brighten(liquid, 1.10F)[0], brighten(liquid, 1.10F)[1],
+				brighten(liquid, 1.10F)[2]);
+
+			beginGlassLayer();
+			drawCuboid(-0.110D, 0.000D, -0.105D, 0.110D, 0.026D, 0.105D, rim[0], rim[1],
+				rim[2], 0.60F);
+			drawCuboid(-0.125D, 0.205D, -0.120D, 0.125D, 0.232D, 0.120D, rim[0], rim[1],
+				rim[2], 0.58F);
+			drawCuboid(-0.130D, 0.026D, -0.130D, -0.108D, 0.232D, 0.130D, glass[0],
+				glass[1], glass[2], 0.32F);
+			drawCuboid(0.108D, 0.026D, -0.130D, 0.130D, 0.232D, 0.130D, glass[0],
+				glass[1], glass[2], 0.32F);
+			drawCuboid(-0.130D, 0.026D, -0.130D, 0.130D, 0.232D, -0.108D, glass[0],
+				glass[1], glass[2], 0.32F);
+			drawCuboid(-0.130D, 0.026D, 0.108D, 0.130D, 0.232D, 0.130D, glass[0],
+				glass[1], glass[2], 0.32F);
+			drawCuboid(-0.122D, 0.064D, -0.126D, -0.110D, 0.178D, -0.114D, 1.0F, 1.0F,
+				0.95F, 0.40F);
+			endGlassLayer();
+			drawCuboid(0.020D, 0.220D, 0.008D, 0.037D, 0.360D, 0.025D, 0.86F, 0.86F, 0.82F);
+		}
+	}
+
+	private static void renderHarvestCraftJar(String itemName) {
+		float[] contents = inferFoodColor(itemName);
+		float[] contentsTop = brighten(contents, 1.12F);
+		float[] glass = new float[] { 0.86F, 0.95F, 1.00F };
+		float[] rim = new float[] { 0.64F, 0.70F, 0.76F };
+		float[] lid = containsAny(itemName, "honey", "royaljelly")
+			? new float[] { 0.78F, 0.62F, 0.22F }
+			: new float[] { 0.64F, 0.66F, 0.70F };
+		float[] lidDark = darken(lid, 0.82F);
+		float[] label = new float[] { 0.84F, 0.78F, 0.58F };
+
+		drawCuboid(-0.070D, 0.030D, -0.064D, 0.070D, 0.154D, 0.064D, contents[0],
+			contents[1], contents[2]);
+		drawCuboid(-0.060D, 0.154D, -0.054D, 0.060D, 0.170D, 0.054D, contentsTop[0],
+			contentsTop[1], contentsTop[2]);
+
+		beginGlassLayer();
+		drawCuboid(-0.086D, 0.000D, -0.080D, 0.086D, 0.030D, 0.080D, rim[0], rim[1], rim[2],
+			0.56F);
+		drawCuboid(-0.090D, 0.030D, -0.084D, -0.072D, 0.172D, 0.084D, glass[0], glass[1],
+			glass[2], 0.34F);
+		drawCuboid(0.072D, 0.030D, -0.084D, 0.090D, 0.172D, 0.084D, glass[0], glass[1],
+			glass[2], 0.34F);
+		drawCuboid(-0.090D, 0.030D, -0.084D, 0.090D, 0.172D, -0.066D, glass[0], glass[1],
+			glass[2], 0.34F);
+		drawCuboid(-0.090D, 0.030D, 0.066D, 0.090D, 0.172D, 0.084D, glass[0], glass[1],
+			glass[2], 0.34F);
+		drawCuboid(-0.088D, 0.170D, -0.080D, 0.088D, 0.190D, 0.080D, rim[0], rim[1], rim[2],
+			0.50F);
+		drawCuboid(-0.082D, 0.060D, -0.086D, -0.071D, 0.136D, -0.075D, 1.0F, 1.0F, 0.95F,
+			0.42F);
+		endGlassLayer();
+
+		drawCuboid(-0.058D, 0.076D, -0.088D, 0.058D, 0.126D, -0.081D, label[0], label[1],
+			label[2]);
+		drawCuboid(-0.078D, 0.190D, -0.070D, 0.078D, 0.214D, 0.070D, lid[0], lid[1], lid[2]);
+		drawCuboid(-0.094D, 0.212D, -0.084D, 0.094D, 0.236D, 0.084D, lidDark[0],
+			lidDark[1], lidDark[2]);
+	}
+
+	private static void renderHarvestCraftSnackBowl(String itemName) {
+		float[] ceramic = new float[] { 0.78F, 0.75F, 0.68F };
+		float[] rim = darken(ceramic, 0.80F);
+		float[] snack = inferFoodColor(itemName);
+		float[] darkSnack = darken(snack, 0.72F);
+		float[] accent = getFoodAccentColor(itemName, snack);
+
+		drawCuboid(-0.190D, 0.000D, -0.140D, 0.190D, 0.026D, 0.140D, darken(ceramic, 0.46F)[0],
+			darken(ceramic, 0.46F)[1], darken(ceramic, 0.46F)[2]);
+		drawCuboid(-0.225D, 0.026D, -0.170D, 0.225D, 0.062D, 0.170D, ceramic[0], ceramic[1],
+			ceramic[2]);
+		drawCuboid(-0.255D, 0.062D, -0.195D, 0.255D, 0.088D, 0.195D, rim[0], rim[1], rim[2]);
+		drawCuboid(-0.190D, 0.088D, -0.140D, 0.190D, 0.102D, 0.140D, darkSnack[0],
+			darkSnack[1], darkSnack[2]);
+		drawCuboid(-0.145D, 0.104D, -0.080D, -0.075D, 0.132D, -0.015D, snack[0], snack[1],
+			snack[2]);
+		drawCuboid(-0.042D, 0.106D, -0.102D, 0.030D, 0.132D, -0.040D, snack[0], snack[1],
+			snack[2]);
+		drawCuboid(0.058D, 0.104D, -0.065D, 0.136D, 0.132D, 0.000D, snack[0], snack[1],
+			snack[2]);
+		drawCuboid(-0.108D, 0.106D, 0.030D, -0.030D, 0.134D, 0.095D, accent[0], accent[1],
+			accent[2]);
+		drawCuboid(0.020D, 0.108D, 0.020D, 0.100D, 0.136D, 0.090D, darkSnack[0],
+			darkSnack[1], darkSnack[2]);
+	}
+
+	private static void renderHarvestCraftIngredient(String itemName) {
+		renderPlateBase();
+
+		if (isPowderIngredientName(itemName)) {
+			renderPowderIngredient(itemName);
+		} else if (isEggIngredientName(itemName)) {
+			renderEggIngredient(itemName);
+		} else if (isRawFilletIngredientName(itemName)) {
+			renderRawFilletIngredient(itemName);
+		} else if (isBlockIngredientName(itemName)) {
+			renderBlockIngredient(itemName);
+		} else if (isLeafIngredientName(itemName)) {
+			renderLeafIngredient(itemName);
+		} else if (isGrainIngredientName(itemName)) {
+			renderGrainIngredient(itemName);
+		} else if (isRootIngredientName(itemName)) {
+			renderRootIngredient(itemName);
+		} else {
+			renderProduceIngredient(itemName);
+		}
+	}
+
+	private static void renderPotatoPlateFood(String itemName) {
+		if (containsAny(itemName, "mashedpotatoes", "garlicmashedpotatoes", "mashedsweetpotatoes")) {
+			float[] potato = containsAny(itemName, "sweet") ? new float[] { 0.88F, 0.48F, 0.13F }
+				: new float[] { 0.84F, 0.72F, 0.45F };
+			float[] butter = new float[] { 0.94F, 0.78F, 0.22F };
+			float[] green = new float[] { 0.18F, 0.48F, 0.16F };
+
+			drawCuboid(-0.165D, 0.064D, -0.105D, 0.165D, 0.092D, 0.105D, darken(potato, 0.72F)[0],
+				darken(potato, 0.72F)[1], darken(potato, 0.72F)[2]);
+			drawCuboid(-0.135D, 0.092D, -0.080D, 0.060D, 0.150D, 0.080D, potato[0], potato[1],
+				potato[2]);
+			drawCuboid(-0.010D, 0.105D, -0.060D, 0.135D, 0.162D, 0.065D, brighten(potato, 1.08F)[0],
+				brighten(potato, 1.08F)[1], brighten(potato, 1.08F)[2]);
+			drawCuboid(-0.032D, 0.164D, -0.026D, 0.036D, 0.184D, 0.030D, butter[0], butter[1],
+				butter[2]);
+			drawCuboid(0.062D, 0.166D, 0.018D, 0.122D, 0.182D, 0.052D, green[0], green[1],
+				green[2]);
+			return;
+		}
+
+		if (containsAny(itemName, "roastpotatoes", "candiedsweetpotatoes", "potatocakes", "bakedturnips")) {
+			float[] potato = containsAny(itemName, "sweet", "candied") ? new float[] { 0.88F, 0.44F, 0.10F }
+				: new float[] { 0.78F, 0.58F, 0.28F };
+			float[] skin = darken(potato, 0.62F);
+			float[] glaze = containsAny(itemName, "candied") ? new float[] { 0.92F, 0.60F, 0.16F }
+				: new float[] { 0.82F, 0.66F, 0.32F };
+
+			drawCuboid(-0.155D, 0.064D, -0.090D, -0.060D, 0.126D, -0.010D, skin[0], skin[1],
+				skin[2]);
+			drawCuboid(-0.135D, 0.128D, -0.076D, -0.046D, 0.154D, 0.004D, potato[0], potato[1],
+				potato[2]);
+			drawCuboid(-0.025D, 0.064D, -0.105D, 0.070D, 0.126D, -0.020D, potato[0], potato[1],
+				potato[2]);
+			drawCuboid(-0.005D, 0.128D, -0.088D, 0.088D, 0.154D, -0.004D, glaze[0], glaze[1],
+				glaze[2]);
+			drawCuboid(0.075D, 0.064D, 0.010D, 0.160D, 0.122D, 0.095D, skin[0], skin[1],
+				skin[2]);
+			drawCuboid(0.090D, 0.124D, 0.022D, 0.174D, 0.150D, 0.108D, potato[0], potato[1],
+				potato[2]);
+			return;
+		}
+
+		boolean sweet = containsAny(itemName, "sweet");
+		float[] skin = sweet ? new float[] { 0.52F, 0.22F, 0.10F }
+			: new float[] { 0.46F, 0.28F, 0.13F };
+		float[] flesh = sweet ? new float[] { 0.90F, 0.46F, 0.10F }
+			: new float[] { 0.86F, 0.72F, 0.42F };
+		float[] topping = containsAny(itemName, "tuna") ? new float[] { 0.72F, 0.64F, 0.52F }
+			: new float[] { 0.94F, 0.78F, 0.24F };
+		float[] toppingDark = containsAny(itemName, "loaded") ? new float[] { 0.42F, 0.16F, 0.08F }
+			: darken(topping, 0.72F);
+		float[] green = new float[] { 0.16F, 0.44F, 0.14F };
+
+		drawCuboid(-0.210D, 0.064D, -0.075D, 0.210D, 0.090D, 0.075D, darken(skin, 0.58F)[0],
+			darken(skin, 0.58F)[1], darken(skin, 0.58F)[2]);
+		drawCuboid(-0.175D, 0.090D, -0.102D, 0.175D, 0.130D, 0.102D, skin[0], skin[1],
+			skin[2]);
+		drawCuboid(-0.220D, 0.096D, -0.068D, -0.160D, 0.126D, 0.068D, skin[0], skin[1],
+			skin[2]);
+		drawCuboid(0.160D, 0.096D, -0.068D, 0.220D, 0.126D, 0.068D, skin[0], skin[1],
+			skin[2]);
+		drawCuboid(-0.136D, 0.130D, -0.065D, 0.136D, 0.158D, 0.065D, flesh[0], flesh[1],
+			flesh[2]);
+		drawCuboid(-0.092D, 0.158D, -0.040D, 0.092D, 0.184D, 0.040D, brighten(flesh, 1.08F)[0],
+			brighten(flesh, 1.08F)[1], brighten(flesh, 1.08F)[2]);
+		drawCuboid(-0.038D, 0.186D, -0.028D, 0.042D, 0.206D, 0.030D, topping[0], topping[1],
+			topping[2]);
+		drawCuboid(0.054D, 0.184D, -0.030D, 0.112D, 0.202D, 0.030D, toppingDark[0],
+			toppingDark[1], toppingDark[2]);
+		drawCuboid(-0.118D, 0.182D, 0.020D, -0.056D, 0.198D, 0.056D, green[0], green[1],
+			green[2]);
+		drawCuboid(0.112D, 0.176D, 0.030D, 0.168D, 0.192D, 0.062D, green[0], green[1],
+			green[2]);
+	}
+
+	private static boolean isPowderIngredientName(String itemName) {
+		if (containsAny(itemName, "bellpepper", "chilipepper", "curryleaf", "peppercorn",
+				"peppermint", "spiceleaf")) {
+			return false;
+		}
+
+		return containsAny(itemName, "flour", "powder", "spice", "pepper", "cinnamon", "nutmeg",
+			"salt", "sugar", "masala", "fivespice", "currypowder", "batter", "cornmeal");
+	}
+
+	private static boolean isEggIngredientName(String itemName) {
+		return itemName.contains("egg") && !itemName.contains("eggplant");
+	}
+
+	private static boolean isRawIngredientName(String itemName) {
+		return itemName.endsWith("rawitem") || itemName.startsWith("raw");
+	}
+
+	private static boolean isRawFilletIngredientName(String itemName) {
+		return isRawIngredientName(itemName)
+			|| containsAny(itemName, "anchovy", "bass", "carp", "catfish", "charr", "clam", "eel", "fish",
+				"grouper", "herring", "jellyfish", "octopus", "perch", "scallop", "snapper", "tilapia",
+				"trout", "tuna", "walleye");
+	}
+
+	private static boolean isBlockIngredientName(String itemName) {
+		return containsAny(itemName, "butter", "cheese", "tofu", "dough", "cream", "custard",
+			"wax", "cotton", "caramel", "honeycomb");
+	}
+
+	private static boolean isLeafIngredientName(String itemName) {
+		return containsAny(itemName, "curryleaf", "peppermint", "spiceleaf", "tealeaf", "seaweed",
+			"lettuce", "spinach", "cabbage");
+	}
+
+	private static boolean isGrainIngredientName(String itemName) {
+		return equalsAny(itemName, "barleyitem", "beanitem", "coffeebeanitem", "cornitem",
+			"oatsitem", "peasitem", "peppercornitem", "raisinsitem", "riceitem", "ryeitem",
+			"soybeanitem", "vanillabeanitem");
+	}
+
+	private static boolean isRootIngredientName(String itemName) {
+		return containsAny(itemName, "bambooshoot", "celery", "edibleroot", "garlic", "ginger",
+			"leek", "onion", "parsnip", "rhubarb", "rutabaga", "scallion", "turnip",
+			"sweetpotato", "beet")
+			|| equalsAny(itemName, "carrotitem", "radishitem");
+	}
+
+	private static void renderPowderIngredient(String itemName) {
+		float[] ceramic = new float[] { 0.78F, 0.75F, 0.68F };
+		float[] powder = inferFoodColor(itemName);
+		float[] rim = darken(ceramic, 0.78F);
+
+		drawCuboid(-0.140D, 0.064D, -0.110D, 0.140D, 0.086D, 0.110D, darken(ceramic, 0.48F)[0],
+			darken(ceramic, 0.48F)[1], darken(ceramic, 0.48F)[2]);
+		drawCuboid(-0.170D, 0.086D, -0.135D, 0.170D, 0.126D, 0.135D, ceramic[0], ceramic[1],
+			ceramic[2]);
+		drawCuboid(-0.192D, 0.126D, -0.152D, 0.192D, 0.148D, 0.152D, rim[0], rim[1], rim[2]);
+		drawCuboid(-0.135D, 0.148D, -0.100D, 0.135D, 0.166D, 0.100D, powder[0], powder[1],
+			powder[2]);
+		drawCuboid(-0.045D, 0.168D, -0.030D, 0.045D, 0.184D, 0.030D, brighten(powder, 1.10F)[0],
+			brighten(powder, 1.10F)[1], brighten(powder, 1.10F)[2]);
+	}
+
+	private static void renderEggIngredient(String itemName) {
+		float[] shell = itemName.contains("fried") ? new float[] { 0.92F, 0.90F, 0.74F }
+			: new float[] { 0.88F, 0.84F, 0.68F };
+		float[] yolk = new float[] { 0.94F, 0.66F, 0.12F };
+
+		drawCuboid(-0.150D, 0.064D, -0.075D, -0.030D, 0.102D, 0.060D, shell[0], shell[1],
+			shell[2]);
+		drawCuboid(-0.105D, 0.104D, -0.020D, -0.055D, 0.132D, 0.030D, yolk[0], yolk[1],
+			yolk[2]);
+		drawCuboid(0.035D, 0.064D, -0.060D, 0.145D, 0.104D, 0.075D, shell[0], shell[1],
+			shell[2]);
+		drawCuboid(0.070D, 0.106D, -0.010D, 0.122D, 0.134D, 0.040D, yolk[0], yolk[1],
+			yolk[2]);
+	}
+
+	private static void renderRawFilletIngredient(String itemName) {
+		float[] flesh = inferFoodColor(itemName);
+		float[] dark = darken(flesh, 0.72F);
+		float[] pale = brighten(flesh, 1.12F);
+
+		drawCuboid(-0.175D, 0.064D, -0.080D, 0.165D, 0.100D, 0.080D, dark[0], dark[1], dark[2]);
+		drawCuboid(-0.150D, 0.102D, -0.060D, 0.135D, 0.130D, 0.060D, flesh[0], flesh[1],
+			flesh[2]);
+		drawCuboid(-0.125D, 0.132D, -0.048D, -0.070D, 0.146D, 0.048D, pale[0], pale[1],
+			pale[2]);
+		drawCuboid(-0.020D, 0.132D, -0.048D, 0.036D, 0.146D, 0.048D, pale[0], pale[1],
+			pale[2]);
+		drawCuboid(0.084D, 0.132D, -0.048D, 0.140D, 0.146D, 0.048D, pale[0], pale[1],
+			pale[2]);
+	}
+
+	private static void renderBlockIngredient(String itemName) {
+		float[] base = inferFoodColor(itemName);
+		float[] shadow = darken(base, 0.68F);
+		float[] accent = containsAny(itemName, "cheese", "butter") ? new float[] { 0.94F, 0.76F, 0.20F }
+			: brighten(base, 1.12F);
+
+		drawCuboid(-0.165D, 0.064D, -0.095D, 0.040D, 0.112D, 0.095D, shadow[0], shadow[1],
+			shadow[2]);
+		drawCuboid(-0.145D, 0.112D, -0.078D, 0.060D, 0.156D, 0.078D, base[0], base[1],
+			base[2]);
+		drawCuboid(0.090D, 0.064D, -0.078D, 0.165D, 0.136D, 0.078D, base[0], base[1],
+			base[2]);
+		drawCuboid(-0.120D, 0.158D, -0.048D, -0.030D, 0.176D, 0.048D, accent[0], accent[1],
+			accent[2]);
+	}
+
+	private static void renderLeafIngredient(String itemName) {
+		float[] leaf = inferFoodColor(itemName);
+		float[] dark = darken(leaf, 0.62F);
+		float[] stem = new float[] { 0.20F, 0.36F, 0.10F };
+
+		drawCuboid(-0.175D, 0.064D, -0.090D, 0.060D, 0.088D, -0.035D, dark[0], dark[1], dark[2]);
+		drawCuboid(-0.150D, 0.090D, -0.075D, 0.090D, 0.114D, -0.020D, leaf[0], leaf[1],
+			leaf[2]);
+		drawCuboid(-0.030D, 0.066D, -0.010D, 0.175D, 0.090D, 0.045D, leaf[0], leaf[1],
+			leaf[2]);
+		drawCuboid(-0.098D, 0.116D, 0.040D, 0.110D, 0.138D, 0.094D, dark[0], dark[1],
+			dark[2]);
+		drawCuboid(-0.145D, 0.140D, -0.004D, 0.142D, 0.154D, 0.018D, stem[0], stem[1],
+			stem[2]);
+	}
+
+	private static void renderGrainIngredient(String itemName) {
+		float[] grain = inferFoodColor(itemName);
+		float[] dark = darken(grain, 0.62F);
+		float[] pale = brighten(grain, 1.10F);
+
+		drawCuboid(-0.165D, 0.064D, -0.105D, 0.155D, 0.083D, 0.105D, dark[0], dark[1], dark[2]);
+		drawCuboid(-0.142D, 0.085D, -0.074D, -0.088D, 0.116D, -0.020D, grain[0], grain[1],
+			grain[2]);
+		drawCuboid(-0.068D, 0.087D, -0.098D, -0.006D, 0.118D, -0.040D, pale[0], pale[1],
+			pale[2]);
+		drawCuboid(0.032D, 0.085D, -0.068D, 0.094D, 0.116D, -0.008D, grain[0], grain[1],
+			grain[2]);
+		drawCuboid(0.096D, 0.086D, 0.018D, 0.150D, 0.114D, 0.074D, dark[0], dark[1], dark[2]);
+		drawCuboid(-0.112D, 0.088D, 0.032D, -0.052D, 0.118D, 0.090D, pale[0], pale[1],
+			pale[2]);
+		drawCuboid(-0.010D, 0.092D, 0.012D, 0.055D, 0.124D, 0.074D, grain[0], grain[1],
+			grain[2]);
+	}
+
+	private static void renderRootIngredient(String itemName) {
+		float[] root = inferFoodColor(itemName);
+		float[] dark = darken(root, 0.64F);
+		float[] pale = brighten(root, 1.12F);
+		float[] green = new float[] { 0.16F, 0.44F, 0.12F };
+
+		drawCuboid(-0.170D, 0.064D, -0.072D, -0.010D, 0.116D, 0.030D, dark[0], dark[1],
+			dark[2]);
+		drawCuboid(-0.140D, 0.118D, -0.058D, 0.020D, 0.146D, 0.044D, root[0], root[1],
+			root[2]);
+		drawCuboid(0.050D, 0.064D, -0.050D, 0.172D, 0.112D, 0.062D, root[0], root[1],
+			root[2]);
+		drawCuboid(0.070D, 0.114D, -0.032D, 0.154D, 0.138D, 0.046D, pale[0], pale[1],
+			pale[2]);
+		drawCuboid(-0.052D, 0.148D, 0.042D, 0.034D, 0.168D, 0.078D, green[0], green[1],
+			green[2]);
+		drawCuboid(0.102D, 0.140D, 0.050D, 0.164D, 0.158D, 0.086D, green[0], green[1],
+			green[2]);
+	}
+
+	private static void renderProduceIngredient(String itemName) {
+		if (itemName.contains("mushroom")) {
+			renderMushroomProduce(itemName);
+			return;
+		}
+
+		if (itemName.contains("grub")) {
+			renderGrubProduce();
+			return;
+		}
+
+		if (itemName.contains("vanilla")) {
+			renderVanillaProduce();
+			return;
+		}
+
+		if (itemName.contains("coconut")) {
+			renderCoconutProduce();
+			return;
+		}
+
+		if (itemName.contains("pineapple")) {
+			renderPineappleProduce();
+			return;
+		}
+
+		if (containsAny(itemName, "artichoke", "broccoli", "brusselsprout", "cauliflower")) {
+			renderBulkyProduceIngredient(itemName);
+			return;
+		}
+
+		if (containsAny(itemName, "banana", "lemon", "lime")) {
+			renderLongProduceIngredient(itemName);
+			return;
+		}
+
+		if (containsAny(itemName, "apricot", "avocado", "cactusfruit", "grapefruit", "mango",
+				"orange", "peach", "pear", "persimmon", "tomato")) {
+			renderRoundProduceIngredient(itemName);
+			return;
+		}
+
+		if (containsAny(itemName, "asparagus", "cucumber", "eggplant", "gherkin", "okra",
+				"pepper", "pickle", "waterchestnut", "zucchini")) {
+			renderLongProduceIngredient(itemName);
+			return;
+		}
+
+		if (containsAny(itemName, "blackberry", "blueberry", "candleberry", "cherry", "cranberry",
+				"date", "fig", "gooseberry", "grape", "kiwi", "olive", "plum", "raspberry",
+				"strawberry")) {
+			renderBerryProduceIngredient(itemName);
+			return;
+		}
+
+		if (containsAny(itemName, "cantaloupe", "dragonfruit", "durian", "papaya", "pomegranate",
+				"starfruit", "watermelon", "wintersquash")) {
+			renderLargeProduceIngredient(itemName);
+			return;
+		}
+
+		float[] produce = inferFoodColor(itemName);
+		float[] dark = darken(produce, 0.68F);
+		float[] accent = getFoodAccentColor(itemName, produce);
+
+		drawCuboid(-0.160D, 0.064D, -0.090D, -0.070D, 0.138D, -0.006D, dark[0], dark[1],
+			dark[2]);
+		drawCuboid(-0.140D, 0.138D, -0.074D, -0.052D, 0.164D, 0.010D, produce[0], produce[1],
+			produce[2]);
+		drawCuboid(-0.025D, 0.064D, -0.070D, 0.070D, 0.142D, 0.020D, produce[0], produce[1],
+			produce[2]);
+		drawCuboid(0.090D, 0.064D, 0.000D, 0.165D, 0.136D, 0.090D, dark[0], dark[1],
+			dark[2]);
+		drawCuboid(0.104D, 0.138D, 0.012D, 0.178D, 0.160D, 0.102D, produce[0], produce[1],
+			produce[2]);
+		drawCuboid(-0.020D, 0.146D, 0.034D, 0.040D, 0.164D, 0.074D, accent[0], accent[1],
+			accent[2]);
+	}
+
+	private static void renderMushroomProduce(String itemName) {
+		float[] cap = itemName.contains("white") ? new float[] { 0.78F, 0.72F, 0.58F }
+			: new float[] { 0.34F, 0.18F, 0.08F };
+		float[] stem = new float[] { 0.78F, 0.70F, 0.54F };
+		float[] shadow = darken(cap, 0.62F);
+
+		drawCuboid(-0.150D, 0.064D, -0.045D, -0.090D, 0.126D, 0.045D, stem[0], stem[1],
+			stem[2]);
+		drawCuboid(-0.190D, 0.126D, -0.085D, -0.050D, 0.166D, 0.085D, cap[0], cap[1],
+			cap[2]);
+		drawCuboid(-0.162D, 0.166D, -0.060D, -0.075D, 0.188D, 0.060D, shadow[0], shadow[1],
+			shadow[2]);
+		drawCuboid(0.030D, 0.064D, -0.035D, 0.090D, 0.118D, 0.035D, stem[0], stem[1],
+			stem[2]);
+		drawCuboid(-0.010D, 0.118D, -0.075D, 0.130D, 0.154D, 0.075D, cap[0], cap[1],
+			cap[2]);
+		drawCuboid(0.018D, 0.154D, -0.050D, 0.104D, 0.174D, 0.050D, shadow[0], shadow[1],
+			shadow[2]);
+	}
+
+	private static void renderGrubProduce() {
+		float[] body = new float[] { 0.82F, 0.70F, 0.48F };
+		float[] shadow = darken(body, 0.70F);
+
+		drawCuboid(-0.180D, 0.064D, -0.050D, -0.085D, 0.108D, 0.050D, body[0], body[1],
+			body[2]);
+		drawCuboid(-0.100D, 0.078D, -0.052D, -0.005D, 0.122D, 0.052D, shadow[0], shadow[1],
+			shadow[2]);
+		drawCuboid(-0.020D, 0.092D, -0.048D, 0.080D, 0.136D, 0.048D, body[0], body[1],
+			body[2]);
+		drawCuboid(0.078D, 0.104D, -0.034D, 0.145D, 0.132D, 0.034D, shadow[0], shadow[1],
+			shadow[2]);
+	}
+
+	private static void renderVanillaProduce() {
+		float[] pod = new float[] { 0.20F, 0.10F, 0.04F };
+		float[] pale = new float[] { 0.70F, 0.58F, 0.34F };
+
+		drawCuboid(-0.185D, 0.064D, -0.034D, 0.050D, 0.092D, -0.006D, pod[0], pod[1],
+			pod[2]);
+		drawCuboid(-0.150D, 0.094D, -0.018D, 0.090D, 0.122D, 0.010D, pod[0], pod[1],
+			pod[2]);
+		drawCuboid(-0.030D, 0.124D, 0.018D, 0.172D, 0.150D, 0.046D, pod[0], pod[1],
+			pod[2]);
+		drawCuboid(-0.090D, 0.126D, -0.006D, -0.035D, 0.138D, 0.006D, pale[0], pale[1],
+			pale[2]);
+	}
+
+	private static void renderCoconutProduce() {
+		float[] shell = new float[] { 0.34F, 0.18F, 0.08F };
+		float[] flesh = new float[] { 0.84F, 0.78F, 0.58F };
+		float[] shadow = darken(shell, 0.62F);
+
+		drawCuboid(-0.160D, 0.064D, -0.105D, 0.020D, 0.142D, 0.105D, shell[0], shell[1],
+			shell[2]);
+		drawCuboid(-0.138D, 0.142D, -0.082D, -0.002D, 0.166D, 0.082D, flesh[0], flesh[1],
+			flesh[2]);
+		drawCuboid(0.055D, 0.064D, -0.084D, 0.165D, 0.136D, 0.084D, shadow[0], shadow[1],
+			shadow[2]);
+		drawCuboid(0.075D, 0.136D, -0.060D, 0.146D, 0.156D, 0.060D, flesh[0], flesh[1],
+			flesh[2]);
+	}
+
+	private static void renderPineappleProduce() {
+		float[] fruit = new float[] { 0.84F, 0.64F, 0.12F };
+		float[] rind = new float[] { 0.54F, 0.36F, 0.08F };
+		float[] leaf = new float[] { 0.18F, 0.48F, 0.14F };
+
+		drawCuboid(-0.105D, 0.064D, -0.090D, 0.105D, 0.178D, 0.090D, rind[0], rind[1],
+			rind[2]);
+		drawCuboid(-0.080D, 0.084D, -0.066D, 0.080D, 0.184D, 0.066D, fruit[0], fruit[1],
+			fruit[2]);
+		drawCuboid(-0.044D, 0.186D, -0.030D, 0.000D, 0.245D, 0.030D, leaf[0], leaf[1],
+			leaf[2]);
+		drawCuboid(0.006D, 0.186D, -0.045D, 0.052D, 0.238D, 0.002D, leaf[0], leaf[1],
+			leaf[2]);
+		drawCuboid(-0.075D, 0.186D, 0.006D, -0.026D, 0.232D, 0.052D, leaf[0], leaf[1],
+			leaf[2]);
+	}
+
+	private static void renderBulkyProduceIngredient(String itemName) {
+		float[] head = itemName.contains("cauliflower")
+			? new float[] { 0.78F, 0.76F, 0.58F }
+			: inferFoodColor(itemName);
+		float[] dark = darken(head, 0.66F);
+		float[] leaf = itemName.contains("cauliflower") ? new float[] { 0.20F, 0.42F, 0.14F }
+			: darken(head, 0.52F);
+		float[] stem = new float[] { 0.44F, 0.52F, 0.20F };
+
+		drawCuboid(-0.160D, 0.064D, -0.060D, -0.075D, 0.124D, 0.030D, stem[0], stem[1],
+			stem[2]);
+		drawCuboid(-0.190D, 0.108D, -0.105D, -0.060D, 0.178D, 0.035D, head[0], head[1],
+			head[2]);
+		drawCuboid(-0.120D, 0.150D, -0.070D, 0.012D, 0.210D, 0.060D, dark[0], dark[1],
+			dark[2]);
+		drawCuboid(0.045D, 0.064D, -0.050D, 0.122D, 0.118D, 0.050D, stem[0], stem[1],
+			stem[2]);
+		drawCuboid(0.010D, 0.108D, -0.088D, 0.162D, 0.180D, 0.080D, head[0], head[1],
+			head[2]);
+		drawCuboid(0.078D, 0.154D, -0.044D, 0.190D, 0.205D, 0.068D, dark[0], dark[1],
+			dark[2]);
+		drawCuboid(-0.198D, 0.084D, 0.036D, -0.052D, 0.116D, 0.100D, leaf[0], leaf[1],
+			leaf[2]);
+		drawCuboid(0.015D, 0.082D, 0.052D, 0.178D, 0.114D, 0.110D, leaf[0], leaf[1],
+			leaf[2]);
+	}
+
+	private static void renderLongProduceIngredient(String itemName) {
+		float[] produce = inferFoodColor(itemName);
+		float[] dark = darken(produce, 0.66F);
+		float[] pale = brighten(produce, 1.12F);
+		float[] stem = new float[] { 0.18F, 0.42F, 0.12F };
+
+		drawCuboid(-0.205D, 0.064D, -0.042D, 0.030D, 0.112D, 0.042D, dark[0], dark[1],
+			dark[2]);
+		drawCuboid(-0.180D, 0.114D, -0.030D, 0.056D, 0.140D, 0.030D, produce[0], produce[1],
+			produce[2]);
+		drawCuboid(0.070D, 0.064D, -0.036D, 0.190D, 0.108D, 0.036D, produce[0], produce[1],
+			produce[2]);
+		drawCuboid(0.090D, 0.110D, -0.025D, 0.170D, 0.132D, 0.025D, pale[0], pale[1],
+			pale[2]);
+		drawCuboid(-0.218D, 0.118D, -0.010D, -0.176D, 0.138D, 0.010D, stem[0], stem[1],
+			stem[2]);
+	}
+
+	private static void renderRoundProduceIngredient(String itemName) {
+		float[] produce = inferFoodColor(itemName);
+		float[] dark = darken(produce, 0.68F);
+		float[] pale = brighten(produce, 1.10F);
+		float[] leaf = new float[] { 0.16F, 0.42F, 0.10F };
+
+		drawCuboid(-0.168D, 0.064D, -0.078D, -0.060D, 0.142D, 0.030D, dark[0], dark[1],
+			dark[2]);
+		drawCuboid(-0.148D, 0.142D, -0.058D, -0.040D, 0.166D, 0.050D, produce[0],
+			produce[1], produce[2]);
+		drawCuboid(-0.018D, 0.064D, -0.095D, 0.088D, 0.146D, 0.018D, produce[0],
+			produce[1], produce[2]);
+		drawCuboid(0.002D, 0.146D, -0.070D, 0.064D, 0.166D, -0.006D, pale[0], pale[1],
+			pale[2]);
+		drawCuboid(0.098D, 0.064D, 0.000D, 0.178D, 0.132D, 0.082D, dark[0], dark[1],
+			dark[2]);
+		drawCuboid(-0.086D, 0.168D, 0.036D, -0.008D, 0.188D, 0.076D, leaf[0], leaf[1],
+			leaf[2]);
+		drawCuboid(0.122D, 0.134D, 0.052D, 0.170D, 0.150D, 0.088D, leaf[0], leaf[1],
+			leaf[2]);
+	}
+
+	private static void renderBerryProduceIngredient(String itemName) {
+		float[] berry = inferFoodColor(itemName);
+		float[] dark = darken(berry, 0.68F);
+		float[] leaf = new float[] { 0.16F, 0.42F, 0.10F };
+
+		drawCuboid(-0.160D, 0.064D, -0.075D, -0.090D, 0.126D, -0.005D, berry[0], berry[1],
+			berry[2]);
+		drawCuboid(-0.078D, 0.066D, -0.095D, -0.008D, 0.128D, -0.025D, dark[0], dark[1],
+			dark[2]);
+		drawCuboid(0.010D, 0.064D, -0.052D, 0.082D, 0.130D, 0.020D, berry[0], berry[1],
+			berry[2]);
+		drawCuboid(0.092D, 0.066D, -0.018D, 0.160D, 0.126D, 0.050D, dark[0], dark[1],
+			dark[2]);
+		drawCuboid(-0.070D, 0.132D, 0.035D, 0.050D, 0.150D, 0.075D, leaf[0], leaf[1],
+			leaf[2]);
+	}
+
+	private static void renderLargeProduceIngredient(String itemName) {
+		float[] produce = inferFoodColor(itemName);
+		float[] rind = darken(produce, 0.62F);
+		float[] accent = getFoodAccentColor(itemName, produce);
+
+		drawCuboid(-0.185D, 0.064D, -0.095D, 0.060D, 0.132D, 0.095D, rind[0], rind[1],
+			rind[2]);
+		drawCuboid(-0.150D, 0.132D, -0.070D, 0.035D, 0.158D, 0.070D, produce[0], produce[1],
+			produce[2]);
+		drawCuboid(0.078D, 0.064D, -0.080D, 0.178D, 0.142D, 0.080D, produce[0], produce[1],
+			produce[2]);
+		drawCuboid(0.098D, 0.144D, -0.056D, 0.158D, 0.164D, 0.056D, accent[0], accent[1],
+			accent[2]);
+	}
+
+	private static void renderHarvestCraftPlate(String itemName) {
+		renderPlateBase();
+
+		if (isPotatoPlateFoodName(itemName)) {
+			renderPotatoPlateFood(itemName);
+		} else if (itemName.contains("caramelapple")) {
+			renderCaramelAppleFood();
+		} else if (itemName.contains("pizza")) {
+			renderPizzaFood();
+		} else if (containsAny(itemName, "sweetandsour", "stirfry", "kungpao", "generaltso",
+				"orangechicken", "sesamechicken", "teriyaki", "bakedbeans", "eggplantparm",
+				"paneer")) {
+			renderSaucedPlateFood(itemName);
+		} else if (containsAny(itemName, "pancake", "waffle")) {
+			renderPancakePlateFood(itemName);
+		} else if (containsAny(itemName, "burger", "hotdog", "footlong")) {
+			renderBurgerPlateFood(itemName);
+		} else if (containsAny(itemName, "delightedmeal", "homestylelunch", "ploughmanslunch",
+				"mcpam", "bbqplatter")) {
+			renderComboPlateFood(itemName);
+		} else if (containsAny(itemName, "taco", "burrito", "quesadilla", "fajita", "nachos",
+				"nachoes", "tostada", "enchilada", "poppers", "tortilla", "wrap")) {
+			renderWrapPlateFood(itemName);
+		} else if (containsAny(itemName, "pasta", "spaghetti", "spagetti", "lasagna", "chowmein",
+				"lomein", "macitem", "broccolimac")) {
+			renderPastaPlateFood(itemName);
+		} else if (containsAny(itemName, "sushi", "futomaki", "californiaroll", "dimsum", "dumpling",
+				"springroll", "chikoroll", "sesameball")) {
+			renderSmallRollPlateFood(itemName);
+		} else if (containsAny(itemName, "sandwich", "toast", "grilledcheese",
+				"celeryandpeanutbutter", "blt", "pbandj")) {
+			renderStackedPlateFood(itemName);
+		} else if (containsAny(itemName, "baconandeggs", "friedegg", "omelet", "omelette", "hash",
+				"breakfast", "bangersandmash", "toadinthehole")) {
+			renderBreakfastPlateFood(itemName);
+		} else if (containsAny(itemName, "calamari", "clam", "crab", "crayfish", "fish", "frog",
+				"lobster", "mussel", "octopus", "salmon", "sardine", "scallop", "shrimp",
+				"snail")) {
+			renderSeafoodPlateFood(itemName);
+		} else if (containsAny(itemName, "bacon", "beef", "charsiu", "chorizo", "chicken", "ham",
+				"jerky", "kebab", "lamb", "meat", "mutton", "pepperoni", "pork", "rabbit",
+				"ribs", "roast", "sausage", "steak", "suadero", "turkey", "turtle", "venison",
+				"wings", "cookedtof")) {
+			renderMeatPlateFood(itemName);
+		} else if (containsAny(itemName, "grilled", "steamed", "stuffed", "glazed", "herbbutter",
+				"cornonthecob", "marinated", "pickled", "veggiestrips", "strips", "bakedbeets",
+				"braised", "friedonions", "friedpecanokra", "spicygreens", "summersquash",
+				"okracreole", "peasandcelery", "sweetpickle", "zestyzucchini", "zucchinibake")) {
+			renderVegetablePlateFood(itemName);
+		} else if (containsAny(itemName, "pie", "cake", "cookie", "donut", "brownie", "muffin",
+				"cupcake", "baritem", "baklava", "biscuit", "cracker", "pretzel", "bread",
+				"cobbler", "croissant", "crumble", "damper", "fritter", "jaffa", "lamington",
+				"lemonmeringue", "manjuu", "mochi", "naan", "pavlova", "pudding", "quiche",
+				"roll", "scone", "snaps", "spicebun", "tart", "timtam", "trifle", "zeppole",
+				"bananasplit", "candiedginger", "candiedlemon", "honeybun", "pasty",
+				"poachedpear")) {
+			renderBakedPlateFood(itemName);
+		} else if (containsAny(itemName, "fries", "chips")) {
+			renderFriesPlateFood();
+		} else {
+			renderGenericPlateFood(itemName);
+		}
+	}
+
+	private static void renderPlateBase() {
+		float[] ceramic = new float[] { 0.86F, 0.84F, 0.78F };
+		float[] rim = darken(ceramic, 0.78F);
+		float[] shadow = darken(ceramic, 0.48F);
+
+		drawCuboid(-0.245D, 0.000D, -0.175D, 0.245D, 0.018D, 0.175D, shadow[0], shadow[1],
+			shadow[2]);
+		drawCuboid(-0.225D, 0.018D, -0.155D, 0.225D, 0.043D, 0.155D, ceramic[0], ceramic[1],
+			ceramic[2]);
+		drawCuboid(-0.265D, 0.043D, -0.188D, 0.265D, 0.062D, 0.188D, rim[0], rim[1], rim[2]);
+	}
+
+	private static void renderPizzaFood() {
+		float[] crust = new float[] { 0.66F, 0.38F, 0.16F };
+		float[] cheese = new float[] { 0.94F, 0.76F, 0.22F };
+		float[] tomato = new float[] { 0.70F, 0.12F, 0.08F };
+		float[] herb = new float[] { 0.16F, 0.42F, 0.12F };
+
+		drawCuboid(-0.205D, 0.064D, -0.135D, 0.205D, 0.088D, 0.135D, crust[0], crust[1],
+			crust[2]);
+		drawCuboid(-0.168D, 0.090D, -0.105D, 0.168D, 0.112D, 0.105D, cheese[0], cheese[1],
+			cheese[2]);
+		drawCuboid(-0.130D, 0.114D, -0.080D, -0.075D, 0.132D, -0.025D, tomato[0], tomato[1],
+			tomato[2]);
+		drawCuboid(0.048D, 0.114D, -0.054D, 0.104D, 0.132D, 0.000D, tomato[0], tomato[1],
+			tomato[2]);
+		drawCuboid(-0.018D, 0.114D, 0.045D, 0.040D, 0.132D, 0.096D, herb[0], herb[1], herb[2]);
+	}
+
+	private static void renderCaramelAppleFood() {
+		float[] caramel = new float[] { 0.74F, 0.38F, 0.10F };
+		float[] apple = new float[] { 0.70F, 0.12F, 0.08F };
+		float[] stick = new float[] { 0.44F, 0.25F, 0.10F };
+		float[] highlight = new float[] { 0.90F, 0.62F, 0.22F };
+
+		drawCuboid(-0.035D, 0.064D, -0.145D, 0.000D, 0.230D, -0.110D, stick[0], stick[1],
+			stick[2]);
+		drawCuboid(-0.120D, 0.064D, -0.080D, 0.060D, 0.152D, 0.085D, caramel[0], caramel[1],
+			caramel[2]);
+		drawCuboid(-0.095D, 0.154D, -0.058D, 0.045D, 0.194D, 0.062D, highlight[0], highlight[1],
+			highlight[2]);
+		drawCuboid(0.070D, 0.064D, -0.072D, 0.175D, 0.136D, 0.070D, apple[0], apple[1],
+			apple[2]);
+		drawCuboid(0.082D, 0.138D, -0.048D, 0.152D, 0.164D, 0.050D, highlight[0], highlight[1],
+			highlight[2]);
+	}
+
+	private static void renderSaucedPlateFood(String itemName) {
+		float[] rice = new float[] { 0.86F, 0.80F, 0.62F };
+		float[] sauce = containsAny(itemName, "sweetandsour", "orangechicken")
+			? new float[] { 0.86F, 0.30F, 0.08F }
+			: inferFoodColor(itemName);
+		float[] green = new float[] { 0.18F, 0.46F, 0.13F };
+		float[] meat = containsAny(itemName, "chicken", "turkey") ? new float[] { 0.72F, 0.48F, 0.24F }
+			: new float[] { 0.48F, 0.20F, 0.12F };
+
+		drawCuboid(-0.150D, 0.064D, -0.100D, 0.150D, 0.092D, 0.100D, rice[0], rice[1], rice[2]);
+		drawCuboid(-0.115D, 0.094D, -0.070D, -0.035D, 0.145D, 0.020D, meat[0], meat[1],
+			meat[2]);
+		drawCuboid(-0.020D, 0.096D, -0.085D, 0.070D, 0.150D, -0.010D, sauce[0], sauce[1],
+			sauce[2]);
+		drawCuboid(0.060D, 0.092D, 0.010D, 0.145D, 0.140D, 0.082D, sauce[0], sauce[1],
+			sauce[2]);
+		drawCuboid(-0.135D, 0.146D, 0.030D, -0.065D, 0.164D, 0.075D, green[0], green[1],
+			green[2]);
+		drawCuboid(0.005D, 0.151D, 0.030D, 0.070D, 0.168D, 0.075D, green[0], green[1],
+			green[2]);
+	}
+
+	private static void renderVegetablePlateFood(String itemName) {
+		float[] food = inferFoodColor(itemName);
+		float[] sear = containsAny(itemName, "grilled", "glazed")
+			? new float[] { 0.48F, 0.24F, 0.08F }
+			: darken(food, 0.72F);
+		float[] accent = getFoodAccentColor(itemName, food);
+		float[] pale = containsAny(itemName, "stuffed", "herbbutter")
+			? new float[] { 0.86F, 0.76F, 0.46F }
+			: brighten(food, 1.12F);
+
+		drawCuboid(-0.170D, 0.064D, -0.090D, -0.065D, 0.120D, 0.080D, food[0], food[1],
+			food[2]);
+		drawCuboid(-0.154D, 0.122D, -0.068D, -0.080D, 0.146D, 0.058D, pale[0], pale[1],
+			pale[2]);
+		drawCuboid(-0.020D, 0.064D, -0.105D, 0.092D, 0.112D, 0.025D, sear[0], sear[1],
+			sear[2]);
+		drawCuboid(-0.002D, 0.114D, -0.090D, 0.112D, 0.142D, 0.042D, food[0], food[1],
+			food[2]);
+		drawCuboid(0.075D, 0.064D, 0.020D, 0.170D, 0.130D, 0.100D, accent[0], accent[1],
+			accent[2]);
+		drawCuboid(0.102D, 0.132D, 0.034D, 0.152D, 0.154D, 0.082D, pale[0], pale[1],
+			pale[2]);
+	}
+
+	private static void renderStackedPlateFood(String itemName) {
+		float[] bread = containsAny(itemName, "pancake", "waffle") ? new float[] { 0.76F, 0.50F, 0.22F }
+			: new float[] { 0.72F, 0.47F, 0.24F };
+		float[] filling = containsAny(itemName, "pancake", "waffle") ? new float[] { 0.88F, 0.67F, 0.24F }
+			: inferFoodColor(itemName);
+		float[] green = new float[] { 0.14F, 0.46F, 0.12F };
+		float[] cheese = new float[] { 0.90F, 0.72F, 0.18F };
+
+		drawCuboid(-0.185D, 0.064D, -0.112D, 0.185D, 0.098D, 0.112D, bread[0], bread[1],
+			bread[2]);
+		drawCuboid(-0.168D, 0.100D, -0.102D, 0.168D, 0.126D, 0.102D, filling[0], filling[1],
+			filling[2]);
+		drawCuboid(-0.178D, 0.128D, -0.108D, 0.178D, 0.144D, 0.108D, green[0], green[1],
+			green[2]);
+		drawCuboid(-0.160D, 0.146D, -0.094D, 0.160D, 0.162D, 0.094D, cheese[0], cheese[1],
+			cheese[2]);
+		drawCuboid(-0.180D, 0.164D, -0.106D, 0.180D, 0.198D, 0.106D, bread[0], bread[1],
+			bread[2]);
+	}
+
+	private static void renderPancakePlateFood(String itemName) {
+		float[] cake = itemName.contains("waffle") ? new float[] { 0.72F, 0.46F, 0.18F }
+			: new float[] { 0.78F, 0.54F, 0.24F };
+		float[] browned = darken(cake, 0.74F);
+		float[] syrup = containsAny(itemName, "blueberry") ? new float[] { 0.24F, 0.10F, 0.42F }
+			: new float[] { 0.46F, 0.20F, 0.06F };
+		float[] butter = new float[] { 0.94F, 0.78F, 0.22F };
+
+		drawCuboid(-0.170D, 0.064D, -0.105D, 0.170D, 0.090D, 0.105D, browned[0], browned[1],
+			browned[2]);
+		drawCuboid(-0.188D, 0.090D, -0.115D, 0.188D, 0.118D, 0.115D, cake[0], cake[1],
+			cake[2]);
+		drawCuboid(-0.165D, 0.118D, -0.098D, 0.165D, 0.144D, 0.098D, browned[0], browned[1],
+			browned[2]);
+		drawCuboid(-0.180D, 0.144D, -0.108D, 0.180D, 0.172D, 0.108D, cake[0], cake[1],
+			cake[2]);
+		drawCuboid(-0.092D, 0.174D, -0.052D, 0.092D, 0.194D, 0.052D, syrup[0], syrup[1],
+			syrup[2]);
+		drawCuboid(-0.030D, 0.196D, -0.026D, 0.040D, 0.218D, 0.032D, butter[0], butter[1],
+			butter[2]);
+		if (itemName.contains("waffle")) {
+			drawCuboid(-0.132D, 0.198D, -0.082D, 0.132D, 0.206D, -0.062D, browned[0],
+				browned[1], browned[2]);
+			drawCuboid(-0.132D, 0.198D, 0.062D, 0.132D, 0.206D, 0.082D, browned[0],
+				browned[1], browned[2]);
+			drawCuboid(-0.072D, 0.198D, -0.090D, -0.052D, 0.206D, 0.090D, browned[0],
+				browned[1], browned[2]);
+			drawCuboid(0.052D, 0.198D, -0.090D, 0.072D, 0.206D, 0.090D, browned[0],
+				browned[1], browned[2]);
+		}
+	}
+
+	private static void renderBurgerPlateFood(String itemName) {
+		float[] bun = new float[] { 0.72F, 0.44F, 0.18F };
+		float[] meat = new float[] { 0.38F, 0.14F, 0.08F };
+		float[] cheese = new float[] { 0.90F, 0.72F, 0.18F };
+		float[] green = new float[] { 0.14F, 0.46F, 0.12F };
+		float[] red = new float[] { 0.70F, 0.10F, 0.08F };
+
+		if (containsAny(itemName, "hotdog", "footlong")) {
+			drawCuboid(-0.220D, 0.064D, -0.065D, 0.220D, 0.102D, 0.065D, bun[0], bun[1],
+				bun[2]);
+			drawCuboid(-0.188D, 0.104D, -0.034D, 0.188D, 0.150D, 0.034D, meat[0], meat[1],
+				meat[2]);
+			drawCuboid(-0.170D, 0.152D, -0.014D, 0.170D, 0.166D, 0.014D, cheese[0],
+				cheese[1], cheese[2]);
+			drawCuboid(-0.130D, 0.168D, -0.020D, -0.060D, 0.184D, 0.020D, red[0], red[1],
+				red[2]);
+			drawCuboid(0.060D, 0.168D, -0.020D, 0.130D, 0.184D, 0.020D, red[0], red[1],
+				red[2]);
+			return;
+		}
+
+		drawCuboid(-0.165D, 0.064D, -0.105D, 0.165D, 0.096D, 0.105D, bun[0], bun[1],
+			bun[2]);
+		drawCuboid(-0.176D, 0.098D, -0.112D, 0.176D, 0.124D, 0.112D, meat[0], meat[1],
+			meat[2]);
+		drawCuboid(-0.160D, 0.126D, -0.100D, 0.160D, 0.144D, 0.100D, cheese[0], cheese[1],
+			cheese[2]);
+		drawCuboid(-0.170D, 0.146D, -0.108D, 0.170D, 0.162D, 0.108D, green[0], green[1],
+			green[2]);
+		drawCuboid(-0.150D, 0.164D, -0.094D, 0.150D, 0.180D, 0.094D, red[0], red[1],
+			red[2]);
+		drawCuboid(-0.178D, 0.182D, -0.112D, 0.178D, 0.214D, 0.112D, bun[0], bun[1],
+			bun[2]);
+	}
+
+	private static void renderComboPlateFood(String itemName) {
+		float[] bread = new float[] { 0.72F, 0.48F, 0.22F };
+		float[] meat = new float[] { 0.50F, 0.20F, 0.10F };
+		float[] cheese = new float[] { 0.90F, 0.72F, 0.20F };
+		float[] green = new float[] { 0.16F, 0.46F, 0.12F };
+		float[] fried = new float[] { 0.90F, 0.68F, 0.18F };
+		float[] red = new float[] { 0.68F, 0.10F, 0.08F };
+
+		if (itemName.contains("mcpam")) {
+			drawCuboid(-0.195D, 0.064D, -0.082D, -0.020D, 0.090D, 0.082D, darken(bread, 0.70F)[0],
+				darken(bread, 0.70F)[1], darken(bread, 0.70F)[2]);
+			drawCuboid(-0.175D, 0.092D, -0.066D, -0.040D, 0.116D, 0.066D, meat[0], meat[1],
+				meat[2]);
+			drawCuboid(-0.178D, 0.118D, -0.070D, -0.038D, 0.134D, 0.070D, cheese[0],
+				cheese[1], cheese[2]);
+			drawCuboid(-0.188D, 0.136D, -0.078D, -0.026D, 0.166D, 0.078D, bread[0], bread[1],
+				bread[2]);
+			drawCuboid(0.042D, 0.064D, -0.122D, 0.078D, 0.178D, -0.006D, fried[0], fried[1],
+				fried[2]);
+			drawCuboid(0.102D, 0.064D, -0.092D, 0.138D, 0.162D, 0.038D, fried[0], fried[1],
+				fried[2]);
+			drawCuboid(0.164D, 0.064D, -0.066D, 0.200D, 0.150D, 0.074D, fried[0], fried[1],
+				fried[2]);
+			return;
+		}
+
+		if (itemName.contains("ploughmans")) {
+			drawCuboid(-0.196D, 0.064D, -0.110D, -0.060D, 0.124D, 0.050D, bread[0], bread[1],
+				bread[2]);
+			drawCuboid(-0.176D, 0.126D, -0.084D, -0.084D, 0.146D, 0.032D, darken(bread, 0.74F)[0],
+				darken(bread, 0.74F)[1], darken(bread, 0.74F)[2]);
+			drawCuboid(-0.015D, 0.064D, -0.090D, 0.100D, 0.126D, 0.020D, cheese[0], cheese[1],
+				cheese[2]);
+			drawCuboid(0.128D, 0.064D, -0.090D, 0.205D, 0.130D, -0.012D, red[0], red[1],
+				red[2]);
+			drawCuboid(0.110D, 0.064D, 0.042D, 0.205D, 0.100D, 0.086D, green[0], green[1],
+				green[2]);
+			return;
+		}
+
+		drawCuboid(-0.198D, 0.064D, -0.088D, -0.020D, 0.126D, 0.088D, darken(meat, 0.72F)[0],
+			darken(meat, 0.72F)[1], darken(meat, 0.72F)[2]);
+		drawCuboid(-0.178D, 0.128D, -0.066D, -0.042D, 0.152D, 0.066D, meat[0], meat[1],
+			meat[2]);
+		drawCuboid(0.026D, 0.064D, -0.110D, 0.115D, 0.124D, -0.024D, fried[0], fried[1],
+			fried[2]);
+		drawCuboid(0.044D, 0.126D, -0.092D, 0.100D, 0.146D, -0.042D, brighten(fried, 1.08F)[0],
+			brighten(fried, 1.08F)[1], brighten(fried, 1.08F)[2]);
+		drawCuboid(0.042D, 0.064D, 0.030D, 0.138D, 0.112D, 0.110D, green[0], green[1],
+			green[2]);
+		drawCuboid(0.152D, 0.064D, 0.010D, 0.210D, 0.126D, 0.072D, red[0], red[1], red[2]);
+	}
+
+	private static void renderWrapPlateFood(String itemName) {
+		float[] tortilla = new float[] { 0.78F, 0.62F, 0.34F };
+		float[] browned = new float[] { 0.56F, 0.32F, 0.12F };
+		float[] meat = inferFoodColor(itemName);
+		float[] green = new float[] { 0.14F, 0.46F, 0.12F };
+		float[] tomato = new float[] { 0.70F, 0.10F, 0.08F };
+		float[] cheese = new float[] { 0.90F, 0.72F, 0.18F };
+
+		if (containsAny(itemName, "nachos", "nachoes", "tostada")) {
+			drawCuboid(-0.170D, 0.064D, -0.104D, -0.055D, 0.102D, -0.012D, tortilla[0],
+				tortilla[1], tortilla[2]);
+			drawCuboid(-0.035D, 0.070D, -0.080D, 0.080D, 0.108D, 0.020D, browned[0],
+				browned[1], browned[2]);
+			drawCuboid(0.060D, 0.064D, 0.000D, 0.170D, 0.102D, 0.098D, tortilla[0],
+				tortilla[1], tortilla[2]);
+			drawCuboid(-0.060D, 0.110D, -0.030D, 0.050D, 0.134D, 0.050D, cheese[0],
+				cheese[1], cheese[2]);
+			drawCuboid(0.056D, 0.126D, 0.030D, 0.118D, 0.144D, 0.076D, tomato[0], tomato[1],
+				tomato[2]);
+			return;
+		}
+
+		drawCuboid(-0.205D, 0.064D, -0.070D, 0.205D, 0.104D, 0.070D, browned[0], browned[1],
+			browned[2]);
+		drawCuboid(-0.190D, 0.104D, -0.090D, 0.190D, 0.152D, 0.090D, tortilla[0],
+			tortilla[1], tortilla[2]);
+		drawCuboid(-0.150D, 0.154D, -0.040D, -0.030D, 0.178D, 0.040D, meat[0], meat[1],
+			meat[2]);
+		drawCuboid(-0.010D, 0.154D, -0.052D, 0.084D, 0.176D, 0.052D, green[0], green[1],
+			green[2]);
+		drawCuboid(0.078D, 0.156D, -0.030D, 0.146D, 0.178D, 0.030D, tomato[0], tomato[1],
+			tomato[2]);
+		drawCuboid(-0.174D, 0.180D, -0.018D, 0.170D, 0.194D, 0.018D, cheese[0], cheese[1],
+			cheese[2]);
+	}
+
+	private static void renderPastaPlateFood(String itemName) {
+		float[] pasta = new float[] { 0.82F, 0.68F, 0.38F };
+		float[] sauce = containsAny(itemName, "lasagna", "spagetti", "spaghetti")
+			? new float[] { 0.70F, 0.12F, 0.08F }
+			: inferFoodColor(itemName);
+		float[] cheese = new float[] { 0.90F, 0.72F, 0.18F };
+		float[] herb = new float[] { 0.16F, 0.42F, 0.12F };
+		float[] meat = new float[] { 0.38F, 0.14F, 0.08F };
+
+		if (itemName.contains("lasagna")) {
+			drawCuboid(-0.180D, 0.064D, -0.108D, 0.180D, 0.092D, 0.108D, pasta[0], pasta[1],
+				pasta[2]);
+			drawCuboid(-0.165D, 0.094D, -0.096D, 0.165D, 0.118D, 0.096D, sauce[0],
+				sauce[1], sauce[2]);
+			drawCuboid(-0.175D, 0.120D, -0.102D, 0.175D, 0.146D, 0.102D, pasta[0],
+				pasta[1], pasta[2]);
+			drawCuboid(-0.145D, 0.148D, -0.080D, 0.145D, 0.166D, 0.080D, cheese[0],
+				cheese[1], cheese[2]);
+			return;
+		}
+
+		drawCuboid(-0.160D, 0.064D, -0.100D, 0.160D, 0.088D, 0.100D, darken(pasta, 0.72F)[0],
+			darken(pasta, 0.72F)[1], darken(pasta, 0.72F)[2]);
+		drawCuboid(-0.185D, 0.088D, -0.085D, 0.145D, 0.112D, -0.050D, pasta[0], pasta[1],
+			pasta[2]);
+		drawCuboid(-0.145D, 0.114D, -0.025D, 0.185D, 0.138D, 0.010D, pasta[0], pasta[1],
+			pasta[2]);
+		drawCuboid(-0.175D, 0.140D, 0.045D, 0.155D, 0.164D, 0.080D, pasta[0], pasta[1],
+			pasta[2]);
+		drawCuboid(-0.065D, 0.166D, -0.045D, 0.080D, 0.190D, 0.050D, sauce[0], sauce[1],
+			sauce[2]);
+		if (containsAny(itemName, "meatball", "meatballs")) {
+			drawCuboid(-0.120D, 0.168D, -0.018D, -0.066D, 0.212D, 0.036D, meat[0], meat[1],
+				meat[2]);
+			drawCuboid(0.095D, 0.166D, 0.020D, 0.150D, 0.210D, 0.074D, meat[0], meat[1],
+				meat[2]);
+		}
+		drawCuboid(0.012D, 0.190D, -0.080D, 0.078D, 0.206D, -0.040D, herb[0], herb[1],
+			herb[2]);
+	}
+
+	private static void renderSmallRollPlateFood(String itemName) {
+		float[] wrapper = containsAny(itemName, "sushi", "futomaki", "californiaroll")
+			? new float[] { 0.08F, 0.12F, 0.08F }
+			: new float[] { 0.78F, 0.62F, 0.34F };
+		float[] filling = containsAny(itemName, "sushi", "futomaki", "californiaroll")
+			? new float[] { 0.86F, 0.80F, 0.62F }
+			: inferFoodColor(itemName);
+		float[] accent = containsAny(itemName, "sushi", "futomaki", "californiaroll")
+			? new float[] { 0.72F, 0.14F, 0.08F }
+			: getFoodAccentColor(itemName, filling);
+
+		drawCuboid(-0.170D, 0.064D, -0.088D, -0.075D, 0.132D, 0.006D, wrapper[0],
+			wrapper[1], wrapper[2]);
+		drawCuboid(-0.150D, 0.132D, -0.068D, -0.095D, 0.156D, -0.014D, filling[0],
+			filling[1], filling[2]);
+		drawCuboid(-0.010D, 0.064D, -0.070D, 0.085D, 0.132D, 0.025D, wrapper[0],
+			wrapper[1], wrapper[2]);
+		drawCuboid(0.010D, 0.132D, -0.050D, 0.064D, 0.156D, 0.006D, filling[0], filling[1],
+			filling[2]);
+		drawCuboid(0.090D, 0.064D, 0.018D, 0.172D, 0.126D, 0.098D, wrapper[0], wrapper[1],
+			wrapper[2]);
+		drawCuboid(0.110D, 0.128D, 0.036D, 0.154D, 0.150D, 0.080D, accent[0], accent[1],
+			accent[2]);
+	}
+
+	private static void renderBreakfastPlateFood(String itemName) {
+		float[] egg = new float[] { 0.92F, 0.90F, 0.74F };
+		float[] yolk = new float[] { 0.94F, 0.66F, 0.12F };
+		float[] meat = new float[] { 0.44F, 0.16F, 0.08F };
+		float[] hash = new float[] { 0.74F, 0.50F, 0.22F };
+
+		drawCuboid(-0.175D, 0.064D, -0.094D, -0.030D, 0.100D, 0.040D, egg[0], egg[1],
+			egg[2]);
+		drawCuboid(-0.122D, 0.102D, -0.038D, -0.066D, 0.132D, 0.016D, yolk[0], yolk[1],
+			yolk[2]);
+		drawCuboid(0.030D, 0.064D, -0.098D, 0.175D, 0.092D, -0.058D, meat[0], meat[1],
+			meat[2]);
+		drawCuboid(0.014D, 0.098D, -0.044D, 0.158D, 0.126D, -0.004D, meat[0], meat[1],
+			meat[2]);
+		drawCuboid(-0.020D, 0.064D, 0.040D, 0.158D, 0.108D, 0.118D, hash[0], hash[1],
+			hash[2]);
+		drawCuboid(0.016D, 0.110D, 0.058D, 0.128D, 0.132D, 0.102D, darken(hash, 0.72F)[0],
+			darken(hash, 0.72F)[1], darken(hash, 0.72F)[2]);
+	}
+
+	private static void renderSeafoodPlateFood(String itemName) {
+		float[] fish = inferFoodColor(itemName);
+		float[] pale = brighten(fish, 1.12F);
+		float[] shell = containsAny(itemName, "crab", "crayfish", "lobster", "shrimp")
+			? new float[] { 0.82F, 0.28F, 0.12F }
+			: darken(fish, 0.70F);
+		float[] lemon = new float[] { 0.92F, 0.78F, 0.20F };
+
+		if (containsAny(itemName, "crab", "crayfish", "lobster", "shrimp")) {
+			drawCuboid(-0.170D, 0.064D, -0.072D, -0.045D, 0.118D, 0.072D, shell[0],
+				shell[1], shell[2]);
+			drawCuboid(-0.035D, 0.074D, -0.055D, 0.082D, 0.124D, 0.055D, shell[0],
+				shell[1], shell[2]);
+			drawCuboid(0.090D, 0.066D, -0.035D, 0.175D, 0.108D, 0.035D, shell[0],
+				shell[1], shell[2]);
+			drawCuboid(-0.110D, 0.122D, -0.035D, -0.056D, 0.144D, 0.035D, pale[0],
+				pale[1], pale[2]);
+		} else {
+			drawCuboid(-0.185D, 0.064D, -0.074D, 0.175D, 0.102D, 0.074D, darken(fish, 0.72F)[0],
+				darken(fish, 0.72F)[1], darken(fish, 0.72F)[2]);
+			drawCuboid(-0.155D, 0.104D, -0.056D, 0.138D, 0.136D, 0.056D, fish[0], fish[1],
+				fish[2]);
+			drawCuboid(-0.120D, 0.138D, -0.038D, -0.050D, 0.154D, 0.038D, pale[0],
+				pale[1], pale[2]);
+			drawCuboid(0.018D, 0.138D, -0.038D, 0.088D, 0.154D, 0.038D, pale[0],
+				pale[1], pale[2]);
+		}
+		drawCuboid(0.090D, 0.146D, 0.052D, 0.160D, 0.166D, 0.092D, lemon[0], lemon[1],
+			lemon[2]);
+	}
+
+	private static void renderMeatPlateFood(String itemName) {
+		float[] meat = inferFoodColor(itemName);
+		float[] sear = darken(meat, 0.62F);
+		float[] glaze = containsAny(itemName, "honey", "maple", "bbq", "char") ? new float[] { 0.72F, 0.32F, 0.08F }
+			: brighten(meat, 1.10F);
+		float[] bone = new float[] { 0.84F, 0.78F, 0.58F };
+
+		if (containsAny(itemName, "ribs", "wings")) {
+			drawCuboid(-0.180D, 0.064D, -0.088D, -0.060D, 0.116D, -0.012D, meat[0], meat[1],
+				meat[2]);
+			drawCuboid(-0.150D, 0.118D, -0.052D, -0.025D, 0.136D, -0.032D, bone[0],
+				bone[1], bone[2]);
+			drawCuboid(-0.010D, 0.064D, -0.064D, 0.118D, 0.116D, 0.010D, glaze[0],
+				glaze[1], glaze[2]);
+			drawCuboid(0.022D, 0.118D, -0.028D, 0.150D, 0.136D, -0.008D, bone[0],
+				bone[1], bone[2]);
+			drawCuboid(0.065D, 0.064D, 0.030D, 0.176D, 0.112D, 0.100D, meat[0], meat[1],
+				meat[2]);
+			return;
+		}
+
+		if (containsAny(itemName, "bacon", "jerky", "sausage", "chorizo", "pepperoni")) {
+			drawCuboid(-0.190D, 0.064D, -0.090D, 0.140D, 0.096D, -0.050D, sear[0], sear[1],
+				sear[2]);
+			drawCuboid(-0.150D, 0.102D, -0.030D, 0.180D, 0.134D, 0.010D, meat[0], meat[1],
+				meat[2]);
+			drawCuboid(-0.180D, 0.140D, 0.030D, 0.150D, 0.172D, 0.070D, glaze[0],
+				glaze[1], glaze[2]);
+			return;
+		}
+
+		drawCuboid(-0.175D, 0.064D, -0.090D, 0.080D, 0.120D, 0.090D, sear[0], sear[1],
+			sear[2]);
+		drawCuboid(-0.140D, 0.122D, -0.064D, 0.105D, 0.154D, 0.064D, meat[0], meat[1],
+			meat[2]);
+		drawCuboid(0.090D, 0.064D, -0.064D, 0.170D, 0.136D, 0.064D, meat[0], meat[1],
+			meat[2]);
+		drawCuboid(-0.055D, 0.156D, -0.040D, 0.035D, 0.174D, 0.040D, glaze[0], glaze[1],
+			glaze[2]);
+	}
+
+	private static void renderBakedPlateFood(String itemName) {
+		float[] base = inferFoodColor(itemName);
+		float[] crust = containsAny(itemName, "chocolate", "brownie") ? new float[] { 0.20F, 0.10F, 0.04F }
+			: new float[] { 0.67F, 0.42F, 0.18F };
+		float[] accent = containsAny(itemName, "berry", "cherry", "strawberry", "raspberry")
+			? new float[] { 0.72F, 0.08F, 0.08F }
+			: new float[] { 0.90F, 0.78F, 0.48F };
+
+		drawCuboid(-0.165D, 0.064D, -0.112D, 0.165D, 0.096D, 0.112D, crust[0], crust[1],
+			crust[2]);
+		drawCuboid(-0.138D, 0.098D, -0.088D, 0.138D, 0.154D, 0.088D, base[0], base[1], base[2]);
+		drawCuboid(-0.060D, 0.156D, -0.030D, -0.018D, 0.176D, 0.012D, accent[0], accent[1],
+			accent[2]);
+		drawCuboid(0.048D, 0.156D, 0.022D, 0.092D, 0.176D, 0.064D, accent[0], accent[1],
+			accent[2]);
+	}
+
+	private static void renderFriesPlateFood() {
+		float[] fried = new float[] { 0.91F, 0.72F, 0.26F };
+		float[] browned = new float[] { 0.72F, 0.44F, 0.12F };
+
+		drawCuboid(-0.150D, 0.064D, -0.100D, -0.106D, 0.160D, 0.096D, fried[0], fried[1],
+			fried[2]);
+		drawCuboid(-0.075D, 0.064D, -0.120D, -0.032D, 0.178D, 0.076D, browned[0], browned[1],
+			browned[2]);
+		drawCuboid(0.000D, 0.064D, -0.094D, 0.044D, 0.166D, 0.108D, fried[0], fried[1],
+			fried[2]);
+		drawCuboid(0.075D, 0.064D, -0.104D, 0.118D, 0.154D, 0.088D, fried[0], fried[1],
+			fried[2]);
+	}
+
+	private static void renderGenericPlateFood(String itemName) {
+		float[] food = inferFoodColor(itemName);
+		float[] accent = getFoodAccentColor(itemName, food);
+
+		float[] base = darken(food, 0.78F);
+
+		drawCuboid(-0.150D, 0.064D, -0.096D, 0.150D, 0.092D, 0.096D, base[0], base[1], base[2]);
+		drawCuboid(-0.125D, 0.094D, -0.072D, -0.032D, 0.142D, 0.020D, food[0], food[1], food[2]);
+		drawCuboid(0.000D, 0.098D, -0.082D, 0.096D, 0.152D, 0.012D, food[0], food[1], food[2]);
+		drawCuboid(0.054D, 0.092D, 0.020D, 0.132D, 0.136D, 0.080D, food[0], food[1], food[2]);
+		drawCuboid(-0.110D, 0.144D, 0.034D, -0.048D, 0.164D, 0.078D, accent[0], accent[1],
+			accent[2]);
+		drawCuboid(0.030D, 0.154D, 0.026D, 0.092D, 0.174D, 0.076D, accent[0], accent[1],
+			accent[2]);
+	}
+
+	private static float[] inferDrinkColor(String itemName) {
+		if (containsAny(itemName, "coffee", "hotchocolate", "cocoa")) {
+			return new float[] { 0.20F, 0.10F, 0.04F };
+		}
+
+		if (equalsAny(itemName, "soysauceitem", "hoisinsauceitem")) {
+			return new float[] { 0.18F, 0.08F, 0.03F };
+		}
+
+		if (equalsAny(itemName, "hotsauceitem", "sweetandsoursauceitem")) {
+			return new float[] { 0.78F, 0.16F, 0.04F };
+		}
+
+		if (containsAny(itemName, "syrup", "honey")) {
+			return new float[] { 0.74F, 0.38F, 0.08F };
+		}
+
+		if (containsAny(itemName, "oil")) {
+			return new float[] { 0.82F, 0.68F, 0.20F };
+		}
+
+		if (itemName.contains("vinegar")) {
+			return new float[] { 0.86F, 0.76F, 0.42F };
+		}
+
+		if (containsAny(itemName, "rootbeer", "cola")) {
+			return new float[] { 0.22F, 0.10F, 0.04F };
+		}
+
+		if (itemName.contains("teaitem")) {
+			return new float[] { 0.66F, 0.38F, 0.12F };
+		}
+
+		if (containsAny(itemName, "milkshake", "eggnog", "yogurt", "cream", "vanilla", "coconut")) {
+			return new float[] { 0.90F, 0.84F, 0.66F };
+		}
+
+		return inferFoodColor(itemName);
+	}
+
+	private static float[] inferFoodColor(String itemName) {
+		if (containsAny(itemName, "cotton", "wovencotton")) {
+			return new float[] { 0.82F, 0.80F, 0.70F };
+		}
+
+		if (containsAny(itemName, "wax", "honeycomb")) {
+			return new float[] { 0.86F, 0.64F, 0.16F };
+		}
+
+		if (containsAny(itemName, "theatrebox", "popcorn")) {
+			return new float[] { 0.82F, 0.68F, 0.34F };
+		}
+
+		if (itemName.contains("vanillabean")) {
+			return new float[] { 0.20F, 0.10F, 0.04F };
+		}
+
+		if (containsAny(itemName, "barley", "beanitem", "oats", "rice", "rye", "soybean")) {
+			return new float[] { 0.72F, 0.56F, 0.30F };
+		}
+
+		if (containsAny(itemName, "curryleaf", "spiceleaf", "tealeaf", "seaweed")) {
+			return new float[] { 0.20F, 0.48F, 0.14F };
+		}
+
+		if (itemName.contains("mayo")) {
+			return new float[] { 0.86F, 0.82F, 0.62F };
+		}
+
+		if (itemName.contains("mustard")) {
+			return new float[] { 0.88F, 0.66F, 0.10F };
+		}
+
+		if (itemName.contains("chutney")) {
+			return new float[] { 0.78F, 0.34F, 0.10F };
+		}
+
+		if (itemName.contains("pistachio")) {
+			return new float[] { 0.48F, 0.54F, 0.22F };
+		}
+
+		if (itemName.contains("cashew")) {
+			return new float[] { 0.70F, 0.52F, 0.28F };
+		}
+
+		if (containsAny(itemName, "sweetandsour", "orangechicken", "orangec", "marmalade")) {
+			return new float[] { 0.86F, 0.30F, 0.08F };
+		}
+
+		if (containsAny(itemName, "chocolate", "coffee", "cocoa", "peanut", "pecan", "walnut",
+				"almond", "chestnut", "cinnamon", "mushroom", "gravy", "toast", "rye")) {
+			return new float[] { 0.34F, 0.18F, 0.08F };
+		}
+
+		if (containsAny(itemName, "chicken", "turkey")) {
+			return new float[] { 0.72F, 0.48F, 0.24F };
+		}
+
+		if (containsAny(itemName, "beef", "steak", "burger", "bacon", "ham", "sausage", "pork",
+				"mutton", "turkey", "meat")) {
+			return new float[] { 0.48F, 0.20F, 0.12F };
+		}
+
+		if (containsAny(itemName, "tomato", "strawberry", "raspberry", "cherry", "apple",
+				"cranberry", "pomegranate", "watermelon", "pepper")) {
+			return new float[] { 0.70F, 0.10F, 0.08F };
+		}
+
+		if (containsAny(itemName, "carrot", "pumpkin", "orange", "apricot", "sweetpotato", "yam",
+				"mango", "peach")) {
+			return new float[] { 0.86F, 0.42F, 0.10F };
+		}
+
+		if (containsAny(itemName, "potato", "turnip", "parsnip")) {
+			return new float[] { 0.72F, 0.50F, 0.24F };
+		}
+
+		if (containsAny(itemName, "cheese", "corn", "lemon", "banana", "pineapple", "honey",
+				"egg", "custard")) {
+			return new float[] { 0.90F, 0.70F, 0.18F };
+		}
+
+		if (containsAny(itemName, "avocado", "pea", "leek", "cucumber", "spinach", "lettuce",
+			"cabbage", "broccoli", "asparagus", "celery", "lime", "pickle", "vegetable",
+			"salad", "curryleaf", "spiceleaf")) {
+			return new float[] { 0.22F, 0.52F, 0.14F };
+		}
+
+		if (containsAny(itemName, "beet", "blueberry", "blackberry", "grape", "plum", "fig")) {
+			return new float[] { 0.28F, 0.12F, 0.46F };
+		}
+
+		if (containsAny(itemName, "rice", "coconut", "cream", "vanilla", "yogurt", "milk")) {
+			return new float[] { 0.84F, 0.78F, 0.58F };
+		}
+
+		if (containsAny(itemName, "fish", "calamari", "shrimp", "crab", "lobster")) {
+			return new float[] { 0.78F, 0.56F, 0.48F };
+		}
+
+		return new float[] { 0.68F, 0.38F, 0.16F };
+	}
+
+	private static float[] getFoodAccentColor(String itemName, float[] foodColor) {
+		if (itemName.contains("theatrebox")) {
+			return new float[] { 0.74F, 0.10F, 0.08F };
+		}
+
+		if (containsAny(itemName, "sweetandsour", "orangechicken", "orangec")) {
+			return new float[] { 0.18F, 0.46F, 0.13F };
+		}
+
+		if (containsAny(itemName, "cheese", "corn", "egg", "lemon")) {
+			return new float[] { 0.94F, 0.78F, 0.22F };
+		}
+
+		if (containsAny(itemName, "tomato", "pepper", "berry", "cherry", "apple")) {
+			return new float[] { 0.75F, 0.10F, 0.08F };
+		}
+
+		if (containsAny(itemName, "bacon", "beef", "pork", "ham", "sausage")) {
+			return new float[] { 0.38F, 0.14F, 0.08F };
+		}
+
+		if (foodColor[1] > foodColor[0]) {
+			return new float[] { 0.90F, 0.70F, 0.18F };
+		}
+
+		return new float[] { 0.16F, 0.44F, 0.12F };
 	}
 
 	private static void renderOrnament(ItemStack itemStack, double x, double y, double z, double itemX,
@@ -209,6 +1941,11 @@ public final class SurfaceDisplayRenderHelper {
 		return new float[] { color[0] * amount, color[1] * amount, color[2] * amount };
 	}
 
+	private static float[] brighten(float[] color, float amount) {
+		return new float[] { Math.min(1.0F, color[0] * amount), Math.min(1.0F, color[1] * amount),
+			Math.min(1.0F, color[2] * amount) };
+	}
+
 	private static void drawBookTopPattern(float[] gold) {
 		double y1 = 0.137D;
 		double y2 = 0.143D;
@@ -230,25 +1967,52 @@ public final class SurfaceDisplayRenderHelper {
 
 	private static void drawCuboid(double minX, double minY, double minZ, double maxX, double maxY,
 			double maxZ, float r, float g, float b) {
+		drawCuboid(minX, minY, minZ, maxX, maxY, maxZ, r, g, b, 1.0F);
+	}
+
+	private static void drawCuboid(double minX, double minY, double minZ, double maxX, double maxY,
+			double maxZ, float r, float g, float b, float alpha) {
 		Tessellator tessellator = Tessellator.getInstance();
 		VertexBuffer renderer = tessellator.getBuffer();
-		renderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR);
+		renderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR_NORMAL);
 
-		addFace(renderer, minX, minY, minZ, maxX, minY, minZ, maxX, maxY, minZ, minX, maxY, minZ, r, g, b);
-		addFace(renderer, minX, minY, maxZ, minX, maxY, maxZ, maxX, maxY, maxZ, maxX, minY, maxZ, r, g, b);
-		addFace(renderer, minX, minY, minZ, minX, minY, maxZ, maxX, minY, maxZ, maxX, minY, minZ, r, g, b);
-		addFace(renderer, minX, maxY, minZ, maxX, maxY, minZ, maxX, maxY, maxZ, minX, maxY, maxZ, r, g, b);
-		addFace(renderer, minX, minY, minZ, minX, maxY, minZ, minX, maxY, maxZ, minX, minY, maxZ, r, g, b);
-		addFace(renderer, maxX, minY, minZ, maxX, minY, maxZ, maxX, maxY, maxZ, maxX, maxY, minZ, r, g, b);
+		addFace(renderer, minX, minY, minZ, maxX, minY, minZ, maxX, maxY, minZ, minX, maxY, minZ,
+			r, g, b, alpha, 0.0F, 0.0F, -1.0F);
+		addFace(renderer, minX, minY, maxZ, minX, maxY, maxZ, maxX, maxY, maxZ, maxX, minY, maxZ,
+			r, g, b, alpha, 0.0F, 0.0F, 1.0F);
+		addFace(renderer, minX, minY, minZ, minX, minY, maxZ, maxX, minY, maxZ, maxX, minY, minZ,
+			r, g, b, alpha, 0.0F, -1.0F, 0.0F);
+		addFace(renderer, minX, maxY, minZ, maxX, maxY, minZ, maxX, maxY, maxZ, minX, maxY, maxZ,
+			r, g, b, alpha, 0.0F, 1.0F, 0.0F);
+		addFace(renderer, minX, minY, minZ, minX, maxY, minZ, minX, maxY, maxZ, minX, minY, maxZ,
+			r, g, b, alpha, -1.0F, 0.0F, 0.0F);
+		addFace(renderer, maxX, minY, minZ, maxX, minY, maxZ, maxX, maxY, maxZ, maxX, maxY, minZ,
+			r, g, b, alpha, 1.0F, 0.0F, 0.0F);
 
 		tessellator.draw();
 	}
 
 	private static void addFace(VertexBuffer renderer, double x1, double y1, double z1, double x2, double y2,
-			double z2, double x3, double y3, double z3, double x4, double y4, double z4, float r, float g, float b) {
-		renderer.pos(x1, y1, z1).color(r, g, b, 1.0F).endVertex();
-		renderer.pos(x2, y2, z2).color(r, g, b, 1.0F).endVertex();
-		renderer.pos(x3, y3, z3).color(r, g, b, 1.0F).endVertex();
-		renderer.pos(x4, y4, z4).color(r, g, b, 1.0F).endVertex();
+			double z2, double x3, double y3, double z3, double x4, double y4, double z4, float r,
+			float g, float b, float alpha, float normalX, float normalY, float normalZ) {
+		renderer.pos(x1, y1, z1).tex(0.0D, 0.0D).color(r, g, b, alpha)
+			.normal(normalX, normalY, normalZ).endVertex();
+		renderer.pos(x2, y2, z2).tex(1.0D, 0.0D).color(r, g, b, alpha)
+			.normal(normalX, normalY, normalZ).endVertex();
+		renderer.pos(x3, y3, z3).tex(1.0D, 1.0D).color(r, g, b, alpha)
+			.normal(normalX, normalY, normalZ).endVertex();
+		renderer.pos(x4, y4, z4).tex(0.0D, 1.0D).color(r, g, b, alpha)
+			.normal(normalX, normalY, normalZ).endVertex();
+	}
+
+	private static void beginGlassLayer() {
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GlStateManager.depthMask(false);
+	}
+
+	private static void endGlassLayer() {
+		GlStateManager.depthMask(true);
+		GL11.glDisable(GL11.GL_BLEND);
 	}
 }
