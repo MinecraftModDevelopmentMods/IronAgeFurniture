@@ -1676,6 +1676,8 @@ public final class SurfaceDisplayRenderHelper {
 			renderCreeperCookieFood();
 		} else if (itemName.contains("creeperwings")) {
 			renderCreeperWingsFood();
+		} else if (containsAny(itemName, "sundayroast", "roastchicken", "potroast")) {
+			renderRoastDinnerPlateFood(itemName);
 		} else if (isPotatoPlateFoodName(itemName)) {
 			renderPotatoPlateFood(itemName);
 		} else if (itemName.contains("caramelapple")) {
@@ -1712,6 +1714,8 @@ public final class SurfaceDisplayRenderHelper {
 				"lobster", "mussel", "octopus", "salmon", "sardine", "scallop", "shrimp",
 				"snail")) {
 			renderSeafoodPlateFood(itemName);
+		} else if (containsAny(itemName, "ovenroastedcauliflower", "roastedrootveggiemedley")) {
+			renderVegetablePlateFood(itemName);
 		} else if (containsAny(itemName, "bacon", "beef", "charsiu", "chorizo", "chicken", "ham",
 				"jerky", "kebab", "lamb", "meat", "mutton", "pepperoni", "pork", "rabbit",
 				"ribs", "roast", "sausage", "steak", "suadero", "turkey", "turtle", "venison",
@@ -1826,6 +1830,40 @@ public final class SurfaceDisplayRenderHelper {
 			bone[2]);
 	}
 
+	private static void renderRoastDinnerPlateFood(String itemName) {
+		float[] goldenSkin = new float[] { 0.86F, 0.46F, 0.12F };
+		float[] roastMeat = itemName.contains("potroast") ? new float[] { 0.42F, 0.16F, 0.07F }
+			: new float[] { 0.78F, 0.38F, 0.10F };
+		float[] sear = darken(roastMeat, 0.62F);
+		float[] bone = new float[] { 0.86F, 0.78F, 0.58F };
+		float[] potato = new float[] { 0.82F, 0.62F, 0.30F };
+		float[] carrot = new float[] { 0.86F, 0.34F, 0.08F };
+		float[] greens = new float[] { 0.16F, 0.46F, 0.12F };
+		float[] gravy = new float[] { 0.34F, 0.14F, 0.04F };
+
+		if (itemName.contains("potroast")) {
+			drawCuboid(-0.185D, 0.064D, -0.088D, 0.085D, 0.116D, 0.088D, sear);
+			drawCuboid(-0.150D, 0.118D, -0.064D, 0.120D, 0.162D, 0.064D, roastMeat);
+			drawCuboid(-0.060D, 0.164D, -0.038D, 0.052D, 0.184D, 0.038D, gravy);
+			drawCuboid(0.116D, 0.064D, -0.105D, 0.184D, 0.118D, -0.040D, potato);
+			drawCuboid(0.130D, 0.120D, -0.086D, 0.196D, 0.140D, -0.028D, brighten(potato, 1.08F));
+			drawCuboid(0.115D, 0.064D, 0.018D, 0.192D, 0.116D, 0.078D, carrot);
+			drawCuboid(0.030D, 0.064D, 0.070D, 0.125D, 0.104D, 0.118D, greens);
+			return;
+		}
+
+		drawCuboid(-0.160D, 0.064D, -0.086D, 0.090D, 0.114D, 0.086D, sear);
+		drawCuboid(-0.135D, 0.116D, -0.066D, 0.110D, 0.166D, 0.066D, goldenSkin);
+		drawCuboid(-0.076D, 0.168D, -0.046D, 0.048D, 0.190D, 0.046D, brighten(goldenSkin, 1.10F));
+		drawCuboid(0.092D, 0.076D, -0.104D, 0.178D, 0.132D, -0.036D, goldenSkin);
+		drawCuboid(0.164D, 0.088D, -0.076D, 0.218D, 0.110D, -0.050D, bone);
+		drawCuboid(0.082D, 0.074D, 0.034D, 0.166D, 0.126D, 0.104D, goldenSkin);
+		drawCuboid(0.150D, 0.086D, 0.052D, 0.204D, 0.108D, 0.078D, bone);
+		drawCuboid(-0.208D, 0.064D, -0.102D, -0.142D, 0.116D, -0.040D, potato);
+		drawCuboid(-0.216D, 0.064D, 0.018D, -0.140D, 0.116D, 0.084D, greens);
+		drawCuboid(-0.112D, 0.064D, 0.072D, -0.032D, 0.110D, 0.120D, carrot);
+	}
+
 	private static void renderSaucedPlateFood(String itemName) {
 		float[] rice = new float[] { 0.86F, 0.80F, 0.62F };
 		float[] sauce = containsAny(itemName, "sweetandsour", "orangechicken")
@@ -1873,6 +1911,12 @@ public final class SurfaceDisplayRenderHelper {
 	}
 
 	private static void renderStackedPlateFood(String itemName) {
+		if (equalsAny(itemName, "beansontoastitem", "cheeseontoastitem", "cinnamontoastitem",
+				"frenchtoastitem", "toastitem", "toastedwesternitem", "vegemiteontoastitem")) {
+			renderToastPlateFood(itemName);
+			return;
+		}
+
 		float[] bread = containsAny(itemName, "pancake", "waffle") ? new float[] { 0.76F, 0.50F, 0.22F }
 			: new float[] { 0.72F, 0.47F, 0.24F };
 		float[] filling = containsAny(itemName, "pancake", "waffle") ? new float[] { 0.88F, 0.67F, 0.24F }
@@ -1890,6 +1934,30 @@ public final class SurfaceDisplayRenderHelper {
 			cheese[2]);
 		drawCuboid(-0.180D, 0.164D, -0.106D, 0.180D, 0.198D, 0.106D, bread[0], bread[1],
 			bread[2]);
+	}
+
+	private static void renderToastPlateFood(String itemName) {
+		float[] crust = new float[] { 0.58F, 0.34F, 0.14F };
+		float[] toast = new float[] { 0.78F, 0.58F, 0.28F };
+		float[] topping = itemName.contains("beansontoast") ? new float[] { 0.72F, 0.18F, 0.06F }
+			: itemName.contains("cheeseontoast") ? new float[] { 0.90F, 0.72F, 0.18F }
+				: itemName.contains("cinnamontoast") ? new float[] { 0.34F, 0.18F, 0.08F }
+					: itemName.contains("vegemite") ? new float[] { 0.12F, 0.06F, 0.02F }
+						: new float[] { 0.92F, 0.80F, 0.34F };
+		float[] garnish = itemName.contains("toastedwestern") ? new float[] { 0.70F, 0.12F, 0.08F }
+			: brighten(topping, 1.12F);
+
+		drawCuboid(-0.190D, 0.064D, -0.112D, 0.024D, 0.096D, 0.112D, crust);
+		drawCuboid(-0.166D, 0.098D, -0.088D, 0.002D, 0.128D, 0.088D, toast);
+		drawCuboid(-0.128D, 0.130D, -0.062D, -0.030D, 0.150D, 0.062D, topping);
+		drawCuboid(0.040D, 0.064D, -0.108D, 0.206D, 0.094D, 0.108D, crust);
+		drawCuboid(0.060D, 0.096D, -0.084D, 0.184D, 0.126D, 0.084D, toast);
+		drawCuboid(0.080D, 0.128D, -0.056D, 0.164D, 0.148D, 0.056D, topping);
+
+		if (!itemName.equals("toastitem")) {
+			drawCuboid(-0.106D, 0.152D, -0.030D, -0.070D, 0.168D, 0.002D, garnish);
+			drawCuboid(0.118D, 0.150D, 0.022D, 0.154D, 0.166D, 0.054D, garnish);
+		}
 	}
 
 	private static void renderPancakePlateFood(String itemName) {
@@ -2247,20 +2315,505 @@ public final class SurfaceDisplayRenderHelper {
 			return;
 		}
 
+		if (containsAny(itemName, "cookie", "shortbread", "snaps")) {
+			renderCookiePlateFood(itemName);
+		} else if (itemName.contains("donut")) {
+			renderDonutPlateFood(itemName);
+		} else if (containsAny(itemName, "ricecake", "mochi", "manjuu")) {
+			renderRiceCakePlateFood(itemName);
+		} else if (containsAny(itemName, "pie", "quiche", "pasty")) {
+			renderPiePlateFood(itemName);
+		} else if (containsAny(itemName, "cake", "cheesecake", "cupcake", "muffin", "lamington",
+				"pavlova")) {
+			renderCakePlateFood(itemName);
+		} else if (containsAny(itemName, "roll", "honeybun", "spicebun")) {
+			renderBakedRollPlateFood(itemName);
+		} else if (itemName.contains("pretzel")) {
+			renderPretzelPlateFood(itemName);
+		} else if (itemName.contains("croissant")) {
+			renderCroissantPlateFood();
+		} else if (containsAny(itemName, "bread", "biscuit", "cracker", "scone", "naan", "damper",
+				"cornbread", "gingerbread")) {
+			renderBreadPlateFood(itemName);
+		} else if (containsAny(itemName, "fritter", "hushpuppies", "zeppole", "potatocakes")) {
+			renderFriedBitesPlateFood(itemName);
+		} else if (containsAny(itemName, "pudding", "trifle", "bananasplit", "yorkshire")) {
+			renderPuddingPlateFood(itemName);
+		} else if (containsAny(itemName, "baklava", "brownie", "baritem", "cobbler", "crumble",
+				"jaffa", "tart", "timtam")) {
+			renderSquareSweetPlateFood(itemName);
+		} else if (containsAny(itemName, "candiedginger", "candiedlemon", "poachedpear")) {
+			renderCandiedFruitPlateFood(itemName);
+		} else {
+			renderPastryFallbackFood(itemName);
+		}
+	}
+
+	private static void renderCookiePlateFood(String itemName) {
+		if (itemName.contains("creamcookie")) {
+			float[] cookie = new float[] { 0.18F, 0.09F, 0.04F };
+			float[] cream = new float[] { 0.88F, 0.82F, 0.64F };
+
+			renderSmallCookieDisc(0.000D, 0.000D, 0.155D, 0.122D, 0.064D, 0.030D,
+				darken(cookie, 0.60F), cookie);
+			drawCuboid(-0.130D, 0.096D, -0.090D, 0.130D, 0.116D, 0.090D, cream);
+			renderSmallCookieDisc(0.000D, 0.000D, 0.145D, 0.112D, 0.118D, 0.026D,
+				darken(cookie, 0.68F), cookie);
+			return;
+		}
+
+		float[] cookie = containsAny(itemName, "peanutbutter") ? new float[] { 0.62F, 0.44F, 0.18F }
+			: containsAny(itemName, "raisin") ? new float[] { 0.62F, 0.42F, 0.20F }
+				: new float[] { 0.68F, 0.48F, 0.24F };
+		float[] chip = containsAny(itemName, "raisin") ? new float[] { 0.22F, 0.10F, 0.28F }
+			: new float[] { 0.18F, 0.08F, 0.03F };
+
+		renderSmallCookieDisc(-0.072D, -0.040D, 0.108D, 0.086D, 0.064D, 0.034D,
+			darken(cookie, 0.70F), cookie);
+		renderSmallCookieDisc(0.078D, 0.020D, 0.104D, 0.084D, 0.070D, 0.032D,
+			darken(cookie, 0.70F), brighten(cookie, 1.06F));
+		drawCuboid(-0.128D, 0.102D, -0.072D, -0.102D, 0.116D, -0.048D, chip);
+		drawCuboid(-0.048D, 0.102D, -0.018D, -0.022D, 0.116D, 0.006D, chip);
+		drawCuboid(0.040D, 0.106D, -0.010D, 0.066D, 0.120D, 0.014D, chip);
+		drawCuboid(0.100D, 0.106D, 0.040D, 0.126D, 0.120D, 0.064D, chip);
+
+		if (itemName.contains("peanutbutter")) {
+			float[] fork = darken(cookie, 0.62F);
+			drawCuboid(-0.128D, 0.118D, 0.036D, -0.010D, 0.128D, 0.052D, fork);
+			drawCuboid(-0.070D, 0.118D, -0.028D, 0.044D, 0.128D, -0.012D, fork);
+			drawCuboid(0.020D, 0.122D, 0.070D, 0.130D, 0.132D, 0.086D, fork);
+		}
+	}
+
+	private static void renderDonutPlateFood(String itemName) {
+		float[] dough = new float[] { 0.68F, 0.48F, 0.24F };
+		float[] icing = null;
+
+		if (itemName.contains("jellydonut")) {
+			float[] paleDough = new float[] { 0.82F, 0.68F, 0.42F };
+			float[] jelly = containsAny(itemName, "grape", "blueberry", "blackberry")
+				? new float[] { 0.30F, 0.10F, 0.44F }
+				: new float[] { 0.74F, 0.06F, 0.08F };
+
+			renderSmallCookieDisc(0.000D, 0.000D, 0.160D, 0.125D, 0.064D, 0.052D,
+				darken(paleDough, 0.72F), paleDough);
+			drawCuboid(-0.050D, 0.118D, -0.035D, 0.054D, 0.142D, 0.038D, jelly);
+			drawCuboid(-0.022D, 0.144D, -0.014D, 0.026D, 0.154D, 0.018D, brighten(jelly, 1.18F));
+			return;
+		}
+
+		if (itemName.contains("chocolate")) {
+			icing = new float[] { 0.18F, 0.08F, 0.03F };
+		} else if (itemName.contains("frosted")) {
+			icing = new float[] { 0.94F, 0.74F, 0.78F };
+		} else if (itemName.contains("powdered")) {
+			icing = new float[] { 0.90F, 0.86F, 0.74F };
+		} else if (containsAny(itemName, "cinnamon", "sugar")) {
+			icing = new float[] { 0.72F, 0.42F, 0.16F };
+		}
+
+		renderDonutRing(0.000D, 0.000D, dough, icing);
+		if (itemName.contains("frosted")) {
+			drawCuboid(-0.090D, 0.128D, -0.095D, -0.062D, 0.140D, -0.070D, 0.94F, 0.18F, 0.24F);
+			drawCuboid(0.054D, 0.128D, -0.088D, 0.082D, 0.140D, -0.064D, 0.18F, 0.54F, 0.22F);
+			drawCuboid(0.076D, 0.128D, 0.055D, 0.104D, 0.140D, 0.080D, 0.24F, 0.34F, 0.90F);
+		}
+	}
+
+	private static void renderPiePlateFood(String itemName) {
+		if (itemName.contains("pasty")) {
+			renderPastyPlateFood();
+			return;
+		}
+
+		float[] tin = new float[] { 0.46F, 0.46F, 0.44F };
+		float[] crust = new float[] { 0.72F, 0.48F, 0.22F };
+		float[] filling = getPieFillingColor(itemName);
+		boolean savory = containsAny(itemName, "chickenpot", "cottagepie", "meatpie", "mincepie",
+			"shepardspie", "spinachpie", "quiche");
+
+		drawCuboid(-0.190D, 0.064D, -0.126D, 0.190D, 0.084D, 0.126D, darken(tin, 0.62F));
+		drawCuboid(-0.170D, 0.086D, -0.110D, 0.170D, 0.112D, 0.110D, tin);
+		drawCuboid(-0.150D, 0.114D, -0.098D, 0.150D, 0.144D, 0.098D, crust);
+		drawCuboid(-0.112D, 0.146D, -0.070D, 0.112D, 0.168D, 0.070D, filling);
+		drawCuboid(-0.170D, 0.146D, -0.112D, 0.170D, 0.170D, -0.084D, crust);
+		drawCuboid(-0.170D, 0.146D, 0.084D, 0.170D, 0.170D, 0.112D, crust);
+		drawCuboid(-0.170D, 0.146D, -0.112D, -0.142D, 0.170D, 0.112D, crust);
+		drawCuboid(0.142D, 0.146D, -0.112D, 0.170D, 0.170D, 0.112D, crust);
+
+		if (savory) {
+			float[] topping = containsAny(itemName, "cottagepie", "shepardspie")
+				? new float[] { 0.82F, 0.70F, 0.42F } : brighten(filling, 1.12F);
+			drawCuboid(-0.086D, 0.170D, -0.054D, 0.086D, 0.188D, 0.054D, topping);
+			drawCuboid(-0.134D, 0.172D, 0.036D, -0.072D, 0.188D, 0.078D, topping);
+			drawCuboid(0.072D, 0.172D, -0.080D, 0.134D, 0.188D, -0.038D, topping);
+		} else {
+			drawCuboid(-0.116D, 0.170D, -0.020D, 0.116D, 0.184D, 0.002D, crust);
+			drawCuboid(-0.016D, 0.170D, -0.070D, 0.006D, 0.184D, 0.070D, crust);
+			drawCuboid(-0.080D, 0.186D, -0.052D, -0.044D, 0.200D, -0.018D, brighten(filling, 1.16F));
+			drawCuboid(0.044D, 0.186D, 0.018D, 0.080D, 0.200D, 0.052D, brighten(filling, 1.16F));
+		}
+	}
+
+	private static void renderCakePlateFood(String itemName) {
+		if (containsAny(itemName, "cupcake", "muffin")) {
+			renderMuffinPlateFood(itemName);
+			return;
+		}
+
+		if (itemName.contains("pavlova")) {
+			float[] meringue = new float[] { 0.90F, 0.86F, 0.72F };
+			float[] cream = new float[] { 0.96F, 0.92F, 0.80F };
+			float[] berry = new float[] { 0.76F, 0.08F, 0.08F };
+
+			renderSmallCookieDisc(0.000D, 0.000D, 0.170D, 0.120D, 0.064D, 0.050D,
+				darken(meringue, 0.72F), meringue);
+			drawCuboid(-0.120D, 0.116D, -0.078D, 0.120D, 0.148D, 0.078D, cream);
+			drawCuboid(-0.062D, 0.150D, -0.032D, -0.014D, 0.178D, 0.016D, berry);
+			drawCuboid(0.022D, 0.150D, 0.018D, 0.070D, 0.178D, 0.066D, berry);
+			return;
+		}
+
+		if (itemName.contains("lamington")) {
+			float[] chocolate = new float[] { 0.20F, 0.10F, 0.04F };
+			float[] coconut = new float[] { 0.88F, 0.84F, 0.70F };
+
+			drawCuboid(-0.150D, 0.064D, -0.105D, 0.150D, 0.126D, 0.105D, darken(chocolate, 0.62F));
+			drawCuboid(-0.132D, 0.128D, -0.088D, 0.132D, 0.166D, 0.088D, chocolate);
+			drawCuboid(-0.100D, 0.168D, -0.060D, -0.070D, 0.184D, -0.030D, coconut);
+			drawCuboid(-0.020D, 0.168D, 0.028D, 0.010D, 0.184D, 0.058D, coconut);
+			drawCuboid(0.072D, 0.168D, -0.042D, 0.104D, 0.184D, -0.012D, coconut);
+			return;
+		}
+
+		float[] cake = inferFoodColor(itemName);
+		float[] frosting = getCakeFrostingColor(itemName);
+		float[] crust = containsAny(itemName, "cheesecake") ? new float[] { 0.48F, 0.28F, 0.12F }
+			: darken(cake, 0.72F);
+		float[] topping = getFoodAccentColor(itemName, cake);
+
+		drawCuboid(-0.170D, 0.064D, -0.105D, 0.170D, 0.094D, 0.105D, crust);
+		drawCuboid(-0.150D, 0.096D, -0.090D, 0.150D, 0.132D, 0.090D, cake);
+		drawCuboid(-0.150D, 0.134D, -0.090D, 0.150D, 0.154D, 0.090D, frosting);
+		drawCuboid(-0.132D, 0.156D, -0.074D, 0.132D, 0.186D, 0.074D,
+			containsAny(itemName, "cheesecake") ? frosting : brighten(cake, 1.08F));
+
+		if (containsAny(itemName, "redvelvet", "holidaycake", "pineapple", "chocolate", "cheesecake")) {
+			drawCuboid(-0.096D, 0.188D, -0.048D, -0.052D, 0.208D, -0.010D, topping);
+			drawCuboid(0.042D, 0.188D, 0.010D, 0.086D, 0.208D, 0.050D, topping);
+			if (itemName.contains("holidaycake")) {
+				drawCuboid(-0.015D, 0.188D, 0.036D, 0.030D, 0.208D, 0.078D, 0.16F, 0.44F, 0.12F);
+			}
+		}
+	}
+
+	private static void renderMuffinPlateFood(String itemName) {
+		float[] cake = inferFoodColor(itemName);
+		float[] wrapper = new float[] { 0.58F, 0.50F, 0.42F };
+		float[] top = containsAny(itemName, "blueberry", "durian", "pumpkin") ? brighten(cake, 1.08F)
+			: new float[] { 0.82F, 0.62F, 0.30F };
+		float[] dot = getFoodAccentColor(itemName, cake);
+
+		drawCuboid(-0.168D, 0.064D, -0.070D, -0.070D, 0.116D, 0.052D, wrapper);
+		drawCuboid(-0.184D, 0.118D, -0.088D, -0.052D, 0.158D, 0.070D, top);
+		drawCuboid(0.012D, 0.064D, -0.072D, 0.110D, 0.116D, 0.052D, wrapper);
+		drawCuboid(-0.004D, 0.118D, -0.090D, 0.128D, 0.158D, 0.070D, top);
+		drawCuboid(0.128D, 0.064D, 0.000D, 0.196D, 0.108D, 0.080D, wrapper);
+		drawCuboid(0.112D, 0.110D, -0.016D, 0.212D, 0.146D, 0.096D, top);
+		drawCuboid(-0.132D, 0.160D, -0.030D, -0.100D, 0.174D, 0.000D, dot);
+		drawCuboid(0.048D, 0.160D, 0.010D, 0.080D, 0.174D, 0.040D, dot);
+	}
+
+	private static void renderBakedRollPlateFood(String itemName) {
+		float[] bread = new float[] { 0.70F, 0.44F, 0.18F };
+		float[] filling = getFoodAccentColor(itemName, inferFoodColor(itemName));
+		float[] dark = darken(bread, 0.62F);
+
+		if (containsAny(itemName, "cinnamonroll", "honeybun")) {
+			renderSmallCookieDisc(0.000D, 0.000D, 0.152D, 0.116D, 0.064D, 0.048D, dark, bread);
+			drawCuboid(-0.104D, 0.116D, -0.020D, 0.102D, 0.136D, 0.006D, filling);
+			drawCuboid(-0.022D, 0.138D, -0.070D, 0.006D, 0.156D, 0.070D, filling);
+			drawCuboid(-0.062D, 0.158D, 0.040D, 0.060D, 0.174D, 0.064D, filling);
+			return;
+		}
+
+		if (containsAny(itemName, "jamroll", "chocolateroll")) {
+			float[] rollFilling = itemName.contains("chocolate") ? new float[] { 0.18F, 0.08F, 0.03F }
+				: new float[] { 0.72F, 0.08F, 0.10F };
+
+			drawCuboid(-0.205D, 0.064D, -0.060D, 0.145D, 0.128D, 0.060D, dark);
+			drawCuboid(-0.180D, 0.130D, -0.048D, 0.170D, 0.164D, 0.048D, bread);
+			drawCuboid(0.140D, 0.090D, -0.052D, 0.192D, 0.152D, 0.052D, rollFilling);
+			drawCuboid(0.154D, 0.108D, -0.030D, 0.204D, 0.136D, 0.030D, brighten(bread, 1.10F));
+			return;
+		}
+
+		if (itemName.contains("sausage")) {
+			float[] sausage = new float[] { 0.42F, 0.15F, 0.08F };
+			drawCuboid(-0.205D, 0.064D, -0.060D, 0.205D, 0.106D, 0.060D, dark);
+			drawCuboid(-0.186D, 0.108D, -0.046D, 0.186D, 0.142D, 0.046D, bread);
+			drawCuboid(-0.170D, 0.144D, -0.024D, 0.170D, 0.164D, 0.024D, sausage);
+			return;
+		}
+
+		drawCuboid(-0.190D, 0.064D, -0.085D, -0.070D, 0.118D, 0.060D, dark);
+		drawCuboid(-0.172D, 0.120D, -0.070D, -0.052D, 0.150D, 0.050D, bread);
+		drawCuboid(-0.032D, 0.064D, -0.070D, 0.082D, 0.118D, 0.070D, bread);
+		drawCuboid(-0.012D, 0.120D, -0.050D, 0.102D, 0.150D, 0.050D, brighten(bread, 1.08F));
+		drawCuboid(0.108D, 0.064D, -0.048D, 0.190D, 0.112D, 0.068D, dark);
+	}
+
+	private static void renderPretzelPlateFood(String itemName) {
+		float[] pretzel = new float[] { 0.68F, 0.40F, 0.14F };
+		float[] salt = new float[] { 0.90F, 0.86F, 0.72F };
+		float[] mustard = new float[] { 0.86F, 0.62F, 0.08F };
+
+		drawCuboid(-0.188D, 0.064D, -0.090D, -0.042D, 0.100D, -0.052D, pretzel);
+		drawCuboid(-0.188D, 0.064D, 0.052D, -0.042D, 0.100D, 0.090D, pretzel);
+		drawCuboid(-0.192D, 0.094D, -0.072D, -0.154D, 0.148D, 0.072D, pretzel);
+		drawCuboid(-0.076D, 0.094D, -0.072D, -0.038D, 0.148D, 0.072D, pretzel);
+		drawCuboid(0.020D, 0.064D, -0.086D, 0.160D, 0.100D, -0.048D, pretzel);
+		drawCuboid(0.020D, 0.064D, 0.048D, 0.160D, 0.100D, 0.086D, pretzel);
+		drawCuboid(0.020D, 0.094D, -0.066D, 0.058D, 0.144D, 0.066D, pretzel);
+		drawCuboid(0.122D, 0.094D, -0.066D, 0.160D, 0.144D, 0.066D, pretzel);
+		drawCuboid(-0.120D, 0.150D, -0.016D, -0.090D, 0.164D, 0.012D, salt);
+		drawCuboid(0.082D, 0.148D, 0.022D, 0.112D, 0.162D, 0.050D, salt);
+		if (itemName.contains("mustard")) {
+			drawCuboid(-0.030D, 0.066D, 0.092D, 0.048D, 0.086D, 0.140D, mustard);
+		}
+	}
+
+	private static void renderCroissantPlateFood() {
+		float[] crust = new float[] { 0.74F, 0.46F, 0.18F };
+		float[] pale = new float[] { 0.88F, 0.62F, 0.26F };
+
+		drawCuboid(-0.180D, 0.064D, -0.050D, -0.080D, 0.120D, 0.058D, crust);
+		drawCuboid(-0.095D, 0.086D, -0.084D, 0.088D, 0.148D, 0.084D, pale);
+		drawCuboid(0.074D, 0.064D, -0.050D, 0.180D, 0.120D, 0.058D, crust);
+		drawCuboid(-0.154D, 0.122D, 0.040D, -0.084D, 0.146D, 0.072D, pale);
+		drawCuboid(0.078D, 0.122D, -0.072D, 0.150D, 0.146D, -0.040D, pale);
+	}
+
+	private static void renderBreadPlateFood(String itemName) {
+		float[] bread = containsAny(itemName, "cornbread", "honeybread") ? new float[] { 0.84F, 0.58F, 0.22F }
+			: containsAny(itemName, "pumpkin", "zucchini") ? inferFoodColor(itemName)
+				: new float[] { 0.70F, 0.46F, 0.20F };
+		float[] crust = darken(bread, 0.66F);
+		float[] crumb = brighten(bread, 1.18F);
+		float[] accent = containsAny(itemName, "garlic") ? new float[] { 0.18F, 0.46F, 0.12F }
+			: containsAny(itemName, "raisin", "nut", "chocolate") ? new float[] { 0.20F, 0.10F, 0.04F }
+				: getFoodAccentColor(itemName, bread);
+
+		drawCuboid(-0.205D, 0.064D, -0.072D, 0.155D, 0.108D, 0.072D, crust);
+		drawCuboid(-0.180D, 0.110D, -0.060D, 0.180D, 0.150D, 0.060D, bread);
+		drawCuboid(0.092D, 0.152D, -0.052D, 0.190D, 0.182D, 0.052D, crumb);
+		drawCuboid(-0.130D, 0.152D, -0.040D, -0.082D, 0.168D, -0.008D, accent);
+		drawCuboid(-0.030D, 0.152D, 0.012D, 0.020D, 0.168D, 0.044D, accent);
+		drawCuboid(0.056D, 0.152D, -0.046D, 0.104D, 0.168D, -0.014D, accent);
+	}
+
+	private static void renderFriedBitesPlateFood(String itemName) {
+		float[] fried = containsAny(itemName, "apple") ? new float[] { 0.74F, 0.50F, 0.20F }
+			: new float[] { 0.82F, 0.58F, 0.20F };
+		float[] dark = darken(fried, 0.66F);
+		float[] pale = containsAny(itemName, "zeppole") ? new float[] { 0.90F, 0.82F, 0.62F }
+			: brighten(fried, 1.10F);
+
+		drawCuboid(-0.170D, 0.064D, -0.084D, -0.080D, 0.120D, 0.004D, dark);
+		drawCuboid(-0.154D, 0.122D, -0.066D, -0.062D, 0.146D, 0.020D, fried);
+		drawCuboid(-0.032D, 0.066D, -0.102D, 0.066D, 0.126D, -0.012D, fried);
+		drawCuboid(-0.012D, 0.128D, -0.084D, 0.086D, 0.152D, 0.006D, pale);
+		drawCuboid(0.078D, 0.064D, 0.018D, 0.170D, 0.118D, 0.098D, dark);
+		drawCuboid(0.096D, 0.120D, 0.032D, 0.186D, 0.144D, 0.112D, fried);
+	}
+
+	private static void renderPuddingPlateFood(String itemName) {
+		if (itemName.contains("bananasplit")) {
+			float[] banana = new float[] { 0.90F, 0.76F, 0.24F };
+			float[] cream = new float[] { 0.92F, 0.86F, 0.72F };
+			float[] cherry = new float[] { 0.74F, 0.06F, 0.08F };
+
+			drawCuboid(-0.196D, 0.064D, -0.062D, 0.196D, 0.100D, 0.062D, banana);
+			drawCuboid(-0.120D, 0.102D, -0.050D, -0.030D, 0.152D, 0.050D, cream);
+			drawCuboid(0.044D, 0.102D, -0.050D, 0.134D, 0.152D, 0.050D, cream);
+			drawCuboid(-0.010D, 0.154D, -0.020D, 0.030D, 0.178D, 0.020D, cherry);
+			return;
+		}
+
+		float[] bowl = new float[] { 0.78F, 0.72F, 0.60F };
+		float[] pudding = containsAny(itemName, "trifle", "raspberry") ? new float[] { 0.72F, 0.08F, 0.10F }
+			: containsAny(itemName, "yorkshire") ? new float[] { 0.80F, 0.52F, 0.20F }
+				: inferFoodColor(itemName);
+		float[] cream = new float[] { 0.92F, 0.86F, 0.70F };
+
+		drawCuboid(-0.150D, 0.064D, -0.100D, 0.150D, 0.088D, 0.100D, darken(bowl, 0.62F));
+		drawCuboid(-0.175D, 0.088D, -0.120D, 0.175D, 0.122D, 0.120D, bowl);
+		drawCuboid(-0.132D, 0.124D, -0.086D, 0.132D, 0.154D, 0.086D, pudding);
+		drawCuboid(-0.082D, 0.156D, -0.046D, 0.082D, 0.180D, 0.046D, cream);
+		if (itemName.contains("trifle")) {
+			drawCuboid(-0.110D, 0.126D, -0.080D, 0.110D, 0.140D, 0.080D, cream);
+			drawCuboid(-0.030D, 0.182D, -0.018D, 0.030D, 0.202D, 0.018D, pudding);
+		}
+	}
+
+	private static void renderSquareSweetPlateFood(String itemName) {
+		if (containsAny(itemName, "cobbler", "crumble", "tart")) {
+			float[] crust = new float[] { 0.70F, 0.46F, 0.20F };
+			float[] filling = getPieFillingColor(itemName);
+			float[] crumble = new float[] { 0.84F, 0.64F, 0.30F };
+
+			drawCuboid(-0.170D, 0.064D, -0.105D, 0.170D, 0.106D, 0.105D, crust);
+			drawCuboid(-0.130D, 0.108D, -0.076D, 0.130D, 0.140D, 0.076D, filling);
+			drawCuboid(-0.118D, 0.142D, -0.068D, -0.070D, 0.162D, -0.026D, crumble);
+			drawCuboid(-0.010D, 0.142D, 0.020D, 0.038D, 0.162D, 0.062D, crumble);
+			drawCuboid(0.070D, 0.142D, -0.044D, 0.118D, 0.162D, -0.002D, crumble);
+			return;
+		}
+
+		float[] base = containsAny(itemName, "brownie", "timtam", "jaffa", "chocolate")
+			? new float[] { 0.20F, 0.10F, 0.04F } : inferFoodColor(itemName);
+		float[] icing = containsAny(itemName, "jaffa") ? new float[] { 0.86F, 0.36F, 0.08F }
+			: containsAny(itemName, "baklava") ? new float[] { 0.90F, 0.64F, 0.18F }
+				: getFoodAccentColor(itemName, base);
+
+		drawCuboid(-0.178D, 0.064D, -0.094D, 0.178D, 0.106D, 0.094D, darken(base, 0.66F));
+		drawCuboid(-0.150D, 0.108D, -0.072D, 0.150D, 0.142D, 0.072D, base);
+		drawCuboid(-0.132D, 0.144D, -0.056D, 0.132D, 0.162D, 0.056D, icing);
+		drawCuboid(-0.080D, 0.164D, -0.040D, -0.042D, 0.178D, -0.006D, brighten(icing, 1.12F));
+		drawCuboid(0.036D, 0.164D, 0.006D, 0.074D, 0.178D, 0.040D, brighten(icing, 1.12F));
+	}
+
+	private static void renderRiceCakePlateFood(String itemName) {
+		float[] rice = new float[] { 0.88F, 0.84F, 0.68F };
+		float[] accent = itemName.contains("mochi") ? new float[] { 0.78F, 0.72F, 0.96F }
+			: itemName.contains("manjuu") ? new float[] { 0.92F, 0.76F, 0.92F }
+				: new float[] { 0.72F, 0.62F, 0.42F };
+
+		renderSmallCookieDisc(-0.092D, -0.042D, 0.082D, 0.070D, 0.064D, 0.036D,
+			darken(rice, 0.78F), rice);
+		renderSmallCookieDisc(0.030D, 0.014D, 0.082D, 0.070D, 0.066D, 0.036D,
+			darken(accent, 0.78F), accent);
+		renderSmallCookieDisc(0.128D, -0.052D, 0.066D, 0.056D, 0.064D, 0.032D,
+			darken(rice, 0.78F), brighten(rice, 1.08F));
+	}
+
+	private static void renderCandiedFruitPlateFood(String itemName) {
+		float[] fruit = inferFoodColor(itemName);
+		float[] sugar = new float[] { 0.92F, 0.78F, 0.36F };
+		float[] stem = new float[] { 0.22F, 0.42F, 0.10F };
+
+		drawCuboid(-0.160D, 0.064D, -0.080D, -0.075D, 0.122D, -0.006D, fruit);
+		drawCuboid(-0.148D, 0.124D, -0.064D, -0.064D, 0.146D, 0.012D, sugar);
+		drawCuboid(-0.020D, 0.064D, -0.090D, 0.075D, 0.126D, 0.000D, fruit);
+		drawCuboid(-0.002D, 0.128D, -0.070D, 0.088D, 0.150D, 0.020D, sugar);
+		drawCuboid(0.094D, 0.064D, 0.016D, 0.170D, 0.116D, 0.090D, fruit);
+		drawCuboid(0.118D, 0.118D, 0.044D, 0.154D, 0.144D, 0.080D, stem);
+	}
+
+	private static void renderPastryFallbackFood(String itemName) {
 		float[] base = inferFoodColor(itemName);
 		float[] crust = containsAny(itemName, "chocolate", "brownie") ? new float[] { 0.20F, 0.10F, 0.04F }
 			: new float[] { 0.67F, 0.42F, 0.18F };
-		float[] accent = containsAny(itemName, "berry", "cherry", "strawberry", "raspberry")
-			? new float[] { 0.72F, 0.08F, 0.08F }
-			: new float[] { 0.90F, 0.78F, 0.48F };
+		float[] accent = getFoodAccentColor(itemName, base);
 
-		drawCuboid(-0.165D, 0.064D, -0.112D, 0.165D, 0.096D, 0.112D, crust[0], crust[1],
-			crust[2]);
-		drawCuboid(-0.138D, 0.098D, -0.088D, 0.138D, 0.154D, 0.088D, base[0], base[1], base[2]);
-		drawCuboid(-0.060D, 0.156D, -0.030D, -0.018D, 0.176D, 0.012D, accent[0], accent[1],
-			accent[2]);
-		drawCuboid(0.048D, 0.156D, 0.022D, 0.092D, 0.176D, 0.064D, accent[0], accent[1],
-			accent[2]);
+		drawCuboid(-0.166D, 0.064D, -0.094D, -0.012D, 0.112D, 0.090D, crust);
+		drawCuboid(-0.140D, 0.114D, -0.070D, 0.020D, 0.152D, 0.068D, base);
+		drawCuboid(0.038D, 0.064D, -0.080D, 0.170D, 0.108D, 0.072D, base);
+		drawCuboid(0.058D, 0.110D, -0.058D, 0.188D, 0.142D, 0.054D, brighten(base, 1.08F));
+		drawCuboid(-0.070D, 0.154D, -0.028D, -0.026D, 0.174D, 0.014D, accent);
+		drawCuboid(0.092D, 0.144D, 0.018D, 0.136D, 0.164D, 0.060D, accent);
+	}
+
+	private static void renderPastyPlateFood() {
+		float[] pastry = new float[] { 0.74F, 0.50F, 0.22F };
+		float[] edge = darken(pastry, 0.68F);
+
+		drawCuboid(-0.178D, 0.064D, -0.105D, 0.120D, 0.102D, 0.105D, edge);
+		drawCuboid(-0.122D, 0.104D, -0.082D, 0.164D, 0.150D, 0.082D, pastry);
+		drawCuboid(-0.068D, 0.152D, -0.056D, 0.120D, 0.178D, 0.056D, brighten(pastry, 1.10F));
+		drawCuboid(0.104D, 0.118D, -0.092D, 0.152D, 0.138D, 0.092D, edge);
+	}
+
+	private static void renderDonutRing(double centerX, double centerZ, float[] dough, float[] icing) {
+		float[] dark = darken(dough, 0.68F);
+
+		drawCuboid(centerX - 0.150D, 0.064D, centerZ - 0.092D, centerX - 0.052D, 0.118D,
+			centerZ + 0.092D, dark);
+		drawCuboid(centerX + 0.052D, 0.064D, centerZ - 0.092D, centerX + 0.150D, 0.118D,
+			centerZ + 0.092D, dough);
+		drawCuboid(centerX - 0.104D, 0.064D, centerZ - 0.138D, centerX + 0.104D, 0.118D,
+			centerZ - 0.050D, dough);
+		drawCuboid(centerX - 0.104D, 0.064D, centerZ + 0.050D, centerX + 0.104D, 0.118D,
+			centerZ + 0.138D, dark);
+
+		if (icing != null) {
+			drawCuboid(centerX - 0.125D, 0.120D, centerZ - 0.078D, centerX - 0.045D, 0.138D,
+				centerZ + 0.078D, icing);
+			drawCuboid(centerX + 0.045D, 0.120D, centerZ - 0.078D, centerX + 0.125D, 0.138D,
+				centerZ + 0.078D, icing);
+			drawCuboid(centerX - 0.086D, 0.120D, centerZ - 0.112D, centerX + 0.086D, 0.138D,
+				centerZ - 0.046D, icing);
+			drawCuboid(centerX - 0.086D, 0.120D, centerZ + 0.046D, centerX + 0.086D, 0.138D,
+				centerZ + 0.112D, icing);
+		}
+	}
+
+	private static void renderSmallCookieDisc(double centerX, double centerZ, double radiusX,
+			double radiusZ, double y, double height, float[] edge, float[] top) {
+		drawCuboid(centerX - radiusX * 0.78D, y, centerZ - radiusZ, centerX + radiusX * 0.78D,
+			y + height * 0.58D, centerZ + radiusZ, edge);
+		drawCuboid(centerX - radiusX, y, centerZ - radiusZ * 0.68D, centerX + radiusX,
+			y + height * 0.58D, centerZ + radiusZ * 0.68D, edge);
+		drawCuboid(centerX - radiusX * 0.76D, y + height * 0.58D, centerZ - radiusZ * 0.76D,
+			centerX + radiusX * 0.76D, y + height, centerZ + radiusZ * 0.76D, top);
+	}
+
+	private static float[] getPieFillingColor(String itemName) {
+		if (containsAny(itemName, "keylime", "spinach")) {
+			return new float[] { 0.34F, 0.58F, 0.18F };
+		}
+
+		if (containsAny(itemName, "pumpkin", "sweetpotato")) {
+			return new float[] { 0.86F, 0.42F, 0.10F };
+		}
+
+		if (containsAny(itemName, "cherry", "strawberry", "raspberry")) {
+			return new float[] { 0.72F, 0.08F, 0.08F };
+		}
+
+		if (containsAny(itemName, "blueberry", "blackberry", "gooseberry")) {
+			return new float[] { 0.26F, 0.12F, 0.48F };
+		}
+
+		if (containsAny(itemName, "pecan", "meat", "mince", "cottage", "shepard")) {
+			return new float[] { 0.40F, 0.18F, 0.08F };
+		}
+
+		if (itemName.contains("chickenpot")) {
+			return new float[] { 0.74F, 0.54F, 0.26F };
+		}
+
+		return inferFoodColor(itemName);
+	}
+
+	private static float[] getCakeFrostingColor(String itemName) {
+		if (containsAny(itemName, "redvelvet", "cheesecake", "holidaycake", "lemondrizzle")) {
+			return new float[] { 0.92F, 0.86F, 0.70F };
+		}
+
+		if (itemName.contains("chocolate")) {
+			return new float[] { 0.18F, 0.08F, 0.03F };
+		}
+
+		if (itemName.contains("carrotcake")) {
+			return new float[] { 0.90F, 0.82F, 0.62F };
+		}
+
+		if (itemName.contains("pineapple")) {
+			return new float[] { 0.90F, 0.68F, 0.18F };
+		}
+
+		return new float[] { 0.84F, 0.70F, 0.42F };
 	}
 
 	private static void renderDecoratedCookieFood(float[] cookie, float[] accent) {
@@ -2746,6 +3299,16 @@ public final class SurfaceDisplayRenderHelper {
 		drawCuboid(-0.300D, y1, -0.170D, -0.282D, y2, 0.170D, gold[0], gold[1], gold[2]);
 		drawCuboid(-0.318D, y1, -0.080D, -0.264D, y2, -0.060D, gold[0], gold[1], gold[2]);
 		drawCuboid(-0.318D, y1, 0.060D, -0.264D, y2, 0.080D, gold[0], gold[1], gold[2]);
+	}
+
+	private static void drawCuboid(double minX, double minY, double minZ, double maxX, double maxY,
+			double maxZ, float[] color) {
+		drawCuboid(minX, minY, minZ, maxX, maxY, maxZ, color[0], color[1], color[2]);
+	}
+
+	private static void drawCuboid(double minX, double minY, double minZ, double maxX, double maxY,
+			double maxZ, float[] color, float alpha) {
+		drawCuboid(minX, minY, minZ, maxX, maxY, maxZ, color[0], color[1], color[2], alpha);
 	}
 
 	private static void drawCuboid(double minX, double minY, double minZ, double maxX, double maxY,
