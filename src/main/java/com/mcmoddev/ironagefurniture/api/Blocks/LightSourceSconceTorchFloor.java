@@ -6,6 +6,7 @@ import java.util.Random;
 import com.google.common.collect.Lists;
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 import com.mcmoddev.ironagefurniture.api.MetalVariantHelper;
+import com.mcmoddev.ironagefurniture.api.MineralogyCompat;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -200,7 +201,8 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
             || isItemFromBlock(item, BlockObjectHolder.light_metal_ironage_candle_floor)
             || isItemFromBlock(item, BlockObjectHolder.light_metal_ironage_block_floor_glow_clear)
             || isItemFromBlock(item, BlockObjectHolder.light_metal_ironage_block_floor_lava_clear)
-            || isItemFromBlock(item, BlockObjectHolder.light_metal_ironage_block_floor_red_clear);
+            || isItemFromBlock(item, BlockObjectHolder.light_metal_ironage_block_floor_red_clear)
+            || MineralogyCompat.isRockSaltLampItem(heldItem);
     }
 
     protected boolean isBlockedFilledSconceItem(ItemStack heldItem) {

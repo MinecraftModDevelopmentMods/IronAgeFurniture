@@ -6,6 +6,7 @@ import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 import com.mcmoddev.ironagefurniture.IronAgeFurnitureConfiguration;
 import com.mcmoddev.ironagefurniture.Ironagefurniture;
 import com.mcmoddev.ironagefurniture.api.FurnitureFactory;
+import com.mcmoddev.ironagefurniture.api.MineralogyCompat;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
@@ -155,6 +156,10 @@ public class BlockInitialiser {
 		BlockObjectHolder.light_metal_ironage_sconce_floor_redtorch_iron_unlit = FurnitureFactory.CreateIronFloorRedTorchSconceUnlit("light_metal_ironage_sconce_floor_redtorch_iron_unlit");
 		BlockObjectHolder.light_metal_ironage_sconce_wall_redtorch_iron = FurnitureFactory.CreateIronWallRedTorchSconce("light_metal_ironage_sconce_wall_redtorch_iron");
 		BlockObjectHolder.light_metal_ironage_sconce_wall_redtorch_iron_unlit = FurnitureFactory.CreateIronWallRedTorchSconceUnlit("light_metal_ironage_sconce_wall_redtorch_iron_unlit");
+		if (MineralogyCompat.isEnabled()) {
+			BlockObjectHolder.light_metal_ironage_sconce_floor_rocksalt_iron = FurnitureFactory.CreateIronFloorRockSaltSconce("light_metal_ironage_sconce_floor_rocksalt_iron");
+			BlockObjectHolder.light_metal_ironage_sconce_wall_rocksalt_iron = FurnitureFactory.CreateIronWallRockSaltSconce("light_metal_ironage_sconce_wall_rocksalt_iron");
+		}
 	}
 
 	private static void generateGlowLamps() {

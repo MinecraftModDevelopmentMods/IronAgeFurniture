@@ -1,0 +1,10 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_shelf_wall_outer_corner_rock_salt",
+  "textures": {
+    "log": "forestry:blocks/wood/bark.padauk",
+    "planks": "forestry:blocks/wood/planks.padauk",
+    "particle": "forestry:blocks/wood/bark.padauk",
+    "contents": "ironagefurniture:blocks/rocksalt_lamp"
+  }
+}

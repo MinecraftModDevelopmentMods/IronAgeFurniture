@@ -1,0 +1,10 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_table_low_straight_rock_salt",
+  "textures": {
+    "log": "forestry:blocks/wood/bark.wenge",
+    "planks": "forestry:blocks/wood/planks.wenge",
+    "particle": "forestry:blocks/wood/bark.wenge",
+    "contents": "ironagefurniture:blocks/rocksalt_lamp"
+  }
+}

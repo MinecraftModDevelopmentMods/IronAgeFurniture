@@ -42,6 +42,8 @@ import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceRedTorchFloor;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceRedTorchFloorUnlit;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceRedTorchWall;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceRedTorchWallUnlit;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceRockSaltFloor;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceRockSaltWall;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchFloor;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchFloorTwin;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceSconceTorchFloorTwinUnlit;
@@ -541,6 +543,22 @@ public class FurnitureFactory {
 
 	public static Block CreateIronWallGlowSconce(String name, float resistance, float hardness) {
 		return registerBlockWithoutItem(new LightSourceSconceGlowWall(Material.WOOD, name, resistance, hardness), name);
+	}
+
+	public static Block CreateIronFloorRockSaltSconce(String name) {
+		return CreateIronFloorRockSaltSconce(name, 10, 1);
+	}
+
+	public static Block CreateIronFloorRockSaltSconce(String name, float resistance, float hardness) {
+		return registerBlockWithoutItem(new LightSourceSconceRockSaltFloor(Material.WOOD, name, resistance, hardness), name);
+	}
+
+	public static Block CreateIronWallRockSaltSconce(String name) {
+		return CreateIronWallRockSaltSconce(name, 10, 1);
+	}
+
+	public static Block CreateIronWallRockSaltSconce(String name, float resistance, float hardness) {
+		return registerBlockWithoutItem(new LightSourceSconceRockSaltWall(Material.WOOD, name, resistance, hardness), name);
 	}
 
 	public static Block CreateIronFloorRedSconce(String name, int lightLevel) {

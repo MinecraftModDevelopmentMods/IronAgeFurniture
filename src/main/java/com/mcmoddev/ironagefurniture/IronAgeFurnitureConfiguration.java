@@ -34,6 +34,7 @@ public class IronAgeFurnitureConfiguration {
 	public static boolean INTEGRATION_IMMERSIVEENGINEERING = true;
 	public static boolean INTEGRATION_BASEMETALS = true;
 	public static boolean INTEGRATION_HARVESTCRAFT = true;
+	public static boolean INTEGRATION_MINERALOGY = true;
 	
 	public static void init(FMLPreInitializationEvent event) {
 		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
@@ -45,6 +46,7 @@ public class IronAgeFurnitureConfiguration {
     	INTEGRATION_IMMERSIVEENGINEERING = config.getBoolean("INTEGRATION_IMMERSIVEENGINEERING", "integration", INTEGRATION_IMMERSIVEENGINEERING, "If true, then furniture for Immersive Engineerig will be generated");
     	INTEGRATION_BASEMETALS = config.getBoolean("INTEGRATION_BASEMETALS", "integration", INTEGRATION_BASEMETALS, "If true, then Base Metals lighting variants will be generated when Base Metals is loaded");
 		INTEGRATION_HARVESTCRAFT = config.getBoolean("INTEGRATION_HARVESTCRAFT", "integration", INTEGRATION_HARVESTCRAFT, "If true, then HarvestCraft foods will use shaped table and shelf display rendering when HarvestCraft is loaded");
+		INTEGRATION_MINERALOGY = config.getBoolean("INTEGRATION_MINERALOGY", "integration", INTEGRATION_MINERALOGY, "If true, then Minecraft Mineralogy rock salt lamps can be placed in sconces and grand chandeliers when Mineralogy is loaded");
     	
     	GENERATE_SHIELD_CHAIRS = config.getBoolean("GENERATE_SHIELD_CHAIRS", "options", GENERATE_SHIELD_CHAIRS, "If true, then shield chairs will be generated");
 		GENERATE_CLASSIC_CHAIRS = config.getBoolean("GENERATE_CLASSIC_CHAIRS", "options", GENERATE_CLASSIC_CHAIRS, "If true, then classic chairs will be generated");

@@ -8,6 +8,7 @@ import com.mcmoddev.ironagefurniture.Ironagefurniture;
 import com.mcmoddev.ironagefurniture.api.Enumerations.Rotation;
 import com.mcmoddev.ironagefurniture.api.MetalVariantHelper;
 import com.mcmoddev.ironagefurniture.api.MetalVariantHelper.MetalVariant;
+import com.mcmoddev.ironagefurniture.api.MineralogyCompat;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityMetalVariant;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -255,6 +256,9 @@ public class LightHolderSconceFloor extends BlockHBase {
 		else if (heldItem.getItem() == Item.getItemFromBlock(BlockObjectHolder.light_metal_ironage_block_floor_red_clear)) {
 			newBlock = GetRedVariant(); // redstone lamp
 		}
+		else if (MineralogyCompat.isRockSaltLampItem(heldItem)) {
+			newBlock = GetRockSaltVariant();
+		}
 		
 		// if nothing matched, we did not handle it
 		if (newBlock == null) {
@@ -310,6 +314,9 @@ public class LightHolderSconceFloor extends BlockHBase {
 	    else if (heldItem.getItem() == Item.getItemFromBlock(BlockObjectHolder.light_metal_ironage_block_floor_red_clear)) {
 	        newBlock = GetRedVariant(); // Redstone lamp
 	    }
+	    else if (MineralogyCompat.isRockSaltLampItem(heldItem)) {
+	        newBlock = GetRockSaltVariant();
+	    }
 
 	    if (newBlock != null) {
 	        MetalVariantHelper.replaceBlockPreservingMetal(worldIn, pos,
@@ -338,6 +345,7 @@ public class LightHolderSconceFloor extends BlockHBase {
     protected Block GetCandleVariant()	    { return BlockObjectHolder.light_metal_ironage_sconce_floor_candle_iron; }
     protected Block GetSoulTorchVariant()	{ return BlockObjectHolder.light_metal_ironage_sconce_floor_soultorch_iron; }
     protected Block GetRedVariant()   		{ return BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron; }
+    protected Block GetRockSaltVariant()	{ return BlockObjectHolder.light_metal_ironage_sconce_floor_rocksalt_iron; }
     protected Block GetSoulVariant()  		{ return BlockObjectHolder.light_metal_ironage_sconce_floor_soultorch_iron; }
     protected Block GetUnlitTorchVariant() 	{ return BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron_unlit; }
 }

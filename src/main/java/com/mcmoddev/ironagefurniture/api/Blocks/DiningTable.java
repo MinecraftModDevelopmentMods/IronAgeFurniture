@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 import com.mcmoddev.ironagefurniture.Ironagefurniture;
+import com.mcmoddev.ironagefurniture.api.MineralogyCompat;
 import com.mcmoddev.ironagefurniture.api.VasePlantHelper;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityDiningTable;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityGlassVase;
@@ -47,6 +48,7 @@ public class DiningTable extends Block {
 		NONE("none", 0),
 		GLOW("glow", 15),
 		LAVA("lava", 15),
+		ROCK_SALT("rock_salt", 15),
 		CANDLE("candle", 12),
 		FLOWER_POT("flower_pot", 0);
 
@@ -273,6 +275,7 @@ public class DiningTable extends Block {
 			|| this.isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_block_floor_red_clear)
 			|| this.isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_block_floor_lava_clear)
 			|| this.isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_candle_floor)
+			|| MineralogyCompat.isRockSaltLampItem(heldItem)
 			|| this.isFlowerPotItem(heldItem)
 			|| this.isOrnamentItem(heldItem);
 	}

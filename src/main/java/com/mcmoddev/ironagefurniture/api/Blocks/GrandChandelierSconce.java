@@ -7,6 +7,7 @@ import com.google.common.collect.Lists;
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 import com.mcmoddev.ironagefurniture.api.MetalVariantHelper;
 import com.mcmoddev.ironagefurniture.api.MetalVariantHelper.MetalVariant;
+import com.mcmoddev.ironagefurniture.api.MineralogyCompat;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityGrandChandelierSconce;
 import com.mcmoddev.ironagefurniture.client.particle.CandleFlameParticle;
 
@@ -300,6 +301,9 @@ public class GrandChandelierSconce extends Block implements ITileEntityProvider 
 		if (isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_block_floor_lava_clear)) {
 			return GrandChandelierLight.LAVA;
 		}
+		if (MineralogyCompat.isRockSaltLampItem(heldItem)) {
+			return GrandChandelierLight.ROCK_SALT;
+		}
 		if (isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_block_floor_red_clear)) {
 			return GrandChandelierLight.redLevel(getHubPower(world, pos));
 		}
@@ -327,6 +331,9 @@ public class GrandChandelierSconce extends Block implements ITileEntityProvider 
 		}
 		if (light == GrandChandelierLight.LAVA) {
 			return isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_block_floor_lava_clear);
+		}
+		if (light == GrandChandelierLight.ROCK_SALT) {
+			return MineralogyCompat.isRockSaltLampItem(heldItem);
 		}
 		if (light.isRedLamp()) {
 			return isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_block_floor_red_clear);
@@ -442,6 +449,10 @@ public class GrandChandelierSconce extends Block implements ITileEntityProvider 
 				pos.getZ() + point[2], 0.0D, 0.0D, 0.0D);
 			world.playSound(pos.getX() + point[0], pos.getY() + point[1], pos.getZ() + point[2],
 				net.minecraft.init.SoundEvents.BLOCK_LAVA_POP, SoundCategory.BLOCKS, 0.2F, 1.0F, false);
+		} else if (light == GrandChandelierLight.ROCK_SALT) {
+			double[] point = rotatePoint(0.5D, 0.52D, 0.18D, state.getValue(FACING));
+			world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX() + point[0], pos.getY() + point[1],
+				pos.getZ() + point[2], 0.0D, 0.0D, 0.0D);
 		} else if (light.isRedLamp() && light.getLightLevel() > 0) {
 			double[] point = rotatePoint(0.5D, 0.27D, 0.18D, state.getValue(FACING));
 			world.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + point[0], pos.getY() + point[1],
@@ -507,7 +518,8 @@ public class GrandChandelierSconce extends Block implements ITileEntityProvider 
 			|| isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_candle_floor)
 			|| isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_block_floor_glow_clear)
 			|| isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_block_floor_lava_clear)
-			|| isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_block_floor_red_clear);
+			|| isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_block_floor_red_clear)
+			|| MineralogyCompat.isRockSaltLampItem(heldItem);
 	}
 
 	private boolean isEmptySconceItem(ItemStack heldItem) {

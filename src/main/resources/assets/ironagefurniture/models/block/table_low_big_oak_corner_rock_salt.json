@@ -1,0 +1,10 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_table_low_corner_rock_salt",
+  "textures": {
+    "log": "minecraft:blocks/log_big_oak",
+    "planks": "minecraft:blocks/planks_big_oak",
+    "particle": "minecraft:blocks/log_big_oak",
+    "contents": "ironagefurniture:blocks/rocksalt_lamp"
+  }
+}

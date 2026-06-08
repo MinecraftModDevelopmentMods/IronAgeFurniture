@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 import com.mcmoddev.ironagefurniture.Ironagefurniture;
+import com.mcmoddev.ironagefurniture.api.MineralogyCompat;
 import com.mcmoddev.ironagefurniture.api.VasePlantHelper;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityWallShelf;
 import com.mcmoddev.ironagefurniture.client.particle.CandleFlameParticle;
@@ -85,6 +86,7 @@ public class WallShelf extends BlockHBase {
 		NONE("none", 0, 0),
 		GLOW("glow", 1, 15),
 		LAVA("lava", 1, 15),
+		ROCK_SALT("rock_salt", 1, 15),
 		CANDLE("candle", 1, 12),
 		FLOWER_POT("flower_pot", 2, 0),
 		BOOKS("books", 5, 0),
@@ -133,6 +135,7 @@ public class WallShelf extends BlockHBase {
 		NONE("none", ShelfContentKind.NONE, 0),
 		GLOW("glow", ShelfContentKind.GLOW, 1),
 		LAVA("lava", ShelfContentKind.LAVA, 1),
+		ROCK_SALT("rock_salt", ShelfContentKind.ROCK_SALT, 1),
 		CANDLE("candle", ShelfContentKind.CANDLE, 1),
 		FLOWER_POT("flower_pot", ShelfContentKind.FLOWER_POT, 1),
 		BOOKS_1("books_1", ShelfContentKind.BOOKS, 1),
@@ -571,6 +574,10 @@ public class WallShelf extends BlockHBase {
 			return ShelfContentKind.NONE;
 		}
 
+		if (MineralogyCompat.isRockSaltLampItem(heldItem)) {
+			return ShelfContentKind.ROCK_SALT;
+		}
+
 		if (this.isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_block_floor_glow_clear)) {
 			return ShelfContentKind.GLOW;
 		}
@@ -846,7 +853,9 @@ public class WallShelf extends BlockHBase {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand) {
-		if (this.getShelfContents(world, pos) != ShelfContents.CANDLE) {
+		ShelfContents contents = this.getShelfContents(world, pos);
+
+		if (contents != ShelfContents.CANDLE && contents != ShelfContents.ROCK_SALT) {
 			return;
 		}
 
@@ -855,6 +864,14 @@ public class WallShelf extends BlockHBase {
 		double x = pos.getX() + flamePoint[0];
 		double y = pos.getY() + 19.7D / 16.0D;
 		double z = pos.getZ() + flamePoint[1];
+
+		if (contents == ShelfContents.ROCK_SALT) {
+			if (rand.nextInt(3) == 0) {
+				world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x, y, z, 0.0D, 0.0D, 0.0D);
+			}
+
+			return;
+		}
 
 		if (rand.nextInt(3) == 0) {
 			world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x, y + 0.04D, z, 0.0D, 0.0D, 0.0D);

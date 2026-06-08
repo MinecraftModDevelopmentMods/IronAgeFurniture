@@ -679,6 +679,142 @@
     },
     "connections=15,contents=flower_pot,data=true": {
       "model": "ironagefurniture:table_low_forestry_papaya_center_flower_pot"
+    },
+    "connections=0,contents=rock_salt,data=false": {
+      "model": "ironagefurniture:table_low_forestry_papaya_single_rock_salt"
+    },
+    "connections=0,contents=rock_salt,data=true": {
+      "model": "ironagefurniture:table_low_forestry_papaya_single_rock_salt"
+    },
+    "connections=1,contents=rock_salt,data=false": {
+      "model": "ironagefurniture:table_low_forestry_papaya_end_rock_salt"
+    },
+    "connections=1,contents=rock_salt,data=true": {
+      "model": "ironagefurniture:table_low_forestry_papaya_end_rock_salt"
+    },
+    "connections=2,contents=rock_salt,data=false": {
+      "model": "ironagefurniture:table_low_forestry_papaya_end_rock_salt",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=2,contents=rock_salt,data=true": {
+      "model": "ironagefurniture:table_low_forestry_papaya_end_rock_salt",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=3,contents=rock_salt,data=false": {
+      "model": "ironagefurniture:table_low_forestry_papaya_corner_rock_salt"
+    },
+    "connections=3,contents=rock_salt,data=true": {
+      "model": "ironagefurniture:table_low_forestry_papaya_corner_rock_salt"
+    },
+    "connections=4,contents=rock_salt,data=false": {
+      "model": "ironagefurniture:table_low_forestry_papaya_end_rock_salt",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=4,contents=rock_salt,data=true": {
+      "model": "ironagefurniture:table_low_forestry_papaya_end_rock_salt",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=5,contents=rock_salt,data=false": {
+      "model": "ironagefurniture:table_low_forestry_papaya_straight_rock_salt"
+    },
+    "connections=5,contents=rock_salt,data=true": {
+      "model": "ironagefurniture:table_low_forestry_papaya_straight_rock_salt"
+    },
+    "connections=6,contents=rock_salt,data=false": {
+      "model": "ironagefurniture:table_low_forestry_papaya_corner_rock_salt",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=6,contents=rock_salt,data=true": {
+      "model": "ironagefurniture:table_low_forestry_papaya_corner_rock_salt",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=7,contents=rock_salt,data=false": {
+      "model": "ironagefurniture:table_low_forestry_papaya_tee_rock_salt"
+    },
+    "connections=7,contents=rock_salt,data=true": {
+      "model": "ironagefurniture:table_low_forestry_papaya_tee_rock_salt"
+    },
+    "connections=8,contents=rock_salt,data=false": {
+      "model": "ironagefurniture:table_low_forestry_papaya_end_rock_salt",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=8,contents=rock_salt,data=true": {
+      "model": "ironagefurniture:table_low_forestry_papaya_end_rock_salt",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=9,contents=rock_salt,data=false": {
+      "model": "ironagefurniture:table_low_forestry_papaya_corner_rock_salt",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=9,contents=rock_salt,data=true": {
+      "model": "ironagefurniture:table_low_forestry_papaya_corner_rock_salt",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=10,contents=rock_salt,data=false": {
+      "model": "ironagefurniture:table_low_forestry_papaya_straight_rock_salt",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=10,contents=rock_salt,data=true": {
+      "model": "ironagefurniture:table_low_forestry_papaya_straight_rock_salt",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=11,contents=rock_salt,data=false": {
+      "model": "ironagefurniture:table_low_forestry_papaya_tee_rock_salt",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=11,contents=rock_salt,data=true": {
+      "model": "ironagefurniture:table_low_forestry_papaya_tee_rock_salt",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=12,contents=rock_salt,data=false": {
+      "model": "ironagefurniture:table_low_forestry_papaya_corner_rock_salt",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=12,contents=rock_salt,data=true": {
+      "model": "ironagefurniture:table_low_forestry_papaya_corner_rock_salt",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=13,contents=rock_salt,data=false": {
+      "model": "ironagefurniture:table_low_forestry_papaya_tee_rock_salt",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=13,contents=rock_salt,data=true": {
+      "model": "ironagefurniture:table_low_forestry_papaya_tee_rock_salt",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=14,contents=rock_salt,data=false": {
+      "model": "ironagefurniture:table_low_forestry_papaya_tee_rock_salt",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=14,contents=rock_salt,data=true": {
+      "model": "ironagefurniture:table_low_forestry_papaya_tee_rock_salt",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=15,contents=rock_salt,data=false": {
+      "model": "ironagefurniture:table_low_forestry_papaya_center_rock_salt"
+    },
+    "connections=15,contents=rock_salt,data=true": {
+      "model": "ironagefurniture:table_low_forestry_papaya_center_rock_salt"
     }
   }
 }

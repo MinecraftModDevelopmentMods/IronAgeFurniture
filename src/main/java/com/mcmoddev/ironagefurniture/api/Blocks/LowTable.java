@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
+import com.mcmoddev.ironagefurniture.api.MineralogyCompat;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityDiningTable;
 import com.mcmoddev.ironagefurniture.client.particle.CandleFlameParticle;
 
@@ -206,7 +207,9 @@ public class LowTable extends DiningTable {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand) {
-		if (this.getEmbeddedContents(world, pos) != TableEmbeddedContent.CANDLE) {
+		TableEmbeddedContent contents = this.getEmbeddedContents(world, pos);
+
+		if (contents != TableEmbeddedContent.CANDLE && contents != TableEmbeddedContent.ROCK_SALT) {
 			return;
 		}
 
@@ -214,6 +217,14 @@ public class LowTable extends DiningTable {
 		double x = pos.getX() + rotated[0];
 		double y = pos.getY() + 15.7D / 16.0D;
 		double z = pos.getZ() + rotated[1];
+
+		if (contents == TableEmbeddedContent.ROCK_SALT) {
+			if (rand.nextInt(3) == 0) {
+				world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x, y, z, 0.0D, 0.0D, 0.0D);
+			}
+
+			return;
+		}
 
 		if (rand.nextInt(3) == 0) {
 			world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x, y + 0.04D, z, 0.0D, 0.0D, 0.0D);
@@ -302,6 +313,10 @@ public class LowTable extends DiningTable {
 
 		if (heldBlock instanceof LightSourceRed) {
 			return TableEmbeddedContent.NONE;
+		}
+
+		if (MineralogyCompat.isRockSaltLampItem(heldItem)) {
+			return TableEmbeddedContent.ROCK_SALT;
 		}
 
 		if (this.isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_block_floor_glow_clear)) {

@@ -65,6 +65,8 @@ public class BlockObjectHolder {
 	public static Block light_metal_ironage_block_floor_glow_clear;
 	public static Block light_metal_ironage_sconce_floor_glow_iron;
 	public static Block light_metal_ironage_sconce_wall_glow_iron;
+	public static Block light_metal_ironage_sconce_floor_rocksalt_iron;
+	public static Block light_metal_ironage_sconce_wall_rocksalt_iron;
 
 	public static Block light_metal_ironage_block_floor_lava_clear;
 	public static Block light_metal_ironage_sconce_floor_lava_iron;

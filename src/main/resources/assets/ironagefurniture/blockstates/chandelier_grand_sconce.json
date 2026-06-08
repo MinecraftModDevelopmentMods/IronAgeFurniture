@@ -11384,6 +11384,351 @@
     "facing=west,light=red_15,metal=zinc": {
       "model": "ironagefurniture:chandelier_grand_sconce_red_on_zinc",
       "y": 270
+    },
+    "facing=north,light=rock_salt,metal=iron": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt"
+    },
+    "facing=north,light=rock_salt,metal=gold": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_gold"
+    },
+    "facing=north,light=rock_salt,metal=adamantine": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_adamantine"
+    },
+    "facing=north,light=rock_salt,metal=antimony": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_antimony"
+    },
+    "facing=north,light=rock_salt,metal=aquarium": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_aquarium"
+    },
+    "facing=north,light=rock_salt,metal=bismuth": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_bismuth"
+    },
+    "facing=north,light=rock_salt,metal=brass": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_brass"
+    },
+    "facing=north,light=rock_salt,metal=bronze": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_bronze"
+    },
+    "facing=north,light=rock_salt,metal=coldiron": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_coldiron"
+    },
+    "facing=north,light=rock_salt,metal=copper": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_copper"
+    },
+    "facing=north,light=rock_salt,metal=cupronickel": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_cupronickel"
+    },
+    "facing=north,light=rock_salt,metal=electrum": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_electrum"
+    },
+    "facing=north,light=rock_salt,metal=invar": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_invar"
+    },
+    "facing=north,light=rock_salt,metal=lead": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_lead"
+    },
+    "facing=north,light=rock_salt,metal=mithril": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_mithril"
+    },
+    "facing=north,light=rock_salt,metal=nickel": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_nickel"
+    },
+    "facing=north,light=rock_salt,metal=pewter": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_pewter"
+    },
+    "facing=north,light=rock_salt,metal=platinum": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_platinum"
+    },
+    "facing=north,light=rock_salt,metal=silver": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_silver"
+    },
+    "facing=north,light=rock_salt,metal=starsteel": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_starsteel"
+    },
+    "facing=north,light=rock_salt,metal=steel": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_steel"
+    },
+    "facing=north,light=rock_salt,metal=tin": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_tin"
+    },
+    "facing=north,light=rock_salt,metal=zinc": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_zinc"
+    },
+    "facing=east,light=rock_salt,metal=iron": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt",
+      "y": 90
+    },
+    "facing=east,light=rock_salt,metal=gold": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_gold",
+      "y": 90
+    },
+    "facing=east,light=rock_salt,metal=adamantine": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_adamantine",
+      "y": 90
+    },
+    "facing=east,light=rock_salt,metal=antimony": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_antimony",
+      "y": 90
+    },
+    "facing=east,light=rock_salt,metal=aquarium": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_aquarium",
+      "y": 90
+    },
+    "facing=east,light=rock_salt,metal=bismuth": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_bismuth",
+      "y": 90
+    },
+    "facing=east,light=rock_salt,metal=brass": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_brass",
+      "y": 90
+    },
+    "facing=east,light=rock_salt,metal=bronze": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_bronze",
+      "y": 90
+    },
+    "facing=east,light=rock_salt,metal=coldiron": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_coldiron",
+      "y": 90
+    },
+    "facing=east,light=rock_salt,metal=copper": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_copper",
+      "y": 90
+    },
+    "facing=east,light=rock_salt,metal=cupronickel": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_cupronickel",
+      "y": 90
+    },
+    "facing=east,light=rock_salt,metal=electrum": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_electrum",
+      "y": 90
+    },
+    "facing=east,light=rock_salt,metal=invar": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_invar",
+      "y": 90
+    },
+    "facing=east,light=rock_salt,metal=lead": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_lead",
+      "y": 90
+    },
+    "facing=east,light=rock_salt,metal=mithril": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_mithril",
+      "y": 90
+    },
+    "facing=east,light=rock_salt,metal=nickel": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_nickel",
+      "y": 90
+    },
+    "facing=east,light=rock_salt,metal=pewter": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_pewter",
+      "y": 90
+    },
+    "facing=east,light=rock_salt,metal=platinum": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_platinum",
+      "y": 90
+    },
+    "facing=east,light=rock_salt,metal=silver": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_silver",
+      "y": 90
+    },
+    "facing=east,light=rock_salt,metal=starsteel": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_starsteel",
+      "y": 90
+    },
+    "facing=east,light=rock_salt,metal=steel": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_steel",
+      "y": 90
+    },
+    "facing=east,light=rock_salt,metal=tin": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_tin",
+      "y": 90
+    },
+    "facing=east,light=rock_salt,metal=zinc": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_zinc",
+      "y": 90
+    },
+    "facing=south,light=rock_salt,metal=iron": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt",
+      "y": 180
+    },
+    "facing=south,light=rock_salt,metal=gold": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_gold",
+      "y": 180
+    },
+    "facing=south,light=rock_salt,metal=adamantine": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_adamantine",
+      "y": 180
+    },
+    "facing=south,light=rock_salt,metal=antimony": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_antimony",
+      "y": 180
+    },
+    "facing=south,light=rock_salt,metal=aquarium": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_aquarium",
+      "y": 180
+    },
+    "facing=south,light=rock_salt,metal=bismuth": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_bismuth",
+      "y": 180
+    },
+    "facing=south,light=rock_salt,metal=brass": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_brass",
+      "y": 180
+    },
+    "facing=south,light=rock_salt,metal=bronze": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_bronze",
+      "y": 180
+    },
+    "facing=south,light=rock_salt,metal=coldiron": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_coldiron",
+      "y": 180
+    },
+    "facing=south,light=rock_salt,metal=copper": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_copper",
+      "y": 180
+    },
+    "facing=south,light=rock_salt,metal=cupronickel": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_cupronickel",
+      "y": 180
+    },
+    "facing=south,light=rock_salt,metal=electrum": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_electrum",
+      "y": 180
+    },
+    "facing=south,light=rock_salt,metal=invar": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_invar",
+      "y": 180
+    },
+    "facing=south,light=rock_salt,metal=lead": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_lead",
+      "y": 180
+    },
+    "facing=south,light=rock_salt,metal=mithril": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_mithril",
+      "y": 180
+    },
+    "facing=south,light=rock_salt,metal=nickel": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_nickel",
+      "y": 180
+    },
+    "facing=south,light=rock_salt,metal=pewter": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_pewter",
+      "y": 180
+    },
+    "facing=south,light=rock_salt,metal=platinum": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_platinum",
+      "y": 180
+    },
+    "facing=south,light=rock_salt,metal=silver": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_silver",
+      "y": 180
+    },
+    "facing=south,light=rock_salt,metal=starsteel": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_starsteel",
+      "y": 180
+    },
+    "facing=south,light=rock_salt,metal=steel": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_steel",
+      "y": 180
+    },
+    "facing=south,light=rock_salt,metal=tin": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_tin",
+      "y": 180
+    },
+    "facing=south,light=rock_salt,metal=zinc": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_zinc",
+      "y": 180
+    },
+    "facing=west,light=rock_salt,metal=iron": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt",
+      "y": 270
+    },
+    "facing=west,light=rock_salt,metal=gold": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_gold",
+      "y": 270
+    },
+    "facing=west,light=rock_salt,metal=adamantine": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_adamantine",
+      "y": 270
+    },
+    "facing=west,light=rock_salt,metal=antimony": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_antimony",
+      "y": 270
+    },
+    "facing=west,light=rock_salt,metal=aquarium": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_aquarium",
+      "y": 270
+    },
+    "facing=west,light=rock_salt,metal=bismuth": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_bismuth",
+      "y": 270
+    },
+    "facing=west,light=rock_salt,metal=brass": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_brass",
+      "y": 270
+    },
+    "facing=west,light=rock_salt,metal=bronze": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_bronze",
+      "y": 270
+    },
+    "facing=west,light=rock_salt,metal=coldiron": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_coldiron",
+      "y": 270
+    },
+    "facing=west,light=rock_salt,metal=copper": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_copper",
+      "y": 270
+    },
+    "facing=west,light=rock_salt,metal=cupronickel": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_cupronickel",
+      "y": 270
+    },
+    "facing=west,light=rock_salt,metal=electrum": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_electrum",
+      "y": 270
+    },
+    "facing=west,light=rock_salt,metal=invar": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_invar",
+      "y": 270
+    },
+    "facing=west,light=rock_salt,metal=lead": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_lead",
+      "y": 270
+    },
+    "facing=west,light=rock_salt,metal=mithril": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_mithril",
+      "y": 270
+    },
+    "facing=west,light=rock_salt,metal=nickel": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_nickel",
+      "y": 270
+    },
+    "facing=west,light=rock_salt,metal=pewter": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_pewter",
+      "y": 270
+    },
+    "facing=west,light=rock_salt,metal=platinum": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_platinum",
+      "y": 270
+    },
+    "facing=west,light=rock_salt,metal=silver": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_silver",
+      "y": 270
+    },
+    "facing=west,light=rock_salt,metal=starsteel": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_starsteel",
+      "y": 270
+    },
+    "facing=west,light=rock_salt,metal=steel": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_steel",
+      "y": 270
+    },
+    "facing=west,light=rock_salt,metal=tin": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_tin",
+      "y": 270
+    },
+    "facing=west,light=rock_salt,metal=zinc": {
+      "model": "ironagefurniture:chandelier_grand_sconce_rock_salt_zinc",
+      "y": 270
     }
   }
 }

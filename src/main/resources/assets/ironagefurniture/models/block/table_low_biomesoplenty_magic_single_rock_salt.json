@@ -1,0 +1,10 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_table_low_single_rock_salt",
+  "textures": {
+    "log": "biomesoplenty:blocks/magic_log",
+    "planks": "biomesoplenty:blocks/magic_planks",
+    "particle": "biomesoplenty:blocks/magic_log",
+    "contents": "ironagefurniture:blocks/rocksalt_lamp"
+  }
+}

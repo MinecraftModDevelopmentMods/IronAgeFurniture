@@ -1,6 +1,7 @@
 package com.mcmoddev.ironagefurniture.api.Blocks;
 
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
+import com.mcmoddev.ironagefurniture.api.MineralogyCompat;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -24,6 +25,7 @@ public enum GrandChandelierLight implements IStringSerializable {
 	CANDLE_4_UNLIT("candle_4_unlit", 0),
 	GLOW("glow", 14),
 	LAVA("lava", 14),
+	ROCK_SALT("rock_salt", 15),
 	RED_0("red_0", 0),
 	RED_1("red_1", 1),
 	RED_2("red_2", 2),
@@ -131,6 +133,9 @@ public enum GrandChandelierLight implements IStringSerializable {
 		}
 		if (this == LAVA) {
 			return new ItemStack(BlockObjectHolder.light_metal_ironage_block_floor_lava_clear, 1);
+		}
+		if (this == ROCK_SALT) {
+			return MineralogyCompat.getRockSaltLampStack();
 		}
 		if (isRedLamp()) {
 			return new ItemStack(BlockObjectHolder.light_metal_ironage_block_floor_red_clear, 1);
