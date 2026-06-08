@@ -1,7 +1,9 @@
 package com.mcmoddev.ironagefurniture.api.tile;
 
+import com.mcmoddev.ironagefurniture.api.MetalVariantHelper;
 import com.mcmoddev.ironagefurniture.api.MetalVariantHelper.MetalVariant;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
@@ -11,7 +13,29 @@ public class TileEntityMetalVariant extends TileEntity {
 	private MetalVariant metal = MetalVariant.IRON;
 
 	public MetalVariant getMetal() {
-		return this.metal == null || !this.metal.isAvailable() ? MetalVariant.IRON : this.metal;
+		MetalVariant storedMetal = this.metal == null || !this.metal.isAvailable() ? MetalVariant.IRON : this.metal;
+		if (storedMetal != MetalVariant.IRON) {
+			return storedMetal;
+		}
+		if (this.world == null || !this.world.isRemote) {
+			return storedMetal;
+		}
+
+		MetalVariant stateMetal = this.getBlockStateMetal();
+		return stateMetal == null || !stateMetal.isAvailable() ? storedMetal : stateMetal;
+	}
+
+	private MetalVariant getBlockStateMetal() {
+		if (this.world == null || this.pos == null) {
+			return MetalVariant.IRON;
+		}
+
+		IBlockState state = this.world.getBlockState(this.pos);
+		if (state != null && state.getProperties().containsKey(MetalVariantHelper.METAL)) {
+			return state.getValue(MetalVariantHelper.METAL);
+		}
+
+		return MetalVariant.IRON;
 	}
 
 	public void setMetal(MetalVariant metal) {
