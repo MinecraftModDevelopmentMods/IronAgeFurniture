@@ -1,0 +1,9 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_chair_wood_ironage_dining_in",
+  "textures": {
+    "0": "forestry:blocks/wood/bark.mahogany",
+    "1": "forestry:blocks/wood/planks.mahogany",
+    "particle": "forestry:blocks/wood/bark.mahogany"
+  }
+}

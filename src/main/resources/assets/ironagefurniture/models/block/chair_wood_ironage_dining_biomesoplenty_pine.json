@@ -1,0 +1,9 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_chair_wood_ironage_dining",
+  "textures": {
+    "0": "biomesoplenty:blocks/pine_log",
+    "1": "biomesoplenty:blocks/pine_planks",
+    "particle": "biomesoplenty:blocks/pine_log"
+  }
+}

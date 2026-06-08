@@ -316,6 +316,8 @@ public class BlockInitialiser {
 				}
 			});
 
+		generateDiningChairs();
+
 		registerWoodFurnitureVariants(IronAgeFurnitureConfiguration.GENERATE_SHIELD_CHAIRS,
 			"chair_wood_ironage_shield_", new WoodBlockFactory() {
 				@Override
@@ -374,6 +376,16 @@ public class BlockInitialiser {
 		}
 
 		generateWingbackAndThroneChairs();
+	}
+
+	private static void generateDiningChairs() {
+		if (!IronAgeFurnitureConfiguration.GENERATE_DINING_CHAIRS) {
+			return;
+		}
+
+		for (String suffix : WoodVariantHelper.getEnabledWoodSuffixes()) {
+			BlockObjectHolder.chair_wood_ironage_dining.put(suffix, FurnitureFactory.CreateWoodDiningChair(suffix));
+		}
 	}
 
 	private static void generateWingbackAndThroneChairs() {

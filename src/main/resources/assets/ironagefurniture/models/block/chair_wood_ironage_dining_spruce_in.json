@@ -1,0 +1,9 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_chair_wood_ironage_dining_in",
+  "textures": {
+    "0": "minecraft:blocks/log_spruce",
+    "1": "minecraft:blocks/planks_spruce",
+    "particle": "minecraft:blocks/log_spruce"
+  }
+}

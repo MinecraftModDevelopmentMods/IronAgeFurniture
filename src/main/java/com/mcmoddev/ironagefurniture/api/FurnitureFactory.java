@@ -7,6 +7,7 @@ import com.mcmoddev.ironagefurniture.api.Blocks.BackBench;
 import com.mcmoddev.ironagefurniture.api.Blocks.Bench;
 import com.mcmoddev.ironagefurniture.api.Blocks.ChainTop;
 import com.mcmoddev.ironagefurniture.api.Blocks.Chair;
+import com.mcmoddev.ironagefurniture.api.Blocks.DiningChair;
 import com.mcmoddev.ironagefurniture.api.Blocks.DiningTable;
 import com.mcmoddev.ironagefurniture.api.Blocks.GlassVaseBlock;
 import com.mcmoddev.ironagefurniture.api.Blocks.GoldBars;
@@ -94,6 +95,14 @@ public class FurnitureFactory {
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(chair, 1), "x  ", "xxx", "y y", 'x', planks, 'y', "stickWood"));
 		AddDerivedTallChairRecipes(planks, chair);
+	}
+
+	public static void AddDiningChairRecipe(ItemStack planks, Block chair) {
+		if (chair == null) {
+			return;
+		}
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(chair, 1), "x x", "xxx", "y y", 'x', planks, 'y', "stickWood"));
 	}
 
 	public static void AddWingbackChairRecipe(ItemStack planks, Block chairIn, Block chairOut) {
@@ -269,7 +278,16 @@ public class FurnitureFactory {
 	}
 	
 	public static Block CreateWoodChair(String name, float resistance, float hardness) {
-		return  registerBlock(new Chair(Material.WOOD, name, resistance, hardness), name);
+		return registerBlock(new Chair(Material.WOOD, name, resistance, hardness), name);
+	}
+
+	public static Block CreateWoodDiningChair(String suffix, float resistance, float hardness) {
+		String name = "chair_wood_ironage_dining_" + suffix;
+		return registerBlock(new DiningChair(Material.WOOD, name, resistance, hardness), name);
+	}
+
+	public static Block CreateWoodDiningChair(String suffix) {
+		return CreateWoodDiningChair(suffix, 10, 1);
 	}
 
 	public static Block CreateWoodWingbackChair(String name) {

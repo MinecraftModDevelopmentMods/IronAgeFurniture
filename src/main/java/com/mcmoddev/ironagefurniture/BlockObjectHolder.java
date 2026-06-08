@@ -6,6 +6,7 @@ import java.util.Map;
 import net.minecraft.block.Block;
 
 public class BlockObjectHolder {
+	public static final Map<String, Block> chair_wood_ironage_dining = new HashMap<String, Block>();
 	public static final Map<String, Block> chair_wood_ironage_wingback = new HashMap<String, Block>();
 	public static final Map<String, Block> chair_wood_ironage_throne = new HashMap<String, Block>();
 	public static final Map<String, Block> bed_canopy_single = new HashMap<String, Block>();

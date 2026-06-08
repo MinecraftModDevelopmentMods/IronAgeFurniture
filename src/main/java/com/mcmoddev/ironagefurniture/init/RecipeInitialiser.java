@@ -404,6 +404,14 @@ public class RecipeInitialiser {
 					FurnitureFactory.AddClassicChairRecipe(planks, getBlockHolder("chair_wood_ironage_classic_" + suffix));
 				}
 
+				if (IronAgeFurnitureConfiguration.GENERATE_DINING_CHAIRS) {
+					Block diningChair = BlockObjectHolder.chair_wood_ironage_dining.get(suffix);
+
+					if (diningChair != null) {
+						FurnitureFactory.AddDiningChairRecipe(planks, diningChair);
+					}
+				}
+
 				if (IronAgeFurnitureConfiguration.GENERATE_SHORT_STOOLS) {
 					Block stool = getBlockHolder("chair_wood_ironage_stool_short_" + suffix);
 

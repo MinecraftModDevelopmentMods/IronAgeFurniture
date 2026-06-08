@@ -1,0 +1,9 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_chair_wood_ironage_dining",
+  "textures": {
+    "0": "natura:blocks/logs/overworld/amaranth_log",
+    "1": "natura:blocks/planks/overworld/amaranth_planks",
+    "particle": "natura:blocks/logs/overworld/amaranth_log"
+  }
+}
