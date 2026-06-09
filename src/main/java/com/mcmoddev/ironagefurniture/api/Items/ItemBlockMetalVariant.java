@@ -71,6 +71,11 @@ public class ItemBlockMetalVariant extends ItemBlock {
 	public String getModelName(int meta) {
 		String blockName = this.block.getRegistryName().getResourcePath();
 		MetalVariant metal = MetalVariant.byMeta(meta);
-		return metal == MetalVariant.IRON ? blockName : blockName + "_" + metal.getName();
+		if (metal == MetalVariant.IRON) {
+			return blockName;
+		}
+
+		return blockName.endsWith("_iron") ? blockName.substring(0, blockName.length() - 5) + "_" + metal.getName()
+				: blockName + "_" + metal.getName();
 	}
 }

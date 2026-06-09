@@ -1,0 +1,7 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_light_metal_ironage_sconce_floor_empty",
+  "textures": {
+    "metal": "basemetals:blocks/bismuth_block"
+  }
+}
