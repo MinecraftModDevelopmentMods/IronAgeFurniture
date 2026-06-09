@@ -54,13 +54,29 @@ public class LightHolderSconceHanging extends BlockFalling implements ITileEntit
 	public static final PropertyEnum<GrandChandelierLight> LIGHT =
 		PropertyEnum.create("light", GrandChandelierLight.class);
 
-	private static final AxisAlignedBB SHAPE_AABB = new AxisAlignedBB(
-		2.0D / 16.0D, 2.0D / 16.0D, 2.0D / 16.0D,
-		14.0D / 16.0D, 1.0D, 14.0D / 16.0D
+	private static final AxisAlignedBB FRAME_SHAPE_AABB = new AxisAlignedBB(
+		0.0D / 16.0D, 7.0D / 16.0D, 5.0D / 16.0D,
+		16.0D / 16.0D, 16.0D / 16.0D, 11.0D / 16.0D
 	);
-	private static final AxisAlignedBB COLLISION_AABB = new AxisAlignedBB(
-		3.0D / 16.0D, 3.0D / 16.0D, 3.0D / 16.0D,
-		13.0D / 16.0D, 13.0D / 16.0D, 13.0D / 16.0D
+	private static final AxisAlignedBB TORCH_SHAPE_AABB = new AxisAlignedBB(
+		0.0D / 16.0D, 3.0D / 16.0D, 5.0D / 16.0D,
+		16.0D / 16.0D, 16.0D / 16.0D, 11.0D / 16.0D
+	);
+	private static final AxisAlignedBB LAMP_SHAPE_AABB = new AxisAlignedBB(
+		5.45D / 16.0D, 0.0D / 16.0D, 3.35D / 16.0D,
+		10.55D / 16.0D, 16.0D / 16.0D, 10.0D / 16.0D
+	);
+	private static final AxisAlignedBB FRAME_COLLISION_AABB = new AxisAlignedBB(
+		0.0D / 16.0D, 7.0D / 16.0D, 5.0D / 16.0D,
+		16.0D / 16.0D, 9.0D / 16.0D, 11.0D / 16.0D
+	);
+	private static final AxisAlignedBB TORCH_COLLISION_AABB = new AxisAlignedBB(
+		0.0D / 16.0D, 3.0D / 16.0D, 5.0D / 16.0D,
+		16.0D / 16.0D, 13.0D / 16.0D, 11.0D / 16.0D
+	);
+	private static final AxisAlignedBB LAMP_COLLISION_AABB = new AxisAlignedBB(
+		5.45D / 16.0D, 0.0D / 16.0D, 3.35D / 16.0D,
+		10.55D / 16.0D, 8.15D / 16.0D, 10.0D / 16.0D
 	);
 
 	private final float baseResistance;
@@ -560,30 +576,85 @@ public class LightHolderSconceHanging extends BlockFalling implements ITileEntit
 
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-		return SHAPE_AABB;
+		return getShapeBox(state, source, pos);
 	}
 
 	@Nullable
 	@Override
 	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
-		return COLLISION_AABB;
+		return getCollisionBox(blockState, worldIn, pos);
 	}
 
 	@Override
 	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox,
 			List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
-		super.addCollisionBoxToList(pos, entityBox, collidingBoxes, COLLISION_AABB);
+		super.addCollisionBoxToList(pos, entityBox, collidingBoxes, getCollisionBox(state, worldIn, pos));
 	}
 
 	@Override
 	public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos) {
-		return SHAPE_AABB.offset(pos);
+		return getShapeBox(state, worldIn, pos).offset(pos);
 	}
 
 	@Nullable
 	@Override
 	public RayTraceResult collisionRayTrace(IBlockState state, World worldIn, BlockPos pos, Vec3d start, Vec3d end) {
-		return this.rayTrace(pos, start, end, SHAPE_AABB);
+		return this.rayTrace(pos, start, end, getShapeBox(state, worldIn, pos));
+	}
+
+	private AxisAlignedBB getShapeBox(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+		return rotateBox(getBaseShapeBox(getStoredLight(worldIn, pos, state)), state.getValue(FACING));
+	}
+
+	private AxisAlignedBB getCollisionBox(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+		return rotateBox(getBaseCollisionBox(getStoredLight(worldIn, pos, state)), state.getValue(FACING));
+	}
+
+	private AxisAlignedBB getBaseShapeBox(GrandChandelierLight light) {
+		if (isLampLight(light)) {
+			return LAMP_SHAPE_AABB;
+		}
+		if (light.isTorchFamily() || light.isRedTorchFamily()) {
+			return TORCH_SHAPE_AABB;
+		}
+		return FRAME_SHAPE_AABB;
+	}
+
+	private AxisAlignedBB getBaseCollisionBox(GrandChandelierLight light) {
+		if (isLampLight(light)) {
+			return LAMP_COLLISION_AABB;
+		}
+		if (light.isTorchFamily() || light.isRedTorchFamily()) {
+			return TORCH_COLLISION_AABB;
+		}
+		return FRAME_COLLISION_AABB;
+	}
+
+	private boolean isLampLight(GrandChandelierLight light) {
+		return light == GrandChandelierLight.GLOW
+			|| light == GrandChandelierLight.LAVA
+			|| light == GrandChandelierLight.ROCK_SALT
+			|| light.isRedLamp();
+	}
+
+	private static AxisAlignedBB rotateBox(AxisAlignedBB box, EnumFacing facing) {
+		switch (facing) {
+			case EAST:
+				return new AxisAlignedBB(
+					1.0D - box.maxZ, box.minY, box.minX,
+					1.0D - box.minZ, box.maxY, box.maxX);
+			case SOUTH:
+				return new AxisAlignedBB(
+					1.0D - box.maxX, box.minY, 1.0D - box.maxZ,
+					1.0D - box.minX, box.maxY, 1.0D - box.minZ);
+			case WEST:
+				return new AxisAlignedBB(
+					box.minZ, box.minY, 1.0D - box.maxX,
+					box.maxZ, box.maxY, 1.0D - box.minX);
+			case NORTH:
+			default:
+				return box;
+		}
 	}
 
 	@Override
@@ -613,58 +684,92 @@ public class LightHolderSconceHanging extends BlockFalling implements ITileEntit
 		GrandChandelierLight light = getStoredLight(world, pos, state);
 		if (light.isLitTorch()) {
 			if (light.isTwinTorch()) {
-				spawnTorchFlame(world, pos, state.getValue(FACING), 5.0D / 16.0D);
-				spawnTorchFlame(world, pos, state.getValue(FACING), 11.0D / 16.0D);
+				spawnTorchFlame(world, pos, state.getValue(FACING), 3.0D / 16.0D, 8.0D / 16.0D);
+				spawnTorchFlame(world, pos, state.getValue(FACING), 13.0D / 16.0D, 8.0D / 16.0D);
 			} else {
-				spawnTorchFlame(world, pos, state.getValue(FACING), 5.0D / 16.0D);
+				spawnTorchFlame(world, pos, state.getValue(FACING), 13.0D / 16.0D, 8.0D / 16.0D);
 			}
+		} else if (light == GrandChandelierLight.REDTORCH) {
+			spawnRedTorchSpark(world, pos, state.getValue(FACING), rand, 13.0D / 16.0D, 8.0D / 16.0D);
 		} else if (light.isLitCandle()) {
 			spawnCandleFlame(world, pos, state.getValue(FACING), light.getCandleCount());
 		} else if (light == GrandChandelierLight.LAVA && rand.nextInt(25) == 0) {
-			double[] point = rotatePoint(0.5D, 0.46D, 0.5D, state.getValue(FACING));
+			double[] point = getLampEffectPoint(state.getValue(FACING));
 			world.spawnParticle(EnumParticleTypes.LAVA, pos.getX() + point[0], pos.getY() + point[1],
 				pos.getZ() + point[2], 0.0D, 0.0D, 0.0D);
 			world.playSound(pos.getX() + point[0], pos.getY() + point[1], pos.getZ() + point[2],
 				net.minecraft.init.SoundEvents.BLOCK_LAVA_POP, SoundCategory.BLOCKS, 0.2F, 1.0F, false);
 		} else if (light == GrandChandelierLight.ROCK_SALT) {
-			double[] point = rotatePoint(0.5D, 0.50D, 0.5D, state.getValue(FACING));
+			double[] point = getLampEffectPoint(state.getValue(FACING));
 			world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX() + point[0], pos.getY() + point[1],
 				pos.getZ() + point[2], 0.0D, 0.0D, 0.0D);
 		} else if (light.isRedLamp() && light.getLightLevel() > 0) {
-			double[] point = rotatePoint(0.5D, 0.46D, 0.5D, state.getValue(FACING));
+			double[] point = getSmallLampEffectPoint(state.getValue(FACING));
 			world.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + point[0], pos.getY() + point[1],
 				pos.getZ() + point[2], 0.0D, 0.0D, 0.0D);
 		}
 	}
 
-	private void spawnTorchFlame(World world, BlockPos pos, EnumFacing facing, double x) {
-		double[] point = rotatePoint(x, 0.58D, 0.5D, facing);
+	private void spawnTorchFlame(World world, BlockPos pos, EnumFacing facing, double x, double z) {
+		double[] point = rotatePoint(x, 14.0D / 16.0D, z, facing);
 		world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX() + point[0], pos.getY() + point[1],
 			pos.getZ() + point[2], 0.0D, 0.0D, 0.0D);
 		world.spawnParticle(EnumParticleTypes.FLAME, pos.getX() + point[0], pos.getY() + point[1],
 			pos.getZ() + point[2], 0.0D, 0.0D, 0.0D);
 	}
 
+	private void spawnRedTorchSpark(World world, BlockPos pos, EnumFacing facing, Random rand, double x, double z) {
+		double[] point = rotatePoint(x, 14.0D / 16.0D, z, facing);
+		world.spawnParticle(EnumParticleTypes.REDSTONE,
+			pos.getX() + point[0] + (rand.nextDouble() - 0.5D) * 0.12D,
+			pos.getY() + point[1] + (rand.nextDouble() - 0.5D) * 0.12D,
+			pos.getZ() + point[2] + (rand.nextDouble() - 0.5D) * 0.12D,
+			0.0D, 0.0D, 0.0D);
+	}
+
 	private void spawnCandleFlame(World world, BlockPos pos, EnumFacing facing, int count) {
-		double[] candleXs = getCandleFlameXs(count);
-		for (int i = 0; i < candleXs.length; i++) {
-			double[] point = rotatePoint(candleXs[i], 0.52D, 0.5D, facing);
+		double[][] candlePoints = getCandleFlamePoints(count);
+		for (int i = 0; i < candlePoints.length; i++) {
+			double[] candlePoint = candlePoints[i];
+			double[] point = rotatePoint(candlePoint[0], candlePoint[1], candlePoint[2], facing);
 			CandleFlameParticle.spawn(world, pos.getX() + point[0], pos.getY() + point[1], pos.getZ() + point[2]);
 		}
 	}
 
-	private double[] getCandleFlameXs(int count) {
+	private double[][] getCandleFlamePoints(int count) {
 		switch (count) {
 			case 4:
-				return new double[] { 4.6D / 16.0D, 6.2D / 16.0D, 9.8D / 16.0D, 11.4D / 16.0D };
+				return new double[][] {
+					{ 12.0D / 16.0D, 13.4D / 16.0D, 7.0D / 16.0D },
+					{ 14.0D / 16.0D, 12.4D / 16.0D, 9.0D / 16.0D },
+					{ 2.0D / 16.0D, 12.4D / 16.0D, 9.0D / 16.0D },
+					{ 4.0D / 16.0D, 11.4D / 16.0D, 7.0D / 16.0D }
+				};
 			case 3:
-				return new double[] { 5.0D / 16.0D, 9.8D / 16.0D, 11.4D / 16.0D };
+				return new double[][] {
+					{ 14.0D / 16.0D, 13.4D / 16.0D, 9.0D / 16.0D },
+					{ 12.0D / 16.0D, 11.4D / 16.0D, 7.0D / 16.0D },
+					{ 2.0D / 16.0D, 12.4D / 16.0D, 9.0D / 16.0D }
+				};
 			case 2:
-				return new double[] { 5.0D / 16.0D, 11.0D / 16.0D };
+				return new double[][] {
+					{ 12.5D / 16.0D, 13.4D / 16.0D, 7.5D / 16.0D },
+					{ 2.5D / 16.0D, 12.4D / 16.0D, 8.5D / 16.0D }
+				};
 			case 1:
 			default:
-				return new double[] { 5.0D / 16.0D };
+				return new double[][] {
+					{ 12.5D / 16.0D, 13.4D / 16.0D, 7.5D / 16.0D }
+				};
 		}
+	}
+
+	private double[] getLampEffectPoint(EnumFacing facing) {
+		return rotatePoint(8.0D / 16.0D, 5.6D / 16.0D, 5.8D / 16.0D, facing);
+	}
+
+	private double[] getSmallLampEffectPoint(EnumFacing facing) {
+		return rotatePoint(8.0D / 16.0D, 3.4D / 16.0D, 5.8D / 16.0D, facing);
 	}
 
 	private static double[] rotatePoint(double x, double y, double z, EnumFacing facing) {

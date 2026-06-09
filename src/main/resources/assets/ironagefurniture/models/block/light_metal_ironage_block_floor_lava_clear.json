@@ -1,6 +1,6 @@
 {
   "credit": "By FoxNekitsune",
-  "parent": "ironagefurniture:block/template_light_metal_ironage_block_floor_vial",
+  "parent": "ironagefurniture:block/template_light_metal_ironage_block_floor_lava_vial",
   "textures": {
     "contents": "minecraft:blocks/lava_still"
   }

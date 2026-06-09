@@ -1,6 +1,6 @@
 {
   "credit": "By FoxNekitsune",
-  "parent": "ironagefurniture:block/template_light_metal_ironage_sconce_hanging_lamp",
+  "parent": "ironagefurniture:block/template_light_metal_ironage_sconce_hanging_lamp_small",
   "textures": {
     "torch": "minecraft:blocks/torch_on",
     "torch_unlit": "minecraft:blocks/torch_on",

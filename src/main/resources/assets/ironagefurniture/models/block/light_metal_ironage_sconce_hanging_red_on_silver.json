@@ -1,6 +1,6 @@
 {
   "credit": "By FoxNekitsune",
-  "parent": "ironagefurniture:block/template_light_metal_ironage_sconce_hanging_lamp",
+  "parent": "ironagefurniture:block/template_light_metal_ironage_sconce_hanging_lamp_small",
   "textures": {
     "torch": "minecraft:blocks/torch_on",
     "torch_unlit": "minecraft:blocks/torch_on",
@@ -8,10 +8,10 @@
     "redtorch_unlit": "minecraft:blocks/redstone_torch_off",
     "candle": "ironagefurniture:blocks/candle_wax",
     "glass": "minecraft:blocks/glass",
-    "glow": "minecraft:blocks/redstone_lamp_on",
+    "glow": "minecraft:blocks/redstone_block",
     "lava": "minecraft:blocks/lava_still",
-    "red_on": "minecraft:blocks/redstone_lamp_on",
-    "red_off": "minecraft:blocks/redstone_lamp_off",
+    "red_on": "minecraft:blocks/redstone_block",
+    "red_off": "minecraft:blocks/redstone_block",
     "wick": "minecraft:blocks/coal_block",
     "metal": "basemetals:blocks/silver_block",
     "particle": "basemetals:blocks/silver_block"
