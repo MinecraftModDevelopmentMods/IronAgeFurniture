@@ -144,6 +144,7 @@ public class BlockInitialiser {
 	private static void generateSconces() {
 		BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron = FurnitureFactory.CreateIronFloorSconce("light_metal_ironage_sconce_floor_empty_iron");
 		BlockObjectHolder.light_metal_ironage_sconce_wall_empty_iron = FurnitureFactory.CreateIronWallSconce("light_metal_ironage_sconce_wall_empty_iron");
+		BlockObjectHolder.light_metal_ironage_sconce_hanging_iron = FurnitureFactory.CreateIronHangingSconce("light_metal_ironage_sconce_hanging_iron");
 		BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron = FurnitureFactory.CreateIronFloorTorchSconce("light_metal_ironage_sconce_floor_torch_iron");
 		BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron_unlit = FurnitureFactory.CreateIronFloorTorchSconceUnlit("light_metal_ironage_sconce_floor_torch_iron_unlit");
 		BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron_twin = FurnitureFactory.CreateIronFloorTorchSconceTwin("light_metal_ironage_sconce_floor_torch_iron_twin");

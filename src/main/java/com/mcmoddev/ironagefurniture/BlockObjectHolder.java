@@ -26,6 +26,7 @@ public class BlockObjectHolder {
 
 	public static Block light_metal_ironage_sconce_floor_empty_iron;
 	public static Block light_metal_ironage_sconce_wall_empty_iron;
+	public static Block light_metal_ironage_sconce_hanging_iron;
 
 	public static Block light_metal_ironage_sconce_floor_torch_iron;
 	public static Block light_metal_ironage_sconce_floor_torch_iron_unlit;

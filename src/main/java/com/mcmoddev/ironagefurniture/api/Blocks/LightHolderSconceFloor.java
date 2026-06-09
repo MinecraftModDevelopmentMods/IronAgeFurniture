@@ -126,6 +126,10 @@ public class LightHolderSconceFloor extends BlockHBase {
 
     public boolean canPlaceBlockAt(World worldIn, BlockPos pos)
     {
+        if (this.canPlaceHanging(worldIn, pos)) {
+            return true;
+        }
+
         for (EnumFacing enumfacing : FACING.getAllowedValues())
         {
             if (this.canPlaceAt(worldIn, pos, enumfacing))
@@ -140,6 +144,21 @@ public class LightHolderSconceFloor extends BlockHBase {
         }
         
         return false;
+    }
+
+    @Override
+    public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, EnumFacing side) {
+        if (side == EnumFacing.DOWN && this.canPlaceHanging(worldIn, pos)) {
+            return true;
+        }
+
+        return super.canPlaceBlockOnSide(worldIn, pos, side);
+    }
+
+    private boolean canPlaceHanging(World worldIn, BlockPos pos) {
+        Block hanging = GetHangingVariant();
+        return hanging instanceof LightHolderSconceHanging
+            && hanging.canPlaceBlockOnSide(worldIn, pos, EnumFacing.DOWN);
     }
 
     private boolean canPlaceAt(World worldIn, BlockPos pos, EnumFacing facing)
@@ -165,6 +184,11 @@ public class LightHolderSconceFloor extends BlockHBase {
 	        Block wall = GetWallVariant();
 	        EnumFacing attachFace = side; 
 	        return wall.getDefaultState().withProperty(FACING, attachFace);
+	    }
+
+	    if (side == EnumFacing.DOWN && this.canPlaceHanging(world, pos)) {
+	        EnumFacing playerFacing = placer.getHorizontalFacing();
+	        return GetHangingVariant().getDefaultState().withProperty(FACING, playerFacing);
 	    }
 
 	    if (this.canPlaceOn(world, pos.down())) {
@@ -338,6 +362,7 @@ public class LightHolderSconceFloor extends BlockHBase {
 	}
  
     protected Block GetWallVariant()		{ return BlockObjectHolder.light_metal_ironage_sconce_wall_empty_iron; }
+    protected Block GetHangingVariant()	{ return BlockObjectHolder.light_metal_ironage_sconce_hanging_iron; }
     protected Block GetGlowVariant()		{ return BlockObjectHolder.light_metal_ironage_sconce_floor_glow_iron; }
     protected Block GetTorchVariant()		{ return BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron; }
     protected Block GetLavaVariant()		{ return BlockObjectHolder.light_metal_ironage_sconce_floor_lava_iron; }

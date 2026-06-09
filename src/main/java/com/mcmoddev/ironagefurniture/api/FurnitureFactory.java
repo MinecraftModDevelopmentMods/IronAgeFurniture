@@ -14,6 +14,7 @@ import com.mcmoddev.ironagefurniture.api.Blocks.GoldBars;
 import com.mcmoddev.ironagefurniture.api.Blocks.GrandChandelierHub;
 import com.mcmoddev.ironagefurniture.api.Blocks.GrandChandelierSconce;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightHolderSconceFloor;
+import com.mcmoddev.ironagefurniture.api.Blocks.LightHolderSconceHanging;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightHolderSconceWall;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceChandelierCandle;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightSourceChandelierCandleUnlit;
@@ -721,6 +722,14 @@ public class FurnitureFactory {
 
 	public static Block CreateGrandChandelierSconce(String name, float resistance, float hardness) {
 		return registerBlockWithoutItem(new GrandChandelierSconce(Material.IRON, name, resistance, hardness), name);
+	}
+
+	public static Block CreateIronHangingSconce(String name) {
+		return CreateIronHangingSconce(name, 10, 1);
+	}
+
+	public static Block CreateIronHangingSconce(String name, float resistance, float hardness) {
+		return registerBlockWithoutItem(new LightHolderSconceHanging(Material.IRON, name, resistance, hardness), name);
 	}
 
 	public static Block CreateCandleWall(String name) {
