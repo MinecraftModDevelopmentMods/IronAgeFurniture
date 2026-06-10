@@ -38,6 +38,7 @@ public class TileEntityCabinet extends TileEntityLockable implements ISidedInven
 	private ItemStack displayedItem;
 	private EnumFacing displayedFacing = EnumFacing.NORTH;
 	private int blockedConnections;
+	private EnumFacing verticalJoinDirection;
 	private final IItemHandler[] sidedHandlers = new IItemHandler[EnumFacing.values().length];
 	private IItemHandler unsidedHandler;
 
@@ -293,6 +294,19 @@ public class TileEntityCabinet extends TileEntityLockable implements ISidedInven
 		}
 	}
 
+	public EnumFacing getVerticalJoinDirection() {
+		return this.verticalJoinDirection;
+	}
+
+	public void setVerticalJoinDirection(EnumFacing direction) {
+		EnumFacing normalizedDirection = direction == EnumFacing.UP || direction == EnumFacing.DOWN ? direction : null;
+
+		if (this.verticalJoinDirection != normalizedDirection) {
+			this.verticalJoinDirection = normalizedDirection;
+			this.markForDisplayUpdate();
+		}
+	}
+
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
@@ -324,7 +338,16 @@ public class TileEntityCabinet extends TileEntityLockable implements ISidedInven
 			this.displayedFacing = EnumFacing.NORTH;
 		}
 
-		this.blockedConnections = compound.getInteger("BlockedConnections") & 15;
+		this.blockedConnections = compound.getInteger("BlockedConnections") & 63;
+		this.verticalJoinDirection = null;
+
+		if (compound.hasKey("VerticalJoinDirection", 3)) {
+			EnumFacing direction = EnumFacing.getFront(compound.getInteger("VerticalJoinDirection"));
+
+			if (direction == EnumFacing.UP || direction == EnumFacing.DOWN) {
+				this.verticalJoinDirection = direction;
+			}
+		}
 	}
 
 	@Override
@@ -359,7 +382,14 @@ public class TileEntityCabinet extends TileEntityLockable implements ISidedInven
 			compound.removeTag("DisplayedFacing");
 		}
 
-		compound.setInteger("BlockedConnections", this.blockedConnections & 15);
+		compound.setInteger("BlockedConnections", this.blockedConnections & 63);
+
+		if (this.verticalJoinDirection != null) {
+			compound.setInteger("VerticalJoinDirection", this.verticalJoinDirection.getIndex());
+		} else {
+			compound.removeTag("VerticalJoinDirection");
+		}
+
 		return compound;
 	}
 
@@ -409,6 +439,10 @@ public class TileEntityCabinet extends TileEntityLockable implements ISidedInven
 			return 4;
 		case WEST:
 			return 8;
+		case UP:
+			return 16;
+		case DOWN:
+			return 32;
 		default:
 			return 0;
 		}

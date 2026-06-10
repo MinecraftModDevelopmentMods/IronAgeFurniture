@@ -44,6 +44,9 @@ import net.minecraft.world.World;
 public class Cabinet extends Block {
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 	public static final PropertyEnum<CabinetType> TYPE = PropertyEnum.create("type", CabinetType.class);
+	public static final PropertyEnum<VerticalCabinetType> VERTICAL = PropertyEnum.create("vertical",
+		VerticalCabinetType.class);
+	private boolean updatingCabinetJoin;
 
 	public static enum CabinetType implements IStringSerializable {
 		SINGLE("single"),
@@ -67,6 +70,28 @@ public class Cabinet extends Block {
 		}
 	}
 
+	public static enum VerticalCabinetType implements IStringSerializable {
+		SINGLE("single"),
+		LOWER("lower"),
+		UPPER("upper");
+
+		private final String name;
+
+		private VerticalCabinetType(String name) {
+			this.name = name;
+		}
+
+		@Override
+		public String getName() {
+			return this.name;
+		}
+
+		@Override
+		public String toString() {
+			return this.name;
+		}
+	}
+
 	public Cabinet(Material materialIn, String name, float resistance, float hardness) {
 		super(materialIn);
 		this.blockResistance = resistance;
@@ -76,7 +101,8 @@ public class Cabinet extends Block {
 		this.setCreativeTab(Ironagefurniture.ironagefurnitureTab);
 		this.setDefaultState(this.blockState.getBaseState()
 			.withProperty(FACING, EnumFacing.SOUTH)
-			.withProperty(TYPE, CabinetType.SINGLE));
+			.withProperty(TYPE, CabinetType.SINGLE)
+			.withProperty(VERTICAL, VerticalCabinetType.SINGLE));
 	}
 
 	@Override
@@ -85,7 +111,8 @@ public class Cabinet extends Block {
 		EnumFacing cabinetFacing = placer == null ? EnumFacing.SOUTH : placer.getHorizontalFacing().getOpposite();
 		return this.getDefaultState()
 			.withProperty(FACING, cabinetFacing)
-			.withProperty(TYPE, CabinetType.SINGLE);
+			.withProperty(TYPE, CabinetType.SINGLE)
+			.withProperty(VERTICAL, VerticalCabinetType.SINGLE);
 	}
 
 	@Override
@@ -100,6 +127,8 @@ public class Cabinet extends Block {
 
 			if (placer != null && placer.isSneaking()) {
 				this.blockPotentialJoins(worldIn, pos, state);
+			} else if (!this.tryCreateVerticalJoin(worldIn, pos, state)) {
+				this.tryCreateHorizontalJoin(worldIn, pos, state);
 			}
 
 			this.updateCabinetAndNeighbors(worldIn, pos);
@@ -110,14 +139,14 @@ public class Cabinet extends Block {
 	public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
 		super.onBlockAdded(worldIn, pos, state);
 
-		if (!worldIn.isRemote) {
+		if (!worldIn.isRemote && !this.updatingCabinetJoin) {
 			this.updateCabinetAndNeighbors(worldIn, pos);
 		}
 	}
 
 	@Override
 	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
-		if (!worldIn.isRemote) {
+		if (!worldIn.isRemote && !this.updatingCabinetJoin) {
 			this.updateCabinetAndNeighbors(worldIn, pos);
 		}
 	}
@@ -414,6 +443,10 @@ public class Cabinet extends Block {
 		EnumFacing joinDirection = this.findJoinDirection(worldIn, pos, state);
 
 		if (joinDirection == null) {
+			joinDirection = this.findVerticalJoinDirection(worldIn, pos, state);
+		}
+
+		if (joinDirection == null) {
 			return cabinet;
 		}
 
@@ -423,7 +456,13 @@ public class Cabinet extends Block {
 			return cabinet;
 		}
 
-		return this.getTypeForJoinDirection(state.getValue(FACING), joinDirection) == CabinetType.RIGHT
+		if (joinDirection != EnumFacing.UP && joinDirection != EnumFacing.DOWN) {
+			return this.getTypeForJoinDirection(state.getValue(FACING), joinDirection) == CabinetType.RIGHT
+				? new InventoryLargeChest("container.ironagefurniture.cabinet", other, cabinet)
+				: new InventoryLargeChest("container.ironagefurniture.cabinet", cabinet, other);
+		}
+
+		return joinDirection == EnumFacing.DOWN
 			? new InventoryLargeChest("container.ironagefurniture.cabinet", other, cabinet)
 			: new InventoryLargeChest("container.ironagefurniture.cabinet", cabinet, other);
 	}
@@ -432,6 +471,8 @@ public class Cabinet extends Block {
 		EnumFacing facing = state.getValue(FACING);
 		this.blockJoinToAdjacent(worldIn, pos, state, facing.rotateY());
 		this.blockJoinToAdjacent(worldIn, pos, state, facing.rotateYCCW());
+		this.blockJoinToAdjacent(worldIn, pos, state, EnumFacing.UP);
+		this.blockJoinToAdjacent(worldIn, pos, state, EnumFacing.DOWN);
 	}
 
 	private void blockJoinToAdjacent(World worldIn, BlockPos pos, IBlockState state, EnumFacing direction) {
@@ -446,7 +487,7 @@ public class Cabinet extends Block {
 	private void updateCabinetAndNeighbors(World worldIn, BlockPos pos) {
 		this.updateCabinetState(worldIn, pos);
 
-		for (EnumFacing facing : EnumFacing.Plane.HORIZONTAL) {
+		for (EnumFacing facing : EnumFacing.values()) {
 			BlockPos neighborPos = pos.offset(facing);
 			IBlockState neighborState = worldIn.getBlockState(neighborPos);
 
@@ -464,6 +505,7 @@ public class Cabinet extends Block {
 		}
 
 		this.clearOrphanedBlockedConnections(worldIn, pos);
+		this.clearInvalidVerticalJoin(worldIn, pos, state);
 		EnumFacing joinDirection = this.findJoinDirection(worldIn, pos, state);
 		CabinetType type = joinDirection == null ? CabinetType.SINGLE
 			: this.getTypeForJoinDirection(state.getValue(FACING), joinDirection);
@@ -478,22 +520,67 @@ public class Cabinet extends Block {
 	private EnumFacing findJoinDirection(World worldIn, BlockPos pos, IBlockState state) {
 		EnumFacing currentJoin = this.getCurrentJoinDirection(state);
 
-		if (currentJoin != null && this.canJoinWith(worldIn, pos, currentJoin, state)) {
+		if (currentJoin != null && this.canMaintainHorizontalJoinWith(worldIn, pos, currentJoin, state)) {
 			return currentJoin;
 		}
 
+		return null;
+	}
+
+	private boolean tryCreateHorizontalJoin(World worldIn, BlockPos pos, IBlockState state) {
+		if (state.getBlock() != this || state.getValue(TYPE) != CabinetType.SINGLE
+				|| this.findVerticalJoinDirection(worldIn, pos, state) != null) {
+			return false;
+		}
+
+		EnumFacing joinDirection = this.findNewHorizontalJoinDirection(worldIn, pos, state);
+
+		if (joinDirection == null) {
+			return false;
+		}
+
+		this.setHorizontalJoin(worldIn, pos, state, joinDirection);
+		return true;
+	}
+
+	private EnumFacing findNewHorizontalJoinDirection(World worldIn, BlockPos pos, IBlockState state) {
 		EnumFacing facing = state.getValue(FACING);
 		EnumFacing left = facing.rotateY();
 
-		if (this.canJoinWith(worldIn, pos, left, state)) {
+		if (this.canCreateHorizontalJoinWith(worldIn, pos, left, state)) {
 			return left;
 		}
 
 		EnumFacing right = facing.rotateYCCW();
-		return this.canJoinWith(worldIn, pos, right, state) ? right : null;
+		return this.canCreateHorizontalJoinWith(worldIn, pos, right, state) ? right : null;
 	}
 
-	private boolean canJoinWith(World worldIn, BlockPos pos, EnumFacing direction, IBlockState state) {
+	private boolean canMaintainHorizontalJoinWith(World worldIn, BlockPos pos, EnumFacing direction,
+			IBlockState state) {
+		if (!this.canUseHorizontalJoin(worldIn, pos, direction, state)) {
+			return false;
+		}
+
+		IBlockState neighborState = worldIn.getBlockState(pos.offset(direction));
+		return this.getCurrentJoinDirection(neighborState) == direction.getOpposite();
+	}
+
+	private boolean canCreateHorizontalJoinWith(World worldIn, BlockPos pos, EnumFacing direction,
+			IBlockState state) {
+		if (!this.canUseHorizontalJoin(worldIn, pos, direction, state)) {
+			return false;
+		}
+
+		IBlockState neighborState = worldIn.getBlockState(pos.offset(direction));
+		return state.getValue(TYPE) == CabinetType.SINGLE
+			&& neighborState.getValue(TYPE) == CabinetType.SINGLE;
+	}
+
+	private boolean canUseHorizontalJoin(World worldIn, BlockPos pos, EnumFacing direction, IBlockState state) {
+		if (direction == EnumFacing.UP || direction == EnumFacing.DOWN) {
+			return false;
+		}
+
 		if (!this.isSameJoinFamily(worldIn, pos, direction, state.getValue(FACING))) {
 			return false;
 		}
@@ -504,13 +591,136 @@ public class Cabinet extends Block {
 		}
 
 		IBlockState neighborState = worldIn.getBlockState(pos.offset(direction));
-		CabinetType neighborType = neighborState.getValue(TYPE);
-		boolean neighborAlreadyJoinedHere = this.getCurrentJoinDirection(neighborState) == direction.getOpposite();
 
-		return neighborType == CabinetType.SINGLE || neighborAlreadyJoinedHere;
+		return this.findVerticalJoinDirection(worldIn, pos, state) == null
+			&& this.findVerticalJoinDirection(worldIn, pos.offset(direction), neighborState) == null;
 	}
 
-	private boolean isSameJoinFamily(World worldIn, BlockPos pos, EnumFacing direction, EnumFacing facing) {
+	private void setHorizontalJoin(World worldIn, BlockPos pos, IBlockState state, EnumFacing joinDirection) {
+		BlockPos neighborPos = pos.offset(joinDirection);
+		IBlockState neighborState = worldIn.getBlockState(neighborPos);
+		this.updatingCabinetJoin = true;
+
+		try {
+			worldIn.setBlockState(pos,
+				state.withProperty(TYPE, this.getTypeForJoinDirection(state.getValue(FACING), joinDirection)), 3);
+			worldIn.setBlockState(neighborPos, neighborState.withProperty(TYPE,
+				this.getTypeForJoinDirection(state.getValue(FACING), joinDirection.getOpposite())), 3);
+		} finally {
+			this.updatingCabinetJoin = false;
+		}
+
+		this.updateCabinetAndNeighbors(worldIn, pos);
+	}
+
+	private boolean tryCreateVerticalJoin(World worldIn, BlockPos pos, IBlockState state) {
+		if (state.getBlock() != this || state.getValue(TYPE) != CabinetType.SINGLE) {
+			return false;
+		}
+
+		EnumFacing joinDirection = this.canCreateVerticalJoinWith(worldIn, pos, EnumFacing.DOWN, state)
+			? EnumFacing.DOWN : null;
+
+		if (joinDirection == null && this.canCreateVerticalJoinWith(worldIn, pos, EnumFacing.UP, state)) {
+			joinDirection = EnumFacing.UP;
+		}
+
+		if (joinDirection == null) {
+			return false;
+		}
+
+		this.setVerticalJoin(worldIn, pos, joinDirection);
+		return true;
+	}
+
+	private boolean canCreateVerticalJoinWith(IBlockAccess worldIn, BlockPos pos, EnumFacing direction,
+			IBlockState state) {
+		if (direction != EnumFacing.UP && direction != EnumFacing.DOWN) {
+			return false;
+		}
+		if (state.getBlock() != this || state.getValue(TYPE) != CabinetType.SINGLE) {
+			return false;
+		}
+		if (!this.isSameJoinFamily(worldIn, pos, direction, state.getValue(FACING))) {
+			return false;
+		}
+		if (this.isConnectionBlocked(worldIn, pos, direction)
+				|| this.isConnectionBlocked(worldIn, pos.offset(direction), direction.getOpposite())) {
+			return false;
+		}
+
+		TileEntityCabinet cabinet = this.getCabinetEntity(worldIn, pos);
+		TileEntityCabinet neighbor = this.getCabinetEntity(worldIn, pos.offset(direction));
+		IBlockState neighborState = worldIn.getBlockState(pos.offset(direction));
+
+		if (cabinet == null || neighbor == null || cabinet.getVerticalJoinDirection() != null
+				|| neighbor.getVerticalJoinDirection() != null || neighborState.getValue(TYPE) != CabinetType.SINGLE) {
+			return false;
+		}
+
+		BlockPos lowerPos = direction == EnumFacing.UP ? pos : pos.down();
+		return !this.isSameJoinFamily(worldIn, lowerPos, EnumFacing.DOWN, state.getValue(FACING));
+	}
+
+	private void setVerticalJoin(World worldIn, BlockPos pos, EnumFacing joinDirection) {
+		this.setVerticalJoinDirection(worldIn, pos, joinDirection);
+		this.setVerticalJoinDirection(worldIn, pos.offset(joinDirection), joinDirection.getOpposite());
+		worldIn.notifyBlockUpdate(pos, worldIn.getBlockState(pos), worldIn.getBlockState(pos), 3);
+		worldIn.notifyBlockUpdate(pos.offset(joinDirection), worldIn.getBlockState(pos.offset(joinDirection)),
+			worldIn.getBlockState(pos.offset(joinDirection)), 3);
+	}
+
+	private EnumFacing findVerticalJoinDirection(IBlockAccess worldIn, BlockPos pos, IBlockState state) {
+		return this.getValidatedVerticalJoinDirection(worldIn, pos, state);
+	}
+
+	private EnumFacing getValidatedVerticalJoinDirection(IBlockAccess worldIn, BlockPos pos, IBlockState state) {
+		TileEntityCabinet cabinet = this.getCabinetEntity(worldIn, pos);
+		EnumFacing direction = cabinet == null ? null : cabinet.getVerticalJoinDirection();
+
+		if (direction != EnumFacing.UP && direction != EnumFacing.DOWN) {
+			return null;
+		}
+
+		return this.canMaintainVerticalJoinWith(worldIn, pos, direction, state) ? direction : null;
+	}
+
+	private VerticalCabinetType getVerticalType(IBlockAccess worldIn, BlockPos pos, IBlockState state) {
+		EnumFacing direction = this.getValidatedVerticalJoinDirection(worldIn, pos, state);
+
+		if (direction == EnumFacing.DOWN) {
+			return VerticalCabinetType.UPPER;
+		}
+		if (direction == EnumFacing.UP) {
+			return VerticalCabinetType.LOWER;
+		}
+
+		return VerticalCabinetType.SINGLE;
+	}
+
+	private boolean canMaintainVerticalJoinWith(IBlockAccess worldIn, BlockPos pos, EnumFacing direction,
+			IBlockState state) {
+		if (direction != EnumFacing.UP && direction != EnumFacing.DOWN) {
+			return false;
+		}
+		if (state.getBlock() != this || state.getValue(TYPE) != CabinetType.SINGLE) {
+			return false;
+		}
+		if (!this.isSameJoinFamily(worldIn, pos, direction, state.getValue(FACING))) {
+			return false;
+		}
+		if (this.isConnectionBlocked(worldIn, pos, direction)
+				|| this.isConnectionBlocked(worldIn, pos.offset(direction), direction.getOpposite())) {
+			return false;
+		}
+
+		TileEntityCabinet neighbor = this.getCabinetEntity(worldIn, pos.offset(direction));
+		IBlockState neighborState = worldIn.getBlockState(pos.offset(direction));
+		return neighbor != null && neighborState.getValue(TYPE) == CabinetType.SINGLE
+			&& neighbor.getVerticalJoinDirection() == direction.getOpposite();
+	}
+
+	private boolean isSameJoinFamily(IBlockAccess worldIn, BlockPos pos, EnumFacing direction, EnumFacing facing) {
 		IBlockState neighborState = worldIn.getBlockState(pos.offset(direction));
 		return neighborState.getBlock() == this && neighborState.getValue(FACING) == facing;
 	}
@@ -548,6 +758,32 @@ public class Cabinet extends Block {
 		}
 	}
 
+	private void setVerticalJoinDirection(World worldIn, BlockPos pos, EnumFacing direction) {
+		TileEntityCabinet cabinet = this.getCabinetEntity(worldIn, pos);
+
+		if (cabinet != null) {
+			cabinet.setVerticalJoinDirection(direction);
+		}
+	}
+
+	private void clearInvalidVerticalJoin(World worldIn, BlockPos pos, IBlockState state) {
+		TileEntityCabinet cabinet = this.getCabinetEntity(worldIn, pos);
+
+		if (cabinet == null || cabinet.getVerticalJoinDirection() == null
+				|| this.getValidatedVerticalJoinDirection(worldIn, pos, state) != null) {
+			return;
+		}
+
+		EnumFacing direction = cabinet.getVerticalJoinDirection();
+		cabinet.setVerticalJoinDirection(null);
+
+		TileEntityCabinet neighbor = this.getCabinetEntity(worldIn, pos.offset(direction));
+
+		if (neighbor != null && neighbor.getVerticalJoinDirection() == direction.getOpposite()) {
+			neighbor.setVerticalJoinDirection(null);
+		}
+	}
+
 	private void clearOrphanedBlockedConnections(World worldIn, BlockPos pos) {
 		TileEntity tileEntity = worldIn.getTileEntity(pos);
 
@@ -558,7 +794,7 @@ public class Cabinet extends Block {
 		TileEntityCabinet cabinet = (TileEntityCabinet)tileEntity;
 		IBlockState state = worldIn.getBlockState(pos);
 
-		for (EnumFacing direction : EnumFacing.Plane.HORIZONTAL) {
+		for (EnumFacing direction : EnumFacing.values()) {
 			if (cabinet.isConnectionBlocked(direction)
 					&& !this.isSameJoinFamily(worldIn, pos, direction, state.getValue(FACING))) {
 				cabinet.setConnectionBlocked(direction, false);
@@ -598,7 +834,7 @@ public class Cabinet extends Block {
 		super.breakBlock(worldIn, pos, state);
 
 		if (!worldIn.isRemote) {
-			for (EnumFacing facing : EnumFacing.Plane.HORIZONTAL) {
+			for (EnumFacing facing : EnumFacing.values()) {
 				BlockPos neighborPos = pos.offset(facing);
 				IBlockState neighborState = worldIn.getBlockState(neighborPos);
 
@@ -661,8 +897,13 @@ public class Cabinet extends Block {
 	}
 
 	@Override
+	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+		return state.withProperty(VERTICAL, this.getVerticalType(worldIn, pos, state));
+	}
+
+	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] { FACING, TYPE });
+		return new BlockStateContainer(this, new IProperty[] { FACING, TYPE, VERTICAL });
 	}
 
 	@Override

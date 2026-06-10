@@ -1,49 +1,139 @@
 {
     "variants":  {
-                     "facing=north,type=single":  {
-                                                      "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_single",
-                                                      "y":  180
-                                                  },
-                     "facing=north,type=left":  {
-                                                    "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_left",
-                                                    "y":  180
-                                                },
-                     "facing=north,type=right":  {
-                                                     "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_right",
-                                                     "y":  180
-                                                 },
-                     "facing=east,type=single":  {
-                                                     "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_single",
-                                                     "y":  270
-                                                 },
-                     "facing=east,type=left":  {
-                                                   "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_left",
-                                                   "y":  270
-                                               },
-                     "facing=east,type=right":  {
-                                                    "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_right",
-                                                    "y":  270
-                                                },
-                     "facing=south,type=single":  {
-                                                      "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_single"
-                                                  },
-                     "facing=south,type=left":  {
-                                                    "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_left"
-                                                },
-                     "facing=south,type=right":  {
-                                                     "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_right"
-                                                 },
-                     "facing=west,type=single":  {
-                                                     "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_single",
-                                                     "y":  90
-                                                 },
-                     "facing=west,type=left":  {
-                                                   "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_left",
-                                                   "y":  90
-                                               },
-                     "facing=west,type=right":  {
-                                                    "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_right",
-                                                    "y":  90
-                                                }
+                     "facing=north,type=single,vertical=single":  {
+                                                                      "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_single",
+                                                                      "y":  180
+                                                                  },
+                     "facing=north,type=single,vertical=lower":  {
+                                                                     "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_lower",
+                                                                     "y":  180
+                                                                 },
+                     "facing=north,type=single,vertical=upper":  {
+                                                                     "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_upper",
+                                                                     "y":  180
+                                                                 },
+                     "facing=north,type=left,vertical=single":  {
+                                                                    "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_left",
+                                                                    "y":  180
+                                                                },
+                     "facing=north,type=left,vertical=lower":  {
+                                                                   "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_left",
+                                                                   "y":  180
+                                                               },
+                     "facing=north,type=left,vertical=upper":  {
+                                                                   "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_left",
+                                                                   "y":  180
+                                                               },
+                     "facing=north,type=right,vertical=single":  {
+                                                                     "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_right",
+                                                                     "y":  180
+                                                                 },
+                     "facing=north,type=right,vertical=lower":  {
+                                                                    "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_right",
+                                                                    "y":  180
+                                                                },
+                     "facing=north,type=right,vertical=upper":  {
+                                                                    "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_right",
+                                                                    "y":  180
+                                                                },
+                     "facing=east,type=single,vertical=single":  {
+                                                                     "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_single",
+                                                                     "y":  270
+                                                                 },
+                     "facing=east,type=single,vertical=lower":  {
+                                                                    "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_lower",
+                                                                    "y":  270
+                                                                },
+                     "facing=east,type=single,vertical=upper":  {
+                                                                    "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_upper",
+                                                                    "y":  270
+                                                                },
+                     "facing=east,type=left,vertical=single":  {
+                                                                   "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_left",
+                                                                   "y":  270
+                                                               },
+                     "facing=east,type=left,vertical=lower":  {
+                                                                  "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_left",
+                                                                  "y":  270
+                                                              },
+                     "facing=east,type=left,vertical=upper":  {
+                                                                  "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_left",
+                                                                  "y":  270
+                                                              },
+                     "facing=east,type=right,vertical=single":  {
+                                                                    "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_right",
+                                                                    "y":  270
+                                                                },
+                     "facing=east,type=right,vertical=lower":  {
+                                                                   "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_right",
+                                                                   "y":  270
+                                                               },
+                     "facing=east,type=right,vertical=upper":  {
+                                                                   "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_right",
+                                                                   "y":  270
+                                                               },
+                     "facing=south,type=single,vertical=single":  {
+                                                                      "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_single"
+                                                                  },
+                     "facing=south,type=single,vertical=lower":  {
+                                                                     "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_lower"
+                                                                 },
+                     "facing=south,type=single,vertical=upper":  {
+                                                                     "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_upper"
+                                                                 },
+                     "facing=south,type=left,vertical=single":  {
+                                                                    "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_left"
+                                                                },
+                     "facing=south,type=left,vertical=lower":  {
+                                                                   "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_left"
+                                                               },
+                     "facing=south,type=left,vertical=upper":  {
+                                                                   "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_left"
+                                                               },
+                     "facing=south,type=right,vertical=single":  {
+                                                                     "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_right"
+                                                                 },
+                     "facing=south,type=right,vertical=lower":  {
+                                                                    "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_right"
+                                                                },
+                     "facing=south,type=right,vertical=upper":  {
+                                                                    "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_right"
+                                                                },
+                     "facing=west,type=single,vertical=single":  {
+                                                                     "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_single",
+                                                                     "y":  90
+                                                                 },
+                     "facing=west,type=single,vertical=lower":  {
+                                                                    "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_lower",
+                                                                    "y":  90
+                                                                },
+                     "facing=west,type=single,vertical=upper":  {
+                                                                    "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_upper",
+                                                                    "y":  90
+                                                                },
+                     "facing=west,type=left,vertical=single":  {
+                                                                   "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_left",
+                                                                   "y":  90
+                                                               },
+                     "facing=west,type=left,vertical=lower":  {
+                                                                  "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_left",
+                                                                  "y":  90
+                                                              },
+                     "facing=west,type=left,vertical=upper":  {
+                                                                  "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_left",
+                                                                  "y":  90
+                                                              },
+                     "facing=west,type=right,vertical=single":  {
+                                                                    "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_right",
+                                                                    "y":  90
+                                                                },
+                     "facing=west,type=right,vertical=lower":  {
+                                                                   "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_right",
+                                                                   "y":  90
+                                                               },
+                     "facing=west,type=right,vertical=upper":  {
+                                                                   "model":  "ironagefurniture:cabinet_wood_ironage_forestry_palm_right",
+                                                                   "y":  90
+                                                               }
                  }
 }
