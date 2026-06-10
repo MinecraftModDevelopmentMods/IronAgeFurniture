@@ -1,6 +1,7 @@
 package com.mcmoddev.ironagefurniture.api;
 
 import com.mcmoddev.ironagefurniture.api.Blocks.DiningTable;
+import com.mcmoddev.ironagefurniture.api.Blocks.Cabinet;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -24,11 +25,14 @@ public class DiningTableSurfaceInteractionHandler {
         IBlockState tableState = world.getBlockState(tablePos);
         Block tableBlock = tableState.getBlock();
 
-        if (!(tableBlock instanceof DiningTable)) {
+        if (tableBlock instanceof DiningTable
+                && ((DiningTable)tableBlock).tryRetrievePlacedBlockAbove(world, tablePos, player, event.getItemStack())) {
+            event.setCanceled(true);
             return;
         }
 
-        if (((DiningTable)tableBlock).tryRetrievePlacedBlockAbove(world, tablePos, player, event.getItemStack())) {
+        if (tableBlock instanceof Cabinet
+                && ((Cabinet)tableBlock).tryRetrievePlacedBlockAbove(world, tablePos, player, event.getItemStack())) {
             event.setCanceled(true);
         }
     }

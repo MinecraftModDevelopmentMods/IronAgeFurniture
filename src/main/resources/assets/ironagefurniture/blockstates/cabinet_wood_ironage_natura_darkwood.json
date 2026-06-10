@@ -1,0 +1,49 @@
+{
+    "variants":  {
+                     "facing=north,type=single":  {
+                                                      "model":  "ironagefurniture:cabinet_wood_ironage_natura_darkwood_single",
+                                                      "y":  180
+                                                  },
+                     "facing=north,type=left":  {
+                                                    "model":  "ironagefurniture:cabinet_wood_ironage_natura_darkwood_left",
+                                                    "y":  180
+                                                },
+                     "facing=north,type=right":  {
+                                                     "model":  "ironagefurniture:cabinet_wood_ironage_natura_darkwood_right",
+                                                     "y":  180
+                                                 },
+                     "facing=east,type=single":  {
+                                                     "model":  "ironagefurniture:cabinet_wood_ironage_natura_darkwood_single",
+                                                     "y":  270
+                                                 },
+                     "facing=east,type=left":  {
+                                                   "model":  "ironagefurniture:cabinet_wood_ironage_natura_darkwood_left",
+                                                   "y":  270
+                                               },
+                     "facing=east,type=right":  {
+                                                    "model":  "ironagefurniture:cabinet_wood_ironage_natura_darkwood_right",
+                                                    "y":  270
+                                                },
+                     "facing=south,type=single":  {
+                                                      "model":  "ironagefurniture:cabinet_wood_ironage_natura_darkwood_single"
+                                                  },
+                     "facing=south,type=left":  {
+                                                    "model":  "ironagefurniture:cabinet_wood_ironage_natura_darkwood_left"
+                                                },
+                     "facing=south,type=right":  {
+                                                     "model":  "ironagefurniture:cabinet_wood_ironage_natura_darkwood_right"
+                                                 },
+                     "facing=west,type=single":  {
+                                                     "model":  "ironagefurniture:cabinet_wood_ironage_natura_darkwood_single",
+                                                     "y":  90
+                                                 },
+                     "facing=west,type=left":  {
+                                                   "model":  "ironagefurniture:cabinet_wood_ironage_natura_darkwood_left",
+                                                   "y":  90
+                                               },
+                     "facing=west,type=right":  {
+                                                    "model":  "ironagefurniture:cabinet_wood_ironage_natura_darkwood_right",
+                                                    "y":  90
+                                                }
+                 }
+}

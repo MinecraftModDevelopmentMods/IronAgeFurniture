@@ -7,7 +7,7 @@ import java.util.UUID;
 
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 import com.mcmoddev.ironagefurniture.Ironagefurniture;
-import com.mcmoddev.ironagefurniture.api.MineralogyCompat;
+import com.mcmoddev.ironagefurniture.api.SurfaceItemRules;
 import com.mcmoddev.ironagefurniture.api.VasePlantHelper;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityDiningTable;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityGlassVase;
@@ -26,8 +26,6 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -267,35 +265,11 @@ public class DiningTable extends Block {
 	}
 
 	protected boolean isDisplayExcluded(ItemStack heldItem) {
-		if (heldItem == null || heldItem.stackSize <= 0) {
-			return false;
-		}
-
-		return this.isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_block_floor_glow_clear)
-			|| this.isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_block_floor_red_clear)
-			|| this.isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_block_floor_lava_clear)
-			|| this.isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_candle_floor)
-			|| MineralogyCompat.isRockSaltLampItem(heldItem)
-			|| this.isFlowerPotItem(heldItem)
-			|| this.isOrnamentItem(heldItem);
-	}
-
-	private boolean isItemFromBlock(ItemStack heldItem, Block block) {
-		return block != null && heldItem.getItem() == Item.getItemFromBlock(block);
+		return SurfaceItemRules.shouldPlaceAsBlockOnTableLikeSurface(heldItem);
 	}
 
 	protected boolean isFlowerPotItem(ItemStack heldItem) {
-		return heldItem != null && heldItem.stackSize > 0
-			&& heldItem.getItem() == Items.FLOWER_POT;
-	}
-
-	private boolean isOrnamentItem(ItemStack heldItem) {
-		if (!(heldItem.getItem() instanceof ItemBlock)) {
-			return false;
-		}
-
-		Block block = ((ItemBlock)heldItem.getItem()).getBlock();
-		return block instanceof OrnamentBlock || block instanceof GlassVaseBlock;
+		return SurfaceItemRules.isFlowerPotItem(heldItem);
 	}
 
 	private boolean canRetrieveDisplayedItem(TileEntityDiningTable table, ItemStack heldItem) {

@@ -5,6 +5,7 @@ import com.mcmoddev.ironagefurniture.IronAgeFurnitureConfiguration;
 import com.mcmoddev.ironagefurniture.Ironagefurniture;
 import com.mcmoddev.ironagefurniture.api.Blocks.BackBench;
 import com.mcmoddev.ironagefurniture.api.Blocks.Bench;
+import com.mcmoddev.ironagefurniture.api.Blocks.Cabinet;
 import com.mcmoddev.ironagefurniture.api.Blocks.ChainTop;
 import com.mcmoddev.ironagefurniture.api.Blocks.Chair;
 import com.mcmoddev.ironagefurniture.api.Blocks.DiningChair;
@@ -166,6 +167,16 @@ public class FurnitureFactory {
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(shelf, 3), "xxx", " y ",
 			'x', slab, 'y', "stickWood"));
+	}
+
+	public static void AddCabinetRecipe(ItemStack planks, Block cabinet) {
+		if (cabinet == null) {
+			return;
+		}
+
+		Object handle = IronAgeFurnitureConfiguration.GENERATE_IRON_NUGGETS ? "nuggetIron" : "ingotIron";
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cabinet, 1), "xxx", "xyx", "xxx",
+			'x', planks, 'y', handle));
 	}
 	
 	public static void AddShortStoolRecipe(ItemStack planks, Block stool) {
@@ -380,6 +391,15 @@ public class FurnitureFactory {
 
 	public static Block CreateWallShelf(String suffix) {
 		return CreateWallShelf(suffix, 10, 1);
+	}
+
+	public static Block CreateWoodCabinet(String suffix, float resistance, float hardness) {
+		String name = "cabinet_wood_ironage_" + suffix;
+		return registerBlock(new Cabinet(Material.WOOD, name, resistance, hardness), name, 64);
+	}
+
+	public static Block CreateWoodCabinet(String suffix) {
+		return CreateWoodCabinet(suffix, 10, 1.5F);
 	}
 
 	public static Block CreateSurfaceDisplayBlocker(String name) {

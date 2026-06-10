@@ -3,6 +3,7 @@ package com.mcmoddev.ironagefurniture.api.Blocks;
 import java.util.Random;
 
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
+import com.mcmoddev.ironagefurniture.api.tile.TileEntityCabinet;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityDiningTable;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityWallShelf;
 
@@ -133,7 +134,8 @@ public class SurfaceDisplayBlocker extends Block {
 		IBlockState surfaceState = worldIn.getBlockState(surfacePos);
 		Block surfaceBlock = surfaceState.getBlock();
 
-		if (!(surfaceBlock instanceof DiningTable) && !(surfaceBlock instanceof WallShelf)) {
+		if (!(surfaceBlock instanceof DiningTable) && !(surfaceBlock instanceof WallShelf)
+				&& !(surfaceBlock instanceof Cabinet)) {
 			return false;
 		}
 
@@ -141,6 +143,10 @@ public class SurfaceDisplayBlocker extends Block {
 
 		if (tileEntity instanceof TileEntityDiningTable) {
 			return ((TileEntityDiningTable)tileEntity).hasDisplayedItem();
+		}
+
+		if (tileEntity instanceof TileEntityCabinet) {
+			return ((TileEntityCabinet)tileEntity).hasDisplayedItem();
 		}
 
 		return tileEntity instanceof TileEntityWallShelf

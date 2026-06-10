@@ -34,6 +34,7 @@ public class BlockInitialiser {
 		generateBeds(); // and then, inevitably, he wanted somewhere nicer to sleep.
 		generateSurfaceDisplayBlocker();
 		generateTables(); // and then he had somewhere civilized to put dinner.
+		generateCabinets(); // and then he needed somewhere to hide all the less photogenic dinnerware.
 		generateShelves(); // and then he looked at the wall and saw useful empty space.
 		generateFallbackGoldBars();
 		generateLights(); // and then he saw that the vanilla torches were boring and said, let there be light!
@@ -62,8 +63,19 @@ public class BlockInitialiser {
 	private static void generateSurfaceDisplayBlocker() {
 		if (IronAgeFurnitureConfiguration.GENERATE_DINING_TABLES
 				|| IronAgeFurnitureConfiguration.GENERATE_LOW_TABLES
-				|| IronAgeFurnitureConfiguration.GENERATE_WALL_SHELVES) {
+				|| IronAgeFurnitureConfiguration.GENERATE_WALL_SHELVES
+				|| IronAgeFurnitureConfiguration.GENERATE_WOOD_CABINETS) {
 			BlockObjectHolder.surface_display_blocker = FurnitureFactory.CreateSurfaceDisplayBlocker("surface_display_blocker");
+		}
+	}
+
+	private static void generateCabinets() {
+		if (!IronAgeFurnitureConfiguration.GENERATE_WOOD_CABINETS) {
+			return;
+		}
+
+		for (String suffix : WoodVariantHelper.getEnabledWoodSuffixes()) {
+			BlockObjectHolder.cabinet_wood_ironage.put(suffix, FurnitureFactory.CreateWoodCabinet(suffix));
 		}
 	}
 

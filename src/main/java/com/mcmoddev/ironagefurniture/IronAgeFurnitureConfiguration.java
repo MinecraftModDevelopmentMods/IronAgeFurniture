@@ -13,6 +13,7 @@ public class IronAgeFurnitureConfiguration {
 	public static boolean GENERATE_DINING_TABLES = true;
 	public static boolean GENERATE_LOW_TABLES = true;
 	public static boolean GENERATE_WALL_SHELVES = true;
+	public static boolean GENERATE_WOOD_CABINETS = true;
 	public static boolean GENERATE_IRON_NUGGETS = true;
 	public static boolean GENERATE_ORNAMENTS = true;
 	public static boolean GENERATE_SHIELD_CHAIRS = true;
@@ -59,6 +60,7 @@ public class IronAgeFurnitureConfiguration {
 		GENERATE_DINING_TABLES = config.getBoolean("GENERATE_DINING_TABLES", "options", GENERATE_DINING_TABLES, "If true, then dining tables will be generated");
 		GENERATE_LOW_TABLES = config.getBoolean("GENERATE_LOW_TABLES", "options", GENERATE_LOW_TABLES, "If true, then low tables will be generated");
 		GENERATE_WALL_SHELVES = config.getBoolean("GENERATE_WALL_SHELVES", "options", GENERATE_WALL_SHELVES, "If true, then wall shelves will be generated");
+		GENERATE_WOOD_CABINETS = config.getBoolean("GENERATE_WOOD_CABINETS", "options", GENERATE_WOOD_CABINETS, "If true, then wooden cabinets will be generated");
 		GENERATE_IRON_NUGGETS = config.getBoolean("GENERATE_IRON_NUGGETS", "options", GENERATE_IRON_NUGGETS, "If true, then iron nuggets will be generated");
 		GENERATE_ORNAMENTS = config.getBoolean("GENERATE_ORNAMENTS", "options", GENERATE_ORNAMENTS, "If true, then decorative ornaments will be generated");
 	

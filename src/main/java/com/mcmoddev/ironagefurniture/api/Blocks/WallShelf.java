@@ -6,6 +6,7 @@ import java.util.Random;
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 import com.mcmoddev.ironagefurniture.Ironagefurniture;
 import com.mcmoddev.ironagefurniture.api.MineralogyCompat;
+import com.mcmoddev.ironagefurniture.api.SurfaceItemRules;
 import com.mcmoddev.ironagefurniture.api.VasePlantHelper;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityWallShelf;
 import com.mcmoddev.ironagefurniture.client.particle.CandleFlameParticle;
@@ -527,14 +528,7 @@ public class WallShelf extends BlockHBase {
 	}
 
 	private boolean isDisplayExcluded(ItemStack heldItem) {
-		if (heldItem == null || heldItem.stackSize <= 0) {
-			return false;
-		}
-
-		Block heldBlock = this.getHeldItemBlock(heldItem);
-		return this.isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_block_floor_red_clear)
-			|| this.hasRegistryPath(heldBlock, "light_metal_ironage_block_floor_red_clear")
-			|| heldBlock instanceof LightSourceRed;
+		return SurfaceItemRules.shouldPlaceAsBlockOnShelfLikeSurface(heldItem);
 	}
 
 	private boolean reserveDisplaySpace(World worldIn, BlockPos pos, ItemStack heldItem) {
@@ -626,22 +620,19 @@ public class WallShelf extends BlockHBase {
 	}
 
 	private boolean isFlowerPotItem(ItemStack heldItem) {
-		return heldItem != null && heldItem.stackSize > 0
-			&& heldItem.getItem() == Items.FLOWER_POT;
+		return SurfaceItemRules.isFlowerPotItem(heldItem);
 	}
 
 	private Block getHeldItemBlock(ItemStack heldItem) {
-		return heldItem != null && heldItem.getItem() instanceof ItemBlock
-			? ((ItemBlock)heldItem.getItem()).getBlock() : null;
+		return SurfaceItemRules.getHeldItemBlock(heldItem);
 	}
 
 	private boolean hasRegistryPath(Block block, String path) {
-		return block != null && block.getRegistryName() != null
-			&& path.equals(block.getRegistryName().getResourcePath());
+		return SurfaceItemRules.hasRegistryPath(block, path);
 	}
 
 	private boolean isItemFromBlock(ItemStack heldItem, Block block) {
-		return block != null && heldItem.getItem() == Item.getItemFromBlock(block);
+		return SurfaceItemRules.isItemFromBlock(heldItem, block);
 	}
 
 	private boolean isWallShelfItem(ItemStack heldItem) {
