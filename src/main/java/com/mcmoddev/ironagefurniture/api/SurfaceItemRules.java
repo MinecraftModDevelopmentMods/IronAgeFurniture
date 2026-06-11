@@ -1,6 +1,7 @@
 package com.mcmoddev.ironagefurniture.api;
 
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
+import com.mcmoddev.ironagefurniture.api.Blocks.Barrel;
 import com.mcmoddev.ironagefurniture.api.Blocks.Cabinet;
 import com.mcmoddev.ironagefurniture.api.Blocks.Chair;
 import com.mcmoddev.ironagefurniture.api.Blocks.DiningTable;
@@ -83,6 +84,7 @@ public final class SurfaceItemRules {
 	public static boolean isIronAgeStructuralFurnitureItem(ItemStack heldItem) {
 		Block block = getHeldItemBlock(heldItem);
 		return block instanceof Cabinet
+			|| block instanceof Barrel
 			|| block instanceof DiningTable
 			|| block instanceof WallShelf
 			|| block instanceof Chair

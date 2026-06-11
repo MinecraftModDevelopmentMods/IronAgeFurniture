@@ -4,10 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.mcmoddev.ironagefurniture.api.CreativeModeBreakTracker;
+import com.mcmoddev.ironagefurniture.api.BarrelGuiHandler;
 import com.mcmoddev.ironagefurniture.api.DiningTableSurfaceInteractionHandler;
 import com.mcmoddev.ironagefurniture.api.entity.EntityFallingMetalBlock;
 import com.mcmoddev.ironagefurniture.api.entity.EntityThrownLavaLamp;
 import com.mcmoddev.ironagefurniture.api.entity.Seat;
+import com.mcmoddev.ironagefurniture.api.tile.TileEntityBarrel;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityCabinet;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityDiningTable;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityGlassVase;
@@ -27,9 +29,11 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -38,6 +42,10 @@ public class Ironagefurniture
 {
     public static final String MODID = "ironagefurniture";
     public static final String VERSION = "0.2.0.5";
+	public static final int GUI_BARREL = 1;
+
+	@Instance(MODID)
+	public static Ironagefurniture instance;
     
 	public static final Map<String,Block> BlockRegistry = new HashMap<String, Block>();
 	public static final Map<String,Item> ItemRegistry = new HashMap<String, Item>();
@@ -72,6 +80,7 @@ public class Ironagefurniture
     	GameRegistry.registerTileEntity(TileEntityDiningTable.class, MODID + ":table_dining");
 		GameRegistry.registerTileEntity(TileEntityCabinet.class, MODID + ":cabinet_wood_ironage");
 		GameRegistry.registerTileEntity(TileEntityHalfCabinet.class, MODID + ":half_cabinet_wood_ironage");
+		GameRegistry.registerTileEntity(TileEntityBarrel.class, MODID + ":barrel_wood_ironage");
 		GameRegistry.registerTileEntity(TileEntityGlassVase.class, MODID + ":ornament_glass_vase");
 		GameRegistry.registerTileEntity(TileEntityWallShelf.class, MODID + ":shelf_wall");
 		GameRegistry.registerTileEntity(TileEntityMetalVariant.class, MODID + ":metal_variant");
@@ -84,6 +93,8 @@ public class Ironagefurniture
 			EntityRegistry.registerModEntity(EntityFallingMetalBlock.class,
 				MODID + ":falling_metal_block", 2, this, 160, 20, true);
 		}
+
+		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new BarrelGuiHandler());
     	
     	RecipeInitialiser.init();
     }

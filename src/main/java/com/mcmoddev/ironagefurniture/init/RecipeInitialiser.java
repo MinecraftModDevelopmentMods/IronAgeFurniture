@@ -37,6 +37,7 @@ public class RecipeInitialiser {
 		generateBedRecipes();
 		generateTableRecipes();
 		generateCabinetRecipes();
+		generateBarrelRecipes();
 		generateShelfRecipes();
 		generateGoldBarsRecipes();
 		generateLightRecipes();
@@ -206,6 +207,28 @@ public class RecipeInitialiser {
 		validateSlabRecipeMappings(BlockObjectHolder.cabinet_wood_ironage, recipeSuffixes, "wood cabinet");
 		validateSlabRecipeMappings(BlockObjectHolder.half_cabinet_wood_ironage, halfRecipeSuffixes,
 			"half wood cabinet");
+	}
+
+	private static void generateBarrelRecipes() {
+		if (!IronAgeFurnitureConfiguration.GENERATE_WOOD_BARRELS) {
+			return;
+		}
+
+		final List<String> recipeSuffixes = new ArrayList<String>();
+
+		WoodVariantHelper.forEachEnabledPlankVariant(new WoodVariantHelper.ItemStackVariantConsumer() {
+			@Override
+			public void accept(String suffix, ItemStack planks) {
+				Block barrel = BlockObjectHolder.barrel_wood_ironage.get(suffix);
+
+				if (barrel != null) {
+					FurnitureFactory.AddBarrelRecipe(planks, barrel);
+					recipeSuffixes.add(suffix);
+				}
+			}
+		});
+
+		validateSlabRecipeMappings(BlockObjectHolder.barrel_wood_ironage, recipeSuffixes, "wood barrel");
 	}
 
 	private static void validateSlabRecipeMappings(java.util.Map<String, Block> blocks, List<String> recipeSuffixes,

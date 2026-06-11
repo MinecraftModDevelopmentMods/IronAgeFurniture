@@ -4,6 +4,7 @@ import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 import com.mcmoddev.ironagefurniture.IronAgeFurnitureConfiguration;
 import com.mcmoddev.ironagefurniture.Ironagefurniture;
 import com.mcmoddev.ironagefurniture.api.Blocks.BackBench;
+import com.mcmoddev.ironagefurniture.api.Blocks.Barrel;
 import com.mcmoddev.ironagefurniture.api.Blocks.Bench;
 import com.mcmoddev.ironagefurniture.api.Blocks.Cabinet;
 import com.mcmoddev.ironagefurniture.api.Blocks.ChainTop;
@@ -184,6 +185,15 @@ public class FurnitureFactory {
 		}
 
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(halfCabinet, 2), new ItemStack(cabinet, 1)));
+	}
+
+	public static void AddBarrelRecipe(ItemStack planks, Block barrel) {
+		if (barrel == null) {
+			return;
+		}
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(barrel, 1), "xxx", "y y", "xxx",
+			'x', planks, 'y', "nuggetIron"));
 	}
 	
 	public static void AddShortStoolRecipe(ItemStack planks, Block stool) {
@@ -416,6 +426,15 @@ public class FurnitureFactory {
 
 	public static Block CreateHalfWoodCabinet(String suffix) {
 		return CreateHalfWoodCabinet(suffix, 10, 1.5F);
+	}
+
+	public static Block CreateWoodBarrel(String suffix, float resistance, float hardness) {
+		String name = "barrel_wood_ironage_" + suffix;
+		return registerBlock(new Barrel(Material.WOOD, name, resistance, hardness), name, 64);
+	}
+
+	public static Block CreateWoodBarrel(String suffix) {
+		return CreateWoodBarrel(suffix, 10, 1.5F);
 	}
 
 	public static Block CreateSurfaceDisplayBlocker(String name) {
@@ -869,7 +888,8 @@ public class FurnitureFactory {
 
 	private static void registerWoodFurnitureFireInfo(Block block) {
 		if (block instanceof Chair || block instanceof MultiBlockChair || block instanceof MultiBlockBed
-				|| block instanceof MultiBlockWoodBed || block instanceof DiningTable || block instanceof WallShelf) {
+				|| block instanceof MultiBlockWoodBed || block instanceof DiningTable || block instanceof WallShelf
+				|| block instanceof Barrel) {
 			Blocks.FIRE.setFireInfo(block, WOOD_FURNITURE_FIRE_SPREAD_SPEED, WOOD_FURNITURE_FLAMMABILITY);
 		}
 	}

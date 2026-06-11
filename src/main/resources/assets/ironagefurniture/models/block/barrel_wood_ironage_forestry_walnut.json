@@ -1,0 +1,11 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_barrel_wood_ironage",
+  "textures": {
+    "0": "forestry:blocks/wood/bark.walnut",
+    "1": "forestry:blocks/wood/planks.walnut",
+    "particle": "forestry:blocks/wood/bark.walnut",
+    "iron": "minecraft:blocks/iron_block",
+    "inside": "minecraft:blocks/coal_block"
+  }
+}
