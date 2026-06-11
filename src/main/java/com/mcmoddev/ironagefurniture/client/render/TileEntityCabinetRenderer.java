@@ -30,9 +30,11 @@ public class TileEntityCabinetRenderer extends TileEntitySpecialRenderer<TileEnt
 		}
 
 		double itemY = this.getItemYOffset(te);
+		double itemX = this.getItemXOffset(te);
+		double itemZ = this.getItemZOffset(te);
 		float yaw = SurfaceDisplayRenderHelper.isBook(itemStack) ? this.getYaw(te.getDisplayedItemFacing()) : 0.0F;
 
-		if (SurfaceDisplayRenderHelper.renderSpecialSurfaceItem(itemStack, x, y, z, 0.5D, 0.5D, itemY,
+		if (SurfaceDisplayRenderHelper.renderSpecialSurfaceItem(itemStack, x, y, z, itemX, itemZ, itemY,
 				this.getBlockSurfaceYOffset(te), yaw)) {
 			return;
 		}
@@ -45,11 +47,11 @@ public class TileEntityCabinetRenderer extends TileEntitySpecialRenderer<TileEnt
 			ItemTransformVec3f fixedTransform = this.getFixedTransform(itemStack);
 			transformType = this.hasTiltedTransform(fixedTransform) ? ItemCameraTransforms.TransformType.NONE
 					: ItemCameraTransforms.TransformType.FIXED;
-			GlStateManager.translate(x + 0.5D, y + itemY + this.getBlockItemLift(fixedTransform, transformType),
-					z + 0.5D);
+			GlStateManager.translate(x + itemX, y + itemY + this.getBlockItemLift(fixedTransform, transformType),
+					z + itemZ);
 			GlStateManager.scale(BLOCK_ITEM_SCALE, BLOCK_ITEM_SCALE, BLOCK_ITEM_SCALE);
 		} else {
-			GlStateManager.translate(x + 0.5D, y + itemY, z + 0.5D);
+			GlStateManager.translate(x + itemX, y + itemY, z + itemZ);
 			GlStateManager.rotate(90.0F, 1.0F, 0.0F, 0.0F);
 			GlStateManager.scale(ITEM_SCALE, ITEM_SCALE, ITEM_SCALE);
 		}
@@ -98,6 +100,28 @@ public class TileEntityCabinetRenderer extends TileEntitySpecialRenderer<TileEnt
 		Block block = state.getBlock();
 
 		return block instanceof Cabinet ? ((Cabinet)block).getDisplayItemYOffset() : ITEM_Y;
+	}
+
+	private double getItemXOffset(TileEntityCabinet te) {
+		if (te.getWorld() == null) {
+			return 0.5D;
+		}
+
+		IBlockState state = te.getWorld().getBlockState(te.getPos());
+		Block block = state.getBlock();
+
+		return block instanceof Cabinet ? ((Cabinet)block).getDisplayItemXOffset(state) : 0.5D;
+	}
+
+	private double getItemZOffset(TileEntityCabinet te) {
+		if (te.getWorld() == null) {
+			return 0.5D;
+		}
+
+		IBlockState state = te.getWorld().getBlockState(te.getPos());
+		Block block = state.getBlock();
+
+		return block instanceof Cabinet ? ((Cabinet)block).getDisplayItemZOffset(state) : 0.5D;
 	}
 
 	private double getBlockSurfaceYOffset(TileEntityCabinet te) {

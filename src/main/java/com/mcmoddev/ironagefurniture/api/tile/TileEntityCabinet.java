@@ -38,9 +38,9 @@ import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
 public class TileEntityCabinet extends TileEntityLockable implements ISidedInventory, ITickable {
 	private static final int INVENTORY_SIZE = 27;
-	private static final int[] ALL_SLOTS = createSlotArray();
 
-	private ItemStack[] inventory = new ItemStack[INVENTORY_SIZE];
+	private ItemStack[] inventory = new ItemStack[this.getInventorySize()];
+	private int[] allSlots;
 	private String customName;
 	private ItemStack displayedItem;
 	private EnumFacing displayedFacing = EnumFacing.NORTH;
@@ -53,8 +53,12 @@ public class TileEntityCabinet extends TileEntityLockable implements ISidedInven
 	private final IItemHandler[] sidedHandlers = new IItemHandler[EnumFacing.values().length];
 	private IItemHandler unsidedHandler;
 
-	private static int[] createSlotArray() {
-		int[] slots = new int[INVENTORY_SIZE];
+	protected int getInventorySize() {
+		return INVENTORY_SIZE;
+	}
+
+	private static int[] createSlotArray(int inventorySize) {
+		int[] slots = new int[inventorySize];
 
 		for (int i = 0; i < slots.length; i++) {
 			slots[i] = i;
@@ -63,9 +67,17 @@ public class TileEntityCabinet extends TileEntityLockable implements ISidedInven
 		return slots;
 	}
 
+	private int[] getAllSlots() {
+		if (this.allSlots == null || this.allSlots.length != this.inventory.length) {
+			this.allSlots = createSlotArray(this.inventory.length);
+		}
+
+		return this.allSlots;
+	}
+
 	@Override
 	public int getSizeInventory() {
-		return INVENTORY_SIZE;
+		return this.inventory.length;
 	}
 
 	@Override
@@ -345,7 +357,7 @@ public class TileEntityCabinet extends TileEntityLockable implements ISidedInven
 
 	@Override
 	public int[] getSlotsForFace(EnumFacing side) {
-		return ALL_SLOTS;
+		return this.getAllSlots();
 	}
 
 	@Override

@@ -14,6 +14,7 @@ import com.mcmoddev.ironagefurniture.api.Blocks.GlassVaseBlock;
 import com.mcmoddev.ironagefurniture.api.Blocks.GoldBars;
 import com.mcmoddev.ironagefurniture.api.Blocks.GrandChandelierHub;
 import com.mcmoddev.ironagefurniture.api.Blocks.GrandChandelierSconce;
+import com.mcmoddev.ironagefurniture.api.Blocks.HalfCabinet;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightHolderSconceFloor;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightHolderSconceHanging;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightHolderSconceWall;
@@ -174,9 +175,15 @@ public class FurnitureFactory {
 			return;
 		}
 
-		Object handle = IronAgeFurnitureConfiguration.GENERATE_IRON_NUGGETS ? "nuggetIron" : "ingotIron";
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cabinet, 1), "xxx", "xyx", "xxx",
-			'x', planks, 'y', handle));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(cabinet, 1), Blocks.CHEST, "nuggetIron", planks));
+	}
+
+	public static void AddHalfCabinetRecipe(Block cabinet, Block halfCabinet) {
+		if (cabinet == null || halfCabinet == null) {
+			return;
+		}
+
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(halfCabinet, 2), new ItemStack(cabinet, 1)));
 	}
 	
 	public static void AddShortStoolRecipe(ItemStack planks, Block stool) {
@@ -400,6 +407,15 @@ public class FurnitureFactory {
 
 	public static Block CreateWoodCabinet(String suffix) {
 		return CreateWoodCabinet(suffix, 10, 1.5F);
+	}
+
+	public static Block CreateHalfWoodCabinet(String suffix, float resistance, float hardness) {
+		String name = "half_cabinet_wood_ironage_" + suffix;
+		return registerBlock(new HalfCabinet(Material.WOOD, name, resistance, hardness), name, 64);
+	}
+
+	public static Block CreateHalfWoodCabinet(String suffix) {
+		return CreateHalfWoodCabinet(suffix, 10, 1.5F);
 	}
 
 	public static Block CreateSurfaceDisplayBlocker(String name) {

@@ -1,0 +1,9 @@
+{
+    "credit": "By FoxNekitsune",
+    "parent": "ironagefurniture:block/template_half_cabinet_wood_ironage_single",
+    "textures": {
+        "log": "natura:blocks/logs/nether/bloodwood_bark",
+        "planks": "natura:blocks/planks/nether/bloodwood_planks",
+        "particle": "natura:blocks/logs/nether/bloodwood_bark"
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "credit": "By FoxNekitsune",
+    "parent": "ironagefurniture:block/template_half_cabinet_wood_ironage_right_open",
+    "textures": {
+        "log": "forestry:blocks/wood/bark.chestnut",
+        "planks": "forestry:blocks/wood/planks.chestnut",
+        "particle": "forestry:blocks/wood/bark.chestnut"
+    }
+}

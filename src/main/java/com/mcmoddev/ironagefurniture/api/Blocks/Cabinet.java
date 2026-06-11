@@ -462,13 +462,17 @@ public class Cabinet extends Block {
 
 		if (joinDirection != EnumFacing.UP && joinDirection != EnumFacing.DOWN) {
 			return this.getTypeForJoinDirection(state.getValue(FACING), joinDirection) == CabinetType.RIGHT
-				? new InventoryLargeChest("container.ironagefurniture.cabinet", other, cabinet)
-				: new InventoryLargeChest("container.ironagefurniture.cabinet", cabinet, other);
+				? new InventoryLargeChest(this.getContainerName(), other, cabinet)
+				: new InventoryLargeChest(this.getContainerName(), cabinet, other);
 		}
 
 		return joinDirection == EnumFacing.DOWN
-			? new InventoryLargeChest("container.ironagefurniture.cabinet", other, cabinet)
-			: new InventoryLargeChest("container.ironagefurniture.cabinet", cabinet, other);
+			? new InventoryLargeChest(this.getContainerName(), other, cabinet)
+			: new InventoryLargeChest(this.getContainerName(), cabinet, other);
+	}
+
+	protected String getContainerName() {
+		return "container.ironagefurniture.cabinet";
 	}
 
 	private void blockPotentialJoins(World worldIn, BlockPos pos, IBlockState state) {
@@ -868,6 +872,14 @@ public class Cabinet extends Block {
 
 	public double getDisplayItemYOffset() {
 		return 1.04D;
+	}
+
+	public double getDisplayItemXOffset(IBlockState state) {
+		return 0.5D;
+	}
+
+	public double getDisplayItemZOffset(IBlockState state) {
+		return 0.5D;
 	}
 
 	public double getDisplayBlockSurfaceYOffset() {

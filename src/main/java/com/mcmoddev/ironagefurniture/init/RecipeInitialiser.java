@@ -184,20 +184,28 @@ public class RecipeInitialiser {
 		}
 
 		final List<String> recipeSuffixes = new ArrayList<String>();
+		final List<String> halfRecipeSuffixes = new ArrayList<String>();
 
 		WoodVariantHelper.forEachEnabledPlankVariant(new WoodVariantHelper.ItemStackVariantConsumer() {
 			@Override
 			public void accept(String suffix, ItemStack planks) {
 				Block cabinet = BlockObjectHolder.cabinet_wood_ironage.get(suffix);
+				Block halfCabinet = BlockObjectHolder.half_cabinet_wood_ironage.get(suffix);
 
 				if (cabinet != null) {
 					FurnitureFactory.AddCabinetRecipe(planks, cabinet);
 					recipeSuffixes.add(suffix);
 				}
+				if (cabinet != null && halfCabinet != null) {
+					FurnitureFactory.AddHalfCabinetRecipe(cabinet, halfCabinet);
+					halfRecipeSuffixes.add(suffix);
+				}
 			}
 		});
 
 		validateSlabRecipeMappings(BlockObjectHolder.cabinet_wood_ironage, recipeSuffixes, "wood cabinet");
+		validateSlabRecipeMappings(BlockObjectHolder.half_cabinet_wood_ironage, halfRecipeSuffixes,
+			"half wood cabinet");
 	}
 
 	private static void validateSlabRecipeMappings(java.util.Map<String, Block> blocks, List<String> recipeSuffixes,

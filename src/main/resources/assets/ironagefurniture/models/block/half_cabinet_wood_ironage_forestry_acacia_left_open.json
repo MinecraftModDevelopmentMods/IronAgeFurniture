@@ -1,0 +1,9 @@
+{
+    "credit": "By FoxNekitsune",
+    "parent": "ironagefurniture:block/template_half_cabinet_wood_ironage_left_open",
+    "textures": {
+        "log": "forestry:blocks/wood/bark.acacia",
+        "planks": "forestry:blocks/wood/planks.acacia",
+        "particle": "forestry:blocks/wood/bark.acacia"
+    }
+}

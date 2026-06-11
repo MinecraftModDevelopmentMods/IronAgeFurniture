@@ -76,6 +76,7 @@ public class BlockInitialiser {
 
 		for (String suffix : WoodVariantHelper.getEnabledWoodSuffixes()) {
 			BlockObjectHolder.cabinet_wood_ironage.put(suffix, FurnitureFactory.CreateWoodCabinet(suffix));
+			BlockObjectHolder.half_cabinet_wood_ironage.put(suffix, FurnitureFactory.CreateHalfWoodCabinet(suffix));
 		}
 	}
 

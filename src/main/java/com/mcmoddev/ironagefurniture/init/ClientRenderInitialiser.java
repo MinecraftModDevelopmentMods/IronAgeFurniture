@@ -6,6 +6,7 @@ import com.mcmoddev.ironagefurniture.api.entity.EntityThrownLavaLamp;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityCabinet;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityDiningTable;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityGlassVase;
+import com.mcmoddev.ironagefurniture.api.tile.TileEntityHalfCabinet;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityWallShelf;
 import com.mcmoddev.ironagefurniture.client.render.TileEntityCabinetRenderer;
 import com.mcmoddev.ironagefurniture.client.render.TileEntityDiningTableRenderer;
@@ -30,6 +31,7 @@ public class ClientRenderInitialiser {
 	public static void RegisterTileEntityRenderers() {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDiningTable.class, new TileEntityDiningTableRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCabinet.class, new TileEntityCabinetRenderer());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHalfCabinet.class, new TileEntityCabinetRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGlassVase.class, new TileEntityGlassVaseRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityWallShelf.class, new TileEntityWallShelfRenderer());
 	}

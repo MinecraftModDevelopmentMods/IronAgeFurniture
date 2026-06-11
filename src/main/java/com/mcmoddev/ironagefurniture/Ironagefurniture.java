@@ -12,6 +12,7 @@ import com.mcmoddev.ironagefurniture.api.tile.TileEntityCabinet;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityDiningTable;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityGlassVase;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityGrandChandelierSconce;
+import com.mcmoddev.ironagefurniture.api.tile.TileEntityHalfCabinet;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityMetalVariant;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityWallShelf;
 import com.mcmoddev.ironagefurniture.init.BlockInitialiser;
@@ -70,6 +71,7 @@ public class Ironagefurniture
     	
     	GameRegistry.registerTileEntity(TileEntityDiningTable.class, MODID + ":table_dining");
 		GameRegistry.registerTileEntity(TileEntityCabinet.class, MODID + ":cabinet_wood_ironage");
+		GameRegistry.registerTileEntity(TileEntityHalfCabinet.class, MODID + ":half_cabinet_wood_ironage");
 		GameRegistry.registerTileEntity(TileEntityGlassVase.class, MODID + ":ornament_glass_vase");
 		GameRegistry.registerTileEntity(TileEntityWallShelf.class, MODID + ":shelf_wall");
 		GameRegistry.registerTileEntity(TileEntityMetalVariant.class, MODID + ":metal_variant");
