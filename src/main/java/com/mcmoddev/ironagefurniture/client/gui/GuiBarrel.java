@@ -3,8 +3,12 @@ package com.mcmoddev.ironagefurniture.client.gui;
 import com.mcmoddev.ironagefurniture.api.container.ContainerBarrel;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityBarrel;
 
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -59,17 +63,42 @@ public class GuiBarrel extends GuiContainer {
 		this.drawRect(left - 2, top - 2, left + GAUGE_WIDTH + 2, top + GAUGE_HEIGHT + 2, 0xFF404040);
 		this.drawRect(left, top, left + GAUGE_WIDTH, top + GAUGE_HEIGHT, 0xFF1F2633);
 
-		int amount = this.barrel.getFluidAmount();
+		FluidStack fluid = this.barrel.getFluid();
 
-		if (amount <= 0) {
+		if (fluid == null || fluid.amount <= 0 || fluid.getFluid() == null) {
 			return;
 		}
 
-		int fillHeight = Math.max(1, amount * GAUGE_HEIGHT / this.barrel.getCapacity());
-		int color = this.getFluidColor();
-		this.drawRect(left, top + GAUGE_HEIGHT - fillHeight, left + GAUGE_WIDTH, top + GAUGE_HEIGHT, color);
-		this.drawRect(left + 2, top + GAUGE_HEIGHT - fillHeight + 2, left + GAUGE_WIDTH - 2,
-			top + GAUGE_HEIGHT - 2, color | 0x202020);
+		int fillHeight = Math.max(1, fluid.amount * GAUGE_HEIGHT / this.barrel.getCapacity());
+		int fillTop = top + GAUGE_HEIGHT - fillHeight;
+		this.drawFluid(left, fillTop, GAUGE_WIDTH, fillHeight, fluid);
+		this.drawRect(left, fillTop, left + GAUGE_WIDTH, fillTop + 1, 0x80FFFFFF);
+	}
+
+	private void drawFluid(int left, int top, int width, int height, FluidStack fluid) {
+		ResourceLocation still = fluid.getFluid().getStill(fluid);
+
+		if (still == null) {
+			this.drawRect(left, top, left + width, top + height, this.getFluidColor(fluid));
+			return;
+		}
+
+		TextureAtlasSprite sprite = this.mc.getTextureMapBlocks().getAtlasSprite(still.toString());
+		int color = this.getFluidColor(fluid);
+		float red = (float)(color >> 16 & 255) / 255.0F;
+		float green = (float)(color >> 8 & 255) / 255.0F;
+		float blue = (float)(color & 255) / 255.0F;
+
+		this.mc.getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+		GlStateManager.color(red, green, blue, 1.0F);
+
+		for (int drawn = 0; drawn < height; drawn += 16) {
+			int segmentHeight = Math.min(16, height - drawn);
+			int segmentTop = top + height - drawn - segmentHeight;
+			this.drawTexturedModalRect(left, segmentTop, sprite, width, segmentHeight);
+		}
+
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 	}
 
 	private String getAmountText() {
@@ -79,13 +108,7 @@ public class GuiBarrel extends GuiContainer {
 			Integer.valueOf(bucketCapacity));
 	}
 
-	private int getFluidColor() {
-		FluidStack fluid = this.barrel.getFluid();
-
-		if (fluid == null || fluid.getFluid() == null) {
-			return 0xFF3F76E4;
-		}
-
+	private int getFluidColor(FluidStack fluid) {
 		int color = fluid.getFluid().getColor(fluid);
 		return (color & 0xFF000000) == 0 ? color | 0xFF000000 : color;
 	}

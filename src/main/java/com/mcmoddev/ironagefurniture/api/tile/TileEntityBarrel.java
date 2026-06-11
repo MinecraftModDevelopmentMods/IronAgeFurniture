@@ -4,6 +4,7 @@ import javax.annotation.Nullable;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
@@ -20,6 +21,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 
 public class TileEntityBarrel extends TileEntity {
 	public static final int CAPACITY = 16 * Fluid.BUCKET_VOLUME;
+	public static final String TANK_TAG = "Tank";
 
 	private final FluidTank tank;
 
@@ -60,6 +62,40 @@ public class TileEntityBarrel extends TileEntity {
 		return fluid != null && fluid.getFluid() != null;
 	}
 
+	@Nullable
+	public static FluidStack getFluidFromItemStack(ItemStack stack) {
+		NBTTagCompound tankTag = getTankTag(stack);
+		return tankTag == null ? null : FluidStack.loadFluidStackFromNBT(tankTag);
+	}
+
+	public void writeToItemStack(ItemStack stack) {
+		if (stack == null) {
+			return;
+		}
+
+		if (this.isEmpty()) {
+			removeTankTag(stack);
+			return;
+		}
+
+		NBTTagCompound tag = stack.hasTagCompound() ? stack.getTagCompound() : new NBTTagCompound();
+		tag.setTag(TANK_TAG, this.tank.writeToNBT(new NBTTagCompound()));
+		stack.setTagCompound(tag);
+	}
+
+	public void readFromItemStack(ItemStack stack) {
+		NBTTagCompound tankTag = getTankTag(stack);
+
+		if (tankTag == null) {
+			this.tank.setFluid(null);
+		} else {
+			this.tank.readFromNBT(tankTag);
+		}
+
+		this.sanitizeFluid();
+		this.markForFluidUpdate();
+	}
+
 	public void markForFluidUpdate() {
 		this.markDirty();
 
@@ -90,8 +126,8 @@ public class TileEntityBarrel extends TileEntity {
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
 
-		if (compound.hasKey("Tank", 10)) {
-			this.tank.readFromNBT(compound.getCompoundTag("Tank"));
+		if (compound.hasKey(TANK_TAG, 10)) {
+			this.tank.readFromNBT(compound.getCompoundTag(TANK_TAG));
 		} else {
 			this.tank.setFluid(null);
 		}
@@ -102,7 +138,7 @@ public class TileEntityBarrel extends TileEntity {
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
-		compound.setTag("Tank", this.tank.writeToNBT(new NBTTagCompound()));
+		compound.setTag(TANK_TAG, this.tank.writeToNBT(new NBTTagCompound()));
 		return compound;
 	}
 
@@ -147,6 +183,24 @@ public class TileEntityBarrel extends TileEntity {
 	private void refreshRender() {
 		if (this.world != null && this.world.isRemote && this.pos != null) {
 			this.world.markBlockRangeForRenderUpdate(this.pos, this.pos);
+		}
+	}
+
+	@Nullable
+	private static NBTTagCompound getTankTag(ItemStack stack) {
+		return stack != null && stack.hasTagCompound() && stack.getTagCompound().hasKey(TANK_TAG, 10)
+			? stack.getTagCompound().getCompoundTag(TANK_TAG) : null;
+	}
+
+	private static void removeTankTag(ItemStack stack) {
+		if (stack == null || !stack.hasTagCompound()) {
+			return;
+		}
+
+		stack.getTagCompound().removeTag(TANK_TAG);
+
+		if (stack.getTagCompound().hasNoTags()) {
+			stack.setTagCompound(null);
 		}
 	}
 

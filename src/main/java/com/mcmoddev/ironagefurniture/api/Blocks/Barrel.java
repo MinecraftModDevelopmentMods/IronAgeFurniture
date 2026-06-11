@@ -1,5 +1,10 @@
 package com.mcmoddev.ironagefurniture.api.Blocks;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Nullable;
+
 import com.mcmoddev.ironagefurniture.Ironagefurniture;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityBarrel;
 
@@ -7,8 +12,10 @@ import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -79,6 +86,58 @@ public class Barrel extends Block {
 	private TileEntityBarrel getBarrelEntity(IBlockAccess worldIn, BlockPos pos) {
 		TileEntity tileEntity = worldIn.getTileEntity(pos);
 		return tileEntity instanceof TileEntityBarrel ? (TileEntityBarrel)tileEntity : null;
+	}
+
+	@Override
+	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer,
+			ItemStack stack) {
+		if (worldIn.isRemote) {
+			return;
+		}
+
+		TileEntityBarrel barrel = this.getBarrelEntity(worldIn, pos);
+
+		if (barrel != null) {
+			barrel.readFromItemStack(stack);
+		}
+	}
+
+	@Override
+	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player,
+			boolean willHarvest) {
+		if (willHarvest) {
+			this.onBlockHarvested(world, pos, state, player);
+			return true;
+		}
+
+		return super.removedByPlayer(state, world, pos, player, willHarvest);
+	}
+
+	@Override
+	public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state,
+			@Nullable TileEntity te, @Nullable ItemStack stack) {
+		super.harvestBlock(worldIn, player, pos, state, te, stack);
+		worldIn.setBlockToAir(pos);
+	}
+
+	@Override
+	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+		List<ItemStack> drops = new ArrayList<ItemStack>();
+		Item item = Item.getItemFromBlock(this);
+
+		if (item == null) {
+			return drops;
+		}
+
+		ItemStack drop = new ItemStack(item, 1, this.damageDropped(state));
+		TileEntityBarrel barrel = this.getBarrelEntity(world, pos);
+
+		if (barrel != null) {
+			barrel.writeToItemStack(drop);
+		}
+
+		drops.add(drop);
+		return drops;
 	}
 
 	@Override

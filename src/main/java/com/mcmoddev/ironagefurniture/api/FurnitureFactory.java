@@ -68,6 +68,7 @@ import com.mcmoddev.ironagefurniture.api.Blocks.SurfaceDisplayBlocker;
 import com.mcmoddev.ironagefurniture.api.Blocks.ThroneChair;
 import com.mcmoddev.ironagefurniture.api.Blocks.WallShelf;
 import com.mcmoddev.ironagefurniture.api.Blocks.WingbackChair;
+import com.mcmoddev.ironagefurniture.api.Items.ItemBlockBarrel;
 import com.mcmoddev.ironagefurniture.api.Items.ItemBlockGlassVase;
 import com.mcmoddev.ironagefurniture.api.Items.ItemBlockGrandChandelier;
 import com.mcmoddev.ironagefurniture.api.Items.ItemBlockMetalVariant;
@@ -430,7 +431,7 @@ public class FurnitureFactory {
 
 	public static Block CreateWoodBarrel(String suffix, float resistance, float hardness) {
 		String name = "barrel_wood_ironage_" + suffix;
-		return registerBlock(new Barrel(Material.WOOD, name, resistance, hardness), name, 64);
+		return registerBlock(new Barrel(Material.WOOD, name, resistance, hardness), name, 16);
 	}
 
 	public static Block CreateWoodBarrel(String suffix) {
@@ -862,6 +863,7 @@ public class FurnitureFactory {
 		if (registerItem) {
 			ItemBlock itemBlock = block instanceof GlassVaseBlock ? new ItemBlockGlassVase(block)
 				: block instanceof OrnamentBlock ? new ItemBlockOrnament(block)
+				: block instanceof Barrel ? new ItemBlockBarrel(block)
 				: block instanceof WallShelf ? new ItemBlockWallShelf(block)
 				: block instanceof GrandChandelierHub ? new ItemBlockGrandChandelier(block)
 				: MetalVariantHelper.isMetalVariantBlock(block) ? new ItemBlockMetalVariant(block)
