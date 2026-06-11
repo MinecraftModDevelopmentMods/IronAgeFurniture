@@ -3,8 +3,9 @@ package com.mcmoddev.ironagefurniture;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.mcmoddev.ironagefurniture.api.CreativeModeBreakTracker;
 import com.mcmoddev.ironagefurniture.api.BarrelGuiHandler;
+import com.mcmoddev.ironagefurniture.api.BarrelFluidCompat;
+import com.mcmoddev.ironagefurniture.api.CreativeModeBreakTracker;
 import com.mcmoddev.ironagefurniture.api.DiningTableSurfaceInteractionHandler;
 import com.mcmoddev.ironagefurniture.api.entity.EntityFallingMetalBlock;
 import com.mcmoddev.ironagefurniture.api.entity.EntityThrownLavaLamp;
@@ -71,6 +72,8 @@ public class Ironagefurniture
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
+		BarrelFluidCompat.init();
+
     	// register renderers
     	if(event.getSide().isClient()) {
     		ItemInitialiser.RegisterItemRenders();
