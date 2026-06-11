@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "ironagefurniture:side_barrel_wood_ironage_natura_hopseed",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "ironagefurniture:side_barrel_wood_ironage_natura_hopseed",
+      "y": 270
+    },
+    "facing=south": {
+      "model": "ironagefurniture:side_barrel_wood_ironage_natura_hopseed"
+    },
+    "facing=west": {
+      "model": "ironagefurniture:side_barrel_wood_ironage_natura_hopseed",
+      "y": 90
+    }
+  }
+}

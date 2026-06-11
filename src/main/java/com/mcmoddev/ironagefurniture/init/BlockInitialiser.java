@@ -88,6 +88,10 @@ public class BlockInitialiser {
 
 		for (String suffix : WoodVariantHelper.getEnabledWoodSuffixes()) {
 			BlockObjectHolder.barrel_wood_ironage.put(suffix, FurnitureFactory.CreateWoodBarrel(suffix));
+
+			if (IronAgeFurnitureConfiguration.GENERATE_SIDE_BARRELS) {
+				BlockObjectHolder.side_barrel_wood_ironage.put(suffix, FurnitureFactory.CreateSideWoodBarrel(suffix));
+			}
 		}
 	}
 

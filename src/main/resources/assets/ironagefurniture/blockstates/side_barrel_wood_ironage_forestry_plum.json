@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "ironagefurniture:side_barrel_wood_ironage_forestry_plum",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "ironagefurniture:side_barrel_wood_ironage_forestry_plum",
+      "y": 270
+    },
+    "facing=south": {
+      "model": "ironagefurniture:side_barrel_wood_ironage_forestry_plum"
+    },
+    "facing=west": {
+      "model": "ironagefurniture:side_barrel_wood_ironage_forestry_plum",
+      "y": 90
+    }
+  }
+}

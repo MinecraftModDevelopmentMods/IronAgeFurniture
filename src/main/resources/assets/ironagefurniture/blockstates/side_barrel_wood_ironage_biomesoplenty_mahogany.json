@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "ironagefurniture:side_barrel_wood_ironage_biomesoplenty_mahogany",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "ironagefurniture:side_barrel_wood_ironage_biomesoplenty_mahogany",
+      "y": 270
+    },
+    "facing=south": {
+      "model": "ironagefurniture:side_barrel_wood_ironage_biomesoplenty_mahogany"
+    },
+    "facing=west": {
+      "model": "ironagefurniture:side_barrel_wood_ironage_biomesoplenty_mahogany",
+      "y": 90
+    }
+  }
+}

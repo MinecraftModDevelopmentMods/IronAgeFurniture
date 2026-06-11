@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "ironagefurniture:side_barrel_wood_ironage_forestry_maple",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "ironagefurniture:side_barrel_wood_ironage_forestry_maple",
+      "y": 270
+    },
+    "facing=south": {
+      "model": "ironagefurniture:side_barrel_wood_ironage_forestry_maple"
+    },
+    "facing=west": {
+      "model": "ironagefurniture:side_barrel_wood_ironage_forestry_maple",
+      "y": 90
+    }
+  }
+}

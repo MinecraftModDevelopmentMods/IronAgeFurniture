@@ -63,6 +63,7 @@ import com.mcmoddev.ironagefurniture.api.Blocks.MultiBlockChair;
 import com.mcmoddev.ironagefurniture.api.Blocks.MultiBlockWoodBed;
 import com.mcmoddev.ironagefurniture.api.Blocks.ObsideanLump;
 import com.mcmoddev.ironagefurniture.api.Blocks.OrnamentBlock;
+import com.mcmoddev.ironagefurniture.api.Blocks.SideBarrel;
 import com.mcmoddev.ironagefurniture.api.Blocks.Stool;
 import com.mcmoddev.ironagefurniture.api.Blocks.SurfaceDisplayBlocker;
 import com.mcmoddev.ironagefurniture.api.Blocks.ThroneChair;
@@ -75,6 +76,7 @@ import com.mcmoddev.ironagefurniture.api.Items.ItemBlockMetalVariant;
 import com.mcmoddev.ironagefurniture.api.Items.ItemBlockOrnament;
 import com.mcmoddev.ironagefurniture.api.Items.ItemBlockThrowableLavaLamp;
 import com.mcmoddev.ironagefurniture.api.Items.ItemBlockWallShelf;
+import com.mcmoddev.ironagefurniture.api.recipes.SideBarrelRecipe;
 import com.mcmoddev.ironagefurniture.init.ItemInitialiser;
 
 import net.minecraft.block.Block;
@@ -195,6 +197,14 @@ public class FurnitureFactory {
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(barrel, 1), "xxx", "y y", "xxx",
 			'x', planks, 'y', "nuggetIron"));
+	}
+
+	public static void AddSideBarrelRecipe(Block barrel, Block sideBarrel) {
+		if (barrel == null || sideBarrel == null) {
+			return;
+		}
+
+		GameRegistry.addRecipe(new SideBarrelRecipe(barrel, sideBarrel));
 	}
 	
 	public static void AddShortStoolRecipe(ItemStack planks, Block stool) {
@@ -436,6 +446,15 @@ public class FurnitureFactory {
 
 	public static Block CreateWoodBarrel(String suffix) {
 		return CreateWoodBarrel(suffix, 10, 1.5F);
+	}
+
+	public static Block CreateSideWoodBarrel(String suffix, float resistance, float hardness) {
+		String name = "side_barrel_wood_ironage_" + suffix;
+		return registerBlock(new SideBarrel(Material.WOOD, name, resistance, hardness), name, 16);
+	}
+
+	public static Block CreateSideWoodBarrel(String suffix) {
+		return CreateSideWoodBarrel(suffix, 10, 1.5F);
 	}
 
 	public static Block CreateSurfaceDisplayBlocker(String name) {
