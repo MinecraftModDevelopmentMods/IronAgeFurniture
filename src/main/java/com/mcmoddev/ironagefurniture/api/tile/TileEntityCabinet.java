@@ -11,8 +11,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ContainerChest;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.inventory.InventoryLargeChest;
 import net.minecraft.inventory.ItemStackHelper;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -21,6 +24,10 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityLockable;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ITickable;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
@@ -29,7 +36,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
-public class TileEntityCabinet extends TileEntityLockable implements ISidedInventory {
+public class TileEntityCabinet extends TileEntityLockable implements ISidedInventory, ITickable {
 	private static final int INVENTORY_SIZE = 27;
 	private static final int[] ALL_SLOTS = createSlotArray();
 
@@ -39,6 +46,10 @@ public class TileEntityCabinet extends TileEntityLockable implements ISidedInven
 	private EnumFacing displayedFacing = EnumFacing.NORTH;
 	private int blockedConnections;
 	private EnumFacing verticalJoinDirection;
+	public float doorAngle;
+	public float prevDoorAngle;
+	private int numPlayersUsing;
+	private int ticksSinceSync;
 	private final IItemHandler[] sidedHandlers = new IItemHandler[EnumFacing.values().length];
 	private IItemHandler unsidedHandler;
 
@@ -136,10 +147,174 @@ public class TileEntityCabinet extends TileEntityLockable implements ISidedInven
 
 	@Override
 	public void openInventory(EntityPlayer player) {
+		if (player != null && !player.isSpectator()) {
+			if (this.numPlayersUsing < 0) {
+				this.numPlayersUsing = 0;
+			}
+
+			++this.numPlayersUsing;
+			this.syncViewerCount();
+		}
 	}
 
 	@Override
 	public void closeInventory(EntityPlayer player) {
+		if (player != null && !player.isSpectator() && this.getBlockType() instanceof Cabinet) {
+			--this.numPlayersUsing;
+			this.syncViewerCount();
+		}
+	}
+
+	@Override
+	public void update() {
+		++this.ticksSinceSync;
+
+		if (!this.world.isRemote && this.numPlayersUsing != 0
+				&& (this.ticksSinceSync + this.pos.getX() + this.pos.getY() + this.pos.getZ()) % 200 == 0) {
+			this.recalculatePlayersUsing();
+		}
+
+		boolean wasVisuallyOpen = this.isVisuallyOpen();
+		this.prevDoorAngle = this.doorAngle;
+
+		if (this.numPlayersUsing > 0 && this.doorAngle == 0.0F && this.shouldPlayDoorSound()) {
+			this.playDoorSound(SoundEvents.BLOCK_CHEST_OPEN);
+		}
+
+		if ((this.numPlayersUsing == 0 && this.doorAngle > 0.0F)
+				|| (this.numPlayersUsing > 0 && this.doorAngle < 1.0F)) {
+			float previousAngle = this.doorAngle;
+
+			if (this.numPlayersUsing > 0) {
+				this.doorAngle += 0.1F;
+			} else {
+				this.doorAngle -= 0.1F;
+			}
+
+			if (this.doorAngle > 1.0F) {
+				this.doorAngle = 1.0F;
+			}
+			if (this.doorAngle < 0.0F) {
+				this.doorAngle = 0.0F;
+			}
+
+			if (this.doorAngle < 0.5F && previousAngle >= 0.5F && this.shouldPlayDoorSound()) {
+				this.playDoorSound(SoundEvents.BLOCK_CHEST_CLOSE);
+			}
+		}
+
+		if (wasVisuallyOpen != this.isVisuallyOpen()) {
+			this.refreshRender();
+		}
+	}
+
+	@Override
+	public boolean receiveClientEvent(int id, int type) {
+		if (id == 1) {
+			this.numPlayersUsing = type;
+			this.refreshRender();
+			return true;
+		}
+
+		return super.receiveClientEvent(id, type);
+	}
+
+	public boolean isVisuallyOpen() {
+		return this.numPlayersUsing > 0 || this.doorAngle > 0.0F;
+	}
+
+	private void syncViewerCount() {
+		if (this.world == null || this.pos == null) {
+			return;
+		}
+
+		this.world.addBlockEvent(this.pos, this.getBlockType(), 1, this.numPlayersUsing);
+		this.world.notifyNeighborsOfStateChange(this.pos, this.getBlockType());
+		this.world.notifyNeighborsOfStateChange(this.pos.down(), this.getBlockType());
+		this.refreshRender();
+	}
+
+	private void recalculatePlayersUsing() {
+		this.numPlayersUsing = 0;
+		float range = 5.0F;
+		AxisAlignedBB searchBox = new AxisAlignedBB((double)((float)this.pos.getX() - range),
+			(double)((float)this.pos.getY() - range), (double)((float)this.pos.getZ() - range),
+			(double)((float)(this.pos.getX() + 1) + range), (double)((float)(this.pos.getY() + 1) + range),
+			(double)((float)(this.pos.getZ() + 1) + range));
+
+		for (EntityPlayer player : this.world.getEntitiesWithinAABB(EntityPlayer.class, searchBox)) {
+			if (player.openContainer instanceof ContainerChest) {
+				IInventory inventory = ((ContainerChest)player.openContainer).getLowerChestInventory();
+
+				if (inventory == this || inventory instanceof InventoryLargeChest
+						&& ((InventoryLargeChest)inventory).isPartOfLargeChest(this)) {
+					++this.numPlayersUsing;
+				}
+			}
+		}
+	}
+
+	private void playDoorSound(SoundEvent soundEvent) {
+		BlockPos joinedPos = this.getJoinedCabinetPos();
+		double x = (double)this.pos.getX() + 0.5D;
+		double y = (double)this.pos.getY() + 0.5D;
+		double z = (double)this.pos.getZ() + 0.5D;
+
+		if (joinedPos != null) {
+			x = (x + (double)joinedPos.getX() + 0.5D) / 2.0D;
+			y = (y + (double)joinedPos.getY() + 0.5D) / 2.0D;
+			z = (z + (double)joinedPos.getZ() + 0.5D) / 2.0D;
+		}
+
+		this.world.playSound(null, x, y, z, soundEvent, SoundCategory.BLOCKS, 0.5F,
+			this.world.rand.nextFloat() * 0.1F + 0.9F);
+	}
+
+	private boolean shouldPlayDoorSound() {
+		BlockPos joinedPos = this.getJoinedCabinetPos();
+		return joinedPos == null || this.comparePositions(this.pos, joinedPos) <= 0;
+	}
+
+	private BlockPos getJoinedCabinetPos() {
+		if (this.world == null || this.pos == null) {
+			return null;
+		}
+
+		IBlockState state = this.world.getBlockState(this.pos);
+
+		if (!(state.getBlock() instanceof Cabinet)) {
+			return null;
+		}
+
+		if (this.verticalJoinDirection == EnumFacing.UP || this.verticalJoinDirection == EnumFacing.DOWN) {
+			return this.pos.offset(this.verticalJoinDirection);
+		}
+
+		Cabinet.CabinetType type = state.getValue(Cabinet.TYPE);
+		EnumFacing facing = state.getValue(Cabinet.FACING);
+
+		if (type == Cabinet.CabinetType.LEFT) {
+			return this.pos.offset(facing.rotateYCCW());
+		}
+		if (type == Cabinet.CabinetType.RIGHT) {
+			return this.pos.offset(facing.rotateY());
+		}
+
+		return null;
+	}
+
+	private int comparePositions(BlockPos first, BlockPos second) {
+		if (first.getY() != second.getY()) {
+			return first.getY() < second.getY() ? -1 : 1;
+		}
+		if (first.getZ() != second.getZ()) {
+			return first.getZ() < second.getZ() ? -1 : 1;
+		}
+		if (first.getX() != second.getX()) {
+			return first.getX() < second.getX() ? -1 : 1;
+		}
+
+		return 0;
 	}
 
 	@Override

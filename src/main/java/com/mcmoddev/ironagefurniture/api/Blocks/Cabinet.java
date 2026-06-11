@@ -13,6 +13,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
@@ -43,6 +44,7 @@ import net.minecraft.world.World;
 
 public class Cabinet extends Block {
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
+	public static final PropertyBool OPEN = PropertyBool.create("open");
 	public static final PropertyEnum<CabinetType> TYPE = PropertyEnum.create("type", CabinetType.class);
 	public static final PropertyEnum<VerticalCabinetType> VERTICAL = PropertyEnum.create("vertical",
 		VerticalCabinetType.class);
@@ -101,6 +103,7 @@ public class Cabinet extends Block {
 		this.setCreativeTab(Ironagefurniture.ironagefurnitureTab);
 		this.setDefaultState(this.blockState.getBaseState()
 			.withProperty(FACING, EnumFacing.SOUTH)
+			.withProperty(OPEN, Boolean.FALSE)
 			.withProperty(TYPE, CabinetType.SINGLE)
 			.withProperty(VERTICAL, VerticalCabinetType.SINGLE));
 	}
@@ -111,6 +114,7 @@ public class Cabinet extends Block {
 		EnumFacing cabinetFacing = placer == null ? EnumFacing.SOUTH : placer.getHorizontalFacing().getOpposite();
 		return this.getDefaultState()
 			.withProperty(FACING, cabinetFacing)
+			.withProperty(OPEN, Boolean.FALSE)
 			.withProperty(TYPE, CabinetType.SINGLE)
 			.withProperty(VERTICAL, VerticalCabinetType.SINGLE);
 	}
@@ -818,6 +822,13 @@ public class Cabinet extends Block {
 	}
 
 	@Override
+	public boolean eventReceived(IBlockState state, World worldIn, BlockPos pos, int id, int param) {
+		super.eventReceived(state, worldIn, pos, id, param);
+		TileEntity tileEntity = worldIn.getTileEntity(pos);
+		return tileEntity != null && tileEntity.receiveClientEvent(id, param);
+	}
+
+	@Override
 	public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
 		if (!worldIn.isRemote) {
 			TileEntity tileEntity = worldIn.getTileEntity(pos);
@@ -879,7 +890,8 @@ public class Cabinet extends Block {
 		EnumFacing facing = EnumFacing.getHorizontal(meta & 3);
 		int typeMeta = (meta >> 2) & 3;
 		CabinetType type = typeMeta == 1 ? CabinetType.LEFT : (typeMeta == 2 ? CabinetType.RIGHT : CabinetType.SINGLE);
-		return this.getDefaultState().withProperty(FACING, facing).withProperty(TYPE, type);
+		return this.getDefaultState().withProperty(FACING, facing).withProperty(OPEN, Boolean.FALSE)
+			.withProperty(TYPE, type);
 	}
 
 	@Override
@@ -898,12 +910,18 @@ public class Cabinet extends Block {
 
 	@Override
 	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-		return state.withProperty(VERTICAL, this.getVerticalType(worldIn, pos, state));
+		return state.withProperty(OPEN, Boolean.valueOf(this.isCabinetOpen(worldIn, pos)))
+			.withProperty(VERTICAL, this.getVerticalType(worldIn, pos, state));
 	}
 
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] { FACING, TYPE, VERTICAL });
+		return new BlockStateContainer(this, new IProperty[] { FACING, OPEN, TYPE, VERTICAL });
+	}
+
+	private boolean isCabinetOpen(IBlockAccess worldIn, BlockPos pos) {
+		TileEntity tileEntity = worldIn.getTileEntity(pos);
+		return tileEntity instanceof TileEntityCabinet && ((TileEntityCabinet)tileEntity).isVisuallyOpen();
 	}
 
 	@Override

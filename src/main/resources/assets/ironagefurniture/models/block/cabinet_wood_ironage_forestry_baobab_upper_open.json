@@ -1,0 +1,9 @@
+{
+    "credit": "By FoxNekitsune",
+    "parent": "ironagefurniture:block/template_cabinet_wood_ironage_upper_open",
+    "textures": {
+        "log": "forestry:blocks/wood/bark.baobab",
+        "planks": "forestry:blocks/wood/planks.baobab",
+        "particle": "forestry:blocks/wood/bark.baobab"
+    }
+}
