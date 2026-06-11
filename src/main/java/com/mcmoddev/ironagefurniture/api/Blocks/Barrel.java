@@ -18,7 +18,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 
 public class Barrel extends Block {
@@ -72,8 +71,9 @@ public class Barrel extends Block {
 			return true;
 		}
 
-		FluidStack containedFluid = FluidUtil.getFluidContained(heldItem);
-		return containedFluid != null;
+		ItemStack singleItem = heldItem.copy();
+		singleItem.stackSize = 1;
+		return FluidUtil.getFluidHandler(singleItem) != null;
 	}
 
 	private TileEntityBarrel getBarrelEntity(IBlockAccess worldIn, BlockPos pos) {

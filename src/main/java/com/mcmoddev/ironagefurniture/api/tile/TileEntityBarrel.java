@@ -13,7 +13,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
@@ -58,7 +57,7 @@ public class TileEntityBarrel extends TileEntity {
 	}
 
 	public static boolean isAllowedFluid(@Nullable FluidStack fluid) {
-		return fluid != null && fluid.getFluid() == FluidRegistry.WATER;
+		return fluid != null && fluid.getFluid() != null;
 	}
 
 	public void markForFluidUpdate() {
