@@ -27,13 +27,15 @@ import net.minecraft.world.World;
 public class TileEntityBottleRackRenderer extends TileEntitySpecialRenderer<TileEntityBottleRack> {
 	private static final double[] SLOT_X = new double[] { 3.525D / 16.0D, 0.5D, 12.475D / 16.0D };
 	private static final double[] SLOT_Y = new double[] { 0.759D, 0.448D, 0.140D };
-	private static final double SLOT_DEPTH = 0.715D;
+	private static final double WALL_SLOT_DEPTH = 0.715D;
+	private static final double STANDING_SLOT_DEPTH = 0.405D;
 	private static ResourceLocation whiteTexture;
 
 	@Override
 	public void renderTileEntityAt(TileEntityBottleRack te, double x, double y, double z, float partialTicks,
 			int destroyStage) {
 		EnumFacing facing = this.getFacing(te);
+		boolean standing = this.isStanding(te);
 
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(x, y, z);
@@ -46,7 +48,7 @@ public class TileEntityBottleRackRenderer extends TileEntitySpecialRenderer<Tile
 			ItemStack bottle = te.getBottle(slot);
 
 			if (bottle != null && bottle.stackSize > 0) {
-				this.renderBottleInSlot(bottle, facing, slot);
+				this.renderBottleInSlot(bottle, facing, standing, slot);
 			}
 		}
 
@@ -56,10 +58,11 @@ public class TileEntityBottleRackRenderer extends TileEntitySpecialRenderer<Tile
 		GlStateManager.popMatrix();
 	}
 
-	private void renderBottleInSlot(ItemStack bottle, EnumFacing facing, int slot) {
+	private void renderBottleInSlot(ItemStack bottle, EnumFacing facing, boolean standing, int slot) {
 		int row = slot / 3;
 		int column = slot % 3;
-		double[] point = this.rotateRackPoint(facing, SLOT_X[column], SLOT_DEPTH);
+		double slotDepth = standing ? STANDING_SLOT_DEPTH : WALL_SLOT_DEPTH;
+		double[] point = this.rotateRackPoint(facing, SLOT_X[column], slotDepth);
 
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(point[0], SLOT_Y[row], point[1]);
@@ -221,6 +224,21 @@ public class TileEntityBottleRackRenderer extends TileEntitySpecialRenderer<Tile
 		}
 
 		return EnumFacing.NORTH;
+	}
+
+	private boolean isStanding(TileEntityBottleRack te) {
+		World world = te.getWorld();
+		BlockPos pos = te.getPos();
+
+		if (world != null && pos != null) {
+			IBlockState state = world.getBlockState(pos);
+
+			if (state.getBlock() instanceof BottleRack) {
+				return state.getValue(BottleRack.STANDING).booleanValue();
+			}
+		}
+
+		return false;
 	}
 
 	private void bindWhiteTexture() {

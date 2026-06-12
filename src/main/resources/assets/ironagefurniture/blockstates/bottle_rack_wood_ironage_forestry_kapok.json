@@ -1,578 +1,1154 @@
 {
   "variants": {
-    "connections=0,data=false,facing=north": {
+    "connections=0,data=false,facing=north,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_0"
     },
-    "connections=0,data=false,facing=east": {
+    "connections=0,data=false,facing=north,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_0"
+    },
+    "connections=0,data=false,facing=east,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_0",
       "y": 90,
       "uvlock": true
     },
-    "connections=0,data=false,facing=south": {
+    "connections=0,data=false,facing=east,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_0",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=0,data=false,facing=south,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_0",
       "y": 180,
       "uvlock": true
     },
-    "connections=0,data=false,facing=west": {
+    "connections=0,data=false,facing=south,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_0",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=0,data=false,facing=west,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_0",
       "y": 270,
       "uvlock": true
     },
-    "connections=0,data=true,facing=north": {
+    "connections=0,data=false,facing=west,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_0",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=0,data=true,facing=north,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_0"
     },
-    "connections=0,data=true,facing=east": {
+    "connections=0,data=true,facing=north,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_0"
+    },
+    "connections=0,data=true,facing=east,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_0",
       "y": 90,
       "uvlock": true
     },
-    "connections=0,data=true,facing=south": {
+    "connections=0,data=true,facing=east,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_0",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=0,data=true,facing=south,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_0",
       "y": 180,
       "uvlock": true
     },
-    "connections=0,data=true,facing=west": {
+    "connections=0,data=true,facing=south,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_0",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=0,data=true,facing=west,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_0",
       "y": 270,
       "uvlock": true
     },
-    "connections=1,data=false,facing=north": {
+    "connections=0,data=true,facing=west,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_0",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=1,data=false,facing=north,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_1"
     },
-    "connections=1,data=false,facing=east": {
+    "connections=1,data=false,facing=north,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_1"
+    },
+    "connections=1,data=false,facing=east,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_1",
       "y": 90,
       "uvlock": true
     },
-    "connections=1,data=false,facing=south": {
+    "connections=1,data=false,facing=east,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_1",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=1,data=false,facing=south,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_1",
       "y": 180,
       "uvlock": true
     },
-    "connections=1,data=false,facing=west": {
+    "connections=1,data=false,facing=south,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_1",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=1,data=false,facing=west,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_1",
       "y": 270,
       "uvlock": true
     },
-    "connections=1,data=true,facing=north": {
+    "connections=1,data=false,facing=west,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_1",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=1,data=true,facing=north,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_1"
     },
-    "connections=1,data=true,facing=east": {
+    "connections=1,data=true,facing=north,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_1"
+    },
+    "connections=1,data=true,facing=east,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_1",
       "y": 90,
       "uvlock": true
     },
-    "connections=1,data=true,facing=south": {
+    "connections=1,data=true,facing=east,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_1",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=1,data=true,facing=south,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_1",
       "y": 180,
       "uvlock": true
     },
-    "connections=1,data=true,facing=west": {
+    "connections=1,data=true,facing=south,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_1",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=1,data=true,facing=west,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_1",
       "y": 270,
       "uvlock": true
     },
-    "connections=2,data=false,facing=north": {
+    "connections=1,data=true,facing=west,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_1",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=2,data=false,facing=north,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_2"
     },
-    "connections=2,data=false,facing=east": {
+    "connections=2,data=false,facing=north,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_2"
+    },
+    "connections=2,data=false,facing=east,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_2",
       "y": 90,
       "uvlock": true
     },
-    "connections=2,data=false,facing=south": {
+    "connections=2,data=false,facing=east,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_2",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=2,data=false,facing=south,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_2",
       "y": 180,
       "uvlock": true
     },
-    "connections=2,data=false,facing=west": {
+    "connections=2,data=false,facing=south,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_2",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=2,data=false,facing=west,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_2",
       "y": 270,
       "uvlock": true
     },
-    "connections=2,data=true,facing=north": {
+    "connections=2,data=false,facing=west,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_2",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=2,data=true,facing=north,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_2"
     },
-    "connections=2,data=true,facing=east": {
+    "connections=2,data=true,facing=north,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_2"
+    },
+    "connections=2,data=true,facing=east,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_2",
       "y": 90,
       "uvlock": true
     },
-    "connections=2,data=true,facing=south": {
+    "connections=2,data=true,facing=east,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_2",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=2,data=true,facing=south,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_2",
       "y": 180,
       "uvlock": true
     },
-    "connections=2,data=true,facing=west": {
+    "connections=2,data=true,facing=south,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_2",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=2,data=true,facing=west,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_2",
       "y": 270,
       "uvlock": true
     },
-    "connections=3,data=false,facing=north": {
+    "connections=2,data=true,facing=west,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_2",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=3,data=false,facing=north,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_3"
     },
-    "connections=3,data=false,facing=east": {
+    "connections=3,data=false,facing=north,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_3"
+    },
+    "connections=3,data=false,facing=east,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_3",
       "y": 90,
       "uvlock": true
     },
-    "connections=3,data=false,facing=south": {
+    "connections=3,data=false,facing=east,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_3",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=3,data=false,facing=south,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_3",
       "y": 180,
       "uvlock": true
     },
-    "connections=3,data=false,facing=west": {
+    "connections=3,data=false,facing=south,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_3",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=3,data=false,facing=west,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_3",
       "y": 270,
       "uvlock": true
     },
-    "connections=3,data=true,facing=north": {
+    "connections=3,data=false,facing=west,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_3",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=3,data=true,facing=north,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_3"
     },
-    "connections=3,data=true,facing=east": {
+    "connections=3,data=true,facing=north,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_3"
+    },
+    "connections=3,data=true,facing=east,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_3",
       "y": 90,
       "uvlock": true
     },
-    "connections=3,data=true,facing=south": {
+    "connections=3,data=true,facing=east,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_3",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=3,data=true,facing=south,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_3",
       "y": 180,
       "uvlock": true
     },
-    "connections=3,data=true,facing=west": {
+    "connections=3,data=true,facing=south,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_3",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=3,data=true,facing=west,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_3",
       "y": 270,
       "uvlock": true
     },
-    "connections=4,data=false,facing=north": {
+    "connections=3,data=true,facing=west,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_3",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=4,data=false,facing=north,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_4"
     },
-    "connections=4,data=false,facing=east": {
+    "connections=4,data=false,facing=north,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_4"
+    },
+    "connections=4,data=false,facing=east,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_4",
       "y": 90,
       "uvlock": true
     },
-    "connections=4,data=false,facing=south": {
+    "connections=4,data=false,facing=east,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_4",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=4,data=false,facing=south,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_4",
       "y": 180,
       "uvlock": true
     },
-    "connections=4,data=false,facing=west": {
+    "connections=4,data=false,facing=south,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_4",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=4,data=false,facing=west,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_4",
       "y": 270,
       "uvlock": true
     },
-    "connections=4,data=true,facing=north": {
+    "connections=4,data=false,facing=west,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_4",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=4,data=true,facing=north,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_4"
     },
-    "connections=4,data=true,facing=east": {
+    "connections=4,data=true,facing=north,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_4"
+    },
+    "connections=4,data=true,facing=east,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_4",
       "y": 90,
       "uvlock": true
     },
-    "connections=4,data=true,facing=south": {
+    "connections=4,data=true,facing=east,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_4",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=4,data=true,facing=south,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_4",
       "y": 180,
       "uvlock": true
     },
-    "connections=4,data=true,facing=west": {
+    "connections=4,data=true,facing=south,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_4",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=4,data=true,facing=west,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_4",
       "y": 270,
       "uvlock": true
     },
-    "connections=5,data=false,facing=north": {
+    "connections=4,data=true,facing=west,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_4",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=5,data=false,facing=north,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_5"
     },
-    "connections=5,data=false,facing=east": {
+    "connections=5,data=false,facing=north,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_5"
+    },
+    "connections=5,data=false,facing=east,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_5",
       "y": 90,
       "uvlock": true
     },
-    "connections=5,data=false,facing=south": {
+    "connections=5,data=false,facing=east,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_5",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=5,data=false,facing=south,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_5",
       "y": 180,
       "uvlock": true
     },
-    "connections=5,data=false,facing=west": {
+    "connections=5,data=false,facing=south,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_5",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=5,data=false,facing=west,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_5",
       "y": 270,
       "uvlock": true
     },
-    "connections=5,data=true,facing=north": {
+    "connections=5,data=false,facing=west,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_5",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=5,data=true,facing=north,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_5"
     },
-    "connections=5,data=true,facing=east": {
+    "connections=5,data=true,facing=north,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_5"
+    },
+    "connections=5,data=true,facing=east,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_5",
       "y": 90,
       "uvlock": true
     },
-    "connections=5,data=true,facing=south": {
+    "connections=5,data=true,facing=east,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_5",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=5,data=true,facing=south,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_5",
       "y": 180,
       "uvlock": true
     },
-    "connections=5,data=true,facing=west": {
+    "connections=5,data=true,facing=south,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_5",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=5,data=true,facing=west,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_5",
       "y": 270,
       "uvlock": true
     },
-    "connections=6,data=false,facing=north": {
+    "connections=5,data=true,facing=west,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_5",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=6,data=false,facing=north,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_6"
     },
-    "connections=6,data=false,facing=east": {
+    "connections=6,data=false,facing=north,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_6"
+    },
+    "connections=6,data=false,facing=east,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_6",
       "y": 90,
       "uvlock": true
     },
-    "connections=6,data=false,facing=south": {
+    "connections=6,data=false,facing=east,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_6",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=6,data=false,facing=south,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_6",
       "y": 180,
       "uvlock": true
     },
-    "connections=6,data=false,facing=west": {
+    "connections=6,data=false,facing=south,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_6",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=6,data=false,facing=west,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_6",
       "y": 270,
       "uvlock": true
     },
-    "connections=6,data=true,facing=north": {
+    "connections=6,data=false,facing=west,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_6",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=6,data=true,facing=north,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_6"
     },
-    "connections=6,data=true,facing=east": {
+    "connections=6,data=true,facing=north,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_6"
+    },
+    "connections=6,data=true,facing=east,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_6",
       "y": 90,
       "uvlock": true
     },
-    "connections=6,data=true,facing=south": {
+    "connections=6,data=true,facing=east,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_6",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=6,data=true,facing=south,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_6",
       "y": 180,
       "uvlock": true
     },
-    "connections=6,data=true,facing=west": {
+    "connections=6,data=true,facing=south,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_6",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=6,data=true,facing=west,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_6",
       "y": 270,
       "uvlock": true
     },
-    "connections=7,data=false,facing=north": {
+    "connections=6,data=true,facing=west,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_6",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=7,data=false,facing=north,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_7"
     },
-    "connections=7,data=false,facing=east": {
+    "connections=7,data=false,facing=north,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_7"
+    },
+    "connections=7,data=false,facing=east,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_7",
       "y": 90,
       "uvlock": true
     },
-    "connections=7,data=false,facing=south": {
+    "connections=7,data=false,facing=east,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_7",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=7,data=false,facing=south,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_7",
       "y": 180,
       "uvlock": true
     },
-    "connections=7,data=false,facing=west": {
+    "connections=7,data=false,facing=south,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_7",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=7,data=false,facing=west,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_7",
       "y": 270,
       "uvlock": true
     },
-    "connections=7,data=true,facing=north": {
+    "connections=7,data=false,facing=west,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_7",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=7,data=true,facing=north,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_7"
     },
-    "connections=7,data=true,facing=east": {
+    "connections=7,data=true,facing=north,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_7"
+    },
+    "connections=7,data=true,facing=east,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_7",
       "y": 90,
       "uvlock": true
     },
-    "connections=7,data=true,facing=south": {
+    "connections=7,data=true,facing=east,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_7",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=7,data=true,facing=south,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_7",
       "y": 180,
       "uvlock": true
     },
-    "connections=7,data=true,facing=west": {
+    "connections=7,data=true,facing=south,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_7",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=7,data=true,facing=west,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_7",
       "y": 270,
       "uvlock": true
     },
-    "connections=8,data=false,facing=north": {
+    "connections=7,data=true,facing=west,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_7",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=8,data=false,facing=north,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_8"
     },
-    "connections=8,data=false,facing=east": {
+    "connections=8,data=false,facing=north,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_8"
+    },
+    "connections=8,data=false,facing=east,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_8",
       "y": 90,
       "uvlock": true
     },
-    "connections=8,data=false,facing=south": {
+    "connections=8,data=false,facing=east,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_8",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=8,data=false,facing=south,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_8",
       "y": 180,
       "uvlock": true
     },
-    "connections=8,data=false,facing=west": {
+    "connections=8,data=false,facing=south,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_8",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=8,data=false,facing=west,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_8",
       "y": 270,
       "uvlock": true
     },
-    "connections=8,data=true,facing=north": {
+    "connections=8,data=false,facing=west,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_8",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=8,data=true,facing=north,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_8"
     },
-    "connections=8,data=true,facing=east": {
+    "connections=8,data=true,facing=north,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_8"
+    },
+    "connections=8,data=true,facing=east,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_8",
       "y": 90,
       "uvlock": true
     },
-    "connections=8,data=true,facing=south": {
+    "connections=8,data=true,facing=east,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_8",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=8,data=true,facing=south,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_8",
       "y": 180,
       "uvlock": true
     },
-    "connections=8,data=true,facing=west": {
+    "connections=8,data=true,facing=south,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_8",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=8,data=true,facing=west,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_8",
       "y": 270,
       "uvlock": true
     },
-    "connections=9,data=false,facing=north": {
+    "connections=8,data=true,facing=west,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_8",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=9,data=false,facing=north,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_9"
     },
-    "connections=9,data=false,facing=east": {
+    "connections=9,data=false,facing=north,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_9"
+    },
+    "connections=9,data=false,facing=east,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_9",
       "y": 90,
       "uvlock": true
     },
-    "connections=9,data=false,facing=south": {
+    "connections=9,data=false,facing=east,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_9",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=9,data=false,facing=south,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_9",
       "y": 180,
       "uvlock": true
     },
-    "connections=9,data=false,facing=west": {
+    "connections=9,data=false,facing=south,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_9",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=9,data=false,facing=west,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_9",
       "y": 270,
       "uvlock": true
     },
-    "connections=9,data=true,facing=north": {
+    "connections=9,data=false,facing=west,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_9",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=9,data=true,facing=north,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_9"
     },
-    "connections=9,data=true,facing=east": {
+    "connections=9,data=true,facing=north,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_9"
+    },
+    "connections=9,data=true,facing=east,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_9",
       "y": 90,
       "uvlock": true
     },
-    "connections=9,data=true,facing=south": {
+    "connections=9,data=true,facing=east,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_9",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=9,data=true,facing=south,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_9",
       "y": 180,
       "uvlock": true
     },
-    "connections=9,data=true,facing=west": {
+    "connections=9,data=true,facing=south,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_9",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=9,data=true,facing=west,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_9",
       "y": 270,
       "uvlock": true
     },
-    "connections=10,data=false,facing=north": {
+    "connections=9,data=true,facing=west,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_9",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=10,data=false,facing=north,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_10"
     },
-    "connections=10,data=false,facing=east": {
+    "connections=10,data=false,facing=north,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_10"
+    },
+    "connections=10,data=false,facing=east,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_10",
       "y": 90,
       "uvlock": true
     },
-    "connections=10,data=false,facing=south": {
+    "connections=10,data=false,facing=east,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_10",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=10,data=false,facing=south,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_10",
       "y": 180,
       "uvlock": true
     },
-    "connections=10,data=false,facing=west": {
+    "connections=10,data=false,facing=south,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_10",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=10,data=false,facing=west,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_10",
       "y": 270,
       "uvlock": true
     },
-    "connections=10,data=true,facing=north": {
+    "connections=10,data=false,facing=west,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_10",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=10,data=true,facing=north,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_10"
     },
-    "connections=10,data=true,facing=east": {
+    "connections=10,data=true,facing=north,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_10"
+    },
+    "connections=10,data=true,facing=east,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_10",
       "y": 90,
       "uvlock": true
     },
-    "connections=10,data=true,facing=south": {
+    "connections=10,data=true,facing=east,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_10",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=10,data=true,facing=south,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_10",
       "y": 180,
       "uvlock": true
     },
-    "connections=10,data=true,facing=west": {
+    "connections=10,data=true,facing=south,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_10",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=10,data=true,facing=west,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_10",
       "y": 270,
       "uvlock": true
     },
-    "connections=11,data=false,facing=north": {
+    "connections=10,data=true,facing=west,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_10",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=11,data=false,facing=north,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_11"
     },
-    "connections=11,data=false,facing=east": {
+    "connections=11,data=false,facing=north,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_11"
+    },
+    "connections=11,data=false,facing=east,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_11",
       "y": 90,
       "uvlock": true
     },
-    "connections=11,data=false,facing=south": {
+    "connections=11,data=false,facing=east,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_11",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=11,data=false,facing=south,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_11",
       "y": 180,
       "uvlock": true
     },
-    "connections=11,data=false,facing=west": {
+    "connections=11,data=false,facing=south,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_11",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=11,data=false,facing=west,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_11",
       "y": 270,
       "uvlock": true
     },
-    "connections=11,data=true,facing=north": {
+    "connections=11,data=false,facing=west,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_11",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=11,data=true,facing=north,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_11"
     },
-    "connections=11,data=true,facing=east": {
+    "connections=11,data=true,facing=north,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_11"
+    },
+    "connections=11,data=true,facing=east,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_11",
       "y": 90,
       "uvlock": true
     },
-    "connections=11,data=true,facing=south": {
+    "connections=11,data=true,facing=east,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_11",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=11,data=true,facing=south,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_11",
       "y": 180,
       "uvlock": true
     },
-    "connections=11,data=true,facing=west": {
+    "connections=11,data=true,facing=south,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_11",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=11,data=true,facing=west,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_11",
       "y": 270,
       "uvlock": true
     },
-    "connections=12,data=false,facing=north": {
+    "connections=11,data=true,facing=west,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_11",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=12,data=false,facing=north,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_12"
     },
-    "connections=12,data=false,facing=east": {
+    "connections=12,data=false,facing=north,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_12"
+    },
+    "connections=12,data=false,facing=east,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_12",
       "y": 90,
       "uvlock": true
     },
-    "connections=12,data=false,facing=south": {
+    "connections=12,data=false,facing=east,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_12",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=12,data=false,facing=south,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_12",
       "y": 180,
       "uvlock": true
     },
-    "connections=12,data=false,facing=west": {
+    "connections=12,data=false,facing=south,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_12",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=12,data=false,facing=west,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_12",
       "y": 270,
       "uvlock": true
     },
-    "connections=12,data=true,facing=north": {
+    "connections=12,data=false,facing=west,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_12",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=12,data=true,facing=north,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_12"
     },
-    "connections=12,data=true,facing=east": {
+    "connections=12,data=true,facing=north,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_12"
+    },
+    "connections=12,data=true,facing=east,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_12",
       "y": 90,
       "uvlock": true
     },
-    "connections=12,data=true,facing=south": {
+    "connections=12,data=true,facing=east,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_12",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=12,data=true,facing=south,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_12",
       "y": 180,
       "uvlock": true
     },
-    "connections=12,data=true,facing=west": {
+    "connections=12,data=true,facing=south,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_12",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=12,data=true,facing=west,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_12",
       "y": 270,
       "uvlock": true
     },
-    "connections=13,data=false,facing=north": {
+    "connections=12,data=true,facing=west,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_12",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=13,data=false,facing=north,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_13"
     },
-    "connections=13,data=false,facing=east": {
+    "connections=13,data=false,facing=north,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_13"
+    },
+    "connections=13,data=false,facing=east,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_13",
       "y": 90,
       "uvlock": true
     },
-    "connections=13,data=false,facing=south": {
+    "connections=13,data=false,facing=east,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_13",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=13,data=false,facing=south,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_13",
       "y": 180,
       "uvlock": true
     },
-    "connections=13,data=false,facing=west": {
+    "connections=13,data=false,facing=south,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_13",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=13,data=false,facing=west,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_13",
       "y": 270,
       "uvlock": true
     },
-    "connections=13,data=true,facing=north": {
+    "connections=13,data=false,facing=west,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_13",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=13,data=true,facing=north,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_13"
     },
-    "connections=13,data=true,facing=east": {
+    "connections=13,data=true,facing=north,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_13"
+    },
+    "connections=13,data=true,facing=east,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_13",
       "y": 90,
       "uvlock": true
     },
-    "connections=13,data=true,facing=south": {
+    "connections=13,data=true,facing=east,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_13",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=13,data=true,facing=south,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_13",
       "y": 180,
       "uvlock": true
     },
-    "connections=13,data=true,facing=west": {
+    "connections=13,data=true,facing=south,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_13",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=13,data=true,facing=west,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_13",
       "y": 270,
       "uvlock": true
     },
-    "connections=14,data=false,facing=north": {
+    "connections=13,data=true,facing=west,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_13",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=14,data=false,facing=north,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_14"
     },
-    "connections=14,data=false,facing=east": {
+    "connections=14,data=false,facing=north,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_14"
+    },
+    "connections=14,data=false,facing=east,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_14",
       "y": 90,
       "uvlock": true
     },
-    "connections=14,data=false,facing=south": {
+    "connections=14,data=false,facing=east,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_14",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=14,data=false,facing=south,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_14",
       "y": 180,
       "uvlock": true
     },
-    "connections=14,data=false,facing=west": {
+    "connections=14,data=false,facing=south,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_14",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=14,data=false,facing=west,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_14",
       "y": 270,
       "uvlock": true
     },
-    "connections=14,data=true,facing=north": {
+    "connections=14,data=false,facing=west,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_14",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=14,data=true,facing=north,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_14"
     },
-    "connections=14,data=true,facing=east": {
+    "connections=14,data=true,facing=north,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_14"
+    },
+    "connections=14,data=true,facing=east,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_14",
       "y": 90,
       "uvlock": true
     },
-    "connections=14,data=true,facing=south": {
+    "connections=14,data=true,facing=east,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_14",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=14,data=true,facing=south,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_14",
       "y": 180,
       "uvlock": true
     },
-    "connections=14,data=true,facing=west": {
+    "connections=14,data=true,facing=south,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_14",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=14,data=true,facing=west,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_14",
       "y": 270,
       "uvlock": true
     },
-    "connections=15,data=false,facing=north": {
+    "connections=14,data=true,facing=west,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_14",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=15,data=false,facing=north,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_15"
     },
-    "connections=15,data=false,facing=east": {
+    "connections=15,data=false,facing=north,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_15"
+    },
+    "connections=15,data=false,facing=east,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_15",
       "y": 90,
       "uvlock": true
     },
-    "connections=15,data=false,facing=south": {
+    "connections=15,data=false,facing=east,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_15",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=15,data=false,facing=south,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_15",
       "y": 180,
       "uvlock": true
     },
-    "connections=15,data=false,facing=west": {
+    "connections=15,data=false,facing=south,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_15",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=15,data=false,facing=west,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_15",
       "y": 270,
       "uvlock": true
     },
-    "connections=15,data=true,facing=north": {
+    "connections=15,data=false,facing=west,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_15",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=15,data=true,facing=north,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_15"
     },
-    "connections=15,data=true,facing=east": {
+    "connections=15,data=true,facing=north,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_15"
+    },
+    "connections=15,data=true,facing=east,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_15",
       "y": 90,
       "uvlock": true
     },
-    "connections=15,data=true,facing=south": {
+    "connections=15,data=true,facing=east,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_15",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=15,data=true,facing=south,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_15",
       "y": 180,
       "uvlock": true
     },
-    "connections=15,data=true,facing=west": {
+    "connections=15,data=true,facing=south,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_15",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=15,data=true,facing=west,standing=false": {
       "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_15",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=15,data=true,facing=west,standing=true": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_kapok_standing_15",
       "y": 270,
       "uvlock": true
     }

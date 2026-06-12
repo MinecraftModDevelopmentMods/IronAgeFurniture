@@ -40,6 +40,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class BottleRack extends BlockHBase {
 	public static final PropertyInteger CONNECTIONS = PropertyInteger.create("connections", 0, 15);
 	public static final PropertyBool DATA = PropertyBool.create("data");
+	public static final PropertyBool STANDING = PropertyBool.create("standing");
 
 	private static final int UP = 1;
 	private static final int RIGHT = 2;
@@ -48,6 +49,8 @@ public class BottleRack extends BlockHBase {
 
 	private static final AxisAlignedBB RACK_BOX_NORTH = new AxisAlignedBB(0.0D, 0.0D, 0.625D,
 		1.0D, 1.0D, 1.0D);
+	private static final AxisAlignedBB STANDING_RACK_BOX_NORTH = new AxisAlignedBB(0.0D, 0.0D, 0.3125D,
+		1.0D, 1.0D, 0.6875D);
 
 	public BottleRack(Material materialIn, String name, float resistance, float hardness) {
 		super(materialIn);
@@ -60,13 +63,18 @@ public class BottleRack extends BlockHBase {
 		this.setDefaultState(this.blockState.getBaseState()
 			.withProperty(FACING, EnumFacing.NORTH)
 			.withProperty(CONNECTIONS, Integer.valueOf(0))
-			.withProperty(DATA, Boolean.valueOf(false)));
+			.withProperty(DATA, Boolean.valueOf(false))
+			.withProperty(STANDING, Boolean.valueOf(false)));
 	}
 
 	@Override
 	public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
+		if (this.canStandingRackStay(worldIn, pos, EnumFacing.NORTH)) {
+			return super.canPlaceBlockAt(worldIn, pos);
+		}
+
 		for (EnumFacing facing : FACING.getAllowedValues()) {
-			if (this.canRackStay(worldIn, pos, facing)) {
+			if (this.canWallRackStay(worldIn, pos, facing)) {
 				return super.canPlaceBlockAt(worldIn, pos);
 			}
 		}
@@ -76,34 +84,40 @@ public class BottleRack extends BlockHBase {
 
 	@Override
 	public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, EnumFacing side) {
-		return side.getAxis().isHorizontal() && this.canRackStay(worldIn, pos, side)
+		if (side == EnumFacing.UP) {
+			return this.canStandingRackStay(worldIn, pos, EnumFacing.NORTH)
+				&& super.canPlaceBlockOnSide(worldIn, pos, side);
+		}
+
+		return side.getAxis().isHorizontal() && this.canWallRackStay(worldIn, pos, side)
 			&& super.canPlaceBlockOnSide(worldIn, pos, side);
 	}
 
 	@Override
 	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing side, float hitX, float hitY,
 			float hitZ, int meta, EntityLivingBase placer, ItemStack stack) {
-		EnumFacing facing = side.getAxis().isHorizontal() ? side : EnumFacing.NORTH;
+		if (side == EnumFacing.UP && this.canStandingRackStay(world, pos, EnumFacing.NORTH)) {
+			EnumFacing facing = placer != null ? placer.getHorizontalFacing().getOpposite() : EnumFacing.NORTH;
 
-		if (!this.canRackStay(world, pos, facing)) {
-			for (EnumFacing candidate : FACING.getAllowedValues()) {
-				if (this.canRackStay(world, pos, candidate)) {
-					facing = candidate;
-					break;
-				}
-			}
+			return this.getDefaultState()
+				.withProperty(FACING, facing)
+				.withProperty(CONNECTIONS, Integer.valueOf(0))
+				.withProperty(DATA, Boolean.valueOf(false))
+				.withProperty(STANDING, Boolean.valueOf(true));
 		}
 
 		return this.getDefaultState()
-			.withProperty(FACING, facing)
+			.withProperty(FACING, side.getAxis().isHorizontal() ? side : EnumFacing.NORTH)
 			.withProperty(CONNECTIONS, Integer.valueOf(0))
-			.withProperty(DATA, Boolean.valueOf(false));
+			.withProperty(DATA, Boolean.valueOf(false))
+			.withProperty(STANDING, Boolean.valueOf(false));
 	}
 
 	@Override
 	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
 		return state.withProperty(CONNECTIONS,
-			Integer.valueOf(this.getConnectionMask(worldIn, pos, state.getValue(FACING))));
+			Integer.valueOf(this.getConnectionMask(worldIn, pos, state.getValue(FACING),
+				state.getValue(STANDING).booleanValue())));
 	}
 
 	@Override
@@ -114,7 +128,7 @@ public class BottleRack extends BlockHBase {
 
 	@Override
 	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
-		if (!this.canRackStay(worldIn, pos, state.getValue(FACING))) {
+		if (!this.canRackStay(worldIn, pos, state)) {
 			if (!worldIn.isRemote) {
 				this.dropBlockAsItem(worldIn, pos, state, 0);
 			}
@@ -215,7 +229,7 @@ public class BottleRack extends BlockHBase {
 
 		Block rackBlock = ((ItemBlock)heldItem.getItem()).getBlock();
 		return this.tryPlaceRack(worldIn, pos.offset(placementSide), currentFacing, rackBlock,
-			playerIn, hand, heldItem, hitX, hitY, hitZ);
+			state.getValue(STANDING).booleanValue(), playerIn, hand, heldItem, hitX, hitY, hitZ);
 	}
 
 	@Override
@@ -246,7 +260,8 @@ public class BottleRack extends BlockHBase {
 
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-		return this.rotateToFacing(RACK_BOX_NORTH, state.getValue(FACING));
+		AxisAlignedBB box = state.getValue(STANDING).booleanValue() ? STANDING_RACK_BOX_NORTH : RACK_BOX_NORTH;
+		return this.rotateToFacing(box, state.getValue(FACING));
 	}
 
 	@Override
@@ -265,13 +280,21 @@ public class BottleRack extends BlockHBase {
 		return this.getDefaultState()
 			.withProperty(FACING, EnumFacing.getHorizontal(meta & 3))
 			.withProperty(CONNECTIONS, Integer.valueOf(0))
-			.withProperty(DATA, Boolean.valueOf((meta & 4) != 0));
+			.withProperty(DATA, Boolean.valueOf((meta & 4) != 0))
+			.withProperty(STANDING, Boolean.valueOf((meta & 8) != 0));
 	}
 
 	@Override
 	public int getMetaFromState(IBlockState state) {
 		int meta = state.getValue(FACING).getHorizontalIndex();
-		return state.getValue(DATA).booleanValue() ? meta | 4 : meta;
+		if (state.getValue(DATA).booleanValue()) {
+			meta |= 4;
+		}
+		if (state.getValue(STANDING).booleanValue()) {
+			meta |= 8;
+		}
+
+		return meta;
 	}
 
 	@Override
@@ -281,7 +304,7 @@ public class BottleRack extends BlockHBase {
 
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] { CONNECTIONS, DATA, FACING });
+		return new BlockStateContainer(this, new IProperty[] { CONNECTIONS, DATA, FACING, STANDING });
 	}
 
 	private EnumFacing getRackPlacementSide(EnumFacing rackFacing, EnumFacing clickedSide, float hitX, float hitY,
@@ -311,10 +334,11 @@ public class BottleRack extends BlockHBase {
 	}
 
 	private boolean tryPlaceRack(World worldIn, BlockPos placePos, EnumFacing rackFacing, Block rackBlock,
-			EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, float hitX, float hitY, float hitZ) {
+			boolean standing, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, float hitX, float hitY,
+			float hitZ) {
 		if (!(rackBlock instanceof BottleRack)
 				|| !worldIn.getBlockState(placePos).getBlock().isReplaceable(worldIn, placePos)
-				|| !((BottleRack)rackBlock).canRackStay(worldIn, placePos, rackFacing)
+				|| !((BottleRack)rackBlock).canRackStay(worldIn, placePos, rackFacing, standing)
 				|| !playerIn.canPlayerEdit(placePos, rackFacing, heldItem)) {
 			return false;
 		}
@@ -326,7 +350,8 @@ public class BottleRack extends BlockHBase {
 		IBlockState placedState = ((BottleRack)rackBlock).getDefaultState()
 			.withProperty(FACING, rackFacing)
 			.withProperty(CONNECTIONS, Integer.valueOf(0))
-			.withProperty(DATA, Boolean.valueOf(false));
+			.withProperty(DATA, Boolean.valueOf(false))
+			.withProperty(STANDING, Boolean.valueOf(standing));
 
 		if (!worldIn.setBlockState(placePos, placedState, 3)) {
 			return false;
@@ -372,35 +397,59 @@ public class BottleRack extends BlockHBase {
 		return Math.max(min, Math.min(max, value));
 	}
 
-	private boolean canRackStay(IBlockAccess worldIn, BlockPos pos, EnumFacing facing) {
+	private boolean canRackStay(IBlockAccess worldIn, BlockPos pos, IBlockState state) {
+		return this.canRackStay(worldIn, pos, state.getValue(FACING),
+			state.getValue(STANDING).booleanValue());
+	}
+
+	private boolean canRackStay(IBlockAccess worldIn, BlockPos pos, EnumFacing facing, boolean standing) {
+		return standing ? this.canStandingRackStay(worldIn, pos, facing)
+			: this.canWallRackStay(worldIn, pos, facing);
+	}
+
+	private boolean canWallRackStay(IBlockAccess worldIn, BlockPos pos, EnumFacing facing) {
 		BlockPos supportPos = pos.offset(facing.getOpposite());
 		return worldIn.getBlockState(supportPos).isSideSolid(worldIn, supportPos, facing);
 	}
 
-	private int getConnectionMask(IBlockAccess worldIn, BlockPos pos, EnumFacing facing) {
+	private boolean canStandingRackStay(IBlockAccess worldIn, BlockPos pos, EnumFacing facing) {
+		BlockPos supportPos = pos.down();
+		IBlockState supportState = worldIn.getBlockState(supportPos);
+
+		if (supportState.isSideSolid(worldIn, supportPos, EnumFacing.UP)) {
+			return true;
+		}
+
+		return supportState.getBlock() == this
+			&& supportState.getValue(FACING) == facing
+			&& supportState.getValue(STANDING).booleanValue();
+	}
+
+	private int getConnectionMask(IBlockAccess worldIn, BlockPos pos, EnumFacing facing, boolean standing) {
 		int connections = 0;
 
-		if (this.connectsTo(worldIn, pos.up(), facing)) {
+		if (this.connectsTo(worldIn, pos.up(), facing, standing)) {
 			connections |= UP;
 		}
-		if (this.connectsTo(worldIn, pos.offset(this.rotateClockwise(facing)), facing)) {
+		if (this.connectsTo(worldIn, pos.offset(this.rotateClockwise(facing)), facing, standing)) {
 			connections |= RIGHT;
 		}
-		if (this.connectsTo(worldIn, pos.down(), facing)) {
+		if (this.connectsTo(worldIn, pos.down(), facing, standing)) {
 			connections |= DOWN;
 		}
-		if (this.connectsTo(worldIn, pos.offset(this.rotateCounterClockwise(facing)), facing)) {
+		if (this.connectsTo(worldIn, pos.offset(this.rotateCounterClockwise(facing)), facing, standing)) {
 			connections |= LEFT;
 		}
 
 		return connections;
 	}
 
-	private boolean connectsTo(IBlockAccess worldIn, BlockPos pos, EnumFacing facing) {
+	private boolean connectsTo(IBlockAccess worldIn, BlockPos pos, EnumFacing facing, boolean standing) {
 		IBlockState state = worldIn.getBlockState(pos);
 		return state.getBlock() == this
 			&& state.getValue(FACING) == facing
-			&& this.canRackStay(worldIn, pos, facing);
+			&& state.getValue(STANDING).booleanValue() == standing
+			&& this.canRackStay(worldIn, pos, facing, standing);
 	}
 
 	private void notifyRackAndNeighbors(World worldIn, BlockPos pos) {
