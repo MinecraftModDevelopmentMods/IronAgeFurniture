@@ -1,0 +1,64 @@
+{
+  "variants": {
+    "facing=north,part=front_left": {
+      "model": "ironagefurniture:foudre_wood_ironage_forestry_zebrawood_upper_front_left",
+      "y": 180
+    },
+    "facing=north,part=front_right": {
+      "model": "ironagefurniture:foudre_wood_ironage_forestry_zebrawood_upper_front_right",
+      "y": 180
+    },
+    "facing=north,part=back_left": {
+      "model": "ironagefurniture:foudre_wood_ironage_forestry_zebrawood_upper_back_left",
+      "y": 180
+    },
+    "facing=north,part=back_right": {
+      "model": "ironagefurniture:foudre_wood_ironage_forestry_zebrawood_upper_back_right",
+      "y": 180
+    },
+    "facing=east,part=front_left": {
+      "model": "ironagefurniture:foudre_wood_ironage_forestry_zebrawood_upper_front_left",
+      "y": 270
+    },
+    "facing=east,part=front_right": {
+      "model": "ironagefurniture:foudre_wood_ironage_forestry_zebrawood_upper_front_right",
+      "y": 270
+    },
+    "facing=east,part=back_left": {
+      "model": "ironagefurniture:foudre_wood_ironage_forestry_zebrawood_upper_back_left",
+      "y": 270
+    },
+    "facing=east,part=back_right": {
+      "model": "ironagefurniture:foudre_wood_ironage_forestry_zebrawood_upper_back_right",
+      "y": 270
+    },
+    "facing=south,part=front_left": {
+      "model": "ironagefurniture:foudre_wood_ironage_forestry_zebrawood_upper_front_left"
+    },
+    "facing=south,part=front_right": {
+      "model": "ironagefurniture:foudre_wood_ironage_forestry_zebrawood_upper_front_right"
+    },
+    "facing=south,part=back_left": {
+      "model": "ironagefurniture:foudre_wood_ironage_forestry_zebrawood_upper_back_left"
+    },
+    "facing=south,part=back_right": {
+      "model": "ironagefurniture:foudre_wood_ironage_forestry_zebrawood_upper_back_right"
+    },
+    "facing=west,part=front_left": {
+      "model": "ironagefurniture:foudre_wood_ironage_forestry_zebrawood_upper_front_left",
+      "y": 90
+    },
+    "facing=west,part=front_right": {
+      "model": "ironagefurniture:foudre_wood_ironage_forestry_zebrawood_upper_front_right",
+      "y": 90
+    },
+    "facing=west,part=back_left": {
+      "model": "ironagefurniture:foudre_wood_ironage_forestry_zebrawood_upper_back_left",
+      "y": 90
+    },
+    "facing=west,part=back_right": {
+      "model": "ironagefurniture:foudre_wood_ironage_forestry_zebrawood_upper_back_right",
+      "y": 90
+    }
+  }
+}

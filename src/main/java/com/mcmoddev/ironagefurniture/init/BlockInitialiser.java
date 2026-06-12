@@ -92,6 +92,12 @@ public class BlockInitialiser {
 			if (IronAgeFurnitureConfiguration.GENERATE_SIDE_BARRELS) {
 				BlockObjectHolder.side_barrel_wood_ironage.put(suffix, FurnitureFactory.CreateSideWoodBarrel(suffix));
 			}
+
+			if (IronAgeFurnitureConfiguration.GENERATE_FOUDRES) {
+				Block[] foudre = FurnitureFactory.CreateWoodFoudre(suffix);
+				BlockObjectHolder.foudre_wood_ironage.put(suffix, foudre[0]);
+				BlockObjectHolder.foudre_wood_ironage_upper.put(suffix, foudre[1]);
+			}
 		}
 	}
 

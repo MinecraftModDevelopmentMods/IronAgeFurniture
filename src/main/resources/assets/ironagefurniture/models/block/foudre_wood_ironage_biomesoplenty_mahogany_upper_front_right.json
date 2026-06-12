@@ -1,0 +1,11 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_foudre_wood_ironage_upper_front_right",
+  "textures": {
+    "0": "biomesoplenty:blocks/mahogany_log",
+    "1": "biomesoplenty:blocks/mahogany_planks",
+    "particle": "biomesoplenty:blocks/mahogany_log",
+    "iron": "minecraft:blocks/iron_block",
+    "inside": "minecraft:blocks/coal_block"
+  }
+}

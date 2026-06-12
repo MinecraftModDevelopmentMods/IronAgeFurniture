@@ -26,7 +26,11 @@ public class TileEntityBarrel extends TileEntity {
 	private final FluidTank tank;
 
 	public TileEntityBarrel() {
-		this.tank = new BarrelFluidTank(this, CAPACITY);
+		this(CAPACITY);
+	}
+
+	protected TileEntityBarrel(int capacity) {
+		this.tank = new BarrelFluidTank(this, capacity);
 		this.tank.setTileEntity(this);
 	}
 
@@ -46,6 +50,10 @@ public class TileEntityBarrel extends TileEntity {
 
 	public int getCapacity() {
 		return this.tank.getCapacity();
+	}
+
+	public String getContainerNameKey() {
+		return "container.ironagefurniture.barrel";
 	}
 
 	public boolean isEmpty() {

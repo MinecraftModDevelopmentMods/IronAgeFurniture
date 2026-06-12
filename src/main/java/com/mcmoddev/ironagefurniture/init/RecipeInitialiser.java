@@ -216,6 +216,7 @@ public class RecipeInitialiser {
 
 		final List<String> recipeSuffixes = new ArrayList<String>();
 		final List<String> sideRecipeSuffixes = new ArrayList<String>();
+		final List<String> foudreRecipeSuffixes = new ArrayList<String>();
 
 		WoodVariantHelper.forEachEnabledPlankVariant(new WoodVariantHelper.ItemStackVariantConsumer() {
 			@Override
@@ -231,13 +232,22 @@ public class RecipeInitialiser {
 
 				if (barrel != null && sideBarrel != null && !sideRecipeSuffixes.contains(suffix)) {
 					FurnitureFactory.AddSideBarrelRecipe(barrel, sideBarrel);
+					FurnitureFactory.AddUprightBarrelRecipe(sideBarrel, barrel);
 					sideRecipeSuffixes.add(suffix);
+				}
+
+				Block foudre = BlockObjectHolder.foudre_wood_ironage.get(suffix);
+
+				if (barrel != null && foudre != null && !foudreRecipeSuffixes.contains(suffix)) {
+					FurnitureFactory.AddFoudreRecipe(barrel, foudre);
+					foudreRecipeSuffixes.add(suffix);
 				}
 			}
 		});
 
 		validateSlabRecipeMappings(BlockObjectHolder.barrel_wood_ironage, recipeSuffixes, "wood barrel");
 		validateSlabRecipeMappings(BlockObjectHolder.side_barrel_wood_ironage, sideRecipeSuffixes, "side wood barrel");
+		validateSlabRecipeMappings(BlockObjectHolder.foudre_wood_ironage, foudreRecipeSuffixes, "wood foudre");
 	}
 
 	private static void validateSlabRecipeMappings(java.util.Map<String, Block> blocks, List<String> recipeSuffixes,

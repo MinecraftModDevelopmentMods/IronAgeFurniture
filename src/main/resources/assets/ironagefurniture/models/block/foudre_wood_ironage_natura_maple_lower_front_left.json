@@ -1,0 +1,11 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_foudre_wood_ironage_lower_front_left",
+  "textures": {
+    "0": "natura:blocks/logs/overworld/maple_log",
+    "1": "natura:blocks/planks/overworld/maple_planks",
+    "particle": "natura:blocks/logs/overworld/maple_log",
+    "iron": "minecraft:blocks/iron_block",
+    "inside": "minecraft:blocks/coal_block"
+  }
+}

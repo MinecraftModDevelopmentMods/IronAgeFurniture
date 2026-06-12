@@ -34,7 +34,7 @@ public class GuiBarrel extends GuiContainer {
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-		String title = I18n.format("container.ironagefurniture.barrel");
+		String title = I18n.format(this.barrel.getContainerNameKey());
 		this.fontRendererObj.drawString(title, (this.xSize - this.fontRendererObj.getStringWidth(title)) / 2, 8,
 			0x404040);
 

@@ -43,6 +43,14 @@ public class Barrel extends Block {
 		this.setCreativeTab(Ironagefurniture.ironagefurnitureTab);
 	}
 
+	public int getBarrelCapacity() {
+		return TileEntityBarrel.CAPACITY;
+	}
+
+	public int getEmptyItemStackLimit() {
+		return 16;
+	}
+
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
 			EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
@@ -73,8 +81,9 @@ public class Barrel extends Block {
 		}
 
 		if (!worldIn.isRemote) {
+			BlockPos guiPos = this.getBarrelGuiPos(worldIn, pos, state);
 			playerIn.openGui(Ironagefurniture.instance, Ironagefurniture.GUI_BARREL, worldIn,
-				pos.getX(), pos.getY(), pos.getZ());
+				guiPos.getX(), guiPos.getY(), guiPos.getZ());
 		}
 
 		return true;
@@ -177,9 +186,13 @@ public class Barrel extends Block {
 		}
 	}
 
-	private TileEntityBarrel getBarrelEntity(IBlockAccess worldIn, BlockPos pos) {
+	protected TileEntityBarrel getBarrelEntity(IBlockAccess worldIn, BlockPos pos) {
 		TileEntity tileEntity = worldIn.getTileEntity(pos);
 		return tileEntity instanceof TileEntityBarrel ? (TileEntityBarrel)tileEntity : null;
+	}
+
+	protected BlockPos getBarrelGuiPos(IBlockAccess worldIn, BlockPos pos, IBlockState state) {
+		return pos;
 	}
 
 	@Override

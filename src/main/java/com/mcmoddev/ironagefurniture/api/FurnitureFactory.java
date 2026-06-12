@@ -11,6 +11,7 @@ import com.mcmoddev.ironagefurniture.api.Blocks.ChainTop;
 import com.mcmoddev.ironagefurniture.api.Blocks.Chair;
 import com.mcmoddev.ironagefurniture.api.Blocks.DiningChair;
 import com.mcmoddev.ironagefurniture.api.Blocks.DiningTable;
+import com.mcmoddev.ironagefurniture.api.Blocks.Foudre;
 import com.mcmoddev.ironagefurniture.api.Blocks.GlassVaseBlock;
 import com.mcmoddev.ironagefurniture.api.Blocks.GoldBars;
 import com.mcmoddev.ironagefurniture.api.Blocks.GrandChandelierHub;
@@ -76,7 +77,9 @@ import com.mcmoddev.ironagefurniture.api.Items.ItemBlockMetalVariant;
 import com.mcmoddev.ironagefurniture.api.Items.ItemBlockOrnament;
 import com.mcmoddev.ironagefurniture.api.Items.ItemBlockThrowableLavaLamp;
 import com.mcmoddev.ironagefurniture.api.Items.ItemBlockWallShelf;
+import com.mcmoddev.ironagefurniture.api.recipes.FoudreRecipe;
 import com.mcmoddev.ironagefurniture.api.recipes.SideBarrelRecipe;
+import com.mcmoddev.ironagefurniture.api.recipes.UprightBarrelRecipe;
 import com.mcmoddev.ironagefurniture.init.ItemInitialiser;
 
 import net.minecraft.block.Block;
@@ -205,6 +208,22 @@ public class FurnitureFactory {
 		}
 
 		GameRegistry.addRecipe(new SideBarrelRecipe(barrel, sideBarrel));
+	}
+
+	public static void AddUprightBarrelRecipe(Block sideBarrel, Block barrel) {
+		if (sideBarrel == null || barrel == null) {
+			return;
+		}
+
+		GameRegistry.addRecipe(new UprightBarrelRecipe(sideBarrel, barrel));
+	}
+
+	public static void AddFoudreRecipe(Block barrel, Block foudre) {
+		if (barrel == null || foudre == null) {
+			return;
+		}
+
+		GameRegistry.addRecipe(new FoudreRecipe(barrel, foudre));
 	}
 	
 	public static void AddShortStoolRecipe(ItemStack planks, Block stool) {
@@ -455,6 +474,20 @@ public class FurnitureFactory {
 
 	public static Block CreateSideWoodBarrel(String suffix) {
 		return CreateSideWoodBarrel(suffix, 10, 1.5F);
+	}
+
+	public static Block[] CreateWoodFoudre(String suffix, float resistance, float hardness) {
+		String lowerName = "foudre_wood_ironage_" + suffix;
+		String upperName = lowerName + "_upper";
+		Foudre lower = new Foudre(Material.WOOD, lowerName, resistance, hardness, false);
+		Foudre upper = new Foudre(Material.WOOD, upperName, resistance, hardness, true);
+		lower.setCompanionBlocks(lower, upper);
+		upper.setCompanionBlocks(lower, upper);
+		return new Block[] { registerBlock(lower, lowerName, 1), registerBlockWithoutItem(upper, upperName) };
+	}
+
+	public static Block[] CreateWoodFoudre(String suffix) {
+		return CreateWoodFoudre(suffix, 10, 1.5F);
 	}
 
 	public static Block CreateSurfaceDisplayBlocker(String name) {

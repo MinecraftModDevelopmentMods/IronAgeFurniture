@@ -16,6 +16,7 @@ public class IronAgeFurnitureConfiguration {
 	public static boolean GENERATE_WOOD_CABINETS = true;
 	public static boolean GENERATE_WOOD_BARRELS = true;
 	public static boolean GENERATE_SIDE_BARRELS = true;
+	public static boolean GENERATE_FOUDRES = true;
 	public static boolean GENERATE_IRON_NUGGETS = true;
 	public static boolean GENERATE_ORNAMENTS = true;
 	public static boolean GENERATE_SHIELD_CHAIRS = true;
@@ -65,6 +66,7 @@ public class IronAgeFurnitureConfiguration {
 		GENERATE_WOOD_CABINETS = config.getBoolean("GENERATE_WOOD_CABINETS", "options", GENERATE_WOOD_CABINETS, "If true, then wooden cabinets will be generated");
 		GENERATE_WOOD_BARRELS = config.getBoolean("GENERATE_WOOD_BARRELS", "options", GENERATE_WOOD_BARRELS, "If true, then wooden barrels will be generated");
 		GENERATE_SIDE_BARRELS = config.getBoolean("GENERATE_SIDE_BARRELS", "options", GENERATE_SIDE_BARRELS, "If true, then side barrels will be generated when wooden barrels are enabled");
+		GENERATE_FOUDRES = config.getBoolean("GENERATE_FOUDRES", "options", GENERATE_FOUDRES, "If true, then foudres will be generated when wooden barrels are enabled");
 		GENERATE_IRON_NUGGETS = config.getBoolean("GENERATE_IRON_NUGGETS", "options", GENERATE_IRON_NUGGETS, "If true, then iron nuggets will be generated");
 		GENERATE_ORNAMENTS = config.getBoolean("GENERATE_ORNAMENTS", "options", GENERATE_ORNAMENTS, "If true, then decorative ornaments will be generated");
 	
