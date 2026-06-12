@@ -1,0 +1,580 @@
+{
+  "variants": {
+    "connections=0,data=false,facing=north": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_0"
+    },
+    "connections=0,data=false,facing=east": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_0",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=0,data=false,facing=south": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_0",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=0,data=false,facing=west": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_0",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=0,data=true,facing=north": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_0"
+    },
+    "connections=0,data=true,facing=east": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_0",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=0,data=true,facing=south": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_0",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=0,data=true,facing=west": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_0",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=1,data=false,facing=north": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_1"
+    },
+    "connections=1,data=false,facing=east": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_1",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=1,data=false,facing=south": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_1",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=1,data=false,facing=west": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_1",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=1,data=true,facing=north": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_1"
+    },
+    "connections=1,data=true,facing=east": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_1",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=1,data=true,facing=south": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_1",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=1,data=true,facing=west": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_1",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=2,data=false,facing=north": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_2"
+    },
+    "connections=2,data=false,facing=east": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_2",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=2,data=false,facing=south": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_2",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=2,data=false,facing=west": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_2",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=2,data=true,facing=north": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_2"
+    },
+    "connections=2,data=true,facing=east": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_2",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=2,data=true,facing=south": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_2",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=2,data=true,facing=west": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_2",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=3,data=false,facing=north": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_3"
+    },
+    "connections=3,data=false,facing=east": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_3",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=3,data=false,facing=south": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_3",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=3,data=false,facing=west": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_3",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=3,data=true,facing=north": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_3"
+    },
+    "connections=3,data=true,facing=east": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_3",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=3,data=true,facing=south": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_3",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=3,data=true,facing=west": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_3",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=4,data=false,facing=north": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_4"
+    },
+    "connections=4,data=false,facing=east": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_4",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=4,data=false,facing=south": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_4",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=4,data=false,facing=west": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_4",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=4,data=true,facing=north": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_4"
+    },
+    "connections=4,data=true,facing=east": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_4",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=4,data=true,facing=south": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_4",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=4,data=true,facing=west": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_4",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=5,data=false,facing=north": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_5"
+    },
+    "connections=5,data=false,facing=east": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_5",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=5,data=false,facing=south": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_5",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=5,data=false,facing=west": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_5",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=5,data=true,facing=north": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_5"
+    },
+    "connections=5,data=true,facing=east": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_5",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=5,data=true,facing=south": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_5",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=5,data=true,facing=west": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_5",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=6,data=false,facing=north": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_6"
+    },
+    "connections=6,data=false,facing=east": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_6",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=6,data=false,facing=south": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_6",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=6,data=false,facing=west": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_6",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=6,data=true,facing=north": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_6"
+    },
+    "connections=6,data=true,facing=east": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_6",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=6,data=true,facing=south": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_6",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=6,data=true,facing=west": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_6",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=7,data=false,facing=north": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_7"
+    },
+    "connections=7,data=false,facing=east": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_7",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=7,data=false,facing=south": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_7",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=7,data=false,facing=west": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_7",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=7,data=true,facing=north": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_7"
+    },
+    "connections=7,data=true,facing=east": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_7",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=7,data=true,facing=south": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_7",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=7,data=true,facing=west": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_7",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=8,data=false,facing=north": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_8"
+    },
+    "connections=8,data=false,facing=east": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_8",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=8,data=false,facing=south": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_8",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=8,data=false,facing=west": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_8",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=8,data=true,facing=north": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_8"
+    },
+    "connections=8,data=true,facing=east": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_8",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=8,data=true,facing=south": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_8",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=8,data=true,facing=west": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_8",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=9,data=false,facing=north": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_9"
+    },
+    "connections=9,data=false,facing=east": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_9",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=9,data=false,facing=south": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_9",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=9,data=false,facing=west": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_9",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=9,data=true,facing=north": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_9"
+    },
+    "connections=9,data=true,facing=east": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_9",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=9,data=true,facing=south": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_9",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=9,data=true,facing=west": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_9",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=10,data=false,facing=north": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_10"
+    },
+    "connections=10,data=false,facing=east": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_10",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=10,data=false,facing=south": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_10",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=10,data=false,facing=west": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_10",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=10,data=true,facing=north": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_10"
+    },
+    "connections=10,data=true,facing=east": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_10",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=10,data=true,facing=south": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_10",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=10,data=true,facing=west": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_10",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=11,data=false,facing=north": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_11"
+    },
+    "connections=11,data=false,facing=east": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_11",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=11,data=false,facing=south": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_11",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=11,data=false,facing=west": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_11",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=11,data=true,facing=north": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_11"
+    },
+    "connections=11,data=true,facing=east": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_11",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=11,data=true,facing=south": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_11",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=11,data=true,facing=west": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_11",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=12,data=false,facing=north": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_12"
+    },
+    "connections=12,data=false,facing=east": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_12",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=12,data=false,facing=south": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_12",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=12,data=false,facing=west": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_12",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=12,data=true,facing=north": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_12"
+    },
+    "connections=12,data=true,facing=east": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_12",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=12,data=true,facing=south": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_12",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=12,data=true,facing=west": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_12",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=13,data=false,facing=north": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_13"
+    },
+    "connections=13,data=false,facing=east": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_13",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=13,data=false,facing=south": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_13",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=13,data=false,facing=west": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_13",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=13,data=true,facing=north": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_13"
+    },
+    "connections=13,data=true,facing=east": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_13",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=13,data=true,facing=south": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_13",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=13,data=true,facing=west": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_13",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=14,data=false,facing=north": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_14"
+    },
+    "connections=14,data=false,facing=east": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_14",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=14,data=false,facing=south": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_14",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=14,data=false,facing=west": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_14",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=14,data=true,facing=north": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_14"
+    },
+    "connections=14,data=true,facing=east": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_14",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=14,data=true,facing=south": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_14",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=14,data=true,facing=west": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_14",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=15,data=false,facing=north": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_15"
+    },
+    "connections=15,data=false,facing=east": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_15",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=15,data=false,facing=south": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_15",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=15,data=false,facing=west": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_15",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=15,data=true,facing=north": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_15"
+    },
+    "connections=15,data=true,facing=east": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_15",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=15,data=true,facing=south": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_15",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=15,data=true,facing=west": {
+      "model": "ironagefurniture:bottle_rack_wood_ironage_forestry_pine_15",
+      "y": 270,
+      "uvlock": true
+    }
+  }
+}

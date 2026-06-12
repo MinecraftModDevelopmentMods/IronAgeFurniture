@@ -1,0 +1,264 @@
+{
+  "credit": "By FoxNekitsune",
+  "textures": {
+    "particle": "#planks"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        15.15,
+        11.8
+      ],
+      "to": [
+        16,
+        15.85,
+        15.5
+      ],
+      "faces": {
+        "down": {
+          "texture": "#planks"
+        },
+        "up": {
+          "texture": "#planks"
+        },
+        "north": {
+          "texture": "#planks"
+        },
+        "south": {
+          "texture": "#planks"
+        },
+        "west": {
+          "texture": "#planks"
+        },
+        "east": {
+          "texture": "#planks"
+        }
+      }
+    },
+    {
+      "from": [
+        0,
+        0.15,
+        11.8
+      ],
+      "to": [
+        16,
+        0.85,
+        15.5
+      ],
+      "faces": {
+        "down": {
+          "texture": "#planks"
+        },
+        "up": {
+          "texture": "#planks"
+        },
+        "north": {
+          "texture": "#planks"
+        },
+        "south": {
+          "texture": "#planks"
+        },
+        "west": {
+          "texture": "#planks"
+        },
+        "east": {
+          "texture": "#planks"
+        }
+      }
+    },
+    {
+      "from": [
+        0.15,
+        0,
+        11.8
+      ],
+      "to": [
+        0.85,
+        16,
+        15.5
+      ],
+      "faces": {
+        "down": {
+          "texture": "#planks"
+        },
+        "up": {
+          "texture": "#planks"
+        },
+        "north": {
+          "texture": "#planks"
+        },
+        "south": {
+          "texture": "#planks"
+        },
+        "west": {
+          "texture": "#planks"
+        },
+        "east": {
+          "texture": "#planks"
+        }
+      }
+    },
+    {
+      "from": [
+        15.15,
+        0,
+        11.8
+      ],
+      "to": [
+        15.85,
+        16,
+        15.5
+      ],
+      "faces": {
+        "down": {
+          "texture": "#planks"
+        },
+        "up": {
+          "texture": "#planks"
+        },
+        "north": {
+          "texture": "#planks"
+        },
+        "south": {
+          "texture": "#planks"
+        },
+        "west": {
+          "texture": "#planks"
+        },
+        "east": {
+          "texture": "#planks"
+        }
+      }
+    },
+    {
+      "from": [
+        5.05,
+        0.85,
+        11.8
+      ],
+      "to": [
+        5.85,
+        15.15,
+        15.5
+      ],
+      "faces": {
+        "down": {
+          "texture": "#planks"
+        },
+        "up": {
+          "texture": "#planks"
+        },
+        "north": {
+          "texture": "#planks"
+        },
+        "south": {
+          "texture": "#planks"
+        },
+        "west": {
+          "texture": "#planks"
+        },
+        "east": {
+          "texture": "#planks"
+        }
+      }
+    },
+    {
+      "from": [
+        10.15,
+        0.85,
+        11.8
+      ],
+      "to": [
+        10.95,
+        15.15,
+        15.5
+      ],
+      "faces": {
+        "down": {
+          "texture": "#planks"
+        },
+        "up": {
+          "texture": "#planks"
+        },
+        "north": {
+          "texture": "#planks"
+        },
+        "south": {
+          "texture": "#planks"
+        },
+        "west": {
+          "texture": "#planks"
+        },
+        "east": {
+          "texture": "#planks"
+        }
+      }
+    },
+    {
+      "from": [
+        0.85,
+        5.05,
+        11.8
+      ],
+      "to": [
+        15.15,
+        5.85,
+        15.5
+      ],
+      "faces": {
+        "down": {
+          "texture": "#planks"
+        },
+        "up": {
+          "texture": "#planks"
+        },
+        "north": {
+          "texture": "#planks"
+        },
+        "south": {
+          "texture": "#planks"
+        },
+        "west": {
+          "texture": "#planks"
+        },
+        "east": {
+          "texture": "#planks"
+        }
+      }
+    },
+    {
+      "from": [
+        0.85,
+        10.15,
+        11.8
+      ],
+      "to": [
+        15.15,
+        10.95,
+        15.5
+      ],
+      "faces": {
+        "down": {
+          "texture": "#planks"
+        },
+        "up": {
+          "texture": "#planks"
+        },
+        "north": {
+          "texture": "#planks"
+        },
+        "south": {
+          "texture": "#planks"
+        },
+        "west": {
+          "texture": "#planks"
+        },
+        "east": {
+          "texture": "#planks"
+        }
+      }
+    }
+  ]
+}

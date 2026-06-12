@@ -39,6 +39,7 @@ public class RecipeInitialiser {
 		generateCabinetRecipes();
 		generateBarrelRecipes();
 		generateShelfRecipes();
+		generateBottleRackRecipes();
 		generateGoldBarsRecipes();
 		generateLightRecipes();
 		generateOrnamentRecipes();
@@ -142,6 +143,28 @@ public class RecipeInitialiser {
 			Collections.sort(missing);
 			throw new IllegalStateException("Missing wall shelf slab recipe mappings: " + missing);
 		}
+	}
+
+	private static void generateBottleRackRecipes() {
+		if (!IronAgeFurnitureConfiguration.GENERATE_BOTTLE_RACKS) {
+			return;
+		}
+
+		final List<String> recipeSuffixes = new ArrayList<String>();
+
+		WoodVariantHelper.forEachEnabledSlabVariant(new WoodVariantHelper.ItemStackVariantConsumer() {
+			@Override
+			public void accept(String suffix, ItemStack slab) {
+				Block rack = BlockObjectHolder.bottle_rack_wood_ironage.get(suffix);
+
+				if (rack != null) {
+					FurnitureFactory.AddBottleRackRecipe(slab, rack);
+					recipeSuffixes.add(suffix);
+				}
+			}
+		});
+
+		validateSlabRecipeMappings(BlockObjectHolder.bottle_rack_wood_ironage, recipeSuffixes, "bottle rack");
 	}
 
 	private static void generateTableRecipes() {

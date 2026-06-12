@@ -6,6 +6,7 @@ import com.mcmoddev.ironagefurniture.Ironagefurniture;
 import com.mcmoddev.ironagefurniture.api.Blocks.BackBench;
 import com.mcmoddev.ironagefurniture.api.Blocks.Barrel;
 import com.mcmoddev.ironagefurniture.api.Blocks.Bench;
+import com.mcmoddev.ironagefurniture.api.Blocks.BottleRack;
 import com.mcmoddev.ironagefurniture.api.Blocks.Cabinet;
 import com.mcmoddev.ironagefurniture.api.Blocks.ChainTop;
 import com.mcmoddev.ironagefurniture.api.Blocks.Chair;
@@ -71,6 +72,7 @@ import com.mcmoddev.ironagefurniture.api.Blocks.ThroneChair;
 import com.mcmoddev.ironagefurniture.api.Blocks.WallShelf;
 import com.mcmoddev.ironagefurniture.api.Blocks.WingbackChair;
 import com.mcmoddev.ironagefurniture.api.Items.ItemBlockBarrel;
+import com.mcmoddev.ironagefurniture.api.Items.ItemBlockBottleRack;
 import com.mcmoddev.ironagefurniture.api.Items.ItemBlockGlassVase;
 import com.mcmoddev.ironagefurniture.api.Items.ItemBlockGrandChandelier;
 import com.mcmoddev.ironagefurniture.api.Items.ItemBlockMetalVariant;
@@ -174,6 +176,15 @@ public class FurnitureFactory {
 		}
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(shelf, 3), "xxx", " y ",
+			'x', slab, 'y', "stickWood"));
+	}
+
+	public static void AddBottleRackRecipe(ItemStack slab, Block rack) {
+		if (rack == null) {
+			return;
+		}
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(rack, 2), "x x", " y ", "x x",
 			'x', slab, 'y', "stickWood"));
 	}
 
@@ -438,6 +449,15 @@ public class FurnitureFactory {
 
 	public static Block CreateWallShelf(String suffix) {
 		return CreateWallShelf(suffix, 10, 1);
+	}
+
+	public static Block CreateBottleRack(String suffix, float resistance, float hardness) {
+		String name = "bottle_rack_wood_ironage_" + suffix;
+		return registerBlock(new BottleRack(Material.WOOD, name, resistance, hardness), name, 16);
+	}
+
+	public static Block CreateBottleRack(String suffix) {
+		return CreateBottleRack(suffix, 10, 1);
 	}
 
 	public static Block CreateWoodCabinet(String suffix, float resistance, float hardness) {
@@ -916,6 +936,7 @@ public class FurnitureFactory {
 			ItemBlock itemBlock = block instanceof GlassVaseBlock ? new ItemBlockGlassVase(block)
 				: block instanceof OrnamentBlock ? new ItemBlockOrnament(block)
 				: block instanceof Barrel ? new ItemBlockBarrel(block)
+				: block instanceof BottleRack ? new ItemBlockBottleRack(block)
 				: block instanceof WallShelf ? new ItemBlockWallShelf(block)
 				: block instanceof GrandChandelierHub ? new ItemBlockGrandChandelier(block)
 				: MetalVariantHelper.isMetalVariantBlock(block) ? new ItemBlockMetalVariant(block)
@@ -943,7 +964,7 @@ public class FurnitureFactory {
 	private static void registerWoodFurnitureFireInfo(Block block) {
 		if (block instanceof Chair || block instanceof MultiBlockChair || block instanceof MultiBlockBed
 				|| block instanceof MultiBlockWoodBed || block instanceof DiningTable || block instanceof WallShelf
-				|| block instanceof Barrel) {
+				|| block instanceof BottleRack || block instanceof Barrel) {
 			Blocks.FIRE.setFireInfo(block, WOOD_FURNITURE_FIRE_SPREAD_SPEED, WOOD_FURNITURE_FLAMMABILITY);
 		}
 	}

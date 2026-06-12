@@ -1,0 +1,9 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_bottle_rack_wood_ironage_8",
+  "textures": {
+    "log": "forestry:blocks/wood/bark.maple",
+    "planks": "forestry:blocks/wood/planks.maple",
+    "particle": "forestry:blocks/wood/bark.maple"
+  }
+}

@@ -11,6 +11,7 @@ import com.mcmoddev.ironagefurniture.api.entity.EntityFallingMetalBlock;
 import com.mcmoddev.ironagefurniture.api.entity.EntityThrownLavaLamp;
 import com.mcmoddev.ironagefurniture.api.entity.Seat;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityBarrel;
+import com.mcmoddev.ironagefurniture.api.tile.TileEntityBottleRack;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityCabinet;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityDiningTable;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityFoudre;
@@ -88,6 +89,7 @@ public class Ironagefurniture
 		GameRegistry.registerTileEntity(TileEntityFoudre.class, MODID + ":foudre_wood_ironage");
 		GameRegistry.registerTileEntity(TileEntityGlassVase.class, MODID + ":ornament_glass_vase");
 		GameRegistry.registerTileEntity(TileEntityWallShelf.class, MODID + ":shelf_wall");
+		GameRegistry.registerTileEntity(TileEntityBottleRack.class, MODID + ":bottle_rack_wood_ironage");
 		GameRegistry.registerTileEntity(TileEntityMetalVariant.class, MODID + ":metal_variant");
 		GameRegistry.registerTileEntity(TileEntityGrandChandelierSconce.class, MODID + ":chandelier_grand_sconce");
     	EntityRegistry.registerModEntity(Seat.class, MODID + ":seat", 0, this, 80, 1, false);

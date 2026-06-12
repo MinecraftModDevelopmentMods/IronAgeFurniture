@@ -37,6 +37,7 @@ public class BlockInitialiser {
 		generateCabinets(); // and then he needed somewhere to hide all the less photogenic dinnerware.
 		generateBarrels(); // and then he wanted something satisfying for all the water buckets.
 		generateShelves(); // and then he looked at the wall and saw useful empty space.
+		generateBottleRacks(); // and then the bottles deserved somewhere that looked intentional.
 		generateFallbackGoldBars();
 		generateLights(); // and then he saw that the vanilla torches were boring and said, let there be light!
 		generateOrnaments(); // and then the house finally started to look lived in.
@@ -108,6 +109,16 @@ public class BlockInitialiser {
 
 		for (String suffix : WoodVariantHelper.getEnabledWoodSuffixes()) {
 			BlockObjectHolder.shelf_wall.put(suffix, FurnitureFactory.CreateWallShelf(suffix));
+		}
+	}
+
+	private static void generateBottleRacks() {
+		if (!IronAgeFurnitureConfiguration.GENERATE_BOTTLE_RACKS) {
+			return;
+		}
+
+		for (String suffix : WoodVariantHelper.getEnabledWoodSuffixes()) {
+			BlockObjectHolder.bottle_rack_wood_ironage.put(suffix, FurnitureFactory.CreateBottleRack(suffix));
 		}
 	}
 

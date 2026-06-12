@@ -13,6 +13,7 @@ public class IronAgeFurnitureConfiguration {
 	public static boolean GENERATE_DINING_TABLES = true;
 	public static boolean GENERATE_LOW_TABLES = true;
 	public static boolean GENERATE_WALL_SHELVES = true;
+	public static boolean GENERATE_BOTTLE_RACKS = true;
 	public static boolean GENERATE_WOOD_CABINETS = true;
 	public static boolean GENERATE_WOOD_BARRELS = true;
 	public static boolean GENERATE_SIDE_BARRELS = true;
@@ -63,6 +64,7 @@ public class IronAgeFurnitureConfiguration {
 		GENERATE_DINING_TABLES = config.getBoolean("GENERATE_DINING_TABLES", "options", GENERATE_DINING_TABLES, "If true, then dining tables will be generated");
 		GENERATE_LOW_TABLES = config.getBoolean("GENERATE_LOW_TABLES", "options", GENERATE_LOW_TABLES, "If true, then low tables will be generated");
 		GENERATE_WALL_SHELVES = config.getBoolean("GENERATE_WALL_SHELVES", "options", GENERATE_WALL_SHELVES, "If true, then wall shelves will be generated");
+		GENERATE_BOTTLE_RACKS = config.getBoolean("GENERATE_BOTTLE_RACKS", "options", GENERATE_BOTTLE_RACKS, "If true, then bottle racks will be generated");
 		GENERATE_WOOD_CABINETS = config.getBoolean("GENERATE_WOOD_CABINETS", "options", GENERATE_WOOD_CABINETS, "If true, then wooden cabinets will be generated");
 		GENERATE_WOOD_BARRELS = config.getBoolean("GENERATE_WOOD_BARRELS", "options", GENERATE_WOOD_BARRELS, "If true, then wooden barrels will be generated");
 		GENERATE_SIDE_BARRELS = config.getBoolean("GENERATE_SIDE_BARRELS", "options", GENERATE_SIDE_BARRELS, "If true, then side barrels will be generated when wooden barrels are enabled");

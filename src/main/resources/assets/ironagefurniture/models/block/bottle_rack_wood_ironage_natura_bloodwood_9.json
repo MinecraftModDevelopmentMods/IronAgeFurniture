@@ -1,0 +1,9 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_bottle_rack_wood_ironage_9",
+  "textures": {
+    "log": "natura:blocks/logs/nether/bloodwood_bark",
+    "planks": "natura:blocks/planks/nether/bloodwood_planks",
+    "particle": "natura:blocks/logs/nether/bloodwood_bark"
+  }
+}

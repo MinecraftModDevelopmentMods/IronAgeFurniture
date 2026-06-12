@@ -3,11 +3,13 @@ package com.mcmoddev.ironagefurniture.init;
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 import com.mcmoddev.ironagefurniture.api.entity.EntityFallingMetalBlock;
 import com.mcmoddev.ironagefurniture.api.entity.EntityThrownLavaLamp;
+import com.mcmoddev.ironagefurniture.api.tile.TileEntityBottleRack;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityCabinet;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityDiningTable;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityGlassVase;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityHalfCabinet;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityWallShelf;
+import com.mcmoddev.ironagefurniture.client.render.TileEntityBottleRackRenderer;
 import com.mcmoddev.ironagefurniture.client.render.TileEntityCabinetRenderer;
 import com.mcmoddev.ironagefurniture.client.render.TileEntityDiningTableRenderer;
 import com.mcmoddev.ironagefurniture.client.render.TileEntityGlassVaseRenderer;
@@ -34,6 +36,7 @@ public class ClientRenderInitialiser {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHalfCabinet.class, new TileEntityCabinetRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGlassVase.class, new TileEntityGlassVaseRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityWallShelf.class, new TileEntityWallShelfRenderer());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBottleRack.class, new TileEntityBottleRackRenderer());
 	}
 
 	public static void RegisterEntityRenderers() {
