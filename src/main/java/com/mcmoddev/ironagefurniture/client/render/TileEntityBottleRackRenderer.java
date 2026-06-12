@@ -25,8 +25,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class TileEntityBottleRackRenderer extends TileEntitySpecialRenderer<TileEntityBottleRack> {
-	private static final double[] SLOT_X = new double[] { 0.225D, 0.5D, 0.775D };
-	private static final double[] SLOT_Y = new double[] { 0.775D, 0.5D, 0.225D };
+	private static final double[] SLOT_X = new double[] { 3.525D / 16.0D, 0.5D, 12.475D / 16.0D };
+	private static final double[] SLOT_Y = new double[] { 0.759D, 0.448D, 0.140D };
 	private static final double SLOT_DEPTH = 0.715D;
 	private static ResourceLocation whiteTexture;
 
