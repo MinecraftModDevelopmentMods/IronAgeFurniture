@@ -27,7 +27,7 @@ import net.minecraft.world.World;
 public class TileEntityBottleRackRenderer extends TileEntitySpecialRenderer<TileEntityBottleRack> {
 	private static final double[] SLOT_X = new double[] { 0.225D, 0.5D, 0.775D };
 	private static final double[] SLOT_Y = new double[] { 0.775D, 0.5D, 0.225D };
-	private static final double SLOT_DEPTH = 0.690D;
+	private static final double SLOT_DEPTH = 0.715D;
 	private static ResourceLocation whiteTexture;
 
 	@Override
@@ -64,8 +64,7 @@ public class TileEntityBottleRackRenderer extends TileEntitySpecialRenderer<Tile
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(point[0], SLOT_Y[row], point[1]);
 		GlStateManager.rotate(this.getYaw(facing), 0.0F, 1.0F, 0.0F);
-		GlStateManager.rotate(slot % 2 == 0 ? -12.0F : 12.0F, 0.0F, 0.0F, 1.0F);
-		GlStateManager.scale(0.82D, 0.82D, 0.82D);
+		GlStateManager.scale(1.16D, 1.16D, 1.16D);
 		this.renderBottleShape(this.getBottleColor(bottle), this.getCapColor(bottle));
 		GlStateManager.popMatrix();
 	}
@@ -75,22 +74,26 @@ public class TileEntityBottleRackRenderer extends TileEntitySpecialRenderer<Tile
 		float[] shadow = this.darken(liquid, 0.52F);
 		float[] label = new float[] { 0.86F, 0.78F, 0.60F };
 
-		this.drawCuboid(-0.130D, -0.046D, -0.024D, 0.040D, 0.046D, 0.024D,
+		this.drawCuboid(-0.066D, -0.066D, 0.030D, 0.066D, 0.066D, 0.220D,
 			shadow[0], shadow[1], shadow[2]);
-		this.drawCuboid(-0.118D, -0.036D, -0.020D, 0.038D, 0.036D, 0.020D,
+		this.drawCuboid(-0.056D, -0.056D, 0.040D, 0.056D, 0.056D, 0.205D,
 			liquid[0], liquid[1], liquid[2]);
-		this.drawCuboid(-0.022D, -0.038D, -0.022D, 0.018D, 0.038D, -0.025D,
+		this.drawCuboid(-0.050D, 0.026D, -0.010D, 0.050D, 0.061D, 0.065D,
 			label[0], label[1], label[2]);
-		this.drawCuboid(0.036D, -0.022D, -0.016D, 0.118D, 0.022D, 0.016D,
-			this.darken(liquid, 0.85F));
-		this.drawCuboid(0.112D, -0.018D, -0.014D, 0.154D, 0.018D, 0.014D,
+		this.drawCuboid(-0.045D, -0.045D, -0.040D, 0.045D, 0.045D, 0.052D,
+			this.darken(liquid, 0.84F));
+		this.drawCuboid(-0.031D, -0.031D, -0.155D, 0.031D, 0.031D, -0.035D,
+			this.darken(liquid, 0.72F));
+		this.drawCuboid(-0.036D, -0.036D, -0.210D, 0.036D, 0.036D, -0.145D,
 			cap[0], cap[1], cap[2]);
 
 		this.beginGlassLayer();
-		this.drawCuboid(-0.140D, -0.054D, -0.030D, 0.044D, 0.054D, 0.030D,
+		this.drawCuboid(-0.074D, -0.074D, 0.022D, 0.074D, 0.074D, 0.228D,
 			glass[0], glass[1], glass[2], 0.24F);
-		this.drawCuboid(0.040D, -0.028D, -0.022D, 0.122D, 0.028D, 0.022D,
+		this.drawCuboid(-0.052D, -0.052D, -0.048D, 0.052D, 0.052D, 0.060D,
 			glass[0], glass[1], glass[2], 0.20F);
+		this.drawCuboid(-0.037D, -0.037D, -0.160D, 0.037D, 0.037D, -0.038D,
+			glass[0], glass[1], glass[2], 0.18F);
 		this.endGlassLayer();
 	}
 
@@ -195,11 +198,11 @@ public class TileEntityBottleRackRenderer extends TileEntitySpecialRenderer<Tile
 	private float getYaw(EnumFacing facing) {
 		switch (facing) {
 		case EAST:
-			return 90.0F;
+			return 270.0F;
 		case SOUTH:
 			return 180.0F;
 		case WEST:
-			return 270.0F;
+			return 90.0F;
 		default:
 			return 0.0F;
 		}
