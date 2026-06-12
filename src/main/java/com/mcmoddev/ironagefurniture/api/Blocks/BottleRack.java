@@ -197,7 +197,8 @@ public class BottleRack extends BlockHBase {
 
 			rack = this.getRackEntity(worldIn, pos, true);
 
-			if (rack != null && rack.insertBottle(slot, heldItem)) {
+			if (rack != null && rack.insertBottle(slot, heldItem,
+					this.getBottleFacingForInsert(pos, state, playerIn))) {
 				if (!playerIn.capabilities.isCreativeMode) {
 					heldItem.stackSize--;
 
@@ -216,6 +217,27 @@ public class BottleRack extends BlockHBase {
 		}
 
 		return true;
+	}
+
+	private EnumFacing getBottleFacingForInsert(BlockPos pos, IBlockState state, EntityPlayer playerIn) {
+		EnumFacing rackFacing = state.getValue(FACING);
+
+		if (!state.getValue(STANDING).booleanValue() || playerIn == null) {
+			return rackFacing;
+		}
+
+		EnumFacing playerSide = playerIn.getHorizontalFacing().getOpposite();
+
+		if (playerSide == rackFacing || playerSide == rackFacing.getOpposite()) {
+			return playerSide;
+		}
+
+		double playerOffsetX = playerIn.posX - (pos.getX() + 0.5D);
+		double playerOffsetZ = playerIn.posZ - (pos.getZ() + 0.5D);
+		double frontDistance = playerOffsetX * rackFacing.getFrontOffsetX()
+			+ playerOffsetZ * rackFacing.getFrontOffsetZ();
+
+		return frontDistance >= 0.0D ? rackFacing : rackFacing.getOpposite();
 	}
 
 	public boolean tryPlaceRackFromRackClick(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,

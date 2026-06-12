@@ -48,7 +48,8 @@ public class TileEntityBottleRackRenderer extends TileEntitySpecialRenderer<Tile
 			ItemStack bottle = te.getBottle(slot);
 
 			if (bottle != null && bottle.stackSize > 0) {
-				this.renderBottleInSlot(bottle, facing, standing, slot);
+				EnumFacing bottleFacing = standing ? te.getBottleFacing(slot, facing) : facing;
+				this.renderBottleInSlot(bottle, facing, standing, slot, bottleFacing);
 			}
 		}
 
@@ -58,18 +59,27 @@ public class TileEntityBottleRackRenderer extends TileEntitySpecialRenderer<Tile
 		GlStateManager.popMatrix();
 	}
 
-	private void renderBottleInSlot(ItemStack bottle, EnumFacing facing, boolean standing, int slot) {
+	private void renderBottleInSlot(ItemStack bottle, EnumFacing rackFacing, boolean standing, int slot,
+			EnumFacing bottleFacing) {
 		int row = slot / 3;
 		int column = slot % 3;
-		double slotDepth = standing ? STANDING_SLOT_DEPTH : WALL_SLOT_DEPTH;
-		double[] point = this.rotateRackPoint(facing, SLOT_X[column], slotDepth);
+		double slotDepth = this.getSlotDepth(rackFacing, bottleFacing, standing);
+		double[] point = this.rotateRackPoint(rackFacing, SLOT_X[column], slotDepth);
 
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(point[0], SLOT_Y[row], point[1]);
-		GlStateManager.rotate(this.getYaw(facing), 0.0F, 1.0F, 0.0F);
+		GlStateManager.rotate(this.getYaw(bottleFacing), 0.0F, 1.0F, 0.0F);
 		GlStateManager.scale(1.16D, 1.16D, 1.16D);
 		this.renderBottleShape(this.getBottleColor(bottle), this.getCapColor(bottle));
 		GlStateManager.popMatrix();
+	}
+
+	private double getSlotDepth(EnumFacing rackFacing, EnumFacing bottleFacing, boolean standing) {
+		if (!standing) {
+			return WALL_SLOT_DEPTH;
+		}
+
+		return bottleFacing == rackFacing.getOpposite() ? 1.0D - STANDING_SLOT_DEPTH : STANDING_SLOT_DEPTH;
 	}
 
 	private void renderBottleShape(float[] liquid, float[] cap) {

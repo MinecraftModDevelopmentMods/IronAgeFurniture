@@ -10,6 +10,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -17,6 +18,11 @@ public class TileEntityBottleRack extends TileEntity {
 	public static final int SLOT_COUNT = 9;
 
 	private final ItemStack[] bottles = new ItemStack[SLOT_COUNT];
+	private final byte[] bottleFacings = new byte[SLOT_COUNT];
+
+	public TileEntityBottleRack() {
+		this.clearBottles();
+	}
 
 	public ItemStack getBottle(int slot) {
 		return this.isValidSlot(slot) ? this.bottles[slot] : null;
@@ -42,6 +48,10 @@ public class TileEntityBottleRack extends TileEntity {
 	}
 
 	public boolean insertBottle(int slot, ItemStack itemStack) {
+		return this.insertBottle(slot, itemStack, null);
+	}
+
+	public boolean insertBottle(int slot, ItemStack itemStack, EnumFacing facing) {
 		if (!this.isValidSlot(slot) || !this.isSlotEmpty(slot) || itemStack == null || itemStack.stackSize <= 0) {
 			return false;
 		}
@@ -49,6 +59,7 @@ public class TileEntityBottleRack extends TileEntity {
 		ItemStack storedStack = itemStack.copy();
 		storedStack.stackSize = 1;
 		this.bottles[slot] = storedStack;
+		this.bottleFacings[slot] = this.getFacingByte(facing);
 		this.markForUpdate();
 		return true;
 	}
@@ -60,6 +71,7 @@ public class TileEntityBottleRack extends TileEntity {
 
 		ItemStack itemStack = this.bottles[slot];
 		this.bottles[slot] = null;
+		this.bottleFacings[slot] = -1;
 
 		if (itemStack != null) {
 			this.markForUpdate();
@@ -77,6 +89,7 @@ public class TileEntityBottleRack extends TileEntity {
 			if (itemStack != null && itemStack.stackSize > 0) {
 				drops.add(itemStack);
 				this.bottles[i] = null;
+				this.bottleFacings[i] = -1;
 			}
 		}
 
@@ -102,6 +115,8 @@ public class TileEntityBottleRack extends TileEntity {
 
 			if (this.isValidSlot(slot)) {
 				this.bottles[slot] = ItemStack.loadItemStackFromNBT(itemTag);
+				this.bottleFacings[slot] = itemTag.hasKey("Facing") && this.isValidFacing(itemTag.getByte("Facing"))
+					? itemTag.getByte("Facing") : -1;
 			}
 		}
 	}
@@ -117,6 +132,9 @@ public class TileEntityBottleRack extends TileEntity {
 			if (itemStack != null && itemStack.stackSize > 0) {
 				NBTTagCompound itemTag = new NBTTagCompound();
 				itemTag.setByte("Slot", (byte)i);
+				if (this.isValidFacing(this.bottleFacings[i])) {
+					itemTag.setByte("Facing", this.bottleFacings[i]);
+				}
 				itemStack.writeToNBT(itemTag);
 				list.appendTag(itemTag);
 			}
@@ -151,10 +169,27 @@ public class TileEntityBottleRack extends TileEntity {
 		return slot >= 0 && slot < this.bottles.length;
 	}
 
+	public EnumFacing getBottleFacing(int slot, EnumFacing fallback) {
+		if (!this.isValidSlot(slot) || !this.isValidFacing(this.bottleFacings[slot])) {
+			return fallback;
+		}
+
+		return EnumFacing.getHorizontal(this.bottleFacings[slot]);
+	}
+
 	private void clearBottles() {
 		for (int i = 0; i < this.bottles.length; i++) {
 			this.bottles[i] = null;
+			this.bottleFacings[i] = -1;
 		}
+	}
+
+	private byte getFacingByte(EnumFacing facing) {
+		return facing != null && facing.getAxis().isHorizontal() ? (byte)facing.getHorizontalIndex() : -1;
+	}
+
+	private boolean isValidFacing(byte facing) {
+		return facing >= 0 && facing < 4;
 	}
 
 	private void markForUpdate() {
