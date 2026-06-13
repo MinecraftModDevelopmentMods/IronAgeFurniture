@@ -7,7 +7,9 @@ import javax.annotation.Nullable;
 
 import com.mcmoddev.ironagefurniture.Ironagefurniture;
 import com.mcmoddev.ironagefurniture.api.BarrelFluidCompat;
+import com.mcmoddev.ironagefurniture.api.Items.ItemFluidBottle;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityBarrel;
+import com.mcmoddev.ironagefurniture.api.tile.TileEntityFoudre;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -73,6 +75,16 @@ public class Barrel extends Block {
 				return true;
 			}
 
+			if (heldItem.getItem() instanceof ItemFluidBottle) {
+				String label = barrel instanceof TileEntityFoudre ? ((TileEntityFoudre)barrel).getBottleLabel() : null;
+
+				if (ItemFluidBottle.tryUseWithTank(heldItem, barrel.getFluidHandler(), playerIn, hand, label)) {
+					barrel.markForFluidUpdate();
+				}
+
+				return true;
+			}
+
 			if (FluidUtil.interactWithFluidHandler(heldItem, barrel.getFluidHandler(), playerIn)) {
 				barrel.markForFluidUpdate();
 			}
@@ -92,6 +104,10 @@ public class Barrel extends Block {
 	private boolean isBucketInteractionItem(ItemStack heldItem) {
 		if (heldItem == null || heldItem.stackSize <= 0) {
 			return false;
+		}
+
+		if (heldItem.getItem() instanceof ItemFluidBottle) {
+			return true;
 		}
 
 		if (heldItem.getItem() == Items.BUCKET) {

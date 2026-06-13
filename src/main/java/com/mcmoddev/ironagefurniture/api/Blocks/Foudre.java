@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import com.mcmoddev.ironagefurniture.Ironagefurniture;
 import com.mcmoddev.ironagefurniture.api.Enumerations.FoudrePart;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityBarrel;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityFoudre;
@@ -126,6 +127,12 @@ public class Foudre extends Barrel {
 
 		if (barrel != null) {
 			barrel.readFromItemStack(stack);
+
+			if (placer instanceof EntityPlayer && barrel instanceof TileEntityFoudre
+					&& ((TileEntityFoudre)barrel).getLabel().isEmpty()) {
+				((EntityPlayer)placer).openGui(Ironagefurniture.instance, Ironagefurniture.GUI_FOUDRE_LABEL,
+					worldIn, pos.getX(), pos.getY(), pos.getZ());
+			}
 		}
 	}
 
@@ -172,6 +179,10 @@ public class Foudre extends Barrel {
 
 		if (barrel != null) {
 			barrel.writeToItemStack(drop);
+
+			if (barrel instanceof TileEntityFoudre) {
+				((TileEntityFoudre)barrel).addIngredientDrops(drops);
+			}
 		}
 
 		drops.add(drop);

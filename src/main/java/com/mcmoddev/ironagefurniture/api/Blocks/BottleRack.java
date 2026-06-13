@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import com.mcmoddev.ironagefurniture.IronAgeFurnitureConfiguration;
 import com.mcmoddev.ironagefurniture.Ironagefurniture;
+import com.mcmoddev.ironagefurniture.ItemObjectHolder;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityBottleRack;
 
 import net.minecraft.block.Block;
@@ -586,6 +587,10 @@ public class BottleRack extends BlockHBase {
 		}
 
 		Item item = itemStack.getItem();
+
+		if (item == ItemObjectHolder.fluid_bottle) {
+			return true;
+		}
 
 		if (item == Items.GLASS_BOTTLE || item == Items.POTIONITEM || item == Items.SPLASH_POTION
 				|| item == Items.LINGERING_POTION || item == Items.EXPERIENCE_BOTTLE) {

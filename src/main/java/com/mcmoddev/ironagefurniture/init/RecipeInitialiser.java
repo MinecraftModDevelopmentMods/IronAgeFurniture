@@ -33,6 +33,7 @@ public class RecipeInitialiser {
 	 */
 	public static void init() {
 		generateIronNuggetRecipes();
+		generateFluidBottleRecipes();
 		generateChairRecipes();
 		generateBedRecipes();
 		generateTableRecipes();
@@ -43,6 +44,15 @@ public class RecipeInitialiser {
 		generateGoldBarsRecipes();
 		generateLightRecipes();
 		generateOrnamentRecipes();
+	}
+
+	private static void generateFluidBottleRecipes() {
+		if (!IronAgeFurnitureConfiguration.GENERATE_FLUID_BOTTLES || ItemObjectHolder.fluid_bottle == null) {
+			return;
+		}
+
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ItemObjectHolder.fluid_bottle, 1),
+			Items.GLASS_BOTTLE));
 	}
 
 	private static void generateIronNuggetRecipes() {

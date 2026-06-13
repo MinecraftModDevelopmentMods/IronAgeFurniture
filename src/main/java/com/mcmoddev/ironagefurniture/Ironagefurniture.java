@@ -7,6 +7,8 @@ import com.mcmoddev.ironagefurniture.api.BarrelGuiHandler;
 import com.mcmoddev.ironagefurniture.api.BarrelFluidCompat;
 import com.mcmoddev.ironagefurniture.api.CreativeModeBreakTracker;
 import com.mcmoddev.ironagefurniture.api.DiningTableSurfaceInteractionHandler;
+import com.mcmoddev.ironagefurniture.api.FoudreBrewingRegistry;
+import com.mcmoddev.ironagefurniture.api.network.IronAgeFurnitureNetwork;
 import com.mcmoddev.ironagefurniture.api.entity.EntityFallingMetalBlock;
 import com.mcmoddev.ironagefurniture.api.entity.EntityThrownLavaLamp;
 import com.mcmoddev.ironagefurniture.api.entity.Seat;
@@ -43,9 +45,10 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 @Mod(modid = Ironagefurniture.MODID, version = Ironagefurniture.VERSION)
 public class Ironagefurniture
 {
-    public static final String MODID = "ironagefurniture";
+	public static final String MODID = "ironagefurniture";
     public static final String VERSION = "0.2.0.5";
 	public static final int GUI_BARREL = 1;
+	public static final int GUI_FOUDRE_LABEL = 2;
 
 	@Instance(MODID)
 	public static Ironagefurniture instance;
@@ -75,6 +78,7 @@ public class Ironagefurniture
     public void init(FMLInitializationEvent event)
     {
 		BarrelFluidCompat.init();
+		FoudreBrewingRegistry.initRecipes();
 
     	// register renderers
     	if(event.getSide().isClient()) {
@@ -109,6 +113,8 @@ public class Ironagefurniture
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
     	IronAgeFurnitureConfiguration.init(event);
+		IronAgeFurnitureNetwork.init();
+		FoudreBrewingRegistry.registerFluids();
     	MinecraftForge.EVENT_BUS.register(new CreativeModeBreakTracker());
     	MinecraftForge.EVENT_BUS.register(new DiningTableSurfaceInteractionHandler());
 		ItemInitialiser.init();

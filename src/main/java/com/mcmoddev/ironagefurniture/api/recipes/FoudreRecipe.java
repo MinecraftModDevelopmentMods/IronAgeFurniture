@@ -4,6 +4,7 @@ import com.mcmoddev.ironagefurniture.api.tile.TileEntityBarrel;
 
 import net.minecraft.block.Block;
 import net.minecraft.inventory.InventoryCrafting;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -58,7 +59,7 @@ public class FoudreRecipe implements IRecipe {
 	}
 
 	private boolean matchesRing(InventoryCrafting inv) {
-		if (inv.getSizeInventory() < 9 || inv.getStackInSlot(4) != null) {
+		if (inv.getSizeInventory() < 9 || !this.isSign(inv.getStackInSlot(4))) {
 			return false;
 		}
 
@@ -86,5 +87,9 @@ public class FoudreRecipe implements IRecipe {
 			&& stack.stackSize > 0
 			&& stack.getItem() == Item.getItemFromBlock(this.sourceBarrel)
 			&& TileEntityBarrel.getFluidFromItemStack(stack) == null;
+	}
+
+	private boolean isSign(ItemStack stack) {
+		return stack != null && stack.stackSize > 0 && stack.getItem() == Items.SIGN;
 	}
 }

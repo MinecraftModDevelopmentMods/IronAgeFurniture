@@ -44,12 +44,23 @@ public class TileEntityBarrel extends TileEntity {
 		return fluid == null ? null : fluid.copy();
 	}
 
+	@Nullable
+	protected FluidStack getFluidDirect() {
+		return this.tank.getFluid();
+	}
+
 	public int getFluidAmount() {
 		return this.tank.getFluidAmount();
 	}
 
 	public int getCapacity() {
 		return this.tank.getCapacity();
+	}
+
+	protected void setFluid(@Nullable FluidStack fluid) {
+		this.tank.setFluid(fluid == null ? null : fluid.copy());
+		this.sanitizeFluid();
+		this.markForFluidUpdate();
 	}
 
 	public String getContainerNameKey() {

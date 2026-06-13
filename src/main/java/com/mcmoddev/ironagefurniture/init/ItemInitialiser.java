@@ -3,6 +3,7 @@ package com.mcmoddev.ironagefurniture.init;
 import com.mcmoddev.ironagefurniture.Ironagefurniture;
 import com.mcmoddev.ironagefurniture.IronAgeFurnitureConfiguration;
 import com.mcmoddev.ironagefurniture.ItemObjectHolder;
+import com.mcmoddev.ironagefurniture.api.Items.ItemFluidBottle;
 import com.mcmoddev.ironagefurniture.api.Items.ItemBlockGlassVase;
 import com.mcmoddev.ironagefurniture.api.Items.ItemBlockMetalVariant;
 import com.mcmoddev.ironagefurniture.api.Items.ItemBlockOrnament;
@@ -24,6 +25,10 @@ public class ItemInitialiser {
 
 		if (IronAgeFurnitureConfiguration.GENERATE_LIGHTS && IronAgeFurnitureConfiguration.GENERATE_CANDLES) {
 			ItemObjectHolder.tallow = RegisterItem(new Item().setCreativeTab(Ironagefurniture.ironagefurnitureTab), "tallow");
+		}
+
+		if (IronAgeFurnitureConfiguration.GENERATE_FLUID_BOTTLES) {
+			ItemObjectHolder.fluid_bottle = RegisterItem(new ItemFluidBottle(), "fluid_bottle");
 		}
 	}
 

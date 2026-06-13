@@ -4,6 +4,7 @@ import java.util.Locale;
 
 import org.lwjgl.opengl.GL11;
 
+import com.mcmoddev.ironagefurniture.api.Items.ItemFluidBottle;
 import com.mcmoddev.ironagefurniture.api.Blocks.BottleRack;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityBottleRack;
 
@@ -115,6 +116,10 @@ public class TileEntityBottleRackRenderer extends TileEntitySpecialRenderer<Tile
 
 		if (item == Items.GLASS_BOTTLE) {
 			return new float[] { 0.75F, 0.88F, 0.78F };
+		}
+
+		if (item instanceof ItemFluidBottle) {
+			return this.colorFromInt(ItemFluidBottle.getFluidColor(stack, 0xFF6A3D1A));
 		}
 
 		if (item == Items.EXPERIENCE_BOTTLE) {
