@@ -1,6 +1,7 @@
 package com.mcmoddev.ironagefurniture.client.gui;
 
 import com.mcmoddev.ironagefurniture.api.container.ContainerBarrel;
+import com.mcmoddev.ironagefurniture.api.FoudreBrewingRegistry;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityBarrel;
 
 import net.minecraft.client.renderer.GlStateManager;
@@ -17,6 +18,15 @@ public class GuiBarrel extends GuiContainer {
 	private static final int GAUGE_Y = 28;
 	private static final int GAUGE_WIDTH = 16;
 	private static final int GAUGE_HEIGHT = 64;
+	private static final int COLOR_CHANNEL_MAX = 255;
+	private static final int FULL_ALPHA_MASK = 0xFF000000;
+	private static final int MIN_DRAWN_FILL = 1;
+	private static final int TEXTURE_TILE_SIZE = 16;
+	private static final int BREWED_FLUID_RIPPLE_COLOR = 0x28FFFFFF;
+	private static final int BREWED_FLUID_EDGE_SHADOW = 0x30000000;
+	private static final int BREWED_FLUID_RIPPLE_TOP_INSET = 3;
+	private static final int BREWED_FLUID_RIPPLE_STEP = 8;
+	private static final float FULL_COLOR = 1.0F;
 
 	private final TileEntityBarrel barrel;
 
@@ -76,6 +86,11 @@ public class GuiBarrel extends GuiContainer {
 	}
 
 	private void drawFluid(int left, int top, int width, int height, FluidStack fluid) {
+		if (FoudreBrewingRegistry.isAgeable(fluid)) {
+			this.drawBrewedFluid(left, top, width, height, fluid);
+			return;
+		}
+
 		ResourceLocation still = fluid.getFluid().getStill(fluid);
 
 		if (still == null) {
@@ -85,20 +100,31 @@ public class GuiBarrel extends GuiContainer {
 
 		TextureAtlasSprite sprite = this.mc.getTextureMapBlocks().getAtlasSprite(still.toString());
 		int color = this.getFluidColor(fluid);
-		float red = (float)(color >> 16 & 255) / 255.0F;
-		float green = (float)(color >> 8 & 255) / 255.0F;
-		float blue = (float)(color & 255) / 255.0F;
+		float red = (float)(color >> 16 & COLOR_CHANNEL_MAX) / (float)COLOR_CHANNEL_MAX;
+		float green = (float)(color >> 8 & COLOR_CHANNEL_MAX) / (float)COLOR_CHANNEL_MAX;
+		float blue = (float)(color & COLOR_CHANNEL_MAX) / (float)COLOR_CHANNEL_MAX;
 
 		this.mc.getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-		GlStateManager.color(red, green, blue, 1.0F);
+		GlStateManager.color(red, green, blue, FULL_COLOR);
 
-		for (int drawn = 0; drawn < height; drawn += 16) {
-			int segmentHeight = Math.min(16, height - drawn);
+		for (int drawn = 0; drawn < height; drawn += TEXTURE_TILE_SIZE) {
+			int segmentHeight = Math.min(TEXTURE_TILE_SIZE, height - drawn);
 			int segmentTop = top + height - drawn - segmentHeight;
 			this.drawTexturedModalRect(left, segmentTop, sprite, width, segmentHeight);
 		}
 
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		GlStateManager.color(FULL_COLOR, FULL_COLOR, FULL_COLOR, FULL_COLOR);
+	}
+
+	private void drawBrewedFluid(int left, int top, int width, int height, FluidStack fluid) {
+		this.drawRect(left, top, left + width, top + height, this.getFluidColor(fluid));
+		this.drawRect(left, top, left + MIN_DRAWN_FILL, top + height, BREWED_FLUID_EDGE_SHADOW);
+		this.drawRect(left + width - MIN_DRAWN_FILL, top, left + width, top + height, BREWED_FLUID_EDGE_SHADOW);
+
+		for (int y = top + BREWED_FLUID_RIPPLE_TOP_INSET; y < top + height; y += BREWED_FLUID_RIPPLE_STEP) {
+			this.drawRect(left + MIN_DRAWN_FILL, y, left + width - MIN_DRAWN_FILL,
+				Math.min(y + MIN_DRAWN_FILL, top + height), BREWED_FLUID_RIPPLE_COLOR);
+		}
 	}
 
 	private String getAmountText() {
@@ -110,6 +136,6 @@ public class GuiBarrel extends GuiContainer {
 
 	private int getFluidColor(FluidStack fluid) {
 		int color = fluid.getFluid().getColor(fluid);
-		return (color & 0xFF000000) == 0 ? color | 0xFF000000 : color;
+		return (color & FULL_ALPHA_MASK) == 0 ? color | FULL_ALPHA_MASK : color;
 	}
 }
