@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 
 import com.mcmoddev.ironagefurniture.Ironagefurniture;
 import com.mcmoddev.ironagefurniture.api.BarrelFluidCompat;
+import com.mcmoddev.ironagefurniture.api.FluidContainerTransfer;
 import com.mcmoddev.ironagefurniture.api.Items.ItemFluidBottle;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityBarrel;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityFoudre;
@@ -75,13 +76,18 @@ public class Barrel extends Block {
 				return true;
 			}
 
-			if (heldItem.getItem() instanceof ItemFluidBottle) {
+			if (heldItem.getItem() instanceof ItemFluidBottle || heldItem.getItem() == Items.GLASS_BOTTLE) {
 				String label = barrel instanceof TileEntityFoudre ? ((TileEntityFoudre)barrel).getBottleLabel() : null;
 
 				if (ItemFluidBottle.tryUseWithTank(heldItem, barrel.getFluidHandler(), playerIn, hand, label)) {
 					barrel.markForFluidUpdate();
 				}
 
+				return true;
+			}
+
+			if (FluidContainerTransfer.tryUseBucketWithTank(heldItem, barrel.getFluidHandler(), playerIn, hand)) {
+				barrel.markForFluidUpdate();
 				return true;
 			}
 
@@ -106,17 +112,11 @@ public class Barrel extends Block {
 			return false;
 		}
 
-		if (heldItem.getItem() instanceof ItemFluidBottle) {
+		if (heldItem.getItem() instanceof ItemFluidBottle || heldItem.getItem() == Items.GLASS_BOTTLE) {
 			return true;
 		}
 
-		if (heldItem.getItem() == Items.BUCKET) {
-			return true;
-		}
-
-		ItemStack singleItem = heldItem.copy();
-		singleItem.stackSize = 1;
-		return FluidUtil.getFluidHandler(singleItem) != null;
+		return FluidContainerTransfer.isBucketInteractionItem(heldItem);
 	}
 
 	private boolean tryFillVanillaMilkBucket(TileEntityBarrel barrel, EntityPlayer playerIn, EnumHand hand,

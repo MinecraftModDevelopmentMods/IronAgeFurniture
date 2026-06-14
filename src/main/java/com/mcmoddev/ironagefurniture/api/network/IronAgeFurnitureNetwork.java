@@ -16,5 +16,9 @@ public final class IronAgeFurnitureNetwork {
 
 	public static void init() {
 		channel.registerMessage(FoudreLabelMessage.Handler.class, FoudreLabelMessage.class, 0, Side.SERVER);
+		channel.registerMessage(PotStillStartMessage.Handler.class, PotStillStartMessage.class, 1, Side.SERVER);
+		channel.registerMessage(FoudreSealMessage.Handler.class, FoudreSealMessage.class, 2, Side.SERVER);
+		channel.registerMessage(FoudreFlushMessage.Handler.class, FoudreFlushMessage.class, 3, Side.SERVER);
+		channel.registerMessage(PotStillFlushMessage.Handler.class, PotStillFlushMessage.class, 4, Side.SERVER);
 	}
 }

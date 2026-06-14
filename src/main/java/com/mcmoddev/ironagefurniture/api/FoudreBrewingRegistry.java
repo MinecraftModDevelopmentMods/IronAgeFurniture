@@ -20,8 +20,9 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.oredict.OreDictionary;
 
 public final class FoudreBrewingRegistry {
-	private static final ResourceLocation STILL = new ResourceLocation("minecraft", "blocks/water_still");
-	private static final ResourceLocation FLOWING = new ResourceLocation("minecraft", "blocks/water_flow");
+	private static final ResourceLocation DRINK_TEXTURE = new ResourceLocation("minecraft", "blocks/quartz_block_side");
+	private static final ResourceLocation STILL = DRINK_TEXTURE;
+	private static final ResourceLocation FLOWING = DRINK_TEXTURE;
 	private static final String AGE_TICKS_TAG = "FoudreAgeTicks";
 	private static final int DAY = 20 * 60 * 20;
 	private static final int ALE_BREW_TIME = DAY;
@@ -83,6 +84,9 @@ public final class FoudreBrewingRegistry {
 	private static final AgeProfile WINE_PROFILE = new AgeProfile(
 		new String[] { "New", "Young", "Mature", "Aged", "Reserve", "Vintage" },
 		new int[] { 0, DAY, DAY * 3, DAY * 7, DAY * 14, DAY * 28 });
+	private static final AgeProfile SPIRIT_PROFILE = new AgeProfile(
+		new String[] { "New", "Rested", "Mature", "Aged", "Reserve", "Vintage" },
+		new int[] { 0, DAY * 2, DAY * 5, DAY * 10, DAY * 20, DAY * 40 });
 
 	private FoudreBrewingRegistry() {
 		throw new IllegalAccessError("This class cannot be instantiated");
@@ -262,17 +266,48 @@ public final class FoudreBrewingRegistry {
 		return profile == null ? 0 : profile.getProgressTotal(getAgeTicks(fluid));
 	}
 
+	public static boolean resetAgeProgressToCurrentLevel(FluidStack fluid) {
+		AgeProfile profile = getAgeProfile(fluid);
+
+		if (profile == null) {
+			return false;
+		}
+
+		int oldAgeTicks = getAgeTicks(fluid);
+		int resetAgeTicks = profile.getThreshold(profile.getLevel(oldAgeTicks));
+
+		if (oldAgeTicks == resetAgeTicks && (resetAgeTicks != 0 || !hasExplicitAgeTicks(fluid))) {
+			return false;
+		}
+
+		setAgeTicks(fluid, resetAgeTicks);
+		return true;
+	}
+
+	public static FluidStack copyWithCurrentAgeLevel(FluidStack fluid) {
+		if (fluid == null) {
+			return null;
+		}
+
+		FluidStack copy = fluid.copy();
+		resetAgeProgressToCurrentLevel(copy);
+		return copy;
+	}
+
 	private static Fluid registerFluid(String name, String unlocalizedName, int color) {
 		Fluid existing = FluidRegistry.getFluid(name);
 
 		if (existing != null) {
+			FluidRegistry.addBucketForFluid(existing);
 			return existing;
 		}
 
 		Fluid fluid = new TintedFluid(name, STILL, FLOWING, color).setUnlocalizedName(unlocalizedName)
 			.setDensity(1000).setViscosity(1000);
 		FluidRegistry.registerFluid(fluid);
-		return FluidRegistry.getFluid(name);
+		fluid = FluidRegistry.getFluid(name);
+		FluidRegistry.addBucketForFluid(fluid);
+		return fluid;
 	}
 
 	private static void addRecipe(String id, String displayName, Fluid output, ItemStack ingredient, int count,
@@ -291,13 +326,21 @@ public final class FoudreBrewingRegistry {
 		}
 	}
 
-	private static void registerAgeProfiles() {
+	public static void registerAgeProfiles() {
 		AGE_PROFILES.clear();
 		addAgeProfile(ALE_PROFILE, ale);
 		addAgeProfile(CIDER_PROFILE, cider, appleCider, perry);
 		addAgeProfile(MEAD_PROFILE, mead);
 		addAgeProfile(WINE_PROFILE, wine, berryWine, riceWine, grapeWine, peachWine, persimmonWine, wildBerryWine,
 			raspberryWine, blueberryWine, blackberryWine, strawberryWine, cranberryWine);
+		addAgeProfile(SPIRIT_PROFILE, PotStillDistillingRegistry.whisky, PotStillDistillingRegistry.brandy,
+			PotStillDistillingRegistry.appleBrandy, PotStillDistillingRegistry.pearBrandy,
+			PotStillDistillingRegistry.honeySpirit, PotStillDistillingRegistry.riceSpirit,
+			PotStillDistillingRegistry.peachBrandy, PotStillDistillingRegistry.persimmonBrandy,
+			PotStillDistillingRegistry.berryBrandy, PotStillDistillingRegistry.wildBerryBrandy,
+			PotStillDistillingRegistry.raspberryBrandy, PotStillDistillingRegistry.blueberryBrandy,
+			PotStillDistillingRegistry.blackberryBrandy, PotStillDistillingRegistry.strawberryBrandy,
+			PotStillDistillingRegistry.cranberryBrandy);
 	}
 
 	private static void addAgeProfile(AgeProfile profile, Fluid... fluids) {
@@ -324,6 +367,18 @@ public final class FoudreBrewingRegistry {
 			return;
 		}
 
+		if (ageTicks <= 0) {
+			if (fluid.tag != null) {
+				fluid.tag.removeTag(AGE_TICKS_TAG);
+
+				if (fluid.tag.hasNoTags()) {
+					fluid.tag = null;
+				}
+			}
+
+			return;
+		}
+
 		if (fluid.tag == null) {
 			fluid.tag = new NBTTagCompound();
 		}
@@ -331,11 +386,15 @@ public final class FoudreBrewingRegistry {
 		fluid.tag.setInteger(AGE_TICKS_TAG, ageTicks);
 	}
 
+	private static boolean hasExplicitAgeTicks(FluidStack fluid) {
+		return fluid != null && fluid.tag != null && fluid.tag.hasKey(AGE_TICKS_TAG, 3);
+	}
+
 	private static AgeProfile getAgeProfile(FluidStack fluid) {
 		return fluid == null ? null : AGE_PROFILES.get(fluid.getFluid());
 	}
 
-	private static int getAgedFluidColor(FluidStack fluid, int freshColor) {
+	public static int getAgedFluidColor(FluidStack fluid, int freshColor) {
 		AgeProfile profile = getAgeProfile(fluid);
 
 		if (profile == null || profile.getMaxLevel() <= 0) {
@@ -519,6 +578,11 @@ public final class FoudreBrewingRegistry {
 
 		int getMaxThreshold() {
 			return this.thresholds[this.thresholds.length - 1];
+		}
+
+		int getThreshold(int level) {
+			int clampedLevel = Math.max(0, Math.min(this.thresholds.length - 1, level));
+			return this.thresholds[clampedLevel];
 		}
 	}
 }

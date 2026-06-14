@@ -1,0 +1,11 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_pot_still_wood_ironage_lower_back_left",
+  "textures": {
+    "0": "biomesoplenty:blocks/hellbark_log",
+    "1": "biomesoplenty:blocks/hellbark_planks",
+    "particle": "biomesoplenty:blocks/hellbark_log",
+    "iron": "minecraft:blocks/iron_block",
+    "inside": "minecraft:blocks/coal_block"
+  }
+}

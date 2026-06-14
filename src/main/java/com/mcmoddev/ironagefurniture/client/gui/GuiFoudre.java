@@ -1,9 +1,16 @@
 package com.mcmoddev.ironagefurniture.client.gui;
 
+import java.io.IOException;
+
 import com.mcmoddev.ironagefurniture.api.container.ContainerFoudre;
+import com.mcmoddev.ironagefurniture.api.DrinkDisplayHelper;
 import com.mcmoddev.ironagefurniture.api.FoudreBrewingRegistry;
+import com.mcmoddev.ironagefurniture.api.network.FoudreFlushMessage;
+import com.mcmoddev.ironagefurniture.api.network.FoudreSealMessage;
+import com.mcmoddev.ironagefurniture.api.network.IronAgeFurnitureNetwork;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityFoudre;
 
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -36,9 +43,19 @@ public class GuiFoudre extends GuiContainer {
 	private static final int PROGRESS_Y = 56;
 	private static final int PROGRESS_WIDTH = 36;
 	private static final int PROGRESS_HEIGHT = 8;
+	private static final int SEAL_BUTTON_ID = 0;
+	private static final int FLUSH_BUTTON_ID = 1;
+	private static final int SEAL_BUTTON_X = 121;
+	private static final int SEAL_BUTTON_Y = 65;
+	private static final int SEAL_BUTTON_WIDTH = 40;
+	private static final int SEAL_BUTTON_HEIGHT = 20;
+	private static final int FLUSH_BUTTON_X = 121;
+	private static final int FLUSH_BUTTON_Y = 34;
+	private static final int FLUSH_BUTTON_WIDTH = 40;
+	private static final int FLUSH_BUTTON_HEIGHT = 20;
 	private static final int TITLE_Y = 12;
 	private static final int STATUS_Y = 24;
-	private static final int FLUID_NAME_Y = 87;
+	private static final int FLUID_NAME_Y = 88;
 	private static final int AMOUNT_Y = 99;
 	private static final int TOP_PANEL_X = 9;
 	private static final int TOP_PANEL_Y = 7;
@@ -94,6 +111,8 @@ public class GuiFoudre extends GuiContainer {
 
 	private final TileEntityFoudre foudre;
 	private final InventoryPlayer playerInventory;
+	private GuiButton sealButton;
+	private GuiButton flushButton;
 
 	public GuiFoudre(TileEntityFoudre foudre, InventoryPlayer playerInventory) {
 		super(new ContainerFoudre(playerInventory, foudre));
@@ -104,8 +123,34 @@ public class GuiFoudre extends GuiContainer {
 	}
 
 	@Override
+	public void initGui() {
+		super.initGui();
+		this.sealButton = new GuiButton(SEAL_BUTTON_ID, this.guiLeft + SEAL_BUTTON_X,
+			this.guiTop + SEAL_BUTTON_Y, SEAL_BUTTON_WIDTH, SEAL_BUTTON_HEIGHT, this.getSealButtonText());
+		this.buttonList.add(this.sealButton);
+		this.flushButton = new GuiButton(FLUSH_BUTTON_ID, this.guiLeft + FLUSH_BUTTON_X,
+			this.guiTop + FLUSH_BUTTON_Y, FLUSH_BUTTON_WIDTH, FLUSH_BUTTON_HEIGHT, this.getFlushButtonText());
+		this.buttonList.add(this.flushButton);
+	}
+
+	@Override
 	public boolean doesGuiPauseGame() {
 		return false;
+	}
+
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+		this.updateButtonState();
+		super.drawScreen(mouseX, mouseY, partialTicks);
+	}
+
+	@Override
+	protected void actionPerformed(GuiButton button) throws IOException {
+		if (button.id == SEAL_BUTTON_ID && button.enabled) {
+			IronAgeFurnitureNetwork.channel.sendToServer(new FoudreSealMessage(this.foudre.getPos()));
+		} else if (button.id == FLUSH_BUTTON_ID && button.enabled) {
+			IronAgeFurnitureNetwork.channel.sendToServer(new FoudreFlushMessage(this.foudre.getPos()));
+		}
 	}
 
 	@Override
@@ -122,7 +167,7 @@ public class GuiFoudre extends GuiContainer {
 
 		FluidStack fluid = this.foudre.getFluid();
 		String fluidName = fluid == null ? I18n.format("gui.ironagefurniture.barrel.empty")
-			: FoudreBrewingRegistry.getAgedFluidName(fluid);
+			: DrinkDisplayHelper.getDisplayName(fluid);
 		this.drawCenteredText(fluidName, FLUID_NAME_Y);
 
 		String amount = this.getAmountText();
@@ -176,6 +221,26 @@ public class GuiFoudre extends GuiContainer {
 			top + height - INSET_BORDER, PANEL_MID);
 		this.drawRect(left + INSET_FILL, top + INSET_FILL, left + width - INSET_FILL,
 			top + height - INSET_FILL, PANEL_LIGHT);
+	}
+
+	private void updateButtonState() {
+		if (this.sealButton != null) {
+			this.sealButton.displayString = this.getSealButtonText();
+		}
+
+		if (this.flushButton != null) {
+			this.flushButton.displayString = this.getFlushButtonText();
+			this.flushButton.enabled = this.foudre.canFlush();
+		}
+	}
+
+	private String getSealButtonText() {
+		return I18n.format(this.foudre.isSealed() ? "gui.ironagefurniture.foudre.open"
+			: "gui.ironagefurniture.foudre.seal");
+	}
+
+	private String getFlushButtonText() {
+		return I18n.format("gui.ironagefurniture.foudre.flush");
 	}
 
 	private void drawIngredientSlots() {
@@ -246,7 +311,7 @@ public class GuiFoudre extends GuiContainer {
 	}
 
 	private void drawFluid(int left, int top, int width, int height, FluidStack fluid) {
-		if (FoudreBrewingRegistry.isAgeable(fluid)) {
+		if (DrinkDisplayHelper.shouldDrawTinted(fluid)) {
 			this.drawBrewedFluid(left, top, width, height, fluid);
 			return;
 		}
@@ -299,8 +364,10 @@ public class GuiFoudre extends GuiContainer {
 				Integer.valueOf(percent));
 		}
 
-		if (this.foudre.getAgeProgressTotal() <= 0 || this.foudre.getNextAgeLevelName().isEmpty()) {
-			return "";
+		if (!this.foudre.isSealed() || this.foudre.getAgeProgressTotal() <= 0
+				|| this.foudre.getNextAgeLevelName().isEmpty()) {
+			return I18n.format(this.foudre.isSealed() ? "gui.ironagefurniture.foudre.sealed"
+				: "gui.ironagefurniture.foudre.open_state");
 		}
 
 		int percent = this.foudre.getAgeProgress() * 100 / this.foudre.getAgeProgressTotal();

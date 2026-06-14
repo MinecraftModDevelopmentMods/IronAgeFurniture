@@ -4,15 +4,24 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import com.mcmoddev.ironagefurniture.Ironagefurniture;
+import com.mcmoddev.ironagefurniture.ItemObjectHolder;
+import com.mcmoddev.ironagefurniture.api.DrinkDisplayHelper;
 import com.mcmoddev.ironagefurniture.api.FoudreBrewingRegistry;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.stats.StatList;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
@@ -24,13 +33,12 @@ public class ItemFluidBottle extends Item {
 	public static final String LABEL_TAG = "BottleLabel";
 
 	public ItemFluidBottle() {
-		this.setCreativeTab(Ironagefurniture.ironagefurnitureTab);
-		this.setMaxStackSize(16);
+		this.setMaxStackSize(64);
 	}
 
 	@Override
 	public int getItemStackLimit(ItemStack stack) {
-		return isFilled(stack) ? 1 : 16;
+		return 64;
 	}
 
 	@Override
@@ -40,15 +48,64 @@ public class ItemFluidBottle extends Item {
 
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
-		String label = getBottleLabel(stack);
+		FluidStack fluid = getFluid(stack);
+		return fluid != null && fluid.getFluid() != null ? DrinkDisplayHelper.getDisplayName(fluid) + " Bottle"
+			: super.getItemStackDisplayName(stack);
+	}
 
-		if (label != null && !label.isEmpty()) {
-			return label + " Bottle";
+	@Override
+	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving) {
+		EntityPlayer player = entityLiving instanceof EntityPlayer ? (EntityPlayer)entityLiving : null;
+
+		if (!isFilled(stack)) {
+			return stack;
 		}
 
-		FluidStack fluid = getFluid(stack);
-		return fluid != null && fluid.getFluid() != null ? FoudreBrewingRegistry.getAgedFluidName(fluid) + " Bottle"
-			: super.getItemStackDisplayName(stack);
+		if (player != null) {
+			player.addStat(StatList.getObjectUseStats(this));
+		}
+
+		if (player == null || !player.capabilities.isCreativeMode) {
+			stack.stackSize--;
+
+			if (stack.stackSize <= 0) {
+				return new ItemStack(Items.GLASS_BOTTLE);
+			}
+
+			if (player != null) {
+				giveOrDrop(player, new ItemStack(Items.GLASS_BOTTLE));
+			}
+		}
+
+		return stack;
+	}
+
+	@Override
+	public int getMaxItemUseDuration(ItemStack stack) {
+		return 32;
+	}
+
+	@Override
+	public EnumAction getItemUseAction(ItemStack stack) {
+		return EnumAction.DRINK;
+	}
+
+	@Override
+	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn,
+			EnumHand hand) {
+		if (!isFilled(itemStackIn)) {
+			return new ActionResult<ItemStack>(EnumActionResult.PASS, itemStackIn);
+		}
+
+		playerIn.setActiveHand(hand);
+		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
+	}
+
+	@Override
+	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+		if (!worldIn.isRemote) {
+			normalizeFluidAge(stack);
+		}
 	}
 
 	@Override
@@ -56,15 +113,15 @@ public class ItemFluidBottle extends Item {
 		FluidStack fluid = getFluid(stack);
 
 		if (fluid != null && fluid.getFluid() != null && fluid.amount > 0) {
-			tooltip.add(FoudreBrewingRegistry.getAgedFluidName(fluid));
-			this.addAgeTooltip(fluid, tooltip);
+			tooltip.add(DrinkDisplayHelper.getDisplayName(fluid));
+			this.addQualityTooltip(fluid, tooltip);
 			tooltip.add(fluid.amount + " / " + CAPACITY + " mB");
 		}
 
 		String label = getBottleLabel(stack);
 
 		if (label != null && !label.isEmpty()) {
-			tooltip.add(TextFormatting.GRAY + label);
+			tooltip.add(TextFormatting.GRAY + "Bottled at " + label);
 		}
 	}
 
@@ -122,46 +179,47 @@ public class ItemFluidBottle extends Item {
 
 	public static boolean tryUseWithTank(ItemStack heldItem, IFluidHandler tank, EntityPlayer player,
 			EnumHand hand, @Nullable String fillLabel) {
-		if (heldItem == null || heldItem.stackSize <= 0 || tank == null || !(heldItem.getItem() instanceof ItemFluidBottle)) {
+		if (heldItem == null || heldItem.stackSize <= 0 || tank == null) {
 			return false;
 		}
 
-		if (isFilled(heldItem)) {
+		if (heldItem.getItem() instanceof ItemFluidBottle && isFilled(heldItem)) {
 			return tryEmptyIntoTank(heldItem, tank, player, hand);
 		}
 
-		return tryFillFromTank(heldItem, tank, player, hand, fillLabel);
+		if (heldItem.getItem() == Items.GLASS_BOTTLE) {
+			return tryFillFromTank(heldItem, tank, player, hand, fillLabel);
+		}
+
+		return false;
 	}
 
 	private static boolean tryFillFromTank(ItemStack heldItem, IFluidHandler tank, EntityPlayer player,
 			EnumHand hand, @Nullable String fillLabel) {
+		if (ItemObjectHolder.fluid_bottle == null) {
+			return false;
+		}
+
 		FluidStack drained = tank.drain(CAPACITY, false);
 
 		if (drained == null || drained.getFluid() == null || drained.amount < CAPACITY) {
 			return false;
 		}
 
-		FluidStack bottleFluid = drained.copy();
+		FluidStack bottleFluid = FoudreBrewingRegistry.copyWithCurrentAgeLevel(drained);
 		bottleFluid.amount = CAPACITY;
-		ItemStack filledBottle = heldItem.copy();
-		filledBottle.stackSize = 1;
+		ItemStack filledBottle = new ItemStack(ItemObjectHolder.fluid_bottle);
 		writeFluid(filledBottle, bottleFluid);
 		setBottleLabel(filledBottle, fillLabel);
 
-		if (player.capabilities.isCreativeMode) {
-			if (!player.inventory.addItemStackToInventory(filledBottle.copy())) {
-				player.dropItem(filledBottle.copy(), false);
-			}
-		} else {
-			tank.drain(CAPACITY, true);
-			heldItem.stackSize--;
+		tank.drain(CAPACITY, true);
+		heldItem.stackSize--;
 
-			if (heldItem.stackSize <= 0) {
-				player.setHeldItem(hand, filledBottle);
-			} else if (!player.inventory.addItemStackToInventory(filledBottle)) {
-				player.dropItem(filledBottle, false);
-			}
+		if (heldItem.stackSize <= 0) {
+			player.setHeldItem(hand, null);
 		}
+
+		giveOrDrop(player, filledBottle);
 
 		player.playSound(bottleFluid.getFluid().getFillSound(bottleFluid), 1.0F, 1.0F);
 		return true;
@@ -182,19 +240,15 @@ public class ItemFluidBottle extends Item {
 			return false;
 		}
 
-		if (player.capabilities.isCreativeMode) {
-			tank.fill(toFill, true);
+		tank.fill(toFill, true);
+		heldItem.stackSize--;
+
+		ItemStack emptyBottle = new ItemStack(Items.GLASS_BOTTLE);
+
+		if (heldItem.stackSize <= 0) {
+			player.setHeldItem(hand, emptyBottle);
 		} else {
-			tank.fill(toFill, true);
-			heldItem.stackSize--;
-
-			ItemStack emptyBottle = new ItemStack(heldItem.getItem());
-
-			if (heldItem.stackSize <= 0) {
-				player.setHeldItem(hand, emptyBottle);
-			} else if (!player.inventory.addItemStackToInventory(emptyBottle)) {
-				player.dropItem(emptyBottle, false);
-			}
+			giveOrDrop(player, emptyBottle);
 		}
 
 		player.playSound(fluid.getFluid().getEmptySound(fluid), 1.0F, 1.0F);
@@ -207,11 +261,29 @@ public class ItemFluidBottle extends Item {
 		stack.setTagCompound(tag);
 	}
 
-	private void addAgeTooltip(FluidStack fluid, List<String> tooltip) {
-		String age = FoudreBrewingRegistry.getAgeLevelName(fluid);
+	private static void normalizeFluidAge(ItemStack stack) {
+		FluidStack fluid = getFluid(stack);
 
-		if (!age.isEmpty()) {
-			tooltip.add(TextFormatting.GRAY + "Age: " + age);
+		if (fluid != null && FoudreBrewingRegistry.resetAgeProgressToCurrentLevel(fluid)) {
+			writeFluid(stack, fluid);
+		}
+	}
+
+	private void addQualityTooltip(FluidStack fluid, List<String> tooltip) {
+		String quality = DrinkDisplayHelper.getQualityTooltip(fluid);
+
+		if (!quality.isEmpty()) {
+			tooltip.add(TextFormatting.GRAY + quality);
+		}
+	}
+
+	private static void giveOrDrop(EntityPlayer player, @Nullable ItemStack stack) {
+		if (stack == null || stack.stackSize <= 0) {
+			return;
+		}
+
+		if (!player.inventory.addItemStackToInventory(stack)) {
+			player.dropItem(stack, false);
 		}
 	}
 

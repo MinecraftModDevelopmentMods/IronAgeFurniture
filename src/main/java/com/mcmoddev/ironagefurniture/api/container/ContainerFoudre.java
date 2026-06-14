@@ -19,6 +19,7 @@ public class ContainerFoudre extends Container {
 	private int lastBrewTimeTotal;
 	private int lastAgeProgress;
 	private int lastAgeProgressTotal;
+	private int lastSealed;
 
 	public ContainerFoudre(InventoryPlayer playerInventory, TileEntityFoudre foudre) {
 		this.foudre = foudre;
@@ -56,12 +57,18 @@ public class ContainerFoudre extends Container {
 				listener.sendProgressBarUpdate(this, TileEntityFoudre.FIELD_AGE_PROGRESS_TOTAL,
 					this.foudre.getAgeProgressTotal());
 			}
+
+			if (this.lastSealed != (this.foudre.isSealed() ? 1 : 0)) {
+				listener.sendProgressBarUpdate(this, TileEntityFoudre.FIELD_SEALED,
+					this.foudre.isSealed() ? 1 : 0);
+			}
 		}
 
 		this.lastBrewTime = this.foudre.getBrewTime();
 		this.lastBrewTimeTotal = this.foudre.getBrewTimeTotal();
 		this.lastAgeProgress = this.foudre.getAgeProgress();
 		this.lastAgeProgressTotal = this.foudre.getAgeProgressTotal();
+		this.lastSealed = this.foudre.isSealed() ? 1 : 0;
 	}
 
 	@Override
@@ -71,6 +78,10 @@ public class ContainerFoudre extends Container {
 
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
+		if (this.foudre.isSealed()) {
+			return null;
+		}
+
 		ItemStack moved = null;
 		Slot slot = (Slot)this.inventorySlots.get(index);
 
@@ -131,6 +142,11 @@ public class ContainerFoudre extends Container {
 		@Override
 		public boolean isItemValid(ItemStack stack) {
 			return this.inventory.isItemValidForSlot(this.getSlotIndex(), stack);
+		}
+
+		@Override
+		public boolean canTakeStack(EntityPlayer playerIn) {
+			return !((TileEntityFoudre)this.inventory).isSealed();
 		}
 	}
 }

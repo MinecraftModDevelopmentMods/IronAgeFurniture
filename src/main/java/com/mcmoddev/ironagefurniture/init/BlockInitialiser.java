@@ -98,6 +98,13 @@ public class BlockInitialiser {
 				Block[] foudre = FurnitureFactory.CreateWoodFoudre(suffix);
 				BlockObjectHolder.foudre_wood_ironage.put(suffix, foudre[0]);
 				BlockObjectHolder.foudre_wood_ironage_upper.put(suffix, foudre[1]);
+
+				if (IronAgeFurnitureConfiguration.GENERATE_POT_STILLS
+						&& IronAgeFurnitureConfiguration.GENERATE_FLUID_BOTTLES) {
+					Block[] potStill = FurnitureFactory.CreateWoodPotStill(suffix);
+					BlockObjectHolder.pot_still_wood_ironage.put(suffix, potStill[0]);
+					BlockObjectHolder.pot_still_wood_ironage_upper.put(suffix, potStill[1]);
+				}
 			}
 		}
 	}

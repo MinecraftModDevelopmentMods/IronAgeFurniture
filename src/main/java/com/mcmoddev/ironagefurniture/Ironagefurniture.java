@@ -8,6 +8,7 @@ import com.mcmoddev.ironagefurniture.api.BarrelFluidCompat;
 import com.mcmoddev.ironagefurniture.api.CreativeModeBreakTracker;
 import com.mcmoddev.ironagefurniture.api.DiningTableSurfaceInteractionHandler;
 import com.mcmoddev.ironagefurniture.api.FoudreBrewingRegistry;
+import com.mcmoddev.ironagefurniture.api.PotStillDistillingRegistry;
 import com.mcmoddev.ironagefurniture.api.network.IronAgeFurnitureNetwork;
 import com.mcmoddev.ironagefurniture.api.entity.EntityFallingMetalBlock;
 import com.mcmoddev.ironagefurniture.api.entity.EntityThrownLavaLamp;
@@ -17,6 +18,7 @@ import com.mcmoddev.ironagefurniture.api.tile.TileEntityBottleRack;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityCabinet;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityDiningTable;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityFoudre;
+import com.mcmoddev.ironagefurniture.api.tile.TileEntityPotStill;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityGlassVase;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityGrandChandelierSconce;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityHalfCabinet;
@@ -33,6 +35,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -47,8 +50,14 @@ public class Ironagefurniture
 {
 	public static final String MODID = "ironagefurniture";
     public static final String VERSION = "0.2.0.5";
+
+	static {
+		FluidRegistry.enableUniversalBucket();
+	}
+
 	public static final int GUI_BARREL = 1;
 	public static final int GUI_FOUDRE_LABEL = 2;
+	public static final int GUI_POT_STILL = 3;
 
 	@Instance(MODID)
 	public static Ironagefurniture instance;
@@ -79,6 +88,7 @@ public class Ironagefurniture
     {
 		BarrelFluidCompat.init();
 		FoudreBrewingRegistry.initRecipes();
+		PotStillDistillingRegistry.initRecipes();
 
     	// register renderers
     	if(event.getSide().isClient()) {
@@ -91,6 +101,7 @@ public class Ironagefurniture
 		GameRegistry.registerTileEntity(TileEntityHalfCabinet.class, MODID + ":half_cabinet_wood_ironage");
 		GameRegistry.registerTileEntity(TileEntityBarrel.class, MODID + ":barrel_wood_ironage");
 		GameRegistry.registerTileEntity(TileEntityFoudre.class, MODID + ":foudre_wood_ironage");
+		GameRegistry.registerTileEntity(TileEntityPotStill.class, MODID + ":pot_still_wood_ironage");
 		GameRegistry.registerTileEntity(TileEntityGlassVase.class, MODID + ":ornament_glass_vase");
 		GameRegistry.registerTileEntity(TileEntityWallShelf.class, MODID + ":shelf_wall");
 		GameRegistry.registerTileEntity(TileEntityBottleRack.class, MODID + ":bottle_rack_wood_ironage");
@@ -115,6 +126,7 @@ public class Ironagefurniture
     	IronAgeFurnitureConfiguration.init(event);
 		IronAgeFurnitureNetwork.init();
 		FoudreBrewingRegistry.registerFluids();
+		PotStillDistillingRegistry.registerFluids();
     	MinecraftForge.EVENT_BUS.register(new CreativeModeBreakTracker());
     	MinecraftForge.EVENT_BUS.register(new DiningTableSurfaceInteractionHandler());
 		ItemInitialiser.init();

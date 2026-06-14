@@ -1,7 +1,7 @@
 package com.mcmoddev.ironagefurniture.client.gui;
 
 import com.mcmoddev.ironagefurniture.api.container.ContainerBarrel;
-import com.mcmoddev.ironagefurniture.api.FoudreBrewingRegistry;
+import com.mcmoddev.ironagefurniture.api.DrinkDisplayHelper;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityBarrel;
 
 import net.minecraft.client.renderer.GlStateManager;
@@ -50,7 +50,7 @@ public class GuiBarrel extends GuiContainer {
 
 		FluidStack fluid = this.barrel.getFluid();
 		String fluidName = fluid == null ? I18n.format("gui.ironagefurniture.barrel.empty")
-			: fluid.getLocalizedName();
+			: DrinkDisplayHelper.getDisplayName(fluid);
 		this.fontRendererObj.drawString(fluidName,
 			(this.xSize - this.fontRendererObj.getStringWidth(fluidName)) / 2, 96, 0x404040);
 
@@ -86,7 +86,7 @@ public class GuiBarrel extends GuiContainer {
 	}
 
 	private void drawFluid(int left, int top, int width, int height, FluidStack fluid) {
-		if (FoudreBrewingRegistry.isAgeable(fluid)) {
+		if (DrinkDisplayHelper.shouldDrawTinted(fluid)) {
 			this.drawBrewedFluid(left, top, width, height, fluid);
 			return;
 		}

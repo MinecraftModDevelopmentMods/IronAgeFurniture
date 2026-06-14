@@ -4,8 +4,10 @@ import com.mcmoddev.ironagefurniture.Ironagefurniture;
 import com.mcmoddev.ironagefurniture.api.container.ContainerBarrel;
 import com.mcmoddev.ironagefurniture.api.container.ContainerFoudre;
 import com.mcmoddev.ironagefurniture.api.container.ContainerFoudreLabel;
+import com.mcmoddev.ironagefurniture.api.container.ContainerPotStill;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityBarrel;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityFoudre;
+import com.mcmoddev.ironagefurniture.api.tile.TileEntityPotStill;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -24,6 +26,11 @@ public class BarrelGuiHandler implements IGuiHandler {
 				: null;
 		}
 
+		if (id == Ironagefurniture.GUI_POT_STILL) {
+			return tileEntity instanceof TileEntityPotStill
+				? new ContainerPotStill(player.inventory, (TileEntityPotStill)tileEntity) : null;
+		}
+
 		if (tileEntity instanceof TileEntityFoudre) {
 			return new ContainerFoudre(player.inventory, (TileEntityFoudre)tileEntity);
 		}
@@ -37,6 +44,11 @@ public class BarrelGuiHandler implements IGuiHandler {
 
 		if (id == Ironagefurniture.GUI_FOUDRE_LABEL) {
 			return tileEntity instanceof TileEntityFoudre ? createClientLabelGui((TileEntityFoudre)tileEntity) : null;
+		}
+
+		if (id == Ironagefurniture.GUI_POT_STILL) {
+			return tileEntity instanceof TileEntityPotStill
+				? createClientPotStillGui((TileEntityPotStill)tileEntity, player.inventory) : null;
 		}
 
 		if (tileEntity instanceof TileEntityFoudre) {
@@ -62,6 +74,16 @@ public class BarrelGuiHandler implements IGuiHandler {
 				.newInstance(foudre, playerInventory);
 		} catch (ReflectiveOperationException e) {
 			throw new RuntimeException("Unable to open foudre GUI", e);
+		}
+	}
+
+	private static Object createClientPotStillGui(TileEntityPotStill potStill, InventoryPlayer playerInventory) {
+		try {
+			Class<?> guiClass = Class.forName("com.mcmoddev.ironagefurniture.client.gui.GuiPotStill");
+			return guiClass.getConstructor(TileEntityPotStill.class, InventoryPlayer.class)
+				.newInstance(potStill, playerInventory);
+		} catch (ReflectiveOperationException e) {
+			throw new RuntimeException("Unable to open pot still GUI", e);
 		}
 	}
 

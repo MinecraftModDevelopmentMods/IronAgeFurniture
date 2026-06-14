@@ -17,8 +17,12 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidTankProperties;
 
 public class TileEntityFoudre extends TileEntityBarrel implements IInventory, ITickable {
 	public static final int CAPACITY = 128 * Fluid.BUCKET_VOLUME;
@@ -27,8 +31,10 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 	public static final int FIELD_BREW_TIME_TOTAL = 1;
 	public static final int FIELD_AGE_PROGRESS = 2;
 	public static final int FIELD_AGE_PROGRESS_TOTAL = 3;
+	public static final int FIELD_SEALED = 4;
 
 	private static final String LABEL_TAG = "FoudreLabel";
+	private static final String SEALED_TAG = "Sealed";
 	private static final String ITEMS_TAG = "Ingredients";
 	private static final String BREW_TIME_TAG = "BrewTime";
 	private static final String BREW_TIME_TOTAL_TAG = "BrewTimeTotal";
@@ -36,7 +42,9 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 	private static final String BREW_RECIPE_NAME_TAG = "BrewRecipeName";
 
 	private final ItemStack[] inventory = new ItemStack[INGREDIENT_SLOTS];
+	private final IFluidHandler sealedFluidHandler = new SealedFoudreFluidHandler();
 	private String label = "";
+	private boolean sealed;
 	private int brewTime;
 	private int brewTimeTotal;
 	private int clientAgeProgress;
@@ -64,7 +72,9 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 
 		if (recipe == null) {
 			this.resetBrewing();
-			this.updateAging();
+			if (this.sealed) {
+				this.updateAging();
+			}
 			return;
 		}
 
@@ -103,14 +113,46 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 		this.markForFluidUpdate();
 	}
 
-	@Nullable
-	public String getBottleLabel() {
-		if (!this.label.isEmpty()) {
-			return this.label;
+	public boolean isSealed() {
+		return this.sealed;
+	}
+
+	public void setSealed(boolean sealed) {
+		if (this.sealed == sealed) {
+			return;
 		}
 
-		FluidStack fluid = this.getFluid();
-		return fluid != null && fluid.getFluid() != null ? FoudreBrewingRegistry.getAgedFluidName(fluid) : null;
+		boolean opening = this.sealed && !sealed;
+		this.sealed = sealed;
+
+		if (opening) {
+			FoudreBrewingRegistry.resetAgeProgressToCurrentLevel(this.getFluidDirect());
+		}
+
+		this.markForFluidUpdate();
+	}
+
+	public void toggleSealed() {
+		this.setSealed(!this.sealed);
+	}
+
+	public boolean canFlush() {
+		return !this.sealed && this.getFluidAmount() > 0 && this.brewTimeTotal <= 0;
+	}
+
+	public boolean flush() {
+		if (!this.canFlush()) {
+			return false;
+		}
+
+		this.setFluid(null);
+		this.resetBrewing();
+		return true;
+	}
+
+	@Nullable
+	public String getBottleLabel() {
+		return this.label.isEmpty() ? null : this.label;
 	}
 
 	public int getBrewTime() {
@@ -178,19 +220,26 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 			return;
 		}
 
-		if (this.label.isEmpty()) {
-			if (stack.hasTagCompound()) {
-				stack.getTagCompound().removeTag(LABEL_TAG);
+		NBTTagCompound tag = stack.hasTagCompound() ? stack.getTagCompound() : new NBTTagCompound();
 
-				if (stack.getTagCompound().hasNoTags()) {
-					stack.setTagCompound(null);
-				}
+		if (this.sealed) {
+			tag.setBoolean(SEALED_TAG, true);
+		} else {
+			tag.removeTag(SEALED_TAG);
+		}
+
+		if (this.label.isEmpty()) {
+			tag.removeTag(LABEL_TAG);
+
+			if (tag.hasNoTags()) {
+				stack.setTagCompound(null);
+			} else {
+				stack.setTagCompound(tag);
 			}
 
 			return;
 		}
 
-		NBTTagCompound tag = stack.hasTagCompound() ? stack.getTagCompound() : new NBTTagCompound();
 		tag.setString(LABEL_TAG, this.label);
 		stack.setTagCompound(tag);
 	}
@@ -200,6 +249,7 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 		super.readFromItemStack(stack);
 		this.label = stack != null && stack.hasTagCompound() && stack.getTagCompound().hasKey(LABEL_TAG, 8)
 			? sanitizeLabel(stack.getTagCompound().getString(LABEL_TAG)) : "";
+		this.sealed = stack != null && stack.hasTagCompound() && stack.getTagCompound().getBoolean(SEALED_TAG);
 		this.markForFluidUpdate();
 	}
 
@@ -207,6 +257,7 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
 		this.label = compound.hasKey(LABEL_TAG, 8) ? sanitizeLabel(compound.getString(LABEL_TAG)) : "";
+		this.sealed = compound.getBoolean(SEALED_TAG);
 		this.brewTime = compound.getInteger(BREW_TIME_TAG);
 		this.brewTimeTotal = compound.getInteger(BREW_TIME_TOTAL_TAG);
 		this.brewRecipeId = compound.hasKey(BREW_RECIPE_TAG, 8) ? compound.getString(BREW_RECIPE_TAG) : "";
@@ -233,6 +284,7 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 		if (!this.label.isEmpty()) {
 			compound.setString(LABEL_TAG, this.label);
 		}
+		compound.setBoolean(SEALED_TAG, this.sealed);
 
 		compound.setInteger(BREW_TIME_TAG, this.brewTime);
 		compound.setInteger(BREW_TIME_TOTAL_TAG, this.brewTimeTotal);
@@ -278,6 +330,10 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 	@Override
 	@Nullable
 	public ItemStack decrStackSize(int index, int count) {
+		if (this.sealed) {
+			return null;
+		}
+
 		ItemStack stack = ItemStackHelper.getAndSplit(this.inventory, index, count);
 
 		if (stack != null) {
@@ -290,6 +346,10 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 	@Override
 	@Nullable
 	public ItemStack removeStackFromSlot(int index) {
+		if (this.sealed) {
+			return null;
+		}
+
 		ItemStack stack = ItemStackHelper.getAndRemove(this.inventory, index);
 
 		if (stack != null) {
@@ -301,7 +361,7 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 
 	@Override
 	public void setInventorySlotContents(int index, @Nullable ItemStack stack) {
-		if (!this.isValidSlot(index)) {
+		if (this.sealed || !this.isValidSlot(index)) {
 			return;
 		}
 
@@ -339,7 +399,27 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 
 	@Override
 	public boolean isItemValidForSlot(int index, ItemStack stack) {
-		return FoudreBrewingRegistry.isValidIngredient(stack);
+		return !this.sealed && FoudreBrewingRegistry.isValidIngredient(stack);
+	}
+
+	@Override
+	public IFluidHandler getFluidHandler() {
+		return this.sealedFluidHandler;
+	}
+
+	@Override
+	public boolean hasCapability(Capability<?> capability, net.minecraft.util.EnumFacing facing) {
+		return capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public <T> T getCapability(Capability<T> capability, net.minecraft.util.EnumFacing facing) {
+		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+			return (T)this.sealedFluidHandler;
+		}
+
+		return super.getCapability(capability, facing);
 	}
 
 	@Override
@@ -353,6 +433,8 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 			return this.getAgeProgress();
 		case FIELD_AGE_PROGRESS_TOTAL:
 			return this.getAgeProgressTotal();
+		case FIELD_SEALED:
+			return this.sealed ? 1 : 0;
 		default:
 			return 0;
 		}
@@ -373,6 +455,9 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 		case FIELD_AGE_PROGRESS_TOTAL:
 			this.clientAgeProgressTotal = value;
 			break;
+		case FIELD_SEALED:
+			this.sealed = value != 0;
+			break;
 		default:
 			break;
 		}
@@ -380,7 +465,7 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 
 	@Override
 	public int getFieldCount() {
-		return 4;
+		return 5;
 	}
 
 	@Override
@@ -419,6 +504,33 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 
 	private boolean isValidSlot(int index) {
 		return index >= 0 && index < this.inventory.length;
+	}
+
+	private final class SealedFoudreFluidHandler implements IFluidHandler {
+		@Override
+		public IFluidTankProperties[] getTankProperties() {
+			return TileEntityFoudre.super.getFluidHandler().getTankProperties();
+		}
+
+		@Override
+		public int fill(FluidStack resource, boolean doFill) {
+			return TileEntityFoudre.this.sealed ? 0
+				: TileEntityFoudre.super.getFluidHandler().fill(resource, doFill);
+		}
+
+		@Override
+		@Nullable
+		public FluidStack drain(FluidStack resource, boolean doDrain) {
+			return TileEntityFoudre.this.sealed ? null
+				: TileEntityFoudre.super.getFluidHandler().drain(resource, doDrain);
+		}
+
+		@Override
+		@Nullable
+		public FluidStack drain(int maxDrain, boolean doDrain) {
+			return TileEntityFoudre.this.sealed ? null
+				: TileEntityFoudre.super.getFluidHandler().drain(maxDrain, doDrain);
+		}
 	}
 
 	private static String sanitizeLabel(@Nullable String label) {

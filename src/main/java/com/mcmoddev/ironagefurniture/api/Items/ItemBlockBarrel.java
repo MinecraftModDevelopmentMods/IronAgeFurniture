@@ -2,7 +2,7 @@ package com.mcmoddev.ironagefurniture.api.Items;
 
 import java.util.List;
 
-import com.mcmoddev.ironagefurniture.api.FoudreBrewingRegistry;
+import com.mcmoddev.ironagefurniture.api.DrinkDisplayHelper;
 import com.mcmoddev.ironagefurniture.api.Blocks.Barrel;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityBarrel;
 
@@ -32,11 +32,11 @@ public class ItemBlockBarrel extends ItemBlock {
 			return;
 		}
 
-		tooltip.add(FoudreBrewingRegistry.getAgedFluidName(fluid));
-		String age = FoudreBrewingRegistry.getAgeLevelName(fluid);
+		tooltip.add(DrinkDisplayHelper.getDisplayName(fluid));
+		String quality = DrinkDisplayHelper.getQualityTooltip(fluid);
 
-		if (!age.isEmpty()) {
-			tooltip.add("Age: " + age);
+		if (!quality.isEmpty()) {
+			tooltip.add(quality);
 		}
 
 		tooltip.add(fluid.amount + " / " + this.getCapacity() + " mB");

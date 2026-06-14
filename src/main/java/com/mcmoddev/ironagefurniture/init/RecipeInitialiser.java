@@ -33,7 +33,6 @@ public class RecipeInitialiser {
 	 */
 	public static void init() {
 		generateIronNuggetRecipes();
-		generateFluidBottleRecipes();
 		generateChairRecipes();
 		generateBedRecipes();
 		generateTableRecipes();
@@ -44,15 +43,6 @@ public class RecipeInitialiser {
 		generateGoldBarsRecipes();
 		generateLightRecipes();
 		generateOrnamentRecipes();
-	}
-
-	private static void generateFluidBottleRecipes() {
-		if (!IronAgeFurnitureConfiguration.GENERATE_FLUID_BOTTLES || ItemObjectHolder.fluid_bottle == null) {
-			return;
-		}
-
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ItemObjectHolder.fluid_bottle, 1),
-			Items.GLASS_BOTTLE));
 	}
 
 	private static void generateIronNuggetRecipes() {
@@ -250,6 +240,7 @@ public class RecipeInitialiser {
 		final List<String> recipeSuffixes = new ArrayList<String>();
 		final List<String> sideRecipeSuffixes = new ArrayList<String>();
 		final List<String> foudreRecipeSuffixes = new ArrayList<String>();
+		final List<String> potStillRecipeSuffixes = new ArrayList<String>();
 
 		WoodVariantHelper.forEachEnabledPlankVariant(new WoodVariantHelper.ItemStackVariantConsumer() {
 			@Override
@@ -275,12 +266,21 @@ public class RecipeInitialiser {
 					FurnitureFactory.AddFoudreRecipe(barrel, foudre);
 					foudreRecipeSuffixes.add(suffix);
 				}
+
+				Block potStill = BlockObjectHolder.pot_still_wood_ironage.get(suffix);
+
+				if (foudre != null && potStill != null && !potStillRecipeSuffixes.contains(suffix)) {
+					FurnitureFactory.AddPotStillRecipe(foudre, potStill);
+					potStillRecipeSuffixes.add(suffix);
+				}
 			}
 		});
 
 		validateSlabRecipeMappings(BlockObjectHolder.barrel_wood_ironage, recipeSuffixes, "wood barrel");
 		validateSlabRecipeMappings(BlockObjectHolder.side_barrel_wood_ironage, sideRecipeSuffixes, "side wood barrel");
 		validateSlabRecipeMappings(BlockObjectHolder.foudre_wood_ironage, foudreRecipeSuffixes, "wood foudre");
+		validateSlabRecipeMappings(BlockObjectHolder.pot_still_wood_ironage, potStillRecipeSuffixes,
+			"wood pot still");
 	}
 
 	private static void validateSlabRecipeMappings(java.util.Map<String, Block> blocks, List<String> recipeSuffixes,

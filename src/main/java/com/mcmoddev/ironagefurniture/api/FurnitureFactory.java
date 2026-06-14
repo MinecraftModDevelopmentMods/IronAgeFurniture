@@ -65,6 +65,7 @@ import com.mcmoddev.ironagefurniture.api.Blocks.MultiBlockChair;
 import com.mcmoddev.ironagefurniture.api.Blocks.MultiBlockWoodBed;
 import com.mcmoddev.ironagefurniture.api.Blocks.ObsideanLump;
 import com.mcmoddev.ironagefurniture.api.Blocks.OrnamentBlock;
+import com.mcmoddev.ironagefurniture.api.Blocks.PotStill;
 import com.mcmoddev.ironagefurniture.api.Blocks.SideBarrel;
 import com.mcmoddev.ironagefurniture.api.Blocks.Stool;
 import com.mcmoddev.ironagefurniture.api.Blocks.SurfaceDisplayBlocker;
@@ -77,9 +78,11 @@ import com.mcmoddev.ironagefurniture.api.Items.ItemBlockGlassVase;
 import com.mcmoddev.ironagefurniture.api.Items.ItemBlockGrandChandelier;
 import com.mcmoddev.ironagefurniture.api.Items.ItemBlockMetalVariant;
 import com.mcmoddev.ironagefurniture.api.Items.ItemBlockOrnament;
+import com.mcmoddev.ironagefurniture.api.Items.ItemBlockPotStill;
 import com.mcmoddev.ironagefurniture.api.Items.ItemBlockThrowableLavaLamp;
 import com.mcmoddev.ironagefurniture.api.Items.ItemBlockWallShelf;
 import com.mcmoddev.ironagefurniture.api.recipes.FoudreRecipe;
+import com.mcmoddev.ironagefurniture.api.recipes.PotStillRecipe;
 import com.mcmoddev.ironagefurniture.api.recipes.SideBarrelRecipe;
 import com.mcmoddev.ironagefurniture.api.recipes.UprightBarrelRecipe;
 import com.mcmoddev.ironagefurniture.init.ItemInitialiser;
@@ -235,6 +238,14 @@ public class FurnitureFactory {
 		}
 
 		GameRegistry.addRecipe(new FoudreRecipe(barrel, foudre));
+	}
+
+	public static void AddPotStillRecipe(Block foudre, Block potStill) {
+		if (foudre == null || potStill == null) {
+			return;
+		}
+
+		GameRegistry.addRecipe(new PotStillRecipe(foudre, potStill));
 	}
 	
 	public static void AddShortStoolRecipe(ItemStack planks, Block stool) {
@@ -508,6 +519,20 @@ public class FurnitureFactory {
 
 	public static Block[] CreateWoodFoudre(String suffix) {
 		return CreateWoodFoudre(suffix, 10, 1.5F);
+	}
+
+	public static Block[] CreateWoodPotStill(String suffix, float resistance, float hardness) {
+		String lowerName = "pot_still_wood_ironage_" + suffix;
+		String upperName = lowerName + "_upper";
+		PotStill lower = new PotStill(Material.WOOD, lowerName, resistance, hardness, false);
+		PotStill upper = new PotStill(Material.WOOD, upperName, resistance, hardness, true);
+		lower.setCompanionBlocks(lower, upper);
+		upper.setCompanionBlocks(lower, upper);
+		return new Block[] { registerBlock(lower, lowerName, 1), registerBlockWithoutItem(upper, upperName) };
+	}
+
+	public static Block[] CreateWoodPotStill(String suffix) {
+		return CreateWoodPotStill(suffix, 10, 1.5F);
 	}
 
 	public static Block CreateSurfaceDisplayBlocker(String name) {
@@ -935,6 +960,7 @@ public class FurnitureFactory {
 		if (registerItem) {
 			ItemBlock itemBlock = block instanceof GlassVaseBlock ? new ItemBlockGlassVase(block)
 				: block instanceof OrnamentBlock ? new ItemBlockOrnament(block)
+				: block instanceof PotStill ? new ItemBlockPotStill(block)
 				: block instanceof Barrel ? new ItemBlockBarrel(block)
 				: block instanceof BottleRack ? new ItemBlockBottleRack(block)
 				: block instanceof WallShelf ? new ItemBlockWallShelf(block)
@@ -964,7 +990,7 @@ public class FurnitureFactory {
 	private static void registerWoodFurnitureFireInfo(Block block) {
 		if (block instanceof Chair || block instanceof MultiBlockChair || block instanceof MultiBlockBed
 				|| block instanceof MultiBlockWoodBed || block instanceof DiningTable || block instanceof WallShelf
-				|| block instanceof BottleRack || block instanceof Barrel) {
+				|| block instanceof BottleRack || block instanceof Barrel || block instanceof PotStill) {
 			Blocks.FIRE.setFireInfo(block, WOOD_FURNITURE_FIRE_SPREAD_SPEED, WOOD_FURNITURE_FLAMMABILITY);
 		}
 	}
