@@ -1,0 +1,10 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_chair_throne_lower",
+  "textures": {
+    "log": "forestry:blocks/wood/bark.chestnut",
+    "planks": "forestry:blocks/wood/planks.chestnut",
+    "cloth": "minecraft:blocks/wool_colored_red",
+    "particle": "forestry:blocks/wood/bark.chestnut"
+  }
+}

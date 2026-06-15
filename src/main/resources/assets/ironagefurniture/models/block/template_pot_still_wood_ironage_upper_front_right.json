@@ -1,0 +1,795 @@
+{
+  "credit": "By FoxNekitsune",
+  "textures": {
+    "0": "minecraft:blocks/log_oak",
+    "1": "minecraft:blocks/planks_oak",
+    "particle": "minecraft:blocks/log_oak",
+    "iron": "minecraft:blocks/iron_block",
+    "inside": "minecraft:blocks/coal_block",
+    "ember": "minecraft:blocks/lava_still"
+  },
+  "elements": [
+    {
+      "name": "vat_core_tall",
+      "from": [
+        0,
+        0,
+        0.9
+      ],
+      "to": [
+        12,
+        14.4,
+        16
+      ],
+      "faces": {
+        "north": {
+          "texture": "#0"
+        },
+        "east": {
+          "texture": "#0"
+        },
+        "south": {
+          "texture": "#0"
+        },
+        "west": {
+          "texture": "#0"
+        },
+        "up": {
+          "texture": "#0"
+        },
+        "down": {
+          "texture": "#0"
+        }
+      },
+      "shade": true
+    },
+    {
+      "name": "vat_mid_bulge",
+      "from": [
+        0,
+        0,
+        5
+      ],
+      "to": [
+        14.5,
+        11.8,
+        16
+      ],
+      "faces": {
+        "north": {
+          "texture": "#0"
+        },
+        "east": {
+          "texture": "#0"
+        },
+        "south": {
+          "texture": "#0"
+        },
+        "west": {
+          "texture": "#0"
+        },
+        "up": {
+          "texture": "#0"
+        },
+        "down": {
+          "texture": "#0"
+        }
+      },
+      "shade": true
+    },
+    {
+      "name": "front_plank_skin",
+      "from": [
+        0,
+        0,
+        0.25
+      ],
+      "to": [
+        11.65,
+        13.2,
+        0.85
+      ],
+      "faces": {
+        "north": {
+          "texture": "#1"
+        },
+        "east": {
+          "texture": "#1"
+        },
+        "south": {
+          "texture": "#1"
+        },
+        "west": {
+          "texture": "#1"
+        },
+        "up": {
+          "texture": "#1"
+        },
+        "down": {
+          "texture": "#1"
+        }
+      },
+      "shade": true
+    },
+    {
+      "name": "right_plank_skin",
+      "from": [
+        14.35,
+        0,
+        5.35
+      ],
+      "to": [
+        14.95,
+        10.7,
+        16
+      ],
+      "faces": {
+        "north": {
+          "texture": "#1"
+        },
+        "east": {
+          "texture": "#1"
+        },
+        "south": {
+          "texture": "#1"
+        },
+        "west": {
+          "texture": "#1"
+        },
+        "up": {
+          "texture": "#1"
+        },
+        "down": {
+          "texture": "#1"
+        }
+      },
+      "shade": true
+    },
+    {
+      "name": "top_cap_core",
+      "from": [
+        0,
+        14.1,
+        2.8
+      ],
+      "to": [
+        11,
+        16,
+        16
+      ],
+      "faces": {
+        "north": {
+          "texture": "#1"
+        },
+        "east": {
+          "texture": "#1"
+        },
+        "south": {
+          "texture": "#1"
+        },
+        "west": {
+          "texture": "#1"
+        },
+        "up": {
+          "texture": "#1"
+        },
+        "down": {
+          "texture": "#1"
+        }
+      },
+      "shade": true
+    },
+    {
+      "name": "top_cap_bulge",
+      "from": [
+        0,
+        14.1,
+        7.1
+      ],
+      "to": [
+        13.2,
+        15.55,
+        16
+      ],
+      "faces": {
+        "north": {
+          "texture": "#1"
+        },
+        "east": {
+          "texture": "#1"
+        },
+        "south": {
+          "texture": "#1"
+        },
+        "west": {
+          "texture": "#1"
+        },
+        "up": {
+          "texture": "#1"
+        },
+        "down": {
+          "texture": "#1"
+        }
+      },
+      "shade": true
+    },
+    {
+      "name": "front_hoop_2",
+      "from": [
+        0,
+        4,
+        -0.2
+      ],
+      "to": [
+        12,
+        4.85,
+        0.45
+      ],
+      "faces": {
+        "north": {
+          "texture": "#iron"
+        },
+        "east": {
+          "texture": "#iron"
+        },
+        "south": {
+          "texture": "#iron"
+        },
+        "west": {
+          "texture": "#iron"
+        },
+        "up": {
+          "texture": "#iron"
+        },
+        "down": {
+          "texture": "#iron"
+        }
+      },
+      "shade": true
+    },
+    {
+      "name": "right_hoop_2",
+      "from": [
+        14.45,
+        4,
+        5
+      ],
+      "to": [
+        15.1,
+        4.85,
+        16
+      ],
+      "faces": {
+        "north": {
+          "texture": "#iron"
+        },
+        "east": {
+          "texture": "#iron"
+        },
+        "south": {
+          "texture": "#iron"
+        },
+        "west": {
+          "texture": "#iron"
+        },
+        "up": {
+          "texture": "#iron"
+        },
+        "down": {
+          "texture": "#iron"
+        }
+      },
+      "shade": true
+    },
+    {
+      "name": "front_hoop_3",
+      "from": [
+        0,
+        11.8,
+        -0.2
+      ],
+      "to": [
+        12,
+        12.65,
+        0.45
+      ],
+      "faces": {
+        "north": {
+          "texture": "#iron"
+        },
+        "east": {
+          "texture": "#iron"
+        },
+        "south": {
+          "texture": "#iron"
+        },
+        "west": {
+          "texture": "#iron"
+        },
+        "up": {
+          "texture": "#iron"
+        },
+        "down": {
+          "texture": "#iron"
+        }
+      },
+      "shade": true
+    },
+    {
+      "name": "right_hoop_3",
+      "from": [
+        14.45,
+        11.8,
+        5
+      ],
+      "to": [
+        15.1,
+        12.65,
+        16
+      ],
+      "faces": {
+        "north": {
+          "texture": "#iron"
+        },
+        "east": {
+          "texture": "#iron"
+        },
+        "south": {
+          "texture": "#iron"
+        },
+        "west": {
+          "texture": "#iron"
+        },
+        "up": {
+          "texture": "#iron"
+        },
+        "down": {
+          "texture": "#iron"
+        }
+      },
+      "shade": true
+    },
+    {
+      "name": "front_plank_gap_16",
+      "from": [
+        0,
+        0,
+        -0.28
+      ],
+      "to": [
+        0.12,
+        13,
+        0.3
+      ],
+      "faces": {
+        "north": {
+          "texture": "#inside"
+        },
+        "east": {
+          "texture": "#inside"
+        },
+        "south": {
+          "texture": "#inside"
+        },
+        "west": {
+          "texture": "#inside"
+        },
+        "up": {
+          "texture": "#inside"
+        },
+        "down": {
+          "texture": "#inside"
+        }
+      },
+      "shade": false
+    },
+    {
+      "name": "front_plank_gap_21.6",
+      "from": [
+        5.48,
+        0,
+        -0.28
+      ],
+      "to": [
+        5.72,
+        13,
+        0.3
+      ],
+      "faces": {
+        "north": {
+          "texture": "#inside"
+        },
+        "east": {
+          "texture": "#inside"
+        },
+        "south": {
+          "texture": "#inside"
+        },
+        "west": {
+          "texture": "#inside"
+        },
+        "up": {
+          "texture": "#inside"
+        },
+        "down": {
+          "texture": "#inside"
+        }
+      },
+      "shade": false
+    },
+    {
+      "name": "right_plank_gap_10.4",
+      "from": [
+        14.88,
+        0,
+        10.28
+      ],
+      "to": [
+        15.42,
+        10.5,
+        10.52
+      ],
+      "faces": {
+        "north": {
+          "texture": "#inside"
+        },
+        "east": {
+          "texture": "#inside"
+        },
+        "south": {
+          "texture": "#inside"
+        },
+        "west": {
+          "texture": "#inside"
+        },
+        "up": {
+          "texture": "#inside"
+        },
+        "down": {
+          "texture": "#inside"
+        }
+      },
+      "shade": false
+    },
+    {
+      "name": "right_plank_gap_16",
+      "from": [
+        14.88,
+        0,
+        15.88
+      ],
+      "to": [
+        15.42,
+        10.5,
+        16
+      ],
+      "faces": {
+        "north": {
+          "texture": "#inside"
+        },
+        "east": {
+          "texture": "#inside"
+        },
+        "south": {
+          "texture": "#inside"
+        },
+        "west": {
+          "texture": "#inside"
+        },
+        "up": {
+          "texture": "#inside"
+        },
+        "down": {
+          "texture": "#inside"
+        }
+      },
+      "shade": false
+    },
+    {
+      "name": "front_name_plate",
+      "from": [
+        0,
+        1.25,
+        -0.75
+      ],
+      "to": [
+        5,
+        4.2,
+        -0.15
+      ],
+      "faces": {
+        "north": {
+          "texture": "#iron"
+        },
+        "east": {
+          "texture": "#iron"
+        },
+        "south": {
+          "texture": "#iron"
+        },
+        "west": {
+          "texture": "#iron"
+        },
+        "up": {
+          "texture": "#iron"
+        },
+        "down": {
+          "texture": "#iron"
+        }
+      },
+      "shade": true
+    },
+    {
+      "name": "still_cap_base",
+      "from": [
+        0,
+        14.8,
+        10.8
+      ],
+      "to": [
+        4.8,
+        16.3,
+        16
+      ],
+      "faces": {
+        "north": {
+          "texture": "#iron"
+        },
+        "east": {
+          "texture": "#iron"
+        },
+        "south": {
+          "texture": "#iron"
+        },
+        "west": {
+          "texture": "#iron"
+        },
+        "up": {
+          "texture": "#iron"
+        },
+        "down": {
+          "texture": "#iron"
+        }
+      },
+      "shade": true
+    },
+    {
+      "name": "chimney_stack",
+      "from": [
+        0,
+        16,
+        13.4
+      ],
+      "to": [
+        2.3,
+        22,
+        16
+      ],
+      "faces": {
+        "north": {
+          "texture": "#inside"
+        },
+        "east": {
+          "texture": "#inside"
+        },
+        "south": {
+          "texture": "#inside"
+        },
+        "west": {
+          "texture": "#inside"
+        },
+        "up": {
+          "texture": "#inside"
+        },
+        "down": {
+          "texture": "#inside"
+        }
+      },
+      "shade": true
+    },
+    {
+      "name": "chimney_cap",
+      "from": [
+        0,
+        21.75,
+        12.7
+      ],
+      "to": [
+        3,
+        23,
+        16
+      ],
+      "faces": {
+        "north": {
+          "texture": "#iron"
+        },
+        "east": {
+          "texture": "#iron"
+        },
+        "south": {
+          "texture": "#iron"
+        },
+        "west": {
+          "texture": "#iron"
+        },
+        "up": {
+          "texture": "#iron"
+        },
+        "down": {
+          "texture": "#iron"
+        }
+      },
+      "shade": true
+    },
+    {
+      "name": "swan_neck_front",
+      "from": [
+        0,
+        11.8,
+        -0.7
+      ],
+      "to": [
+        1,
+        15.2,
+        0.35
+      ],
+      "faces": {
+        "north": {
+          "texture": "#iron"
+        },
+        "east": {
+          "texture": "#iron"
+        },
+        "south": {
+          "texture": "#iron"
+        },
+        "west": {
+          "texture": "#iron"
+        },
+        "up": {
+          "texture": "#iron"
+        },
+        "down": {
+          "texture": "#iron"
+        }
+      },
+      "shade": true
+    },
+    {
+      "name": "front_pipe_run",
+      "from": [
+        0.2,
+        11,
+        -0.75
+      ],
+      "to": [
+        13.8,
+        12.25,
+        0.35
+      ],
+      "faces": {
+        "north": {
+          "texture": "#iron"
+        },
+        "east": {
+          "texture": "#iron"
+        },
+        "south": {
+          "texture": "#iron"
+        },
+        "west": {
+          "texture": "#iron"
+        },
+        "up": {
+          "texture": "#iron"
+        },
+        "down": {
+          "texture": "#iron"
+        }
+      },
+      "shade": true
+    },
+    {
+      "name": "condenser_vertical",
+      "from": [
+        12.6,
+        0,
+        -0.9
+      ],
+      "to": [
+        14.1,
+        11.6,
+        0.45
+      ],
+      "faces": {
+        "north": {
+          "texture": "#iron"
+        },
+        "east": {
+          "texture": "#iron"
+        },
+        "south": {
+          "texture": "#iron"
+        },
+        "west": {
+          "texture": "#iron"
+        },
+        "up": {
+          "texture": "#iron"
+        },
+        "down": {
+          "texture": "#iron"
+        }
+      },
+      "shade": true
+    },
+    {
+      "name": "condenser_coil_18.2",
+      "from": [
+        8.4,
+        2.2,
+        -0.95
+      ],
+      "to": [
+        14.35,
+        3,
+        -0.2
+      ],
+      "faces": {
+        "north": {
+          "texture": "#iron"
+        },
+        "east": {
+          "texture": "#iron"
+        },
+        "south": {
+          "texture": "#iron"
+        },
+        "west": {
+          "texture": "#iron"
+        },
+        "up": {
+          "texture": "#iron"
+        },
+        "down": {
+          "texture": "#iron"
+        }
+      },
+      "shade": true
+    },
+    {
+      "name": "condenser_coil_22.2",
+      "from": [
+        8.4,
+        6.2,
+        -0.95
+      ],
+      "to": [
+        14.35,
+        7,
+        -0.2
+      ],
+      "faces": {
+        "north": {
+          "texture": "#iron"
+        },
+        "east": {
+          "texture": "#iron"
+        },
+        "south": {
+          "texture": "#iron"
+        },
+        "west": {
+          "texture": "#iron"
+        },
+        "up": {
+          "texture": "#iron"
+        },
+        "down": {
+          "texture": "#iron"
+        }
+      },
+      "shade": true
+    }
+  ]
+}

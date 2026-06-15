@@ -1,0 +1,10 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_chair_throne_inventory",
+  "textures": {
+    "log": "forestry:blocks/wood/bark.kapok",
+    "planks": "forestry:blocks/wood/planks.kapok",
+    "cloth": "minecraft:blocks/wool_colored_red",
+    "particle": "forestry:blocks/wood/bark.kapok"
+  }
+}

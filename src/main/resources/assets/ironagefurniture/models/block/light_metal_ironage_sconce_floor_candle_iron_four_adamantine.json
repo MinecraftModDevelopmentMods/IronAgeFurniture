@@ -1,0 +1,8 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_light_metal_ironage_sconce_floor_candle_four",
+  "textures": {
+    "metal": "basemetals:blocks/adamantine_block",
+    "wax": "ironagefurniture:blocks/candle_wax"
+  }
+}

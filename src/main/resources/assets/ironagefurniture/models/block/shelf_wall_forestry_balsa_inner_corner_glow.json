@@ -1,0 +1,10 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_shelf_wall_inner_corner_glow",
+  "textures": {
+    "log": "forestry:blocks/wood/bark.balsa",
+    "planks": "forestry:blocks/wood/planks.balsa",
+    "particle": "forestry:blocks/wood/bark.balsa",
+    "contents": "minecraft:blocks/glowstone"
+  }
+}

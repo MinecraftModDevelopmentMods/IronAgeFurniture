@@ -1,0 +1,11 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_table_low_end_flower_pot",
+  "textures": {
+    "log": "biomesoplenty:blocks/cherry_log",
+    "planks": "biomesoplenty:blocks/cherry_planks",
+    "particle": "biomesoplenty:blocks/cherry_log",
+    "pot": "ironagefurniture:blocks/ornament_clay_red",
+    "dirt": "minecraft:blocks/dirt"
+  }
+}

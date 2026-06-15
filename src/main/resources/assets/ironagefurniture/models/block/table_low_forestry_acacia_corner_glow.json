@@ -1,0 +1,10 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_table_low_corner_glow",
+  "textures": {
+    "log": "forestry:blocks/wood/bark.acacia",
+    "planks": "forestry:blocks/wood/planks.acacia",
+    "particle": "forestry:blocks/wood/bark.acacia",
+    "contents": "minecraft:blocks/glowstone"
+  }
+}

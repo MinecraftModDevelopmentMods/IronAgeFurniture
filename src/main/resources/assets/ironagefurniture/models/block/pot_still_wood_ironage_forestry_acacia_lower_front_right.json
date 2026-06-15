@@ -1,0 +1,11 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_pot_still_wood_ironage_lower_front_right",
+  "textures": {
+    "0": "forestry:blocks/wood/bark.acacia",
+    "1": "forestry:blocks/wood/planks.acacia",
+    "particle": "forestry:blocks/wood/bark.acacia",
+    "iron": "minecraft:blocks/iron_block",
+    "inside": "minecraft:blocks/coal_block"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_chair_wingback_upper",
+  "textures": {
+    "log": "natura:blocks/logs/overworld/sakura_log",
+    "planks": "natura:blocks/planks/overworld/sakura_planks",
+    "cloth": "minecraft:blocks/wool_colored_red",
+    "particle": "natura:blocks/logs/overworld/sakura_log"
+  }
+}

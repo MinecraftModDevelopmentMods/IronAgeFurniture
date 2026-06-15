@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "ironagefurniture:light_metal_ironage_block_floor_lava_clear", "y": 0 },
+    "facing=east": { "model": "ironagefurniture:light_metal_ironage_block_floor_lava_clear", "y": 90 },
+    "facing=south": { "model": "ironagefurniture:light_metal_ironage_block_floor_lava_clear", "y": 180 },
+    "facing=west": { "model": "ironagefurniture:light_metal_ironage_block_floor_lava_clear", "y": 270 }
+  }
+}

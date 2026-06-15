@@ -1,0 +1,10 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_chair_throne_middle",
+  "textures": {
+    "log": "biomesoplenty:blocks/magic_log",
+    "planks": "biomesoplenty:blocks/magic_planks",
+    "cloth": "minecraft:blocks/wool_colored_red",
+    "particle": "biomesoplenty:blocks/magic_log"
+  }
+}

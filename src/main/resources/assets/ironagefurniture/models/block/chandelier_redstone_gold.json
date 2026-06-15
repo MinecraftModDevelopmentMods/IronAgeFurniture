@@ -1,0 +1,11 @@
+﻿{
+    "credit":  "By FoxNekitsune",
+    "parent":  "ironagefurniture:block/template_chandelier_redstone",
+    "textures":  {
+                     "0":  "minecraft:blocks/gold_block",
+                     "1":  "minecraft:blocks/gold_block",
+                     "contents":  "minecraft:blocks/redstone_lamp_off",
+                     "particle":  "minecraft:blocks/gold_block"
+                 }
+}
+

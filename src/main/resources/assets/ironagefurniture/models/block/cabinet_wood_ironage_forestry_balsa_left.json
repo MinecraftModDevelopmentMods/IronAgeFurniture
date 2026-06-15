@@ -1,0 +1,9 @@
+{
+    "credit":  "By FoxNekitsune",
+    "parent":  "ironagefurniture:block/template_cabinet_wood_ironage_left",
+    "textures":  {
+                     "log":  "forestry:blocks/wood/bark.balsa",
+                     "planks":  "forestry:blocks/wood/planks.balsa",
+                     "particle":  "forestry:blocks/wood/bark.balsa"
+                 }
+}

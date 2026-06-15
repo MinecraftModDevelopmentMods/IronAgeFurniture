@@ -1,0 +1,820 @@
+{
+  "variants": {
+    "connections=0,contents=none,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_single"
+    },
+    "connections=0,contents=none,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_single"
+    },
+    "connections=0,contents=glow,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_single_glow"
+    },
+    "connections=0,contents=glow,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_single_glow"
+    },
+    "connections=0,contents=lava,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_single_lava"
+    },
+    "connections=0,contents=lava,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_single_lava"
+    },
+    "connections=0,contents=candle,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_single_candle"
+    },
+    "connections=0,contents=candle,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_single_candle"
+    },
+    "connections=1,contents=none,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end"
+    },
+    "connections=1,contents=none,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end"
+    },
+    "connections=1,contents=glow,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end_glow"
+    },
+    "connections=1,contents=glow,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end_glow"
+    },
+    "connections=1,contents=lava,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end_lava"
+    },
+    "connections=1,contents=lava,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end_lava"
+    },
+    "connections=1,contents=candle,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end_candle"
+    },
+    "connections=1,contents=candle,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end_candle"
+    },
+    "connections=2,contents=none,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=2,contents=none,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=2,contents=glow,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end_glow",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=2,contents=glow,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end_glow",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=2,contents=lava,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end_lava",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=2,contents=lava,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end_lava",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=2,contents=candle,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end_candle",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=2,contents=candle,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end_candle",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=3,contents=none,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner"
+    },
+    "connections=3,contents=none,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner"
+    },
+    "connections=3,contents=glow,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner_glow"
+    },
+    "connections=3,contents=glow,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner_glow"
+    },
+    "connections=3,contents=lava,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner_lava"
+    },
+    "connections=3,contents=lava,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner_lava"
+    },
+    "connections=3,contents=candle,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner_candle"
+    },
+    "connections=3,contents=candle,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner_candle"
+    },
+    "connections=4,contents=none,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=4,contents=none,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=4,contents=glow,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end_glow",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=4,contents=glow,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end_glow",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=4,contents=lava,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end_lava",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=4,contents=lava,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end_lava",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=4,contents=candle,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end_candle",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=4,contents=candle,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end_candle",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=5,contents=none,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_straight"
+    },
+    "connections=5,contents=none,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_straight"
+    },
+    "connections=5,contents=glow,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_straight_glow"
+    },
+    "connections=5,contents=glow,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_straight_glow"
+    },
+    "connections=5,contents=lava,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_straight_lava"
+    },
+    "connections=5,contents=lava,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_straight_lava"
+    },
+    "connections=5,contents=candle,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_straight_candle"
+    },
+    "connections=5,contents=candle,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_straight_candle"
+    },
+    "connections=6,contents=none,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=6,contents=none,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=6,contents=glow,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner_glow",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=6,contents=glow,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner_glow",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=6,contents=lava,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner_lava",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=6,contents=lava,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner_lava",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=6,contents=candle,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner_candle",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=6,contents=candle,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner_candle",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=7,contents=none,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee"
+    },
+    "connections=7,contents=none,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee"
+    },
+    "connections=7,contents=glow,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee_glow"
+    },
+    "connections=7,contents=glow,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee_glow"
+    },
+    "connections=7,contents=lava,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee_lava"
+    },
+    "connections=7,contents=lava,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee_lava"
+    },
+    "connections=7,contents=candle,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee_candle"
+    },
+    "connections=7,contents=candle,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee_candle"
+    },
+    "connections=8,contents=none,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=8,contents=none,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=8,contents=glow,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end_glow",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=8,contents=glow,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end_glow",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=8,contents=lava,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end_lava",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=8,contents=lava,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end_lava",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=8,contents=candle,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end_candle",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=8,contents=candle,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end_candle",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=9,contents=none,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=9,contents=none,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=9,contents=glow,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner_glow",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=9,contents=glow,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner_glow",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=9,contents=lava,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner_lava",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=9,contents=lava,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner_lava",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=9,contents=candle,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner_candle",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=9,contents=candle,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner_candle",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=10,contents=none,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_straight",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=10,contents=none,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_straight",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=10,contents=glow,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_straight_glow",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=10,contents=glow,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_straight_glow",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=10,contents=lava,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_straight_lava",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=10,contents=lava,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_straight_lava",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=10,contents=candle,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_straight_candle",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=10,contents=candle,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_straight_candle",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=11,contents=none,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=11,contents=none,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=11,contents=glow,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee_glow",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=11,contents=glow,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee_glow",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=11,contents=lava,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee_lava",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=11,contents=lava,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee_lava",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=11,contents=candle,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee_candle",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=11,contents=candle,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee_candle",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=12,contents=none,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=12,contents=none,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=12,contents=glow,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner_glow",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=12,contents=glow,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner_glow",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=12,contents=lava,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner_lava",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=12,contents=lava,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner_lava",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=12,contents=candle,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner_candle",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=12,contents=candle,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner_candle",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=13,contents=none,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=13,contents=none,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=13,contents=glow,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee_glow",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=13,contents=glow,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee_glow",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=13,contents=lava,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee_lava",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=13,contents=lava,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee_lava",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=13,contents=candle,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee_candle",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=13,contents=candle,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee_candle",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=14,contents=none,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=14,contents=none,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=14,contents=glow,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee_glow",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=14,contents=glow,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee_glow",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=14,contents=lava,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee_lava",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=14,contents=lava,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee_lava",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=14,contents=candle,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee_candle",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=14,contents=candle,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee_candle",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=15,contents=none,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_center"
+    },
+    "connections=15,contents=none,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_center"
+    },
+    "connections=15,contents=glow,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_center_glow"
+    },
+    "connections=15,contents=glow,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_center_glow"
+    },
+    "connections=15,contents=lava,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_center_lava"
+    },
+    "connections=15,contents=lava,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_center_lava"
+    },
+    "connections=15,contents=candle,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_center_candle"
+    },
+    "connections=15,contents=candle,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_center_candle"
+    },
+    "connections=0,contents=flower_pot,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_single_flower_pot"
+    },
+    "connections=0,contents=flower_pot,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_single_flower_pot"
+    },
+    "connections=1,contents=flower_pot,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end_flower_pot"
+    },
+    "connections=1,contents=flower_pot,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end_flower_pot"
+    },
+    "connections=2,contents=flower_pot,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end_flower_pot",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=2,contents=flower_pot,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end_flower_pot",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=3,contents=flower_pot,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner_flower_pot"
+    },
+    "connections=3,contents=flower_pot,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner_flower_pot"
+    },
+    "connections=4,contents=flower_pot,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end_flower_pot",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=4,contents=flower_pot,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end_flower_pot",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=5,contents=flower_pot,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_straight_flower_pot"
+    },
+    "connections=5,contents=flower_pot,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_straight_flower_pot"
+    },
+    "connections=6,contents=flower_pot,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner_flower_pot",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=6,contents=flower_pot,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner_flower_pot",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=7,contents=flower_pot,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee_flower_pot"
+    },
+    "connections=7,contents=flower_pot,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee_flower_pot"
+    },
+    "connections=8,contents=flower_pot,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end_flower_pot",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=8,contents=flower_pot,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end_flower_pot",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=9,contents=flower_pot,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner_flower_pot",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=9,contents=flower_pot,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner_flower_pot",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=10,contents=flower_pot,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_straight_flower_pot",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=10,contents=flower_pot,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_straight_flower_pot",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=11,contents=flower_pot,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee_flower_pot",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=11,contents=flower_pot,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee_flower_pot",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=12,contents=flower_pot,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner_flower_pot",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=12,contents=flower_pot,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner_flower_pot",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=13,contents=flower_pot,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee_flower_pot",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=13,contents=flower_pot,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee_flower_pot",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=14,contents=flower_pot,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee_flower_pot",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=14,contents=flower_pot,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee_flower_pot",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=15,contents=flower_pot,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_center_flower_pot"
+    },
+    "connections=15,contents=flower_pot,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_center_flower_pot"
+    },
+    "connections=0,contents=rock_salt,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_single_rock_salt"
+    },
+    "connections=0,contents=rock_salt,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_single_rock_salt"
+    },
+    "connections=1,contents=rock_salt,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end_rock_salt"
+    },
+    "connections=1,contents=rock_salt,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end_rock_salt"
+    },
+    "connections=2,contents=rock_salt,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end_rock_salt",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=2,contents=rock_salt,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end_rock_salt",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=3,contents=rock_salt,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner_rock_salt"
+    },
+    "connections=3,contents=rock_salt,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner_rock_salt"
+    },
+    "connections=4,contents=rock_salt,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end_rock_salt",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=4,contents=rock_salt,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end_rock_salt",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=5,contents=rock_salt,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_straight_rock_salt"
+    },
+    "connections=5,contents=rock_salt,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_straight_rock_salt"
+    },
+    "connections=6,contents=rock_salt,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner_rock_salt",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=6,contents=rock_salt,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner_rock_salt",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=7,contents=rock_salt,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee_rock_salt"
+    },
+    "connections=7,contents=rock_salt,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee_rock_salt"
+    },
+    "connections=8,contents=rock_salt,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end_rock_salt",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=8,contents=rock_salt,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_end_rock_salt",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=9,contents=rock_salt,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner_rock_salt",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=9,contents=rock_salt,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner_rock_salt",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=10,contents=rock_salt,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_straight_rock_salt",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=10,contents=rock_salt,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_straight_rock_salt",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=11,contents=rock_salt,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee_rock_salt",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=11,contents=rock_salt,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee_rock_salt",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=12,contents=rock_salt,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner_rock_salt",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=12,contents=rock_salt,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_corner_rock_salt",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=13,contents=rock_salt,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee_rock_salt",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=13,contents=rock_salt,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee_rock_salt",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=14,contents=rock_salt,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee_rock_salt",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=14,contents=rock_salt,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_tee_rock_salt",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=15,contents=rock_salt,data=false": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_center_rock_salt"
+    },
+    "connections=15,contents=rock_salt,data=true": {
+      "model": "ironagefurniture:table_low_forestry_mahogany_center_rock_salt"
+    }
+  }
+}

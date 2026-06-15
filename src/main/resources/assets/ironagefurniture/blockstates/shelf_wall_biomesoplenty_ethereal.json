@@ -1,0 +1,2180 @@
+{
+  "variants": {
+    "contents=none,data=false,facing=north,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight",
+      "y": 0
+    },
+    "contents=glow,data=false,facing=north,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_glow",
+      "y": 0
+    },
+    "contents=lava,data=false,facing=north,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_lava",
+      "y": 0
+    },
+    "contents=candle,data=false,facing=north,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_candle",
+      "y": 0
+    },
+    "contents=books_1,data=false,facing=north,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_books_1",
+      "y": 0
+    },
+    "contents=books_2,data=false,facing=north,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_books_2",
+      "y": 0
+    },
+    "contents=books_3,data=false,facing=north,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_books_3",
+      "y": 0
+    },
+    "contents=books_4,data=false,facing=north,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_books_4",
+      "y": 0
+    },
+    "contents=books_5,data=false,facing=north,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_books_5",
+      "y": 0
+    },
+    "contents=records_1,data=false,facing=north,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_1",
+      "y": 0
+    },
+    "contents=records_2,data=false,facing=north,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_2",
+      "y": 0
+    },
+    "contents=records_3,data=false,facing=north,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_3",
+      "y": 0
+    },
+    "contents=records_4,data=false,facing=north,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_4",
+      "y": 0
+    },
+    "contents=records_5,data=false,facing=north,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_5",
+      "y": 0
+    },
+    "contents=records_6,data=false,facing=north,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_6",
+      "y": 0
+    },
+    "contents=none,data=true,facing=north,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight",
+      "y": 0
+    },
+    "contents=glow,data=true,facing=north,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_glow",
+      "y": 0
+    },
+    "contents=lava,data=true,facing=north,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_lava",
+      "y": 0
+    },
+    "contents=candle,data=true,facing=north,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_candle",
+      "y": 0
+    },
+    "contents=books_1,data=true,facing=north,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_books_1",
+      "y": 0
+    },
+    "contents=books_2,data=true,facing=north,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_books_2",
+      "y": 0
+    },
+    "contents=books_3,data=true,facing=north,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_books_3",
+      "y": 0
+    },
+    "contents=books_4,data=true,facing=north,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_books_4",
+      "y": 0
+    },
+    "contents=books_5,data=true,facing=north,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_books_5",
+      "y": 0
+    },
+    "contents=records_1,data=true,facing=north,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_1",
+      "y": 0
+    },
+    "contents=records_2,data=true,facing=north,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_2",
+      "y": 0
+    },
+    "contents=records_3,data=true,facing=north,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_3",
+      "y": 0
+    },
+    "contents=records_4,data=true,facing=north,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_4",
+      "y": 0
+    },
+    "contents=records_5,data=true,facing=north,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_5",
+      "y": 0
+    },
+    "contents=records_6,data=true,facing=north,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_6",
+      "y": 0
+    },
+    "contents=none,data=false,facing=east,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight",
+      "y": 90
+    },
+    "contents=glow,data=false,facing=east,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_glow",
+      "y": 90
+    },
+    "contents=lava,data=false,facing=east,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_lava",
+      "y": 90
+    },
+    "contents=candle,data=false,facing=east,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_candle",
+      "y": 90
+    },
+    "contents=books_1,data=false,facing=east,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_books_1",
+      "y": 90
+    },
+    "contents=books_2,data=false,facing=east,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_books_2",
+      "y": 90
+    },
+    "contents=books_3,data=false,facing=east,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_books_3",
+      "y": 90
+    },
+    "contents=books_4,data=false,facing=east,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_books_4",
+      "y": 90
+    },
+    "contents=books_5,data=false,facing=east,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_books_5",
+      "y": 90
+    },
+    "contents=records_1,data=false,facing=east,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_1",
+      "y": 90
+    },
+    "contents=records_2,data=false,facing=east,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_2",
+      "y": 90
+    },
+    "contents=records_3,data=false,facing=east,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_3",
+      "y": 90
+    },
+    "contents=records_4,data=false,facing=east,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_4",
+      "y": 90
+    },
+    "contents=records_5,data=false,facing=east,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_5",
+      "y": 90
+    },
+    "contents=records_6,data=false,facing=east,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_6",
+      "y": 90
+    },
+    "contents=none,data=true,facing=east,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight",
+      "y": 90
+    },
+    "contents=glow,data=true,facing=east,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_glow",
+      "y": 90
+    },
+    "contents=lava,data=true,facing=east,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_lava",
+      "y": 90
+    },
+    "contents=candle,data=true,facing=east,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_candle",
+      "y": 90
+    },
+    "contents=books_1,data=true,facing=east,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_books_1",
+      "y": 90
+    },
+    "contents=books_2,data=true,facing=east,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_books_2",
+      "y": 90
+    },
+    "contents=books_3,data=true,facing=east,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_books_3",
+      "y": 90
+    },
+    "contents=books_4,data=true,facing=east,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_books_4",
+      "y": 90
+    },
+    "contents=books_5,data=true,facing=east,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_books_5",
+      "y": 90
+    },
+    "contents=records_1,data=true,facing=east,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_1",
+      "y": 90
+    },
+    "contents=records_2,data=true,facing=east,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_2",
+      "y": 90
+    },
+    "contents=records_3,data=true,facing=east,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_3",
+      "y": 90
+    },
+    "contents=records_4,data=true,facing=east,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_4",
+      "y": 90
+    },
+    "contents=records_5,data=true,facing=east,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_5",
+      "y": 90
+    },
+    "contents=records_6,data=true,facing=east,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_6",
+      "y": 90
+    },
+    "contents=none,data=false,facing=south,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight",
+      "y": 180
+    },
+    "contents=glow,data=false,facing=south,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_glow",
+      "y": 180
+    },
+    "contents=lava,data=false,facing=south,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_lava",
+      "y": 180
+    },
+    "contents=candle,data=false,facing=south,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_candle",
+      "y": 180
+    },
+    "contents=books_1,data=false,facing=south,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_books_1",
+      "y": 180
+    },
+    "contents=books_2,data=false,facing=south,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_books_2",
+      "y": 180
+    },
+    "contents=books_3,data=false,facing=south,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_books_3",
+      "y": 180
+    },
+    "contents=books_4,data=false,facing=south,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_books_4",
+      "y": 180
+    },
+    "contents=books_5,data=false,facing=south,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_books_5",
+      "y": 180
+    },
+    "contents=records_1,data=false,facing=south,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_1",
+      "y": 180
+    },
+    "contents=records_2,data=false,facing=south,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_2",
+      "y": 180
+    },
+    "contents=records_3,data=false,facing=south,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_3",
+      "y": 180
+    },
+    "contents=records_4,data=false,facing=south,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_4",
+      "y": 180
+    },
+    "contents=records_5,data=false,facing=south,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_5",
+      "y": 180
+    },
+    "contents=records_6,data=false,facing=south,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_6",
+      "y": 180
+    },
+    "contents=none,data=true,facing=south,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight",
+      "y": 180
+    },
+    "contents=glow,data=true,facing=south,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_glow",
+      "y": 180
+    },
+    "contents=lava,data=true,facing=south,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_lava",
+      "y": 180
+    },
+    "contents=candle,data=true,facing=south,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_candle",
+      "y": 180
+    },
+    "contents=books_1,data=true,facing=south,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_books_1",
+      "y": 180
+    },
+    "contents=books_2,data=true,facing=south,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_books_2",
+      "y": 180
+    },
+    "contents=books_3,data=true,facing=south,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_books_3",
+      "y": 180
+    },
+    "contents=books_4,data=true,facing=south,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_books_4",
+      "y": 180
+    },
+    "contents=books_5,data=true,facing=south,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_books_5",
+      "y": 180
+    },
+    "contents=records_1,data=true,facing=south,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_1",
+      "y": 180
+    },
+    "contents=records_2,data=true,facing=south,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_2",
+      "y": 180
+    },
+    "contents=records_3,data=true,facing=south,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_3",
+      "y": 180
+    },
+    "contents=records_4,data=true,facing=south,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_4",
+      "y": 180
+    },
+    "contents=records_5,data=true,facing=south,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_5",
+      "y": 180
+    },
+    "contents=records_6,data=true,facing=south,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_6",
+      "y": 180
+    },
+    "contents=none,data=false,facing=west,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight",
+      "y": 270
+    },
+    "contents=glow,data=false,facing=west,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_glow",
+      "y": 270
+    },
+    "contents=lava,data=false,facing=west,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_lava",
+      "y": 270
+    },
+    "contents=candle,data=false,facing=west,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_candle",
+      "y": 270
+    },
+    "contents=books_1,data=false,facing=west,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_books_1",
+      "y": 270
+    },
+    "contents=books_2,data=false,facing=west,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_books_2",
+      "y": 270
+    },
+    "contents=books_3,data=false,facing=west,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_books_3",
+      "y": 270
+    },
+    "contents=books_4,data=false,facing=west,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_books_4",
+      "y": 270
+    },
+    "contents=books_5,data=false,facing=west,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_books_5",
+      "y": 270
+    },
+    "contents=records_1,data=false,facing=west,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_1",
+      "y": 270
+    },
+    "contents=records_2,data=false,facing=west,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_2",
+      "y": 270
+    },
+    "contents=records_3,data=false,facing=west,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_3",
+      "y": 270
+    },
+    "contents=records_4,data=false,facing=west,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_4",
+      "y": 270
+    },
+    "contents=records_5,data=false,facing=west,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_5",
+      "y": 270
+    },
+    "contents=records_6,data=false,facing=west,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_6",
+      "y": 270
+    },
+    "contents=none,data=true,facing=west,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight",
+      "y": 270
+    },
+    "contents=glow,data=true,facing=west,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_glow",
+      "y": 270
+    },
+    "contents=lava,data=true,facing=west,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_lava",
+      "y": 270
+    },
+    "contents=candle,data=true,facing=west,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_candle",
+      "y": 270
+    },
+    "contents=books_1,data=true,facing=west,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_books_1",
+      "y": 270
+    },
+    "contents=books_2,data=true,facing=west,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_books_2",
+      "y": 270
+    },
+    "contents=books_3,data=true,facing=west,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_books_3",
+      "y": 270
+    },
+    "contents=books_4,data=true,facing=west,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_books_4",
+      "y": 270
+    },
+    "contents=books_5,data=true,facing=west,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_books_5",
+      "y": 270
+    },
+    "contents=records_1,data=true,facing=west,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_1",
+      "y": 270
+    },
+    "contents=records_2,data=true,facing=west,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_2",
+      "y": 270
+    },
+    "contents=records_3,data=true,facing=west,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_3",
+      "y": 270
+    },
+    "contents=records_4,data=true,facing=west,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_4",
+      "y": 270
+    },
+    "contents=records_5,data=true,facing=west,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_5",
+      "y": 270
+    },
+    "contents=records_6,data=true,facing=west,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_records_6",
+      "y": 270
+    },
+    "contents=none,data=false,facing=north,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support",
+      "y": 0
+    },
+    "contents=glow,data=false,facing=north,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_glow",
+      "y": 0
+    },
+    "contents=lava,data=false,facing=north,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_lava",
+      "y": 0
+    },
+    "contents=candle,data=false,facing=north,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_candle",
+      "y": 0
+    },
+    "contents=books_1,data=false,facing=north,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_books_1",
+      "y": 0
+    },
+    "contents=books_2,data=false,facing=north,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_books_2",
+      "y": 0
+    },
+    "contents=books_3,data=false,facing=north,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_books_3",
+      "y": 0
+    },
+    "contents=books_4,data=false,facing=north,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_books_4",
+      "y": 0
+    },
+    "contents=books_5,data=false,facing=north,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_books_5",
+      "y": 0
+    },
+    "contents=records_1,data=false,facing=north,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_1",
+      "y": 0
+    },
+    "contents=records_2,data=false,facing=north,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_2",
+      "y": 0
+    },
+    "contents=records_3,data=false,facing=north,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_3",
+      "y": 0
+    },
+    "contents=records_4,data=false,facing=north,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_4",
+      "y": 0
+    },
+    "contents=records_5,data=false,facing=north,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_5",
+      "y": 0
+    },
+    "contents=records_6,data=false,facing=north,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_6",
+      "y": 0
+    },
+    "contents=none,data=true,facing=north,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support",
+      "y": 0
+    },
+    "contents=glow,data=true,facing=north,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_glow",
+      "y": 0
+    },
+    "contents=lava,data=true,facing=north,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_lava",
+      "y": 0
+    },
+    "contents=candle,data=true,facing=north,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_candle",
+      "y": 0
+    },
+    "contents=books_1,data=true,facing=north,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_books_1",
+      "y": 0
+    },
+    "contents=books_2,data=true,facing=north,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_books_2",
+      "y": 0
+    },
+    "contents=books_3,data=true,facing=north,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_books_3",
+      "y": 0
+    },
+    "contents=books_4,data=true,facing=north,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_books_4",
+      "y": 0
+    },
+    "contents=books_5,data=true,facing=north,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_books_5",
+      "y": 0
+    },
+    "contents=records_1,data=true,facing=north,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_1",
+      "y": 0
+    },
+    "contents=records_2,data=true,facing=north,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_2",
+      "y": 0
+    },
+    "contents=records_3,data=true,facing=north,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_3",
+      "y": 0
+    },
+    "contents=records_4,data=true,facing=north,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_4",
+      "y": 0
+    },
+    "contents=records_5,data=true,facing=north,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_5",
+      "y": 0
+    },
+    "contents=records_6,data=true,facing=north,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_6",
+      "y": 0
+    },
+    "contents=none,data=false,facing=east,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support",
+      "y": 90
+    },
+    "contents=glow,data=false,facing=east,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_glow",
+      "y": 90
+    },
+    "contents=lava,data=false,facing=east,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_lava",
+      "y": 90
+    },
+    "contents=candle,data=false,facing=east,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_candle",
+      "y": 90
+    },
+    "contents=books_1,data=false,facing=east,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_books_1",
+      "y": 90
+    },
+    "contents=books_2,data=false,facing=east,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_books_2",
+      "y": 90
+    },
+    "contents=books_3,data=false,facing=east,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_books_3",
+      "y": 90
+    },
+    "contents=books_4,data=false,facing=east,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_books_4",
+      "y": 90
+    },
+    "contents=books_5,data=false,facing=east,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_books_5",
+      "y": 90
+    },
+    "contents=records_1,data=false,facing=east,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_1",
+      "y": 90
+    },
+    "contents=records_2,data=false,facing=east,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_2",
+      "y": 90
+    },
+    "contents=records_3,data=false,facing=east,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_3",
+      "y": 90
+    },
+    "contents=records_4,data=false,facing=east,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_4",
+      "y": 90
+    },
+    "contents=records_5,data=false,facing=east,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_5",
+      "y": 90
+    },
+    "contents=records_6,data=false,facing=east,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_6",
+      "y": 90
+    },
+    "contents=none,data=true,facing=east,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support",
+      "y": 90
+    },
+    "contents=glow,data=true,facing=east,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_glow",
+      "y": 90
+    },
+    "contents=lava,data=true,facing=east,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_lava",
+      "y": 90
+    },
+    "contents=candle,data=true,facing=east,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_candle",
+      "y": 90
+    },
+    "contents=books_1,data=true,facing=east,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_books_1",
+      "y": 90
+    },
+    "contents=books_2,data=true,facing=east,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_books_2",
+      "y": 90
+    },
+    "contents=books_3,data=true,facing=east,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_books_3",
+      "y": 90
+    },
+    "contents=books_4,data=true,facing=east,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_books_4",
+      "y": 90
+    },
+    "contents=books_5,data=true,facing=east,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_books_5",
+      "y": 90
+    },
+    "contents=records_1,data=true,facing=east,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_1",
+      "y": 90
+    },
+    "contents=records_2,data=true,facing=east,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_2",
+      "y": 90
+    },
+    "contents=records_3,data=true,facing=east,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_3",
+      "y": 90
+    },
+    "contents=records_4,data=true,facing=east,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_4",
+      "y": 90
+    },
+    "contents=records_5,data=true,facing=east,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_5",
+      "y": 90
+    },
+    "contents=records_6,data=true,facing=east,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_6",
+      "y": 90
+    },
+    "contents=none,data=false,facing=south,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support",
+      "y": 180
+    },
+    "contents=glow,data=false,facing=south,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_glow",
+      "y": 180
+    },
+    "contents=lava,data=false,facing=south,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_lava",
+      "y": 180
+    },
+    "contents=candle,data=false,facing=south,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_candle",
+      "y": 180
+    },
+    "contents=books_1,data=false,facing=south,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_books_1",
+      "y": 180
+    },
+    "contents=books_2,data=false,facing=south,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_books_2",
+      "y": 180
+    },
+    "contents=books_3,data=false,facing=south,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_books_3",
+      "y": 180
+    },
+    "contents=books_4,data=false,facing=south,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_books_4",
+      "y": 180
+    },
+    "contents=books_5,data=false,facing=south,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_books_5",
+      "y": 180
+    },
+    "contents=records_1,data=false,facing=south,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_1",
+      "y": 180
+    },
+    "contents=records_2,data=false,facing=south,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_2",
+      "y": 180
+    },
+    "contents=records_3,data=false,facing=south,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_3",
+      "y": 180
+    },
+    "contents=records_4,data=false,facing=south,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_4",
+      "y": 180
+    },
+    "contents=records_5,data=false,facing=south,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_5",
+      "y": 180
+    },
+    "contents=records_6,data=false,facing=south,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_6",
+      "y": 180
+    },
+    "contents=none,data=true,facing=south,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support",
+      "y": 180
+    },
+    "contents=glow,data=true,facing=south,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_glow",
+      "y": 180
+    },
+    "contents=lava,data=true,facing=south,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_lava",
+      "y": 180
+    },
+    "contents=candle,data=true,facing=south,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_candle",
+      "y": 180
+    },
+    "contents=books_1,data=true,facing=south,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_books_1",
+      "y": 180
+    },
+    "contents=books_2,data=true,facing=south,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_books_2",
+      "y": 180
+    },
+    "contents=books_3,data=true,facing=south,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_books_3",
+      "y": 180
+    },
+    "contents=books_4,data=true,facing=south,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_books_4",
+      "y": 180
+    },
+    "contents=books_5,data=true,facing=south,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_books_5",
+      "y": 180
+    },
+    "contents=records_1,data=true,facing=south,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_1",
+      "y": 180
+    },
+    "contents=records_2,data=true,facing=south,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_2",
+      "y": 180
+    },
+    "contents=records_3,data=true,facing=south,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_3",
+      "y": 180
+    },
+    "contents=records_4,data=true,facing=south,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_4",
+      "y": 180
+    },
+    "contents=records_5,data=true,facing=south,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_5",
+      "y": 180
+    },
+    "contents=records_6,data=true,facing=south,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_6",
+      "y": 180
+    },
+    "contents=none,data=false,facing=west,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support",
+      "y": 270
+    },
+    "contents=glow,data=false,facing=west,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_glow",
+      "y": 270
+    },
+    "contents=lava,data=false,facing=west,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_lava",
+      "y": 270
+    },
+    "contents=candle,data=false,facing=west,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_candle",
+      "y": 270
+    },
+    "contents=books_1,data=false,facing=west,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_books_1",
+      "y": 270
+    },
+    "contents=books_2,data=false,facing=west,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_books_2",
+      "y": 270
+    },
+    "contents=books_3,data=false,facing=west,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_books_3",
+      "y": 270
+    },
+    "contents=books_4,data=false,facing=west,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_books_4",
+      "y": 270
+    },
+    "contents=books_5,data=false,facing=west,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_books_5",
+      "y": 270
+    },
+    "contents=records_1,data=false,facing=west,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_1",
+      "y": 270
+    },
+    "contents=records_2,data=false,facing=west,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_2",
+      "y": 270
+    },
+    "contents=records_3,data=false,facing=west,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_3",
+      "y": 270
+    },
+    "contents=records_4,data=false,facing=west,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_4",
+      "y": 270
+    },
+    "contents=records_5,data=false,facing=west,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_5",
+      "y": 270
+    },
+    "contents=records_6,data=false,facing=west,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_6",
+      "y": 270
+    },
+    "contents=none,data=true,facing=west,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support",
+      "y": 270
+    },
+    "contents=glow,data=true,facing=west,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_glow",
+      "y": 270
+    },
+    "contents=lava,data=true,facing=west,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_lava",
+      "y": 270
+    },
+    "contents=candle,data=true,facing=west,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_candle",
+      "y": 270
+    },
+    "contents=books_1,data=true,facing=west,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_books_1",
+      "y": 270
+    },
+    "contents=books_2,data=true,facing=west,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_books_2",
+      "y": 270
+    },
+    "contents=books_3,data=true,facing=west,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_books_3",
+      "y": 270
+    },
+    "contents=books_4,data=true,facing=west,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_books_4",
+      "y": 270
+    },
+    "contents=books_5,data=true,facing=west,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_books_5",
+      "y": 270
+    },
+    "contents=records_1,data=true,facing=west,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_1",
+      "y": 270
+    },
+    "contents=records_2,data=true,facing=west,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_2",
+      "y": 270
+    },
+    "contents=records_3,data=true,facing=west,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_3",
+      "y": 270
+    },
+    "contents=records_4,data=true,facing=west,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_4",
+      "y": 270
+    },
+    "contents=records_5,data=true,facing=west,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_5",
+      "y": 270
+    },
+    "contents=records_6,data=true,facing=west,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_records_6",
+      "y": 270
+    },
+    "contents=none,data=false,facing=north,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner",
+      "y": 270
+    },
+    "contents=glow,data=false,facing=north,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_glow",
+      "y": 270
+    },
+    "contents=lava,data=false,facing=north,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_lava",
+      "y": 270
+    },
+    "contents=candle,data=false,facing=north,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_candle",
+      "y": 270
+    },
+    "contents=books_1,data=false,facing=north,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_books_1",
+      "y": 270
+    },
+    "contents=books_2,data=false,facing=north,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_books_2",
+      "y": 270
+    },
+    "contents=books_3,data=false,facing=north,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_books_3",
+      "y": 270
+    },
+    "contents=books_4,data=false,facing=north,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_books_4",
+      "y": 270
+    },
+    "contents=books_5,data=false,facing=north,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_books_5",
+      "y": 270
+    },
+    "contents=records_1,data=false,facing=north,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_1",
+      "y": 270
+    },
+    "contents=records_2,data=false,facing=north,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_2",
+      "y": 270
+    },
+    "contents=records_3,data=false,facing=north,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_3",
+      "y": 270
+    },
+    "contents=records_4,data=false,facing=north,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_4",
+      "y": 270
+    },
+    "contents=records_5,data=false,facing=north,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_5",
+      "y": 270
+    },
+    "contents=records_6,data=false,facing=north,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_6",
+      "y": 270
+    },
+    "contents=none,data=true,facing=north,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner",
+      "y": 270
+    },
+    "contents=glow,data=true,facing=north,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_glow",
+      "y": 270
+    },
+    "contents=lava,data=true,facing=north,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_lava",
+      "y": 270
+    },
+    "contents=candle,data=true,facing=north,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_candle",
+      "y": 270
+    },
+    "contents=books_1,data=true,facing=north,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_books_1",
+      "y": 270
+    },
+    "contents=books_2,data=true,facing=north,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_books_2",
+      "y": 270
+    },
+    "contents=books_3,data=true,facing=north,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_books_3",
+      "y": 270
+    },
+    "contents=books_4,data=true,facing=north,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_books_4",
+      "y": 270
+    },
+    "contents=books_5,data=true,facing=north,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_books_5",
+      "y": 270
+    },
+    "contents=records_1,data=true,facing=north,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_1",
+      "y": 270
+    },
+    "contents=records_2,data=true,facing=north,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_2",
+      "y": 270
+    },
+    "contents=records_3,data=true,facing=north,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_3",
+      "y": 270
+    },
+    "contents=records_4,data=true,facing=north,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_4",
+      "y": 270
+    },
+    "contents=records_5,data=true,facing=north,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_5",
+      "y": 270
+    },
+    "contents=records_6,data=true,facing=north,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_6",
+      "y": 270
+    },
+    "contents=none,data=false,facing=east,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner",
+      "y": 0
+    },
+    "contents=glow,data=false,facing=east,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_glow",
+      "y": 0
+    },
+    "contents=lava,data=false,facing=east,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_lava",
+      "y": 0
+    },
+    "contents=candle,data=false,facing=east,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_candle",
+      "y": 0
+    },
+    "contents=books_1,data=false,facing=east,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_books_1",
+      "y": 0
+    },
+    "contents=books_2,data=false,facing=east,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_books_2",
+      "y": 0
+    },
+    "contents=books_3,data=false,facing=east,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_books_3",
+      "y": 0
+    },
+    "contents=books_4,data=false,facing=east,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_books_4",
+      "y": 0
+    },
+    "contents=books_5,data=false,facing=east,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_books_5",
+      "y": 0
+    },
+    "contents=records_1,data=false,facing=east,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_1",
+      "y": 0
+    },
+    "contents=records_2,data=false,facing=east,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_2",
+      "y": 0
+    },
+    "contents=records_3,data=false,facing=east,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_3",
+      "y": 0
+    },
+    "contents=records_4,data=false,facing=east,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_4",
+      "y": 0
+    },
+    "contents=records_5,data=false,facing=east,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_5",
+      "y": 0
+    },
+    "contents=records_6,data=false,facing=east,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_6",
+      "y": 0
+    },
+    "contents=none,data=true,facing=east,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner",
+      "y": 0
+    },
+    "contents=glow,data=true,facing=east,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_glow",
+      "y": 0
+    },
+    "contents=lava,data=true,facing=east,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_lava",
+      "y": 0
+    },
+    "contents=candle,data=true,facing=east,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_candle",
+      "y": 0
+    },
+    "contents=books_1,data=true,facing=east,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_books_1",
+      "y": 0
+    },
+    "contents=books_2,data=true,facing=east,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_books_2",
+      "y": 0
+    },
+    "contents=books_3,data=true,facing=east,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_books_3",
+      "y": 0
+    },
+    "contents=books_4,data=true,facing=east,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_books_4",
+      "y": 0
+    },
+    "contents=books_5,data=true,facing=east,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_books_5",
+      "y": 0
+    },
+    "contents=records_1,data=true,facing=east,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_1",
+      "y": 0
+    },
+    "contents=records_2,data=true,facing=east,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_2",
+      "y": 0
+    },
+    "contents=records_3,data=true,facing=east,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_3",
+      "y": 0
+    },
+    "contents=records_4,data=true,facing=east,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_4",
+      "y": 0
+    },
+    "contents=records_5,data=true,facing=east,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_5",
+      "y": 0
+    },
+    "contents=records_6,data=true,facing=east,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_6",
+      "y": 0
+    },
+    "contents=none,data=false,facing=south,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner",
+      "y": 90
+    },
+    "contents=glow,data=false,facing=south,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_glow",
+      "y": 90
+    },
+    "contents=lava,data=false,facing=south,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_lava",
+      "y": 90
+    },
+    "contents=candle,data=false,facing=south,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_candle",
+      "y": 90
+    },
+    "contents=books_1,data=false,facing=south,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_books_1",
+      "y": 90
+    },
+    "contents=books_2,data=false,facing=south,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_books_2",
+      "y": 90
+    },
+    "contents=books_3,data=false,facing=south,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_books_3",
+      "y": 90
+    },
+    "contents=books_4,data=false,facing=south,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_books_4",
+      "y": 90
+    },
+    "contents=books_5,data=false,facing=south,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_books_5",
+      "y": 90
+    },
+    "contents=records_1,data=false,facing=south,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_1",
+      "y": 90
+    },
+    "contents=records_2,data=false,facing=south,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_2",
+      "y": 90
+    },
+    "contents=records_3,data=false,facing=south,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_3",
+      "y": 90
+    },
+    "contents=records_4,data=false,facing=south,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_4",
+      "y": 90
+    },
+    "contents=records_5,data=false,facing=south,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_5",
+      "y": 90
+    },
+    "contents=records_6,data=false,facing=south,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_6",
+      "y": 90
+    },
+    "contents=none,data=true,facing=south,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner",
+      "y": 90
+    },
+    "contents=glow,data=true,facing=south,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_glow",
+      "y": 90
+    },
+    "contents=lava,data=true,facing=south,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_lava",
+      "y": 90
+    },
+    "contents=candle,data=true,facing=south,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_candle",
+      "y": 90
+    },
+    "contents=books_1,data=true,facing=south,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_books_1",
+      "y": 90
+    },
+    "contents=books_2,data=true,facing=south,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_books_2",
+      "y": 90
+    },
+    "contents=books_3,data=true,facing=south,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_books_3",
+      "y": 90
+    },
+    "contents=books_4,data=true,facing=south,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_books_4",
+      "y": 90
+    },
+    "contents=books_5,data=true,facing=south,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_books_5",
+      "y": 90
+    },
+    "contents=records_1,data=true,facing=south,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_1",
+      "y": 90
+    },
+    "contents=records_2,data=true,facing=south,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_2",
+      "y": 90
+    },
+    "contents=records_3,data=true,facing=south,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_3",
+      "y": 90
+    },
+    "contents=records_4,data=true,facing=south,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_4",
+      "y": 90
+    },
+    "contents=records_5,data=true,facing=south,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_5",
+      "y": 90
+    },
+    "contents=records_6,data=true,facing=south,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_6",
+      "y": 90
+    },
+    "contents=none,data=false,facing=west,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner",
+      "y": 180
+    },
+    "contents=glow,data=false,facing=west,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_glow",
+      "y": 180
+    },
+    "contents=lava,data=false,facing=west,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_lava",
+      "y": 180
+    },
+    "contents=candle,data=false,facing=west,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_candle",
+      "y": 180
+    },
+    "contents=books_1,data=false,facing=west,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_books_1",
+      "y": 180
+    },
+    "contents=books_2,data=false,facing=west,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_books_2",
+      "y": 180
+    },
+    "contents=books_3,data=false,facing=west,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_books_3",
+      "y": 180
+    },
+    "contents=books_4,data=false,facing=west,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_books_4",
+      "y": 180
+    },
+    "contents=books_5,data=false,facing=west,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_books_5",
+      "y": 180
+    },
+    "contents=records_1,data=false,facing=west,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_1",
+      "y": 180
+    },
+    "contents=records_2,data=false,facing=west,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_2",
+      "y": 180
+    },
+    "contents=records_3,data=false,facing=west,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_3",
+      "y": 180
+    },
+    "contents=records_4,data=false,facing=west,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_4",
+      "y": 180
+    },
+    "contents=records_5,data=false,facing=west,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_5",
+      "y": 180
+    },
+    "contents=records_6,data=false,facing=west,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_6",
+      "y": 180
+    },
+    "contents=none,data=true,facing=west,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner",
+      "y": 180
+    },
+    "contents=glow,data=true,facing=west,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_glow",
+      "y": 180
+    },
+    "contents=lava,data=true,facing=west,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_lava",
+      "y": 180
+    },
+    "contents=candle,data=true,facing=west,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_candle",
+      "y": 180
+    },
+    "contents=books_1,data=true,facing=west,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_books_1",
+      "y": 180
+    },
+    "contents=books_2,data=true,facing=west,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_books_2",
+      "y": 180
+    },
+    "contents=books_3,data=true,facing=west,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_books_3",
+      "y": 180
+    },
+    "contents=books_4,data=true,facing=west,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_books_4",
+      "y": 180
+    },
+    "contents=books_5,data=true,facing=west,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_books_5",
+      "y": 180
+    },
+    "contents=records_1,data=true,facing=west,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_1",
+      "y": 180
+    },
+    "contents=records_2,data=true,facing=west,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_2",
+      "y": 180
+    },
+    "contents=records_3,data=true,facing=west,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_3",
+      "y": 180
+    },
+    "contents=records_4,data=true,facing=west,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_4",
+      "y": 180
+    },
+    "contents=records_5,data=true,facing=west,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_5",
+      "y": 180
+    },
+    "contents=records_6,data=true,facing=west,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_records_6",
+      "y": 180
+    },
+    "contents=none,data=false,facing=north,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner",
+      "y": 0
+    },
+    "contents=glow,data=false,facing=north,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_glow",
+      "y": 0
+    },
+    "contents=lava,data=false,facing=north,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_lava",
+      "y": 0
+    },
+    "contents=candle,data=false,facing=north,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_candle",
+      "y": 0
+    },
+    "contents=books_1,data=false,facing=north,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_books_1",
+      "y": 0
+    },
+    "contents=books_2,data=false,facing=north,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_books_2",
+      "y": 0
+    },
+    "contents=books_3,data=false,facing=north,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_books_3",
+      "y": 0
+    },
+    "contents=books_4,data=false,facing=north,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_books_4",
+      "y": 0
+    },
+    "contents=books_5,data=false,facing=north,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_books_5",
+      "y": 0
+    },
+    "contents=records_1,data=false,facing=north,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_1",
+      "y": 0
+    },
+    "contents=records_2,data=false,facing=north,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_2",
+      "y": 0
+    },
+    "contents=records_3,data=false,facing=north,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_3",
+      "y": 0
+    },
+    "contents=records_4,data=false,facing=north,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_4",
+      "y": 0
+    },
+    "contents=records_5,data=false,facing=north,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_5",
+      "y": 0
+    },
+    "contents=records_6,data=false,facing=north,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_6",
+      "y": 0
+    },
+    "contents=none,data=true,facing=north,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner",
+      "y": 0
+    },
+    "contents=glow,data=true,facing=north,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_glow",
+      "y": 0
+    },
+    "contents=lava,data=true,facing=north,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_lava",
+      "y": 0
+    },
+    "contents=candle,data=true,facing=north,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_candle",
+      "y": 0
+    },
+    "contents=books_1,data=true,facing=north,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_books_1",
+      "y": 0
+    },
+    "contents=books_2,data=true,facing=north,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_books_2",
+      "y": 0
+    },
+    "contents=books_3,data=true,facing=north,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_books_3",
+      "y": 0
+    },
+    "contents=books_4,data=true,facing=north,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_books_4",
+      "y": 0
+    },
+    "contents=books_5,data=true,facing=north,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_books_5",
+      "y": 0
+    },
+    "contents=records_1,data=true,facing=north,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_1",
+      "y": 0
+    },
+    "contents=records_2,data=true,facing=north,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_2",
+      "y": 0
+    },
+    "contents=records_3,data=true,facing=north,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_3",
+      "y": 0
+    },
+    "contents=records_4,data=true,facing=north,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_4",
+      "y": 0
+    },
+    "contents=records_5,data=true,facing=north,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_5",
+      "y": 0
+    },
+    "contents=records_6,data=true,facing=north,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_6",
+      "y": 0
+    },
+    "contents=none,data=false,facing=east,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner",
+      "y": 90
+    },
+    "contents=glow,data=false,facing=east,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_glow",
+      "y": 90
+    },
+    "contents=lava,data=false,facing=east,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_lava",
+      "y": 90
+    },
+    "contents=candle,data=false,facing=east,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_candle",
+      "y": 90
+    },
+    "contents=books_1,data=false,facing=east,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_books_1",
+      "y": 90
+    },
+    "contents=books_2,data=false,facing=east,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_books_2",
+      "y": 90
+    },
+    "contents=books_3,data=false,facing=east,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_books_3",
+      "y": 90
+    },
+    "contents=books_4,data=false,facing=east,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_books_4",
+      "y": 90
+    },
+    "contents=books_5,data=false,facing=east,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_books_5",
+      "y": 90
+    },
+    "contents=records_1,data=false,facing=east,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_1",
+      "y": 90
+    },
+    "contents=records_2,data=false,facing=east,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_2",
+      "y": 90
+    },
+    "contents=records_3,data=false,facing=east,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_3",
+      "y": 90
+    },
+    "contents=records_4,data=false,facing=east,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_4",
+      "y": 90
+    },
+    "contents=records_5,data=false,facing=east,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_5",
+      "y": 90
+    },
+    "contents=records_6,data=false,facing=east,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_6",
+      "y": 90
+    },
+    "contents=none,data=true,facing=east,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner",
+      "y": 90
+    },
+    "contents=glow,data=true,facing=east,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_glow",
+      "y": 90
+    },
+    "contents=lava,data=true,facing=east,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_lava",
+      "y": 90
+    },
+    "contents=candle,data=true,facing=east,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_candle",
+      "y": 90
+    },
+    "contents=books_1,data=true,facing=east,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_books_1",
+      "y": 90
+    },
+    "contents=books_2,data=true,facing=east,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_books_2",
+      "y": 90
+    },
+    "contents=books_3,data=true,facing=east,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_books_3",
+      "y": 90
+    },
+    "contents=books_4,data=true,facing=east,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_books_4",
+      "y": 90
+    },
+    "contents=books_5,data=true,facing=east,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_books_5",
+      "y": 90
+    },
+    "contents=records_1,data=true,facing=east,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_1",
+      "y": 90
+    },
+    "contents=records_2,data=true,facing=east,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_2",
+      "y": 90
+    },
+    "contents=records_3,data=true,facing=east,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_3",
+      "y": 90
+    },
+    "contents=records_4,data=true,facing=east,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_4",
+      "y": 90
+    },
+    "contents=records_5,data=true,facing=east,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_5",
+      "y": 90
+    },
+    "contents=records_6,data=true,facing=east,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_6",
+      "y": 90
+    },
+    "contents=none,data=false,facing=south,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner",
+      "y": 180
+    },
+    "contents=glow,data=false,facing=south,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_glow",
+      "y": 180
+    },
+    "contents=lava,data=false,facing=south,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_lava",
+      "y": 180
+    },
+    "contents=candle,data=false,facing=south,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_candle",
+      "y": 180
+    },
+    "contents=books_1,data=false,facing=south,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_books_1",
+      "y": 180
+    },
+    "contents=books_2,data=false,facing=south,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_books_2",
+      "y": 180
+    },
+    "contents=books_3,data=false,facing=south,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_books_3",
+      "y": 180
+    },
+    "contents=books_4,data=false,facing=south,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_books_4",
+      "y": 180
+    },
+    "contents=books_5,data=false,facing=south,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_books_5",
+      "y": 180
+    },
+    "contents=records_1,data=false,facing=south,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_1",
+      "y": 180
+    },
+    "contents=records_2,data=false,facing=south,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_2",
+      "y": 180
+    },
+    "contents=records_3,data=false,facing=south,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_3",
+      "y": 180
+    },
+    "contents=records_4,data=false,facing=south,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_4",
+      "y": 180
+    },
+    "contents=records_5,data=false,facing=south,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_5",
+      "y": 180
+    },
+    "contents=records_6,data=false,facing=south,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_6",
+      "y": 180
+    },
+    "contents=none,data=true,facing=south,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner",
+      "y": 180
+    },
+    "contents=glow,data=true,facing=south,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_glow",
+      "y": 180
+    },
+    "contents=lava,data=true,facing=south,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_lava",
+      "y": 180
+    },
+    "contents=candle,data=true,facing=south,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_candle",
+      "y": 180
+    },
+    "contents=books_1,data=true,facing=south,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_books_1",
+      "y": 180
+    },
+    "contents=books_2,data=true,facing=south,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_books_2",
+      "y": 180
+    },
+    "contents=books_3,data=true,facing=south,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_books_3",
+      "y": 180
+    },
+    "contents=books_4,data=true,facing=south,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_books_4",
+      "y": 180
+    },
+    "contents=books_5,data=true,facing=south,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_books_5",
+      "y": 180
+    },
+    "contents=records_1,data=true,facing=south,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_1",
+      "y": 180
+    },
+    "contents=records_2,data=true,facing=south,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_2",
+      "y": 180
+    },
+    "contents=records_3,data=true,facing=south,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_3",
+      "y": 180
+    },
+    "contents=records_4,data=true,facing=south,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_4",
+      "y": 180
+    },
+    "contents=records_5,data=true,facing=south,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_5",
+      "y": 180
+    },
+    "contents=records_6,data=true,facing=south,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_6",
+      "y": 180
+    },
+    "contents=none,data=false,facing=west,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner",
+      "y": 270
+    },
+    "contents=glow,data=false,facing=west,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_glow",
+      "y": 270
+    },
+    "contents=lava,data=false,facing=west,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_lava",
+      "y": 270
+    },
+    "contents=candle,data=false,facing=west,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_candle",
+      "y": 270
+    },
+    "contents=books_1,data=false,facing=west,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_books_1",
+      "y": 270
+    },
+    "contents=books_2,data=false,facing=west,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_books_2",
+      "y": 270
+    },
+    "contents=books_3,data=false,facing=west,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_books_3",
+      "y": 270
+    },
+    "contents=books_4,data=false,facing=west,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_books_4",
+      "y": 270
+    },
+    "contents=books_5,data=false,facing=west,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_books_5",
+      "y": 270
+    },
+    "contents=records_1,data=false,facing=west,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_1",
+      "y": 270
+    },
+    "contents=records_2,data=false,facing=west,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_2",
+      "y": 270
+    },
+    "contents=records_3,data=false,facing=west,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_3",
+      "y": 270
+    },
+    "contents=records_4,data=false,facing=west,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_4",
+      "y": 270
+    },
+    "contents=records_5,data=false,facing=west,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_5",
+      "y": 270
+    },
+    "contents=records_6,data=false,facing=west,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_6",
+      "y": 270
+    },
+    "contents=none,data=true,facing=west,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner",
+      "y": 270
+    },
+    "contents=glow,data=true,facing=west,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_glow",
+      "y": 270
+    },
+    "contents=lava,data=true,facing=west,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_lava",
+      "y": 270
+    },
+    "contents=candle,data=true,facing=west,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_candle",
+      "y": 270
+    },
+    "contents=books_1,data=true,facing=west,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_books_1",
+      "y": 270
+    },
+    "contents=books_2,data=true,facing=west,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_books_2",
+      "y": 270
+    },
+    "contents=books_3,data=true,facing=west,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_books_3",
+      "y": 270
+    },
+    "contents=books_4,data=true,facing=west,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_books_4",
+      "y": 270
+    },
+    "contents=books_5,data=true,facing=west,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_books_5",
+      "y": 270
+    },
+    "contents=records_1,data=true,facing=west,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_1",
+      "y": 270
+    },
+    "contents=records_2,data=true,facing=west,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_2",
+      "y": 270
+    },
+    "contents=records_3,data=true,facing=west,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_3",
+      "y": 270
+    },
+    "contents=records_4,data=true,facing=west,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_4",
+      "y": 270
+    },
+    "contents=records_5,data=true,facing=west,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_5",
+      "y": 270
+    },
+    "contents=records_6,data=true,facing=west,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_records_6",
+      "y": 270
+    },
+    "contents=flower_pot,data=false,facing=north,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_flower_pot",
+      "y": 0
+    },
+    "contents=flower_pot,data=true,facing=north,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_flower_pot",
+      "y": 0
+    },
+    "contents=flower_pot,data=false,facing=east,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_flower_pot",
+      "y": 90
+    },
+    "contents=flower_pot,data=true,facing=east,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_flower_pot",
+      "y": 90
+    },
+    "contents=flower_pot,data=false,facing=south,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_flower_pot",
+      "y": 180
+    },
+    "contents=flower_pot,data=true,facing=south,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_flower_pot",
+      "y": 180
+    },
+    "contents=flower_pot,data=false,facing=west,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_flower_pot",
+      "y": 270
+    },
+    "contents=flower_pot,data=true,facing=west,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_flower_pot",
+      "y": 270
+    },
+    "contents=flower_pot,data=false,facing=north,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_flower_pot",
+      "y": 0
+    },
+    "contents=flower_pot,data=true,facing=north,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_flower_pot",
+      "y": 0
+    },
+    "contents=flower_pot,data=false,facing=east,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_flower_pot",
+      "y": 90
+    },
+    "contents=flower_pot,data=true,facing=east,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_flower_pot",
+      "y": 90
+    },
+    "contents=flower_pot,data=false,facing=south,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_flower_pot",
+      "y": 180
+    },
+    "contents=flower_pot,data=true,facing=south,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_flower_pot",
+      "y": 180
+    },
+    "contents=flower_pot,data=false,facing=west,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_flower_pot",
+      "y": 270
+    },
+    "contents=flower_pot,data=true,facing=west,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_flower_pot",
+      "y": 270
+    },
+    "contents=flower_pot,data=false,facing=north,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_flower_pot",
+      "y": 270
+    },
+    "contents=flower_pot,data=true,facing=north,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_flower_pot",
+      "y": 270
+    },
+    "contents=flower_pot,data=false,facing=east,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_flower_pot",
+      "y": 0
+    },
+    "contents=flower_pot,data=true,facing=east,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_flower_pot",
+      "y": 0
+    },
+    "contents=flower_pot,data=false,facing=south,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_flower_pot",
+      "y": 90
+    },
+    "contents=flower_pot,data=true,facing=south,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_flower_pot",
+      "y": 90
+    },
+    "contents=flower_pot,data=false,facing=west,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_flower_pot",
+      "y": 180
+    },
+    "contents=flower_pot,data=true,facing=west,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_flower_pot",
+      "y": 180
+    },
+    "contents=flower_pot,data=false,facing=north,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_flower_pot",
+      "y": 0
+    },
+    "contents=flower_pot,data=true,facing=north,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_flower_pot",
+      "y": 0
+    },
+    "contents=flower_pot,data=false,facing=east,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_flower_pot",
+      "y": 90
+    },
+    "contents=flower_pot,data=true,facing=east,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_flower_pot",
+      "y": 90
+    },
+    "contents=flower_pot,data=false,facing=south,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_flower_pot",
+      "y": 180
+    },
+    "contents=flower_pot,data=true,facing=south,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_flower_pot",
+      "y": 180
+    },
+    "contents=flower_pot,data=false,facing=west,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_flower_pot",
+      "y": 270
+    },
+    "contents=flower_pot,data=true,facing=west,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_flower_pot",
+      "y": 270
+    },
+    "contents=rock_salt,data=false,facing=north,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_rock_salt",
+      "y": 0
+    },
+    "contents=rock_salt,data=true,facing=north,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_rock_salt",
+      "y": 0
+    },
+    "contents=rock_salt,data=false,facing=east,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_rock_salt",
+      "y": 90
+    },
+    "contents=rock_salt,data=true,facing=east,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_rock_salt",
+      "y": 90
+    },
+    "contents=rock_salt,data=false,facing=south,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_rock_salt",
+      "y": 180
+    },
+    "contents=rock_salt,data=true,facing=south,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_rock_salt",
+      "y": 180
+    },
+    "contents=rock_salt,data=false,facing=west,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_rock_salt",
+      "y": 270
+    },
+    "contents=rock_salt,data=true,facing=west,support=straight": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_rock_salt",
+      "y": 270
+    },
+    "contents=rock_salt,data=false,facing=north,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_rock_salt",
+      "y": 0
+    },
+    "contents=rock_salt,data=true,facing=north,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_rock_salt",
+      "y": 0
+    },
+    "contents=rock_salt,data=false,facing=east,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_rock_salt",
+      "y": 90
+    },
+    "contents=rock_salt,data=true,facing=east,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_rock_salt",
+      "y": 90
+    },
+    "contents=rock_salt,data=false,facing=south,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_rock_salt",
+      "y": 180
+    },
+    "contents=rock_salt,data=true,facing=south,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_rock_salt",
+      "y": 180
+    },
+    "contents=rock_salt,data=false,facing=west,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_rock_salt",
+      "y": 270
+    },
+    "contents=rock_salt,data=true,facing=west,support=straight_support": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_straight_support_rock_salt",
+      "y": 270
+    },
+    "contents=rock_salt,data=false,facing=north,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_rock_salt",
+      "y": 270
+    },
+    "contents=rock_salt,data=true,facing=north,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_rock_salt",
+      "y": 270
+    },
+    "contents=rock_salt,data=false,facing=east,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_rock_salt",
+      "y": 0
+    },
+    "contents=rock_salt,data=true,facing=east,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_rock_salt",
+      "y": 0
+    },
+    "contents=rock_salt,data=false,facing=south,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_rock_salt",
+      "y": 90
+    },
+    "contents=rock_salt,data=true,facing=south,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_rock_salt",
+      "y": 90
+    },
+    "contents=rock_salt,data=false,facing=west,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_rock_salt",
+      "y": 180
+    },
+    "contents=rock_salt,data=true,facing=west,support=inner_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_inner_corner_rock_salt",
+      "y": 180
+    },
+    "contents=rock_salt,data=false,facing=north,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_rock_salt",
+      "y": 0
+    },
+    "contents=rock_salt,data=true,facing=north,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_rock_salt",
+      "y": 0
+    },
+    "contents=rock_salt,data=false,facing=east,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_rock_salt",
+      "y": 90
+    },
+    "contents=rock_salt,data=true,facing=east,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_rock_salt",
+      "y": 90
+    },
+    "contents=rock_salt,data=false,facing=south,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_rock_salt",
+      "y": 180
+    },
+    "contents=rock_salt,data=true,facing=south,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_rock_salt",
+      "y": 180
+    },
+    "contents=rock_salt,data=false,facing=west,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_rock_salt",
+      "y": 270
+    },
+    "contents=rock_salt,data=true,facing=west,support=outer_corner": {
+      "model": "ironagefurniture:shelf_wall_biomesoplenty_ethereal_outer_corner_rock_salt",
+      "y": 270
+    }
+  }
+}

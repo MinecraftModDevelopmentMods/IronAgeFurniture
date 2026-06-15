@@ -1,0 +1,9 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_bottle_rack_wood_ironage_9",
+  "textures": {
+    "log": "biomesoplenty:blocks/willow_log",
+    "planks": "biomesoplenty:blocks/willow_planks",
+    "particle": "biomesoplenty:blocks/willow_log"
+  }
+}

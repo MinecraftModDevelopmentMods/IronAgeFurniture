@@ -1,0 +1,9 @@
+{
+    "credit": "By FoxNekitsune",
+    "parent": "ironagefurniture:block/template_cabinet_wood_ironage_right_open",
+    "textures": {
+        "log": "biomesoplenty:blocks/willow_log",
+        "planks": "biomesoplenty:blocks/willow_planks",
+        "particle": "biomesoplenty:blocks/willow_log"
+    }
+}

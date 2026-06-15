@@ -1,0 +1,11 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_bed_canopy_head_right_upper",
+  "textures": {
+    "log": "forestry:blocks/wood/bark.mahoe",
+    "planks": "forestry:blocks/wood/planks.mahoe",
+    "cloth": "minecraft:blocks/wool_colored_red",
+    "sheet": "minecraft:blocks/wool_colored_white",
+    "particle": "forestry:blocks/wood/bark.mahoe"
+  }
+}

@@ -23,12 +23,12 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class Chair extends BlockHBase {
-	private static final AxisAlignedBB BB = new AxisAlignedBB(0.1, 0.0, 0.1, 0.9, 1.6, 0.9);
-	private static final AxisAlignedBB BASEBB = new AxisAlignedBB(0.1, 0.0, 0.1, 0.9, 0.5, 0.9);
-	private static final AxisAlignedBB BACKEAST = new AxisAlignedBB(0.825, 0.6, 0.1, 0.9, 1.2, 0.9);
-	private static final AxisAlignedBB BACKNORTH = RotateBB(Rotation.Ninty, BACKEAST);
-	private static final AxisAlignedBB BACKSOUTH = RotateBB(Rotation.OneEighty, BACKEAST);
-	private static final AxisAlignedBB BACKWEST = RotateBB(Rotation.TwoSeventy, BACKEAST);
+	protected static final AxisAlignedBB BB = new AxisAlignedBB(0.1, 0.0, 0.1, 0.9, 1.6, 0.9);
+	protected static final AxisAlignedBB BASEBB = new AxisAlignedBB(0.1, 0.0, 0.1, 0.9, 0.5, 0.9);
+	protected static final AxisAlignedBB BACKEAST = new AxisAlignedBB(0.825, 0.6, 0.1, 0.9, 1.2, 0.9);
+	protected static final AxisAlignedBB BACKNORTH = RotateBB(Rotation.Ninty, BACKEAST);
+	protected static final AxisAlignedBB BACKSOUTH = RotateBB(Rotation.OneEighty, BACKEAST);
+	protected static final AxisAlignedBB BACKWEST = RotateBB(Rotation.TwoSeventy, BACKEAST);
 	private final double yOffset;
 	
 	@Override

@@ -1,0 +1,73 @@
+{
+  "variants": {
+    "metal=iron": {
+      "model": "ironagefurniture:chandelier_torch"
+    },
+    "metal=gold": {
+      "model": "ironagefurniture:chandelier_torch_gold"
+    },
+    "metal=adamantine": {
+      "model": "ironagefurniture:chandelier_torch_adamantine"
+    },
+    "metal=antimony": {
+      "model": "ironagefurniture:chandelier_torch_antimony"
+    },
+    "metal=aquarium": {
+      "model": "ironagefurniture:chandelier_torch_aquarium"
+    },
+    "metal=bismuth": {
+      "model": "ironagefurniture:chandelier_torch_bismuth"
+    },
+    "metal=brass": {
+      "model": "ironagefurniture:chandelier_torch_brass"
+    },
+    "metal=bronze": {
+      "model": "ironagefurniture:chandelier_torch_bronze"
+    },
+    "metal=coldiron": {
+      "model": "ironagefurniture:chandelier_torch_coldiron"
+    },
+    "metal=copper": {
+      "model": "ironagefurniture:chandelier_torch_copper"
+    },
+    "metal=cupronickel": {
+      "model": "ironagefurniture:chandelier_torch_cupronickel"
+    },
+    "metal=electrum": {
+      "model": "ironagefurniture:chandelier_torch_electrum"
+    },
+    "metal=invar": {
+      "model": "ironagefurniture:chandelier_torch_invar"
+    },
+    "metal=lead": {
+      "model": "ironagefurniture:chandelier_torch_lead"
+    },
+    "metal=mithril": {
+      "model": "ironagefurniture:chandelier_torch_mithril"
+    },
+    "metal=nickel": {
+      "model": "ironagefurniture:chandelier_torch_nickel"
+    },
+    "metal=pewter": {
+      "model": "ironagefurniture:chandelier_torch_pewter"
+    },
+    "metal=platinum": {
+      "model": "ironagefurniture:chandelier_torch_platinum"
+    },
+    "metal=silver": {
+      "model": "ironagefurniture:chandelier_torch_silver"
+    },
+    "metal=starsteel": {
+      "model": "ironagefurniture:chandelier_torch_starsteel"
+    },
+    "metal=steel": {
+      "model": "ironagefurniture:chandelier_torch_steel"
+    },
+    "metal=tin": {
+      "model": "ironagefurniture:chandelier_torch_tin"
+    },
+    "metal=zinc": {
+      "model": "ironagefurniture:chandelier_torch_zinc"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_bottle_rack_wood_ironage_4",
+  "textures": {
+    "log": "immersiveengineering:blocks/treatedWood_packaged",
+    "planks": "immersiveengineering:blocks/treatedWood_vertical",
+    "particle": "immersiveengineering:blocks/treatedWood_packaged"
+  }
+}

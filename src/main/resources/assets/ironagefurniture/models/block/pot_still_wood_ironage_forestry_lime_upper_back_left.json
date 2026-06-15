@@ -1,0 +1,11 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_pot_still_wood_ironage_upper_back_left",
+  "textures": {
+    "0": "forestry:blocks/wood/bark.lime",
+    "1": "forestry:blocks/wood/planks.lime",
+    "particle": "forestry:blocks/wood/bark.lime",
+    "iron": "minecraft:blocks/iron_block",
+    "inside": "minecraft:blocks/coal_block"
+  }
+}

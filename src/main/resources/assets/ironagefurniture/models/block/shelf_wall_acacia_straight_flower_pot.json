@@ -1,0 +1,11 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_shelf_wall_straight_flower_pot",
+  "textures": {
+    "log": "minecraft:blocks/log_acacia",
+    "planks": "minecraft:blocks/planks_acacia",
+    "particle": "minecraft:blocks/log_acacia",
+    "pot": "ironagefurniture:blocks/ornament_clay_red",
+    "dirt": "minecraft:blocks/dirt"
+  }
+}

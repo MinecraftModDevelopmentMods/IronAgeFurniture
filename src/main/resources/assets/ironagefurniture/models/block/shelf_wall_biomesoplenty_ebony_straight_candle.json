@@ -1,0 +1,12 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_shelf_wall_straight_candle",
+  "textures": {
+    "log": "biomesoplenty:blocks/ebony_log",
+    "planks": "biomesoplenty:blocks/ebony_planks",
+    "particle": "biomesoplenty:blocks/ebony_log",
+    "wax": "ironagefurniture:blocks/candle_wax",
+    "metal": "minecraft:blocks/iron_block",
+    "wick": "minecraft:blocks/coal_block"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "ironagefurniture:side_barrel_wood_ironage_immersiveengineering_treatedWood",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "ironagefurniture:side_barrel_wood_ironage_immersiveengineering_treatedWood",
+      "y": 270
+    },
+    "facing=south": {
+      "model": "ironagefurniture:side_barrel_wood_ironage_immersiveengineering_treatedWood"
+    },
+    "facing=west": {
+      "model": "ironagefurniture:side_barrel_wood_ironage_immersiveengineering_treatedWood",
+      "y": 90
+    }
+  }
+}

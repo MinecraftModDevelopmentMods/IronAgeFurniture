@@ -1,0 +1,9 @@
+package com.mcmoddev.ironagefurniture;
+
+import net.minecraft.item.Item;
+
+public class ItemObjectHolder {
+	public static Item iron_nugget;
+	public static Item tallow;
+	public static Item fluid_bottle;
+}

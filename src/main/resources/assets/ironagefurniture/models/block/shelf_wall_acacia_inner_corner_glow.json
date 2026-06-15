@@ -1,0 +1,10 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_shelf_wall_inner_corner_glow",
+  "textures": {
+    "log": "minecraft:blocks/log_acacia",
+    "planks": "minecraft:blocks/planks_acacia",
+    "particle": "minecraft:blocks/log_acacia",
+    "contents": "minecraft:blocks/glowstone"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_bed_wood_head_right",
+  "textures": {
+    "log": "natura:blocks/logs/overworld/willow_log",
+    "planks": "natura:blocks/planks/overworld/willow_planks",
+    "cloth": "minecraft:blocks/wool_colored_red",
+    "sheet": "minecraft:blocks/wool_colored_white",
+    "particle": "natura:blocks/logs/overworld/willow_log"
+  }
+}

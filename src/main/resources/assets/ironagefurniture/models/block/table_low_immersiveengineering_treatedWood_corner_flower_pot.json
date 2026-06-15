@@ -1,0 +1,11 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_table_low_corner_flower_pot",
+  "textures": {
+    "log": "immersiveengineering:blocks/treatedWood_packaged",
+    "planks": "immersiveengineering:blocks/treatedWood_vertical",
+    "particle": "immersiveengineering:blocks/treatedWood_packaged",
+    "pot": "ironagefurniture:blocks/ornament_clay_red",
+    "dirt": "minecraft:blocks/dirt"
+  }
+}

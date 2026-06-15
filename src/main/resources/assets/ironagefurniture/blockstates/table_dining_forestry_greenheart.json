@@ -1,0 +1,140 @@
+{
+  "variants": {
+    "connections=0,data=false": {
+      "model": "ironagefurniture:table_dining_forestry_greenheart_single"
+    },
+    "connections=0,data=true": {
+      "model": "ironagefurniture:table_dining_forestry_greenheart_single"
+    },
+    "connections=1,data=false": {
+      "model": "ironagefurniture:table_dining_forestry_greenheart_end"
+    },
+    "connections=1,data=true": {
+      "model": "ironagefurniture:table_dining_forestry_greenheart_end"
+    },
+    "connections=2,data=false": {
+      "model": "ironagefurniture:table_dining_forestry_greenheart_end",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=2,data=true": {
+      "model": "ironagefurniture:table_dining_forestry_greenheart_end",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=3,data=false": {
+      "model": "ironagefurniture:table_dining_forestry_greenheart_corner"
+    },
+    "connections=3,data=true": {
+      "model": "ironagefurniture:table_dining_forestry_greenheart_corner"
+    },
+    "connections=4,data=false": {
+      "model": "ironagefurniture:table_dining_forestry_greenheart_end",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=4,data=true": {
+      "model": "ironagefurniture:table_dining_forestry_greenheart_end",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=5,data=false": {
+      "model": "ironagefurniture:table_dining_forestry_greenheart_straight"
+    },
+    "connections=5,data=true": {
+      "model": "ironagefurniture:table_dining_forestry_greenheart_straight"
+    },
+    "connections=6,data=false": {
+      "model": "ironagefurniture:table_dining_forestry_greenheart_corner",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=6,data=true": {
+      "model": "ironagefurniture:table_dining_forestry_greenheart_corner",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=7,data=false": {
+      "model": "ironagefurniture:table_dining_forestry_greenheart_tee"
+    },
+    "connections=7,data=true": {
+      "model": "ironagefurniture:table_dining_forestry_greenheart_tee"
+    },
+    "connections=8,data=false": {
+      "model": "ironagefurniture:table_dining_forestry_greenheart_end",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=8,data=true": {
+      "model": "ironagefurniture:table_dining_forestry_greenheart_end",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=9,data=false": {
+      "model": "ironagefurniture:table_dining_forestry_greenheart_corner",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=9,data=true": {
+      "model": "ironagefurniture:table_dining_forestry_greenheart_corner",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=10,data=false": {
+      "model": "ironagefurniture:table_dining_forestry_greenheart_straight",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=10,data=true": {
+      "model": "ironagefurniture:table_dining_forestry_greenheart_straight",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=11,data=false": {
+      "model": "ironagefurniture:table_dining_forestry_greenheart_tee",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=11,data=true": {
+      "model": "ironagefurniture:table_dining_forestry_greenheart_tee",
+      "y": 270,
+      "uvlock": true
+    },
+    "connections=12,data=false": {
+      "model": "ironagefurniture:table_dining_forestry_greenheart_corner",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=12,data=true": {
+      "model": "ironagefurniture:table_dining_forestry_greenheart_corner",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=13,data=false": {
+      "model": "ironagefurniture:table_dining_forestry_greenheart_tee",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=13,data=true": {
+      "model": "ironagefurniture:table_dining_forestry_greenheart_tee",
+      "y": 180,
+      "uvlock": true
+    },
+    "connections=14,data=false": {
+      "model": "ironagefurniture:table_dining_forestry_greenheart_tee",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=14,data=true": {
+      "model": "ironagefurniture:table_dining_forestry_greenheart_tee",
+      "y": 90,
+      "uvlock": true
+    },
+    "connections=15,data=false": {
+      "model": "ironagefurniture:table_dining_forestry_greenheart_center"
+    },
+    "connections=15,data=true": {
+      "model": "ironagefurniture:table_dining_forestry_greenheart_center"
+    }
+  }
+}

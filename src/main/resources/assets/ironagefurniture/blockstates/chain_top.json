@@ -1,0 +1,1108 @@
+{
+  "variants": {
+    "metal=iron,power=0": {
+      "model": "ironagefurniture:chain_top"
+    },
+    "metal=gold,power=0": {
+      "model": "ironagefurniture:chain_top_gold"
+    },
+    "metal=adamantine,power=0": {
+      "model": "ironagefurniture:chain_top_adamantine"
+    },
+    "metal=antimony,power=0": {
+      "model": "ironagefurniture:chain_top_antimony"
+    },
+    "metal=aquarium,power=0": {
+      "model": "ironagefurniture:chain_top_aquarium"
+    },
+    "metal=bismuth,power=0": {
+      "model": "ironagefurniture:chain_top_bismuth"
+    },
+    "metal=brass,power=0": {
+      "model": "ironagefurniture:chain_top_brass"
+    },
+    "metal=bronze,power=0": {
+      "model": "ironagefurniture:chain_top_bronze"
+    },
+    "metal=coldiron,power=0": {
+      "model": "ironagefurniture:chain_top_coldiron"
+    },
+    "metal=copper,power=0": {
+      "model": "ironagefurniture:chain_top_copper"
+    },
+    "metal=cupronickel,power=0": {
+      "model": "ironagefurniture:chain_top_cupronickel"
+    },
+    "metal=electrum,power=0": {
+      "model": "ironagefurniture:chain_top_electrum"
+    },
+    "metal=invar,power=0": {
+      "model": "ironagefurniture:chain_top_invar"
+    },
+    "metal=lead,power=0": {
+      "model": "ironagefurniture:chain_top_lead"
+    },
+    "metal=mithril,power=0": {
+      "model": "ironagefurniture:chain_top_mithril"
+    },
+    "metal=nickel,power=0": {
+      "model": "ironagefurniture:chain_top_nickel"
+    },
+    "metal=pewter,power=0": {
+      "model": "ironagefurniture:chain_top_pewter"
+    },
+    "metal=platinum,power=0": {
+      "model": "ironagefurniture:chain_top_platinum"
+    },
+    "metal=silver,power=0": {
+      "model": "ironagefurniture:chain_top_silver"
+    },
+    "metal=starsteel,power=0": {
+      "model": "ironagefurniture:chain_top_starsteel"
+    },
+    "metal=steel,power=0": {
+      "model": "ironagefurniture:chain_top_steel"
+    },
+    "metal=tin,power=0": {
+      "model": "ironagefurniture:chain_top_tin"
+    },
+    "metal=zinc,power=0": {
+      "model": "ironagefurniture:chain_top_zinc"
+    },
+    "metal=iron,power=1": {
+      "model": "ironagefurniture:chain_top"
+    },
+    "metal=gold,power=1": {
+      "model": "ironagefurniture:chain_top_gold"
+    },
+    "metal=adamantine,power=1": {
+      "model": "ironagefurniture:chain_top_adamantine"
+    },
+    "metal=antimony,power=1": {
+      "model": "ironagefurniture:chain_top_antimony"
+    },
+    "metal=aquarium,power=1": {
+      "model": "ironagefurniture:chain_top_aquarium"
+    },
+    "metal=bismuth,power=1": {
+      "model": "ironagefurniture:chain_top_bismuth"
+    },
+    "metal=brass,power=1": {
+      "model": "ironagefurniture:chain_top_brass"
+    },
+    "metal=bronze,power=1": {
+      "model": "ironagefurniture:chain_top_bronze"
+    },
+    "metal=coldiron,power=1": {
+      "model": "ironagefurniture:chain_top_coldiron"
+    },
+    "metal=copper,power=1": {
+      "model": "ironagefurniture:chain_top_copper"
+    },
+    "metal=cupronickel,power=1": {
+      "model": "ironagefurniture:chain_top_cupronickel"
+    },
+    "metal=electrum,power=1": {
+      "model": "ironagefurniture:chain_top_electrum"
+    },
+    "metal=invar,power=1": {
+      "model": "ironagefurniture:chain_top_invar"
+    },
+    "metal=lead,power=1": {
+      "model": "ironagefurniture:chain_top_lead"
+    },
+    "metal=mithril,power=1": {
+      "model": "ironagefurniture:chain_top_mithril"
+    },
+    "metal=nickel,power=1": {
+      "model": "ironagefurniture:chain_top_nickel"
+    },
+    "metal=pewter,power=1": {
+      "model": "ironagefurniture:chain_top_pewter"
+    },
+    "metal=platinum,power=1": {
+      "model": "ironagefurniture:chain_top_platinum"
+    },
+    "metal=silver,power=1": {
+      "model": "ironagefurniture:chain_top_silver"
+    },
+    "metal=starsteel,power=1": {
+      "model": "ironagefurniture:chain_top_starsteel"
+    },
+    "metal=steel,power=1": {
+      "model": "ironagefurniture:chain_top_steel"
+    },
+    "metal=tin,power=1": {
+      "model": "ironagefurniture:chain_top_tin"
+    },
+    "metal=zinc,power=1": {
+      "model": "ironagefurniture:chain_top_zinc"
+    },
+    "metal=iron,power=2": {
+      "model": "ironagefurniture:chain_top"
+    },
+    "metal=gold,power=2": {
+      "model": "ironagefurniture:chain_top_gold"
+    },
+    "metal=adamantine,power=2": {
+      "model": "ironagefurniture:chain_top_adamantine"
+    },
+    "metal=antimony,power=2": {
+      "model": "ironagefurniture:chain_top_antimony"
+    },
+    "metal=aquarium,power=2": {
+      "model": "ironagefurniture:chain_top_aquarium"
+    },
+    "metal=bismuth,power=2": {
+      "model": "ironagefurniture:chain_top_bismuth"
+    },
+    "metal=brass,power=2": {
+      "model": "ironagefurniture:chain_top_brass"
+    },
+    "metal=bronze,power=2": {
+      "model": "ironagefurniture:chain_top_bronze"
+    },
+    "metal=coldiron,power=2": {
+      "model": "ironagefurniture:chain_top_coldiron"
+    },
+    "metal=copper,power=2": {
+      "model": "ironagefurniture:chain_top_copper"
+    },
+    "metal=cupronickel,power=2": {
+      "model": "ironagefurniture:chain_top_cupronickel"
+    },
+    "metal=electrum,power=2": {
+      "model": "ironagefurniture:chain_top_electrum"
+    },
+    "metal=invar,power=2": {
+      "model": "ironagefurniture:chain_top_invar"
+    },
+    "metal=lead,power=2": {
+      "model": "ironagefurniture:chain_top_lead"
+    },
+    "metal=mithril,power=2": {
+      "model": "ironagefurniture:chain_top_mithril"
+    },
+    "metal=nickel,power=2": {
+      "model": "ironagefurniture:chain_top_nickel"
+    },
+    "metal=pewter,power=2": {
+      "model": "ironagefurniture:chain_top_pewter"
+    },
+    "metal=platinum,power=2": {
+      "model": "ironagefurniture:chain_top_platinum"
+    },
+    "metal=silver,power=2": {
+      "model": "ironagefurniture:chain_top_silver"
+    },
+    "metal=starsteel,power=2": {
+      "model": "ironagefurniture:chain_top_starsteel"
+    },
+    "metal=steel,power=2": {
+      "model": "ironagefurniture:chain_top_steel"
+    },
+    "metal=tin,power=2": {
+      "model": "ironagefurniture:chain_top_tin"
+    },
+    "metal=zinc,power=2": {
+      "model": "ironagefurniture:chain_top_zinc"
+    },
+    "metal=iron,power=3": {
+      "model": "ironagefurniture:chain_top"
+    },
+    "metal=gold,power=3": {
+      "model": "ironagefurniture:chain_top_gold"
+    },
+    "metal=adamantine,power=3": {
+      "model": "ironagefurniture:chain_top_adamantine"
+    },
+    "metal=antimony,power=3": {
+      "model": "ironagefurniture:chain_top_antimony"
+    },
+    "metal=aquarium,power=3": {
+      "model": "ironagefurniture:chain_top_aquarium"
+    },
+    "metal=bismuth,power=3": {
+      "model": "ironagefurniture:chain_top_bismuth"
+    },
+    "metal=brass,power=3": {
+      "model": "ironagefurniture:chain_top_brass"
+    },
+    "metal=bronze,power=3": {
+      "model": "ironagefurniture:chain_top_bronze"
+    },
+    "metal=coldiron,power=3": {
+      "model": "ironagefurniture:chain_top_coldiron"
+    },
+    "metal=copper,power=3": {
+      "model": "ironagefurniture:chain_top_copper"
+    },
+    "metal=cupronickel,power=3": {
+      "model": "ironagefurniture:chain_top_cupronickel"
+    },
+    "metal=electrum,power=3": {
+      "model": "ironagefurniture:chain_top_electrum"
+    },
+    "metal=invar,power=3": {
+      "model": "ironagefurniture:chain_top_invar"
+    },
+    "metal=lead,power=3": {
+      "model": "ironagefurniture:chain_top_lead"
+    },
+    "metal=mithril,power=3": {
+      "model": "ironagefurniture:chain_top_mithril"
+    },
+    "metal=nickel,power=3": {
+      "model": "ironagefurniture:chain_top_nickel"
+    },
+    "metal=pewter,power=3": {
+      "model": "ironagefurniture:chain_top_pewter"
+    },
+    "metal=platinum,power=3": {
+      "model": "ironagefurniture:chain_top_platinum"
+    },
+    "metal=silver,power=3": {
+      "model": "ironagefurniture:chain_top_silver"
+    },
+    "metal=starsteel,power=3": {
+      "model": "ironagefurniture:chain_top_starsteel"
+    },
+    "metal=steel,power=3": {
+      "model": "ironagefurniture:chain_top_steel"
+    },
+    "metal=tin,power=3": {
+      "model": "ironagefurniture:chain_top_tin"
+    },
+    "metal=zinc,power=3": {
+      "model": "ironagefurniture:chain_top_zinc"
+    },
+    "metal=iron,power=4": {
+      "model": "ironagefurniture:chain_top"
+    },
+    "metal=gold,power=4": {
+      "model": "ironagefurniture:chain_top_gold"
+    },
+    "metal=adamantine,power=4": {
+      "model": "ironagefurniture:chain_top_adamantine"
+    },
+    "metal=antimony,power=4": {
+      "model": "ironagefurniture:chain_top_antimony"
+    },
+    "metal=aquarium,power=4": {
+      "model": "ironagefurniture:chain_top_aquarium"
+    },
+    "metal=bismuth,power=4": {
+      "model": "ironagefurniture:chain_top_bismuth"
+    },
+    "metal=brass,power=4": {
+      "model": "ironagefurniture:chain_top_brass"
+    },
+    "metal=bronze,power=4": {
+      "model": "ironagefurniture:chain_top_bronze"
+    },
+    "metal=coldiron,power=4": {
+      "model": "ironagefurniture:chain_top_coldiron"
+    },
+    "metal=copper,power=4": {
+      "model": "ironagefurniture:chain_top_copper"
+    },
+    "metal=cupronickel,power=4": {
+      "model": "ironagefurniture:chain_top_cupronickel"
+    },
+    "metal=electrum,power=4": {
+      "model": "ironagefurniture:chain_top_electrum"
+    },
+    "metal=invar,power=4": {
+      "model": "ironagefurniture:chain_top_invar"
+    },
+    "metal=lead,power=4": {
+      "model": "ironagefurniture:chain_top_lead"
+    },
+    "metal=mithril,power=4": {
+      "model": "ironagefurniture:chain_top_mithril"
+    },
+    "metal=nickel,power=4": {
+      "model": "ironagefurniture:chain_top_nickel"
+    },
+    "metal=pewter,power=4": {
+      "model": "ironagefurniture:chain_top_pewter"
+    },
+    "metal=platinum,power=4": {
+      "model": "ironagefurniture:chain_top_platinum"
+    },
+    "metal=silver,power=4": {
+      "model": "ironagefurniture:chain_top_silver"
+    },
+    "metal=starsteel,power=4": {
+      "model": "ironagefurniture:chain_top_starsteel"
+    },
+    "metal=steel,power=4": {
+      "model": "ironagefurniture:chain_top_steel"
+    },
+    "metal=tin,power=4": {
+      "model": "ironagefurniture:chain_top_tin"
+    },
+    "metal=zinc,power=4": {
+      "model": "ironagefurniture:chain_top_zinc"
+    },
+    "metal=iron,power=5": {
+      "model": "ironagefurniture:chain_top"
+    },
+    "metal=gold,power=5": {
+      "model": "ironagefurniture:chain_top_gold"
+    },
+    "metal=adamantine,power=5": {
+      "model": "ironagefurniture:chain_top_adamantine"
+    },
+    "metal=antimony,power=5": {
+      "model": "ironagefurniture:chain_top_antimony"
+    },
+    "metal=aquarium,power=5": {
+      "model": "ironagefurniture:chain_top_aquarium"
+    },
+    "metal=bismuth,power=5": {
+      "model": "ironagefurniture:chain_top_bismuth"
+    },
+    "metal=brass,power=5": {
+      "model": "ironagefurniture:chain_top_brass"
+    },
+    "metal=bronze,power=5": {
+      "model": "ironagefurniture:chain_top_bronze"
+    },
+    "metal=coldiron,power=5": {
+      "model": "ironagefurniture:chain_top_coldiron"
+    },
+    "metal=copper,power=5": {
+      "model": "ironagefurniture:chain_top_copper"
+    },
+    "metal=cupronickel,power=5": {
+      "model": "ironagefurniture:chain_top_cupronickel"
+    },
+    "metal=electrum,power=5": {
+      "model": "ironagefurniture:chain_top_electrum"
+    },
+    "metal=invar,power=5": {
+      "model": "ironagefurniture:chain_top_invar"
+    },
+    "metal=lead,power=5": {
+      "model": "ironagefurniture:chain_top_lead"
+    },
+    "metal=mithril,power=5": {
+      "model": "ironagefurniture:chain_top_mithril"
+    },
+    "metal=nickel,power=5": {
+      "model": "ironagefurniture:chain_top_nickel"
+    },
+    "metal=pewter,power=5": {
+      "model": "ironagefurniture:chain_top_pewter"
+    },
+    "metal=platinum,power=5": {
+      "model": "ironagefurniture:chain_top_platinum"
+    },
+    "metal=silver,power=5": {
+      "model": "ironagefurniture:chain_top_silver"
+    },
+    "metal=starsteel,power=5": {
+      "model": "ironagefurniture:chain_top_starsteel"
+    },
+    "metal=steel,power=5": {
+      "model": "ironagefurniture:chain_top_steel"
+    },
+    "metal=tin,power=5": {
+      "model": "ironagefurniture:chain_top_tin"
+    },
+    "metal=zinc,power=5": {
+      "model": "ironagefurniture:chain_top_zinc"
+    },
+    "metal=iron,power=6": {
+      "model": "ironagefurniture:chain_top"
+    },
+    "metal=gold,power=6": {
+      "model": "ironagefurniture:chain_top_gold"
+    },
+    "metal=adamantine,power=6": {
+      "model": "ironagefurniture:chain_top_adamantine"
+    },
+    "metal=antimony,power=6": {
+      "model": "ironagefurniture:chain_top_antimony"
+    },
+    "metal=aquarium,power=6": {
+      "model": "ironagefurniture:chain_top_aquarium"
+    },
+    "metal=bismuth,power=6": {
+      "model": "ironagefurniture:chain_top_bismuth"
+    },
+    "metal=brass,power=6": {
+      "model": "ironagefurniture:chain_top_brass"
+    },
+    "metal=bronze,power=6": {
+      "model": "ironagefurniture:chain_top_bronze"
+    },
+    "metal=coldiron,power=6": {
+      "model": "ironagefurniture:chain_top_coldiron"
+    },
+    "metal=copper,power=6": {
+      "model": "ironagefurniture:chain_top_copper"
+    },
+    "metal=cupronickel,power=6": {
+      "model": "ironagefurniture:chain_top_cupronickel"
+    },
+    "metal=electrum,power=6": {
+      "model": "ironagefurniture:chain_top_electrum"
+    },
+    "metal=invar,power=6": {
+      "model": "ironagefurniture:chain_top_invar"
+    },
+    "metal=lead,power=6": {
+      "model": "ironagefurniture:chain_top_lead"
+    },
+    "metal=mithril,power=6": {
+      "model": "ironagefurniture:chain_top_mithril"
+    },
+    "metal=nickel,power=6": {
+      "model": "ironagefurniture:chain_top_nickel"
+    },
+    "metal=pewter,power=6": {
+      "model": "ironagefurniture:chain_top_pewter"
+    },
+    "metal=platinum,power=6": {
+      "model": "ironagefurniture:chain_top_platinum"
+    },
+    "metal=silver,power=6": {
+      "model": "ironagefurniture:chain_top_silver"
+    },
+    "metal=starsteel,power=6": {
+      "model": "ironagefurniture:chain_top_starsteel"
+    },
+    "metal=steel,power=6": {
+      "model": "ironagefurniture:chain_top_steel"
+    },
+    "metal=tin,power=6": {
+      "model": "ironagefurniture:chain_top_tin"
+    },
+    "metal=zinc,power=6": {
+      "model": "ironagefurniture:chain_top_zinc"
+    },
+    "metal=iron,power=7": {
+      "model": "ironagefurniture:chain_top"
+    },
+    "metal=gold,power=7": {
+      "model": "ironagefurniture:chain_top_gold"
+    },
+    "metal=adamantine,power=7": {
+      "model": "ironagefurniture:chain_top_adamantine"
+    },
+    "metal=antimony,power=7": {
+      "model": "ironagefurniture:chain_top_antimony"
+    },
+    "metal=aquarium,power=7": {
+      "model": "ironagefurniture:chain_top_aquarium"
+    },
+    "metal=bismuth,power=7": {
+      "model": "ironagefurniture:chain_top_bismuth"
+    },
+    "metal=brass,power=7": {
+      "model": "ironagefurniture:chain_top_brass"
+    },
+    "metal=bronze,power=7": {
+      "model": "ironagefurniture:chain_top_bronze"
+    },
+    "metal=coldiron,power=7": {
+      "model": "ironagefurniture:chain_top_coldiron"
+    },
+    "metal=copper,power=7": {
+      "model": "ironagefurniture:chain_top_copper"
+    },
+    "metal=cupronickel,power=7": {
+      "model": "ironagefurniture:chain_top_cupronickel"
+    },
+    "metal=electrum,power=7": {
+      "model": "ironagefurniture:chain_top_electrum"
+    },
+    "metal=invar,power=7": {
+      "model": "ironagefurniture:chain_top_invar"
+    },
+    "metal=lead,power=7": {
+      "model": "ironagefurniture:chain_top_lead"
+    },
+    "metal=mithril,power=7": {
+      "model": "ironagefurniture:chain_top_mithril"
+    },
+    "metal=nickel,power=7": {
+      "model": "ironagefurniture:chain_top_nickel"
+    },
+    "metal=pewter,power=7": {
+      "model": "ironagefurniture:chain_top_pewter"
+    },
+    "metal=platinum,power=7": {
+      "model": "ironagefurniture:chain_top_platinum"
+    },
+    "metal=silver,power=7": {
+      "model": "ironagefurniture:chain_top_silver"
+    },
+    "metal=starsteel,power=7": {
+      "model": "ironagefurniture:chain_top_starsteel"
+    },
+    "metal=steel,power=7": {
+      "model": "ironagefurniture:chain_top_steel"
+    },
+    "metal=tin,power=7": {
+      "model": "ironagefurniture:chain_top_tin"
+    },
+    "metal=zinc,power=7": {
+      "model": "ironagefurniture:chain_top_zinc"
+    },
+    "metal=iron,power=8": {
+      "model": "ironagefurniture:chain_top"
+    },
+    "metal=gold,power=8": {
+      "model": "ironagefurniture:chain_top_gold"
+    },
+    "metal=adamantine,power=8": {
+      "model": "ironagefurniture:chain_top_adamantine"
+    },
+    "metal=antimony,power=8": {
+      "model": "ironagefurniture:chain_top_antimony"
+    },
+    "metal=aquarium,power=8": {
+      "model": "ironagefurniture:chain_top_aquarium"
+    },
+    "metal=bismuth,power=8": {
+      "model": "ironagefurniture:chain_top_bismuth"
+    },
+    "metal=brass,power=8": {
+      "model": "ironagefurniture:chain_top_brass"
+    },
+    "metal=bronze,power=8": {
+      "model": "ironagefurniture:chain_top_bronze"
+    },
+    "metal=coldiron,power=8": {
+      "model": "ironagefurniture:chain_top_coldiron"
+    },
+    "metal=copper,power=8": {
+      "model": "ironagefurniture:chain_top_copper"
+    },
+    "metal=cupronickel,power=8": {
+      "model": "ironagefurniture:chain_top_cupronickel"
+    },
+    "metal=electrum,power=8": {
+      "model": "ironagefurniture:chain_top_electrum"
+    },
+    "metal=invar,power=8": {
+      "model": "ironagefurniture:chain_top_invar"
+    },
+    "metal=lead,power=8": {
+      "model": "ironagefurniture:chain_top_lead"
+    },
+    "metal=mithril,power=8": {
+      "model": "ironagefurniture:chain_top_mithril"
+    },
+    "metal=nickel,power=8": {
+      "model": "ironagefurniture:chain_top_nickel"
+    },
+    "metal=pewter,power=8": {
+      "model": "ironagefurniture:chain_top_pewter"
+    },
+    "metal=platinum,power=8": {
+      "model": "ironagefurniture:chain_top_platinum"
+    },
+    "metal=silver,power=8": {
+      "model": "ironagefurniture:chain_top_silver"
+    },
+    "metal=starsteel,power=8": {
+      "model": "ironagefurniture:chain_top_starsteel"
+    },
+    "metal=steel,power=8": {
+      "model": "ironagefurniture:chain_top_steel"
+    },
+    "metal=tin,power=8": {
+      "model": "ironagefurniture:chain_top_tin"
+    },
+    "metal=zinc,power=8": {
+      "model": "ironagefurniture:chain_top_zinc"
+    },
+    "metal=iron,power=9": {
+      "model": "ironagefurniture:chain_top"
+    },
+    "metal=gold,power=9": {
+      "model": "ironagefurniture:chain_top_gold"
+    },
+    "metal=adamantine,power=9": {
+      "model": "ironagefurniture:chain_top_adamantine"
+    },
+    "metal=antimony,power=9": {
+      "model": "ironagefurniture:chain_top_antimony"
+    },
+    "metal=aquarium,power=9": {
+      "model": "ironagefurniture:chain_top_aquarium"
+    },
+    "metal=bismuth,power=9": {
+      "model": "ironagefurniture:chain_top_bismuth"
+    },
+    "metal=brass,power=9": {
+      "model": "ironagefurniture:chain_top_brass"
+    },
+    "metal=bronze,power=9": {
+      "model": "ironagefurniture:chain_top_bronze"
+    },
+    "metal=coldiron,power=9": {
+      "model": "ironagefurniture:chain_top_coldiron"
+    },
+    "metal=copper,power=9": {
+      "model": "ironagefurniture:chain_top_copper"
+    },
+    "metal=cupronickel,power=9": {
+      "model": "ironagefurniture:chain_top_cupronickel"
+    },
+    "metal=electrum,power=9": {
+      "model": "ironagefurniture:chain_top_electrum"
+    },
+    "metal=invar,power=9": {
+      "model": "ironagefurniture:chain_top_invar"
+    },
+    "metal=lead,power=9": {
+      "model": "ironagefurniture:chain_top_lead"
+    },
+    "metal=mithril,power=9": {
+      "model": "ironagefurniture:chain_top_mithril"
+    },
+    "metal=nickel,power=9": {
+      "model": "ironagefurniture:chain_top_nickel"
+    },
+    "metal=pewter,power=9": {
+      "model": "ironagefurniture:chain_top_pewter"
+    },
+    "metal=platinum,power=9": {
+      "model": "ironagefurniture:chain_top_platinum"
+    },
+    "metal=silver,power=9": {
+      "model": "ironagefurniture:chain_top_silver"
+    },
+    "metal=starsteel,power=9": {
+      "model": "ironagefurniture:chain_top_starsteel"
+    },
+    "metal=steel,power=9": {
+      "model": "ironagefurniture:chain_top_steel"
+    },
+    "metal=tin,power=9": {
+      "model": "ironagefurniture:chain_top_tin"
+    },
+    "metal=zinc,power=9": {
+      "model": "ironagefurniture:chain_top_zinc"
+    },
+    "metal=iron,power=10": {
+      "model": "ironagefurniture:chain_top"
+    },
+    "metal=gold,power=10": {
+      "model": "ironagefurniture:chain_top_gold"
+    },
+    "metal=adamantine,power=10": {
+      "model": "ironagefurniture:chain_top_adamantine"
+    },
+    "metal=antimony,power=10": {
+      "model": "ironagefurniture:chain_top_antimony"
+    },
+    "metal=aquarium,power=10": {
+      "model": "ironagefurniture:chain_top_aquarium"
+    },
+    "metal=bismuth,power=10": {
+      "model": "ironagefurniture:chain_top_bismuth"
+    },
+    "metal=brass,power=10": {
+      "model": "ironagefurniture:chain_top_brass"
+    },
+    "metal=bronze,power=10": {
+      "model": "ironagefurniture:chain_top_bronze"
+    },
+    "metal=coldiron,power=10": {
+      "model": "ironagefurniture:chain_top_coldiron"
+    },
+    "metal=copper,power=10": {
+      "model": "ironagefurniture:chain_top_copper"
+    },
+    "metal=cupronickel,power=10": {
+      "model": "ironagefurniture:chain_top_cupronickel"
+    },
+    "metal=electrum,power=10": {
+      "model": "ironagefurniture:chain_top_electrum"
+    },
+    "metal=invar,power=10": {
+      "model": "ironagefurniture:chain_top_invar"
+    },
+    "metal=lead,power=10": {
+      "model": "ironagefurniture:chain_top_lead"
+    },
+    "metal=mithril,power=10": {
+      "model": "ironagefurniture:chain_top_mithril"
+    },
+    "metal=nickel,power=10": {
+      "model": "ironagefurniture:chain_top_nickel"
+    },
+    "metal=pewter,power=10": {
+      "model": "ironagefurniture:chain_top_pewter"
+    },
+    "metal=platinum,power=10": {
+      "model": "ironagefurniture:chain_top_platinum"
+    },
+    "metal=silver,power=10": {
+      "model": "ironagefurniture:chain_top_silver"
+    },
+    "metal=starsteel,power=10": {
+      "model": "ironagefurniture:chain_top_starsteel"
+    },
+    "metal=steel,power=10": {
+      "model": "ironagefurniture:chain_top_steel"
+    },
+    "metal=tin,power=10": {
+      "model": "ironagefurniture:chain_top_tin"
+    },
+    "metal=zinc,power=10": {
+      "model": "ironagefurniture:chain_top_zinc"
+    },
+    "metal=iron,power=11": {
+      "model": "ironagefurniture:chain_top"
+    },
+    "metal=gold,power=11": {
+      "model": "ironagefurniture:chain_top_gold"
+    },
+    "metal=adamantine,power=11": {
+      "model": "ironagefurniture:chain_top_adamantine"
+    },
+    "metal=antimony,power=11": {
+      "model": "ironagefurniture:chain_top_antimony"
+    },
+    "metal=aquarium,power=11": {
+      "model": "ironagefurniture:chain_top_aquarium"
+    },
+    "metal=bismuth,power=11": {
+      "model": "ironagefurniture:chain_top_bismuth"
+    },
+    "metal=brass,power=11": {
+      "model": "ironagefurniture:chain_top_brass"
+    },
+    "metal=bronze,power=11": {
+      "model": "ironagefurniture:chain_top_bronze"
+    },
+    "metal=coldiron,power=11": {
+      "model": "ironagefurniture:chain_top_coldiron"
+    },
+    "metal=copper,power=11": {
+      "model": "ironagefurniture:chain_top_copper"
+    },
+    "metal=cupronickel,power=11": {
+      "model": "ironagefurniture:chain_top_cupronickel"
+    },
+    "metal=electrum,power=11": {
+      "model": "ironagefurniture:chain_top_electrum"
+    },
+    "metal=invar,power=11": {
+      "model": "ironagefurniture:chain_top_invar"
+    },
+    "metal=lead,power=11": {
+      "model": "ironagefurniture:chain_top_lead"
+    },
+    "metal=mithril,power=11": {
+      "model": "ironagefurniture:chain_top_mithril"
+    },
+    "metal=nickel,power=11": {
+      "model": "ironagefurniture:chain_top_nickel"
+    },
+    "metal=pewter,power=11": {
+      "model": "ironagefurniture:chain_top_pewter"
+    },
+    "metal=platinum,power=11": {
+      "model": "ironagefurniture:chain_top_platinum"
+    },
+    "metal=silver,power=11": {
+      "model": "ironagefurniture:chain_top_silver"
+    },
+    "metal=starsteel,power=11": {
+      "model": "ironagefurniture:chain_top_starsteel"
+    },
+    "metal=steel,power=11": {
+      "model": "ironagefurniture:chain_top_steel"
+    },
+    "metal=tin,power=11": {
+      "model": "ironagefurniture:chain_top_tin"
+    },
+    "metal=zinc,power=11": {
+      "model": "ironagefurniture:chain_top_zinc"
+    },
+    "metal=iron,power=12": {
+      "model": "ironagefurniture:chain_top"
+    },
+    "metal=gold,power=12": {
+      "model": "ironagefurniture:chain_top_gold"
+    },
+    "metal=adamantine,power=12": {
+      "model": "ironagefurniture:chain_top_adamantine"
+    },
+    "metal=antimony,power=12": {
+      "model": "ironagefurniture:chain_top_antimony"
+    },
+    "metal=aquarium,power=12": {
+      "model": "ironagefurniture:chain_top_aquarium"
+    },
+    "metal=bismuth,power=12": {
+      "model": "ironagefurniture:chain_top_bismuth"
+    },
+    "metal=brass,power=12": {
+      "model": "ironagefurniture:chain_top_brass"
+    },
+    "metal=bronze,power=12": {
+      "model": "ironagefurniture:chain_top_bronze"
+    },
+    "metal=coldiron,power=12": {
+      "model": "ironagefurniture:chain_top_coldiron"
+    },
+    "metal=copper,power=12": {
+      "model": "ironagefurniture:chain_top_copper"
+    },
+    "metal=cupronickel,power=12": {
+      "model": "ironagefurniture:chain_top_cupronickel"
+    },
+    "metal=electrum,power=12": {
+      "model": "ironagefurniture:chain_top_electrum"
+    },
+    "metal=invar,power=12": {
+      "model": "ironagefurniture:chain_top_invar"
+    },
+    "metal=lead,power=12": {
+      "model": "ironagefurniture:chain_top_lead"
+    },
+    "metal=mithril,power=12": {
+      "model": "ironagefurniture:chain_top_mithril"
+    },
+    "metal=nickel,power=12": {
+      "model": "ironagefurniture:chain_top_nickel"
+    },
+    "metal=pewter,power=12": {
+      "model": "ironagefurniture:chain_top_pewter"
+    },
+    "metal=platinum,power=12": {
+      "model": "ironagefurniture:chain_top_platinum"
+    },
+    "metal=silver,power=12": {
+      "model": "ironagefurniture:chain_top_silver"
+    },
+    "metal=starsteel,power=12": {
+      "model": "ironagefurniture:chain_top_starsteel"
+    },
+    "metal=steel,power=12": {
+      "model": "ironagefurniture:chain_top_steel"
+    },
+    "metal=tin,power=12": {
+      "model": "ironagefurniture:chain_top_tin"
+    },
+    "metal=zinc,power=12": {
+      "model": "ironagefurniture:chain_top_zinc"
+    },
+    "metal=iron,power=13": {
+      "model": "ironagefurniture:chain_top"
+    },
+    "metal=gold,power=13": {
+      "model": "ironagefurniture:chain_top_gold"
+    },
+    "metal=adamantine,power=13": {
+      "model": "ironagefurniture:chain_top_adamantine"
+    },
+    "metal=antimony,power=13": {
+      "model": "ironagefurniture:chain_top_antimony"
+    },
+    "metal=aquarium,power=13": {
+      "model": "ironagefurniture:chain_top_aquarium"
+    },
+    "metal=bismuth,power=13": {
+      "model": "ironagefurniture:chain_top_bismuth"
+    },
+    "metal=brass,power=13": {
+      "model": "ironagefurniture:chain_top_brass"
+    },
+    "metal=bronze,power=13": {
+      "model": "ironagefurniture:chain_top_bronze"
+    },
+    "metal=coldiron,power=13": {
+      "model": "ironagefurniture:chain_top_coldiron"
+    },
+    "metal=copper,power=13": {
+      "model": "ironagefurniture:chain_top_copper"
+    },
+    "metal=cupronickel,power=13": {
+      "model": "ironagefurniture:chain_top_cupronickel"
+    },
+    "metal=electrum,power=13": {
+      "model": "ironagefurniture:chain_top_electrum"
+    },
+    "metal=invar,power=13": {
+      "model": "ironagefurniture:chain_top_invar"
+    },
+    "metal=lead,power=13": {
+      "model": "ironagefurniture:chain_top_lead"
+    },
+    "metal=mithril,power=13": {
+      "model": "ironagefurniture:chain_top_mithril"
+    },
+    "metal=nickel,power=13": {
+      "model": "ironagefurniture:chain_top_nickel"
+    },
+    "metal=pewter,power=13": {
+      "model": "ironagefurniture:chain_top_pewter"
+    },
+    "metal=platinum,power=13": {
+      "model": "ironagefurniture:chain_top_platinum"
+    },
+    "metal=silver,power=13": {
+      "model": "ironagefurniture:chain_top_silver"
+    },
+    "metal=starsteel,power=13": {
+      "model": "ironagefurniture:chain_top_starsteel"
+    },
+    "metal=steel,power=13": {
+      "model": "ironagefurniture:chain_top_steel"
+    },
+    "metal=tin,power=13": {
+      "model": "ironagefurniture:chain_top_tin"
+    },
+    "metal=zinc,power=13": {
+      "model": "ironagefurniture:chain_top_zinc"
+    },
+    "metal=iron,power=14": {
+      "model": "ironagefurniture:chain_top"
+    },
+    "metal=gold,power=14": {
+      "model": "ironagefurniture:chain_top_gold"
+    },
+    "metal=adamantine,power=14": {
+      "model": "ironagefurniture:chain_top_adamantine"
+    },
+    "metal=antimony,power=14": {
+      "model": "ironagefurniture:chain_top_antimony"
+    },
+    "metal=aquarium,power=14": {
+      "model": "ironagefurniture:chain_top_aquarium"
+    },
+    "metal=bismuth,power=14": {
+      "model": "ironagefurniture:chain_top_bismuth"
+    },
+    "metal=brass,power=14": {
+      "model": "ironagefurniture:chain_top_brass"
+    },
+    "metal=bronze,power=14": {
+      "model": "ironagefurniture:chain_top_bronze"
+    },
+    "metal=coldiron,power=14": {
+      "model": "ironagefurniture:chain_top_coldiron"
+    },
+    "metal=copper,power=14": {
+      "model": "ironagefurniture:chain_top_copper"
+    },
+    "metal=cupronickel,power=14": {
+      "model": "ironagefurniture:chain_top_cupronickel"
+    },
+    "metal=electrum,power=14": {
+      "model": "ironagefurniture:chain_top_electrum"
+    },
+    "metal=invar,power=14": {
+      "model": "ironagefurniture:chain_top_invar"
+    },
+    "metal=lead,power=14": {
+      "model": "ironagefurniture:chain_top_lead"
+    },
+    "metal=mithril,power=14": {
+      "model": "ironagefurniture:chain_top_mithril"
+    },
+    "metal=nickel,power=14": {
+      "model": "ironagefurniture:chain_top_nickel"
+    },
+    "metal=pewter,power=14": {
+      "model": "ironagefurniture:chain_top_pewter"
+    },
+    "metal=platinum,power=14": {
+      "model": "ironagefurniture:chain_top_platinum"
+    },
+    "metal=silver,power=14": {
+      "model": "ironagefurniture:chain_top_silver"
+    },
+    "metal=starsteel,power=14": {
+      "model": "ironagefurniture:chain_top_starsteel"
+    },
+    "metal=steel,power=14": {
+      "model": "ironagefurniture:chain_top_steel"
+    },
+    "metal=tin,power=14": {
+      "model": "ironagefurniture:chain_top_tin"
+    },
+    "metal=zinc,power=14": {
+      "model": "ironagefurniture:chain_top_zinc"
+    },
+    "metal=iron,power=15": {
+      "model": "ironagefurniture:chain_top"
+    },
+    "metal=gold,power=15": {
+      "model": "ironagefurniture:chain_top_gold"
+    },
+    "metal=adamantine,power=15": {
+      "model": "ironagefurniture:chain_top_adamantine"
+    },
+    "metal=antimony,power=15": {
+      "model": "ironagefurniture:chain_top_antimony"
+    },
+    "metal=aquarium,power=15": {
+      "model": "ironagefurniture:chain_top_aquarium"
+    },
+    "metal=bismuth,power=15": {
+      "model": "ironagefurniture:chain_top_bismuth"
+    },
+    "metal=brass,power=15": {
+      "model": "ironagefurniture:chain_top_brass"
+    },
+    "metal=bronze,power=15": {
+      "model": "ironagefurniture:chain_top_bronze"
+    },
+    "metal=coldiron,power=15": {
+      "model": "ironagefurniture:chain_top_coldiron"
+    },
+    "metal=copper,power=15": {
+      "model": "ironagefurniture:chain_top_copper"
+    },
+    "metal=cupronickel,power=15": {
+      "model": "ironagefurniture:chain_top_cupronickel"
+    },
+    "metal=electrum,power=15": {
+      "model": "ironagefurniture:chain_top_electrum"
+    },
+    "metal=invar,power=15": {
+      "model": "ironagefurniture:chain_top_invar"
+    },
+    "metal=lead,power=15": {
+      "model": "ironagefurniture:chain_top_lead"
+    },
+    "metal=mithril,power=15": {
+      "model": "ironagefurniture:chain_top_mithril"
+    },
+    "metal=nickel,power=15": {
+      "model": "ironagefurniture:chain_top_nickel"
+    },
+    "metal=pewter,power=15": {
+      "model": "ironagefurniture:chain_top_pewter"
+    },
+    "metal=platinum,power=15": {
+      "model": "ironagefurniture:chain_top_platinum"
+    },
+    "metal=silver,power=15": {
+      "model": "ironagefurniture:chain_top_silver"
+    },
+    "metal=starsteel,power=15": {
+      "model": "ironagefurniture:chain_top_starsteel"
+    },
+    "metal=steel,power=15": {
+      "model": "ironagefurniture:chain_top_steel"
+    },
+    "metal=tin,power=15": {
+      "model": "ironagefurniture:chain_top_tin"
+    },
+    "metal=zinc,power=15": {
+      "model": "ironagefurniture:chain_top_zinc"
+    }
+  }
+}

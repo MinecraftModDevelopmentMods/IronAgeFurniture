@@ -1,0 +1,436 @@
+{
+  "credit": "By FoxNekitsune",
+  "format_version": "1.21.11",
+  "textures": {
+    "log": "",
+    "planks": "",
+    "particle": "",
+    "book_0": "ironagefurniture:blocks/shelf_book_red",
+    "book_1": "ironagefurniture:blocks/shelf_book_green",
+    "book_2": "ironagefurniture:blocks/shelf_book_blue",
+    "book_3": "ironagefurniture:blocks/shelf_book_brown",
+    "book_4": "ironagefurniture:blocks/shelf_book_purple",
+    "book_pages": "ironagefurniture:blocks/shelf_book_pages"
+  },
+  "elements": [
+    {
+      "from": [
+        2,
+        10,
+        0
+      ],
+      "to": [
+        12,
+        13,
+        4
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "y",
+        "origin": [
+          0,
+          0,
+          -10
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            4,
+            3,
+            14,
+            6
+          ],
+          "texture": "#planks"
+        },
+        "east": {
+          "uv": [
+            12,
+            3,
+            16,
+            6
+          ],
+          "texture": "#planks"
+        },
+        "south": {
+          "uv": [
+            2,
+            3,
+            12,
+            6
+          ],
+          "texture": "#planks"
+        },
+        "west": {
+          "uv": [
+            0,
+            3,
+            4,
+            6
+          ],
+          "texture": "#planks"
+        },
+        "up": {
+          "uv": [
+            2,
+            0,
+            12,
+            4
+          ],
+          "texture": "#planks"
+        },
+        "down": {
+          "uv": [
+            2,
+            12,
+            12,
+            16
+          ],
+          "texture": "#planks"
+        }
+      }
+    },
+    {
+      "from": [
+        2,
+        10,
+        4
+      ],
+      "to": [
+        16,
+        13,
+        14
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            3,
+            14,
+            6
+          ],
+          "texture": "#planks"
+        },
+        "east": {
+          "uv": [
+            2,
+            3,
+            12,
+            6
+          ],
+          "texture": "#planks"
+        },
+        "south": {
+          "uv": [
+            2,
+            3,
+            16,
+            6
+          ],
+          "texture": "#planks"
+        },
+        "west": {
+          "uv": [
+            4,
+            3,
+            14,
+            6
+          ],
+          "texture": "#planks"
+        },
+        "up": {
+          "uv": [
+            2,
+            4,
+            16,
+            14
+          ],
+          "texture": "#planks"
+        },
+        "down": {
+          "uv": [
+            2,
+            2,
+            16,
+            12
+          ],
+          "texture": "#planks"
+        }
+      }
+    },
+    {
+      "from": [
+        0,
+        9,
+        14
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            7
+          ],
+          "texture": "#log"
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            2,
+            7
+          ],
+          "texture": "#log"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            7
+          ],
+          "texture": "#log"
+        },
+        "west": {
+          "uv": [
+            14,
+            0,
+            16,
+            7
+          ],
+          "texture": "#log"
+        },
+        "up": {
+          "uv": [
+            0,
+            14,
+            16,
+            16
+          ],
+          "texture": "#log"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            2
+          ],
+          "texture": "#log"
+        }
+      }
+    },
+    {
+      "from": [
+        0,
+        9,
+        0
+      ],
+      "to": [
+        2,
+        16,
+        16
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            14,
+            0,
+            16,
+            7
+          ],
+          "texture": "#log"
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            7
+          ],
+          "texture": "#log"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            2,
+            7
+          ],
+          "texture": "#log"
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            7
+          ],
+          "texture": "#log"
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            2,
+            16
+          ],
+          "texture": "#log"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            2,
+            16
+          ],
+          "texture": "#log"
+        }
+      }
+    },
+    {
+      "name": "embedded upright book 1",
+      "from": [
+        7.775,
+        13,
+        7
+      ],
+      "to": [
+        9.825,
+        20,
+        14
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#book_0"
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#book_0"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#book_0"
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#book_0"
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#book_pages"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#book_pages"
+        }
+      }
+    },
+    {
+      "name": "embedded upright book 1 gold ridge",
+      "from": [
+        7.915,
+        13.45,
+        6.92
+      ],
+      "to": [
+        9.685,
+        19.55,
+        7.1
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#book_0"
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#book_0"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#book_0"
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#book_0"
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#book_0"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#book_0"
+        }
+      }
+    }
+  ]
+}

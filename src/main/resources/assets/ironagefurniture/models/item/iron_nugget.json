@@ -1,0 +1,7 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "ironagefurniture:items/iron_nugget"
+  }
+}

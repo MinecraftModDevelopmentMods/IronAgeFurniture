@@ -1,0 +1,11 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_bed_wood_head_left",
+  "textures": {
+    "log": "forestry:blocks/wood/bark.baobab",
+    "planks": "forestry:blocks/wood/planks.baobab",
+    "cloth": "minecraft:blocks/wool_colored_red",
+    "sheet": "minecraft:blocks/wool_colored_white",
+    "particle": "forestry:blocks/wood/bark.baobab"
+  }
+}

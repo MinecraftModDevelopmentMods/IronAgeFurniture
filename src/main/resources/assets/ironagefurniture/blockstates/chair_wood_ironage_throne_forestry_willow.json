@@ -1,0 +1,49 @@
+{
+  "variants": {
+    "facing=north,part=lower": {
+      "model": "ironagefurniture:chair_wood_ironage_throne_forestry_willow",
+      "y": 180
+    },
+    "facing=east,part=lower": {
+      "model": "ironagefurniture:chair_wood_ironage_throne_forestry_willow",
+      "y": 270
+    },
+    "facing=south,part=lower": {
+      "model": "ironagefurniture:chair_wood_ironage_throne_forestry_willow"
+    },
+    "facing=west,part=lower": {
+      "model": "ironagefurniture:chair_wood_ironage_throne_forestry_willow",
+      "y": 90
+    },
+    "facing=north,part=middle": {
+      "model": "ironagefurniture:chair_wood_ironage_throne_forestry_willow_middle",
+      "y": 180
+    },
+    "facing=east,part=middle": {
+      "model": "ironagefurniture:chair_wood_ironage_throne_forestry_willow_middle",
+      "y": 270
+    },
+    "facing=south,part=middle": {
+      "model": "ironagefurniture:chair_wood_ironage_throne_forestry_willow_middle"
+    },
+    "facing=west,part=middle": {
+      "model": "ironagefurniture:chair_wood_ironage_throne_forestry_willow_middle",
+      "y": 90
+    },
+    "facing=north,part=upper": {
+      "model": "ironagefurniture:chair_wood_ironage_throne_forestry_willow_upper",
+      "y": 180
+    },
+    "facing=east,part=upper": {
+      "model": "ironagefurniture:chair_wood_ironage_throne_forestry_willow_upper",
+      "y": 270
+    },
+    "facing=south,part=upper": {
+      "model": "ironagefurniture:chair_wood_ironage_throne_forestry_willow_upper"
+    },
+    "facing=west,part=upper": {
+      "model": "ironagefurniture:chair_wood_ironage_throne_forestry_willow_upper",
+      "y": 90
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_table_low_straight_flower_pot",
+  "textures": {
+    "log": "forestry:blocks/wood/bark.pine",
+    "planks": "forestry:blocks/wood/planks.pine",
+    "particle": "forestry:blocks/wood/bark.pine",
+    "pot": "ironagefurniture:blocks/ornament_clay_red",
+    "dirt": "minecraft:blocks/dirt"
+  }
+}

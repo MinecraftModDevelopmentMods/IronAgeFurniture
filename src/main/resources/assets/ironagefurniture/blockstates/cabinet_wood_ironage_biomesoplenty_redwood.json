@@ -1,0 +1,274 @@
+{
+    "variants": {
+        "facing=north,open=false,type=single,vertical=single": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_single",
+            "y": 180
+        },
+        "facing=north,open=true,type=single,vertical=single": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_single_open",
+            "y": 180
+        },
+        "facing=north,open=false,type=single,vertical=lower": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_lower",
+            "y": 180
+        },
+        "facing=north,open=true,type=single,vertical=lower": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_lower_open",
+            "y": 180
+        },
+        "facing=north,open=false,type=single,vertical=upper": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_upper",
+            "y": 180
+        },
+        "facing=north,open=true,type=single,vertical=upper": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_upper_open",
+            "y": 180
+        },
+        "facing=north,open=false,type=left,vertical=single": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_left",
+            "y": 180
+        },
+        "facing=north,open=true,type=left,vertical=single": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_left_open",
+            "y": 180
+        },
+        "facing=north,open=false,type=left,vertical=lower": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_left",
+            "y": 180
+        },
+        "facing=north,open=true,type=left,vertical=lower": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_left_open",
+            "y": 180
+        },
+        "facing=north,open=false,type=left,vertical=upper": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_left",
+            "y": 180
+        },
+        "facing=north,open=true,type=left,vertical=upper": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_left_open",
+            "y": 180
+        },
+        "facing=north,open=false,type=right,vertical=single": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_right",
+            "y": 180
+        },
+        "facing=north,open=true,type=right,vertical=single": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_right_open",
+            "y": 180
+        },
+        "facing=north,open=false,type=right,vertical=lower": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_right",
+            "y": 180
+        },
+        "facing=north,open=true,type=right,vertical=lower": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_right_open",
+            "y": 180
+        },
+        "facing=north,open=false,type=right,vertical=upper": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_right",
+            "y": 180
+        },
+        "facing=north,open=true,type=right,vertical=upper": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_right_open",
+            "y": 180
+        },
+        "facing=east,open=false,type=single,vertical=single": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_single",
+            "y": 270
+        },
+        "facing=east,open=true,type=single,vertical=single": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_single_open",
+            "y": 270
+        },
+        "facing=east,open=false,type=single,vertical=lower": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_lower",
+            "y": 270
+        },
+        "facing=east,open=true,type=single,vertical=lower": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_lower_open",
+            "y": 270
+        },
+        "facing=east,open=false,type=single,vertical=upper": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_upper",
+            "y": 270
+        },
+        "facing=east,open=true,type=single,vertical=upper": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_upper_open",
+            "y": 270
+        },
+        "facing=east,open=false,type=left,vertical=single": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_left",
+            "y": 270
+        },
+        "facing=east,open=true,type=left,vertical=single": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_left_open",
+            "y": 270
+        },
+        "facing=east,open=false,type=left,vertical=lower": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_left",
+            "y": 270
+        },
+        "facing=east,open=true,type=left,vertical=lower": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_left_open",
+            "y": 270
+        },
+        "facing=east,open=false,type=left,vertical=upper": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_left",
+            "y": 270
+        },
+        "facing=east,open=true,type=left,vertical=upper": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_left_open",
+            "y": 270
+        },
+        "facing=east,open=false,type=right,vertical=single": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_right",
+            "y": 270
+        },
+        "facing=east,open=true,type=right,vertical=single": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_right_open",
+            "y": 270
+        },
+        "facing=east,open=false,type=right,vertical=lower": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_right",
+            "y": 270
+        },
+        "facing=east,open=true,type=right,vertical=lower": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_right_open",
+            "y": 270
+        },
+        "facing=east,open=false,type=right,vertical=upper": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_right",
+            "y": 270
+        },
+        "facing=east,open=true,type=right,vertical=upper": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_right_open",
+            "y": 270
+        },
+        "facing=south,open=false,type=single,vertical=single": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_single"
+        },
+        "facing=south,open=true,type=single,vertical=single": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_single_open"
+        },
+        "facing=south,open=false,type=single,vertical=lower": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_lower"
+        },
+        "facing=south,open=true,type=single,vertical=lower": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_lower_open"
+        },
+        "facing=south,open=false,type=single,vertical=upper": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_upper"
+        },
+        "facing=south,open=true,type=single,vertical=upper": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_upper_open"
+        },
+        "facing=south,open=false,type=left,vertical=single": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_left"
+        },
+        "facing=south,open=true,type=left,vertical=single": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_left_open"
+        },
+        "facing=south,open=false,type=left,vertical=lower": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_left"
+        },
+        "facing=south,open=true,type=left,vertical=lower": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_left_open"
+        },
+        "facing=south,open=false,type=left,vertical=upper": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_left"
+        },
+        "facing=south,open=true,type=left,vertical=upper": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_left_open"
+        },
+        "facing=south,open=false,type=right,vertical=single": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_right"
+        },
+        "facing=south,open=true,type=right,vertical=single": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_right_open"
+        },
+        "facing=south,open=false,type=right,vertical=lower": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_right"
+        },
+        "facing=south,open=true,type=right,vertical=lower": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_right_open"
+        },
+        "facing=south,open=false,type=right,vertical=upper": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_right"
+        },
+        "facing=south,open=true,type=right,vertical=upper": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_right_open"
+        },
+        "facing=west,open=false,type=single,vertical=single": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_single",
+            "y": 90
+        },
+        "facing=west,open=true,type=single,vertical=single": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_single_open",
+            "y": 90
+        },
+        "facing=west,open=false,type=single,vertical=lower": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_lower",
+            "y": 90
+        },
+        "facing=west,open=true,type=single,vertical=lower": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_lower_open",
+            "y": 90
+        },
+        "facing=west,open=false,type=single,vertical=upper": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_upper",
+            "y": 90
+        },
+        "facing=west,open=true,type=single,vertical=upper": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_upper_open",
+            "y": 90
+        },
+        "facing=west,open=false,type=left,vertical=single": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_left",
+            "y": 90
+        },
+        "facing=west,open=true,type=left,vertical=single": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_left_open",
+            "y": 90
+        },
+        "facing=west,open=false,type=left,vertical=lower": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_left",
+            "y": 90
+        },
+        "facing=west,open=true,type=left,vertical=lower": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_left_open",
+            "y": 90
+        },
+        "facing=west,open=false,type=left,vertical=upper": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_left",
+            "y": 90
+        },
+        "facing=west,open=true,type=left,vertical=upper": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_left_open",
+            "y": 90
+        },
+        "facing=west,open=false,type=right,vertical=single": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_right",
+            "y": 90
+        },
+        "facing=west,open=true,type=right,vertical=single": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_right_open",
+            "y": 90
+        },
+        "facing=west,open=false,type=right,vertical=lower": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_right",
+            "y": 90
+        },
+        "facing=west,open=true,type=right,vertical=lower": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_right_open",
+            "y": 90
+        },
+        "facing=west,open=false,type=right,vertical=upper": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_right",
+            "y": 90
+        },
+        "facing=west,open=true,type=right,vertical=upper": {
+            "model": "ironagefurniture:cabinet_wood_ironage_biomesoplenty_redwood_right_open",
+            "y": 90
+        }
+    }
+}

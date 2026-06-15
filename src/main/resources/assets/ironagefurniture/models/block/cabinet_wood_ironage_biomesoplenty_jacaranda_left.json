@@ -1,0 +1,9 @@
+{
+    "credit":  "By FoxNekitsune",
+    "parent":  "ironagefurniture:block/template_cabinet_wood_ironage_left",
+    "textures":  {
+                     "log":  "biomesoplenty:blocks/jacaranda_log",
+                     "planks":  "biomesoplenty:blocks/jacaranda_planks",
+                     "particle":  "biomesoplenty:blocks/jacaranda_log"
+                 }
+}

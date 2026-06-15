@@ -1,0 +1,11 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_shelf_wall_inner_corner_flower_pot",
+  "textures": {
+    "log": "forestry:blocks/wood/bark.mahogany",
+    "planks": "forestry:blocks/wood/planks.mahogany",
+    "particle": "forestry:blocks/wood/bark.mahogany",
+    "pot": "ironagefurniture:blocks/ornament_clay_red",
+    "dirt": "minecraft:blocks/dirt"
+  }
+}

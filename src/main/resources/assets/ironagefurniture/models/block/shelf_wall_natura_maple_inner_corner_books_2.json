@@ -1,0 +1,15 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_shelf_wall_inner_corner_books_2",
+  "textures": {
+    "log": "natura:blocks/logs/overworld/maple_log",
+    "planks": "natura:blocks/planks/overworld/maple_planks",
+    "particle": "natura:blocks/logs/overworld/maple_log",
+    "book_0": "ironagefurniture:blocks/shelf_book_red",
+    "book_1": "ironagefurniture:blocks/shelf_book_green",
+    "book_2": "ironagefurniture:blocks/shelf_book_blue",
+    "book_pages": "ironagefurniture:blocks/shelf_book_pages",
+    "book_3": "ironagefurniture:blocks/shelf_book_brown",
+    "book_4": "ironagefurniture:blocks/shelf_book_purple"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_shelf_wall_inner_corner",
+  "textures": {
+    "log": "forestry:blocks/wood/bark.sequoia",
+    "planks": "forestry:blocks/wood/planks.sequoia",
+    "particle": "forestry:blocks/wood/bark.sequoia"
+  }
+}

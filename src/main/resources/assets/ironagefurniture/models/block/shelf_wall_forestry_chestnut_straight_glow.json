@@ -1,0 +1,10 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_shelf_wall_straight_glow",
+  "textures": {
+    "log": "forestry:blocks/wood/bark.chestnut",
+    "planks": "forestry:blocks/wood/planks.chestnut",
+    "particle": "forestry:blocks/wood/bark.chestnut",
+    "contents": "minecraft:blocks/glowstone"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_foudre_wood_ironage_item",
+  "textures": {
+    "0": "forestry:blocks/wood/bark.poplar",
+    "1": "forestry:blocks/wood/planks.poplar",
+    "particle": "forestry:blocks/wood/bark.poplar",
+    "iron": "minecraft:blocks/iron_block",
+    "inside": "minecraft:blocks/coal_block"
+  }
+}

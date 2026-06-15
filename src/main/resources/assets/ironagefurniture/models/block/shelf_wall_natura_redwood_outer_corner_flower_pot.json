@@ -1,0 +1,11 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_shelf_wall_outer_corner_flower_pot",
+  "textures": {
+    "log": "natura:blocks/logs/overworld/redwood_bark",
+    "planks": "natura:blocks/planks/overworld/redwood_planks",
+    "particle": "natura:blocks/logs/overworld/redwood_bark",
+    "pot": "ironagefurniture:blocks/ornament_clay_red",
+    "dirt": "minecraft:blocks/dirt"
+  }
+}

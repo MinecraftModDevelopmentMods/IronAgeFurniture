@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=north,tucked=false": {
+      "model": "ironagefurniture:chair_wood_ironage_dining_forestry_mahogany",
+      "y": 180
+    },
+    "facing=north,tucked=true": {
+      "model": "ironagefurniture:chair_wood_ironage_dining_forestry_mahogany_in",
+      "y": 180
+    },
+    "facing=east,tucked=false": {
+      "model": "ironagefurniture:chair_wood_ironage_dining_forestry_mahogany",
+      "y": 270
+    },
+    "facing=east,tucked=true": {
+      "model": "ironagefurniture:chair_wood_ironage_dining_forestry_mahogany_in",
+      "y": 270
+    },
+    "facing=south,tucked=false": {
+      "model": "ironagefurniture:chair_wood_ironage_dining_forestry_mahogany"
+    },
+    "facing=south,tucked=true": {
+      "model": "ironagefurniture:chair_wood_ironage_dining_forestry_mahogany_in"
+    },
+    "facing=west,tucked=false": {
+      "model": "ironagefurniture:chair_wood_ironage_dining_forestry_mahogany",
+      "y": 90
+    },
+    "facing=west,tucked=true": {
+      "model": "ironagefurniture:chair_wood_ironage_dining_forestry_mahogany_in",
+      "y": 90
+    }
+  }
+}

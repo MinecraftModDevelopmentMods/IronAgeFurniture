@@ -1,0 +1,9 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_bottle_rack_wood_ironage_standing_14",
+  "textures": {
+    "log": "natura:blocks/logs/overworld/tiger_log",
+    "planks": "natura:blocks/planks/overworld/tiger_planks",
+    "particle": "natura:blocks/logs/overworld/tiger_log"
+  }
+}

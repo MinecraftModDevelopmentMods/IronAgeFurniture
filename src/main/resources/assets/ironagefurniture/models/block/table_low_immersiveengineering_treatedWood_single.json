@@ -1,0 +1,9 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_table_low_single",
+  "textures": {
+    "log": "immersiveengineering:blocks/treatedWood_packaged",
+    "planks": "immersiveengineering:blocks/treatedWood_vertical",
+    "particle": "immersiveengineering:blocks/treatedWood_packaged"
+  }
+}

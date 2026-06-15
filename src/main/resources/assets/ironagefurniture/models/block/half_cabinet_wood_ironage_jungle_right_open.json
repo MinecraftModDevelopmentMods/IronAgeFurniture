@@ -1,0 +1,9 @@
+{
+    "credit": "By FoxNekitsune",
+    "parent": "ironagefurniture:block/template_half_cabinet_wood_ironage_right_open",
+    "textures": {
+        "log": "minecraft:blocks/log_jungle",
+        "planks": "minecraft:blocks/planks_jungle",
+        "particle": "minecraft:blocks/log_jungle"
+    }
+}

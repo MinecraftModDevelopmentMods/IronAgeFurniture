@@ -1,0 +1,10 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_chair_wingback_lower",
+  "textures": {
+    "log": "natura:blocks/logs/overworld/maple_log",
+    "planks": "natura:blocks/planks/overworld/maple_planks",
+    "cloth": "minecraft:blocks/wool_colored_red",
+    "particle": "natura:blocks/logs/overworld/maple_log"
+  }
+}

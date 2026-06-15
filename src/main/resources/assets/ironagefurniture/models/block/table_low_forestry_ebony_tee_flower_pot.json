@@ -1,0 +1,11 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_table_low_tee_flower_pot",
+  "textures": {
+    "log": "forestry:blocks/wood/bark.ebony",
+    "planks": "forestry:blocks/wood/planks.ebony",
+    "particle": "forestry:blocks/wood/bark.ebony",
+    "pot": "ironagefurniture:blocks/ornament_clay_red",
+    "dirt": "minecraft:blocks/dirt"
+  }
+}

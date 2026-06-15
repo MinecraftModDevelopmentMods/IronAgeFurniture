@@ -1,0 +1,8 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "minecraft:items/potion_overlay",
+    "layer1": "minecraft:items/potion_bottle_empty"
+  }
+}

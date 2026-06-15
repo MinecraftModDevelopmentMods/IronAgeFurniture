@@ -1,0 +1,73 @@
+{
+  "variants": {
+    "metal=iron": {
+      "model": "ironagefurniture:chandelier_lava"
+    },
+    "metal=gold": {
+      "model": "ironagefurniture:chandelier_lava_gold"
+    },
+    "metal=adamantine": {
+      "model": "ironagefurniture:chandelier_lava_adamantine"
+    },
+    "metal=antimony": {
+      "model": "ironagefurniture:chandelier_lava_antimony"
+    },
+    "metal=aquarium": {
+      "model": "ironagefurniture:chandelier_lava_aquarium"
+    },
+    "metal=bismuth": {
+      "model": "ironagefurniture:chandelier_lava_bismuth"
+    },
+    "metal=brass": {
+      "model": "ironagefurniture:chandelier_lava_brass"
+    },
+    "metal=bronze": {
+      "model": "ironagefurniture:chandelier_lava_bronze"
+    },
+    "metal=coldiron": {
+      "model": "ironagefurniture:chandelier_lava_coldiron"
+    },
+    "metal=copper": {
+      "model": "ironagefurniture:chandelier_lava_copper"
+    },
+    "metal=cupronickel": {
+      "model": "ironagefurniture:chandelier_lava_cupronickel"
+    },
+    "metal=electrum": {
+      "model": "ironagefurniture:chandelier_lava_electrum"
+    },
+    "metal=invar": {
+      "model": "ironagefurniture:chandelier_lava_invar"
+    },
+    "metal=lead": {
+      "model": "ironagefurniture:chandelier_lava_lead"
+    },
+    "metal=mithril": {
+      "model": "ironagefurniture:chandelier_lava_mithril"
+    },
+    "metal=nickel": {
+      "model": "ironagefurniture:chandelier_lava_nickel"
+    },
+    "metal=pewter": {
+      "model": "ironagefurniture:chandelier_lava_pewter"
+    },
+    "metal=platinum": {
+      "model": "ironagefurniture:chandelier_lava_platinum"
+    },
+    "metal=silver": {
+      "model": "ironagefurniture:chandelier_lava_silver"
+    },
+    "metal=starsteel": {
+      "model": "ironagefurniture:chandelier_lava_starsteel"
+    },
+    "metal=steel": {
+      "model": "ironagefurniture:chandelier_lava_steel"
+    },
+    "metal=tin": {
+      "model": "ironagefurniture:chandelier_lava_tin"
+    },
+    "metal=zinc": {
+      "model": "ironagefurniture:chandelier_lava_zinc"
+    }
+  }
+}

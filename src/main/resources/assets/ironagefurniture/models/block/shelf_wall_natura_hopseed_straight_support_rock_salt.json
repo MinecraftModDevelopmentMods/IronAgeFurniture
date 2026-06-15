@@ -1,0 +1,10 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_shelf_wall_straight_support_rock_salt",
+  "textures": {
+    "log": "natura:blocks/logs/overworld/hopseed_log",
+    "planks": "natura:blocks/planks/overworld/hopseed_planks",
+    "particle": "natura:blocks/logs/overworld/hopseed_log",
+    "contents": "ironagefurniture:blocks/rocksalt_lamp"
+  }
+}

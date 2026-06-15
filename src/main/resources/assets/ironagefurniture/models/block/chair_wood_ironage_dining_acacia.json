@@ -1,0 +1,9 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_chair_wood_ironage_dining",
+  "textures": {
+    "0": "minecraft:blocks/log_acacia",
+    "1": "minecraft:blocks/planks_acacia",
+    "particle": "minecraft:blocks/log_acacia"
+  }
+}

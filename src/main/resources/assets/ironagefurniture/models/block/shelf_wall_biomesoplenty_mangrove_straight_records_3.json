@@ -1,0 +1,16 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_shelf_wall_straight_records_3",
+  "textures": {
+    "log": "biomesoplenty:blocks/mangrove_log",
+    "planks": "biomesoplenty:blocks/mangrove_planks",
+    "particle": "biomesoplenty:blocks/mangrove_log",
+    "record_0": "ironagefurniture:blocks/shelf_record_brown",
+    "record_1": "ironagefurniture:blocks/shelf_record_red",
+    "record_2": "ironagefurniture:blocks/shelf_record_blue",
+    "record_3": "ironagefurniture:blocks/shelf_record_green",
+    "record_4": "ironagefurniture:blocks/shelf_record_purple",
+    "record_5": "ironagefurniture:blocks/shelf_record_gold",
+    "record_edge": "ironagefurniture:blocks/shelf_record_edge"
+  }
+}

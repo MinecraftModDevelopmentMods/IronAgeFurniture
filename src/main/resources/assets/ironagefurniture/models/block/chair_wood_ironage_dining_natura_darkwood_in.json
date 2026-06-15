@@ -1,0 +1,9 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_chair_wood_ironage_dining_in",
+  "textures": {
+    "0": "natura:blocks/logs/nether/darkwood_log",
+    "1": "natura:blocks/planks/nether/darkwood_planks",
+    "particle": "natura:blocks/logs/nether/darkwood_log"
+  }
+}

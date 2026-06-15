@@ -1,0 +1,8 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_light_metal_ironage_sconce_wall_vial",
+  "textures": {
+    "contents": "minecraft:blocks/glowstone",
+    "metal": "basemetals:blocks/electrum_block"
+  }
+}

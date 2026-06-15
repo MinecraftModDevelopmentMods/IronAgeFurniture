@@ -1,0 +1,11 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_foudre_wood_ironage_item",
+  "textures": {
+    "0": "natura:blocks/logs/overworld/redwood_bark",
+    "1": "natura:blocks/planks/overworld/redwood_planks",
+    "particle": "natura:blocks/logs/overworld/redwood_bark",
+    "iron": "minecraft:blocks/iron_block",
+    "inside": "minecraft:blocks/coal_block"
+  }
+}

@@ -1,0 +1,8 @@
+﻿{
+  "variants": {
+    "facing=north": { "model": "ironagefurniture:light_metal_ironage_candle_wall", "y": 180 },
+    "facing=east": { "model": "ironagefurniture:light_metal_ironage_candle_wall", "y": 270 },
+    "facing=south": { "model": "ironagefurniture:light_metal_ironage_candle_wall", "y": 0 },
+    "facing=west": { "model": "ironagefurniture:light_metal_ironage_candle_wall", "y": 90 }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_foudre_wood_ironage_lower_front_right",
+  "textures": {
+    "0": "natura:blocks/logs/overworld/hopseed_log",
+    "1": "natura:blocks/planks/overworld/hopseed_planks",
+    "particle": "natura:blocks/logs/overworld/hopseed_log",
+    "iron": "minecraft:blocks/iron_block",
+    "inside": "minecraft:blocks/coal_block"
+  }
+}

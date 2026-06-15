@@ -1,0 +1,8 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_light_metal_ironage_sconce_floor_rocksalt",
+  "textures": {
+    "contents": "ironagefurniture:blocks/rocksalt_lamp",
+    "metal": "basemetals:blocks/nickel_block"
+  }
+}

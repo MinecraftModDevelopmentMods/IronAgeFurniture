@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "ironagefurniture:obsidian_chunk", "y": 0 },
+    "facing=east": { "model": "ironagefurniture:obsidian_chunk", "y": 90 },
+    "facing=south": { "model": "ironagefurniture:obsidian_chunk", "y": 180 },
+    "facing=west": { "model": "ironagefurniture:obsidian_chunk", "y": 270 }
+  }
+}

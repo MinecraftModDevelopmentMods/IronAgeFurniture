@@ -1,0 +1,9 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_table_dining_straight",
+  "textures": {
+    "log": "natura:blocks/logs/overworld/silverbell_log",
+    "planks": "natura:blocks/planks/overworld/silverbell_planks",
+    "particle": "natura:blocks/logs/overworld/silverbell_log"
+  }
+}

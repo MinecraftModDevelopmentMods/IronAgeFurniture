@@ -1,0 +1,15 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_shelf_wall_outer_corner_books_4",
+  "textures": {
+    "log": "forestry:blocks/wood/bark.poplar",
+    "planks": "forestry:blocks/wood/planks.poplar",
+    "particle": "forestry:blocks/wood/bark.poplar",
+    "book_0": "ironagefurniture:blocks/shelf_book_red",
+    "book_1": "ironagefurniture:blocks/shelf_book_green",
+    "book_2": "ironagefurniture:blocks/shelf_book_blue",
+    "book_pages": "ironagefurniture:blocks/shelf_book_pages",
+    "book_3": "ironagefurniture:blocks/shelf_book_brown",
+    "book_4": "ironagefurniture:blocks/shelf_book_purple"
+  }
+}

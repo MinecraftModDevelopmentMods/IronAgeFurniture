@@ -1,0 +1,11 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_pot_still_wood_ironage_lower_front_right",
+  "textures": {
+    "0": "biomesoplenty:blocks/jacaranda_log",
+    "1": "biomesoplenty:blocks/jacaranda_planks",
+    "particle": "biomesoplenty:blocks/jacaranda_log",
+    "iron": "minecraft:blocks/iron_block",
+    "inside": "minecraft:blocks/coal_block"
+  }
+}

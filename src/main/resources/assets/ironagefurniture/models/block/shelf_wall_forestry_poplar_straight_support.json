@@ -1,0 +1,9 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_shelf_wall_straight_support",
+  "textures": {
+    "log": "forestry:blocks/wood/bark.poplar",
+    "planks": "forestry:blocks/wood/planks.poplar",
+    "particle": "forestry:blocks/wood/bark.poplar"
+  }
+}
