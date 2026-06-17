@@ -36,10 +36,10 @@ public class ItemBlockPotStill extends ItemBlock {
 		}
 
 		tooltip.add(label + ": " + DrinkDisplayHelper.getDisplayName(fluid));
-		String quality = DrinkDisplayHelper.getQualityTooltip(fluid);
-
-		if (!quality.isEmpty()) {
-			tooltip.add(quality);
+		for (String line : DrinkDisplayHelper.getQualityTooltipLines(fluid)) {
+			if (!line.isEmpty()) {
+				tooltip.add(line);
+			}
 		}
 
 		tooltip.add(fluid.amount + " / " + capacity + " mB");

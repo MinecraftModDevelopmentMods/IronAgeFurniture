@@ -4,25 +4,35 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import com.mcmoddev.ironagefurniture.api.AdjacentBarrelTransfer;
+import com.mcmoddev.ironagefurniture.api.Blocks.Foudre;
+import com.mcmoddev.ironagefurniture.api.Enumerations.FoudrePart;
 import com.mcmoddev.ironagefurniture.api.FoudreBrewingRegistry;
 import com.mcmoddev.ironagefurniture.api.FoudreBrewingRegistry.FoudreBrewingRecipe;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.wrapper.InvWrapper;
 
 public class TileEntityFoudre extends TileEntityBarrel implements IInventory, ITickable {
 	public static final int CAPACITY = 128 * Fluid.BUCKET_VOLUME;
@@ -40,11 +50,17 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 	private static final String BREW_TIME_TOTAL_TAG = "BrewTimeTotal";
 	private static final String BREW_RECIPE_TAG = "BrewRecipe";
 	private static final String BREW_RECIPE_NAME_TAG = "BrewRecipeName";
+	private static final String PORTS_CONFIGURED_TAG = "PortsConfigured";
+	private static final String INLET_OPEN_TAG = "InletOpen";
+	private static final String OUTLET_OPEN_TAG = "OutletOpen";
 
 	private final ItemStack[] inventory = new ItemStack[INGREDIENT_SLOTS];
 	private final IFluidHandler sealedFluidHandler = new SealedFoudreFluidHandler();
+	private final IItemHandler itemHandler = new InvWrapper(this);
 	private String label = "";
 	private boolean sealed;
+	private boolean inletOpen;
+	private boolean outletOpen;
 	private int brewTime;
 	private int brewTimeTotal;
 	private int clientAgeProgress;
@@ -62,8 +78,18 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 	}
 
 	@Override
+	public boolean isUsableByPlayer(EntityPlayer player) {
+		return super.isUsableByPlayer(player);
+	}
+
+	@Override
 	public void update() {
 		if (this.world == null || this.world.isRemote) {
+			return;
+		}
+
+		if (!this.sealed) {
+			this.resetBrewing();
 			return;
 		}
 
@@ -72,7 +98,7 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 
 		if (recipe == null) {
 			this.resetBrewing();
-			if (this.sealed) {
+			if (this.shouldAge()) {
 				this.updateAging();
 			}
 			return;
@@ -125,6 +151,11 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 		boolean opening = this.sealed && !sealed;
 		this.sealed = sealed;
 
+		if (sealed) {
+			this.inletOpen = false;
+			this.outletOpen = false;
+		}
+
 		if (opening) {
 			FoudreBrewingRegistry.resetAgeProgressToCurrentLevel(this.getFluidDirect());
 		}
@@ -134,6 +165,56 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 
 	public void toggleSealed() {
 		this.setSealed(!this.sealed);
+	}
+
+	public boolean isInletOpen() {
+		return this.inletOpen;
+	}
+
+	public void setInletOpen(boolean inletOpen) {
+		if (inletOpen && this.sealed) {
+			return;
+		}
+
+		boolean changed = this.inletOpen != inletOpen || inletOpen && this.outletOpen;
+		this.inletOpen = inletOpen;
+
+		if (inletOpen) {
+			this.outletOpen = false;
+		}
+
+		if (changed) {
+			this.markForFluidUpdate();
+		}
+	}
+
+	public void toggleInletOpen() {
+		this.setInletOpen(!this.inletOpen);
+	}
+
+	public boolean isOutletOpen() {
+		return this.outletOpen;
+	}
+
+	public void setOutletOpen(boolean outletOpen) {
+		if (outletOpen && this.sealed) {
+			return;
+		}
+
+		boolean changed = this.outletOpen != outletOpen || outletOpen && this.inletOpen;
+		this.outletOpen = outletOpen;
+
+		if (outletOpen) {
+			this.inletOpen = false;
+		}
+
+		if (changed) {
+			this.markForFluidUpdate();
+		}
+	}
+
+	public void toggleOutletOpen() {
+		this.setOutletOpen(!this.outletOpen);
 	}
 
 	public boolean canFlush() {
@@ -150,9 +231,76 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 		return true;
 	}
 
+	public boolean canDrainAdjacentBarrel() {
+		return this.transferAdjacentBarrel(true, false);
+	}
+
+	public boolean drainAdjacentBarrel() {
+		return this.transferAdjacentBarrel(true, true);
+	}
+
+	public boolean canFillAdjacentBarrel() {
+		return this.transferAdjacentBarrel(false, false);
+	}
+
+	public boolean fillAdjacentBarrel() {
+		return this.transferAdjacentBarrel(false, true);
+	}
+
+	@Nullable
+	public TileEntityBarrel getAdjacentTransferBarrel() {
+		if (this.world == null || this.pos == null) {
+			return null;
+		}
+
+		IBlockState state = this.world.getBlockState(this.pos);
+
+		if (!(state.getBlock() instanceof Foudre)) {
+			return null;
+		}
+
+		return AdjacentBarrelTransfer.findBarrel(this.world, this.pos, state.getValue(Foudre.FACING));
+	}
+
 	@Nullable
 	public String getBottleLabel() {
 		return this.label.isEmpty() ? null : this.label;
+	}
+
+	public boolean canFillFromInletPort(@Nullable Fluid fluid) {
+		return !this.sealed && this.inletOpen && fluid != null
+			&& this.sealedFluidHandler.fill(new FluidStack(fluid, 1), false) > 0;
+	}
+
+	public int fillFromInletPort(@Nullable FluidStack resource, boolean doFill) {
+		return !this.sealed && this.inletOpen ? this.sealedFluidHandler.fill(resource, doFill) : 0;
+	}
+
+	public boolean canDrainFromOutletPort(@Nullable Fluid fluid) {
+		return !this.sealed && this.outletOpen && fluid != null
+			&& this.sealedFluidHandler.drain(new FluidStack(fluid, 1), false) != null;
+	}
+
+	@Nullable
+	public FluidStack drainFromOutletPort(@Nullable FluidStack resource, boolean doDrain) {
+		return !this.sealed && this.outletOpen ? this.sealedFluidHandler.drain(resource, doDrain) : null;
+	}
+
+	@Nullable
+	public FluidStack drainFromOutletPort(int maxDrain, boolean doDrain) {
+		return !this.sealed && this.outletOpen ? this.sealedFluidHandler.drain(maxDrain, doDrain) : null;
+	}
+
+	public boolean hasConnectedInlet() {
+		return this.hasConnectedPort(true);
+	}
+
+	public boolean hasConnectedOutlet() {
+		return this.hasConnectedPort(false);
+	}
+
+	public boolean hasConnectedPipework() {
+		return this.hasConnectedInlet() || this.hasConnectedOutlet();
 	}
 
 	public int getBrewTime() {
@@ -228,6 +376,9 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 			tag.removeTag(SEALED_TAG);
 		}
 
+		tag.removeTag(INLET_OPEN_TAG);
+		tag.removeTag(OUTLET_OPEN_TAG);
+
 		if (this.label.isEmpty()) {
 			tag.removeTag(LABEL_TAG);
 
@@ -250,6 +401,11 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 		this.label = stack != null && stack.hasTagCompound() && stack.getTagCompound().hasKey(LABEL_TAG, 8)
 			? sanitizeLabel(stack.getTagCompound().getString(LABEL_TAG)) : "";
 		this.sealed = stack != null && stack.hasTagCompound() && stack.getTagCompound().getBoolean(SEALED_TAG);
+		this.inletOpen = stack != null && stack.hasTagCompound() && stack.getTagCompound().hasKey(INLET_OPEN_TAG)
+			&& stack.getTagCompound().getBoolean(INLET_OPEN_TAG);
+		this.outletOpen = stack != null && stack.hasTagCompound() && stack.getTagCompound().hasKey(OUTLET_OPEN_TAG)
+			&& stack.getTagCompound().getBoolean(OUTLET_OPEN_TAG);
+		this.sanitizePortState();
 		this.markForFluidUpdate();
 	}
 
@@ -258,6 +414,10 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 		super.readFromNBT(compound);
 		this.label = compound.hasKey(LABEL_TAG, 8) ? sanitizeLabel(compound.getString(LABEL_TAG)) : "";
 		this.sealed = compound.getBoolean(SEALED_TAG);
+		boolean portsConfigured = compound.getBoolean(PORTS_CONFIGURED_TAG);
+		this.inletOpen = portsConfigured && compound.getBoolean(INLET_OPEN_TAG);
+		this.outletOpen = portsConfigured && compound.getBoolean(OUTLET_OPEN_TAG);
+		this.sanitizePortState();
 		this.brewTime = compound.getInteger(BREW_TIME_TAG);
 		this.brewTimeTotal = compound.getInteger(BREW_TIME_TOTAL_TAG);
 		this.brewRecipeId = compound.hasKey(BREW_RECIPE_TAG, 8) ? compound.getString(BREW_RECIPE_TAG) : "";
@@ -285,6 +445,9 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 			compound.setString(LABEL_TAG, this.label);
 		}
 		compound.setBoolean(SEALED_TAG, this.sealed);
+		compound.setBoolean(PORTS_CONFIGURED_TAG, true);
+		compound.setBoolean(INLET_OPEN_TAG, this.inletOpen);
+		compound.setBoolean(OUTLET_OPEN_TAG, this.outletOpen);
 
 		compound.setInteger(BREW_TIME_TAG, this.brewTime);
 		compound.setInteger(BREW_TIME_TOTAL_TAG, this.brewTimeTotal);
@@ -408,15 +571,20 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 	}
 
 	@Override
-	public boolean hasCapability(Capability<?> capability, net.minecraft.util.EnumFacing facing) {
-		return capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
+	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
+		return capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY
+			|| capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public <T> T getCapability(Capability<T> capability, net.minecraft.util.EnumFacing facing) {
+	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
 		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-			return (T)this.sealedFluidHandler;
+			return (T)(facing == null ? this.sealedFluidHandler : new SidedFoudreFluidHandler());
+		}
+
+		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+			return (T)this.itemHandler;
 		}
 
 		return super.getCapability(capability, facing);
@@ -457,6 +625,7 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 			break;
 		case FIELD_SEALED:
 			this.sealed = value != 0;
+			this.sanitizePortState();
 			break;
 		default:
 			break;
@@ -466,6 +635,38 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 	@Override
 	public int getFieldCount() {
 		return 5;
+	}
+
+	@Override
+	public int fill(EnumFacing from, FluidStack resource, boolean doFill) {
+		return from == null ? super.fill(null, resource, doFill) : 0;
+	}
+
+	@Override
+	@Nullable
+	public FluidStack drain(EnumFacing from, FluidStack resource, boolean doDrain) {
+		return from == null ? super.drain(null, resource, doDrain) : null;
+	}
+
+	@Override
+	@Nullable
+	public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
+		return from == null ? super.drain(null, maxDrain, doDrain) : null;
+	}
+
+	@Override
+	public boolean canFill(EnumFacing from, Fluid fluid) {
+		return from == null && super.canFill(null, fluid);
+	}
+
+	@Override
+	public boolean canDrain(EnumFacing from, Fluid fluid) {
+		return from == null && super.canDrain(null, fluid);
+	}
+
+	@Override
+	public FluidTankInfo[] getTankInfo(EnumFacing from) {
+		return from == null ? super.getTankInfo(null) : new FluidTankInfo[0];
 	}
 
 	@Override
@@ -491,7 +692,7 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 	private void updateAging() {
 		FluidStack fluid = this.getFluidDirect();
 
-		if (!FoudreBrewingRegistry.isAgeable(fluid)) {
+		if (!FoudreBrewingRegistry.canAgeFurther(fluid)) {
 			return;
 		}
 
@@ -500,6 +701,65 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 		} else if (this.world.getTotalWorldTime() % 20L == 0L) {
 			this.markDirty();
 		}
+	}
+
+	private boolean shouldAge() {
+		return this.sealed && FoudreBrewingRegistry.canAgeFurther(this.getFluidDirect());
+	}
+
+	private void sanitizePortState() {
+		if (this.sealed) {
+			this.inletOpen = false;
+			this.outletOpen = false;
+		} else if (this.inletOpen && this.outletOpen) {
+			this.outletOpen = false;
+		}
+	}
+
+	private boolean hasConnectedPort(boolean inlet) {
+		if (this.world == null || this.pos == null) {
+			return false;
+		}
+
+		IBlockState state = this.world.getBlockState(this.pos);
+
+		if (!(state.getBlock() instanceof Foudre)) {
+			return false;
+		}
+
+		FoudrePart part = inlet ? FoudrePart.BACK_LEFT : FoudrePart.BACK_RIGHT;
+		BlockPos portPos = Foudre.resolvePartPos(this.pos, state.getValue(Foudre.FACING), part, inlet);
+		BlockPos attachmentPos = portPos.offset(Foudre.getPortFace(state.getValue(Foudre.FACING)));
+		TileEntity tileEntity = this.world.getTileEntity(attachmentPos);
+
+		if (tileEntity instanceof net.minecraftforge.fluids.IFluidHandler) {
+			return true;
+		}
+
+		Block block = this.world.getBlockState(attachmentPos).getBlock();
+		return block != null && block.getRegistryName() != null
+			&& block.getRegistryName().toString().endsWith("fluid_pipe_terminal");
+	}
+
+	private boolean transferAdjacentBarrel(boolean barrelToFoudre, boolean doTransfer) {
+		if (this.world == null || this.pos == null || doTransfer && this.world.isRemote) {
+			return false;
+		}
+
+		IBlockState state = this.world.getBlockState(this.pos);
+
+		if (!(state.getBlock() instanceof Foudre)) {
+			return false;
+		}
+
+		boolean transferred = AdjacentBarrelTransfer.transfer(this.world, this.pos, state.getValue(Foudre.FACING),
+			this.getFluidHandler(), barrelToFoudre, doTransfer);
+
+		if (transferred && doTransfer) {
+			this.markForFluidUpdate();
+		}
+
+		return transferred;
 	}
 
 	private boolean isValidSlot(int index) {
@@ -530,6 +790,30 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 		public FluidStack drain(int maxDrain, boolean doDrain) {
 			return TileEntityFoudre.this.sealed ? null
 				: TileEntityFoudre.super.getFluidHandler().drain(maxDrain, doDrain);
+		}
+	}
+
+	private final class SidedFoudreFluidHandler implements IFluidHandler {
+		@Override
+		public IFluidTankProperties[] getTankProperties() {
+			return new IFluidTankProperties[0];
+		}
+
+		@Override
+		public int fill(FluidStack resource, boolean doFill) {
+			return 0;
+		}
+
+		@Override
+		@Nullable
+		public FluidStack drain(FluidStack resource, boolean doDrain) {
+			return null;
+		}
+
+		@Override
+		@Nullable
+		public FluidStack drain(int maxDrain, boolean doDrain) {
+			return null;
 		}
 	}
 

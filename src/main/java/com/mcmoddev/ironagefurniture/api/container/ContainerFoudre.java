@@ -10,6 +10,8 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 public class ContainerFoudre extends Container {
+	private static final int DISPLAY_PROGRESS_TOTAL = 100;
+	private static final int MAX_IN_PROGRESS_PERCENT = 99;
 	private static final int FOUDRE_SLOT_COUNT = TileEntityFoudre.INGREDIENT_SLOTS;
 	private static final int PLAYER_INVENTORY_Y = 134;
 	private static final int PLAYER_HOTBAR_Y = 192;
@@ -36,26 +38,28 @@ public class ContainerFoudre extends Container {
 	public void detectAndSendChanges() {
 		super.detectAndSendChanges();
 
+		int brewTime = this.getDisplayProgress(this.foudre.getBrewTime(), this.foudre.getBrewTimeTotal());
+		int brewTimeTotal = this.getDisplayProgressTotal(this.foudre.getBrewTimeTotal());
+		int ageProgress = this.getDisplayProgress(this.foudre.getAgeProgress(), this.foudre.getAgeProgressTotal());
+		int ageProgressTotal = this.getDisplayProgressTotal(this.foudre.getAgeProgressTotal());
+
 		for (int i = 0; i < this.listeners.size(); i++) {
 			IContainerListener listener = (IContainerListener)this.listeners.get(i);
 
-			if (this.lastBrewTime != this.foudre.getBrewTime()) {
-				listener.sendProgressBarUpdate(this, TileEntityFoudre.FIELD_BREW_TIME, this.foudre.getBrewTime());
+			if (this.lastBrewTime != brewTime) {
+				listener.sendProgressBarUpdate(this, TileEntityFoudre.FIELD_BREW_TIME, brewTime);
 			}
 
-			if (this.lastBrewTimeTotal != this.foudre.getBrewTimeTotal()) {
-				listener.sendProgressBarUpdate(this, TileEntityFoudre.FIELD_BREW_TIME_TOTAL,
-					this.foudre.getBrewTimeTotal());
+			if (this.lastBrewTimeTotal != brewTimeTotal) {
+				listener.sendProgressBarUpdate(this, TileEntityFoudre.FIELD_BREW_TIME_TOTAL, brewTimeTotal);
 			}
 
-			if (this.lastAgeProgress != this.foudre.getAgeProgress()) {
-				listener.sendProgressBarUpdate(this, TileEntityFoudre.FIELD_AGE_PROGRESS,
-					this.foudre.getAgeProgress());
+			if (this.lastAgeProgress != ageProgress) {
+				listener.sendProgressBarUpdate(this, TileEntityFoudre.FIELD_AGE_PROGRESS, ageProgress);
 			}
 
-			if (this.lastAgeProgressTotal != this.foudre.getAgeProgressTotal()) {
-				listener.sendProgressBarUpdate(this, TileEntityFoudre.FIELD_AGE_PROGRESS_TOTAL,
-					this.foudre.getAgeProgressTotal());
+			if (this.lastAgeProgressTotal != ageProgressTotal) {
+				listener.sendProgressBarUpdate(this, TileEntityFoudre.FIELD_AGE_PROGRESS_TOTAL, ageProgressTotal);
 			}
 
 			if (this.lastSealed != (this.foudre.isSealed() ? 1 : 0)) {
@@ -64,10 +68,10 @@ public class ContainerFoudre extends Container {
 			}
 		}
 
-		this.lastBrewTime = this.foudre.getBrewTime();
-		this.lastBrewTimeTotal = this.foudre.getBrewTimeTotal();
-		this.lastAgeProgress = this.foudre.getAgeProgress();
-		this.lastAgeProgressTotal = this.foudre.getAgeProgressTotal();
+		this.lastBrewTime = brewTime;
+		this.lastBrewTimeTotal = brewTimeTotal;
+		this.lastAgeProgress = ageProgress;
+		this.lastAgeProgressTotal = ageProgressTotal;
 		this.lastSealed = this.foudre.isSealed() ? 1 : 0;
 	}
 
@@ -132,6 +136,18 @@ public class ContainerFoudre extends Container {
 		for (int column = 0; column < 9; column++) {
 			this.addSlotToContainer(new Slot(playerInventory, column, 8 + column * 18, PLAYER_HOTBAR_Y));
 		}
+	}
+
+	private int getDisplayProgress(int progress, int total) {
+		if (total <= 0) {
+			return 0;
+		}
+
+		return Math.min(MAX_IN_PROGRESS_PERCENT, Math.max(0, progress * DISPLAY_PROGRESS_TOTAL / total));
+	}
+
+	private int getDisplayProgressTotal(int total) {
+		return total > 0 ? DISPLAY_PROGRESS_TOTAL : 0;
 	}
 
 	private static class FoudreIngredientSlot extends Slot {

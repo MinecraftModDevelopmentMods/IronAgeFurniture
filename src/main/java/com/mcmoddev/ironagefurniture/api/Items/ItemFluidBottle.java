@@ -57,7 +57,7 @@ public class ItemFluidBottle extends Item {
 	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving) {
 		EntityPlayer player = entityLiving instanceof EntityPlayer ? (EntityPlayer)entityLiving : null;
 
-		if (!isFilled(stack)) {
+		if (!isFilled(stack) || !FoudreBrewingRegistry.isDrinkable(getFluid(stack))) {
 			return stack;
 		}
 
@@ -93,7 +93,7 @@ public class ItemFluidBottle extends Item {
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn,
 			EnumHand hand) {
-		if (!isFilled(itemStackIn)) {
+		if (!isFilled(itemStackIn) || !FoudreBrewingRegistry.isDrinkable(getFluid(itemStackIn))) {
 			return new ActionResult<ItemStack>(EnumActionResult.PASS, itemStackIn);
 		}
 
@@ -206,6 +206,10 @@ public class ItemFluidBottle extends Item {
 			return false;
 		}
 
+		if (!FoudreBrewingRegistry.isBottleable(drained)) {
+			return false;
+		}
+
 		FluidStack bottleFluid = FoudreBrewingRegistry.copyWithCurrentAgeLevel(drained);
 		bottleFluid.amount = CAPACITY;
 		ItemStack filledBottle = new ItemStack(ItemObjectHolder.fluid_bottle);
@@ -270,10 +274,10 @@ public class ItemFluidBottle extends Item {
 	}
 
 	private void addQualityTooltip(FluidStack fluid, List<String> tooltip) {
-		String quality = DrinkDisplayHelper.getQualityTooltip(fluid);
-
-		if (!quality.isEmpty()) {
-			tooltip.add(TextFormatting.GRAY + quality);
+		for (String line : DrinkDisplayHelper.getQualityTooltipLines(fluid)) {
+			if (!line.isEmpty()) {
+				tooltip.add(TextFormatting.GRAY + line);
+			}
 		}
 	}
 

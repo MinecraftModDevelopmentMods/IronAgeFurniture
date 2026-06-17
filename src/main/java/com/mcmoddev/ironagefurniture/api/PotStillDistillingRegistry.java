@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
+import com.mcmoddev.ironagefurniture.IronAgeFurnitureConfiguration;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.Fluid;
@@ -16,7 +18,6 @@ public final class PotStillDistillingRegistry {
 	public static final int INPUT_CAPACITY = 128 * Fluid.BUCKET_VOLUME;
 	public static final int OUTPUT_CAPACITY = 24 * Fluid.BUCKET_VOLUME;
 	public static final int FIRST_PASS_MIN_INPUT = 6000;
-	public static final int REDISTILL_MIN_INPUT = 2000;
 	public static final int MAX_DISTILLATION_PASSES = 3;
 
 	private static final ResourceLocation SPIRIT_TEXTURE = new ResourceLocation("minecraft", "blocks/quartz_block_side");
@@ -24,8 +25,10 @@ public final class PotStillDistillingRegistry {
 	private static final ResourceLocation FLOWING = SPIRIT_TEXTURE;
 	private static final int DAY = 20 * 60 * 20;
 	private static final int MIN_DISTILL_TIME = 6000;
+	private static final int MINIMUM_REDISTILLED_OUTPUT = Fluid.BUCKET_VOLUME / 4;
 	private static final int FIRST_PASS_RATIO = 6;
-	private static final int REDISTILL_RATIO = 2;
+	private static final int DOUBLE_DISTILL_RATIO = 4;
+	private static final int TRIPLE_DISTILL_RATIO = 2;
 	private static final int COLOR_ALPHA_MASK = 0xFF000000;
 	private static final int COLOR_RED_SHIFT = 16;
 	private static final int COLOR_GREEN_SHIFT = 8;
@@ -45,6 +48,36 @@ public final class PotStillDistillingRegistry {
 	private static final int BLACKBERRY_BRANDY_COLOR = 0xFF2F1C43;
 	private static final int STRAWBERRY_BRANDY_COLOR = 0xFFD84247;
 	private static final int CRANBERRY_BRANDY_COLOR = 0xFFAA2438;
+	private static final int VODKA_COLOR = 0xFFEDEAE0;
+	private static final int RUM_COLOR = 0xFFD0832E;
+	private static final int SPICED_RUM_COLOR = 0xFFB66A2D;
+	private static final int COCONUT_RUM_COLOR = 0xFFE6D6A0;
+	private static final int PINEAPPLE_RUM_COLOR = 0xFFE0AA38;
+	private static final int VANILLA_RUM_COLOR = 0xFFD6A35A;
+	private static final int CITRUS_RUM_COLOR = 0xFFD78A2F;
+	private static final int MAPLE_RUM_COLOR = 0xFF9F5A27;
+	private static final int GINGER_RUM_COLOR = 0xFFC77A30;
+	private static final int CORN_WHISKEY_COLOR = 0xFFD29435;
+	private static final int GIN_COLOR = 0xFFE1E7CC;
+	private static final int CHERRY_BRANDY_COLOR = 0xFF9A2444;
+	private static final int PLUM_BRANDY_COLOR = 0xFF6B3460;
+	private static final int APRICOT_BRANDY_COLOR = 0xFFE69A58;
+	private static final int MANGO_BRANDY_COLOR = 0xFFE3A13A;
+	private static final int PINEAPPLE_BRANDY_COLOR = 0xFFE4C348;
+	private static final int BANANA_BRANDY_COLOR = 0xFFE2D07A;
+	private static final int DATE_BRANDY_COLOR = 0xFF9A5A32;
+	private static final int FIG_BRANDY_COLOR = 0xFF7A3F62;
+	private static final int GRAPEFRUIT_BRANDY_COLOR = 0xFFE27B56;
+	private static final int POMEGRANATE_BRANDY_COLOR = 0xFF9B1D3D;
+	private static final int PAPAYA_BRANDY_COLOR = 0xFFE48642;
+	private static final int STARFRUIT_BRANDY_COLOR = 0xFFE3C75A;
+	private static final int GOOSEBERRY_BRANDY_COLOR = 0xFF97B957;
+	private static final int CACTUS_FRUIT_BRANDY_COLOR = 0xFFC55370;
+	private static final int MALOBERRY_BRANDY_COLOR = 0xFFD08C35;
+	private static final int BLIGHTBERRY_BRANDY_COLOR = 0xFF66762D;
+	private static final int DUSKBERRY_BRANDY_COLOR = 0xFF443680;
+	private static final int SKYBERRY_BRANDY_COLOR = 0xFF5B8EC2;
+	private static final int STINGBERRY_BRANDY_COLOR = 0xFFC43F38;
 	private static final int PASS_DARKEN_STEP = 22;
 
 	public static Fluid whisky;
@@ -62,6 +95,36 @@ public final class PotStillDistillingRegistry {
 	public static Fluid blackberryBrandy;
 	public static Fluid strawberryBrandy;
 	public static Fluid cranberryBrandy;
+	public static Fluid vodka;
+	public static Fluid rum;
+	public static Fluid spicedRum;
+	public static Fluid coconutRum;
+	public static Fluid pineappleRum;
+	public static Fluid vanillaRum;
+	public static Fluid citrusRum;
+	public static Fluid mapleRum;
+	public static Fluid gingerRum;
+	public static Fluid cornWhiskey;
+	public static Fluid gin;
+	public static Fluid cherryBrandy;
+	public static Fluid plumBrandy;
+	public static Fluid apricotBrandy;
+	public static Fluid mangoBrandy;
+	public static Fluid pineappleBrandy;
+	public static Fluid bananaBrandy;
+	public static Fluid dateBrandy;
+	public static Fluid figBrandy;
+	public static Fluid grapefruitBrandy;
+	public static Fluid pomegranateBrandy;
+	public static Fluid papayaBrandy;
+	public static Fluid starfruitBrandy;
+	public static Fluid gooseberryBrandy;
+	public static Fluid cactusFruitBrandy;
+	public static Fluid maloberryBrandy;
+	public static Fluid blightberryBrandy;
+	public static Fluid duskberryBrandy;
+	public static Fluid skyberryBrandy;
+	public static Fluid stingberryBrandy;
 
 	private static final Map<Fluid, DistillationRecipe> FIRST_PASS_RECIPES = new HashMap<Fluid, DistillationRecipe>();
 	private static final Map<Fluid, SpiritProfile> SPIRIT_PROFILES = new HashMap<Fluid, SpiritProfile>();
@@ -99,6 +162,63 @@ public final class PotStillDistillingRegistry {
 			"Strawberry Brandy", STRAWBERRY_BRANDY_COLOR);
 		cranberryBrandy = registerSpirit("ironagefurniture_cranberry_brandy", "cranberry_brandy",
 			"Cranberry Brandy", CRANBERRY_BRANDY_COLOR);
+		vodka = registerSpirit("ironagefurniture_vodka", "vodka", "Vodka", VODKA_COLOR);
+		rum = registerSpirit("ironagefurniture_rum", "rum", "Rum", RUM_COLOR);
+		spicedRum = registerSpirit("ironagefurniture_spiced_rum", "spiced_rum", "Spiced Rum",
+			SPICED_RUM_COLOR);
+		coconutRum = registerSpirit("ironagefurniture_coconut_rum", "coconut_rum", "Coconut Rum",
+			COCONUT_RUM_COLOR);
+		pineappleRum = registerSpirit("ironagefurniture_pineapple_rum", "pineapple_rum", "Pineapple Rum",
+			PINEAPPLE_RUM_COLOR);
+		vanillaRum = registerSpirit("ironagefurniture_vanilla_rum", "vanilla_rum", "Vanilla Rum",
+			VANILLA_RUM_COLOR);
+		citrusRum = registerSpirit("ironagefurniture_citrus_rum", "citrus_rum", "Citrus Rum",
+			CITRUS_RUM_COLOR);
+		mapleRum = registerSpirit("ironagefurniture_maple_rum", "maple_rum", "Maple Rum",
+			MAPLE_RUM_COLOR);
+		gingerRum = registerSpirit("ironagefurniture_ginger_rum", "ginger_rum", "Ginger Rum",
+			GINGER_RUM_COLOR);
+		cornWhiskey = registerSpirit("ironagefurniture_corn_whiskey", "corn_whiskey", "Corn Whiskey",
+			CORN_WHISKEY_COLOR);
+		gin = registerSpirit("ironagefurniture_gin", "gin", "Gin", GIN_COLOR);
+		cherryBrandy = registerSpirit("ironagefurniture_cherry_brandy", "cherry_brandy", "Cherry Brandy",
+			CHERRY_BRANDY_COLOR);
+		plumBrandy = registerSpirit("ironagefurniture_plum_brandy", "plum_brandy", "Plum Brandy",
+			PLUM_BRANDY_COLOR);
+		apricotBrandy = registerSpirit("ironagefurniture_apricot_brandy", "apricot_brandy", "Apricot Brandy",
+			APRICOT_BRANDY_COLOR);
+		mangoBrandy = registerSpirit("ironagefurniture_mango_brandy", "mango_brandy", "Mango Brandy",
+			MANGO_BRANDY_COLOR);
+		pineappleBrandy = registerSpirit("ironagefurniture_pineapple_brandy", "pineapple_brandy",
+			"Pineapple Brandy", PINEAPPLE_BRANDY_COLOR);
+		bananaBrandy = registerSpirit("ironagefurniture_banana_brandy", "banana_brandy", "Banana Brandy",
+			BANANA_BRANDY_COLOR);
+		dateBrandy = registerSpirit("ironagefurniture_date_brandy", "date_brandy", "Date Brandy",
+			DATE_BRANDY_COLOR);
+		figBrandy = registerSpirit("ironagefurniture_fig_brandy", "fig_brandy", "Fig Brandy",
+			FIG_BRANDY_COLOR);
+		grapefruitBrandy = registerSpirit("ironagefurniture_grapefruit_brandy", "grapefruit_brandy",
+			"Grapefruit Brandy", GRAPEFRUIT_BRANDY_COLOR);
+		pomegranateBrandy = registerSpirit("ironagefurniture_pomegranate_brandy", "pomegranate_brandy",
+			"Pomegranate Brandy", POMEGRANATE_BRANDY_COLOR);
+		papayaBrandy = registerSpirit("ironagefurniture_papaya_brandy", "papaya_brandy", "Papaya Brandy",
+			PAPAYA_BRANDY_COLOR);
+		starfruitBrandy = registerSpirit("ironagefurniture_starfruit_brandy", "starfruit_brandy",
+			"Starfruit Brandy", STARFRUIT_BRANDY_COLOR);
+		gooseberryBrandy = registerSpirit("ironagefurniture_gooseberry_brandy", "gooseberry_brandy",
+			"Gooseberry Brandy", GOOSEBERRY_BRANDY_COLOR);
+		cactusFruitBrandy = registerSpirit("ironagefurniture_cactus_fruit_brandy", "cactus_fruit_brandy",
+			"Cactus Fruit Brandy", CACTUS_FRUIT_BRANDY_COLOR);
+		maloberryBrandy = registerSpirit("ironagefurniture_maloberry_brandy", "maloberry_brandy",
+			"Maloberry Brandy", MALOBERRY_BRANDY_COLOR);
+		blightberryBrandy = registerSpirit("ironagefurniture_blightberry_brandy", "blightberry_brandy",
+			"Blightberry Brandy", BLIGHTBERRY_BRANDY_COLOR);
+		duskberryBrandy = registerSpirit("ironagefurniture_duskberry_brandy", "duskberry_brandy",
+			"Duskberry Brandy", DUSKBERRY_BRANDY_COLOR);
+		skyberryBrandy = registerSpirit("ironagefurniture_skyberry_brandy", "skyberry_brandy",
+			"Skyberry Brandy", SKYBERRY_BRANDY_COLOR);
+		stingberryBrandy = registerSpirit("ironagefurniture_stingberry_brandy", "stingberry_brandy",
+			"Stingberry Brandy", STINGBERRY_BRANDY_COLOR);
 		FoudreBrewingRegistry.registerAgeProfiles();
 	}
 
@@ -122,6 +242,36 @@ public final class PotStillDistillingRegistry {
 		addFirstPass(FoudreBrewingRegistry.blackberryWine, blackberryBrandy, "Blackberry Brandy");
 		addFirstPass(FoudreBrewingRegistry.strawberryWine, strawberryBrandy, "Strawberry Brandy");
 		addFirstPass(FoudreBrewingRegistry.cranberryWine, cranberryBrandy, "Cranberry Brandy");
+		addFirstPass(FoudreBrewingRegistry.potatoWash, vodka, "Vodka");
+		addFirstPass(FoudreBrewingRegistry.sugarWash, rum, "Rum");
+		addFirstPass(FoudreBrewingRegistry.cornMash, cornWhiskey, "Corn Whiskey");
+		addFirstPass(FoudreBrewingRegistry.ginMash, gin, "Gin");
+		addFirstPass(FoudreBrewingRegistry.spicedRumWash, spicedRum, "Spiced Rum");
+		addFirstPass(FoudreBrewingRegistry.coconutRumWash, coconutRum, "Coconut Rum");
+		addFirstPass(FoudreBrewingRegistry.pineappleRumWash, pineappleRum, "Pineapple Rum");
+		addFirstPass(FoudreBrewingRegistry.vanillaRumWash, vanillaRum, "Vanilla Rum");
+		addFirstPass(FoudreBrewingRegistry.citrusRumWash, citrusRum, "Citrus Rum");
+		addFirstPass(FoudreBrewingRegistry.mapleRumWash, mapleRum, "Maple Rum");
+		addFirstPass(FoudreBrewingRegistry.gingerRumWash, gingerRum, "Ginger Rum");
+		addFirstPass(FoudreBrewingRegistry.cherryWine, cherryBrandy, "Cherry Brandy");
+		addFirstPass(FoudreBrewingRegistry.plumWine, plumBrandy, "Plum Brandy");
+		addFirstPass(FoudreBrewingRegistry.apricotWine, apricotBrandy, "Apricot Brandy");
+		addFirstPass(FoudreBrewingRegistry.mangoWine, mangoBrandy, "Mango Brandy");
+		addFirstPass(FoudreBrewingRegistry.pineappleWine, pineappleBrandy, "Pineapple Brandy");
+		addFirstPass(FoudreBrewingRegistry.bananaWine, bananaBrandy, "Banana Brandy");
+		addFirstPass(FoudreBrewingRegistry.dateWine, dateBrandy, "Date Brandy");
+		addFirstPass(FoudreBrewingRegistry.figWine, figBrandy, "Fig Brandy");
+		addFirstPass(FoudreBrewingRegistry.grapefruitWine, grapefruitBrandy, "Grapefruit Brandy");
+		addFirstPass(FoudreBrewingRegistry.pomegranateWine, pomegranateBrandy, "Pomegranate Brandy");
+		addFirstPass(FoudreBrewingRegistry.papayaWine, papayaBrandy, "Papaya Brandy");
+		addFirstPass(FoudreBrewingRegistry.starfruitWine, starfruitBrandy, "Starfruit Brandy");
+		addFirstPass(FoudreBrewingRegistry.gooseberryWine, gooseberryBrandy, "Gooseberry Brandy");
+		addFirstPass(FoudreBrewingRegistry.cactusFruitWine, cactusFruitBrandy, "Cactus Fruit Brandy");
+		addFirstPass(FoudreBrewingRegistry.maloberryWine, maloberryBrandy, "Maloberry Brandy");
+		addFirstPass(FoudreBrewingRegistry.blightberryWine, blightberryBrandy, "Blightberry Brandy");
+		addFirstPass(FoudreBrewingRegistry.duskberryWine, duskberryBrandy, "Duskberry Brandy");
+		addFirstPass(FoudreBrewingRegistry.skyberryWine, skyberryBrandy, "Skyberry Brandy");
+		addFirstPass(FoudreBrewingRegistry.stingberryWine, stingberryBrandy, "Stingberry Brandy");
 	}
 
 	@Nullable
@@ -232,11 +382,11 @@ public final class PotStillDistillingRegistry {
 	private static DistillationResult createRedistillationResult(FluidStack input, int outputSpace) {
 		int passes = getDistillationPasses(input);
 
-		if (passes >= MAX_DISTILLATION_PASSES || input.amount < REDISTILL_MIN_INPUT) {
+		if (passes >= MAX_DISTILLATION_PASSES || input.amount < getRedistillationMinInput(passes)) {
 			return null;
 		}
 
-		int outputAmount = input.amount / REDISTILL_RATIO;
+		int outputAmount = input.amount / getRedistillationRatio(passes);
 
 		if (outputAmount <= 0 || outputAmount > outputSpace) {
 			return null;
@@ -249,7 +399,16 @@ public final class PotStillDistillingRegistry {
 	}
 
 	private static int getDistillationTime(int inputAmount) {
-		return Math.max(MIN_DISTILL_TIME, inputAmount * DAY / INPUT_CAPACITY);
+		long scaledInputTime = (long)inputAmount * (long)DAY / (long)INPUT_CAPACITY;
+		return IronAgeFurnitureConfiguration.scaleDrinkTicks(Math.max((long)MIN_DISTILL_TIME, scaledInputTime));
+	}
+
+	private static int getRedistillationRatio(int passes) {
+		return passes <= 1 ? DOUBLE_DISTILL_RATIO : TRIPLE_DISTILL_RATIO;
+	}
+
+	private static int getRedistillationMinInput(int passes) {
+		return getRedistillationRatio(passes) * MINIMUM_REDISTILLED_OUTPUT;
 	}
 
 	private static void setDistillationPasses(FluidStack fluid, int passes) {

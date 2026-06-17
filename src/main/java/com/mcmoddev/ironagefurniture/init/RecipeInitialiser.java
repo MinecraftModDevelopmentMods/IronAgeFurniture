@@ -20,6 +20,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.RecipeSorter;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
@@ -32,6 +33,7 @@ public class RecipeInitialiser {
 	 *
 	 */
 	public static void init() {
+		registerCustomRecipeTypes();
 		generateIronNuggetRecipes();
 		generateChairRecipes();
 		generateBedRecipes();
@@ -43,6 +45,19 @@ public class RecipeInitialiser {
 		generateGoldBarsRecipes();
 		generateLightRecipes();
 		generateOrnamentRecipes();
+	}
+
+	private static void registerCustomRecipeTypes() {
+		RecipeSorter.register("ironagefurniture:side_barrel", com.mcmoddev.ironagefurniture.api.recipes.SideBarrelRecipe.class,
+			RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
+		RecipeSorter.register("ironagefurniture:upright_barrel",
+			com.mcmoddev.ironagefurniture.api.recipes.UprightBarrelRecipe.class,
+			RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
+		RecipeSorter.register("ironagefurniture:foudre", com.mcmoddev.ironagefurniture.api.recipes.FoudreRecipe.class,
+			RecipeSorter.Category.SHAPED, "after:minecraft:shaped");
+		RecipeSorter.register("ironagefurniture:pot_still",
+			com.mcmoddev.ironagefurniture.api.recipes.PotStillRecipe.class,
+			RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
 	}
 
 	private static void generateIronNuggetRecipes() {

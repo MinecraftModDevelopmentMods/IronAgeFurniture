@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import com.mcmoddev.ironagefurniture.api.AdjacentBarrelTransfer;
+import com.mcmoddev.ironagefurniture.api.Blocks.PotStill;
 import com.mcmoddev.ironagefurniture.api.PotStillDistillingRegistry;
 import com.mcmoddev.ironagefurniture.api.PotStillDistillingRegistry.DistillationResult;
 
@@ -23,14 +25,20 @@ import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
+import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.FluidTankPropertiesWrapper;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.wrapper.InvWrapper;
 
-public class TileEntityPotStill extends TileEntity implements IInventory, ITickable {
+public class TileEntityPotStill extends TileEntity implements IInventory, ITickable,
+		net.minecraftforge.fluids.IFluidHandler {
 	public static final int INPUT_CAPACITY = PotStillDistillingRegistry.INPUT_CAPACITY;
 	public static final int OUTPUT_CAPACITY = PotStillDistillingRegistry.OUTPUT_CAPACITY;
 	public static final int FUEL_SLOT = 0;
@@ -56,6 +64,7 @@ public class TileEntityPotStill extends TileEntity implements IInventory, ITicka
 	private final FluidTank inputTank = new PotStillTank(this, INPUT_CAPACITY, true);
 	private final FluidTank outputTank = new PotStillTank(this, OUTPUT_CAPACITY, false);
 	private final IFluidHandler fluidHandler = new PotStillFluidHandler();
+	private final IItemHandler itemHandler = new InvWrapper(this);
 	private final ItemStack[] inventory = new ItemStack[FUEL_SLOTS];
 	private int distillTime;
 	private int distillTimeTotal;
@@ -160,14 +169,22 @@ public class TileEntityPotStill extends TileEntity implements IInventory, ITicka
 
 	public boolean startDistillation() {
 		DistillationResult result = this.getStartResult();
+		boolean useOutputTank = this.shouldUseOutputForStart();
+		FluidStack startFluid = useOutputTank ? this.outputTank.getFluid() : this.inputTank.getFluid();
 
 		if (result == null || this.getFuelTicksAvailable() < result.getDistillationTime()) {
 			return false;
 		}
 
 		this.consumeFuelTicks(result.getDistillationTime());
-		this.batchInput = this.inputTank.getFluid() == null ? null : this.inputTank.getFluid().copy();
-		this.inputTank.setFluid(null);
+		this.batchInput = startFluid == null ? null : startFluid.copy();
+
+		if (useOutputTank) {
+			this.outputTank.setFluid(null);
+		} else {
+			this.inputTank.setFluid(null);
+		}
+
 		this.batchOutput = result.createOutputStack();
 		this.batchName = result.getOutputName();
 		this.distillTime = 0;
@@ -190,6 +207,37 @@ public class TileEntityPotStill extends TileEntity implements IInventory, ITicka
 		this.outputTank.setFluid(null);
 		this.markForUpdate();
 		return true;
+	}
+
+	public boolean canDrainAdjacentBarrel() {
+		return this.transferAdjacentBarrel(true, false);
+	}
+
+	public boolean drainAdjacentBarrel() {
+		return this.transferAdjacentBarrel(true, true);
+	}
+
+	public boolean canFillAdjacentBarrel() {
+		return this.transferAdjacentBarrel(false, false);
+	}
+
+	public boolean fillAdjacentBarrel() {
+		return this.transferAdjacentBarrel(false, true);
+	}
+
+	@Nullable
+	public TileEntityBarrel getAdjacentTransferBarrel() {
+		if (this.world == null || this.pos == null) {
+			return null;
+		}
+
+		IBlockState state = this.world.getBlockState(this.pos);
+
+		if (!(state.getBlock() instanceof PotStill)) {
+			return null;
+		}
+
+		return AdjacentBarrelTransfer.findBarrel(this.world, this.pos, state.getValue(PotStill.FACING));
 	}
 
 	public void ruinBatch() {
@@ -258,6 +306,7 @@ public class TileEntityPotStill extends TileEntity implements IInventory, ITicka
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
 		return capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY
+			|| capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY
 			|| super.hasCapability(capability, facing);
 	}
 
@@ -266,6 +315,10 @@ public class TileEntityPotStill extends TileEntity implements IInventory, ITicka
 	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
 		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
 			return (T)this.fluidHandler;
+		}
+
+		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+			return (T)this.itemHandler;
 		}
 
 		return super.getCapability(capability, facing);
@@ -470,6 +523,40 @@ public class TileEntityPotStill extends TileEntity implements IInventory, ITicka
 	}
 
 	@Override
+	public int fill(EnumFacing from, FluidStack resource, boolean doFill) {
+		return this.fluidHandler.fill(resource, doFill);
+	}
+
+	@Override
+	@Nullable
+	public FluidStack drain(EnumFacing from, FluidStack resource, boolean doDrain) {
+		return this.fluidHandler.drain(resource, doDrain);
+	}
+
+	@Override
+	@Nullable
+	public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
+		return this.fluidHandler.drain(maxDrain, doDrain);
+	}
+
+	@Override
+	public boolean canFill(EnumFacing from, Fluid fluid) {
+		return fluid != null && this.fluidHandler.fill(new FluidStack(fluid, 1), false) > 0;
+	}
+
+	@Override
+	public boolean canDrain(EnumFacing from, Fluid fluid) {
+		return fluid != null && this.fluidHandler.drain(new FluidStack(fluid, 1), false) != null;
+	}
+
+	@Override
+	public FluidTankInfo[] getTankInfo(EnumFacing from) {
+		return new FluidTankInfo[] {
+			new FluidTankInfo(this.inputTank),
+			new FluidTankInfo(this.outputTank) };
+	}
+
+	@Override
 	public void clear() {
 		this.inventory[FUEL_SLOT] = null;
 	}
@@ -495,11 +582,49 @@ public class TileEntityPotStill extends TileEntity implements IInventory, ITicka
 	}
 
 	private DistillationResult getStartResult() {
-		if (this.isDistilling() || this.outputTank.getFluidAmount() > 0) {
+		if (this.isDistilling()) {
 			return null;
 		}
 
-		return PotStillDistillingRegistry.findResult(this.inputTank.getFluid(), this.outputTank.getCapacity());
+		if (this.inputTank.getFluidAmount() > 0) {
+			if (this.outputTank.getFluidAmount() > 0) {
+				return null;
+			}
+
+			return PotStillDistillingRegistry.findResult(this.inputTank.getFluid(), this.outputTank.getCapacity());
+		}
+
+		if (this.shouldUseOutputForStart()) {
+			return PotStillDistillingRegistry.findResult(this.outputTank.getFluid(), this.outputTank.getCapacity());
+		}
+
+		return null;
+	}
+
+	private boolean shouldUseOutputForStart() {
+		return this.inputTank.getFluidAmount() <= 0 && this.outputTank.getFluidAmount() > 0
+			&& PotStillDistillingRegistry.isSpirit(this.outputTank.getFluid());
+	}
+
+	private boolean transferAdjacentBarrel(boolean barrelToStill, boolean doTransfer) {
+		if (this.world == null || this.pos == null || doTransfer && this.world.isRemote) {
+			return false;
+		}
+
+		IBlockState state = this.world.getBlockState(this.pos);
+
+		if (!(state.getBlock() instanceof PotStill)) {
+			return false;
+		}
+
+		boolean transferred = AdjacentBarrelTransfer.transfer(this.world, this.pos, state.getValue(PotStill.FACING),
+			this.getFluidHandler(), barrelToStill, doTransfer);
+
+		if (transferred && doTransfer) {
+			this.markForUpdate();
+		}
+
+		return transferred;
 	}
 
 	private void finishDistillation() {
@@ -564,6 +689,7 @@ public class TileEntityPotStill extends TileEntity implements IInventory, ITicka
 		@Override
 		public int fill(FluidStack resource, boolean doFill) {
 			if (TileEntityPotStill.this.isDistilling()
+					|| TileEntityPotStill.this.outputTank.getFluidAmount() > 0
 					|| !PotStillDistillingRegistry.canMixInputs(TileEntityPotStill.this.inputTank.getFluid(),
 						resource)) {
 				return 0;

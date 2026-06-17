@@ -327,6 +327,52 @@ processResources {
     rename '(.+_at.cfg)', 'META-INF/$1'
 
     doLast {
+        final String assetRoot = outputs.files.asPath + '/assets/ironagefurniture'
+        final File blockstateDir = file(assetRoot + '/blockstates')
+        final File itemModelDir = file(assetRoot + '/models/item')
+        final String blockModelPrefix = 'ironagefurniture:block/'
+        final Set<String> collapsibleItemModelKeys = ['credit', 'parent'] as Set
+
+        def collapsedItemModels = 0
+        def collapsedItemModelBytes = 0
+
+        if (blockstateDir.exists() && itemModelDir.exists()) {
+            fileTree(dir: itemModelDir, include: '**/*.json').each {
+                File itemModelFile = it
+                File blockstateFile = new File(blockstateDir, itemModelFile.name)
+
+                if (blockstateFile.exists()) {
+                    def itemModel = new JsonSlurper().parse(itemModelFile)
+
+                    if (itemModel instanceof Map) {
+                        def itemModelKeys = itemModel.keySet()
+                        def parent = itemModel.parent
+
+                        if (parent instanceof String && parent.startsWith(blockModelPrefix)
+                                && (itemModelKeys as Set).every { collapsibleItemModelKeys.contains(it) }) {
+                            def blockstate = new JsonSlurper().parse(blockstateFile)
+
+                            if (blockstate instanceof Map && blockstate.variants instanceof Map
+                                    && !blockstate.variants.containsKey('inventory')) {
+                                blockstate.variants.inventory = [
+                                        model: 'ironagefurniture:' + parent.substring(blockModelPrefix.length())
+                                ]
+
+                                blockstateFile.text = JsonOutput.toJson(blockstate)
+                                collapsedItemModelBytes += itemModelFile.length()
+
+                                if (itemModelFile.delete()) {
+                                    collapsedItemModels++
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        println('Collapsed ' + collapsedItemModels + ' item wrapper models into blockstate inventory variants. Removed '
+                + collapsedItemModelBytes + ' raw bytes before compression.')
     
         def jsonMinifyStart = System.currentTimeMillis()
         def jsonMinified = 0

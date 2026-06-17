@@ -33,10 +33,10 @@ public class ItemBlockBarrel extends ItemBlock {
 		}
 
 		tooltip.add(DrinkDisplayHelper.getDisplayName(fluid));
-		String quality = DrinkDisplayHelper.getQualityTooltip(fluid);
-
-		if (!quality.isEmpty()) {
-			tooltip.add(quality);
+		for (String line : DrinkDisplayHelper.getQualityTooltipLines(fluid)) {
+			if (!line.isEmpty()) {
+				tooltip.add(line);
+			}
 		}
 
 		tooltip.add(fluid.amount + " / " + this.getCapacity() + " mB");

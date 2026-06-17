@@ -4,13 +4,11 @@ import com.mcmoddev.ironagefurniture.api.tile.TileEntityBarrel;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class PotStillRecipe implements IRecipe {
 	private final Block sourceFoudre;
@@ -35,7 +33,7 @@ public class PotStillRecipe implements IRecipe {
 
 	@Override
 	public int getRecipeSize() {
-		return 9;
+		return 2;
 	}
 
 	@Override
@@ -59,29 +57,30 @@ public class PotStillRecipe implements IRecipe {
 	}
 
 	private boolean matchesPattern(InventoryCrafting inv) {
-		return inv.getSizeInventory() >= 9
-			&& this.isIronNugget(inv.getStackInSlot(0))
-			&& this.isGlassBottle(inv.getStackInSlot(1))
-			&& this.isIronNugget(inv.getStackInSlot(2))
-			&& this.isIronBars(inv.getStackInSlot(3))
-			&& this.isEmptySourceFoudre(inv.getStackInSlot(4))
-			&& this.isIronBars(inv.getStackInSlot(5))
-			&& this.isGlassBottle(inv.getStackInSlot(6))
-			&& this.isBucket(inv.getStackInSlot(7))
-			&& this.isGlassBottle(inv.getStackInSlot(8))
-			&& this.hasNoExtraItems(inv);
-	}
+		boolean foundFoudre = false;
+		boolean foundFurnace = false;
 
-	private boolean hasNoExtraItems(InventoryCrafting inv) {
-		for (int slot = 9; slot < inv.getSizeInventory(); slot++) {
+		for (int slot = 0; slot < inv.getSizeInventory(); slot++) {
 			ItemStack stack = inv.getStackInSlot(slot);
 
-			if (stack != null && stack.stackSize > 0) {
-				return false;
+			if (stack == null || stack.stackSize <= 0) {
+				continue;
 			}
+
+			if (!foundFoudre && this.isEmptySourceFoudre(stack)) {
+				foundFoudre = true;
+				continue;
+			}
+
+			if (!foundFurnace && this.isFurnace(stack)) {
+				foundFurnace = true;
+				continue;
+			}
+
+			return false;
 		}
 
-		return true;
+		return foundFoudre && foundFurnace;
 	}
 
 	private boolean isEmptySourceFoudre(ItemStack stack) {
@@ -91,29 +90,7 @@ public class PotStillRecipe implements IRecipe {
 			&& TileEntityBarrel.getFluidFromItemStack(stack) == null;
 	}
 
-	private boolean isGlassBottle(ItemStack stack) {
-		return stack != null && stack.stackSize > 0 && stack.getItem() == Items.GLASS_BOTTLE;
-	}
-
-	private boolean isBucket(ItemStack stack) {
-		return stack != null && stack.stackSize > 0 && stack.getItem() == Items.BUCKET;
-	}
-
-	private boolean isIronBars(ItemStack stack) {
-		return stack != null && stack.stackSize > 0 && stack.getItem() == Item.getItemFromBlock(Blocks.IRON_BARS);
-	}
-
-	private boolean isIronNugget(ItemStack stack) {
-		if (stack == null || stack.stackSize <= 0) {
-			return false;
-		}
-
-		for (int id : OreDictionary.getOreIDs(stack)) {
-			if ("nuggetIron".equals(OreDictionary.getOreName(id))) {
-				return true;
-			}
-		}
-
-		return false;
+	private boolean isFurnace(ItemStack stack) {
+		return stack != null && stack.stackSize > 0 && stack.getItem() == Item.getItemFromBlock(Blocks.FURNACE);
 	}
 }

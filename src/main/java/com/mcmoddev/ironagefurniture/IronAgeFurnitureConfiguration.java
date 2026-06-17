@@ -43,6 +43,29 @@ public class IronAgeFurnitureConfiguration {
 	public static boolean INTEGRATION_BASEMETALS = true;
 	public static boolean INTEGRATION_HARVESTCRAFT = true;
 	public static boolean INTEGRATION_MINERALOGY = true;
+	public static final int DEFAULT_DRINK_TIME_MULTIPLIER = 10;
+	private static final int MIN_DRINK_TIME_MULTIPLIER = 1;
+	private static final int MAX_DRINK_TIME_MULTIPLIER = 1200;
+	public static int DRINK_TIME_MULTIPLIER = DEFAULT_DRINK_TIME_MULTIPLIER;
+
+	public static int scaleDrinkTicks(int ticks) {
+		return scaleDrinkTicks((long)ticks);
+	}
+
+	public static int scaleDrinkTicks(long ticks) {
+		if (ticks <= 0L) {
+			return 0;
+		}
+
+		long multiplier = Math.max(MIN_DRINK_TIME_MULTIPLIER, DRINK_TIME_MULTIPLIER);
+		long scaledTicks = ticks * multiplier / DEFAULT_DRINK_TIME_MULTIPLIER;
+
+		if (scaledTicks <= 0L) {
+			return 1;
+		}
+
+		return scaledTicks > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int)scaledTicks;
+	}
 	
 	public static void init(FMLPreInitializationEvent event) {
 		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
@@ -90,6 +113,9 @@ public class IronAgeFurnitureConfiguration {
 		GENERATE_CHAINS = config.getBoolean("GENERATE_CHAINS", "options", GENERATE_CHAINS, "If true, then chain blocks will be generated");
 		GENERATE_CHANDELIERS = config.getBoolean("GENERATE_CHANDELIERS", "options", GENERATE_CHANDELIERS, "If true, then chandelier blocks will be generated");
 		GENERATE_GRAND_CHANDELIERS = config.getBoolean("GENERATE_GRAND_CHANDELIERS", "options", GENERATE_GRAND_CHANDELIERS, "If true, then grand chandelier blocks will be generated");
+		DRINK_TIME_MULTIPLIER = config.getInt("DRINK_TIME_MULTIPLIER", "options", DRINK_TIME_MULTIPLIER,
+			MIN_DRINK_TIME_MULTIPLIER, MAX_DRINK_TIME_MULTIPLIER,
+			"Base timing multiplier for foudre brewing, drink aging, and pot still distillation. 10 is the default speed, 1 is 10x faster, and 120 is 12x slower.");
 
 		CFM_CONVERSION_RECIPES = config.getBoolean("CFM_CONVERSION_RECIPES", "options", CFM_CONVERSION_RECIPES, "If true, recipes for converting chairs from Crayfish Furniture Mod will be added");
 		config.save();

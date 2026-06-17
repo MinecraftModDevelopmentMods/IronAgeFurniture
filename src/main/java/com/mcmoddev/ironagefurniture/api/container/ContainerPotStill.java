@@ -10,6 +10,8 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 public class ContainerPotStill extends Container {
+	private static final int DISPLAY_PROGRESS_TOTAL = 100;
+	private static final int MAX_IN_PROGRESS_PERCENT = 99;
 	private static final int STILL_SLOT_COUNT = TileEntityPotStill.FUEL_SLOTS;
 	private static final int FUEL_SLOT_X = 50;
 	private static final int FUEL_SLOT_Y = 113;
@@ -39,9 +41,12 @@ public class ContainerPotStill extends Container {
 	public void detectAndSendChanges() {
 		super.detectAndSendChanges();
 
-		this.sendFieldIfChanged(TileEntityPotStill.FIELD_DISTILL_TIME, this.potStill.getDistillTime(),
-			this.lastDistillTime);
-		this.sendFieldIfChanged(TileEntityPotStill.FIELD_DISTILL_TIME_TOTAL, this.potStill.getDistillTimeTotal(),
+		int distillTime = this.getDisplayProgress(this.potStill.getDistillTime(),
+			this.potStill.getDistillTimeTotal());
+		int distillTimeTotal = this.getDisplayProgressTotal(this.potStill.getDistillTimeTotal());
+
+		this.sendFieldIfChanged(TileEntityPotStill.FIELD_DISTILL_TIME, distillTime, this.lastDistillTime);
+		this.sendFieldIfChanged(TileEntityPotStill.FIELD_DISTILL_TIME_TOTAL, distillTimeTotal,
 			this.lastDistillTimeTotal);
 		this.sendFieldIfChanged(TileEntityPotStill.FIELD_CAN_START, this.potStill.canStartDistillation() ? 1 : 0,
 			this.lastCanStart);
@@ -52,8 +57,8 @@ public class ContainerPotStill extends Container {
 		this.sendFieldIfChanged(TileEntityPotStill.FIELD_OUTPUT_AMOUNT, this.potStill.getOutputAmount(),
 			this.lastOutputAmount);
 
-		this.lastDistillTime = this.potStill.getDistillTime();
-		this.lastDistillTimeTotal = this.potStill.getDistillTimeTotal();
+		this.lastDistillTime = distillTime;
+		this.lastDistillTimeTotal = distillTimeTotal;
 		this.lastCanStart = this.potStill.canStartDistillation() ? 1 : 0;
 		this.lastActive = this.potStill.isDistilling() ? 1 : 0;
 		this.lastInputAmount = this.potStill.getInputAmount();
@@ -111,6 +116,18 @@ public class ContainerPotStill extends Container {
 		for (int i = 0; i < this.listeners.size(); i++) {
 			((IContainerListener)this.listeners.get(i)).sendProgressBarUpdate(this, field, value);
 		}
+	}
+
+	private int getDisplayProgress(int progress, int total) {
+		if (total <= 0) {
+			return 0;
+		}
+
+		return Math.min(MAX_IN_PROGRESS_PERCENT, Math.max(0, progress * DISPLAY_PROGRESS_TOTAL / total));
+	}
+
+	private int getDisplayProgressTotal(int total) {
+		return total > 0 ? DISPLAY_PROGRESS_TOTAL : 0;
 	}
 
 	private void addStillSlots() {
