@@ -6,6 +6,7 @@ import javax.annotation.Nullable;
 
 import com.mcmoddev.ironagefurniture.api.AdjacentBarrelTransfer;
 import com.mcmoddev.ironagefurniture.api.Blocks.PotStill;
+import com.mcmoddev.ironagefurniture.api.Enumerations.FoudrePart;
 import com.mcmoddev.ironagefurniture.api.PotStillDistillingRegistry;
 import com.mcmoddev.ironagefurniture.api.PotStillDistillingRegistry.DistillationResult;
 
@@ -58,6 +59,9 @@ public class TileEntityPotStill extends TileEntity implements IInventory, ITicka
 	private static final String BATCH_INPUT_TAG = "BatchInput";
 	private static final String BATCH_OUTPUT_TAG = "BatchOutput";
 	private static final String BATCH_NAME_TAG = "BatchName";
+	private static final String PORTS_CONFIGURED_TAG = "PortsConfigured";
+	private static final String INLET_OPEN_TAG = "InletOpen";
+	private static final String OUTLET_OPEN_TAG = "OutletOpen";
 	private static final String INPUT_ITEM_TAG = "InputTank";
 	private static final String OUTPUT_ITEM_TAG = "OutputTank";
 
@@ -71,6 +75,8 @@ public class TileEntityPotStill extends TileEntity implements IInventory, ITicka
 	private FluidStack batchInput;
 	private FluidStack batchOutput;
 	private String batchName = "";
+	private boolean inletOpen;
+	private boolean outletOpen;
 
 	public TileEntityPotStill() {
 		this.inputTank.setTileEntity(this);
@@ -162,6 +168,56 @@ public class TileEntityPotStill extends TileEntity implements IInventory, ITicka
 		return this.distillTimeTotal > 0 && this.batchOutput != null;
 	}
 
+	public boolean isInletOpen() {
+		return this.inletOpen;
+	}
+
+	public void setInletOpen(boolean inletOpen) {
+		if (inletOpen && this.isDistilling()) {
+			return;
+		}
+
+		boolean changed = this.inletOpen != inletOpen || inletOpen && this.outletOpen;
+		this.inletOpen = inletOpen;
+
+		if (inletOpen) {
+			this.outletOpen = false;
+		}
+
+		if (changed) {
+			this.markForUpdate();
+		}
+	}
+
+	public void toggleInletOpen() {
+		this.setInletOpen(!this.inletOpen);
+	}
+
+	public boolean isOutletOpen() {
+		return this.outletOpen;
+	}
+
+	public void setOutletOpen(boolean outletOpen) {
+		if (outletOpen && this.isDistilling()) {
+			return;
+		}
+
+		boolean changed = this.outletOpen != outletOpen || outletOpen && this.inletOpen;
+		this.outletOpen = outletOpen;
+
+		if (outletOpen) {
+			this.inletOpen = false;
+		}
+
+		if (changed) {
+			this.markForUpdate();
+		}
+	}
+
+	public void toggleOutletOpen() {
+		this.setOutletOpen(!this.outletOpen);
+	}
+
 	public boolean canStartDistillation() {
 		return this.getStartResult() != null && this.getFuelTicksAvailable() >= this.getStartResult()
 			.getDistillationTime();
@@ -177,6 +233,8 @@ public class TileEntityPotStill extends TileEntity implements IInventory, ITicka
 		}
 
 		this.consumeFuelTicks(result.getDistillationTime());
+		this.inletOpen = false;
+		this.outletOpen = false;
 		this.batchInput = startFluid == null ? null : startFluid.copy();
 
 		if (useOutputTank) {
@@ -225,6 +283,76 @@ public class TileEntityPotStill extends TileEntity implements IInventory, ITicka
 		return this.transferAdjacentBarrel(false, true);
 	}
 
+	public boolean canFillFromInletPort(@Nullable Fluid fluid) {
+		return this.inletOpen && !this.isDistilling() && fluid != null
+			&& this.fluidHandler.fill(new FluidStack(fluid, 1), false) > 0;
+	}
+
+	public int fillFromInletPort(@Nullable FluidStack resource, boolean doFill) {
+		return this.inletOpen && !this.isDistilling() && resource != null && resource.getFluid() != null
+			? this.fluidHandler.fill(resource, doFill) : 0;
+	}
+
+	public boolean canDrainFromOutletPort(@Nullable Fluid fluid) {
+		if (!this.outletOpen || this.isDistilling() || fluid == null) {
+			return false;
+		}
+
+		FluidStack output = this.outputTank.getFluid();
+
+		if (output != null && output.amount > 0) {
+			return output.getFluid() == fluid;
+		}
+
+		FluidStack input = this.inputTank.getFluid();
+		return input != null && input.amount > 0 && input.getFluid() == fluid;
+	}
+
+	@Nullable
+	public FluidStack drainFromOutletPort(@Nullable FluidStack resource, boolean doDrain) {
+		if (!this.outletOpen || this.isDistilling() || resource == null || resource.getFluid() == null) {
+			return null;
+		}
+
+		FluidStack output = this.outputTank.getFluid();
+
+		if (output != null && output.amount > 0) {
+			return output.getFluid() == resource.getFluid()
+				? this.outputTank.drain(resource.amount, doDrain) : null;
+		}
+
+		FluidStack input = this.inputTank.getFluid();
+		return input != null && input.getFluid() == resource.getFluid()
+			? this.inputTank.drain(resource.amount, doDrain) : null;
+	}
+
+	@Nullable
+	public FluidStack drainFromOutletPort(int maxDrain, boolean doDrain) {
+		if (!this.outletOpen || this.isDistilling() || maxDrain <= 0) {
+			return null;
+		}
+
+		FluidStack output = this.outputTank.drain(maxDrain, doDrain);
+
+		if (output != null && output.amount > 0) {
+			return output;
+		}
+
+		return this.inputTank.drain(maxDrain, doDrain);
+	}
+
+	public boolean hasConnectedInlet() {
+		return this.hasConnectedPort(true);
+	}
+
+	public boolean hasConnectedOutlet() {
+		return this.hasConnectedPort(false);
+	}
+
+	public boolean hasConnectedPipework() {
+		return this.hasConnectedInlet() || this.hasConnectedOutlet();
+	}
+
 	@Nullable
 	public TileEntityBarrel getAdjacentTransferBarrel() {
 		if (this.world == null || this.pos == null) {
@@ -248,6 +376,8 @@ public class TileEntityPotStill extends TileEntity implements IInventory, ITicka
 		this.batchName = "";
 		this.distillTime = 0;
 		this.distillTimeTotal = 0;
+		this.inletOpen = false;
+		this.outletOpen = false;
 		this.clear();
 		this.markForUpdate();
 	}
@@ -283,6 +413,10 @@ public class TileEntityPotStill extends TileEntity implements IInventory, ITicka
 			tag.removeTag(OUTPUT_ITEM_TAG);
 		}
 
+		tag.removeTag(INLET_OPEN_TAG);
+		tag.removeTag(OUTLET_OPEN_TAG);
+		tag.removeTag(PORTS_CONFIGURED_TAG);
+
 		if (tag.hasNoTags()) {
 			stack.setTagCompound(null);
 		} else {
@@ -293,6 +427,8 @@ public class TileEntityPotStill extends TileEntity implements IInventory, ITicka
 	public void readFromItemStack(ItemStack stack) {
 		this.inputTank.setFluid(loadFluidFromItem(stack, INPUT_ITEM_TAG));
 		this.outputTank.setFluid(loadFluidFromItem(stack, OUTPUT_ITEM_TAG));
+		this.inletOpen = false;
+		this.outletOpen = false;
 		this.markForUpdate();
 	}
 
@@ -314,7 +450,7 @@ public class TileEntityPotStill extends TileEntity implements IInventory, ITicka
 	@SuppressWarnings("unchecked")
 	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
 		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-			return (T)this.fluidHandler;
+			return (T)(facing == null ? this.fluidHandler : new SidedPotStillFluidHandler());
 		}
 
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
@@ -336,6 +472,9 @@ public class TileEntityPotStill extends TileEntity implements IInventory, ITicka
 		this.batchOutput = compound.hasKey(BATCH_OUTPUT_TAG, 10)
 			? FluidStack.loadFluidStackFromNBT(compound.getCompoundTag(BATCH_OUTPUT_TAG)) : null;
 		this.batchName = compound.hasKey(BATCH_NAME_TAG, 8) ? compound.getString(BATCH_NAME_TAG) : "";
+		boolean portsConfigured = compound.getBoolean(PORTS_CONFIGURED_TAG);
+		this.inletOpen = portsConfigured && compound.getBoolean(INLET_OPEN_TAG);
+		this.outletOpen = portsConfigured && compound.getBoolean(OUTLET_OPEN_TAG);
 		this.clear();
 
 		if (compound.hasKey(FUEL_TAG, 10)) {
@@ -348,6 +487,8 @@ public class TileEntityPotStill extends TileEntity implements IInventory, ITicka
 			this.distillTimeTotal = 0;
 			this.batchName = "";
 		}
+
+		this.sanitizePortState();
 	}
 
 	@Override
@@ -367,6 +508,9 @@ public class TileEntityPotStill extends TileEntity implements IInventory, ITicka
 		if (!this.batchName.isEmpty()) {
 			compound.setString(BATCH_NAME_TAG, this.batchName);
 		}
+		compound.setBoolean(PORTS_CONFIGURED_TAG, true);
+		compound.setBoolean(INLET_OPEN_TAG, this.inletOpen);
+		compound.setBoolean(OUTLET_OPEN_TAG, this.outletOpen);
 		if (this.inventory[FUEL_SLOT] != null) {
 			NBTTagCompound fuelTag = new NBTTagCompound();
 			this.inventory[FUEL_SLOT].writeToNBT(fuelTag);
@@ -524,36 +668,36 @@ public class TileEntityPotStill extends TileEntity implements IInventory, ITicka
 
 	@Override
 	public int fill(EnumFacing from, FluidStack resource, boolean doFill) {
-		return this.fluidHandler.fill(resource, doFill);
+		return from == null ? this.fluidHandler.fill(resource, doFill) : 0;
 	}
 
 	@Override
 	@Nullable
 	public FluidStack drain(EnumFacing from, FluidStack resource, boolean doDrain) {
-		return this.fluidHandler.drain(resource, doDrain);
+		return from == null ? this.fluidHandler.drain(resource, doDrain) : null;
 	}
 
 	@Override
 	@Nullable
 	public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
-		return this.fluidHandler.drain(maxDrain, doDrain);
+		return from == null ? this.fluidHandler.drain(maxDrain, doDrain) : null;
 	}
 
 	@Override
 	public boolean canFill(EnumFacing from, Fluid fluid) {
-		return fluid != null && this.fluidHandler.fill(new FluidStack(fluid, 1), false) > 0;
+		return from == null && fluid != null && this.fluidHandler.fill(new FluidStack(fluid, 1), false) > 0;
 	}
 
 	@Override
 	public boolean canDrain(EnumFacing from, Fluid fluid) {
-		return fluid != null && this.fluidHandler.drain(new FluidStack(fluid, 1), false) != null;
+		return from == null && fluid != null && this.fluidHandler.drain(new FluidStack(fluid, 1), false) != null;
 	}
 
 	@Override
 	public FluidTankInfo[] getTankInfo(EnumFacing from) {
-		return new FluidTankInfo[] {
+		return from == null ? new FluidTankInfo[] {
 			new FluidTankInfo(this.inputTank),
-			new FluidTankInfo(this.outputTank) };
+			new FluidTankInfo(this.outputTank) } : new FluidTankInfo[0];
 	}
 
 	@Override
@@ -637,6 +781,42 @@ public class TileEntityPotStill extends TileEntity implements IInventory, ITicka
 		this.markForUpdate();
 	}
 
+	private void sanitizePortState() {
+		if (this.isDistilling()) {
+			this.inletOpen = false;
+			this.outletOpen = false;
+		} else if (this.inletOpen && this.outletOpen) {
+			this.outletOpen = false;
+		}
+	}
+
+	private boolean hasConnectedPort(boolean inlet) {
+		if (this.world == null || this.pos == null) {
+			return false;
+		}
+
+		IBlockState state = this.world.getBlockState(this.pos);
+
+		if (!(state.getBlock() instanceof PotStill)) {
+			return false;
+		}
+
+		FoudrePart part = inlet ? FoudrePart.BACK_LEFT : FoudrePart.BACK_RIGHT;
+		BlockPos portPos = PotStill.resolvePartPos(this.pos, state.getValue(PotStill.FACING), part, inlet);
+		BlockPos attachmentPos = portPos.offset(PotStill.getPortFace(state.getValue(PotStill.FACING)));
+		TileEntity tileEntity = this.world.getTileEntity(attachmentPos);
+
+		if (tileEntity instanceof net.minecraftforge.fluids.IFluidHandler
+				|| tileEntity != null && tileEntity.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY,
+					PotStill.getPortFace(state.getValue(PotStill.FACING)).getOpposite())) {
+			return true;
+		}
+
+		Block block = this.world.getBlockState(attachmentPos).getBlock();
+		return block != null && block.getRegistryName() != null
+			&& block.getRegistryName().toString().endsWith("fluid_pipe_terminal");
+	}
+
 	private int getFuelTicksAvailable() {
 		ItemStack stack = this.inventory[FUEL_SLOT];
 		return stack == null ? 0 : TileEntityFurnace.getItemBurnTime(stack) * stack.stackSize;
@@ -688,7 +868,7 @@ public class TileEntityPotStill extends TileEntity implements IInventory, ITicka
 
 		@Override
 		public int fill(FluidStack resource, boolean doFill) {
-			if (TileEntityPotStill.this.isDistilling()
+			if (resource == null || resource.getFluid() == null || TileEntityPotStill.this.isDistilling()
 					|| TileEntityPotStill.this.outputTank.getFluidAmount() > 0
 					|| !PotStillDistillingRegistry.canMixInputs(TileEntityPotStill.this.inputTank.getFluid(),
 						resource)) {
@@ -730,6 +910,30 @@ public class TileEntityPotStill extends TileEntity implements IInventory, ITicka
 			}
 
 			return TileEntityPotStill.this.inputTank.drain(maxDrain, doDrain);
+		}
+	}
+
+	private final class SidedPotStillFluidHandler implements IFluidHandler {
+		@Override
+		public IFluidTankProperties[] getTankProperties() {
+			return new IFluidTankProperties[0];
+		}
+
+		@Override
+		public int fill(FluidStack resource, boolean doFill) {
+			return 0;
+		}
+
+		@Override
+		@Nullable
+		public FluidStack drain(FluidStack resource, boolean doDrain) {
+			return null;
+		}
+
+		@Override
+		@Nullable
+		public FluidStack drain(int maxDrain, boolean doDrain) {
+			return null;
 		}
 	}
 

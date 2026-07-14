@@ -1,9 +1,0 @@
-{
-  "credit": "By FoxNekitsune",
-  "parent": "ironagefurniture:block/template_shelf_wall_straight",
-  "textures": {
-    "log": "natura:blocks/logs/overworld/tiger_log",
-    "planks": "natura:blocks/planks/overworld/tiger_planks",
-    "particle": "natura:blocks/logs/overworld/tiger_log"
-  }
-}

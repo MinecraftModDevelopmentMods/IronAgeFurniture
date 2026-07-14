@@ -1,9 +1,0 @@
-{
-  "credit": "By FoxNekitsune",
-  "parent": "ironagefurniture:block/template_chair_wood_ironage_bench_end",
-  "textures": {
-    "0": "minecraft:blocks/log_oak",
-    "1": "minecraft:blocks/planks_oak",
-    "particle": "minecraft:blocks/log_oak"
-  }
-}

@@ -1,9 +1,0 @@
-{
-  "credit": "By FoxNekitsune",
-  "parent": "ironagefurniture:block/template_table_dining_single",
-  "textures": {
-    "log": "forestry:blocks/wood/bark.padauk",
-    "planks": "forestry:blocks/wood/planks.padauk",
-    "particle": "forestry:blocks/wood/bark.padauk"
-  }
-}

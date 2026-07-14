@@ -1,9 +1,0 @@
-{
-    "credit":  "By FoxNekitsune",
-    "parent":  "ironagefurniture:block/template_cabinet_wood_ironage_lower",
-    "textures":  {
-                     "log":  "natura:blocks/logs/overworld/amaranth_log",
-                     "planks":  "natura:blocks/planks/overworld/amaranth_planks",
-                     "particle":  "natura:blocks/logs/overworld/amaranth_log"
-                 }
-}

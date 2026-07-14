@@ -1,9 +1,0 @@
-{
-    "credit": "By FoxNekitsune",
-    "parent": "ironagefurniture:block/template_half_cabinet_wood_ironage_lower",
-    "textures": {
-        "log": "immersiveengineering:blocks/treatedWood_packaged",
-        "planks": "immersiveengineering:blocks/treatedWood_vertical",
-        "particle": "immersiveengineering:blocks/treatedWood_packaged"
-    }
-}

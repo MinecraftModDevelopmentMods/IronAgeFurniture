@@ -1,9 +1,0 @@
-{
-  "credit": "By FoxNekitsune",
-  "parent": "ironagefurniture:block/template_table_dining_straight",
-  "textures": {
-    "log": "natura:blocks/logs/overworld/eucalyptus_log",
-    "planks": "natura:blocks/planks/overworld/eucalyptus_planks",
-    "particle": "natura:blocks/logs/overworld/eucalyptus_log"
-  }
-}

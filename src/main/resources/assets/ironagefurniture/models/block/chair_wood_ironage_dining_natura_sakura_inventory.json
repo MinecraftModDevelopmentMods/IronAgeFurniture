@@ -1,9 +1,0 @@
-{
-  "credit": "By FoxNekitsune",
-  "parent": "ironagefurniture:block/template_chair_wood_ironage_dining_inventory",
-  "textures": {
-    "0": "natura:blocks/logs/overworld/sakura_log",
-    "1": "natura:blocks/planks/overworld/sakura_planks",
-    "particle": "natura:blocks/logs/overworld/sakura_log"
-  }
-}

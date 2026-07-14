@@ -1,7 +1,0 @@
-{
-  "credit": "By FoxNekitsune",
-  "parent": "ironagefurniture:block/template_light_metal_ironage_sconce_wall_empty",
-  "textures": {
-    "metal": "basemetals:blocks/mithril_block"
-  }
-}

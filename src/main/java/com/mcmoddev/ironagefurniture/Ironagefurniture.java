@@ -20,11 +20,13 @@ import com.mcmoddev.ironagefurniture.api.tile.TileEntityDiningTable;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityFoudre;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityFoudrePort;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityPotStill;
+import com.mcmoddev.ironagefurniture.api.tile.TileEntityPotStillPort;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityGlassVase;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityGrandChandelierSconce;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityHalfCabinet;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityMetalVariant;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityWallShelf;
+import com.mcmoddev.ironagefurniture.client.resources.GeneratedModelResourcePack;
 import com.mcmoddev.ironagefurniture.init.BlockInitialiser;
 import com.mcmoddev.ironagefurniture.init.ClientRenderInitialiser;
 import com.mcmoddev.ironagefurniture.init.ItemInitialiser;
@@ -104,6 +106,7 @@ public class Ironagefurniture
 		GameRegistry.registerTileEntity(TileEntityFoudre.class, MODID + ":foudre_wood_ironage");
 		GameRegistry.registerTileEntity(TileEntityFoudrePort.class, MODID + ":foudre_wood_ironage_port");
 		GameRegistry.registerTileEntity(TileEntityPotStill.class, MODID + ":pot_still_wood_ironage");
+		GameRegistry.registerTileEntity(TileEntityPotStillPort.class, MODID + ":pot_still_wood_ironage_port");
 		GameRegistry.registerTileEntity(TileEntityGlassVase.class, MODID + ":ornament_glass_vase");
 		GameRegistry.registerTileEntity(TileEntityWallShelf.class, MODID + ":shelf_wall");
 		GameRegistry.registerTileEntity(TileEntityBottleRack.class, MODID + ":bottle_rack_wood_ironage");
@@ -134,6 +137,7 @@ public class Ironagefurniture
 		ItemInitialiser.init();
     	BlockInitialiser.init();
 		if(event.getSide().isClient()) {
+			GeneratedModelResourcePack.install();
 			ItemInitialiser.RegisterItemModels();
 			ClientRenderInitialiser.RegisterEntityRenderers();
 		}

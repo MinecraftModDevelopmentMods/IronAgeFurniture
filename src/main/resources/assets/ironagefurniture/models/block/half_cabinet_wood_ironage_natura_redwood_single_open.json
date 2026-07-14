@@ -1,9 +1,0 @@
-{
-    "credit": "By FoxNekitsune",
-    "parent": "ironagefurniture:block/template_half_cabinet_wood_ironage_single_open",
-    "textures": {
-        "log": "natura:blocks/logs/overworld/redwood_bark",
-        "planks": "natura:blocks/planks/overworld/redwood_planks",
-        "particle": "natura:blocks/logs/overworld/redwood_bark"
-    }
-}

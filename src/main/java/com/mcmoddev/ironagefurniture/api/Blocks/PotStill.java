@@ -12,6 +12,7 @@ import com.mcmoddev.ironagefurniture.api.Enumerations.FoudrePart;
 import com.mcmoddev.ironagefurniture.api.FluidContainerTransfer;
 import com.mcmoddev.ironagefurniture.api.Items.ItemFluidBottle;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityPotStill;
+import com.mcmoddev.ironagefurniture.api.tile.TileEntityPotStillPort;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockHorizontal;
@@ -45,6 +46,8 @@ public class PotStill extends Barrel {
 	private static final AxisAlignedBB FULL_BLOCK_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D);
 	private static final FoudrePart[] PARTS = FoudrePart.values();
 	private static final Set<BlockPos> REMOVING_PARTS = new HashSet<BlockPos>();
+	private static final FoudrePart INLET_PART = FoudrePart.BACK_LEFT;
+	private static final FoudrePart OUTLET_PART = FoudrePart.BACK_RIGHT;
 
 	private final boolean upperLayer;
 	private PotStill lowerBlock;
@@ -62,6 +65,54 @@ public class PotStill extends Barrel {
 	public void setCompanionBlocks(PotStill lowerBlock, PotStill upperBlock) {
 		this.lowerBlock = lowerBlock;
 		this.upperBlock = upperBlock;
+	}
+
+	public boolean isUpperLayerBlock() {
+		return this.upperLayer;
+	}
+
+	public static boolean isInletPart(FoudrePart part, boolean upperLayer) {
+		return upperLayer && part == INLET_PART;
+	}
+
+	public static boolean isOutletPart(FoudrePart part, boolean upperLayer) {
+		return !upperLayer && part == OUTLET_PART;
+	}
+
+	public static boolean isPortPart(FoudrePart part, boolean upperLayer) {
+		return isInletPart(part, upperLayer) || isOutletPart(part, upperLayer);
+	}
+
+	public static EnumFacing getPortFace(EnumFacing facing) {
+		return facing;
+	}
+
+	public static BlockPos resolveBasePos(BlockPos pos, EnumFacing facing, FoudrePart part, boolean upperLayer) {
+		BlockPos basePos = upperLayer ? pos.down() : pos;
+
+		if (part.getDepthOffset() > 0) {
+			basePos = basePos.offset(facing.getOpposite(), part.getDepthOffset());
+		}
+
+		if (part.getLateralOffset() > 0) {
+			basePos = basePos.offset(facing.rotateY(), part.getLateralOffset());
+		}
+
+		return basePos;
+	}
+
+	public static BlockPos resolvePartPos(BlockPos basePos, EnumFacing facing, FoudrePart part, boolean upper) {
+		BlockPos partPos = basePos;
+
+		if (part.getDepthOffset() > 0) {
+			partPos = partPos.offset(facing, part.getDepthOffset());
+		}
+
+		if (part.getLateralOffset() > 0) {
+			partPos = partPos.offset(facing.rotateYCCW(), part.getLateralOffset());
+		}
+
+		return upper ? partPos.up() : partPos;
 	}
 
 	@Override
@@ -246,12 +297,18 @@ public class PotStill extends Barrel {
 
 	@Override
 	public boolean hasTileEntity(IBlockState state) {
-		return !this.upperLayer && state.getValue(PART) == FoudrePart.FRONT_LEFT;
+		FoudrePart part = state.getValue(PART);
+		return !this.upperLayer && part == FoudrePart.FRONT_LEFT || isPortPart(part, this.upperLayer);
 	}
 
 	@Override
 	public TileEntity createTileEntity(World world, IBlockState state) {
-		return this.hasTileEntity(state) ? new TileEntityPotStill() : null;
+		if (!this.hasTileEntity(state)) {
+			return null;
+		}
+
+		return !this.upperLayer && state.getValue(PART) == FoudrePart.FRONT_LEFT ? new TileEntityPotStill()
+			: new TileEntityPotStillPort();
 	}
 
 	@Override
@@ -372,33 +429,11 @@ public class PotStill extends Barrel {
 	}
 
 	private BlockPos getBasePos(BlockPos pos, IBlockState state) {
-		EnumFacing facing = state.getValue(FACING);
-		FoudrePart part = state.getValue(PART);
-		BlockPos basePos = this.upperLayer ? pos.down() : pos;
-
-		if (part.getDepthOffset() > 0) {
-			basePos = basePos.offset(facing.getOpposite(), part.getDepthOffset());
-		}
-
-		if (part.getLateralOffset() > 0) {
-			basePos = basePos.offset(facing.rotateY(), part.getLateralOffset());
-		}
-
-		return basePos;
+		return resolveBasePos(pos, state.getValue(FACING), state.getValue(PART), this.upperLayer);
 	}
 
 	private BlockPos getPartPos(BlockPos basePos, EnumFacing facing, FoudrePart part, boolean upper) {
-		BlockPos partPos = basePos;
-
-		if (part.getDepthOffset() > 0) {
-			partPos = partPos.offset(facing, part.getDepthOffset());
-		}
-
-		if (part.getLateralOffset() > 0) {
-			partPos = partPos.offset(facing.rotateYCCW(), part.getLateralOffset());
-		}
-
-		return upper ? partPos.up() : partPos;
+		return resolvePartPos(basePos, facing, part, upper);
 	}
 
 	private void dropAndRemoveStructure(World worldIn, BlockPos pos, IBlockState state) {

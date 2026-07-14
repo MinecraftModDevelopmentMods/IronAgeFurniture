@@ -3,7 +3,7 @@ package com.mcmoddev.ironagefurniture.api.tile;
 import javax.annotation.Nullable;
 
 import com.mcmoddev.ironagefurniture.api.PowerAdvantageFluidCompat;
-import com.mcmoddev.ironagefurniture.api.Blocks.Foudre;
+import com.mcmoddev.ironagefurniture.api.Blocks.PotStill;
 import com.mcmoddev.ironagefurniture.api.Enumerations.FoudrePart;
 
 import net.minecraft.block.state.IBlockState;
@@ -21,7 +21,7 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 
-public class TileEntityFoudrePort extends TileEntity implements net.minecraftforge.fluids.IFluidHandler, ITickable {
+public class TileEntityPotStillPort extends TileEntity implements net.minecraftforge.fluids.IFluidHandler, ITickable {
 	private static final int PIPE_TRANSFER_INTERVAL = 8;
 	private static final IFluidTankProperties[] EMPTY_PROPERTIES = new IFluidTankProperties[0];
 	private static final FluidTankInfo[] EMPTY_TANK_INFO = new FluidTankInfo[0];
@@ -35,62 +35,62 @@ public class TileEntityFoudrePort extends TileEntity implements net.minecraftfor
 			return;
 		}
 
-		TileEntityFoudre foudre = this.getController();
+		TileEntityPotStill potStill = this.getController();
 
-		if (foudre == null) {
+		if (potStill == null) {
 			return;
 		}
 
-		FluidStack available = foudre.drainFromOutletPort(Integer.MAX_VALUE, false);
+		FluidStack available = potStill.drainFromOutletPort(Integer.MAX_VALUE, false);
 		int transferred = PowerAdvantageFluidCompat.tryTransferFromOutlet(this.world, this.pos, this.getPortFace(),
 			available);
 
 		if (transferred > 0) {
-			foudre.drainFromOutletPort(transferred, true);
+			potStill.drainFromOutletPort(transferred, true);
 		}
 	}
 
 	@Override
 	public int fill(EnumFacing from, FluidStack resource, boolean doFill) {
-		TileEntityFoudre foudre = this.getController();
-		return foudre != null && this.isInletPort() && this.matchesPortFace(from) ? foudre.fillFromInletPort(resource,
-			doFill) : 0;
+		TileEntityPotStill potStill = this.getController();
+		return potStill != null && this.isInletPort() && this.matchesPortFace(from)
+			? potStill.fillFromInletPort(resource, doFill) : 0;
 	}
 
 	@Override
 	@Nullable
 	public FluidStack drain(EnumFacing from, FluidStack resource, boolean doDrain) {
-		TileEntityFoudre foudre = this.getController();
-		return foudre != null && this.isOutletPort() && this.matchesPortFace(from)
-			? foudre.drainFromOutletPort(resource, doDrain) : null;
+		TileEntityPotStill potStill = this.getController();
+		return potStill != null && this.isOutletPort() && this.matchesPortFace(from)
+			? potStill.drainFromOutletPort(resource, doDrain) : null;
 	}
 
 	@Override
 	@Nullable
 	public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
-		TileEntityFoudre foudre = this.getController();
-		return foudre != null && this.isOutletPort() && this.matchesPortFace(from)
-			? foudre.drainFromOutletPort(maxDrain, doDrain) : null;
+		TileEntityPotStill potStill = this.getController();
+		return potStill != null && this.isOutletPort() && this.matchesPortFace(from)
+			? potStill.drainFromOutletPort(maxDrain, doDrain) : null;
 	}
 
 	@Override
 	public boolean canFill(EnumFacing from, Fluid fluid) {
-		TileEntityFoudre foudre = this.getController();
-		return foudre != null && this.isInletPort() && this.matchesPortFace(from)
-			&& foudre.canFillFromInletPort(fluid);
+		TileEntityPotStill potStill = this.getController();
+		return potStill != null && this.isInletPort() && this.matchesPortFace(from)
+			&& potStill.canFillFromInletPort(fluid);
 	}
 
 	@Override
 	public boolean canDrain(EnumFacing from, Fluid fluid) {
-		TileEntityFoudre foudre = this.getController();
-		return foudre != null && this.isOutletPort() && this.matchesPortFace(from)
-			&& foudre.canDrainFromOutletPort(fluid);
+		TileEntityPotStill potStill = this.getController();
+		return potStill != null && this.isOutletPort() && this.matchesPortFace(from)
+			&& potStill.canDrainFromOutletPort(fluid);
 	}
 
 	@Override
 	public FluidTankInfo[] getTankInfo(EnumFacing from) {
-		TileEntityFoudre foudre = this.getController();
-		return foudre == null || !this.matchesPortFace(from) ? EMPTY_TANK_INFO : foudre.getTankInfo(null);
+		TileEntityPotStill potStill = this.getController();
+		return potStill == null || !this.matchesPortFace(from) ? EMPTY_TANK_INFO : potStill.getTankInfo(null);
 	}
 
 	@Override
@@ -125,15 +125,15 @@ public class TileEntityFoudrePort extends TileEntity implements net.minecraftfor
 	}
 
 	private boolean isInletPort() {
-		IBlockState state = this.getFoudreState();
-		return state != null && state.getBlock() instanceof Foudre
-			&& Foudre.isInletPart(state.getValue(Foudre.PART), ((Foudre)state.getBlock()).isUpperLayerBlock());
+		IBlockState state = this.getPotStillState();
+		return state != null && state.getBlock() instanceof PotStill
+			&& PotStill.isInletPart(state.getValue(PotStill.PART), ((PotStill)state.getBlock()).isUpperLayerBlock());
 	}
 
 	private boolean isOutletPort() {
-		IBlockState state = this.getFoudreState();
-		return state != null && state.getBlock() instanceof Foudre
-			&& Foudre.isOutletPart(state.getValue(Foudre.PART), ((Foudre)state.getBlock()).isUpperLayerBlock());
+		IBlockState state = this.getPotStillState();
+		return state != null && state.getBlock() instanceof PotStill
+			&& PotStill.isOutletPart(state.getValue(PotStill.PART), ((PotStill)state.getBlock()).isUpperLayerBlock());
 	}
 
 	private boolean matchesPortFace(@Nullable EnumFacing from) {
@@ -147,59 +147,59 @@ public class TileEntityFoudrePort extends TileEntity implements net.minecraftfor
 
 	@Nullable
 	private EnumFacing getPortFace() {
-		IBlockState state = this.getFoudreState();
-		return state != null && state.getBlock() instanceof Foudre ? Foudre.getPortFace(state.getValue(Foudre.FACING))
-			: null;
+		IBlockState state = this.getPotStillState();
+		return state != null && state.getBlock() instanceof PotStill
+			? PotStill.getPortFace(state.getValue(PotStill.FACING)) : null;
 	}
 
 	@Nullable
-	private IBlockState getFoudreState() {
+	private IBlockState getPotStillState() {
 		if (this.world == null || this.pos == null) {
 			return null;
 		}
 
 		IBlockState state = this.world.getBlockState(this.pos);
-		return state.getBlock() instanceof Foudre ? state : null;
+		return state.getBlock() instanceof PotStill ? state : null;
 	}
 
 	@Nullable
-	private TileEntityFoudre getController() {
-		IBlockState state = this.getFoudreState();
+	private TileEntityPotStill getController() {
+		IBlockState state = this.getPotStillState();
 
 		if (state == null) {
 			return null;
 		}
 
-		Foudre block = (Foudre)state.getBlock();
-		FoudrePart part = state.getValue(Foudre.PART);
-		BlockPos basePos = Foudre.resolveBasePos(this.pos, state.getValue(Foudre.FACING), part,
+		PotStill block = (PotStill)state.getBlock();
+		FoudrePart part = state.getValue(PotStill.PART);
+		BlockPos basePos = PotStill.resolveBasePos(this.pos, state.getValue(PotStill.FACING), part,
 			block.isUpperLayerBlock());
 		TileEntity tileEntity = this.world.getTileEntity(basePos);
-		return tileEntity instanceof TileEntityFoudre ? (TileEntityFoudre)tileEntity : null;
+		return tileEntity instanceof TileEntityPotStill ? (TileEntityPotStill)tileEntity : null;
 	}
 
 	private final class PortFluidHandler implements IFluidHandler {
 		@Override
 		public IFluidTankProperties[] getTankProperties() {
-			TileEntityFoudre foudre = TileEntityFoudrePort.this.getController();
-			return foudre == null ? EMPTY_PROPERTIES : foudre.getFluidHandler().getTankProperties();
+			TileEntityPotStill potStill = TileEntityPotStillPort.this.getController();
+			return potStill == null ? EMPTY_PROPERTIES : potStill.getFluidHandler().getTankProperties();
 		}
 
 		@Override
 		public int fill(FluidStack resource, boolean doFill) {
-			return TileEntityFoudrePort.this.fill(null, resource, doFill);
+			return TileEntityPotStillPort.this.fill(null, resource, doFill);
 		}
 
 		@Override
 		@Nullable
 		public FluidStack drain(FluidStack resource, boolean doDrain) {
-			return TileEntityFoudrePort.this.drain(null, resource, doDrain);
+			return TileEntityPotStillPort.this.drain(null, resource, doDrain);
 		}
 
 		@Override
 		@Nullable
 		public FluidStack drain(int maxDrain, boolean doDrain) {
-			return TileEntityFoudrePort.this.drain(null, maxDrain, doDrain);
+			return TileEntityPotStillPort.this.drain(null, maxDrain, doDrain);
 		}
 	}
 }

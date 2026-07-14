@@ -1,9 +1,0 @@
-{
-  "credit": "By FoxNekitsune",
-  "parent": "ironagefurniture:block/template_bottle_rack_wood_ironage_standing_3",
-  "textures": {
-    "log": "forestry:blocks/wood/bark.cocobolo",
-    "planks": "forestry:blocks/wood/planks.cocobolo",
-    "particle": "forestry:blocks/wood/bark.cocobolo"
-  }
-}

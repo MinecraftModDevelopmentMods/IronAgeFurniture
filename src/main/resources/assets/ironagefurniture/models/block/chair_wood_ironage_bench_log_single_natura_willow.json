@@ -1,9 +1,0 @@
-{
-  "credit": "By FoxNekitsune",
-  "parent": "ironagefurniture:block/template_chair_wood_ironage_bench_log_single",
-  "textures": {
-    "0": "natura:blocks/logs/overworld/willow_log",
-    "1": "natura:blocks/logs/overworld/willow_log_top",
-    "particle": "natura:blocks/logs/overworld/willow_log"
-  }
-}

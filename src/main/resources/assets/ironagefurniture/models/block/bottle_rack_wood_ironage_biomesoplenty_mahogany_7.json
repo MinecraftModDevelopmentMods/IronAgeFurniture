@@ -1,9 +1,0 @@
-{
-  "credit": "By FoxNekitsune",
-  "parent": "ironagefurniture:block/template_bottle_rack_wood_ironage_7",
-  "textures": {
-    "log": "biomesoplenty:blocks/mahogany_log",
-    "planks": "biomesoplenty:blocks/mahogany_planks",
-    "particle": "biomesoplenty:blocks/mahogany_log"
-  }
-}

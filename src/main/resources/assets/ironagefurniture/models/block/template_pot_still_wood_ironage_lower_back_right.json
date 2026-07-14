@@ -484,6 +484,74 @@
         }
       },
       "shade": false
+    },
+    {
+      "name": "outlet_flange_lower_back_right",
+      "from": [
+        7,
+        5.4,
+        16.05
+      ],
+      "to": [
+        10.8,
+        8.5,
+        16.75
+      ],
+      "faces": {
+        "north": {
+          "texture": "#iron"
+        },
+        "east": {
+          "texture": "#iron"
+        },
+        "south": {
+          "texture": "#iron"
+        },
+        "west": {
+          "texture": "#iron"
+        },
+        "up": {
+          "texture": "#iron"
+        },
+        "down": {
+          "texture": "#iron"
+        }
+      },
+      "shade": true
+    },
+    {
+      "name": "outlet_spout_lower_back_right",
+      "from": [
+        7.75,
+        6.15,
+        16.65
+      ],
+      "to": [
+        10.05,
+        7.55,
+        18.15
+      ],
+      "faces": {
+        "north": {
+          "texture": "#inside"
+        },
+        "east": {
+          "texture": "#inside"
+        },
+        "south": {
+          "texture": "#inside"
+        },
+        "west": {
+          "texture": "#inside"
+        },
+        "up": {
+          "texture": "#inside"
+        },
+        "down": {
+          "texture": "#inside"
+        }
+      },
+      "shade": true
     }
   ]
 }

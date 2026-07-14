@@ -1,9 +1,0 @@
-{
-  "credit": "By FoxNekitsune",
-  "parent": "ironagefurniture:block/template_chair_wood_ironage_stool_tall",
-  "textures": {
-    "0": "natura:blocks/logs/nether/bloodwood_bark",
-    "1": "natura:blocks/planks/nether/bloodwood_planks",
-    "particle": "natura:blocks/logs/nether/bloodwood_bark"
-  }
-}

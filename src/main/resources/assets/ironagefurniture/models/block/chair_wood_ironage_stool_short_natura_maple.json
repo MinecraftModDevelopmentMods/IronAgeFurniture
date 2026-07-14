@@ -1,9 +1,0 @@
-{
-  "credit": "By FoxNekitsune",
-  "parent": "ironagefurniture:block/template_chair_wood_ironage_stool_short",
-  "textures": {
-    "0": "natura:blocks/logs/overworld/maple_log",
-    "1": "natura:blocks/planks/overworld/maple_planks",
-    "particle": "natura:blocks/logs/overworld/maple_log"
-  }
-}

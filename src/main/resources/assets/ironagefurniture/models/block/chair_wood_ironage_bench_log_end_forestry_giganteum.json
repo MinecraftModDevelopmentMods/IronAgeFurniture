@@ -1,9 +1,0 @@
-{
-  "credit": "By FoxNekitsune",
-  "parent": "ironagefurniture:block/template_chair_wood_ironage_bench_log_end",
-  "textures": {
-    "0": "forestry:blocks/wood/bark.giganteum",
-    "1": "forestry:blocks/wood/giganteum_log_top",
-    "particle": "forestry:blocks/wood/bark.giganteum"
-  }
-}

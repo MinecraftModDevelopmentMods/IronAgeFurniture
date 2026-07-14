@@ -1,9 +1,0 @@
-{
-  "credit": "By FoxNekitsune",
-  "parent": "ironagefurniture:block/template_chair_wood_ironage_bench_back_single",
-  "textures": {
-    "0": "forestry:blocks/wood/bark.mahoe",
-    "1": "forestry:blocks/wood/planks.mahoe",
-    "particle": "forestry:blocks/wood/bark.mahoe"
-  }
-}
