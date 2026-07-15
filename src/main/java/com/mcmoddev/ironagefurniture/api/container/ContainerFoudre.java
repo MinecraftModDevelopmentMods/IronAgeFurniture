@@ -13,6 +13,9 @@ public class ContainerFoudre extends Container {
 	private static final int DISPLAY_PROGRESS_TOTAL = 100;
 	private static final int MAX_IN_PROGRESS_PERCENT = 99;
 	private static final int FOUDRE_SLOT_COUNT = TileEntityFoudre.INGREDIENT_SLOTS;
+	private static final int INGREDIENT_X = 78;
+	private static final int INGREDIENT_Y = 42;
+	private static final int SLOT_STEP = 18;
 	private static final int PLAYER_INVENTORY_Y = 134;
 	private static final int PLAYER_HOTBAR_Y = 192;
 
@@ -32,6 +35,10 @@ public class ContainerFoudre extends Container {
 	@Override
 	public boolean canInteractWith(EntityPlayer playerIn) {
 		return this.foudre != null && this.foudre.isUsableByPlayer(playerIn);
+	}
+
+	public TileEntityFoudre getFoudre() {
+		return this.foudre;
 	}
 
 	@Override
@@ -119,10 +126,12 @@ public class ContainerFoudre extends Container {
 	}
 
 	private void addFoudreSlots() {
-		this.addSlotToContainer(new FoudreIngredientSlot(this.foudre, 0, 76, 42));
-		this.addSlotToContainer(new FoudreIngredientSlot(this.foudre, 1, 94, 42));
-		this.addSlotToContainer(new FoudreIngredientSlot(this.foudre, 2, 76, 60));
-		this.addSlotToContainer(new FoudreIngredientSlot(this.foudre, 3, 94, 60));
+		this.addSlotToContainer(new FoudreIngredientSlot(this.foudre, 0, INGREDIENT_X, INGREDIENT_Y));
+		this.addSlotToContainer(new FoudreIngredientSlot(this.foudre, 1, INGREDIENT_X + SLOT_STEP, INGREDIENT_Y));
+		this.addSlotToContainer(new FoudreIngredientSlot(this.foudre, 2, INGREDIENT_X,
+			INGREDIENT_Y + SLOT_STEP));
+		this.addSlotToContainer(new FoudreIngredientSlot(this.foudre, 3, INGREDIENT_X + SLOT_STEP,
+			INGREDIENT_Y + SLOT_STEP));
 	}
 
 	private void addPlayerInventory(InventoryPlayer playerInventory) {

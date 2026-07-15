@@ -25,9 +25,9 @@ public final class IronAgeFurnitureNetwork {
 		channel.registerMessage(PotStillBarrelTransferMessage.Handler.class, PotStillBarrelTransferMessage.class, 6,
 			Side.SERVER);
 		channel.registerMessage(BarrelSealMessage.Handler.class, BarrelSealMessage.class, 7, Side.SERVER);
-		channel.registerMessage(FoudrePortToggleMessage.Handler.class, FoudrePortToggleMessage.class, 8,
+		channel.registerMessage(FoudrePortModeMessage.Handler.class, FoudrePortModeMessage.class, 8,
 			Side.SERVER);
-		channel.registerMessage(PotStillPortToggleMessage.Handler.class, PotStillPortToggleMessage.class, 9,
+		channel.registerMessage(PotStillPortModeMessage.Handler.class, PotStillPortModeMessage.class, 9,
 			Side.SERVER);
 	}
 }

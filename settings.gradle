@@ -18,7 +18,10 @@ pluginManagement {
 }
 }
 
-rootProject.name = archivesBaseName
+// Keep generated Eclipse projects and ForgeGradle launch profiles aligned with
+// the long-standing workspace project name. archivesBaseName still controls
+// the published JAR name.
+rootProject.name = 'IronAgeFurniture'
 import org.gradle.util.GradleVersion
 if ((GradleVersion.current() >= GradleVersion.version('4.8')) && (GradleVersion.current() <= GradleVersion.version('4.10.3'))) {
   enableFeaturePreview('STABLE_PUBLISHING') // 4.10.3

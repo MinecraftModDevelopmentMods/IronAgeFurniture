@@ -1,5 +1,6 @@
 package com.mcmoddev.ironagefurniture.api.network;
 
+import com.mcmoddev.ironagefurniture.api.Enumerations.FluidPortMode;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityPotStill;
 
 import io.netty.buffer.ByteBuf;
@@ -10,22 +11,22 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-public class PotStillPortToggleMessage implements IMessage {
+public final class PotStillPortModeMessage implements IMessage {
 	private BlockPos pos;
-	private boolean inlet;
+	private FluidPortMode mode = FluidPortMode.LOCKED;
 
-	public PotStillPortToggleMessage() {
+	public PotStillPortModeMessage() {
 	}
 
-	public PotStillPortToggleMessage(BlockPos pos, boolean inlet) {
+	public PotStillPortModeMessage(BlockPos pos, FluidPortMode mode) {
 		this.pos = pos;
-		this.inlet = inlet;
+		this.mode = mode == null ? FluidPortMode.LOCKED : mode;
 	}
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
 		this.pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
-		this.inlet = buf.readBoolean();
+		this.mode = FluidPortMode.fromId(buf.readByte());
 	}
 
 	@Override
@@ -33,27 +34,21 @@ public class PotStillPortToggleMessage implements IMessage {
 		buf.writeInt(this.pos.getX());
 		buf.writeInt(this.pos.getY());
 		buf.writeInt(this.pos.getZ());
-		buf.writeBoolean(this.inlet);
+		buf.writeByte(this.mode.getId());
 	}
 
-	public static class Handler implements IMessageHandler<PotStillPortToggleMessage, IMessage> {
+	public static class Handler implements IMessageHandler<PotStillPortModeMessage, IMessage> {
 		@Override
-		public IMessage onMessage(final PotStillPortToggleMessage message, final MessageContext ctx) {
+		public IMessage onMessage(final PotStillPortModeMessage message, final MessageContext ctx) {
 			final EntityPlayerMP player = ctx.getServerHandler().playerEntity;
 			player.getServerWorld().addScheduledTask(new Runnable() {
 				@Override
 				public void run() {
 					TileEntity tileEntity = player.getServerWorld().getTileEntity(message.pos);
 
-					if (!(tileEntity instanceof TileEntityPotStill)
-							|| !((TileEntityPotStill)tileEntity).isUsableByPlayer(player)) {
-						return;
-					}
-
-					if (message.inlet) {
-						((TileEntityPotStill)tileEntity).toggleInletOpen();
-					} else {
-						((TileEntityPotStill)tileEntity).toggleOutletOpen();
+					if (tileEntity instanceof TileEntityPotStill
+							&& ((TileEntityPotStill)tileEntity).isUsableByPlayer(player)) {
+						((TileEntityPotStill)tileEntity).setPortMode(message.mode);
 					}
 				}
 			});

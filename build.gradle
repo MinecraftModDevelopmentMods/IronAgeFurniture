@@ -157,6 +157,26 @@ eclipse.project {
     natures 'org.eclipse.buildship.core.gradleprojectnature'
 }
 
+// Eclipse only needs the main mod classpath until this branch has test sources.
+// Keeping the unused test runtime out avoids broken workspace entries when old
+// JUnit/Mockito artifacts are evicted from Gradle's cache.
+eclipse.classpath {
+    minusConfigurations += [configurations.testCompile, configurations.testRuntime]
+
+    file.whenMerged { classpath ->
+        final Set<String> sourcePaths = new LinkedHashSet<>()
+        classpath.entries.removeAll { entry ->
+            entry.kind == 'src' && !sourcePaths.add(entry.path)
+        }
+    }
+}
+
+eclipseJdt.doLast {
+    final File resourcePreferences = file('.settings/org.eclipse.core.resources.prefs')
+    resourcePreferences.parentFile.mkdirs()
+    resourcePreferences.text = 'eclipse.preferences.version=1\nencoding/<project>=UTF-8\n'
+}
+
 idea.module {
     downloadJavadoc = true
 }

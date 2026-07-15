@@ -1,13 +1,16 @@
 package com.mcmoddev.ironagefurniture.client.gui;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.mcmoddev.ironagefurniture.api.DrinkDisplayHelper;
+import com.mcmoddev.ironagefurniture.api.Enumerations.FluidPortMode;
 import com.mcmoddev.ironagefurniture.api.container.ContainerPotStill;
 import com.mcmoddev.ironagefurniture.api.network.IronAgeFurnitureNetwork;
 import com.mcmoddev.ironagefurniture.api.network.PotStillBarrelTransferMessage;
 import com.mcmoddev.ironagefurniture.api.network.PotStillFlushMessage;
-import com.mcmoddev.ironagefurniture.api.network.PotStillPortToggleMessage;
+import com.mcmoddev.ironagefurniture.api.network.PotStillPortModeMessage;
 import com.mcmoddev.ironagefurniture.api.network.PotStillStartMessage;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityBarrel;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityPotStill;
@@ -32,32 +35,35 @@ public class GuiPotStill extends GuiContainer {
 	private static final int INVENTORY_LABEL_X = 14;
 	private static final int PLAYER_INVENTORY_COLUMNS = 9;
 	private static final int PLAYER_INVENTORY_ROWS = 3;
-	private static final int GAUGE_X = 20;
+	private static final int GAUGE_X = 53;
 	private static final int GAUGE_Y = 38;
-	private static final int GAUGE_WIDTH = 136;
+	private static final int GAUGE_WIDTH = 70;
 	private static final int GAUGE_HEIGHT = 46;
+	private static final int CHARGE_DIAL_X = 16;
+	private static final int CHARGE_DIAL_Y = 43;
+	private static final int DISTILL_DIAL_X = 128;
+	private static final int DISTILL_DIAL_Y = 43;
+	private static final int DIAL_SIZE = 32;
 	private static final int FUEL_SLOT_X = 50;
-	private static final int FUEL_SLOT_Y = 113;
+	private static final int FUEL_SLOT_Y = 115;
 	private static final int START_BUTTON_ID = 0;
 	private static final int START_BUTTON_X = 70;
-	private static final int START_BUTTON_Y = 111;
+	private static final int START_BUTTON_Y = 113;
 	private static final int START_BUTTON_WIDTH = 50;
 	private static final int START_BUTTON_HEIGHT = 20;
 	private static final int FLUSH_BUTTON_ID = 1;
 	private static final int DRAIN_BARREL_BUTTON_ID = 2;
 	private static final int FILL_BARREL_BUTTON_ID = 3;
-	private static final int INLET_PORT_BUTTON_ID = 4;
-	private static final int OUTLET_PORT_BUTTON_ID = 5;
 	private static final int FLUSH_BUTTON_X = 122;
-	private static final int FLUSH_BUTTON_Y = 111;
+	private static final int FLUSH_BUTTON_Y = 113;
 	private static final int FLUSH_BUTTON_WIDTH = 40;
 	private static final int FLUSH_BUTTON_HEIGHT = 20;
 	private static final int TITLE_Y = 12;
 	private static final int STATUS_Y = 24;
-	private static final int CONTENTS_TEXT_Y = 88;
-	private static final int AMOUNT_TEXT_Y = 100;
-	private static final int GAUGE_TEXT_X = 17;
-	private static final int GAUGE_TEXT_WIDTH = 142;
+	private static final int CONTENTS_TEXT_Y = 89;
+	private static final int AMOUNT_TEXT_Y = 102;
+	private static final int GAUGE_TEXT_X = 13;
+	private static final int GAUGE_TEXT_WIDTH = 150;
 	private static final int TOP_PANEL_X = 9;
 	private static final int TOP_PANEL_Y = 7;
 	private static final int TOP_PANEL_WIDTH = 158;
@@ -65,41 +71,18 @@ public class GuiPotStill extends GuiContainer {
 	private static final int BARREL_PANEL_GAP = 6;
 	private static final int SIDE_PANEL_VERTICAL_GAP = 3;
 	private static final int BARREL_PANEL_Y = TOP_PANEL_Y;
-	private static final int BARREL_PANEL_WIDTH = 106;
+	private static final int BARREL_PANEL_WIDTH = AdjacentBarrelPanel.WIDTH;
 	private static final int BARREL_PANEL_X = -BARREL_PANEL_WIDTH - BARREL_PANEL_GAP;
-	private static final int BARREL_PANEL_HEIGHT = TOP_PANEL_HEIGHT;
-	private static final int BARREL_PANEL_TITLE_Y = BARREL_PANEL_Y + 10;
-	private static final int BARREL_PANEL_TEXT_X = BARREL_PANEL_X + 36;
-	private static final int BARREL_PANEL_TEXT_WIDTH = 62;
-	private static final int BARREL_PANEL_FLUID_Y = BARREL_PANEL_Y + 37;
-	private static final int BARREL_PANEL_AMOUNT_Y = BARREL_PANEL_Y + 51;
-	private static final int BARREL_PANEL_CAPACITY_Y = BARREL_PANEL_AMOUNT_Y + 11;
-	private static final int BARREL_PANEL_EMPTY_Y = BARREL_PANEL_Y + 53;
-	private static final int BARREL_PANEL_GAUGE_X = BARREL_PANEL_X + 9;
-	private static final int BARREL_PANEL_GAUGE_Y = BARREL_PANEL_Y + 37;
-	private static final int BARREL_PANEL_GAUGE_WIDTH = 14;
-	private static final int BARREL_PANEL_GAUGE_HEIGHT = 58;
-	private static final int DRAIN_BARREL_BUTTON_X = BARREL_PANEL_X + 9;
-	private static final int FILL_BARREL_BUTTON_X = BARREL_PANEL_X + 57;
-	private static final int TRANSFER_BUTTON_BOTTOM_PADDING = 10;
-	private static final int TRANSFER_BUTTON_WIDTH = 40;
-	private static final int TRANSFER_BUTTON_HEIGHT = 20;
-	private static final int TRANSFER_BUTTON_Y = BARREL_PANEL_Y + BARREL_PANEL_HEIGHT - TRANSFER_BUTTON_HEIGHT
-		- TRANSFER_BUTTON_BOTTOM_PADDING;
+	private static final int BARREL_PANEL_HEIGHT = AdjacentBarrelPanel.HEIGHT;
+	private static final int DRAIN_BARREL_BUTTON_X = BARREL_PANEL_X + AdjacentBarrelPanel.DRAIN_BUTTON_X;
+	private static final int FILL_BARREL_BUTTON_X = BARREL_PANEL_X + AdjacentBarrelPanel.FILL_BUTTON_X;
+	private static final int TRANSFER_BUTTON_WIDTH = AdjacentBarrelPanel.BUTTON_WIDTH;
+	private static final int TRANSFER_BUTTON_HEIGHT = AdjacentBarrelPanel.BUTTON_HEIGHT;
+	private static final int TRANSFER_BUTTON_Y = BARREL_PANEL_Y + AdjacentBarrelPanel.BUTTON_Y;
 	private static final int PIPE_PANEL_WIDTH = 84;
 	private static final int PIPE_PANEL_HEIGHT = 96;
 	private static final int PIPE_PANEL_X = BARREL_PANEL_X + (BARREL_PANEL_WIDTH - PIPE_PANEL_WIDTH) / 2;
 	private static final int PIPE_PANEL_Y = BARREL_PANEL_Y + BARREL_PANEL_HEIGHT + SIDE_PANEL_VERTICAL_GAP;
-	private static final int PIPE_PANEL_TITLE_Y = PIPE_PANEL_Y + 10;
-	private static final int PIPE_PANEL_TEXT_X = 10;
-	private static final int PIPE_PANEL_TEXT_WIDTH = PIPE_PANEL_WIDTH - PIPE_PANEL_TEXT_X * 2;
-	private static final int PIPE_PANEL_INLET_LABEL_Y = PIPE_PANEL_Y + 24;
-	private static final int PIPE_PANEL_OUTLET_LABEL_Y = PIPE_PANEL_Y + 56;
-	private static final int PIPE_PANEL_BUTTON_WIDTH = 54;
-	private static final int PIPE_PANEL_BUTTON_HEIGHT = 20;
-	private static final int PIPE_PANEL_BUTTON_X = PIPE_PANEL_X + (PIPE_PANEL_WIDTH - PIPE_PANEL_BUTTON_WIDTH) / 2;
-	private static final int PIPE_PANEL_INLET_BUTTON_Y = PIPE_PANEL_Y + 32;
-	private static final int PIPE_PANEL_OUTLET_BUTTON_Y = PIPE_PANEL_Y + 64;
 	private static final int INVENTORY_PANEL_X = 7;
 	private static final int INVENTORY_PANEL_Y = 138;
 	private static final int INVENTORY_PANEL_WIDTH = 162;
@@ -118,7 +101,6 @@ public class GuiPotStill extends GuiContainer {
 	private static final int TEXTURE_TILE_SIZE = 16;
 	private static final int COLOR_CHANNEL_MAX = 255;
 	private static final int FULL_ALPHA_MASK = 0xFF000000;
-	private static final int TEXT_TRIM_PADDING = 16;
 	private static final float FULL_COLOR = 1.0F;
 	private static final int WOOD_DARK = 0xFF2E170A;
 	private static final int WOOD_MID = 0xFF6B3A1B;
@@ -131,6 +113,7 @@ public class GuiPotStill extends GuiContainer {
 	private static final int SLOT_RIM_COLOR = 0xFF8A6743;
 	private static final int SLOT_SHADOW_COLOR = 0xFF4D4A43;
 	private static final int SLOT_FILL_COLOR = 0xFF626058;
+	private static final int BRASS_LIGHT = 0xFFE2B85D;
 	private static final int GAUGE_BORDER_COLOR = 0xFF404040;
 	private static final int GAUGE_EMPTY_COLOR = 0xFF1F2633;
 	private static final int HIGHLIGHT_COLOR = 0x80FFFFFF;
@@ -147,8 +130,9 @@ public class GuiPotStill extends GuiContainer {
 	private GuiButton flushButton;
 	private GuiButton drainBarrelButton;
 	private GuiButton fillBarrelButton;
-	private GuiButton inletPortButton;
-	private GuiButton outletPortButton;
+	private final MechanicalDial chargeDial = new MechanicalDial();
+	private final MechanicalDial distillDial = new MechanicalDial();
+	private final MechanicalValveControl valveControl = new MechanicalValveControl();
 	private boolean confirmFlush;
 
 	public GuiPotStill(TileEntityPotStill potStill, InventoryPlayer playerInventory) {
@@ -180,14 +164,6 @@ public class GuiPotStill extends GuiContainer {
 			this.guiTop + TRANSFER_BUTTON_Y, TRANSFER_BUTTON_WIDTH, TRANSFER_BUTTON_HEIGHT,
 			I18n.format("gui.ironagefurniture.transfer.fill"));
 		this.buttonList.add(this.fillBarrelButton);
-		this.inletPortButton = new GuiButton(INLET_PORT_BUTTON_ID, this.guiLeft + PIPE_PANEL_BUTTON_X,
-			this.guiTop + PIPE_PANEL_INLET_BUTTON_Y, PIPE_PANEL_BUTTON_WIDTH, PIPE_PANEL_BUTTON_HEIGHT,
-			this.getPipeButtonText(true));
-		this.buttonList.add(this.inletPortButton);
-		this.outletPortButton = new GuiButton(OUTLET_PORT_BUTTON_ID, this.guiLeft + PIPE_PANEL_BUTTON_X,
-			this.guiTop + PIPE_PANEL_OUTLET_BUTTON_Y, PIPE_PANEL_BUTTON_WIDTH, PIPE_PANEL_BUTTON_HEIGHT,
-			this.getPipeButtonText(false));
-		this.buttonList.add(this.outletPortButton);
 	}
 
 	@Override
@@ -200,6 +176,7 @@ public class GuiPotStill extends GuiContainer {
 		this.updateButtonPositions();
 		this.updateButtonState();
 		super.drawScreen(mouseX, mouseY, partialTicks);
+		this.drawMechanicalTooltips(mouseX, mouseY);
 	}
 
 	@Override
@@ -223,26 +200,35 @@ public class GuiPotStill extends GuiContainer {
 			this.confirmFlush = false;
 			IronAgeFurnitureNetwork.channel.sendToServer(new PotStillBarrelTransferMessage(this.potStill.getPos(),
 				true));
-		} else if (button.id == INLET_PORT_BUTTON_ID && button.enabled) {
-			this.confirmFlush = false;
-			IronAgeFurnitureNetwork.channel.sendToServer(new PotStillPortToggleMessage(this.potStill.getPos(),
-				true));
-		} else if (button.id == OUTLET_PORT_BUTTON_ID && button.enabled) {
-			this.confirmFlush = false;
-			IronAgeFurnitureNetwork.channel.sendToServer(new PotStillPortToggleMessage(this.potStill.getPos(),
-				false));
 		}
 	}
 
 	@Override
+	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+		if (mouseButton == 0 && this.shouldDrawPipePanel()) {
+			this.positionValveControl();
+			FluidPortMode mode = this.valveControl.getClickedMode(mouseX, mouseY,
+				this.potStill.hasConnectedInlet(), this.potStill.hasConnectedOutlet(), this.potStill.isDistilling());
+
+			if (mode != null) {
+				this.confirmFlush = false;
+				IronAgeFurnitureNetwork.channel.sendToServer(new PotStillPortModeMessage(this.potStill.getPos(), mode));
+				return;
+			}
+		}
+
+		super.mouseClicked(mouseX, mouseY, mouseButton);
+	}
+
+	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-		this.drawCenteredText(I18n.format(this.potStill.getContainerNameKey()), TITLE_Y);
-		this.drawCenteredText(this.getStatusText(), STATUS_Y);
-		this.drawBoundedCenteredText(this.getContentsText(), GAUGE_TEXT_X, GAUGE_TEXT_WIDTH, CONTENTS_TEXT_Y);
-		this.drawBoundedCenteredText(this.getAmountText(), GAUGE_TEXT_X, GAUGE_TEXT_WIDTH, AMOUNT_TEXT_Y);
+		this.drawFittedCenteredText(I18n.format(this.potStill.getContainerNameKey()), GAUGE_TEXT_X,
+			GAUGE_TEXT_WIDTH, TITLE_Y);
+		this.drawFittedCenteredText(this.getStatusText(), GAUGE_TEXT_X, GAUGE_TEXT_WIDTH, STATUS_Y);
+		this.drawFittedCenteredText(this.getContentsText(), GAUGE_TEXT_X, GAUGE_TEXT_WIDTH, CONTENTS_TEXT_Y);
+		this.drawFittedCenteredText(this.getAmountText(), GAUGE_TEXT_X, GAUGE_TEXT_WIDTH, AMOUNT_TEXT_Y);
 		this.fontRendererObj.drawString(this.playerInventory.getDisplayName().getUnformattedText(), INVENTORY_LABEL_X,
 			PLAYER_INVENTORY_LABEL_Y, TEXT_DARK);
-		this.drawPipePanelForeground();
 		this.drawBarrelTransferPanelForeground();
 	}
 
@@ -254,6 +240,7 @@ public class GuiPotStill extends GuiContainer {
 		this.drawPipePanel();
 		this.drawBarrelTransferPanel();
 		this.drawGauge();
+		this.drawMechanicalDials();
 		this.drawSlot(FUEL_SLOT_X, FUEL_SLOT_Y);
 		this.drawPlayerSlots();
 	}
@@ -281,25 +268,14 @@ public class GuiPotStill extends GuiContainer {
 			this.fillBarrelButton.enabled = this.potStill.canFillAdjacentBarrel();
 		}
 
-		boolean showPipePanel = this.shouldDrawPipePanel();
-		boolean portsUnlocked = !this.potStill.isDistilling();
-
-		if (this.inletPortButton != null) {
-			this.inletPortButton.visible = showPipePanel;
-			this.inletPortButton.enabled = showPipePanel && this.potStill.hasConnectedInlet() && portsUnlocked;
-			this.inletPortButton.displayString = this.getPipeButtonText(true);
-		}
-
-		if (this.outletPortButton != null) {
-			this.outletPortButton.visible = showPipePanel;
-			this.outletPortButton.enabled = showPipePanel && this.potStill.hasConnectedOutlet() && portsUnlocked;
-			this.outletPortButton.displayString = this.getPipeButtonText(false);
-		}
 	}
 
 	private void updateButtonPositions() {
 		int barrelPanelShift = this.getBarrelPanelShiftX();
-		int pipePanelOffset = this.shouldDrawPipePanel() ? this.getPipePanelOffsetX() : 0;
+		this.startButton.xPosition = this.guiLeft + START_BUTTON_X;
+		this.startButton.yPosition = this.guiTop + START_BUTTON_Y;
+		this.flushButton.xPosition = this.guiLeft + FLUSH_BUTTON_X;
+		this.flushButton.yPosition = this.guiTop + FLUSH_BUTTON_Y;
 
 		if (this.drainBarrelButton != null) {
 			this.drainBarrelButton.xPosition = this.guiLeft + DRAIN_BARREL_BUTTON_X + barrelPanelShift;
@@ -310,18 +286,6 @@ public class GuiPotStill extends GuiContainer {
 			this.fillBarrelButton.xPosition = this.guiLeft + FILL_BARREL_BUTTON_X + barrelPanelShift;
 			this.fillBarrelButton.yPosition = this.guiTop + TRANSFER_BUTTON_Y;
 		}
-
-		if (this.inletPortButton != null) {
-			this.inletPortButton.xPosition = this.guiLeft + pipePanelOffset
-				+ (PIPE_PANEL_WIDTH - PIPE_PANEL_BUTTON_WIDTH) / 2;
-			this.inletPortButton.yPosition = this.guiTop + PIPE_PANEL_INLET_BUTTON_Y;
-		}
-
-		if (this.outletPortButton != null) {
-			this.outletPortButton.xPosition = this.guiLeft + pipePanelOffset
-				+ (PIPE_PANEL_WIDTH - PIPE_PANEL_BUTTON_WIDTH) / 2;
-			this.outletPortButton.yPosition = this.guiTop + PIPE_PANEL_OUTLET_BUTTON_Y;
-		}
 	}
 
 	private String getFlushButtonText() {
@@ -329,57 +293,10 @@ public class GuiPotStill extends GuiContainer {
 			: "gui.ironagefurniture.pot_still.flush");
 	}
 
-	private String getPipeButtonText(boolean inlet) {
-		boolean open = inlet ? this.potStill.isInletOpen() : this.potStill.isOutletOpen();
-		return I18n.format(open ? "gui.ironagefurniture.pipe.close" : "gui.ironagefurniture.pipe.open");
-	}
-
-	private void drawPipePanelForeground() {
-		if (!this.shouldDrawPipePanel()) {
-			return;
-		}
-
-		int pipePanelOffset = this.getPipePanelOffsetX();
-		this.drawBoundedCenteredText(I18n.format("gui.ironagefurniture.foudre.pipework"),
-			pipePanelOffset + PIPE_PANEL_TEXT_X, PIPE_PANEL_TEXT_WIDTH, PIPE_PANEL_TITLE_Y);
-		this.drawBoundedCenteredText(I18n.format(this.potStill.hasConnectedInlet()
-				? "gui.ironagefurniture.foudre.inlet" : "gui.ironagefurniture.foudre.no_inlet"),
-			pipePanelOffset + PIPE_PANEL_TEXT_X, PIPE_PANEL_TEXT_WIDTH, PIPE_PANEL_INLET_LABEL_Y);
-		this.drawBoundedCenteredText(I18n.format(this.potStill.hasConnectedOutlet()
-				? "gui.ironagefurniture.foudre.outlet" : "gui.ironagefurniture.foudre.no_outlet"),
-			pipePanelOffset + PIPE_PANEL_TEXT_X, PIPE_PANEL_TEXT_WIDTH, PIPE_PANEL_OUTLET_LABEL_Y);
-	}
-
 	private void drawBarrelTransferPanelForeground() {
 		int barrelPanelShift = this.getBarrelPanelShiftX();
-		this.drawBoundedCenteredText(I18n.format("gui.ironagefurniture.transfer.barrel"),
-			BARREL_PANEL_X + barrelPanelShift + TEXT_TRIM_PADDING / 2, BARREL_PANEL_WIDTH - TEXT_TRIM_PADDING,
-			BARREL_PANEL_TITLE_Y);
-
-		TileEntityBarrel barrel = this.potStill.getAdjacentTransferBarrel();
-
-		if (barrel == null) {
-			this.drawBoundedCenteredText(I18n.format("gui.ironagefurniture.transfer.no_barrel"),
-				BARREL_PANEL_TEXT_X + barrelPanelShift, BARREL_PANEL_TEXT_WIDTH, BARREL_PANEL_EMPTY_Y);
-			return;
-		}
-
-		FluidStack fluid = barrel.getFluid();
-
-		if (fluid == null || fluid.getFluid() == null || fluid.amount <= 0) {
-			this.drawBoundedCenteredText(I18n.format("gui.ironagefurniture.barrel.empty"),
-				BARREL_PANEL_TEXT_X + barrelPanelShift, BARREL_PANEL_TEXT_WIDTH, BARREL_PANEL_FLUID_Y);
-		} else {
-			this.drawBoundedCenteredText(DrinkDisplayHelper.getDisplayName(fluid),
-				BARREL_PANEL_TEXT_X + barrelPanelShift, BARREL_PANEL_TEXT_WIDTH, BARREL_PANEL_FLUID_Y);
-		}
-
-		this.drawBoundedCenteredText(Integer.toString(barrel.getFluidAmount()) + " /", BARREL_PANEL_TEXT_X
-			+ barrelPanelShift,
-			BARREL_PANEL_TEXT_WIDTH, BARREL_PANEL_AMOUNT_Y);
-		this.drawBoundedCenteredText(Integer.toString(barrel.getCapacity()), BARREL_PANEL_TEXT_X
-			+ barrelPanelShift,
-			BARREL_PANEL_TEXT_WIDTH, BARREL_PANEL_CAPACITY_Y);
+		AdjacentBarrelPanel.drawForeground(this.fontRendererObj, BARREL_PANEL_X + barrelPanelShift,
+			BARREL_PANEL_Y, this.potStill.getAdjacentTransferBarrel());
 	}
 
 	private void drawWoodFrame() {
@@ -402,7 +319,8 @@ public class GuiPotStill extends GuiContainer {
 	}
 
 	private void drawBarrelTransferPanel() {
-		this.drawOuterPanel(this.getBarrelPanelOffsetX(), BARREL_PANEL_Y, BARREL_PANEL_WIDTH, BARREL_PANEL_HEIGHT);
+		AdjacentBarrelPanel.drawBackground(this.guiLeft + this.getBarrelPanelOffsetX(),
+			this.guiTop + BARREL_PANEL_Y);
 		this.drawAdjacentBarrelGauge();
 	}
 
@@ -412,6 +330,13 @@ public class GuiPotStill extends GuiContainer {
 		}
 
 		this.drawOuterPanel(this.getPipePanelOffsetX(), PIPE_PANEL_Y, PIPE_PANEL_WIDTH, PIPE_PANEL_HEIGHT);
+		this.positionValveControl();
+		this.valveControl.draw(this.fontRendererObj, this.potStill.getPortMode(),
+			this.potStill.hasConnectedInlet(), this.potStill.hasConnectedOutlet(), this.potStill.isDistilling());
+	}
+
+	private void positionValveControl() {
+		this.valveControl.setPosition(this.guiLeft + this.getPipePanelOffsetX(), this.guiTop + PIPE_PANEL_Y);
 	}
 
 	private void drawOuterPanel(int x, int y, int width, int height) {
@@ -425,26 +350,18 @@ public class GuiPotStill extends GuiContainer {
 	}
 
 	private void drawAdjacentBarrelGauge() {
-		int left = this.guiLeft + BARREL_PANEL_GAUGE_X + this.getBarrelPanelShiftX();
-		int top = this.guiTop + BARREL_PANEL_GAUGE_Y;
-		this.drawRect(left - GAUGE_BORDER, top - GAUGE_BORDER,
-			left + BARREL_PANEL_GAUGE_WIDTH + GAUGE_BORDER,
-			top + BARREL_PANEL_GAUGE_HEIGHT + GAUGE_BORDER, GAUGE_BORDER_COLOR);
-		this.drawRect(left, top, left + BARREL_PANEL_GAUGE_WIDTH,
-			top + BARREL_PANEL_GAUGE_HEIGHT, GAUGE_EMPTY_COLOR);
-
 		TileEntityBarrel barrel = this.potStill.getAdjacentTransferBarrel();
 		FluidStack fluid = barrel == null ? null : barrel.getFluid();
+		int fillWidth = AdjacentBarrelPanel.getGaugeFillWidth(barrel);
 
-		if (fluid == null || fluid.amount <= 0 || fluid.getFluid() == null || barrel == null) {
+		if (fluid == null || fluid.amount <= 0 || fluid.getFluid() == null || fillWidth <= 0) {
 			return;
 		}
 
-		int fillHeight = Math.max(MIN_DRAWN_FILL,
-			fluid.amount * BARREL_PANEL_GAUGE_HEIGHT / barrel.getCapacity());
-		int fillTop = top + BARREL_PANEL_GAUGE_HEIGHT - fillHeight;
-		this.drawFluid(left, fillTop, BARREL_PANEL_GAUGE_WIDTH, fillHeight, fluid);
-		this.drawRect(left, fillTop, left + BARREL_PANEL_GAUGE_WIDTH, fillTop + MIN_DRAWN_FILL,
+		int left = this.guiLeft + this.getBarrelPanelOffsetX() + AdjacentBarrelPanel.GAUGE_X;
+		int top = this.guiTop + BARREL_PANEL_Y + AdjacentBarrelPanel.GAUGE_Y;
+		this.drawFluid(left, top, fillWidth, AdjacentBarrelPanel.GAUGE_HEIGHT, fluid);
+		this.drawRect(left, top, left + fillWidth, top + MIN_DRAWN_FILL,
 			HIGHLIGHT_COLOR);
 	}
 
@@ -506,6 +423,57 @@ public class GuiPotStill extends GuiContainer {
 		this.drawFluid(productLeft, productTop, productWidth, productHeight, productFluid);
 		this.drawRect(productLeft, productTop, productLeft + productWidth, productTop + MIN_DRAWN_FILL,
 			SEPARATION_LINE_COLOR);
+	}
+
+	private void drawMechanicalDials() {
+		FluidStack chargeFluid = this.getChargeFluid();
+		int chargeAmount = this.getChargeAmount();
+		int chargeCapacity = this.getChargeCapacity();
+		float charge = chargeCapacity <= 0 ? 0.0F : (float)chargeAmount / (float)chargeCapacity;
+		int chargeColor = chargeFluid == null || chargeFluid.getFluid() == null ? GAUGE_EMPTY_COLOR
+			: this.getFluidColor(chargeFluid);
+		int distillTotal = this.potStill.getDistillTimeTotal();
+		float distill = distillTotal <= 0 ? 0.0F
+			: (float)this.potStill.getDistillTime() / (float)distillTotal;
+
+		this.chargeDial.draw(this.guiLeft + CHARGE_DIAL_X, this.guiTop + CHARGE_DIAL_Y, DIAL_SIZE, charge,
+			chargeColor, chargeAmount > 0);
+		this.distillDial.draw(this.guiLeft + DISTILL_DIAL_X, this.guiTop + DISTILL_DIAL_Y, DIAL_SIZE, distill,
+			BRASS_LIGHT, this.potStill.isDistilling());
+	}
+
+	private void drawMechanicalTooltips(int mouseX, int mouseY) {
+		List<String> tooltip = new ArrayList<String>();
+
+		if (this.isPointWithin(mouseX, mouseY, CHARGE_DIAL_X, CHARGE_DIAL_Y, DIAL_SIZE, DIAL_SIZE)) {
+			FluidStack fluid = this.getChargeFluid();
+			tooltip.add(I18n.format("gui.ironagefurniture.dial.charge"));
+			tooltip.add(fluid == null ? I18n.format("gui.ironagefurniture.barrel.empty")
+				: DrinkDisplayHelper.getDisplayName(fluid));
+			tooltip.add(this.getChargeAmount() + " / " + this.getChargeCapacity() + " mB");
+		} else if (this.isPointWithin(mouseX, mouseY, DISTILL_DIAL_X, DISTILL_DIAL_Y, DIAL_SIZE, DIAL_SIZE)) {
+			tooltip.add(I18n.format("gui.ironagefurniture.dial.distill"));
+			tooltip.add(this.potStill.isDistilling() ? this.getStatusText()
+				: I18n.format("gui.ironagefurniture.dial.idle"));
+		} else if (this.shouldDrawPipePanel()) {
+			this.positionValveControl();
+			String valveTooltip = this.valveControl.getHoverText(mouseX, mouseY,
+				this.potStill.hasConnectedInlet(), this.potStill.hasConnectedOutlet(), this.potStill.isDistilling());
+
+			if (valveTooltip != null) {
+				tooltip.add(valveTooltip);
+			}
+		}
+
+		if (!tooltip.isEmpty()) {
+			this.drawHoveringText(tooltip, mouseX, mouseY);
+		}
+	}
+
+	private boolean isPointWithin(int mouseX, int mouseY, int x, int y, int width, int height) {
+		int left = this.guiLeft + x;
+		int top = this.guiTop + y;
+		return mouseX >= left && mouseX < left + width && mouseY >= top && mouseY < top + height;
 	}
 
 	private void drawFluid(int left, int top, int width, int height, FluidStack fluid) {
@@ -582,6 +550,30 @@ public class GuiPotStill extends GuiContainer {
 		return amount + " mB";
 	}
 
+	private FluidStack getChargeFluid() {
+		if (this.potStill.isDistilling()) {
+			return this.potStill.getBatchInputFluid();
+		}
+		if (this.potStill.getOutputAmount() > 0) {
+			return this.potStill.getOutputFluid();
+		}
+
+		return this.potStill.getInputFluid();
+	}
+
+	private int getChargeAmount() {
+		if (this.potStill.isDistilling()) {
+			return this.potStill.getBatchInputAmount();
+		}
+		return this.potStill.getOutputAmount() > 0 ? this.potStill.getOutputAmount()
+			: this.potStill.getInputAmount();
+	}
+
+	private int getChargeCapacity() {
+		return !this.potStill.isDistilling() && this.potStill.getOutputAmount() > 0
+			? TileEntityPotStill.OUTPUT_CAPACITY : TileEntityPotStill.INPUT_CAPACITY;
+	}
+
 	private FluidStack getGaugeBaseFluid() {
 		return this.potStill.isDistilling() ? this.potStill.getBatchInputFluid() : this.potStill.getInputFluid();
 	}
@@ -618,14 +610,26 @@ public class GuiPotStill extends GuiContainer {
 		return (color & FULL_ALPHA_MASK) == 0 ? color | FULL_ALPHA_MASK : color;
 	}
 
-	private void drawCenteredText(String text, int y) {
-		this.drawBoundedCenteredText(text, TEXT_TRIM_PADDING / 2, this.xSize - TEXT_TRIM_PADDING, y);
-	}
-
 	private void drawBoundedCenteredText(String text, int x, int width, int y) {
 		String trimmed = this.fontRendererObj.trimStringToWidth(text, width);
 		this.fontRendererObj.drawString(trimmed, x + (width - this.fontRendererObj.getStringWidth(trimmed)) / 2, y,
 			TEXT_DARK);
+	}
+
+	private void drawFittedCenteredText(String text, int x, int width, int y) {
+		int textWidth = this.fontRendererObj.getStringWidth(text);
+
+		if (textWidth <= width) {
+			this.fontRendererObj.drawString(text, x + (width - textWidth) / 2, y, TEXT_DARK);
+			return;
+		}
+
+		float scale = (float)width / (float)textWidth;
+		GlStateManager.pushMatrix();
+		GlStateManager.translate(x + width / 2.0F, y, 0.0F);
+		GlStateManager.scale(scale, scale, 1.0F);
+		this.fontRendererObj.drawString(text, -textWidth / 2, 0, TEXT_DARK);
+		GlStateManager.popMatrix();
 	}
 
 	private int getPlayerSlotX(int column) {

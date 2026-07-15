@@ -6,6 +6,7 @@ import javax.annotation.Nullable;
 
 import com.mcmoddev.ironagefurniture.api.AdjacentBarrelTransfer;
 import com.mcmoddev.ironagefurniture.api.Blocks.Foudre;
+import com.mcmoddev.ironagefurniture.api.Enumerations.FluidPortMode;
 import com.mcmoddev.ironagefurniture.api.Enumerations.FoudrePart;
 import com.mcmoddev.ironagefurniture.api.FoudreBrewingRegistry;
 import com.mcmoddev.ironagefurniture.api.FoudreBrewingRegistry.FoudreBrewingRecipe;
@@ -53,14 +54,15 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 	private static final String PORTS_CONFIGURED_TAG = "PortsConfigured";
 	private static final String INLET_OPEN_TAG = "InletOpen";
 	private static final String OUTLET_OPEN_TAG = "OutletOpen";
+	private static final String PORT_MODE_TAG = "PortMode";
+	private static final int PORT_CONNECTION_CHECK_INTERVAL = 20;
 
 	private final ItemStack[] inventory = new ItemStack[INGREDIENT_SLOTS];
 	private final IFluidHandler sealedFluidHandler = new SealedFoudreFluidHandler();
 	private final IItemHandler itemHandler = new InvWrapper(this);
 	private String label = "";
 	private boolean sealed;
-	private boolean inletOpen;
-	private boolean outletOpen;
+	private FluidPortMode portMode = FluidPortMode.LOCKED;
 	private int brewTime;
 	private int brewTimeTotal;
 	private int clientAgeProgress;
@@ -87,6 +89,8 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 		if (this.world == null || this.world.isRemote) {
 			return;
 		}
+
+		this.lockDisconnectedPort();
 
 		if (!this.sealed) {
 			this.resetBrewing();
@@ -152,8 +156,7 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 		this.sealed = sealed;
 
 		if (sealed) {
-			this.inletOpen = false;
-			this.outletOpen = false;
+			this.portMode = FluidPortMode.LOCKED;
 		}
 
 		if (opening) {
@@ -168,53 +171,57 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 	}
 
 	public boolean isInletOpen() {
-		return this.inletOpen;
+		return this.portMode.opensInlet();
 	}
 
 	public void setInletOpen(boolean inletOpen) {
-		if (inletOpen && this.sealed) {
-			return;
-		}
-
-		boolean changed = this.inletOpen != inletOpen || inletOpen && this.outletOpen;
-		this.inletOpen = inletOpen;
-
 		if (inletOpen) {
-			this.outletOpen = false;
-		}
-
-		if (changed) {
-			this.markForFluidUpdate();
+			this.setPortMode(FluidPortMode.FLOOD);
+		} else if (this.portMode == FluidPortMode.FLOOD) {
+			this.setPortMode(FluidPortMode.LOCKED);
 		}
 	}
 
 	public void toggleInletOpen() {
-		this.setInletOpen(!this.inletOpen);
+		this.setInletOpen(!this.isInletOpen());
 	}
 
 	public boolean isOutletOpen() {
-		return this.outletOpen;
+		return this.portMode.opensOutlet();
 	}
 
 	public void setOutletOpen(boolean outletOpen) {
-		if (outletOpen && this.sealed) {
-			return;
-		}
-
-		boolean changed = this.outletOpen != outletOpen || outletOpen && this.inletOpen;
-		this.outletOpen = outletOpen;
-
 		if (outletOpen) {
-			this.inletOpen = false;
-		}
-
-		if (changed) {
-			this.markForFluidUpdate();
+			this.setPortMode(FluidPortMode.DRAIN);
+		} else if (this.portMode == FluidPortMode.DRAIN) {
+			this.setPortMode(FluidPortMode.LOCKED);
 		}
 	}
 
 	public void toggleOutletOpen() {
-		this.setOutletOpen(!this.outletOpen);
+		this.setOutletOpen(!this.isOutletOpen());
+	}
+
+	public FluidPortMode getPortMode() {
+		return this.portMode;
+	}
+
+	public boolean setPortMode(@Nullable FluidPortMode mode) {
+		FluidPortMode requested = mode == null ? FluidPortMode.LOCKED : mode;
+
+		if (requested == FluidPortMode.FLOOD && (this.sealed || !this.hasConnectedInlet())) {
+			return false;
+		}
+		if (requested == FluidPortMode.DRAIN && (this.sealed || !this.hasConnectedOutlet())) {
+			return false;
+		}
+		if (this.portMode == requested) {
+			return true;
+		}
+
+		this.portMode = requested;
+		this.markForFluidUpdate();
+		return true;
 	}
 
 	public boolean canFlush() {
@@ -268,27 +275,27 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 	}
 
 	public boolean canFillFromInletPort(@Nullable Fluid fluid) {
-		return !this.sealed && this.inletOpen && fluid != null
+		return !this.sealed && this.isInletOpen() && fluid != null
 			&& this.sealedFluidHandler.fill(new FluidStack(fluid, 1), false) > 0;
 	}
 
 	public int fillFromInletPort(@Nullable FluidStack resource, boolean doFill) {
-		return !this.sealed && this.inletOpen ? this.sealedFluidHandler.fill(resource, doFill) : 0;
+		return !this.sealed && this.isInletOpen() ? this.sealedFluidHandler.fill(resource, doFill) : 0;
 	}
 
 	public boolean canDrainFromOutletPort(@Nullable Fluid fluid) {
-		return !this.sealed && this.outletOpen && fluid != null
+		return !this.sealed && this.isOutletOpen() && fluid != null
 			&& this.sealedFluidHandler.drain(new FluidStack(fluid, 1), false) != null;
 	}
 
 	@Nullable
 	public FluidStack drainFromOutletPort(@Nullable FluidStack resource, boolean doDrain) {
-		return !this.sealed && this.outletOpen ? this.sealedFluidHandler.drain(resource, doDrain) : null;
+		return !this.sealed && this.isOutletOpen() ? this.sealedFluidHandler.drain(resource, doDrain) : null;
 	}
 
 	@Nullable
 	public FluidStack drainFromOutletPort(int maxDrain, boolean doDrain) {
-		return !this.sealed && this.outletOpen ? this.sealedFluidHandler.drain(maxDrain, doDrain) : null;
+		return !this.sealed && this.isOutletOpen() ? this.sealedFluidHandler.drain(maxDrain, doDrain) : null;
 	}
 
 	public boolean hasConnectedInlet() {
@@ -378,6 +385,8 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 
 		tag.removeTag(INLET_OPEN_TAG);
 		tag.removeTag(OUTLET_OPEN_TAG);
+		tag.removeTag(PORTS_CONFIGURED_TAG);
+		tag.removeTag(PORT_MODE_TAG);
 
 		if (this.label.isEmpty()) {
 			tag.removeTag(LABEL_TAG);
@@ -401,10 +410,7 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 		this.label = stack != null && stack.hasTagCompound() && stack.getTagCompound().hasKey(LABEL_TAG, 8)
 			? sanitizeLabel(stack.getTagCompound().getString(LABEL_TAG)) : "";
 		this.sealed = stack != null && stack.hasTagCompound() && stack.getTagCompound().getBoolean(SEALED_TAG);
-		this.inletOpen = stack != null && stack.hasTagCompound() && stack.getTagCompound().hasKey(INLET_OPEN_TAG)
-			&& stack.getTagCompound().getBoolean(INLET_OPEN_TAG);
-		this.outletOpen = stack != null && stack.hasTagCompound() && stack.getTagCompound().hasKey(OUTLET_OPEN_TAG)
-			&& stack.getTagCompound().getBoolean(OUTLET_OPEN_TAG);
+		this.portMode = FluidPortMode.LOCKED;
 		this.sanitizePortState();
 		this.markForFluidUpdate();
 	}
@@ -414,9 +420,7 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 		super.readFromNBT(compound);
 		this.label = compound.hasKey(LABEL_TAG, 8) ? sanitizeLabel(compound.getString(LABEL_TAG)) : "";
 		this.sealed = compound.getBoolean(SEALED_TAG);
-		boolean portsConfigured = compound.getBoolean(PORTS_CONFIGURED_TAG);
-		this.inletOpen = portsConfigured && compound.getBoolean(INLET_OPEN_TAG);
-		this.outletOpen = portsConfigured && compound.getBoolean(OUTLET_OPEN_TAG);
+		this.portMode = readPortMode(compound);
 		this.sanitizePortState();
 		this.brewTime = compound.getInteger(BREW_TIME_TAG);
 		this.brewTimeTotal = compound.getInteger(BREW_TIME_TOTAL_TAG);
@@ -445,9 +449,10 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 			compound.setString(LABEL_TAG, this.label);
 		}
 		compound.setBoolean(SEALED_TAG, this.sealed);
-		compound.setBoolean(PORTS_CONFIGURED_TAG, true);
-		compound.setBoolean(INLET_OPEN_TAG, this.inletOpen);
-		compound.setBoolean(OUTLET_OPEN_TAG, this.outletOpen);
+		compound.setByte(PORT_MODE_TAG, (byte)this.portMode.getId());
+		compound.removeTag(PORTS_CONFIGURED_TAG);
+		compound.removeTag(INLET_OPEN_TAG);
+		compound.removeTag(OUTLET_OPEN_TAG);
 
 		compound.setInteger(BREW_TIME_TAG, this.brewTime);
 		compound.setInteger(BREW_TIME_TOTAL_TAG, this.brewTimeTotal);
@@ -709,11 +714,33 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 
 	private void sanitizePortState() {
 		if (this.sealed) {
-			this.inletOpen = false;
-			this.outletOpen = false;
-		} else if (this.inletOpen && this.outletOpen) {
-			this.outletOpen = false;
+			this.portMode = FluidPortMode.LOCKED;
 		}
+	}
+
+	private void lockDisconnectedPort() {
+		if (this.world.getTotalWorldTime() % PORT_CONNECTION_CHECK_INTERVAL != 0L) {
+			return;
+		}
+
+		if (this.portMode == FluidPortMode.FLOOD && !this.hasConnectedInlet()
+				|| this.portMode == FluidPortMode.DRAIN && !this.hasConnectedOutlet()) {
+			this.portMode = FluidPortMode.LOCKED;
+			this.markForFluidUpdate();
+		}
+	}
+
+	private static FluidPortMode readPortMode(NBTTagCompound compound) {
+		if (compound.hasKey(PORT_MODE_TAG, 1)) {
+			return FluidPortMode.fromId(compound.getByte(PORT_MODE_TAG));
+		}
+
+		if (!compound.getBoolean(PORTS_CONFIGURED_TAG)) {
+			return FluidPortMode.LOCKED;
+		}
+
+		return FluidPortMode.fromLegacy(compound.getBoolean(INLET_OPEN_TAG),
+			compound.getBoolean(OUTLET_OPEN_TAG));
 	}
 
 	private boolean hasConnectedPort(boolean inlet) {

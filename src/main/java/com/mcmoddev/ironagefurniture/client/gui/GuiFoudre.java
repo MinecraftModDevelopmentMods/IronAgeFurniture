@@ -1,12 +1,15 @@
 package com.mcmoddev.ironagefurniture.client.gui;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.mcmoddev.ironagefurniture.api.container.ContainerFoudre;
 import com.mcmoddev.ironagefurniture.api.DrinkDisplayHelper;
+import com.mcmoddev.ironagefurniture.api.Enumerations.FluidPortMode;
 import com.mcmoddev.ironagefurniture.api.network.FoudreBarrelTransferMessage;
 import com.mcmoddev.ironagefurniture.api.network.FoudreFlushMessage;
-import com.mcmoddev.ironagefurniture.api.network.FoudrePortToggleMessage;
+import com.mcmoddev.ironagefurniture.api.network.FoudrePortModeMessage;
 import com.mcmoddev.ironagefurniture.api.network.FoudreSealMessage;
 import com.mcmoddev.ironagefurniture.api.network.IronAgeFurnitureNetwork;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityBarrel;
@@ -33,32 +36,30 @@ public class GuiFoudre extends GuiContainer {
 	private static final int PLAYER_HOTBAR_Y = 192;
 	private static final int PLAYER_INVENTORY_COLUMNS = 9;
 	private static final int PLAYER_INVENTORY_ROWS = 3;
-	private static final int GAUGE_X = 22;
-	private static final int GAUGE_Y = 36;
-	private static final int GAUGE_WIDTH = 16;
-	private static final int GAUGE_HEIGHT = 54;
-	private static final int AMOUNT_TEXT_X = 50;
-	private static final int AMOUNT_TEXT_WIDTH = 112;
-	private static final int INGREDIENT_X = 76;
+	private static final int FILL_DIAL_X = 17;
+	private static final int FILL_DIAL_Y = 36;
+	private static final int PROCESS_DIAL_X = 124;
+	private static final int PROCESS_DIAL_Y = 36;
+	private static final int DIAL_SIZE = 32;
+	private static final int FLUID_GAUGE_X = 55;
+	private static final int FLUID_GAUGE_Y = 40;
+	private static final int FLUID_GAUGE_WIDTH = 10;
+	private static final int FLUID_GAUGE_HEIGHT = 36;
+	private static final int FLUID_GAUGE_BORDER = 2;
+	private static final int INGREDIENT_X = 78;
 	private static final int INGREDIENT_Y = 42;
-	private static final int PROGRESS_X = 122;
-	private static final int PROGRESS_Y = 56;
-	private static final int PROGRESS_WIDTH = 36;
-	private static final int PROGRESS_HEIGHT = 8;
 	private static final int SEAL_BUTTON_ID = 0;
 	private static final int FLUSH_BUTTON_ID = 1;
 	private static final int DRAIN_BARREL_BUTTON_ID = 2;
 	private static final int FILL_BARREL_BUTTON_ID = 3;
-	private static final int INLET_PORT_BUTTON_ID = 4;
-	private static final int OUTLET_PORT_BUTTON_ID = 5;
-	private static final int SEAL_BUTTON_X = 121;
+	private static final int SEAL_BUTTON_X = 143;
 	private static final int SEAL_BUTTON_Y = 70;
-	private static final int SEAL_BUTTON_WIDTH = 40;
-	private static final int SEAL_BUTTON_HEIGHT = 20;
+	private static final int SEAL_BUTTON_WIDTH = 18;
+	private static final int SEAL_BUTTON_HEIGHT = 18;
 	private static final int FLUSH_BUTTON_X = 121;
-	private static final int FLUSH_BUTTON_Y = 34;
-	private static final int FLUSH_BUTTON_WIDTH = 40;
-	private static final int FLUSH_BUTTON_HEIGHT = 20;
+	private static final int FLUSH_BUTTON_Y = 70;
+	private static final int FLUSH_BUTTON_WIDTH = 18;
+	private static final int FLUSH_BUTTON_HEIGHT = 18;
 	private static final int TITLE_Y = 12;
 	private static final int STATUS_Y = 24;
 	private static final int FLUID_NAME_Y = 91;
@@ -70,42 +71,19 @@ public class GuiFoudre extends GuiContainer {
 	private static final int BARREL_PANEL_GAP = 6;
 	private static final int SIDE_PANEL_VERTICAL_GAP = 3;
 	private static final int HIDDEN_PANEL_OFFSET = Integer.MIN_VALUE;
-	private static final int BARREL_PANEL_WIDTH = 106;
+	private static final int BARREL_PANEL_WIDTH = AdjacentBarrelPanel.WIDTH;
 	private static final int BARREL_PANEL_X = -BARREL_PANEL_WIDTH - BARREL_PANEL_GAP;
 	private static final int BARREL_PANEL_Y = TOP_PANEL_Y;
-	private static final int BARREL_PANEL_HEIGHT = TOP_PANEL_HEIGHT + 4;
-	private static final int BARREL_PANEL_TITLE_Y = BARREL_PANEL_Y + 10;
-	private static final int BARREL_PANEL_TEXT_X = BARREL_PANEL_X + 36;
-	private static final int BARREL_PANEL_TEXT_WIDTH = 62;
-	private static final int BARREL_PANEL_FLUID_Y = BARREL_PANEL_Y + 31;
-	private static final int BARREL_PANEL_AMOUNT_Y = BARREL_PANEL_Y + 45;
-	private static final int BARREL_PANEL_CAPACITY_Y = BARREL_PANEL_AMOUNT_Y + 11;
-	private static final int BARREL_PANEL_EMPTY_Y = BARREL_PANEL_Y + 44;
-	private static final int BARREL_PANEL_GAUGE_X = BARREL_PANEL_X + 9;
-	private static final int BARREL_PANEL_GAUGE_Y = BARREL_PANEL_Y + 31;
-	private static final int BARREL_PANEL_GAUGE_WIDTH = 14;
-	private static final int BARREL_PANEL_GAUGE_HEIGHT = 48;
-	private static final int DRAIN_BARREL_BUTTON_X = BARREL_PANEL_X + 9;
-	private static final int FILL_BARREL_BUTTON_X = BARREL_PANEL_X + 57;
-	private static final int TRANSFER_BUTTON_BOTTOM_PADDING = 10;
-	private static final int TRANSFER_BUTTON_WIDTH = 40;
-	private static final int TRANSFER_BUTTON_HEIGHT = 20;
-	private static final int TRANSFER_BUTTON_Y = BARREL_PANEL_Y + BARREL_PANEL_HEIGHT - TRANSFER_BUTTON_HEIGHT
-		- TRANSFER_BUTTON_BOTTOM_PADDING;
+	private static final int BARREL_PANEL_HEIGHT = AdjacentBarrelPanel.HEIGHT;
+	private static final int DRAIN_BARREL_BUTTON_X = BARREL_PANEL_X + AdjacentBarrelPanel.DRAIN_BUTTON_X;
+	private static final int FILL_BARREL_BUTTON_X = BARREL_PANEL_X + AdjacentBarrelPanel.FILL_BUTTON_X;
+	private static final int TRANSFER_BUTTON_WIDTH = AdjacentBarrelPanel.BUTTON_WIDTH;
+	private static final int TRANSFER_BUTTON_HEIGHT = AdjacentBarrelPanel.BUTTON_HEIGHT;
+	private static final int TRANSFER_BUTTON_Y = BARREL_PANEL_Y + AdjacentBarrelPanel.BUTTON_Y;
 	private static final int PIPE_PANEL_WIDTH = 84;
 	private static final int PIPE_PANEL_HEIGHT = 96;
 	private static final int PIPE_PANEL_X = BARREL_PANEL_X + (BARREL_PANEL_WIDTH - PIPE_PANEL_WIDTH) / 2;
 	private static final int PIPE_PANEL_Y = BARREL_PANEL_Y + BARREL_PANEL_HEIGHT + SIDE_PANEL_VERTICAL_GAP;
-	private static final int PIPE_PANEL_TITLE_Y = PIPE_PANEL_Y + 10;
-	private static final int PIPE_PANEL_TEXT_X = 10;
-	private static final int PIPE_PANEL_TEXT_WIDTH = PIPE_PANEL_WIDTH - PIPE_PANEL_TEXT_X * 2;
-	private static final int PIPE_PANEL_INLET_LABEL_Y = PIPE_PANEL_Y + 24;
-	private static final int PIPE_PANEL_OUTLET_LABEL_Y = PIPE_PANEL_Y + 56;
-	private static final int PIPE_PANEL_BUTTON_WIDTH = 54;
-	private static final int PIPE_PANEL_BUTTON_HEIGHT = 20;
-	private static final int PIPE_PANEL_BUTTON_X = PIPE_PANEL_X + (PIPE_PANEL_WIDTH - PIPE_PANEL_BUTTON_WIDTH) / 2;
-	private static final int PIPE_PANEL_INLET_BUTTON_Y = PIPE_PANEL_Y + 32;
-	private static final int PIPE_PANEL_OUTLET_BUTTON_Y = PIPE_PANEL_Y + 64;
 	private static final int INVENTORY_PANEL_X = 7;
 	private static final int INVENTORY_PANEL_Y = 118;
 	private static final int INVENTORY_PANEL_WIDTH = 162;
@@ -124,8 +102,6 @@ public class GuiFoudre extends GuiContainer {
 	private static final int SLOT_STEP = 18;
 	private static final int SLOT_BORDER = 1;
 	private static final int SLOT_INNER_INSET = 2;
-	private static final int PROGRESS_BORDER = 1;
-	private static final int GAUGE_BORDER = 2;
 	private static final int MIN_DRAWN_FILL = 1;
 	private static final int TEXTURE_TILE_SIZE = 16;
 	private static final int COLOR_CHANNEL_MAX = 255;
@@ -143,9 +119,8 @@ public class GuiFoudre extends GuiContainer {
 	private static final int SLOT_RIM_COLOR = 0xFF8A6743;
 	private static final int SLOT_SHADOW_COLOR = 0xFF4D4A43;
 	private static final int SLOT_FILL_COLOR = 0xFF626058;
-	private static final int PROGRESS_TRACK_COLOR = 0xFF3C3325;
-	private static final int PROGRESS_FILL_COLOR = 0xFFB8792A;
-	private static final int GAUGE_BORDER_COLOR = 0xFF404040;
+	private static final int BRASS_DARK = 0xFF7A4813;
+	private static final int BRASS_LIGHT = 0xFFE2B85D;
 	private static final int GAUGE_EMPTY_COLOR = 0xFF1F2633;
 	private static final int HIGHLIGHT_COLOR = 0x80FFFFFF;
 	private static final int BREWED_FLUID_RIPPLE_COLOR = 0x28FFFFFF;
@@ -156,12 +131,13 @@ public class GuiFoudre extends GuiContainer {
 
 	private final TileEntityFoudre foudre;
 	private final InventoryPlayer playerInventory;
-	private GuiButton sealButton;
-	private GuiButton flushButton;
+	private GuiMechanicalIconButton sealButton;
+	private GuiMechanicalIconButton flushButton;
 	private GuiButton drainBarrelButton;
 	private GuiButton fillBarrelButton;
-	private GuiButton inletPortButton;
-	private GuiButton outletPortButton;
+	private final MechanicalDial fillDial = new MechanicalDial();
+	private final MechanicalDial processDial = new MechanicalDial();
+	private final MechanicalValveControl valveControl = new MechanicalValveControl();
 	private boolean confirmFlush;
 
 	public GuiFoudre(TileEntityFoudre foudre, InventoryPlayer playerInventory) {
@@ -176,11 +152,13 @@ public class GuiFoudre extends GuiContainer {
 	public void initGui() {
 		super.initGui();
 		int barrelPanelShift = this.getBarrelPanelShiftX();
-		this.sealButton = new GuiButton(SEAL_BUTTON_ID, this.guiLeft + SEAL_BUTTON_X,
-			this.guiTop + SEAL_BUTTON_Y, SEAL_BUTTON_WIDTH, SEAL_BUTTON_HEIGHT, this.getSealButtonText());
+		this.sealButton = new GuiMechanicalIconButton(SEAL_BUTTON_ID, this.guiLeft + SEAL_BUTTON_X,
+			this.guiTop + SEAL_BUTTON_Y, SEAL_BUTTON_WIDTH, SEAL_BUTTON_HEIGHT,
+			GuiMechanicalIconButton.Icon.SEAL);
 		this.buttonList.add(this.sealButton);
-		this.flushButton = new GuiButton(FLUSH_BUTTON_ID, this.guiLeft + FLUSH_BUTTON_X,
-			this.guiTop + FLUSH_BUTTON_Y, FLUSH_BUTTON_WIDTH, FLUSH_BUTTON_HEIGHT, this.getFlushButtonText());
+		this.flushButton = new GuiMechanicalIconButton(FLUSH_BUTTON_ID, this.guiLeft + FLUSH_BUTTON_X,
+			this.guiTop + FLUSH_BUTTON_Y, FLUSH_BUTTON_WIDTH, FLUSH_BUTTON_HEIGHT,
+			GuiMechanicalIconButton.Icon.FLUSH);
 		this.buttonList.add(this.flushButton);
 		this.drainBarrelButton = new GuiButton(DRAIN_BARREL_BUTTON_ID, this.guiLeft + DRAIN_BARREL_BUTTON_X
 			+ barrelPanelShift,
@@ -192,14 +170,6 @@ public class GuiFoudre extends GuiContainer {
 			this.guiTop + TRANSFER_BUTTON_Y, TRANSFER_BUTTON_WIDTH, TRANSFER_BUTTON_HEIGHT,
 			I18n.format("gui.ironagefurniture.transfer.fill"));
 		this.buttonList.add(this.fillBarrelButton);
-		this.inletPortButton = new GuiButton(INLET_PORT_BUTTON_ID, this.guiLeft + PIPE_PANEL_BUTTON_X,
-			this.guiTop + PIPE_PANEL_INLET_BUTTON_Y, PIPE_PANEL_BUTTON_WIDTH, PIPE_PANEL_BUTTON_HEIGHT,
-			this.getPipeButtonText(true));
-		this.buttonList.add(this.inletPortButton);
-		this.outletPortButton = new GuiButton(OUTLET_PORT_BUTTON_ID, this.guiLeft + PIPE_PANEL_BUTTON_X,
-			this.guiTop + PIPE_PANEL_OUTLET_BUTTON_Y, PIPE_PANEL_BUTTON_WIDTH, PIPE_PANEL_BUTTON_HEIGHT,
-			this.getPipeButtonText(false));
-		this.buttonList.add(this.outletPortButton);
 	}
 
 	@Override
@@ -212,6 +182,7 @@ public class GuiFoudre extends GuiContainer {
 		this.updateButtonPositions();
 		this.updateButtonState();
 		super.drawScreen(mouseX, mouseY, partialTicks);
+		this.drawMechanicalTooltips(mouseX, mouseY);
 	}
 
 	@Override
@@ -234,13 +205,24 @@ public class GuiFoudre extends GuiContainer {
 		} else if (button.id == FILL_BARREL_BUTTON_ID && button.enabled) {
 			this.confirmFlush = false;
 			IronAgeFurnitureNetwork.channel.sendToServer(new FoudreBarrelTransferMessage(this.foudre.getPos(), true));
-		} else if (button.id == INLET_PORT_BUTTON_ID && button.enabled) {
-			this.confirmFlush = false;
-			IronAgeFurnitureNetwork.channel.sendToServer(new FoudrePortToggleMessage(this.foudre.getPos(), true));
-		} else if (button.id == OUTLET_PORT_BUTTON_ID && button.enabled) {
-			this.confirmFlush = false;
-			IronAgeFurnitureNetwork.channel.sendToServer(new FoudrePortToggleMessage(this.foudre.getPos(), false));
 		}
+	}
+
+	@Override
+	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+		if (mouseButton == 0 && this.shouldDrawPipePanel()) {
+			this.positionValveControl();
+			FluidPortMode mode = this.valveControl.getClickedMode(mouseX, mouseY,
+				this.foudre.hasConnectedInlet(), this.foudre.hasConnectedOutlet(), this.foudre.isSealed());
+
+			if (mode != null) {
+				this.confirmFlush = false;
+				IronAgeFurnitureNetwork.channel.sendToServer(new FoudrePortModeMessage(this.foudre.getPos(), mode));
+				return;
+			}
+		}
+
+		super.mouseClicked(mouseX, mouseY, mouseButton);
 	}
 
 	@Override
@@ -251,25 +233,24 @@ public class GuiFoudre extends GuiContainer {
 			title = this.foudre.getLabel();
 		}
 
-		this.drawCenteredText(title, TITLE_Y);
+		this.drawFittedCenteredText(title, TEXT_TRIM_PADDING / 2, this.xSize - TEXT_TRIM_PADDING, TITLE_Y);
 		this.fontRendererObj.drawString(this.playerInventory.getDisplayName().getUnformattedText(), INVENTORY_LABEL_X,
 			PLAYER_INVENTORY_LABEL_Y, TEXT_DARK);
 
 		FluidStack fluid = this.foudre.getFluid();
 		String fluidName = fluid == null ? I18n.format("gui.ironagefurniture.barrel.empty")
 			: DrinkDisplayHelper.getDisplayName(fluid);
-		this.drawCenteredText(fluidName, FLUID_NAME_Y);
+		this.drawFittedCenteredText(fluidName, TEXT_TRIM_PADDING / 2, this.xSize - TEXT_TRIM_PADDING, FLUID_NAME_Y);
 
 		String amount = this.getAmountText();
-		this.drawBoundedCenteredText(amount, AMOUNT_TEXT_X, AMOUNT_TEXT_WIDTH, AMOUNT_Y);
+		this.drawFittedCenteredText(amount, TEXT_TRIM_PADDING / 2, this.xSize - TEXT_TRIM_PADDING, AMOUNT_Y);
 
 		String status = this.getBrewStatus();
 
 		if (!status.isEmpty()) {
-			this.drawCenteredText(status, STATUS_Y);
+			this.drawFittedCenteredText(status, TEXT_TRIM_PADDING / 2, this.xSize - TEXT_TRIM_PADDING, STATUS_Y);
 		}
 
-		this.drawPipePanelForeground();
 		this.drawBarrelTransferPanelForeground();
 	}
 
@@ -280,10 +261,10 @@ public class GuiFoudre extends GuiContainer {
 		this.drawPipePanel();
 		this.drawInventoryPanel();
 		this.drawBarrelTransferPanel();
-		this.drawGauge();
+		this.drawFluidGauge();
+		this.drawMechanicalDials();
 		this.drawIngredientSlots();
 		this.drawPlayerSlots();
-		this.drawProgress();
 	}
 
 	private void drawWoodFrame() {
@@ -314,10 +295,60 @@ public class GuiFoudre extends GuiContainer {
 		}
 
 		this.drawOuterPanel(this.getPipePanelOffsetX(), PIPE_PANEL_Y, PIPE_PANEL_WIDTH, PIPE_PANEL_HEIGHT);
+		this.positionValveControl();
+		this.valveControl.draw(this.fontRendererObj, this.foudre.getPortMode(), this.foudre.hasConnectedInlet(),
+			this.foudre.hasConnectedOutlet(), this.foudre.isSealed());
+	}
+
+	private void positionValveControl() {
+		this.valveControl.setPosition(this.guiLeft + this.getPipePanelOffsetX(), this.guiTop + PIPE_PANEL_Y);
+	}
+
+	private void drawMechanicalTooltips(int mouseX, int mouseY) {
+		List<String> tooltip = new ArrayList<String>();
+
+		if (this.isPointWithin(mouseX, mouseY, FILL_DIAL_X, FILL_DIAL_Y, DIAL_SIZE, DIAL_SIZE)) {
+			FluidStack fluid = this.foudre.getFluid();
+			tooltip.add(I18n.format("gui.ironagefurniture.dial.fill"));
+			tooltip.add(fluid == null ? I18n.format("gui.ironagefurniture.barrel.empty")
+				: DrinkDisplayHelper.getDisplayName(fluid));
+			tooltip.add(this.getAmountText());
+		} else if (this.isPointWithin(mouseX, mouseY, PROCESS_DIAL_X, PROCESS_DIAL_Y, DIAL_SIZE, DIAL_SIZE)) {
+			int total = this.getProgressTotal();
+			tooltip.add(I18n.format("gui.ironagefurniture.dial.process"));
+			tooltip.add(total <= 0 ? I18n.format("gui.ironagefurniture.dial.idle") : this.getBrewStatus());
+		} else if (this.sealButton != null && this.sealButton.isMouseOver()) {
+			tooltip.add(this.getSealButtonText());
+			tooltip.add(I18n.format(this.foudre.isSealed() ? "gui.ironagefurniture.tooltip.open"
+				: "gui.ironagefurniture.tooltip.seal"));
+		} else if (this.flushButton != null && this.flushButton.isMouseOver()) {
+			tooltip.add(this.getFlushButtonText());
+			tooltip.add(I18n.format(this.confirmFlush ? "gui.ironagefurniture.tooltip.flush_confirm"
+				: "gui.ironagefurniture.tooltip.flush"));
+		} else if (this.shouldDrawPipePanel()) {
+			this.positionValveControl();
+			String valveTooltip = this.valveControl.getHoverText(mouseX, mouseY, this.foudre.hasConnectedInlet(),
+				this.foudre.hasConnectedOutlet(), this.foudre.isSealed());
+
+			if (valveTooltip != null) {
+				tooltip.add(valveTooltip);
+			}
+		}
+
+		if (!tooltip.isEmpty()) {
+			this.drawHoveringText(tooltip, mouseX, mouseY);
+		}
+	}
+
+	private boolean isPointWithin(int mouseX, int mouseY, int x, int y, int width, int height) {
+		int left = this.guiLeft + x;
+		int top = this.guiTop + y;
+		return mouseX >= left && mouseX < left + width && mouseY >= top && mouseY < top + height;
 	}
 
 	private void drawBarrelTransferPanel() {
-		this.drawOuterPanel(this.getBarrelPanelOffsetX(), BARREL_PANEL_Y, BARREL_PANEL_WIDTH, BARREL_PANEL_HEIGHT);
+		AdjacentBarrelPanel.drawBackground(this.guiLeft + this.getBarrelPanelOffsetX(),
+			this.guiTop + BARREL_PANEL_Y);
 		this.drawAdjacentBarrelGauge();
 	}
 
@@ -343,7 +374,8 @@ public class GuiFoudre extends GuiContainer {
 
 	private void updateButtonState() {
 		if (this.sealButton != null) {
-			this.sealButton.displayString = this.getSealButtonText();
+			this.sealButton.setIcon(this.foudre.isSealed() ? GuiMechanicalIconButton.Icon.OPEN
+				: GuiMechanicalIconButton.Icon.SEAL);
 		}
 
 		if (this.flushButton != null) {
@@ -351,7 +383,8 @@ public class GuiFoudre extends GuiContainer {
 				this.confirmFlush = false;
 			}
 
-			this.flushButton.displayString = this.getFlushButtonText();
+			this.flushButton.setIcon(this.confirmFlush ? GuiMechanicalIconButton.Icon.CONFIRM
+				: GuiMechanicalIconButton.Icon.FLUSH);
 			this.flushButton.enabled = this.foudre.canFlush();
 		}
 
@@ -363,27 +396,14 @@ public class GuiFoudre extends GuiContainer {
 			this.fillBarrelButton.enabled = this.foudre.canFillAdjacentBarrel();
 		}
 
-		boolean showPipePanel = this.shouldDrawPipePanel();
-		boolean hasInlet = this.foudre.hasConnectedInlet();
-		boolean hasOutlet = this.foudre.hasConnectedOutlet();
-		boolean portsUnlocked = !this.foudre.isSealed();
-
-		if (this.inletPortButton != null) {
-			this.inletPortButton.visible = showPipePanel;
-			this.inletPortButton.enabled = showPipePanel && hasInlet && portsUnlocked;
-			this.inletPortButton.displayString = this.getPipeButtonText(true);
-		}
-
-		if (this.outletPortButton != null) {
-			this.outletPortButton.visible = showPipePanel;
-			this.outletPortButton.enabled = showPipePanel && hasOutlet && portsUnlocked;
-			this.outletPortButton.displayString = this.getPipeButtonText(false);
-		}
 	}
 
 	private void updateButtonPositions() {
 		int barrelPanelShift = this.getBarrelPanelShiftX();
-		int pipePanelOffset = this.shouldDrawPipePanel() ? this.getPipePanelOffsetX() : 0;
+		this.sealButton.xPosition = this.guiLeft + SEAL_BUTTON_X;
+		this.sealButton.yPosition = this.guiTop + SEAL_BUTTON_Y;
+		this.flushButton.xPosition = this.guiLeft + FLUSH_BUTTON_X;
+		this.flushButton.yPosition = this.guiTop + FLUSH_BUTTON_Y;
 
 		if (this.drainBarrelButton != null) {
 			this.drainBarrelButton.xPosition = this.guiLeft + DRAIN_BARREL_BUTTON_X + barrelPanelShift;
@@ -394,41 +414,21 @@ public class GuiFoudre extends GuiContainer {
 			this.fillBarrelButton.xPosition = this.guiLeft + FILL_BARREL_BUTTON_X + barrelPanelShift;
 			this.fillBarrelButton.yPosition = this.guiTop + TRANSFER_BUTTON_Y;
 		}
-
-		if (this.inletPortButton != null) {
-			this.inletPortButton.xPosition = this.guiLeft + pipePanelOffset
-				+ (PIPE_PANEL_WIDTH - PIPE_PANEL_BUTTON_WIDTH) / 2;
-			this.inletPortButton.yPosition = this.guiTop + PIPE_PANEL_INLET_BUTTON_Y;
-		}
-
-		if (this.outletPortButton != null) {
-			this.outletPortButton.xPosition = this.guiLeft + pipePanelOffset
-				+ (PIPE_PANEL_WIDTH - PIPE_PANEL_BUTTON_WIDTH) / 2;
-			this.outletPortButton.yPosition = this.guiTop + PIPE_PANEL_OUTLET_BUTTON_Y;
-		}
 	}
 
 	private void drawAdjacentBarrelGauge() {
-		int left = this.guiLeft + BARREL_PANEL_GAUGE_X + this.getBarrelPanelShiftX();
-		int top = this.guiTop + BARREL_PANEL_GAUGE_Y;
-		this.drawRect(left - GAUGE_BORDER, top - GAUGE_BORDER,
-			left + BARREL_PANEL_GAUGE_WIDTH + GAUGE_BORDER,
-			top + BARREL_PANEL_GAUGE_HEIGHT + GAUGE_BORDER, GAUGE_BORDER_COLOR);
-		this.drawRect(left, top, left + BARREL_PANEL_GAUGE_WIDTH,
-			top + BARREL_PANEL_GAUGE_HEIGHT, GAUGE_EMPTY_COLOR);
-
 		TileEntityBarrel barrel = this.foudre.getAdjacentTransferBarrel();
 		FluidStack fluid = barrel == null ? null : barrel.getFluid();
+		int fillWidth = AdjacentBarrelPanel.getGaugeFillWidth(barrel);
 
-		if (fluid == null || fluid.amount <= 0 || fluid.getFluid() == null || barrel == null) {
+		if (fluid == null || fluid.amount <= 0 || fluid.getFluid() == null || fillWidth <= 0) {
 			return;
 		}
 
-		int fillHeight = Math.max(MIN_DRAWN_FILL,
-			fluid.amount * BARREL_PANEL_GAUGE_HEIGHT / barrel.getCapacity());
-		int fillTop = top + BARREL_PANEL_GAUGE_HEIGHT - fillHeight;
-		this.drawFluid(left, fillTop, BARREL_PANEL_GAUGE_WIDTH, fillHeight, fluid);
-		this.drawRect(left, fillTop, left + BARREL_PANEL_GAUGE_WIDTH, fillTop + MIN_DRAWN_FILL,
+		int left = this.guiLeft + this.getBarrelPanelOffsetX() + AdjacentBarrelPanel.GAUGE_X;
+		int top = this.guiTop + BARREL_PANEL_Y + AdjacentBarrelPanel.GAUGE_Y;
+		this.drawFluid(left, top, fillWidth, AdjacentBarrelPanel.GAUGE_HEIGHT, fluid);
+		this.drawRect(left, top, left + fillWidth, top + MIN_DRAWN_FILL,
 			HIGHLIGHT_COLOR);
 	}
 
@@ -437,65 +437,25 @@ public class GuiFoudre extends GuiContainer {
 			: "gui.ironagefurniture.foudre.seal");
 	}
 
-	private String getPipeButtonText(boolean inlet) {
-		boolean open = inlet ? this.foudre.isInletOpen() : this.foudre.isOutletOpen();
-		return I18n.format(open ? "gui.ironagefurniture.pipe.close" : "gui.ironagefurniture.pipe.open");
-	}
-
 	private String getFlushButtonText() {
 		return I18n.format(this.confirmFlush ? "gui.ironagefurniture.flush.confirm"
 			: "gui.ironagefurniture.foudre.flush");
 	}
 
-	private void drawPipePanelForeground() {
-		if (!this.shouldDrawPipePanel()) {
-			return;
-		}
-
-		int pipePanelOffset = this.getPipePanelOffsetX();
-		this.drawBoundedCenteredText(I18n.format("gui.ironagefurniture.foudre.pipework"),
-			pipePanelOffset + PIPE_PANEL_TEXT_X, PIPE_PANEL_TEXT_WIDTH, PIPE_PANEL_TITLE_Y);
-		this.drawBoundedCenteredText(I18n.format(this.foudre.hasConnectedInlet()
-				? "gui.ironagefurniture.foudre.inlet" : "gui.ironagefurniture.foudre.no_inlet"),
-			pipePanelOffset + PIPE_PANEL_TEXT_X, PIPE_PANEL_TEXT_WIDTH, PIPE_PANEL_INLET_LABEL_Y);
-		this.drawBoundedCenteredText(I18n.format(this.foudre.hasConnectedOutlet()
-				? "gui.ironagefurniture.foudre.outlet" : "gui.ironagefurniture.foudre.no_outlet"),
-			pipePanelOffset + PIPE_PANEL_TEXT_X, PIPE_PANEL_TEXT_WIDTH, PIPE_PANEL_OUTLET_LABEL_Y);
-	}
-
 	private void drawBarrelTransferPanelForeground() {
 		int barrelPanelShift = this.getBarrelPanelShiftX();
-		this.drawBoundedCenteredText(I18n.format("gui.ironagefurniture.transfer.barrel"),
-			BARREL_PANEL_X + barrelPanelShift + TEXT_TRIM_PADDING / 2, BARREL_PANEL_WIDTH - TEXT_TRIM_PADDING,
-			BARREL_PANEL_TITLE_Y);
-
-		TileEntityBarrel barrel = this.foudre.getAdjacentTransferBarrel();
-
-		if (barrel == null) {
-			this.drawBoundedCenteredText(I18n.format("gui.ironagefurniture.transfer.no_barrel"),
-				BARREL_PANEL_TEXT_X + barrelPanelShift, BARREL_PANEL_TEXT_WIDTH, BARREL_PANEL_EMPTY_Y);
-			return;
-		}
-
-		FluidStack fluid = barrel.getFluid();
-
-		if (fluid == null || fluid.getFluid() == null || fluid.amount <= 0) {
-			this.drawBoundedCenteredText(I18n.format("gui.ironagefurniture.barrel.empty"),
-				BARREL_PANEL_TEXT_X + barrelPanelShift, BARREL_PANEL_TEXT_WIDTH, BARREL_PANEL_FLUID_Y);
-		} else {
-			this.drawBoundedCenteredText(DrinkDisplayHelper.getDisplayName(fluid),
-				BARREL_PANEL_TEXT_X + barrelPanelShift, BARREL_PANEL_TEXT_WIDTH, BARREL_PANEL_FLUID_Y);
-		}
-
-		this.drawBoundedCenteredText(Integer.toString(barrel.getFluidAmount()) + " /", BARREL_PANEL_TEXT_X
-			+ barrelPanelShift,
-			BARREL_PANEL_TEXT_WIDTH, BARREL_PANEL_AMOUNT_Y);
-		this.drawBoundedCenteredText(Integer.toString(barrel.getCapacity()), BARREL_PANEL_TEXT_X
-			+ barrelPanelShift,
-			BARREL_PANEL_TEXT_WIDTH, BARREL_PANEL_CAPACITY_Y);
+		AdjacentBarrelPanel.drawForeground(this.fontRendererObj, BARREL_PANEL_X + barrelPanelShift,
+			BARREL_PANEL_Y, this.foudre.getAdjacentTransferBarrel());
 	}
 
 	private void drawIngredientSlots() {
+		int trayLeft = this.guiLeft + INGREDIENT_X - 4;
+		int trayTop = this.guiTop + INGREDIENT_Y - 4;
+		int trayRight = trayLeft + SLOT_SIZE * 2 + SLOT_STEP - SLOT_SIZE + 8;
+		int trayBottom = trayTop + SLOT_SIZE * 2 + SLOT_STEP - SLOT_SIZE + 8;
+		this.drawRect(trayLeft, trayTop, trayRight, trayBottom, BRASS_DARK);
+		this.drawRect(trayLeft + 2, trayTop + 2, trayRight - 2, trayBottom - 2, BRASS_LIGHT);
+		this.drawRect(trayLeft + 4, trayTop + 4, trayRight - 4, trayBottom - 4, PANEL_DARK);
 		this.drawSlot(INGREDIENT_X, INGREDIENT_Y);
 		this.drawSlot(INGREDIENT_X + SLOT_STEP, INGREDIENT_Y);
 		this.drawSlot(INGREDIENT_X, INGREDIENT_Y + SLOT_STEP);
@@ -525,41 +485,38 @@ public class GuiFoudre extends GuiContainer {
 			top + SLOT_SIZE - SLOT_BORDER, SLOT_FILL_COLOR);
 	}
 
-	private void drawProgress() {
-		int left = this.guiLeft + PROGRESS_X;
-		int top = this.guiTop + PROGRESS_Y;
-		this.drawRect(left - PROGRESS_BORDER, top - PROGRESS_BORDER, left + PROGRESS_WIDTH + PROGRESS_BORDER,
-			top + PROGRESS_HEIGHT + PROGRESS_BORDER, WOOD_DARK);
-		this.drawRect(left, top, left + PROGRESS_WIDTH, top + PROGRESS_HEIGHT, PROGRESS_TRACK_COLOR);
+	private void drawMechanicalDials() {
+		FluidStack fluid = this.foudre.getFluid();
+		float fill = (float)this.foudre.getFluidAmount() / (float)this.foudre.getCapacity();
+		int fluidColor = fluid == null || fluid.getFluid() == null ? GAUGE_EMPTY_COLOR : this.getFluidColor(fluid);
+		int progressTotal = this.getProgressTotal();
+		float process = progressTotal <= 0 ? 0.0F : (float)this.getProgress() / (float)progressTotal;
 
-		int total = this.getProgressTotal();
-
-		if (total <= 0) {
-			return;
-		}
-
-		int width = Math.max(MIN_DRAWN_FILL, this.getProgress() * PROGRESS_WIDTH / total);
-		this.drawRect(left, top, left + width, top + PROGRESS_HEIGHT, PROGRESS_FILL_COLOR);
-		this.drawRect(left, top, left + width, top + MIN_DRAWN_FILL, HIGHLIGHT_COLOR);
+		this.fillDial.draw(this.guiLeft + FILL_DIAL_X, this.guiTop + FILL_DIAL_Y, DIAL_SIZE, fill,
+			fluidColor, fluid != null);
+		this.processDial.draw(this.guiLeft + PROCESS_DIAL_X, this.guiTop + PROCESS_DIAL_Y, DIAL_SIZE, process,
+			BRASS_LIGHT, progressTotal > 0);
 	}
 
-	private void drawGauge() {
-		int left = this.guiLeft + GAUGE_X;
-		int top = this.guiTop + GAUGE_Y;
-		this.drawRect(left - GAUGE_BORDER, top - GAUGE_BORDER, left + GAUGE_WIDTH + GAUGE_BORDER,
-			top + GAUGE_HEIGHT + GAUGE_BORDER, GAUGE_BORDER_COLOR);
-		this.drawRect(left, top, left + GAUGE_WIDTH, top + GAUGE_HEIGHT, GAUGE_EMPTY_COLOR);
+	private void drawFluidGauge() {
+		int left = this.guiLeft + FLUID_GAUGE_X;
+		int top = this.guiTop + FLUID_GAUGE_Y;
+		this.drawRect(left - FLUID_GAUGE_BORDER, top - FLUID_GAUGE_BORDER,
+			left + FLUID_GAUGE_WIDTH + FLUID_GAUGE_BORDER,
+			top + FLUID_GAUGE_HEIGHT + FLUID_GAUGE_BORDER, SLOT_BORDER_COLOR);
+		this.drawRect(left, top, left + FLUID_GAUGE_WIDTH, top + FLUID_GAUGE_HEIGHT, GAUGE_EMPTY_COLOR);
 
 		FluidStack fluid = this.foudre.getFluid();
 
-		if (fluid == null || fluid.amount <= 0 || fluid.getFluid() == null) {
+		if (fluid == null || fluid.getFluid() == null || fluid.amount <= 0 || this.foudre.getCapacity() <= 0) {
 			return;
 		}
 
-		int fillHeight = Math.max(MIN_DRAWN_FILL, fluid.amount * GAUGE_HEIGHT / this.foudre.getCapacity());
-		int fillTop = top + GAUGE_HEIGHT - fillHeight;
-		this.drawFluid(left, fillTop, GAUGE_WIDTH, fillHeight, fluid);
-		this.drawRect(left, fillTop, left + GAUGE_WIDTH, fillTop + MIN_DRAWN_FILL, HIGHLIGHT_COLOR);
+		int fillHeight = Math.min(FLUID_GAUGE_HEIGHT, Math.max(MIN_DRAWN_FILL,
+			fluid.amount * FLUID_GAUGE_HEIGHT / this.foudre.getCapacity()));
+		int fillTop = top + FLUID_GAUGE_HEIGHT - fillHeight;
+		this.drawFluid(left, fillTop, FLUID_GAUGE_WIDTH, fillHeight, fluid);
+		this.drawRect(left, fillTop, left + FLUID_GAUGE_WIDTH, fillTop + MIN_DRAWN_FILL, HIGHLIGHT_COLOR);
 	}
 
 	private void drawFluid(int left, int top, int width, int height, FluidStack fluid) {
@@ -641,14 +598,26 @@ public class GuiFoudre extends GuiContainer {
 		return (color & OPAQUE_ALPHA_MASK) == 0 ? color | OPAQUE_ALPHA_MASK : color;
 	}
 
-	private void drawCenteredText(String text, int y) {
-		this.drawBoundedCenteredText(text, TEXT_TRIM_PADDING / 2, this.xSize - TEXT_TRIM_PADDING, y);
-	}
-
 	private void drawBoundedCenteredText(String text, int x, int width, int y) {
 		String trimmed = this.fontRendererObj.trimStringToWidth(text, width);
 		this.fontRendererObj.drawString(trimmed, x + (width - this.fontRendererObj.getStringWidth(trimmed)) / 2, y,
 			TEXT_DARK);
+	}
+
+	private void drawFittedCenteredText(String text, int x, int width, int y) {
+		int textWidth = this.fontRendererObj.getStringWidth(text);
+
+		if (textWidth <= width) {
+			this.fontRendererObj.drawString(text, x + (width - textWidth) / 2, y, TEXT_DARK);
+			return;
+		}
+
+		float scale = (float)width / (float)textWidth;
+		GlStateManager.pushMatrix();
+		GlStateManager.translate(x + width / 2.0F, y, 0.0F);
+		GlStateManager.scale(scale, scale, 1.0F);
+		this.fontRendererObj.drawString(text, -textWidth / 2, 0, TEXT_DARK);
+		GlStateManager.popMatrix();
 	}
 
 	private int getPlayerSlotX(int column) {

@@ -14,7 +14,7 @@ public class ContainerPotStill extends Container {
 	private static final int MAX_IN_PROGRESS_PERCENT = 99;
 	private static final int STILL_SLOT_COUNT = TileEntityPotStill.FUEL_SLOTS;
 	private static final int FUEL_SLOT_X = 50;
-	private static final int FUEL_SLOT_Y = 113;
+	private static final int FUEL_SLOT_Y = 115;
 	private static final int PLAYER_INVENTORY_Y = 154;
 	private static final int PLAYER_HOTBAR_Y = 212;
 

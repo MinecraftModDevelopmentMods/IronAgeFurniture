@@ -1,10 +1,10 @@
 package com.mcmoddev.ironagefurniture.api.network;
 
+import com.mcmoddev.ironagefurniture.api.container.ContainerFoudre;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityFoudre;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -43,21 +43,25 @@ public class FoudreBarrelTransferMessage implements IMessage {
 			player.getServerWorld().addScheduledTask(new Runnable() {
 				@Override
 				public void run() {
-					TileEntity tileEntity = player.getServerWorld().getTileEntity(message.pos);
+					TileEntityFoudre foudre = getOpenFoudre(player);
 
-					if (!(tileEntity instanceof TileEntityFoudre)
-							|| !((TileEntityFoudre)tileEntity).isUsableByPlayer(player)) {
+					if (foudre == null || !foudre.isUsableByPlayer(player)) {
 						return;
 					}
 
 					if (message.fillBarrel) {
-						((TileEntityFoudre)tileEntity).fillAdjacentBarrel();
+						foudre.fillAdjacentBarrel();
 					} else {
-						((TileEntityFoudre)tileEntity).drainAdjacentBarrel();
+						foudre.drainAdjacentBarrel();
 					}
 				}
 			});
 			return null;
+		}
+
+		private static TileEntityFoudre getOpenFoudre(EntityPlayerMP player) {
+			return player.openContainer instanceof ContainerFoudre
+				? ((ContainerFoudre)player.openContainer).getFoudre() : null;
 		}
 	}
 }
