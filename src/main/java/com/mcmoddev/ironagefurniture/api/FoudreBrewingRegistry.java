@@ -350,7 +350,7 @@ public final class FoudreBrewingRegistry {
 				"harvestcraft:cactusfruititem", 0, STANDARD_INGREDIENT_COUNT, WINE_BREW_TIME);
 		}
 
-		if (IronAgeFurnitureConfiguration.INTEGRATION_BIOMESOPLENTY && Loader.isModLoaded("biomesoplenty")) {
+		if (IronAgeFurnitureConfiguration.INTEGRATION_BIOMESOPLENTY && Loader.isModLoaded("BiomesOPlenty")) {
 			addOptionalRecipe("berry_wine_bop_berries", "Wild Berry Wine", wildBerryWine, "biomesoplenty:berries", 0,
 				STANDARD_INGREDIENT_COUNT, WINE_BREW_TIME);
 			addOptionalRecipe("cider_bop_pear", "Perry", perry, "biomesoplenty:pear", 0,
@@ -752,6 +752,18 @@ public final class FoudreBrewingRegistry {
 
 		public int getBrewTime() {
 			return IronAgeFurnitureConfiguration.scaleDrinkTicks(this.brewTime);
+		}
+
+		public final List<ItemStack> getIngredientStacks() {
+			List<ItemStack> ingredients = new ArrayList<ItemStack>();
+
+			for (IngredientRequirement requirement : this.requirements) {
+				ItemStack ingredient = requirement.ingredient.copy();
+				ingredient.stackSize = requirement.count;
+				ingredients.add(ingredient);
+			}
+
+			return ingredients;
 		}
 
 		public boolean matches(ItemStack[] inventory) {

@@ -309,9 +309,15 @@ repositories {
         name 'MMD'
         url 'https://maven.mcmoddev.com/'
     }
+
+    maven {
+        name 'ModMaven'
+        url 'https://modmaven.dev/'
+    }
 }
 
 dependencies {
+    deobfCompile 'mezz.jei:jei_1.10.2:3.14.7.420:api'
     testCompile('org.junit.platform:junit-platform-launcher:1.5.+')
     testCompile('org.junit.jupiter:junit-jupiter-api:5.5.+')
     testRuntime('org.junit.jupiter:junit-jupiter-engine:5.5.+')

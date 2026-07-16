@@ -1,5 +1,6 @@
 package com.mcmoddev.ironagefurniture.client.gui;
 
+import java.awt.Rectangle;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +25,13 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.common.Loader;
 
 public class GuiFoudre extends GuiContainer {
+	public static final int RECIPE_CLICK_X = 124;
+	public static final int RECIPE_CLICK_Y = 36;
+	public static final int RECIPE_CLICK_WIDTH = 32;
+	public static final int RECIPE_CLICK_HEIGHT = 32;
 	private static final int GUI_WIDTH = 176;
 	private static final int GUI_HEIGHT = 218;
 	private static final int TEXT_TRIM_PADDING = 24;
@@ -38,8 +44,8 @@ public class GuiFoudre extends GuiContainer {
 	private static final int PLAYER_INVENTORY_ROWS = 3;
 	private static final int FILL_DIAL_X = 17;
 	private static final int FILL_DIAL_Y = 36;
-	private static final int PROCESS_DIAL_X = 124;
-	private static final int PROCESS_DIAL_Y = 36;
+	private static final int PROCESS_DIAL_X = RECIPE_CLICK_X;
+	private static final int PROCESS_DIAL_Y = RECIPE_CLICK_Y;
 	private static final int DIAL_SIZE = 32;
 	private static final int FLUID_GAUGE_X = 55;
 	private static final int FLUID_GAUGE_Y = 40;
@@ -317,6 +323,10 @@ public class GuiFoudre extends GuiContainer {
 			int total = this.getProgressTotal();
 			tooltip.add(I18n.format("gui.ironagefurniture.dial.process"));
 			tooltip.add(total <= 0 ? I18n.format("gui.ironagefurniture.dial.idle") : this.getBrewStatus());
+
+			if (Loader.isModLoaded("JEI")) {
+				tooltip.add(I18n.format("gui.ironagefurniture.jei.view_recipes"));
+			}
 		} else if (this.sealButton != null && this.sealButton.isMouseOver()) {
 			tooltip.add(this.getSealButtonText());
 			tooltip.add(I18n.format(this.foudre.isSealed() ? "gui.ironagefurniture.tooltip.open"
@@ -652,5 +662,19 @@ public class GuiFoudre extends GuiContainer {
 
 	private int getBarrelPanelShiftX() {
 		return this.getBarrelPanelOffsetX() - BARREL_PANEL_X;
+	}
+
+	public final List<Rectangle> getGuiExtraAreas() {
+		List<Rectangle> areas = new ArrayList<Rectangle>();
+		int barrelPanelX = this.guiLeft + this.getBarrelPanelOffsetX();
+		areas.add(new Rectangle(barrelPanelX, this.guiTop + BARREL_PANEL_Y, BARREL_PANEL_WIDTH,
+			BARREL_PANEL_HEIGHT));
+
+		if (this.shouldDrawPipePanel()) {
+			areas.add(new Rectangle(this.guiLeft + this.getPipePanelOffsetX(), this.guiTop + PIPE_PANEL_Y,
+				PIPE_PANEL_WIDTH, PIPE_PANEL_HEIGHT));
+		}
+
+		return areas;
 	}
 }

@@ -22,6 +22,7 @@ import com.mcmoddev.ironagefurniture.Ironagefurniture;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.IResourcePack;
+import net.minecraft.client.resources.SimpleReloadableResourceManager;
 import net.minecraft.client.resources.data.IMetadataSection;
 import net.minecraft.client.resources.data.MetadataSerializer;
 import net.minecraft.util.ResourceLocation;
@@ -56,6 +57,7 @@ public final class GeneratedModelResourcePack implements IResourcePack {
 
 		if (!defaultResourcePacks.contains(instance)) {
 			defaultResourcePacks.add(instance);
+			((SimpleReloadableResourceManager)minecraft.getResourceManager()).reloadResourcePack(instance);
 		}
 	}
 
