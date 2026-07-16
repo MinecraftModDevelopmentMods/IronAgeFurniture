@@ -25,6 +25,7 @@ public class ContainerFoudre extends Container {
 	private int lastAgeProgress;
 	private int lastAgeProgressTotal;
 	private int lastSealed;
+	private int lastInfusionComplete;
 
 	public ContainerFoudre(InventoryPlayer playerInventory, TileEntityFoudre foudre) {
 		this.foudre = foudre;
@@ -73,6 +74,11 @@ public class ContainerFoudre extends Container {
 				listener.sendProgressBarUpdate(this, TileEntityFoudre.FIELD_SEALED,
 					this.foudre.isSealed() ? 1 : 0);
 			}
+
+			if (this.lastInfusionComplete != (this.foudre.isInfusionComplete() ? 1 : 0)) {
+				listener.sendProgressBarUpdate(this, TileEntityFoudre.FIELD_INFUSION_COMPLETE,
+					this.foudre.isInfusionComplete() ? 1 : 0);
+			}
 		}
 
 		this.lastBrewTime = brewTime;
@@ -80,6 +86,7 @@ public class ContainerFoudre extends Container {
 		this.lastAgeProgress = ageProgress;
 		this.lastAgeProgressTotal = ageProgressTotal;
 		this.lastSealed = this.foudre.isSealed() ? 1 : 0;
+		this.lastInfusionComplete = this.foudre.isInfusionComplete() ? 1 : 0;
 	}
 
 	@Override

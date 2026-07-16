@@ -1,6 +1,7 @@
 package com.mcmoddev.ironagefurniture.api;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.annotation.Nullable;
@@ -79,6 +80,8 @@ public final class PotStillDistillingRegistry {
 	private static final int SKYBERRY_BRANDY_COLOR = 0xFF5B8EC2;
 	private static final int STINGBERRY_BRANDY_COLOR = 0xFFC43F38;
 	private static final int PASS_DARKEN_STEP = 22;
+	private static final int COLOR_WHITE = 0xFFFFFFFF;
+	private static final float UNAGED_SPIRIT_LIGHTENING = 0.18F;
 
 	public static Fluid whisky;
 	public static Fluid brandy;
@@ -128,6 +131,7 @@ public final class PotStillDistillingRegistry {
 
 	private static final Map<Fluid, DistillationRecipe> FIRST_PASS_RECIPES = new HashMap<Fluid, DistillationRecipe>();
 	private static final Map<Fluid, SpiritProfile> SPIRIT_PROFILES = new HashMap<Fluid, SpiritProfile>();
+	private static final Map<String, Fluid> EXPANDED_SPIRITS = new LinkedHashMap<String, Fluid>();
 
 	private PotStillDistillingRegistry() {
 		throw new IllegalAccessError("This class cannot be instantiated");
@@ -181,9 +185,9 @@ public final class PotStillDistillingRegistry {
 		cornWhiskey = registerSpirit("ironagefurniture_corn_whiskey", "corn_whiskey", "Corn Whiskey",
 			CORN_WHISKEY_COLOR);
 		gin = registerSpirit("ironagefurniture_gin", "gin", "Gin", GIN_COLOR);
-		cherryBrandy = registerSpirit("ironagefurniture_cherry_brandy", "cherry_brandy", "Cherry Brandy",
+		cherryBrandy = registerSpirit("ironagefurniture_cherry_brandy", "cherry_brandy", "Kirsch",
 			CHERRY_BRANDY_COLOR);
-		plumBrandy = registerSpirit("ironagefurniture_plum_brandy", "plum_brandy", "Plum Brandy",
+		plumBrandy = registerSpirit("ironagefurniture_plum_brandy", "plum_brandy", "Slivovitz",
 			PLUM_BRANDY_COLOR);
 		apricotBrandy = registerSpirit("ironagefurniture_apricot_brandy", "apricot_brandy", "Apricot Brandy",
 			APRICOT_BRANDY_COLOR);
@@ -219,6 +223,7 @@ public final class PotStillDistillingRegistry {
 			"Skyberry Brandy", SKYBERRY_BRANDY_COLOR);
 		stingberryBrandy = registerSpirit("ironagefurniture_stingberry_brandy", "stingberry_brandy",
 			"Stingberry Brandy", STINGBERRY_BRANDY_COLOR);
+		registerExpandedSpirits();
 		FoudreBrewingRegistry.registerAgeProfiles();
 	}
 
@@ -253,8 +258,8 @@ public final class PotStillDistillingRegistry {
 		addFirstPass(FoudreBrewingRegistry.citrusRumWash, citrusRum, "Citrus Rum");
 		addFirstPass(FoudreBrewingRegistry.mapleRumWash, mapleRum, "Maple Rum");
 		addFirstPass(FoudreBrewingRegistry.gingerRumWash, gingerRum, "Ginger Rum");
-		addFirstPass(FoudreBrewingRegistry.cherryWine, cherryBrandy, "Cherry Brandy");
-		addFirstPass(FoudreBrewingRegistry.plumWine, plumBrandy, "Plum Brandy");
+		addFirstPass(FoudreBrewingRegistry.cherryWine, cherryBrandy, "Kirsch");
+		addFirstPass(FoudreBrewingRegistry.plumWine, plumBrandy, "Slivovitz");
 		addFirstPass(FoudreBrewingRegistry.apricotWine, apricotBrandy, "Apricot Brandy");
 		addFirstPass(FoudreBrewingRegistry.mangoWine, mangoBrandy, "Mango Brandy");
 		addFirstPass(FoudreBrewingRegistry.pineappleWine, pineappleBrandy, "Pineapple Brandy");
@@ -272,6 +277,95 @@ public final class PotStillDistillingRegistry {
 		addFirstPass(FoudreBrewingRegistry.duskberryWine, duskberryBrandy, "Duskberry Brandy");
 		addFirstPass(FoudreBrewingRegistry.skyberryWine, skyberryBrandy, "Skyberry Brandy");
 		addFirstPass(FoudreBrewingRegistry.stingberryWine, stingberryBrandy, "Stingberry Brandy");
+		addExpandedFirstPass(FoudreBrewingRegistry.orangeWine, "orange_brandy");
+		addExpandedFirstPass(FoudreBrewingRegistry.lemonWine, "lemon_brandy");
+		addExpandedFirstPass(FoudreBrewingRegistry.limeWine, "lime_brandy");
+		addExpandedFirstPass(FoudreBrewingRegistry.kiwiWine, "kiwi_brandy");
+		addExpandedFirstPass(FoudreBrewingRegistry.dragonfruitWine, "dragonfruit_brandy");
+		addExpandedFirstPass(FoudreBrewingRegistry.durianWine, "durian_brandy");
+		addExpandedFirstPass(FoudreBrewingRegistry.rhubarbWine, "rhubarb_brandy");
+		addExpandedFirstPass(FoudreBrewingRegistry.melonWine, "melon_brandy");
+		addExpandedFirstPass(FoudreBrewingRegistry.cantaloupeWine, "cantaloupe_brandy");
+		addExpandedFirstPass(FoudreBrewingRegistry.carrotWine, "carrot_brandy");
+		addExpandedFirstPass(FoudreBrewingRegistry.parsnipWine, "parsnip_brandy");
+		addExpandedFirstPass(FoudreBrewingRegistry.ryeBeer, "rye_whisky");
+		addExpandedFirstPass(FoudreBrewingRegistry.oatmealStout, "oat_whisky");
+		addExpandedFirstPass(FoudreBrewingRegistry.coffeeStout, "coffee_whisky");
+		addExpandedFirstPass(FoudreBrewingRegistry.chocolateStout, "chocolate_whisky");
+		addExpandedFirstPass(FoudreBrewingRegistry.pumpkinAle, "pumpkin_whisky");
+		addExpandedFirstPass(FoudreBrewingRegistry.chiliBeer, "chili_whisky");
+		addExpandedFirstPass(FoudreBrewingRegistry.bananaBeer, "banana_spirit");
+		addExpandedFirstPass(FoudreBrewingRegistry.cyser, "apple_honey_spirit");
+		addExpandedFirstPass(FoudreBrewingRegistry.pyment, "grape_honey_spirit");
+		addExpandedFirstPass(FoudreBrewingRegistry.braggot, "malted_honey_spirit");
+		addExpandedFirstPass(FoudreBrewingRegistry.metheglin, "spiced_honey_spirit");
+		addExpandedFirstPass(FoudreBrewingRegistry.beetKvass, "beet_spirit");
+		addExpandedFirstPass(FoudreBrewingRegistry.tepache, "tepache_spirit");
+		addExpandedFirstPass(FoudreBrewingRegistry.turnipWash, "turnip_spirit");
+		addExpandedFirstPass(FoudreBrewingRegistry.rutabagaWash, "rutabaga_spirit");
+		addExpandedFirstPass(FoudreBrewingRegistry.caneWash, "cachaca");
+		addExpandedFirstPass(FoudreBrewingRegistry.orchardMash, "obstler");
+		addExpandedFirstPass(FoudreBrewingRegistry.chorusWine, "chorus_spirit");
+		addExpandedFirstPass(FoudreBrewingRegistry.potashCider, "potash_brandy");
+		for (Map.Entry<String, Fluid> entry : FoudreBrewingRegistry.getMelomelFluids().entrySet()) {
+			addExpandedFirstPass(entry.getValue(), entry.getKey() + "_honey_spirit");
+		}
+	}
+
+	private static void registerExpandedSpirits() {
+		EXPANDED_SPIRITS.clear();
+		registerExpandedSpirit("orange_brandy", "Orange Brandy", FoudreBrewingRegistry.orangeWine);
+		registerExpandedSpirit("lemon_brandy", "Lemon Brandy", FoudreBrewingRegistry.lemonWine);
+		registerExpandedSpirit("lime_brandy", "Lime Brandy", FoudreBrewingRegistry.limeWine);
+		registerExpandedSpirit("kiwi_brandy", "Kiwi Brandy", FoudreBrewingRegistry.kiwiWine);
+		registerExpandedSpirit("dragonfruit_brandy", "Dragonfruit Brandy", FoudreBrewingRegistry.dragonfruitWine);
+		registerExpandedSpirit("durian_brandy", "Durian Brandy", FoudreBrewingRegistry.durianWine);
+		registerExpandedSpirit("rhubarb_brandy", "Rhubarb Brandy", FoudreBrewingRegistry.rhubarbWine);
+		registerExpandedSpirit("melon_brandy", "Melon Brandy", FoudreBrewingRegistry.melonWine);
+		registerExpandedSpirit("cantaloupe_brandy", "Cantaloupe Brandy", FoudreBrewingRegistry.cantaloupeWine);
+		registerExpandedSpirit("carrot_brandy", "Carrot Brandy", FoudreBrewingRegistry.carrotWine);
+		registerExpandedSpirit("parsnip_brandy", "Parsnip Brandy", FoudreBrewingRegistry.parsnipWine);
+		registerExpandedSpirit("rye_whisky", "Rye Whisky", FoudreBrewingRegistry.ryeBeer);
+		registerExpandedSpirit("oat_whisky", "Oat Whisky", FoudreBrewingRegistry.oatmealStout);
+		registerExpandedSpirit("coffee_whisky", "Coffee Whisky", FoudreBrewingRegistry.coffeeStout);
+		registerExpandedSpirit("chocolate_whisky", "Chocolate Whisky", FoudreBrewingRegistry.chocolateStout);
+		registerExpandedSpirit("pumpkin_whisky", "Pumpkin Whisky", FoudreBrewingRegistry.pumpkinAle);
+		registerExpandedSpirit("chili_whisky", "Chili Whisky", FoudreBrewingRegistry.chiliBeer);
+		registerExpandedSpirit("banana_spirit", "Banana Spirit", FoudreBrewingRegistry.bananaBeer);
+		registerExpandedSpirit("apple_honey_spirit", "Apple Honey Spirit", FoudreBrewingRegistry.cyser);
+		registerExpandedSpirit("grape_honey_spirit", "Grape Honey Spirit", FoudreBrewingRegistry.pyment);
+		registerExpandedSpirit("malted_honey_spirit", "Malted Honey Spirit", FoudreBrewingRegistry.braggot);
+		registerExpandedSpirit("spiced_honey_spirit", "Spiced Honey Spirit", FoudreBrewingRegistry.metheglin);
+		registerExpandedSpirit("beet_spirit", "Beet Spirit", FoudreBrewingRegistry.beetKvass);
+		registerExpandedSpirit("tepache_spirit", "Tepache Spirit", FoudreBrewingRegistry.tepache);
+		registerExpandedSpirit("turnip_spirit", "Turnip Spirit", FoudreBrewingRegistry.turnipWash);
+		registerExpandedSpirit("rutabaga_spirit", "Rutabaga Spirit", FoudreBrewingRegistry.rutabagaWash);
+		registerExpandedSpirit("cachaca", "Cachaça", FoudreBrewingRegistry.caneWash);
+		registerExpandedSpirit("obstler", "Obstler", FoudreBrewingRegistry.orchardMash);
+		registerExpandedSpirit("chorus_spirit", "Chorus Spirit", FoudreBrewingRegistry.chorusWine);
+		registerExpandedSpirit("potash_brandy", "Potash Brandy", FoudreBrewingRegistry.potashCider);
+
+		for (Map.Entry<String, Fluid> entry : FoudreBrewingRegistry.getMelomelFluids().entrySet()) {
+			String spiritName = FoudreBrewingRegistry.getMelomelSpiritName(entry.getKey());
+			registerExpandedSpirit(entry.getKey() + "_honey_spirit", spiritName, entry.getValue());
+		}
+	}
+
+	private static void registerExpandedSpirit(String key, String displayName, Fluid source) {
+		if (source == null || displayName == null) {
+			return;
+		}
+		int color = blendColor(source.getColor(), COLOR_WHITE, UNAGED_SPIRIT_LIGHTENING);
+		EXPANDED_SPIRITS.put(key,
+			registerSpirit("ironagefurniture_" + key, key, displayName, color));
+	}
+
+	private static void addExpandedFirstPass(Fluid input, String spiritKey) {
+		Fluid output = EXPANDED_SPIRITS.get(spiritKey);
+		SpiritProfile profile = SPIRIT_PROFILES.get(output);
+		if (profile != null) {
+			addFirstPass(input, output, profile.displayName);
+		}
 	}
 
 	@Nullable
@@ -443,6 +537,19 @@ public final class PotStillDistillingRegistry {
 		if (input != null && output != null) {
 			FIRST_PASS_RECIPES.put(input, new DistillationRecipe(output, outputName));
 		}
+	}
+
+	private static int blendColor(int first, int second, float secondWeight) {
+		float clampedWeight = Math.max(0.0F, Math.min(1.0F, secondWeight));
+		float firstWeight = 1.0F - clampedWeight;
+		int alpha = COLOR_ALPHA_MASK;
+		int red = Math.round((first >> COLOR_RED_SHIFT & COLOR_CHANNEL_MASK) * firstWeight
+			+ (second >> COLOR_RED_SHIFT & COLOR_CHANNEL_MASK) * clampedWeight);
+		int green = Math.round((first >> COLOR_GREEN_SHIFT & COLOR_CHANNEL_MASK) * firstWeight
+			+ (second >> COLOR_GREEN_SHIFT & COLOR_CHANNEL_MASK) * clampedWeight);
+		int blue = Math.round((first & COLOR_CHANNEL_MASK) * firstWeight
+			+ (second & COLOR_CHANNEL_MASK) * clampedWeight);
+		return alpha | red << COLOR_RED_SHIFT | green << COLOR_GREEN_SHIFT | blue;
 	}
 
 	private static int darkenForPass(int color, int passes) {

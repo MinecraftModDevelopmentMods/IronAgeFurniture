@@ -577,6 +577,10 @@ public class GuiFoudre extends GuiContainer {
 	}
 
 	private String getBrewStatus() {
+		if (this.foudre.isInfusionComplete()) {
+			return I18n.format("gui.ironagefurniture.foudre.infusion_complete");
+		}
+
 		if (this.foudre.getBrewTimeTotal() > 0 && !this.foudre.getBrewRecipeName().isEmpty()) {
 			int percent = this.foudre.getBrewTime() * 100 / this.foudre.getBrewTimeTotal();
 			return I18n.format("gui.ironagefurniture.foudre.brewing", this.foudre.getBrewRecipeName(),

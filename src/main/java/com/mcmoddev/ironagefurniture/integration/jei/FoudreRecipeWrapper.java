@@ -4,39 +4,41 @@ import java.util.Collections;
 import java.util.List;
 
 import com.mcmoddev.ironagefurniture.api.FoudreBrewingRegistry.FoudreBrewingRecipe;
-import com.mcmoddev.ironagefurniture.api.tile.TileEntityFoudre;
 
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.BlankRecipeWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
 public final class FoudreRecipeWrapper extends BlankRecipeWrapper {
 	private static final int RECIPE_WIDTH = 150;
 	private static final int NAME_Y = 61;
 	private static final int TIME_Y = 72;
+	private static final int VOLUME_POLICY_Y = 83;
+	private static final int QUALITY_POLICY_Y = 94;
 	private static final int TICKS_PER_SECOND = 20;
 	private static final int SECONDS_PER_MINUTE = 60;
 
 	private final FoudreBrewingRecipe recipe;
 	private final List<ItemStack> ingredients;
-	private final FluidStack water;
+	private final List<List<ItemStack>> ingredientAlternatives;
+	private final FluidStack input;
 	private final FluidStack output;
 
 	public FoudreRecipeWrapper(FoudreBrewingRecipe recipe) {
 		this.recipe = recipe;
 		this.ingredients = recipe.getIngredientStacks();
-		this.water = new FluidStack(FluidRegistry.WATER, TileEntityFoudre.CAPACITY);
-		this.output = new FluidStack(recipe.getOutput(), TileEntityFoudre.CAPACITY);
+		this.ingredientAlternatives = recipe.getIngredientAlternatives();
+		this.input = new FluidStack(recipe.getInput(), recipe.getJeiInputAmount());
+		this.output = new FluidStack(recipe.getOutput(), recipe.getJeiOutputAmount());
 	}
 
 	@Override
 	public void getIngredients(IIngredients recipeIngredients) {
-		recipeIngredients.setInputs(ItemStack.class, this.ingredients);
-		recipeIngredients.setInput(FluidStack.class, this.water);
+		recipeIngredients.setInputLists(ItemStack.class, this.ingredientAlternatives);
+		recipeIngredients.setInput(FluidStack.class, this.input);
 		recipeIngredients.setOutput(FluidStack.class, this.output);
 	}
 
@@ -52,7 +54,7 @@ public final class FoudreRecipeWrapper extends BlankRecipeWrapper {
 
 	@Override
 	public List<FluidStack> getFluidInputs() {
-		return Collections.singletonList(this.water);
+		return Collections.singletonList(this.input);
 	}
 
 	@Override
@@ -65,6 +67,14 @@ public final class FoudreRecipeWrapper extends BlankRecipeWrapper {
 		this.drawCenteredTrimmed(minecraft, this.recipe.getDisplayName(), NAME_Y);
 		String brewTime = I18n.format("gui.ironagefurniture.jei.brew_time", this.getFormattedBrewTime());
 		this.drawCenteredTrimmed(minecraft, brewTime, TIME_Y);
+		if (this.recipe.preservesInputVolume()) {
+			this.drawCenteredTrimmed(minecraft,
+				I18n.format("gui.ironagefurniture.jei.preserve_volume"), VOLUME_POLICY_Y);
+		}
+		if (this.recipe.acceptsSpiritQuality()) {
+			this.drawCenteredTrimmed(minecraft,
+				I18n.format("gui.ironagefurniture.jei.any_spirit_quality"), QUALITY_POLICY_Y);
+		}
 	}
 
 	private void drawCenteredTrimmed(Minecraft minecraft, String text, int y) {

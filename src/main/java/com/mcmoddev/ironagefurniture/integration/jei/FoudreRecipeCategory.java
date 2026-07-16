@@ -15,7 +15,7 @@ import net.minecraft.client.resources.I18n;
 
 public final class FoudreRecipeCategory extends BlankRecipeCategory<FoudreRecipeWrapper> {
 	private static final int WIDTH = 150;
-	private static final int HEIGHT = 83;
+	private static final int HEIGHT = 105;
 	private static final int INGREDIENT_X = 42;
 	private static final int INGREDIENT_Y = 10;
 	private static final int SLOT_STEP = 18;

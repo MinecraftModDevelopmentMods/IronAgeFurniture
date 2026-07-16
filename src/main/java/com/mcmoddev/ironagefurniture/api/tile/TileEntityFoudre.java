@@ -43,6 +43,7 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 	public static final int FIELD_AGE_PROGRESS = 2;
 	public static final int FIELD_AGE_PROGRESS_TOTAL = 3;
 	public static final int FIELD_SEALED = 4;
+	public static final int FIELD_INFUSION_COMPLETE = 5;
 
 	private static final String LABEL_TAG = "FoudreLabel";
 	private static final String SEALED_TAG = "Sealed";
@@ -51,6 +52,7 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 	private static final String BREW_TIME_TOTAL_TAG = "BrewTimeTotal";
 	private static final String BREW_RECIPE_TAG = "BrewRecipe";
 	private static final String BREW_RECIPE_NAME_TAG = "BrewRecipeName";
+	private static final String INFUSION_COMPLETE_TAG = "InfusionComplete";
 	private static final String PORTS_CONFIGURED_TAG = "PortsConfigured";
 	private static final String INLET_OPEN_TAG = "InletOpen";
 	private static final String OUTLET_OPEN_TAG = "OutletOpen";
@@ -69,6 +71,7 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 	private int clientAgeProgressTotal;
 	private String brewRecipeId = "";
 	private String brewRecipeName = "";
+	private boolean infusionComplete;
 
 	public TileEntityFoudre() {
 		super(CAPACITY);
@@ -96,6 +99,10 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 			this.resetBrewing();
 			return;
 		}
+		if (this.infusionComplete) {
+			this.resetBrewing();
+			return;
+		}
 
 		FoudreBrewingRecipe recipe = FoudreBrewingRegistry.findMatchingRecipe(this.getFluid(), this.inventory,
 			this.getCapacity());
@@ -119,8 +126,12 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 		this.brewTime++;
 
 		if (this.brewTime >= this.brewTimeTotal) {
-			recipe.consumeIngredients(this.inventory);
-			this.setFluid(FoudreBrewingRegistry.createBrewedFluid(recipe, this.getCapacity()));
+			FluidStack output = FoudreBrewingRegistry.createBrewedFluid(recipe, this.getFluidDirect(),
+				this.getCapacity());
+			List<ItemStack> remainders = recipe.consumeIngredients(this.inventory);
+			this.setFluid(output);
+			this.infusionComplete = recipe.requiresResealAfterCompletion();
+			this.storeOrDropRemainders(remainders);
 			this.resetBrewing();
 			this.markForFluidUpdate();
 		} else if (this.brewTime % 20 == 0) {
@@ -161,6 +172,7 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 
 		if (opening) {
 			FoudreBrewingRegistry.resetAgeProgressToCurrentLevel(this.getFluidDirect());
+			this.infusionComplete = false;
 		}
 
 		this.markForFluidUpdate();
@@ -168,6 +180,10 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 
 	public void toggleSealed() {
 		this.setSealed(!this.sealed);
+	}
+
+	public boolean isInfusionComplete() {
+		return this.infusionComplete;
 	}
 
 	public boolean isInletOpen() {
@@ -410,6 +426,7 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 		this.label = stack != null && stack.hasTagCompound() && stack.getTagCompound().hasKey(LABEL_TAG, 8)
 			? sanitizeLabel(stack.getTagCompound().getString(LABEL_TAG)) : "";
 		this.sealed = stack != null && stack.hasTagCompound() && stack.getTagCompound().getBoolean(SEALED_TAG);
+		this.infusionComplete = false;
 		this.portMode = FluidPortMode.LOCKED;
 		this.sanitizePortState();
 		this.markForFluidUpdate();
@@ -427,6 +444,7 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 		this.brewRecipeId = compound.hasKey(BREW_RECIPE_TAG, 8) ? compound.getString(BREW_RECIPE_TAG) : "";
 		this.brewRecipeName = compound.hasKey(BREW_RECIPE_NAME_TAG, 8) ? compound.getString(BREW_RECIPE_NAME_TAG)
 			: "";
+		this.infusionComplete = compound.getBoolean(INFUSION_COMPLETE_TAG);
 		this.clear();
 
 		NBTTagList list = compound.getTagList(ITEMS_TAG, 10);
@@ -456,6 +474,7 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 
 		compound.setInteger(BREW_TIME_TAG, this.brewTime);
 		compound.setInteger(BREW_TIME_TOTAL_TAG, this.brewTimeTotal);
+		compound.setBoolean(INFUSION_COMPLETE_TAG, this.infusionComplete);
 
 		if (!this.brewRecipeId.isEmpty()) {
 			compound.setString(BREW_RECIPE_TAG, this.brewRecipeId);
@@ -608,6 +627,8 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 			return this.getAgeProgressTotal();
 		case FIELD_SEALED:
 			return this.sealed ? 1 : 0;
+		case FIELD_INFUSION_COMPLETE:
+			return this.infusionComplete ? 1 : 0;
 		default:
 			return 0;
 		}
@@ -632,6 +653,9 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 			this.sealed = value != 0;
 			this.sanitizePortState();
 			break;
+		case FIELD_INFUSION_COMPLETE:
+			this.infusionComplete = value != 0;
+			break;
 		default:
 			break;
 		}
@@ -639,7 +663,7 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 
 	@Override
 	public int getFieldCount() {
-		return 5;
+		return 6;
 	}
 
 	@Override
@@ -679,6 +703,38 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 		for (int i = 0; i < this.inventory.length; i++) {
 			this.inventory[i] = null;
 		}
+	}
+
+	private void storeOrDropRemainders(List<ItemStack> remainders) {
+		if (remainders == null || remainders.isEmpty()) {
+			return;
+		}
+
+		for (ItemStack remainder : remainders) {
+			if (remainder == null || remainder.stackSize <= 0) {
+				continue;
+			}
+			for (int slot = 0; slot < this.inventory.length && remainder.stackSize > 0; slot++) {
+				ItemStack existing = this.inventory[slot];
+				if (existing == null) {
+					this.inventory[slot] = remainder.copy();
+					remainder.stackSize = 0;
+					break;
+				}
+				if (existing.getItem() == remainder.getItem()
+						&& existing.getItemDamage() == remainder.getItemDamage()
+						&& ItemStack.areItemStackTagsEqual(existing, remainder)
+						&& existing.stackSize < existing.getMaxStackSize()) {
+					int moved = Math.min(remainder.stackSize, existing.getMaxStackSize() - existing.stackSize);
+					existing.stackSize += moved;
+					remainder.stackSize -= moved;
+				}
+			}
+			if (remainder.stackSize > 0) {
+				Block.spawnAsEntity(this.world, this.pos, remainder);
+			}
+		}
+		this.markDirty();
 	}
 
 	private void resetBrewing() {

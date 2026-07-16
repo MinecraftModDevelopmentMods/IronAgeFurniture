@@ -1,5 +1,8 @@
 package com.mcmoddev.ironagefurniture.api;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.Nullable;
 
 import net.minecraftforge.fluids.FluidStack;
@@ -27,16 +30,17 @@ public final class DrinkDisplayHelper {
 
 	public static String getQualityTooltip(@Nullable FluidStack fluid) {
 		String[] lines = getQualityTooltipLines(fluid);
-
-		if (lines.length <= 0) {
-			return "";
+		StringBuilder result = new StringBuilder();
+		for (String line : lines) {
+			if (line == null || line.isEmpty()) {
+				continue;
+			}
+			if (result.length() > 0) {
+				result.append("; ");
+			}
+			result.append(line);
 		}
-
-		if (lines.length == 1) {
-			return lines[0];
-		}
-
-		return lines[0] + "; " + lines[1];
+		return result.toString();
 	}
 
 	public static String[] getQualityTooltipLines(@Nullable FluidStack fluid) {
@@ -44,23 +48,30 @@ public final class DrinkDisplayHelper {
 			return new String[0];
 		}
 
+		List<String> lines = new ArrayList<String>();
 		if (PotStillDistillingRegistry.isSpirit(fluid)) {
 			String age = getVisibleAgeName(fluid);
-			String distillation = "Distillation: " + PotStillDistillingRegistry.getPassName(fluid);
-
-			if (age.isEmpty()) {
-				return new String[] { distillation };
+			lines.add("Distillation: " + PotStillDistillingRegistry.getPassName(fluid));
+			if (!age.isEmpty()) {
+				lines.add("Age: " + age);
 			}
-
-			return new String[] { distillation, "Age: " + age };
+		} else {
+			String age = getVisibleAgeName(fluid);
+			if (!age.isEmpty()) {
+				lines.add("Age: " + age);
+			}
 		}
 
-		String age = getVisibleAgeName(fluid);
-		return age.isEmpty() ? new String[0] : new String[] { "Age: " + age };
+		FluidStack infusionBase = FoudreBrewingRegistry.getInfusionBase(fluid);
+		if (infusionBase != null && infusionBase.getFluid() != null) {
+			lines.add("Made with " + getDisplayName(infusionBase));
+		}
+		return lines.toArray(new String[lines.size()]);
 	}
 
 	public static boolean shouldDrawTinted(@Nullable FluidStack fluid) {
-		return FoudreBrewingRegistry.isAgeable(fluid) || PotStillDistillingRegistry.isSpirit(fluid);
+		return FoudreBrewingRegistry.isAgeable(fluid) || PotStillDistillingRegistry.isSpirit(fluid)
+			|| FoudreBrewingRegistry.getInfusionBase(fluid) != null;
 	}
 
 	private static String getVisibleAgeName(@Nullable FluidStack fluid) {
