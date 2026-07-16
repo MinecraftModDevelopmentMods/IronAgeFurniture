@@ -1,8 +1,12 @@
 package com.mcmoddev.ironagefurniture.api;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Nullable;
 
@@ -129,8 +133,9 @@ public final class PotStillDistillingRegistry {
 	public static Fluid skyberryBrandy;
 	public static Fluid stingberryBrandy;
 
-	private static final Map<Fluid, DistillationRecipe> FIRST_PASS_RECIPES = new HashMap<Fluid, DistillationRecipe>();
-	private static final Map<Fluid, SpiritProfile> SPIRIT_PROFILES = new HashMap<Fluid, SpiritProfile>();
+	private static final Map<Fluid, DistillationRecipe> FIRST_PASS_RECIPES =
+		new LinkedHashMap<Fluid, DistillationRecipe>();
+	private static final Map<Fluid, SpiritProfile> SPIRIT_PROFILES = new LinkedHashMap<Fluid, SpiritProfile>();
 	private static final Map<String, Fluid> EXPANDED_SPIRITS = new LinkedHashMap<String, Fluid>();
 
 	private PotStillDistillingRegistry() {
@@ -416,6 +421,33 @@ public final class PotStillDistillingRegistry {
 		return canAcceptInput(incoming);
 	}
 
+	public static List<DistillationJeiRecipe> getJeiRecipes() {
+		List<DistillationJeiRecipe> recipes = new ArrayList<DistillationJeiRecipe>();
+
+		for (Map.Entry<Fluid, DistillationRecipe> entry : FIRST_PASS_RECIPES.entrySet()) {
+			DistillationRecipe recipe = entry.getValue();
+			int outputAmount = FIRST_PASS_MIN_INPUT / FIRST_PASS_RATIO;
+			FluidStack input = new FluidStack(entry.getKey(), FIRST_PASS_MIN_INPUT);
+			// An absent pass tag is the canonical representation of a single-distilled spirit.
+			// Keeping the JEI output untagged lets the searchable fluid match this recipe.
+			FluidStack output = new FluidStack(recipe.output, outputAmount);
+			recipes.add(new DistillationJeiRecipe(input, output, recipe.outputName, FIRST_PASS_RATIO,
+				FIRST_PASS_MIN_INPUT, getDistillationTime(FIRST_PASS_MIN_INPUT),
+				FoudreBrewingRegistry.isAgeable(input)));
+		}
+
+		for (Map.Entry<Fluid, SpiritProfile> entry : SPIRIT_PROFILES.entrySet()) {
+			addRedistillationJeiRecipe(recipes, entry.getKey(), entry.getValue().displayName, 1);
+			addRedistillationJeiRecipe(recipes, entry.getKey(), entry.getValue().displayName, 2);
+		}
+
+		return Collections.unmodifiableList(recipes);
+	}
+
+	public static Set<Fluid> getRegisteredSpirits() {
+		return Collections.unmodifiableSet(new LinkedHashSet<Fluid>(SPIRIT_PROFILES.keySet()));
+	}
+
 	public static boolean isSpirit(@Nullable FluidStack fluid) {
 		return fluid != null && SPIRIT_PROFILES.containsKey(fluid.getFluid());
 	}
@@ -539,6 +571,19 @@ public final class PotStillDistillingRegistry {
 		}
 	}
 
+	private static void addRedistillationJeiRecipe(List<DistillationJeiRecipe> recipes, Fluid spirit,
+			String spiritName, int inputPasses) {
+		int ratio = getRedistillationRatio(inputPasses);
+		int outputAmount = Fluid.BUCKET_VOLUME;
+		int inputAmount = outputAmount * ratio;
+		FluidStack input = createSpiritFluid(spirit, inputAmount, inputPasses);
+		FluidStack output = createSpiritFluid(spirit, outputAmount, inputPasses + 1);
+		String outputName = inputPasses == 1 ? "Double Distilled " + spiritName
+			: "Triple Distilled " + spiritName;
+		recipes.add(new DistillationJeiRecipe(input, output, outputName, ratio,
+			getRedistillationMinInput(inputPasses), getDistillationTime(inputAmount), true));
+	}
+
 	private static int blendColor(int first, int second, float secondWeight) {
 		float clampedWeight = Math.max(0.0F, Math.min(1.0F, secondWeight));
 		float firstWeight = 1.0F - clampedWeight;
@@ -602,6 +647,55 @@ public final class PotStillDistillingRegistry {
 
 		public FluidStack createOutputStack() {
 			return createSpiritFluid(this.output, this.outputAmount, this.outputPasses);
+		}
+	}
+
+	public static final class DistillationJeiRecipe {
+		private final FluidStack input;
+		private final FluidStack output;
+		private final String outputName;
+		private final int ratio;
+		private final int minimumInput;
+		private final int distillationTime;
+		private final boolean acceptsAnyAge;
+
+		private DistillationJeiRecipe(FluidStack input, FluidStack output, String outputName, int ratio,
+				int minimumInput, int distillationTime, boolean acceptsAnyAge) {
+			this.input = input;
+			this.output = output;
+			this.outputName = outputName;
+			this.ratio = ratio;
+			this.minimumInput = minimumInput;
+			this.distillationTime = distillationTime;
+			this.acceptsAnyAge = acceptsAnyAge;
+		}
+
+		public FluidStack getInput() {
+			return this.input.copy();
+		}
+
+		public FluidStack getOutput() {
+			return this.output.copy();
+		}
+
+		public String getOutputName() {
+			return this.outputName;
+		}
+
+		public int getRatio() {
+			return this.ratio;
+		}
+
+		public int getMinimumInput() {
+			return this.minimumInput;
+		}
+
+		public int getDistillationTime() {
+			return this.distillationTime;
+		}
+
+		public boolean acceptsAnyAge() {
+			return this.acceptsAnyAge;
 		}
 	}
 

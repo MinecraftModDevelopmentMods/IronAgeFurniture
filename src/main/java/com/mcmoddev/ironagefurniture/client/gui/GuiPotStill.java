@@ -39,6 +39,10 @@ public class GuiPotStill extends GuiContainer {
 	private static final int GAUGE_Y = 38;
 	private static final int GAUGE_WIDTH = 70;
 	private static final int GAUGE_HEIGHT = 46;
+	public static final int RECIPE_CLICK_X = GAUGE_X;
+	public static final int RECIPE_CLICK_Y = GAUGE_Y;
+	public static final int RECIPE_CLICK_WIDTH = GAUGE_WIDTH;
+	public static final int RECIPE_CLICK_HEIGHT = GAUGE_HEIGHT;
 	private static final int CHARGE_DIAL_X = 16;
 	private static final int CHARGE_DIAL_Y = 43;
 	private static final int DISTILL_DIAL_X = 128;
