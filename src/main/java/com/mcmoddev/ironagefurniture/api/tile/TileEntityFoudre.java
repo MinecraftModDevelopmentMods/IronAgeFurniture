@@ -72,6 +72,8 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 	private String brewRecipeId = "";
 	private String brewRecipeName = "";
 	private boolean infusionComplete;
+	private String potentialRecipeName = "";
+	private boolean potentialRecipeDirty = true;
 
 	public TileEntityFoudre() {
 		super(CAPACITY);
@@ -338,6 +340,23 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 		return this.brewRecipeName;
 	}
 
+	public String getPotentialRecipeName() {
+		if (this.potentialRecipeDirty) {
+			FoudreBrewingRecipe recipe = FoudreBrewingRegistry.findPotentialRecipe(this.getFluidDirect(),
+				this.inventory);
+			this.potentialRecipeName = recipe == null ? "" : recipe.getDisplayName();
+			this.potentialRecipeDirty = false;
+		}
+
+		return this.potentialRecipeName;
+	}
+
+	@Override
+	public void markForFluidUpdate() {
+		this.potentialRecipeDirty = true;
+		super.markForFluidUpdate();
+	}
+
 	public int getAgeProgress() {
 		if (this.world != null && this.world.isRemote) {
 			return this.clientAgeProgress;
@@ -457,6 +476,8 @@ public class TileEntityFoudre extends TileEntityBarrel implements IInventory, IT
 				this.inventory[slot] = ItemStack.loadItemStackFromNBT(itemTag);
 			}
 		}
+
+		this.potentialRecipeDirty = true;
 	}
 
 	@Override

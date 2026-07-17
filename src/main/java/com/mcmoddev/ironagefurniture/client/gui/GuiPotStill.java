@@ -574,8 +574,8 @@ public class GuiPotStill extends GuiContainer {
 	}
 
 	private int getChargeCapacity() {
-		return !this.potStill.isDistilling() && this.potStill.getOutputAmount() > 0
-			? TileEntityPotStill.OUTPUT_CAPACITY : TileEntityPotStill.INPUT_CAPACITY;
+		// The interface represents one vessel; the smaller output tank is an internal implementation detail.
+		return TileEntityPotStill.INPUT_CAPACITY;
 	}
 
 	private FluidStack getGaugeBaseFluid() {

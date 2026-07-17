@@ -2580,6 +2580,7 @@ gui.ironagefurniture.foudre.open=Open
 gui.ironagefurniture.foudre.flush=Flush
 gui.ironagefurniture.foudre.sealed=Sealed
 gui.ironagefurniture.foudre.open_state=Open
+gui.ironagefurniture.foudre.open_recipe=Open (%s)
 gui.ironagefurniture.foudre.infusion_complete=Infusion complete - open to continue
 gui.ironagefurniture.foudre.label=Write the foudre label
 gui.ironagefurniture.foudre.pipework=Pipework

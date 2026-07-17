@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
@@ -238,6 +239,7 @@ public final class FoudreBrewingRegistry {
 	public static Fluid eggnog;
 
 	private static final List<FoudreBrewingRecipe> RECIPES = new ArrayList<FoudreBrewingRecipe>();
+	private static final Set<Fluid> REGISTERED_FLUIDS = new LinkedHashSet<Fluid>();
 	private static final Map<Fluid, AgeProfile> AGE_PROFILES = new HashMap<Fluid, AgeProfile>();
 	private static final Set<Fluid> DISTILLATION_BASES = new HashSet<Fluid>();
 	private static final Map<String, Fluid> MELOMEL_FLUIDS = new LinkedHashMap<String, Fluid>();
@@ -266,6 +268,7 @@ public final class FoudreBrewingRegistry {
 	}
 
 	public static void registerFluids() {
+		REGISTERED_FLUIDS.clear();
 		ale = registerFluid("ironagefurniture_ale", "ale", ALE_COLOR_FRESH);
 		cider = registerFluid("ironagefurniture_cider", "cider", CIDER_COLOR_FRESH);
 		wine = registerFluid("ironagefurniture_wine", "wine", WINE_COLOR_FRESH);
@@ -996,6 +999,10 @@ public final class FoudreBrewingRegistry {
 		return Collections.unmodifiableList(RECIPES);
 	}
 
+	public static Set<Fluid> getRegisteredFluids() {
+		return Collections.unmodifiableSet(REGISTERED_FLUIDS);
+	}
+
 	public static boolean isValidIngredient(ItemStack stack) {
 		if (stack == null || stack.stackSize <= 0) {
 			return false;
@@ -1019,6 +1026,23 @@ public final class FoudreBrewingRegistry {
 
 		for (FoudreBrewingRecipe recipe : RECIPES) {
 			if (recipe.matchesFluid(fluid, capacity) && recipe.matches(inventory)
+					&& isMoreSpecific(recipe, bestRecipe)) {
+				bestRecipe = recipe;
+			}
+		}
+
+		return bestRecipe;
+	}
+
+	public static FoudreBrewingRecipe findPotentialRecipe(FluidStack fluid, ItemStack[] inventory) {
+		if (fluid == null || fluid.getFluid() == null || fluid.amount <= 0) {
+			return null;
+		}
+
+		FoudreBrewingRecipe bestRecipe = null;
+
+		for (FoudreBrewingRecipe recipe : RECIPES) {
+			if (recipe.matchesInputFluid(fluid) && recipe.matches(inventory)
 					&& isMoreSpecific(recipe, bestRecipe)) {
 				bestRecipe = recipe;
 			}
@@ -1150,6 +1174,7 @@ public final class FoudreBrewingRegistry {
 
 		if (existing != null) {
 			FluidRegistry.addBucketForFluid(existing);
+			REGISTERED_FLUIDS.add(existing);
 			return existing;
 		}
 
@@ -1158,6 +1183,7 @@ public final class FoudreBrewingRegistry {
 		FluidRegistry.registerFluid(fluid);
 		fluid = FluidRegistry.getFluid(name);
 		FluidRegistry.addBucketForFluid(fluid);
+		REGISTERED_FLUIDS.add(fluid);
 		return fluid;
 	}
 
@@ -1528,8 +1554,12 @@ public final class FoudreBrewingRegistry {
 		}
 
 		public boolean matchesFluid(FluidStack fluid, int capacity) {
-			return fluid != null && fluid.getFluid() == this.input && fluid.amount >= this.minimumInputAmount
+			return this.matchesInputFluid(fluid) && fluid.amount >= this.minimumInputAmount
 				&& (this.outputVolumePolicy != OutputVolumePolicy.FULL_CAPACITY || fluid.amount >= capacity);
+		}
+
+		public boolean matchesInputFluid(FluidStack fluid) {
+			return fluid != null && fluid.getFluid() == this.input;
 		}
 
 		public FluidStack createOutput(FluidStack inputFluid, int capacity) {

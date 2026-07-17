@@ -10,6 +10,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
 public final class AdjacentBarrelTransfer {
@@ -68,31 +69,8 @@ public final class AdjacentBarrelTransfer {
 	}
 
 	private static boolean transfer(IFluidHandler source, IFluidHandler target, boolean doTransfer) {
-		FluidStack available = source.drain(Integer.MAX_VALUE, false);
-
-		if (available == null || available.getFluid() == null || available.amount <= 0) {
-			return false;
-		}
-
-		int accepted = target.fill(available.copy(), false);
-
-		if (accepted <= 0) {
-			return false;
-		}
-
-		if (!doTransfer) {
-			return true;
-		}
-
-		FluidStack request = available.copy();
-		request.amount = accepted;
-		FluidStack drained = source.drain(request, true);
-
-		if (drained == null || drained.getFluid() == null || drained.amount <= 0) {
-			return false;
-		}
-
-		return target.fill(drained, true) > 0;
+		FluidStack transferred = FluidUtil.tryFluidTransfer(target, source, Integer.MAX_VALUE, doTransfer);
+		return transferred != null && transferred.getFluid() != null && transferred.amount > 0;
 	}
 
 	private static TileEntityBarrel getNormalBarrel(World world, BlockPos pos) {

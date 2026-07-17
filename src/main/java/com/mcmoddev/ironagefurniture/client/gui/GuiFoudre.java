@@ -587,6 +587,11 @@ public class GuiFoudre extends GuiContainer {
 				Integer.valueOf(percent));
 		}
 
+		if (!this.foudre.isSealed() && !this.foudre.getPotentialRecipeName().isEmpty()) {
+			return I18n.format("gui.ironagefurniture.foudre.open_recipe",
+				this.foudre.getPotentialRecipeName());
+		}
+
 		if (!this.foudre.isSealed() || this.foudre.getAgeProgressTotal() <= 0
 				|| this.foudre.getNextAgeLevelName().isEmpty()) {
 			return I18n.format(this.foudre.isSealed() ? "gui.ironagefurniture.foudre.sealed"
