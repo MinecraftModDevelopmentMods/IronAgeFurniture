@@ -1,36 +1,33 @@
-# eclipse
+# Eclipse
 bin
 *.launch
 .settings
-.settings/*
 .metadata
 .classpath
 .project
+/workspace/
 
-# idea
-out
+# IntelliJ
+/out/
 *.ipr
 *.iws
 *.iml
-.idea
+/.idea/*
 
-# gradle
-build
-.gradle
+# Gradle
+/build/
+/.gradle/
 
-# other
-eclipse
-run
-classes
-*.hprof
+# Other
+/eclipse/
+*/reports/*
 
-/README.txt
-/forge-*-changelog.txt
+# Visual Studio Code
+/.settings/
+/.vscode/
+/bin/
 
 secret.json
-libs/*
-!/libs/README.txt
-!/libs/ForgeGradle-2.2.2.jar
 
+# MacOS
 .DS_Store
-.okhttpcache/*
