@@ -10,7 +10,7 @@ version = mod_version
 group = mod_group
 base.archivesName = mod_id
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(25)
+java.toolchain.languageVersion = JavaLanguageVersion.of(8)
 
 minecraft {
     //For use with FG 7 on older MC versions
@@ -163,7 +163,9 @@ idea {
 
 eclipse {
     // Eclipse no longer downloads javadocs and sources by default, this tells Gradle to force Eclipse to do it.
-    classpath { downloadJavadoc = downloadSources = true }
+    classpath {
+        downloadJavadoc = downloadSources = true
+    }
 
     // NOTE: ForgeGradle 7 does not yet support Eclipse run configurations
     // Run everytime eclipse builds the code
