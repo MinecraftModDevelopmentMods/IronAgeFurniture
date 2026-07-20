@@ -4,6 +4,7 @@ import com.mcmoddev.ironagefurniture.Ironagefurniture;
 import com.mcmoddev.ironagefurniture.IronAgeFurnitureConfiguration;
 import com.mcmoddev.ironagefurniture.ItemObjectHolder;
 import com.mcmoddev.ironagefurniture.api.Items.ItemFluidBottle;
+import com.mcmoddev.ironagefurniture.api.Items.ItemDrinkware;
 import com.mcmoddev.ironagefurniture.api.Items.ItemBlockGlassVase;
 import com.mcmoddev.ironagefurniture.api.Items.ItemBlockMetalVariant;
 import com.mcmoddev.ironagefurniture.api.Items.ItemBlockOrnament;
@@ -22,6 +23,9 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class ItemInitialiser {
 	private static final int FLUID_BOTTLE_FLUID_TINT_INDEX = 0;
+	private static final int DRINKWARE_MATERIAL_TINT_INDEX = 0;
+	private static final int DRINKWARE_FLUID_TINT_INDEX = 1;
+	private static final int DRINKWARE_GLASS_FILTERED_FLUID_TINT_INDEX = 2;
 	private static final int DEFAULT_ITEM_TINT_COLOR = 0xFFFFFFFF;
 
 	public static void init() {
@@ -36,6 +40,11 @@ public class ItemInitialiser {
 
 		if (IronAgeFurnitureConfiguration.GENERATE_FLUID_BOTTLES) {
 			ItemObjectHolder.fluid_bottle = RegisterItem(new ItemFluidBottle(), "fluid_bottle");
+		}
+
+		if (IronAgeFurnitureConfiguration.GENERATE_DRINKWARE) {
+			ItemObjectHolder.drinkware = RegisterItem(new ItemDrinkware()
+				.setCreativeTab(Ironagefurniture.ironagefurnitureTab), "drinkware");
 		}
 	}
 
@@ -53,6 +62,9 @@ public class ItemInitialiser {
 			if (i instanceof ItemFluidBottle) {
 				registerFluidBottleMesher(i);
 				registerFluidBottleColors(i);
+			} else if (i instanceof ItemDrinkware) {
+				registerDrinkwareMesher(i);
+				registerDrinkwareColors(i);
 			} else if (i instanceof ItemBlockOrnament) {
 				ItemBlockOrnament ornament = (ItemBlockOrnament)i;
 
@@ -84,6 +96,8 @@ public class ItemInitialiser {
 			Item i = Ironagefurniture.ItemRegistry.get(name);
 			if (i instanceof ItemFluidBottle) {
 				registerFluidBottleLoader(i);
+			} else if (i instanceof ItemDrinkware) {
+				registerDrinkwareLoader(i);
 			} else if (i instanceof ItemBlockOrnament) {
 				ItemBlockOrnament ornament = (ItemBlockOrnament)i;
 
@@ -152,6 +166,44 @@ public class ItemInitialiser {
 			public int getColorFromItemstack(ItemStack stack, int tintIndex) {
 				return tintIndex == FLUID_BOTTLE_FLUID_TINT_INDEX
 					? ItemFluidBottle.getFluidColor(stack, DEFAULT_ITEM_TINT_COLOR) : DEFAULT_ITEM_TINT_COLOR;
+			}
+		}, item);
+	}
+
+	private static void registerDrinkwareMesher(Item item) {
+		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, new ItemMeshDefinition() {
+			@Override
+			public ModelResourceLocation getModelLocation(ItemStack stack) {
+				return getModelResourceLocation(((ItemDrinkware)stack.getItem()).getModelName(stack));
+			}
+		});
+	}
+
+	private static void registerDrinkwareLoader(Item item) {
+		ResourceLocation[] variants = new ResourceLocation[ItemDrinkware.getModelNames().size()];
+
+		for (int i = 0; i < variants.length; i++) {
+			variants[i] = new ResourceLocation(Ironagefurniture.MODID, ItemDrinkware.getModelNames().get(i));
+		}
+
+		ModelBakery.registerItemVariants(item, variants);
+		ModelLoader.setCustomMeshDefinition(item, new ItemMeshDefinition() {
+			@Override
+			public ModelResourceLocation getModelLocation(ItemStack stack) {
+				return getModelResourceLocation(((ItemDrinkware)stack.getItem()).getModelName(stack));
+			}
+		});
+	}
+
+	private static void registerDrinkwareColors(Item item) {
+		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new IItemColor() {
+			@Override
+			public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+				ItemDrinkware drinkware = (ItemDrinkware)stack.getItem();
+				return tintIndex == DRINKWARE_MATERIAL_TINT_INDEX ? drinkware.getMaterialTint(stack)
+					: tintIndex == DRINKWARE_FLUID_TINT_INDEX ? drinkware.getFluidTint(stack)
+					: tintIndex == DRINKWARE_GLASS_FILTERED_FLUID_TINT_INDEX
+						? drinkware.getGlassFilteredFluidTint(stack) : DEFAULT_ITEM_TINT_COLOR;
 			}
 		}, item);
 	}

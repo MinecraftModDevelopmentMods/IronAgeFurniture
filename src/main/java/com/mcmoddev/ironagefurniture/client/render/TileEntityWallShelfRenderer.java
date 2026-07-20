@@ -1,5 +1,7 @@
 package com.mcmoddev.ironagefurniture.client.render;
 
+import java.util.List;
+
 import com.mcmoddev.ironagefurniture.api.Blocks.WallShelf;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityWallShelf;
 
@@ -30,6 +32,10 @@ public class TileEntityWallShelfRenderer extends TileEntitySpecialRenderer<TileE
 		EnumFacing facing = this.getFacing(te);
 		double itemX = 0.5D - facing.getFrontOffsetX() * 0.125D;
 		double itemZ = 0.5D - facing.getFrontOffsetZ() * 0.125D;
+
+		if (this.isDrinkwareKind(te.getEmbeddedKind())) {
+			this.renderDrinkwareCluster(te.getEmbeddedItems(), te.getEmbeddedKind(), facing, x, y, z);
+		}
 
 		if (te.getEmbeddedKind() == WallShelf.ShelfContentKind.FLOWER_POT && te.getLastEmbeddedItem() != null
 				&& !this.isSameStack(te.getLastEmbeddedItem(), te.getFirstEmbeddedItem())) {
@@ -68,6 +74,45 @@ public class TileEntityWallShelfRenderer extends TileEntitySpecialRenderer<TileE
 
 		Minecraft.getMinecraft().getRenderItem().renderItem(itemStack, transformType);
 		GlStateManager.popMatrix();
+	}
+
+	private boolean isDrinkwareKind(WallShelf.ShelfContentKind kind) {
+		return kind == WallShelf.ShelfContentKind.DRINKWARE_LARGE
+			|| kind == WallShelf.ShelfContentKind.DRINKWARE_MEDIUM
+			|| kind == WallShelf.ShelfContentKind.DRINKWARE_SMALL;
+	}
+
+	private void renderDrinkwareCluster(List<ItemStack> items, WallShelf.ShelfContentKind kind,
+			EnumFacing facing, double x, double y, double z) {
+		if (items.isEmpty()) {
+			return;
+		}
+
+		int columns = kind == WallShelf.ShelfContentKind.DRINKWARE_LARGE ? 2 : 3;
+		double lateralSpacing = kind == WallShelf.ShelfContentKind.DRINKWARE_LARGE ? 0.31D
+			: kind == WallShelf.ShelfContentKind.DRINKWARE_MEDIUM ? 0.235D : 0.205D;
+		double depthSpacing = kind == WallShelf.ShelfContentKind.DRINKWARE_LARGE ? 0.22D : 0.19D;
+		float scale = kind == WallShelf.ShelfContentKind.DRINKWARE_LARGE ? 0.82F
+			: kind == WallShelf.ShelfContentKind.DRINKWARE_MEDIUM ? 0.78F : 0.74F;
+		int rows = (items.size() + columns - 1) / columns;
+		double outwardX = -facing.getFrontOffsetX();
+		double outwardZ = -facing.getFrontOffsetZ();
+		double rightX = -outwardZ;
+		double rightZ = outwardX;
+		float yaw = this.getYaw(facing);
+
+		for (int row = 0, index = 0; row < rows; row++) {
+			int rowCount = Math.min(columns, items.size() - index);
+
+			for (int column = 0; column < rowCount; column++, index++) {
+				double lateral = (column - (rowCount - 1) / 2.0D) * lateralSpacing;
+				double depth = (row - (rows - 1) / 2.0D) * depthSpacing;
+				double itemX = 0.5D + outwardX * (0.12D + depth) + rightX * lateral;
+				double itemZ = 0.5D + outwardZ * (0.12D + depth) + rightZ * lateral;
+				SurfaceDisplayRenderHelper.renderDrinkware(items.get(index), x, y, z, itemX, itemZ,
+					SHELF_TOP_Y, yaw, scale);
+			}
+		}
 	}
 
 	private boolean isSameStack(ItemStack first, ItemStack second) {

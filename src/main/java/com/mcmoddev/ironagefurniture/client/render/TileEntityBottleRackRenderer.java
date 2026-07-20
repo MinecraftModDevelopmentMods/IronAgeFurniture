@@ -32,6 +32,26 @@ public class TileEntityBottleRackRenderer extends TileEntitySpecialRenderer<Tile
 	private static final double STANDING_SLOT_DEPTH = 0.405D;
 	private static ResourceLocation whiteTexture;
 
+	private static final class SurfaceModelHolder {
+		private static final TileEntityBottleRackRenderer INSTANCE = new TileEntityBottleRackRenderer();
+	}
+
+	public static void renderBottleModel(ItemStack bottle) {
+		if (!BottleRack.isValidBottleItem(bottle)) {
+			return;
+		}
+
+		TileEntityBottleRackRenderer renderer = SurfaceModelHolder.INSTANCE;
+		GlStateManager.disableCull();
+		GlStateManager.enableRescaleNormal();
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		renderer.bindWhiteTexture();
+		renderer.renderBottleShape(renderer.getBottleColor(bottle), renderer.getCapColor(bottle));
+		GlStateManager.disableRescaleNormal();
+		GlStateManager.enableCull();
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+	}
+
 	@Override
 	public void renderTileEntityAt(TileEntityBottleRack te, double x, double y, double z, float partialTicks,
 			int destroyStage) {

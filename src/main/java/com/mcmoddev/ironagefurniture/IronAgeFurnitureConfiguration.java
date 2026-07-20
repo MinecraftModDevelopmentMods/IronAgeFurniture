@@ -20,6 +20,7 @@ public class IronAgeFurnitureConfiguration {
 	public static boolean GENERATE_FOUDRES = true;
 	public static boolean GENERATE_POT_STILLS = true;
 	public static boolean GENERATE_FLUID_BOTTLES = true;
+	public static boolean GENERATE_DRINKWARE = true;
 	public static boolean GENERATE_IRON_NUGGETS = true;
 	public static boolean GENERATE_ORNAMENTS = true;
 	public static boolean GENERATE_SHIELD_CHAIRS = true;
@@ -94,8 +95,9 @@ public class IronAgeFurnitureConfiguration {
 		GENERATE_WOOD_BARRELS = config.getBoolean("GENERATE_WOOD_BARRELS", "options", GENERATE_WOOD_BARRELS, "If true, then wooden barrels will be generated");
 		GENERATE_SIDE_BARRELS = config.getBoolean("GENERATE_SIDE_BARRELS", "options", GENERATE_SIDE_BARRELS, "If true, then side barrels will be generated when wooden barrels are enabled");
 		GENERATE_FOUDRES = config.getBoolean("GENERATE_FOUDRES", "options", GENERATE_FOUDRES, "If true, then foudres will be generated when wooden barrels are enabled");
-		GENERATE_POT_STILLS = config.getBoolean("GENERATE_POT_STILLS", "options", GENERATE_POT_STILLS, "If true, then pot stills will be generated when wooden barrels, foudres, and fluid bottles are enabled");
+		GENERATE_POT_STILLS = config.getBoolean("GENERATE_POT_STILLS", "options", GENERATE_POT_STILLS, "If true, then pot stills will be generated when wooden barrels, foudres, and at least one drink container family are enabled");
 		GENERATE_FLUID_BOTTLES = config.getBoolean("GENERATE_FLUID_BOTTLES", "options", GENERATE_FLUID_BOTTLES, "If true, then generic Iron Age fluid bottles will be generated");
+		GENERATE_DRINKWARE = config.getBoolean("GENERATE_DRINKWARE", "options", GENERATE_DRINKWARE, "If true, then reusable tankards, glasses, shot glasses, and mugs will be generated");
 		GENERATE_IRON_NUGGETS = config.getBoolean("GENERATE_IRON_NUGGETS", "options", GENERATE_IRON_NUGGETS, "If true, then iron nuggets will be generated");
 		GENERATE_ORNAMENTS = config.getBoolean("GENERATE_ORNAMENTS", "options", GENERATE_ORNAMENTS, "If true, then decorative ornaments will be generated");
 	

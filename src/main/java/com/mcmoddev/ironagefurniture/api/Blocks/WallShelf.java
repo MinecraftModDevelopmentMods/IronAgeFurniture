@@ -8,6 +8,8 @@ import com.mcmoddev.ironagefurniture.Ironagefurniture;
 import com.mcmoddev.ironagefurniture.api.MineralogyCompat;
 import com.mcmoddev.ironagefurniture.api.SurfaceItemRules;
 import com.mcmoddev.ironagefurniture.api.VasePlantHelper;
+import com.mcmoddev.ironagefurniture.api.Items.DrinkContainerHelper;
+import com.mcmoddev.ironagefurniture.api.Items.ItemDrinkware;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityWallShelf;
 import com.mcmoddev.ironagefurniture.client.particle.CandleFlameParticle;
 
@@ -91,7 +93,10 @@ public class WallShelf extends BlockHBase {
 		CANDLE("candle", 1, 12),
 		FLOWER_POT("flower_pot", 2, 0),
 		BOOKS("books", 5, 0),
-		RECORDS("records", 6, 0);
+		RECORDS("records", 6, 0),
+		DRINKWARE_LARGE("drinkware_large", 4, 0),
+		DRINKWARE_MEDIUM("drinkware_medium", 6, 0),
+		DRINKWARE_SMALL("drinkware_small", 9, 0);
 
 		private final String name;
 		private final int capacity;
@@ -326,6 +331,20 @@ public class WallShelf extends BlockHBase {
 		ShelfContentKind heldContent = this.getEmbeddedContentKindForItem(heldItem);
 		TileEntityWallShelf shelf = this.getShelfEntity(worldIn, pos, false);
 
+		if (shelf != null && shelf.hasDisplayedItem()
+				&& DrinkContainerHelper.canFillDisplayedDrinkware(shelf.getDisplayedItem(), heldItem)) {
+			if (!worldIn.isRemote) {
+				ItemStack filledDrinkware = DrinkContainerHelper.fillDisplayedDrinkware(
+					shelf.getDisplayedItem(), heldItem, playerIn, hand);
+
+				if (filledDrinkware != null) {
+					shelf.setDisplayedItem(filledDrinkware);
+				}
+			}
+
+			return true;
+		}
+
 		if (shelf != null && shelf.getEmbeddedKind() == ShelfContentKind.FLOWER_POT) {
 			if (this.canHandleFlowerPotClick(shelf, heldItem)) {
 				if (worldIn.isRemote) {
@@ -551,6 +570,19 @@ public class WallShelf extends BlockHBase {
 	private ShelfContentKind getEmbeddedContentKindForItem(ItemStack heldItem) {
 		if (heldItem == null || heldItem.stackSize <= 0) {
 			return ShelfContentKind.NONE;
+		}
+
+		if (heldItem.getItem() instanceof ItemDrinkware && !ItemDrinkware.isFilled(heldItem)) {
+			switch (((ItemDrinkware)heldItem.getItem()).getShelfSizeGroup(heldItem)) {
+			case 0:
+				return ShelfContentKind.DRINKWARE_LARGE;
+			case 1:
+				return ShelfContentKind.DRINKWARE_MEDIUM;
+			case 2:
+				return ShelfContentKind.DRINKWARE_SMALL;
+			default:
+				return ShelfContentKind.NONE;
+			}
 		}
 
 		Block heldBlock = this.getHeldItemBlock(heldItem);
@@ -1186,7 +1218,9 @@ public class WallShelf extends BlockHBase {
 	}
 
 	private int getEmbeddedCapacityForPosition(IBlockAccess worldIn, BlockPos pos, ShelfContentKind kind) {
-		if (kind != ShelfContentKind.BOOKS) {
+		if (kind != ShelfContentKind.BOOKS && kind != ShelfContentKind.DRINKWARE_LARGE
+				&& kind != ShelfContentKind.DRINKWARE_MEDIUM
+				&& kind != ShelfContentKind.DRINKWARE_SMALL) {
 			return kind.getCapacity();
 		}
 
@@ -1198,7 +1232,22 @@ public class WallShelf extends BlockHBase {
 
 		ShelfRenderState renderState = this.getRenderState(worldIn, pos, state.getValue(FACING));
 
-		return renderState.support == ShelfSupport.INNER_CORNER || renderState.support == ShelfSupport.OUTER_CORNER
-			? Math.min(4, kind.getCapacity()) : kind.getCapacity();
+		if (renderState.support != ShelfSupport.INNER_CORNER
+				&& renderState.support != ShelfSupport.OUTER_CORNER) {
+			return kind.getCapacity();
+		}
+
+		switch (kind) {
+		case DRINKWARE_LARGE:
+			return 3;
+		case DRINKWARE_MEDIUM:
+			return 4;
+		case DRINKWARE_SMALL:
+			return 6;
+		case BOOKS:
+			return Math.min(4, kind.getCapacity());
+		default:
+			return kind.getCapacity();
+		}
 	}
 }

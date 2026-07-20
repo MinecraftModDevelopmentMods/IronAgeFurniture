@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import com.mcmoddev.ironagefurniture.ItemObjectHolder;
 import com.mcmoddev.ironagefurniture.api.DrinkDisplayHelper;
 import com.mcmoddev.ironagefurniture.api.FoudreBrewingRegistry;
 
@@ -30,7 +29,7 @@ import net.minecraftforge.fluids.capability.templates.FluidHandlerItemStackSimpl
 
 public class ItemFluidBottle extends Item {
 	public static final int CAPACITY = Fluid.BUCKET_VOLUME / 4;
-	public static final String LABEL_TAG = "BottleLabel";
+	public static final String LABEL_TAG = DrinkContainerHelper.BOTTLE_LABEL_TAG;
 
 	public ItemFluidBottle() {
 		this.setMaxStackSize(64);
@@ -126,151 +125,38 @@ public class ItemFluidBottle extends Item {
 	}
 
 	public static boolean isFilled(ItemStack stack) {
-		FluidStack fluid = getFluid(stack);
-		return fluid != null && fluid.amount > 0;
+		return DrinkContainerHelper.isFilled(stack);
 	}
 
 	@Nullable
 	public static FluidStack getFluid(ItemStack stack) {
-		if (stack == null || !stack.hasTagCompound() || !stack.getTagCompound().hasKey(
-				FluidHandlerItemStackSimple.FLUID_NBT_KEY, 10)) {
-			return null;
-		}
-
-		return FluidStack.loadFluidStackFromNBT(stack.getTagCompound().getCompoundTag(
-			FluidHandlerItemStackSimple.FLUID_NBT_KEY));
+		return DrinkContainerHelper.getFluid(stack);
 	}
 
 	public static int getFluidColor(ItemStack stack, int fallback) {
-		FluidStack fluid = getFluid(stack);
-		return fluid != null && fluid.getFluid() != null ? fluid.getFluid().getColor(fluid) : fallback;
+		return DrinkContainerHelper.getFluidColor(stack, fallback);
 	}
 
 	@Nullable
 	public static String getBottleLabel(ItemStack stack) {
-		if (stack == null || !stack.hasTagCompound() || !stack.getTagCompound().hasKey(LABEL_TAG, 8)) {
-			return null;
-		}
-
-		return stack.getTagCompound().getString(LABEL_TAG);
+		return DrinkContainerHelper.getContainerLabel(stack);
 	}
 
 	public static void setBottleLabel(ItemStack stack, @Nullable String label) {
-		if (stack == null) {
-			return;
-		}
-
-		if (label == null || label.trim().isEmpty()) {
-			if (stack.hasTagCompound()) {
-				stack.getTagCompound().removeTag(LABEL_TAG);
-
-				if (stack.getTagCompound().hasNoTags()) {
-					stack.setTagCompound(null);
-				}
-			}
-
-			return;
-		}
-
-		NBTTagCompound tag = stack.hasTagCompound() ? stack.getTagCompound() : new NBTTagCompound();
-		tag.setString(LABEL_TAG, sanitizeLabel(label));
-		stack.setTagCompound(tag);
+		DrinkContainerHelper.setContainerLabel(stack, label);
 	}
 
 	public static boolean tryUseWithTank(ItemStack heldItem, IFluidHandler tank, EntityPlayer player,
 			EnumHand hand, @Nullable String fillLabel) {
-		if (heldItem == null || heldItem.stackSize <= 0 || tank == null) {
-			return false;
-		}
-
-		if (heldItem.getItem() instanceof ItemFluidBottle && isFilled(heldItem)) {
-			return tryEmptyIntoTank(heldItem, tank, player, hand);
-		}
-
-		if (heldItem.getItem() == Items.GLASS_BOTTLE) {
-			return tryFillFromTank(heldItem, tank, player, hand, fillLabel);
-		}
-
-		return false;
-	}
-
-	private static boolean tryFillFromTank(ItemStack heldItem, IFluidHandler tank, EntityPlayer player,
-			EnumHand hand, @Nullable String fillLabel) {
-		if (ItemObjectHolder.fluid_bottle == null) {
-			return false;
-		}
-
-		FluidStack drained = tank.drain(CAPACITY, false);
-
-		if (drained == null || drained.getFluid() == null || drained.amount < CAPACITY) {
-			return false;
-		}
-
-		if (!FoudreBrewingRegistry.isBottleable(drained)) {
-			return false;
-		}
-
-		FluidStack bottleFluid = FoudreBrewingRegistry.copyWithCurrentAgeLevel(drained);
-		bottleFluid.amount = CAPACITY;
-		ItemStack filledBottle = new ItemStack(ItemObjectHolder.fluid_bottle);
-		writeFluid(filledBottle, bottleFluid);
-		setBottleLabel(filledBottle, fillLabel);
-
-		tank.drain(CAPACITY, true);
-		heldItem.stackSize--;
-
-		if (heldItem.stackSize <= 0) {
-			player.setHeldItem(hand, null);
-		}
-
-		giveOrDrop(player, filledBottle);
-
-		player.playSound(bottleFluid.getFluid().getFillSound(bottleFluid), 1.0F, 1.0F);
-		return true;
-	}
-
-	private static boolean tryEmptyIntoTank(ItemStack heldItem, IFluidHandler tank, EntityPlayer player,
-			EnumHand hand) {
-		FluidStack fluid = getFluid(heldItem);
-
-		if (fluid == null || fluid.getFluid() == null || fluid.amount <= 0) {
-			return false;
-		}
-
-		FluidStack toFill = fluid.copy();
-		int filled = tank.fill(toFill, false);
-
-		if (filled < toFill.amount) {
-			return false;
-		}
-
-		tank.fill(toFill, true);
-		heldItem.stackSize--;
-
-		ItemStack emptyBottle = new ItemStack(Items.GLASS_BOTTLE);
-
-		if (heldItem.stackSize <= 0) {
-			player.setHeldItem(hand, emptyBottle);
-		} else {
-			giveOrDrop(player, emptyBottle);
-		}
-
-		player.playSound(fluid.getFluid().getEmptySound(fluid), 1.0F, 1.0F);
-		return true;
+		return DrinkContainerHelper.tryUseWithTank(heldItem, tank, player, hand, fillLabel);
 	}
 
 	private static void writeFluid(ItemStack stack, FluidStack fluid) {
-		NBTTagCompound tag = stack.hasTagCompound() ? stack.getTagCompound() : new NBTTagCompound();
-		tag.setTag(FluidHandlerItemStackSimple.FLUID_NBT_KEY, fluid.writeToNBT(new NBTTagCompound()));
-		stack.setTagCompound(tag);
+		DrinkContainerHelper.writeFluid(stack, fluid);
 	}
 
 	private static void normalizeFluidAge(ItemStack stack) {
-		FluidStack fluid = getFluid(stack);
-
-		if (fluid != null && FoudreBrewingRegistry.resetAgeProgressToCurrentLevel(fluid)) {
-			writeFluid(stack, fluid);
-		}
+		DrinkContainerHelper.normalizeFluidAge(stack);
 	}
 
 	private void addQualityTooltip(FluidStack fluid, List<String> tooltip) {
@@ -282,17 +168,6 @@ public class ItemFluidBottle extends Item {
 	}
 
 	private static void giveOrDrop(EntityPlayer player, @Nullable ItemStack stack) {
-		if (stack == null || stack.stackSize <= 0) {
-			return;
-		}
-
-		if (!player.inventory.addItemStackToInventory(stack)) {
-			player.dropItem(stack, false);
-		}
-	}
-
-	private static String sanitizeLabel(String label) {
-		String trimmed = label.trim();
-		return trimmed.length() > 32 ? trimmed.substring(0, 32) : trimmed;
+		DrinkContainerHelper.giveOrDrop(player, stack);
 	}
 }

@@ -1,0 +1,12 @@
+{
+  "parent": "ironagefurniture:item/template_drinkware_shot_glass_empty",
+  "elements": [
+    { "from": [6, 3, 6], "to": [10, 3.8, 10], "faces": { "down": { "texture": "#shell", "tintindex": 0 }, "up": { "texture": "#shell", "tintindex": 0 }, "north": { "texture": "#shell", "tintindex": 0 }, "south": { "texture": "#shell", "tintindex": 0 }, "west": { "texture": "#shell", "tintindex": 0 }, "east": { "texture": "#shell", "tintindex": 0 } } },
+    { "from": [6, 3.8, 6], "to": [10, 6.8, 6.6], "faces": { "up": { "texture": "#shell", "tintindex": 0 }, "north": { "texture": "#shell", "tintindex": 0 }, "south": { "texture": "#shell", "tintindex": 0 }, "west": { "texture": "#shell", "tintindex": 0 }, "east": { "texture": "#shell", "tintindex": 0 } } },
+    { "from": [6, 3.8, 9.4], "to": [10, 6.8, 10], "faces": { "up": { "texture": "#shell", "tintindex": 0 }, "north": { "texture": "#shell", "tintindex": 0 }, "south": { "texture": "#shell", "tintindex": 0 }, "west": { "texture": "#shell", "tintindex": 0 }, "east": { "texture": "#shell", "tintindex": 0 } } },
+    { "from": [6, 3.8, 6.6], "to": [6.6, 6.8, 9.4], "faces": { "up": { "texture": "#shell", "tintindex": 0 }, "north": { "texture": "#shell", "tintindex": 0 }, "south": { "texture": "#shell", "tintindex": 0 }, "west": { "texture": "#shell", "tintindex": 0 }, "east": { "texture": "#shell", "tintindex": 0 } } },
+    { "from": [9.4, 3.8, 6.6], "to": [10, 6.8, 9.4], "faces": { "up": { "texture": "#shell", "tintindex": 0 }, "north": { "texture": "#shell", "tintindex": 0 }, "south": { "texture": "#shell", "tintindex": 0 }, "west": { "texture": "#shell", "tintindex": 0 }, "east": { "texture": "#shell", "tintindex": 0 } } },
+    { "from": [6.65, 3.9, 6.65], "to": [9.35, 5.95, 9.35], "faces": { "down": { "texture": "#fluid", "tintindex": 1 }, "up": { "texture": "#fluid", "tintindex": 1 }, "north": { "texture": "#fluid", "tintindex": 1 }, "south": { "texture": "#fluid", "tintindex": 1 }, "west": { "texture": "#fluid", "tintindex": 1 }, "east": { "texture": "#fluid", "tintindex": 1 } } },
+    { "from": [6.6, 5.8, 6.6], "to": [9.4, 6.1, 9.4], "shade": false, "faces": { "up": { "texture": "#fluid", "tintindex": 1 }, "down": { "texture": "#fluid", "tintindex": 1 } } }
+  ]
+}

@@ -3,6 +3,9 @@ package com.mcmoddev.ironagefurniture.client.render;
 import java.util.Locale;
 
 import com.mcmoddev.ironagefurniture.IronAgeFurnitureConfiguration;
+import com.mcmoddev.ironagefurniture.api.Blocks.BottleRack;
+import com.mcmoddev.ironagefurniture.api.Items.ItemDrinkware;
+import com.mcmoddev.ironagefurniture.api.Items.ItemDrinkware.VesselType;
 import com.mcmoddev.ironagefurniture.api.Items.ItemBlockGlassVase;
 import com.mcmoddev.ironagefurniture.api.Items.ItemBlockOrnament;
 import com.mcmoddev.ironagefurniture.api.VasePlantHelper;
@@ -25,6 +28,10 @@ import org.lwjgl.opengl.GL11;
 
 public final class SurfaceDisplayRenderHelper {
 	private static final String HARVESTCRAFT_MODID = "harvestcraft";
+	private static final float MODEL_PIXELS_PER_BLOCK = 16.0F;
+	private static final double DISPLAY_SURFACE_EPSILON = 0.001D;
+	private static final float SURFACE_BOTTLE_SCALE = 1.05F;
+	private static final double BOTTLE_MODEL_BOTTOM = 0.228D;
 	private static ResourceLocation whiteSurfaceTexture;
 
 	private enum FoodRenderKind {
@@ -45,6 +52,16 @@ public final class SurfaceDisplayRenderHelper {
 			double itemX, double itemZ, double surfaceY, double blockSurfaceY, float yaw) {
 		if (itemStack == null || itemStack.stackSize <= 0) {
 			return false;
+		}
+
+		if (itemStack.getItem() instanceof ItemDrinkware) {
+			renderDrinkware(itemStack, x, y, z, itemX, itemZ, blockSurfaceY, yaw, 1.0F);
+			return true;
+		}
+
+		if (BottleRack.isValidBottleItem(itemStack)) {
+			renderBottle(itemStack, x, y, z, itemX, itemZ, blockSurfaceY, yaw);
+			return true;
 		}
 
 		if (isOrnament(itemStack)) {
@@ -83,6 +100,68 @@ public final class SurfaceDisplayRenderHelper {
 		GlStateManager.enableLighting();
 		GlStateManager.popMatrix();
 		return true;
+	}
+
+	public static void renderDrinkware(ItemStack itemStack, double x, double y, double z,
+			double itemX, double itemZ, double surfaceY, float yaw, float layoutScale) {
+		if (itemStack == null || !(itemStack.getItem() instanceof ItemDrinkware)) {
+			return;
+		}
+
+		VesselType vessel = ItemDrinkware.getVariant(itemStack).getVessel();
+		float scale;
+		float modelBottomPixels;
+
+		switch (vessel) {
+		case TANKARD:
+			scale = 0.46F;
+			modelBottomPixels = 2.0F;
+			break;
+		case WINE_GLASS:
+			scale = 0.42F;
+			modelBottomPixels = 2.0F;
+			break;
+		case SPIRIT_GLASS:
+			scale = 0.36F;
+			modelBottomPixels = 3.0F;
+			break;
+		case SHOT_GLASS:
+			scale = 0.29F;
+			modelBottomPixels = 3.0F;
+			break;
+		case MUG:
+		default:
+			scale = 0.44F;
+			modelBottomPixels = 2.0F;
+			break;
+		}
+
+		scale *= layoutScale;
+		double modelBottomOffset = modelBottomPixels / MODEL_PIXELS_PER_BLOCK * scale;
+		GlStateManager.pushMatrix();
+		GlStateManager.translate(x + itemX,
+			y + surfaceY + scale / 2.0F - modelBottomOffset + DISPLAY_SURFACE_EPSILON,
+			z + itemZ);
+		GlStateManager.rotate(yaw, 0.0F, 1.0F, 0.0F);
+		GlStateManager.scale(scale, scale, scale);
+		Minecraft.getMinecraft().getRenderItem().renderItem(itemStack,
+			ItemCameraTransforms.TransformType.NONE);
+		GlStateManager.popMatrix();
+	}
+
+	private static void renderBottle(ItemStack itemStack, double x, double y, double z,
+			double itemX, double itemZ, double surfaceY, float yaw) {
+		double bottomOffset = BOTTLE_MODEL_BOTTOM * SURFACE_BOTTLE_SCALE;
+
+		GlStateManager.pushMatrix();
+		GlStateManager.translate(x + itemX,
+			y + surfaceY + bottomOffset + DISPLAY_SURFACE_EPSILON,
+			z + itemZ);
+		GlStateManager.rotate(yaw, 0.0F, 1.0F, 0.0F);
+		GlStateManager.rotate(90.0F, 1.0F, 0.0F, 0.0F);
+		GlStateManager.scale(SURFACE_BOTTLE_SCALE, SURFACE_BOTTLE_SCALE, SURFACE_BOTTLE_SCALE);
+		TileEntityBottleRackRenderer.renderBottleModel(itemStack);
+		GlStateManager.popMatrix();
 	}
 
 	public static void renderPottedPlant(ItemStack plantStack, double x, double y, double z, double surfaceY) {

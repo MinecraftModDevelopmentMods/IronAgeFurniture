@@ -21,7 +21,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class TileEntityWallShelf extends TileEntity {
-	private static final int MAX_EMBEDDED_SLOTS = 6;
+	private static final int MAX_EMBEDDED_SLOTS = 9;
 
 	private ItemStack displayedItem;
 	private EnumFacing displayedFacing = EnumFacing.NORTH;
@@ -68,6 +68,18 @@ public class TileEntityWallShelf extends TileEntity {
 		}
 
 		return null;
+	}
+
+	public List<ItemStack> getEmbeddedItems() {
+		List<ItemStack> items = new ArrayList<ItemStack>();
+
+		for (ItemStack itemStack : this.embeddedItems) {
+			if (itemStack != null && itemStack.stackSize > 0) {
+				items.add(itemStack.copy());
+			}
+		}
+
+		return items;
 	}
 
 	public ShelfContentKind getEmbeddedKind() {

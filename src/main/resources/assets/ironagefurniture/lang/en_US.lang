@@ -14,6 +14,7 @@ tile.ironagefurniture.obsidian_chunk.name=Obsidian Chunk
 tile.ironagefurniture.gold_bars.name=Gold Bars
 item.ironagefurniture.tallow.name=Tallow
 item.ironagefurniture.fluid_bottle.name=Fluid Bottle
+item.ironagefurniture.drinkware.name=Drinkware
 fluid.ale=Ale
 fluid.cider=Cider
 fluid.wine=Wine

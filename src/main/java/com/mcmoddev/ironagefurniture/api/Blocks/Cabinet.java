@@ -6,6 +6,7 @@ import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 import com.mcmoddev.ironagefurniture.Ironagefurniture;
 import com.mcmoddev.ironagefurniture.api.SurfaceItemRules;
 import com.mcmoddev.ironagefurniture.api.VasePlantHelper;
+import com.mcmoddev.ironagefurniture.api.Items.DrinkContainerHelper;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityCabinet;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityGlassVase;
 
@@ -187,6 +188,20 @@ public class Cabinet extends Block {
 		TileEntityCabinet cabinet = this.getCabinetEntity(worldIn, pos);
 		boolean hasDisplayedItem = cabinet != null && cabinet.hasDisplayedItem();
 		boolean hasHeldItem = heldItem != null && heldItem.stackSize > 0;
+
+		if (hasDisplayedItem
+				&& DrinkContainerHelper.canFillDisplayedDrinkware(cabinet.getDisplayedItem(), heldItem)) {
+			if (!worldIn.isRemote) {
+				ItemStack filledDrinkware = DrinkContainerHelper.fillDisplayedDrinkware(
+					cabinet.getDisplayedItem(), heldItem, playerIn, hand);
+
+				if (filledDrinkware != null) {
+					cabinet.setDisplayedItem(filledDrinkware);
+				}
+			}
+
+			return true;
+		}
 
 		if (this.isDisplayExcluded(heldItem) && !canRetrievePlacedBlock) {
 			return false;

@@ -11,6 +11,9 @@ import com.mcmoddev.ironagefurniture.ItemObjectHolder;
 import com.mcmoddev.ironagefurniture.api.FurnitureFactory;
 import com.mcmoddev.ironagefurniture.api.MetalVariantHelper;
 import com.mcmoddev.ironagefurniture.api.MetalVariantHelper.MetalVariant;
+import com.mcmoddev.ironagefurniture.api.Items.ItemDrinkware;
+import com.mcmoddev.ironagefurniture.api.Items.ItemDrinkware.MaterialType;
+import com.mcmoddev.ironagefurniture.api.Items.ItemDrinkware.VesselType;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -42,9 +45,69 @@ public class RecipeInitialiser {
 		generateBarrelRecipes();
 		generateShelfRecipes();
 		generateBottleRackRecipes();
+		generateDrinkwareRecipes();
 		generateGoldBarsRecipes();
 		generateLightRecipes();
 		generateOrnamentRecipes();
+	}
+
+	private static void generateDrinkwareRecipes() {
+		if (!IronAgeFurnitureConfiguration.GENERATE_DRINKWARE || ItemObjectHolder.drinkware == null) {
+			return;
+		}
+
+		for (int glassIndex = 0; glassIndex < 17; glassIndex++) {
+			ItemStack pane = glassIndex == 0 ? new ItemStack(Blocks.GLASS_PANE)
+				: new ItemStack(Blocks.STAINED_GLASS_PANE, 1, glassIndex - 1);
+			addDrinkwareRecipe(VesselType.TANKARD, MaterialType.GLASS, glassIndex, pane,
+				"x x", "x x", " xx");
+			addDrinkwareRecipe(VesselType.WINE_GLASS, MaterialType.GLASS, glassIndex, pane,
+				"x x", " x ", " x ");
+			addDrinkwareRecipe(VesselType.SPIRIT_GLASS, MaterialType.GLASS, glassIndex, pane,
+				"x x", " x ", "xxx");
+			addDrinkwareRecipe(VesselType.SHOT_GLASS, MaterialType.GLASS, glassIndex, pane,
+				"x x", "xxx");
+		}
+
+		WoodVariantHelper.forEachEnabledPlankVariant(new WoodVariantHelper.ItemStackVariantConsumer() {
+			@Override
+			public void accept(String suffix, ItemStack planks) {
+				int woodIndex = ItemDrinkware.getWoodIndex(suffix);
+
+				if (woodIndex >= 0) {
+					addDrinkwareRecipe(VesselType.TANKARD, MaterialType.WOOD, woodIndex, planks,
+						"x x", "x x", " xx");
+					addDrinkwareRecipe(VesselType.MUG, MaterialType.WOOD, woodIndex, planks,
+						"x x", "xxx");
+				}
+			}
+		});
+
+		for (MetalVariant metal : ItemDrinkware.getAvailableMetals()) {
+			int metalIndex = ItemDrinkware.getMetalIndex(metal);
+			Object ingot = metal.getIngotOreName();
+			addDrinkwareRecipe(VesselType.TANKARD, MaterialType.METAL, metalIndex, ingot,
+				"x x", "x x", " xx");
+			addDrinkwareRecipe(VesselType.MUG, MaterialType.METAL, metalIndex, ingot,
+				"x x", "xxx");
+		}
+
+		addDrinkwareRecipe(VesselType.MUG, MaterialType.CLAY, 0, Items.BRICK,
+			"x x", "xxx");
+	}
+
+	private static void addDrinkwareRecipe(VesselType vessel, MaterialType material, int variantIndex,
+			Object ingredient, String... pattern) {
+		Object[] recipe = new Object[pattern.length + 2];
+
+		for (int i = 0; i < pattern.length; i++) {
+			recipe[i] = pattern[i];
+		}
+
+		recipe[pattern.length] = Character.valueOf('x');
+		recipe[pattern.length + 1] = ingredient;
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemObjectHolder.drinkware, 4,
+			ItemDrinkware.getMetadata(vessel, material, variantIndex)), recipe));
 	}
 
 	private static void registerCustomRecipeTypes() {

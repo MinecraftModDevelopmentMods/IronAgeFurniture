@@ -9,6 +9,7 @@ import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 import com.mcmoddev.ironagefurniture.Ironagefurniture;
 import com.mcmoddev.ironagefurniture.api.SurfaceItemRules;
 import com.mcmoddev.ironagefurniture.api.VasePlantHelper;
+import com.mcmoddev.ironagefurniture.api.Items.DrinkContainerHelper;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityDiningTable;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityGlassVase;
 
@@ -195,6 +196,22 @@ public class DiningTable extends Block {
 			return false;
 		}
 
+		TileEntityDiningTable table = this.getTableEntity(worldIn, pos, false);
+
+		if (table != null && table.hasDisplayedItem()
+				&& DrinkContainerHelper.canFillDisplayedDrinkware(table.getDisplayedItem(), heldItem)) {
+			if (!worldIn.isRemote) {
+				ItemStack filledDrinkware = DrinkContainerHelper.fillDisplayedDrinkware(
+					table.getDisplayedItem(), heldItem, playerIn, hand);
+
+				if (filledDrinkware != null) {
+					table.setDisplayedItem(filledDrinkware);
+				}
+			}
+
+			return true;
+		}
+
 		boolean canRetrievePlacedBlock = this.canRetrievePlacedBlockAbove(worldIn, pos, playerIn, heldItem);
 
 		if (this.isDisplayExcluded(heldItem) && !canRetrievePlacedBlock) {
@@ -204,8 +221,6 @@ public class DiningTable extends Block {
 		if (worldIn.isRemote) {
 			return true;
 		}
-
-		TileEntityDiningTable table = this.getTableEntity(worldIn, pos, false);
 
 		if (table != null && table.hasDisplayedItem()
 				&& VasePlantHelper.canHandleVaseClick(table.getDisplayedItem(), heldItem)) {

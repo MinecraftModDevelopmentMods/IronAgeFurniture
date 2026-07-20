@@ -8,7 +8,7 @@ import javax.annotation.Nullable;
 import com.mcmoddev.ironagefurniture.Ironagefurniture;
 import com.mcmoddev.ironagefurniture.api.BarrelFluidCompat;
 import com.mcmoddev.ironagefurniture.api.FluidContainerTransfer;
-import com.mcmoddev.ironagefurniture.api.Items.ItemFluidBottle;
+import com.mcmoddev.ironagefurniture.api.Items.DrinkContainerHelper;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityBarrel;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityFoudre;
 
@@ -76,10 +76,10 @@ public class Barrel extends Block {
 				return true;
 			}
 
-			if (heldItem.getItem() instanceof ItemFluidBottle || heldItem.getItem() == Items.GLASS_BOTTLE) {
+			if (DrinkContainerHelper.isTankInteractionItem(heldItem)) {
 				String label = barrel instanceof TileEntityFoudre ? ((TileEntityFoudre)barrel).getBottleLabel() : null;
 
-				if (ItemFluidBottle.tryUseWithTank(heldItem, barrel.getFluidHandler(), playerIn, hand, label)) {
+				if (DrinkContainerHelper.tryUseWithTank(heldItem, barrel.getFluidHandler(), playerIn, hand, label)) {
 					barrel.markForFluidUpdate();
 				}
 
@@ -112,7 +112,7 @@ public class Barrel extends Block {
 			return false;
 		}
 
-		if (heldItem.getItem() instanceof ItemFluidBottle || heldItem.getItem() == Items.GLASS_BOTTLE) {
+		if (DrinkContainerHelper.isTankInteractionItem(heldItem)) {
 			return true;
 		}
 

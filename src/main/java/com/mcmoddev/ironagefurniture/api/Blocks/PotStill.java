@@ -10,7 +10,7 @@ import com.mcmoddev.ironagefurniture.Ironagefurniture;
 import com.mcmoddev.ironagefurniture.api.BarrelFluidCompat;
 import com.mcmoddev.ironagefurniture.api.Enumerations.FoudrePart;
 import com.mcmoddev.ironagefurniture.api.FluidContainerTransfer;
-import com.mcmoddev.ironagefurniture.api.Items.ItemFluidBottle;
+import com.mcmoddev.ironagefurniture.api.Items.DrinkContainerHelper;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityPotStill;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityPotStillPort;
 
@@ -205,9 +205,8 @@ public class PotStill extends Barrel {
 				return true;
 			}
 
-			if (heldItem != null && (heldItem.getItem() instanceof ItemFluidBottle
-					|| heldItem.getItem() == Items.GLASS_BOTTLE)) {
-				if (ItemFluidBottle.tryUseWithTank(heldItem, still.getFluidHandler(), playerIn, hand,
+			if (DrinkContainerHelper.isTankInteractionItem(heldItem)) {
+				if (DrinkContainerHelper.tryUseWithTank(heldItem, still.getFluidHandler(), playerIn, hand,
 						this.getBottleLabel(still))) {
 					still.markForUpdate();
 				}
@@ -360,7 +359,7 @@ public class PotStill extends Barrel {
 			return false;
 		}
 
-		if (heldItem.getItem() instanceof ItemFluidBottle || heldItem.getItem() == Items.GLASS_BOTTLE
+		if (DrinkContainerHelper.isTankInteractionItem(heldItem)
 				|| heldItem.getItem() == Items.BUCKET) {
 			return true;
 		}

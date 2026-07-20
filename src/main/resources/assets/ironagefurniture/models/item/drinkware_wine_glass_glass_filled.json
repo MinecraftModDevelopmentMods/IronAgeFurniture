@@ -1,0 +1,1 @@
+{ "parent": "ironagefurniture:item/template_drinkware_wine_glass_filled", "textures": { "shell": "minecraft:blocks/glass_white", "fluid": "minecraft:blocks/snow" } }

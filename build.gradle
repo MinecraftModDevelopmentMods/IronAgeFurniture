@@ -161,6 +161,7 @@ eclipse.project {
 // Keeping the unused test runtime out avoids broken workspace entries when old
 // JUnit/Mockito artifacts are evicted from Gradle's cache.
 eclipse.classpath {
+    plusConfigurations += [configurations.deobfCompile]
     minusConfigurations += [configurations.testCompile, configurations.testRuntime]
 
     file.whenMerged { classpath ->

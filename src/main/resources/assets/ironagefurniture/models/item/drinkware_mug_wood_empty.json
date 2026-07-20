@@ -1,0 +1,1 @@
+{ "parent": "ironagefurniture:item/template_drinkware_mug_empty", "textures": { "shell": "minecraft:blocks/planks_oak" } }
