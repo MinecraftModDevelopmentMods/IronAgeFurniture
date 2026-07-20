@@ -1,0 +1,43 @@
+name: Build Status
+
+on:
+  push:
+    branches: [ '*' ]
+  pull_request:
+
+env:
+  JAVA_VERSION: 25
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout the code.
+        uses: actions/checkout@v6
+
+      - name: Set up JDK ${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@v5
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'microsoft'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v5
+
+      - name: Grant Gradle execute permissions
+        run: chmod +x ./gradlew
+
+      - name: Build with Gradle
+        run: ./gradlew assemble
+
+      - name: Upload build artifacts
+        continue-on-error: true
+        uses: actions/upload-artifact@v6
+        with:
+          name: ${{ github.event.repository.name }}-${{ github.sha }}
+          path: |
+            build/libs/*.jar
+
+      - name: Run tests
+        run: ./gradlew check
