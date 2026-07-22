@@ -2,8 +2,8 @@
 {
   "modid": "${mod_id}",
   "name": "${mod_name}",
-  "description": "${description}",
-  "version": "${version}",
+  "description": "${mod_description}",
+  "version": "${mod_version}",
   "mcversion": "${minecraft_version}",
   "url": "${curseforge_url}",
   "updateUrl": "${update_url}",
