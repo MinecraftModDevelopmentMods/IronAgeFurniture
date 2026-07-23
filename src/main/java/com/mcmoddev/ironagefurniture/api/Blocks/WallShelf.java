@@ -50,9 +50,9 @@ public class WallShelf extends BlockHBase {
 	public static final PropertyEnum<ShelfContents> CONTENTS = PropertyEnum.create("contents", ShelfContents.class);
 	public static final PropertyBool DATA = PropertyBool.create("data");
 
-	private static final AxisAlignedBB BOARD_STRAIGHT_NORTH = new AxisAlignedBB(0.0D, 0.625D, 0.25D, 1.0D, 0.8125D, 1.0D);
+	private static final AxisAlignedBB BOARD_STRAIGHT_NORTH = new AxisAlignedBB(0.0D, 0.625D, 0.375D, 1.0D, 0.8125D, 1.0D);
 	private static final AxisAlignedBB BOARD_INNER_CORNER_NORTH = new AxisAlignedBB(0.0D, 0.625D, 0.0D, 1.0D, 0.8125D, 1.0D);
-	private static final AxisAlignedBB BOARD_OUTER_CORNER_NORTH = new AxisAlignedBB(0.0D, 0.625D, 0.25D, 0.75D, 0.8125D, 1.0D);
+	private static final AxisAlignedBB BOARD_OUTER_CORNER_NORTH = new AxisAlignedBB(0.0D, 0.625D, 0.375D, 0.625D, 0.8125D, 1.0D);
 
 	private enum ShelfShape {
 		STRAIGHT,

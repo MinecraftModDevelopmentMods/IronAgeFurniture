@@ -13,7 +13,7 @@
       "from": [
         0,
         10,
-        4
+        6
       ],
       "to": [
         16,
@@ -81,12 +81,12 @@
       "from": [
         0,
         9,
-        4
+        6
       ],
       "to": [
         16,
         10,
-        6
+        8
       ],
       "faces": {
         "north": {
@@ -558,12 +558,12 @@
       "from": [
         5.5,
         13,
-        5.5
+        6.5
       ],
       "to": [
         10.5,
         14,
-        10.5
+        11.5
       ],
       "faces": {
         "north": {
@@ -627,12 +627,12 @@
       "from": [
         5,
         14,
-        5
+        6
       ],
       "to": [
         11,
         18,
-        6
+        7
       ],
       "faces": {
         "north": {
@@ -696,7 +696,145 @@
       "from": [
         5,
         14,
-        10
+        11
+      ],
+      "to": [
+        11,
+        18,
+        12
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#pot"
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#pot"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#pot"
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#pot"
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#pot"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#pot"
+        }
+      }
+    },
+    {
+      "name": "embedded flower pot west wall",
+      "from": [
+        5,
+        14,
+        7
+      ],
+      "to": [
+        6,
+        18,
+        11
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#pot"
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#pot"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#pot"
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#pot"
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#pot"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#pot"
+        }
+      }
+    },
+    {
+      "name": "embedded flower pot east wall",
+      "from": [
+        10,
+        14,
+        7
       ],
       "to": [
         11,
@@ -761,154 +899,16 @@
       }
     },
     {
-      "name": "embedded flower pot west wall",
-      "from": [
-        5,
-        14,
-        6
-      ],
-      "to": [
-        6,
-        18,
-        10
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            0,
-            16,
-            16
-          ],
-          "texture": "#pot"
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            16,
-            16
-          ],
-          "texture": "#pot"
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            16,
-            16
-          ],
-          "texture": "#pot"
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            16,
-            16
-          ],
-          "texture": "#pot"
-        },
-        "up": {
-          "uv": [
-            0,
-            0,
-            16,
-            16
-          ],
-          "texture": "#pot"
-        },
-        "down": {
-          "uv": [
-            0,
-            0,
-            16,
-            16
-          ],
-          "texture": "#pot"
-        }
-      }
-    },
-    {
-      "name": "embedded flower pot east wall",
-      "from": [
-        10,
-        14,
-        6
-      ],
-      "to": [
-        11,
-        18,
-        10
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            0,
-            16,
-            16
-          ],
-          "texture": "#pot"
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            16,
-            16
-          ],
-          "texture": "#pot"
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            16,
-            16
-          ],
-          "texture": "#pot"
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            16,
-            16
-          ],
-          "texture": "#pot"
-        },
-        "up": {
-          "uv": [
-            0,
-            0,
-            16,
-            16
-          ],
-          "texture": "#pot"
-        },
-        "down": {
-          "uv": [
-            0,
-            0,
-            16,
-            16
-          ],
-          "texture": "#pot"
-        }
-      }
-    },
-    {
       "name": "embedded flower pot dirt",
       "from": [
         6,
         17.45,
-        6
+        7
       ],
       "to": [
         10,
         17.55,
-        10
+        11
       ],
       "faces": {
         "north": {

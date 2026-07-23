@@ -9,15 +9,17 @@ import com.mcmoddev.ironagefurniture.api.tile.TileEntityDiningTable;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityFoudre;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityGlassVase;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityHalfCabinet;
-import com.mcmoddev.ironagefurniture.api.tile.TileEntityWallShelf;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityHangingInnSign;
+import com.mcmoddev.ironagefurniture.api.tile.TileEntitySurfaceDisplay;
+import com.mcmoddev.ironagefurniture.api.tile.TileEntityWallShelf;
 import com.mcmoddev.ironagefurniture.client.render.TileEntityBottleRackRenderer;
 import com.mcmoddev.ironagefurniture.client.render.TileEntityCabinetRenderer;
 import com.mcmoddev.ironagefurniture.client.render.TileEntityDiningTableRenderer;
 import com.mcmoddev.ironagefurniture.client.render.TileEntityFoudreRenderer;
 import com.mcmoddev.ironagefurniture.client.render.TileEntityGlassVaseRenderer;
-import com.mcmoddev.ironagefurniture.client.render.TileEntityWallShelfRenderer;
 import com.mcmoddev.ironagefurniture.client.render.TileEntityHangingInnSignRenderer;
+import com.mcmoddev.ironagefurniture.client.render.TileEntitySurfaceDisplayRenderer;
+import com.mcmoddev.ironagefurniture.client.render.TileEntityWallShelfRenderer;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.Render;
@@ -43,6 +45,8 @@ public class ClientRenderInitialiser {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBottleRack.class, new TileEntityBottleRackRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFoudre.class, new TileEntityFoudreRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHangingInnSign.class, new TileEntityHangingInnSignRenderer());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySurfaceDisplay.class,
+			new TileEntitySurfaceDisplayRenderer());
 	}
 
 	public static void RegisterEntityRenderers() {

@@ -56,7 +56,10 @@ public class TileEntityWallShelfRenderer extends TileEntitySpecialRenderer<TileE
 
 		if (te.getEmbeddedKind() == WallShelf.ShelfContentKind.FLOWER_POT && te.getLastEmbeddedItem() != null
 				&& !this.isSameStack(te.getLastEmbeddedItem(), te.getFirstEmbeddedItem())) {
-			SurfaceDisplayRenderHelper.renderPottedPlant(te.getLastEmbeddedItem(), x, y, z, SHELF_TOP_Y);
+			double plantX = 0.5D - facing.getFrontOffsetX() / 16.0D;
+			double plantZ = 0.5D - facing.getFrontOffsetZ() / 16.0D;
+			SurfaceDisplayRenderHelper.renderPottedPlant(te.getLastEmbeddedItem(), x, y, z, plantX, plantZ,
+				SHELF_TOP_Y);
 		}
 
 		if (itemStack == null || itemStack.stackSize <= 0) {

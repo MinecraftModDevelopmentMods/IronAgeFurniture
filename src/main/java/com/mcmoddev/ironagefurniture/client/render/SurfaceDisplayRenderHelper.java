@@ -165,12 +165,17 @@ public final class SurfaceDisplayRenderHelper {
 	}
 
 	public static void renderPottedPlant(ItemStack plantStack, double x, double y, double z, double surfaceY) {
+		renderPottedPlant(plantStack, x, y, z, 0.5D, 0.5D, surfaceY);
+	}
+
+	public static void renderPottedPlant(ItemStack plantStack, double x, double y, double z, double itemX,
+			double itemZ, double surfaceY) {
 		if (plantStack == null || plantStack.stackSize <= 0) {
 			return;
 		}
 
 		GlStateManager.pushMatrix();
-		GlStateManager.translate(x + 0.5D, y + surfaceY + 0.46D, z + 0.5D);
+		GlStateManager.translate(x + itemX, y + surfaceY + 0.46D, z + itemZ);
 		GlStateManager.scale(0.52F, 0.52F, 0.52F);
 		Minecraft.getMinecraft().getRenderItem().renderItem(plantStack,
 			ItemCameraTransforms.TransformType.FIXED);
@@ -3314,13 +3319,11 @@ public final class SurfaceDisplayRenderHelper {
 	private static void renderVaseStem() {
 		GlStateManager.disableTexture2D();
 		GlStateManager.disableLighting();
-		GlStateManager.disableDepth();
 
 		drawCuboid(-0.012D, 0.14D, -0.012D, 0.012D, 0.40D, 0.012D, 0.08F, 0.34F, 0.08F);
 		drawCuboid(-0.075D, 0.23D, -0.008D, -0.012D, 0.29D, 0.008D, 0.08F, 0.30F, 0.07F);
 		drawCuboid(0.012D, 0.31D, -0.008D, 0.070D, 0.37D, 0.008D, 0.08F, 0.30F, 0.07F);
 
-		GlStateManager.enableDepth();
 		GlStateManager.enableLighting();
 		GlStateManager.enableTexture2D();
 	}

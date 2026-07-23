@@ -73,7 +73,8 @@ public class BlockInitialiser {
 		if (IronAgeFurnitureConfiguration.GENERATE_DINING_TABLES
 				|| IronAgeFurnitureConfiguration.GENERATE_LOW_TABLES
 				|| IronAgeFurnitureConfiguration.GENERATE_WALL_SHELVES
-				|| IronAgeFurnitureConfiguration.GENERATE_WOOD_CABINETS) {
+				|| IronAgeFurnitureConfiguration.GENERATE_WOOD_CABINETS
+				|| IronAgeFurnitureConfiguration.GENERATE_DRINKWARE) {
 			BlockObjectHolder.surface_display_blocker = FurnitureFactory.CreateSurfaceDisplayBlocker("surface_display_blocker");
 		}
 	}

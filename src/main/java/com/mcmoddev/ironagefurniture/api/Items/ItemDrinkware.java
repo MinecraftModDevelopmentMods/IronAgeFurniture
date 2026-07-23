@@ -9,7 +9,9 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
+import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 import com.mcmoddev.ironagefurniture.IronAgeFurnitureConfiguration;
+import com.mcmoddev.ironagefurniture.api.Blocks.SurfaceDisplayBlocker;
 import com.mcmoddev.ironagefurniture.api.DrinkDisplayHelper;
 import com.mcmoddev.ironagefurniture.api.DrinkProperties;
 import com.mcmoddev.ironagefurniture.api.FoudreBrewingRegistry;
@@ -26,7 +28,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -184,6 +188,28 @@ public class ItemDrinkware extends Item {
 
 		playerIn.setActiveHand(hand);
 		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
+	}
+
+	@Override
+	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos,
+			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		if (stack == null || stack.stackSize <= 0 || facing != EnumFacing.UP
+				|| !(BlockObjectHolder.surface_display_blocker instanceof SurfaceDisplayBlocker)
+				|| !playerIn.canPlayerEdit(pos.up(), facing, stack)
+				|| !SurfaceDisplayBlocker.placeDrinkware(worldIn, pos, stack,
+					playerIn.getHorizontalFacing())) {
+			return EnumActionResult.PASS;
+		}
+
+		if (!worldIn.isRemote && !playerIn.capabilities.isCreativeMode) {
+			stack.stackSize--;
+
+			if (stack.stackSize <= 0) {
+				playerIn.setHeldItem(hand, null);
+			}
+		}
+
+		return EnumActionResult.SUCCESS;
 	}
 
 	@Override
