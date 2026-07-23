@@ -1,6 +1,7 @@
 package com.mcmoddev.ironagefurniture.client.render;
 
-import com.mcmoddev.ironagefurniture.api.Items.ItemDrinkware;
+import com.mcmoddev.ironagefurniture.api.surface.SurfaceSetting;
+import com.mcmoddev.ironagefurniture.api.surface.SurfaceSetting.Slot;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntitySurfaceDisplay;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -11,14 +12,17 @@ public class TileEntitySurfaceDisplayRenderer extends TileEntitySpecialRenderer<
 	@Override
 	public void renderTileEntityAt(TileEntitySurfaceDisplay tileEntity, double x, double y, double z,
 			float partialTicks, int destroyStage) {
-		ItemStack itemStack = tileEntity.getDisplayedItem();
+		SurfaceSetting setting = tileEntity.getSurfaceSetting();
 
-		if (itemStack == null || itemStack.stackSize <= 0 || !(itemStack.getItem() instanceof ItemDrinkware)) {
-			return;
+		for (Slot slot : Slot.values()) {
+			ItemStack itemStack = setting.getItem(slot);
+
+			if (itemStack != null && itemStack.stackSize > 0) {
+				SurfaceDisplayRenderHelper.renderSurfaceItem(itemStack, x, y, z,
+					setting.getX(slot), setting.getZ(slot), 0.0D, 0.0D,
+					this.getYaw(setting.getFacing(slot)));
+			}
 		}
-
-		SurfaceDisplayRenderHelper.renderDrinkware(itemStack, x, y, z, 0.5D, 0.5D, 0.0D,
-			this.getYaw(tileEntity.getDisplayedFacing()), 1.0F);
 	}
 
 	private float getYaw(EnumFacing facing) {

@@ -1,5 +1,8 @@
 package com.mcmoddev.ironagefurniture.api.tile;
 
+import com.mcmoddev.ironagefurniture.api.surface.SurfaceSetting;
+import com.mcmoddev.ironagefurniture.api.surface.SurfaceSettingHost;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -7,58 +10,53 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 
-public class TileEntitySurfaceDisplay extends TileEntity {
-	private ItemStack displayedItem;
-	private EnumFacing displayedFacing = EnumFacing.NORTH;
+public class TileEntitySurfaceDisplay extends TileEntity implements SurfaceSettingHost {
+	private final SurfaceSetting surfaceSetting = new SurfaceSetting();
 
 	public boolean hasDisplayedItem() {
-		return this.displayedItem != null && this.displayedItem.stackSize > 0;
+		return this.surfaceSetting.hasAnyItem();
 	}
 
 	public ItemStack getDisplayedItem() {
-		return this.displayedItem;
+		return this.surfaceSetting.getCompatibilityItem();
 	}
 
 	public EnumFacing getDisplayedFacing() {
-		return this.displayedFacing;
+		return this.surfaceSetting.getCompatibilityFacing();
 	}
 
 	public void setDisplayedItem(ItemStack itemStack, EnumFacing facing) {
-		this.displayedItem = itemStack == null ? null : itemStack.copy();
-		this.displayedFacing = facing != null && facing.getAxis().isHorizontal() ? facing : EnumFacing.NORTH;
-		this.markForUpdate();
+		this.surfaceSetting.setSingleItem(itemStack, facing);
+		this.markSurfaceSettingChanged();
 	}
 
 	public ItemStack removeDisplayedItem() {
-		ItemStack itemStack = this.displayedItem;
-		this.displayedItem = null;
-		this.displayedFacing = EnumFacing.NORTH;
-		this.markForUpdate();
+		ItemStack itemStack = this.surfaceSetting.removeCompatibilityItem();
+		this.markSurfaceSettingChanged();
 		return itemStack;
+	}
+
+	@Override
+	public SurfaceSetting getSurfaceSetting() {
+		return this.surfaceSetting;
+	}
+
+	@Override
+	public void markSurfaceSettingChanged() {
+		this.markForUpdate();
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
-		this.displayedItem = compound.hasKey("DisplayedItem")
-			? ItemStack.loadItemStackFromNBT(compound.getCompoundTag("DisplayedItem")) : null;
-		this.displayedFacing = compound.hasKey("DisplayedFacing")
-			? EnumFacing.getHorizontal(compound.getInteger("DisplayedFacing") & 3) : EnumFacing.NORTH;
+		this.surfaceSetting.readFromNBT(compound);
 	}
 
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
 
-		if (this.hasDisplayedItem()) {
-			NBTTagCompound itemTag = new NBTTagCompound();
-			this.displayedItem.writeToNBT(itemTag);
-			compound.setTag("DisplayedItem", itemTag);
-			compound.setInteger("DisplayedFacing", this.displayedFacing.getHorizontalIndex());
-		} else {
-			compound.removeTag("DisplayedItem");
-			compound.removeTag("DisplayedFacing");
-		}
+		this.surfaceSetting.writeToNBT(compound);
 
 		return compound;
 	}

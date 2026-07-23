@@ -10,6 +10,8 @@ import com.mcmoddev.ironagefurniture.Ironagefurniture;
 import com.mcmoddev.ironagefurniture.api.SurfaceItemRules;
 import com.mcmoddev.ironagefurniture.api.VasePlantHelper;
 import com.mcmoddev.ironagefurniture.api.Items.DrinkContainerHelper;
+import com.mcmoddev.ironagefurniture.api.surface.SurfaceSettingInteraction;
+import com.mcmoddev.ironagefurniture.api.surface.SurfaceSettingInteraction.Result;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityDiningTable;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityGlassVase;
 
@@ -197,21 +199,6 @@ public class DiningTable extends Block {
 		}
 
 		TileEntityDiningTable table = this.getTableEntity(worldIn, pos, false);
-
-		if (table != null && table.hasDisplayedItem()
-				&& DrinkContainerHelper.canFillDisplayedDrinkware(table.getDisplayedItem(), heldItem)) {
-			if (!worldIn.isRemote) {
-				ItemStack filledDrinkware = DrinkContainerHelper.fillDisplayedDrinkware(
-					table.getDisplayedItem(), heldItem, playerIn, hand);
-
-				if (filledDrinkware != null) {
-					table.setDisplayedItem(filledDrinkware);
-				}
-			}
-
-			return true;
-		}
-
 		boolean canRetrievePlacedBlock = this.canRetrievePlacedBlockAbove(worldIn, pos, playerIn, heldItem);
 
 		if (this.isDisplayExcluded(heldItem) && !canRetrievePlacedBlock) {
@@ -219,29 +206,12 @@ public class DiningTable extends Block {
 		}
 
 		if (worldIn.isRemote) {
-			return true;
-		}
-
-		if (table != null && table.hasDisplayedItem()
-				&& VasePlantHelper.canHandleVaseClick(table.getDisplayedItem(), heldItem)) {
-			this.handleDisplayedVaseClick(worldIn, pos, table, playerIn, hand, heldItem);
-			return true;
-		}
-
-		if (table != null && table.hasDisplayedItem() && this.canRetrieveDisplayedItem(table, heldItem)) {
-			ItemStack displayedItem = table.removeDisplayedItem();
-			SurfaceDisplayBlocker.release(worldIn, pos);
-
-			if (displayedItem != null) {
-				if (!playerIn.inventory.addItemStackToInventory(displayedItem)) {
-					EntityItem entityItem = new EntityItem(worldIn, pos.getX() + 0.5D, pos.getY() + 1.1D,
-						pos.getZ() + 0.5D, displayedItem);
-					worldIn.spawnEntity(entityItem);
-				}
+			if (table != null && table.hasDisplayedItem()) {
+				return SurfaceSettingInteraction.handle(table, playerIn, hand, heldItem, hitX, hitZ,
+					null, true) != Result.NOT_HANDLED;
 			}
 
-			this.removeTableEntityIfEmpty(worldIn, pos);
-			return true;
+			return canRetrievePlacedBlock || heldItem != null && heldItem.stackSize > 0;
 		}
 
 		if ((table == null || !table.hasDisplayedItem()) && canRetrievePlacedBlock
@@ -249,7 +219,7 @@ public class DiningTable extends Block {
 			return true;
 		}
 
-		if ((table == null || !table.hasDisplayedItem()) && heldItem != null && heldItem.stackSize > 0) {
+		if (table == null && heldItem != null && heldItem.stackSize > 0) {
 			if (!SurfaceDisplayBlocker.reserve(worldIn, pos)) {
 				return true;
 			}
@@ -260,23 +230,33 @@ public class DiningTable extends Block {
 				SurfaceDisplayBlocker.release(worldIn, pos);
 				return true;
 			}
+		}
 
-			ItemStack displayedItem = heldItem.copy();
-			displayedItem.stackSize = 1;
-			table.setDisplayedItem(displayedItem, playerIn.getHorizontalFacing());
+		if (table != null) {
+			Result result = SurfaceSettingInteraction.handle(table, playerIn, hand, heldItem,
+				hitX, hitZ, null, true);
 
-			if (!playerIn.capabilities.isCreativeMode) {
-				heldItem.stackSize--;
-
-				if (heldItem.stackSize <= 0) {
-					playerIn.setHeldItem(hand, null);
-				}
+			if (result == Result.HANDLED_AND_EMPTIED) {
+				this.removeTableEntityIfEmpty(worldIn, pos);
 			}
+			if (result != Result.NOT_HANDLED) {
+				if (table.hasDisplayedItem()) {
+					SurfaceDisplayBlocker.reserve(worldIn, pos);
+				}
 
+				return true;
+			}
+		}
+
+		if (table != null && !table.hasDisplayedItem()) {
+			this.removeTableEntityIfEmpty(worldIn, pos);
+		}
+
+		if (heldItem != null && heldItem.stackSize > 0) {
 			return true;
 		}
 
-		return true;
+		return false;
 	}
 
 	protected boolean isDisplayExcluded(ItemStack heldItem) {

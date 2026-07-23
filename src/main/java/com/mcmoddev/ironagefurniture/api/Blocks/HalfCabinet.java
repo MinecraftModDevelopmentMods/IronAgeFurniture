@@ -83,6 +83,12 @@ public class HalfCabinet extends Cabinet {
 		return 0.5D;
 	}
 
+	@Override
+	protected EnumFacing.Axis getSurfaceSettingAxis(IBlockState state) {
+		return state.getValue(FACING).getAxis() == EnumFacing.Axis.X
+			? EnumFacing.Axis.Z : EnumFacing.Axis.X;
+	}
+
 	private static AxisAlignedBB getBox(EnumFacing facing) {
 		switch (facing) {
 		case NORTH:

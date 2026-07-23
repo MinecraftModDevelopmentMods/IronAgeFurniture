@@ -14,11 +14,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.block.model.ItemTransformVec3f;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemFood;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemRecord;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -46,6 +49,34 @@ public final class SurfaceDisplayRenderHelper {
 	}
 
 	private SurfaceDisplayRenderHelper() {
+	}
+
+	public static void renderSurfaceItem(ItemStack itemStack, double x, double y, double z,
+			double itemX, double itemZ, double itemY, double blockSurfaceY, float yaw) {
+		if (renderSpecialSurfaceItem(itemStack, x, y, z, itemX, itemZ, itemY, blockSurfaceY, yaw)) {
+			return;
+		}
+
+		GlStateManager.pushMatrix();
+		ItemCameraTransforms.TransformType transformType = ItemCameraTransforms.TransformType.FIXED;
+
+		if (itemStack.getItem() instanceof ItemBlock) {
+			ItemTransformVec3f fixedTransform = getFixedTransform(itemStack);
+			transformType = hasTiltedTransform(fixedTransform) ? ItemCameraTransforms.TransformType.NONE
+				: ItemCameraTransforms.TransformType.FIXED;
+			GlStateManager.translate(x + itemX, y + itemY + getBlockItemLift(fixedTransform, transformType),
+				z + itemZ);
+			GlStateManager.rotate(yaw, 0.0F, 1.0F, 0.0F);
+			GlStateManager.scale(0.55F, 0.55F, 0.55F);
+		} else {
+			GlStateManager.translate(x + itemX, y + itemY, z + itemZ);
+			GlStateManager.rotate(yaw, 0.0F, 1.0F, 0.0F);
+			GlStateManager.rotate(90.0F, 1.0F, 0.0F, 0.0F);
+			GlStateManager.scale(0.5F, 0.5F, 0.5F);
+		}
+
+		Minecraft.getMinecraft().getRenderItem().renderItem(itemStack, transformType);
+		GlStateManager.popMatrix();
 	}
 
 	public static boolean renderSpecialSurfaceItem(ItemStack itemStack, double x, double y, double z,
@@ -100,6 +131,24 @@ public final class SurfaceDisplayRenderHelper {
 		GlStateManager.enableLighting();
 		GlStateManager.popMatrix();
 		return true;
+	}
+
+	private static ItemTransformVec3f getFixedTransform(ItemStack itemStack) {
+		IBakedModel model = Minecraft.getMinecraft().getRenderItem().getItemModelMesher().getItemModel(itemStack);
+		return model.getItemCameraTransforms().getTransform(ItemCameraTransforms.TransformType.FIXED);
+	}
+
+	private static boolean hasTiltedTransform(ItemTransformVec3f transform) {
+		return Math.abs(transform.rotation.x) > 0.001F || Math.abs(transform.rotation.z) > 0.001F;
+	}
+
+	private static double getBlockItemLift(ItemTransformVec3f fixedTransform,
+			ItemCameraTransforms.TransformType transformType) {
+		if (transformType == ItemCameraTransforms.TransformType.NONE) {
+			return 0.55D / 2.0D;
+		}
+
+		return 0.55D * ((fixedTransform.scale.y / 2.0D) - fixedTransform.translation.y);
 	}
 
 	public static void renderDrinkware(ItemStack itemStack, double x, double y, double z,

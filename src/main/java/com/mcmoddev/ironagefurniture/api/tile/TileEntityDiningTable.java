@@ -3,6 +3,9 @@ package com.mcmoddev.ironagefurniture.api.tile;
 import com.mcmoddev.ironagefurniture.api.Blocks.DiningTable.TableEmbeddedContent;
 import com.mcmoddev.ironagefurniture.api.Blocks.SurfaceDisplayBlocker;
 import com.mcmoddev.ironagefurniture.api.VasePlantHelper;
+import com.mcmoddev.ironagefurniture.api.surface.SurfaceSetting;
+import com.mcmoddev.ironagefurniture.api.surface.SurfaceSetting.Slot;
+import com.mcmoddev.ironagefurniture.api.surface.SurfaceSettingHost;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -13,16 +16,15 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class TileEntityDiningTable extends TileEntity {
-	private ItemStack displayedItem;
-	private EnumFacing displayedFacing = EnumFacing.NORTH;
+public class TileEntityDiningTable extends TileEntity implements SurfaceSettingHost {
+	private final SurfaceSetting surfaceSetting = new SurfaceSetting();
 	private ItemStack embeddedItem;
 	private ItemStack embeddedFlowerPotPlant;
 	private TableEmbeddedContent embeddedContent = TableEmbeddedContent.NONE;
 	private int blockedConnections;
 
 	public boolean hasDisplayedItem() {
-		return this.displayedItem != null && this.displayedItem.stackSize > 0;
+		return this.surfaceSetting.hasAnyItem();
 	}
 
 	public boolean hasBlockedConnections() {
@@ -34,11 +36,11 @@ public class TileEntityDiningTable extends TileEntity {
 	}
 
 	public ItemStack getDisplayedItem() {
-		return this.displayedItem;
+		return this.surfaceSetting.getCompatibilityItem();
 	}
 
 	public EnumFacing getDisplayedItemFacing() {
-		return this.displayedFacing;
+		return this.surfaceSetting.getCompatibilityFacing();
 	}
 
 	public boolean hasEmbeddedContent() {
@@ -117,28 +119,38 @@ public class TileEntityDiningTable extends TileEntity {
 	}
 
 	public void setDisplayedItem(ItemStack displayedItem) {
-		this.setDisplayedItem(displayedItem, this.displayedFacing);
+		this.setDisplayedItem(displayedItem, this.getDisplayedItemFacing());
 	}
 
 	public void setDisplayedItem(ItemStack displayedItem, EnumFacing facing) {
-		this.displayedItem = displayedItem == null ? null : displayedItem.copy();
-		this.displayedFacing = this.horizontalOrNorth(facing);
-		this.markForUpdate();
+		this.surfaceSetting.setSingleItem(displayedItem, facing);
+		this.markSurfaceSettingChanged();
 	}
 
 	public ItemStack removeDisplayedItem() {
-		ItemStack itemStack = this.displayedItem;
-		this.displayedItem = null;
-		this.displayedFacing = EnumFacing.NORTH;
-		this.markForUpdate();
+		ItemStack itemStack = this.surfaceSetting.removeCompatibilityItem();
+		this.markSurfaceSettingChanged();
 		return itemStack;
 	}
 
-	public void dropDisplayedItem(World worldIn, BlockPos pos) {
-		ItemStack itemStack = this.removeDisplayedItem();
-		SurfaceDisplayBlocker.release(worldIn, pos);
+	@Override
+	public SurfaceSetting getSurfaceSetting() {
+		return this.surfaceSetting;
+	}
 
-		if (itemStack != null) {
+	@Override
+	public void markSurfaceSettingChanged() {
+		this.markForUpdate();
+	}
+
+	public void dropDisplayedItem(World worldIn, BlockPos pos) {
+		for (Slot slot : Slot.values()) {
+			ItemStack itemStack = this.surfaceSetting.remove(slot);
+
+			if (itemStack == null) {
+				continue;
+			}
+
 			ItemStack vasePlant = VasePlantHelper.removePlant(itemStack);
 
 			if (vasePlant != null) {
@@ -147,6 +159,9 @@ public class TileEntityDiningTable extends TileEntity {
 
 			net.minecraft.block.Block.spawnAsEntity(worldIn, pos, itemStack);
 		}
+
+		this.markSurfaceSettingChanged();
+		SurfaceDisplayBlocker.release(worldIn, pos);
 	}
 
 	public void dropEmbeddedItem(World worldIn, BlockPos pos) {
@@ -190,16 +205,7 @@ public class TileEntityDiningTable extends TileEntity {
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
-
-		if (compound.hasKey("DisplayedItem")) {
-			this.displayedItem = ItemStack.loadItemStackFromNBT(compound.getCompoundTag("DisplayedItem"));
-			this.displayedFacing = compound.hasKey("DisplayedFacing")
-				? EnumFacing.getHorizontal(compound.getInteger("DisplayedFacing") & 3)
-				: EnumFacing.NORTH;
-		} else {
-			this.displayedItem = null;
-			this.displayedFacing = EnumFacing.NORTH;
-		}
+		this.surfaceSetting.readFromNBT(compound);
 
 		if (compound.hasKey("EmbeddedContent") && compound.hasKey("EmbeddedItem")) {
 			this.embeddedContent = TableEmbeddedContent.byName(compound.getString("EmbeddedContent"));
@@ -228,15 +234,7 @@ public class TileEntityDiningTable extends TileEntity {
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
 
-		if (this.hasDisplayedItem()) {
-			NBTTagCompound itemTag = new NBTTagCompound();
-			this.displayedItem.writeToNBT(itemTag);
-			compound.setTag("DisplayedItem", itemTag);
-			compound.setInteger("DisplayedFacing", this.displayedFacing.getHorizontalIndex());
-		} else {
-			compound.removeTag("DisplayedItem");
-			compound.removeTag("DisplayedFacing");
-		}
+		this.surfaceSetting.writeToNBT(compound);
 
 		if (this.hasEmbeddedContent()) {
 			NBTTagCompound itemTag = new NBTTagCompound();

@@ -5,6 +5,9 @@ import javax.annotation.Nullable;
 import com.mcmoddev.ironagefurniture.api.Blocks.Cabinet;
 import com.mcmoddev.ironagefurniture.api.Blocks.SurfaceDisplayBlocker;
 import com.mcmoddev.ironagefurniture.api.VasePlantHelper;
+import com.mcmoddev.ironagefurniture.api.surface.SurfaceSetting;
+import com.mcmoddev.ironagefurniture.api.surface.SurfaceSetting.Slot;
+import com.mcmoddev.ironagefurniture.api.surface.SurfaceSettingHost;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -36,14 +39,14 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
-public class TileEntityCabinet extends TileEntityLockable implements ISidedInventory, ITickable {
+public class TileEntityCabinet extends TileEntityLockable
+		implements ISidedInventory, ITickable, SurfaceSettingHost {
 	private static final int INVENTORY_SIZE = 27;
 
 	private ItemStack[] inventory = new ItemStack[this.getInventorySize()];
 	private int[] allSlots;
 	private String customName;
-	private ItemStack displayedItem;
-	private EnumFacing displayedFacing = EnumFacing.NORTH;
+	private final SurfaceSetting surfaceSetting = new SurfaceSetting();
 	private int blockedConnections;
 	private EnumFacing verticalJoinDirection;
 	public float doorAngle;
@@ -413,40 +416,50 @@ public class TileEntityCabinet extends TileEntityLockable implements ISidedInven
 	}
 
 	public boolean hasDisplayedItem() {
-		return this.displayedItem != null && this.displayedItem.stackSize > 0;
+		return this.surfaceSetting.hasAnyItem();
 	}
 
 	public ItemStack getDisplayedItem() {
-		return this.displayedItem;
+		return this.surfaceSetting.getCompatibilityItem();
 	}
 
 	public EnumFacing getDisplayedItemFacing() {
-		return this.displayedFacing;
+		return this.surfaceSetting.getCompatibilityFacing();
 	}
 
 	public void setDisplayedItem(ItemStack displayedItem) {
-		this.setDisplayedItem(displayedItem, this.displayedFacing);
+		this.setDisplayedItem(displayedItem, this.getDisplayedItemFacing());
 	}
 
 	public void setDisplayedItem(ItemStack displayedItem, EnumFacing facing) {
-		this.displayedItem = displayedItem == null ? null : displayedItem.copy();
-		this.displayedFacing = this.horizontalOrNorth(facing);
-		this.markForDisplayUpdate();
+		this.surfaceSetting.setSingleItem(displayedItem, facing);
+		this.markSurfaceSettingChanged();
 	}
 
 	public ItemStack removeDisplayedItem() {
-		ItemStack itemStack = this.displayedItem;
-		this.displayedItem = null;
-		this.displayedFacing = EnumFacing.NORTH;
-		this.markForDisplayUpdate();
+		ItemStack itemStack = this.surfaceSetting.removeCompatibilityItem();
+		this.markSurfaceSettingChanged();
 		return itemStack;
 	}
 
-	public void dropDisplayedItem(World worldIn, BlockPos pos) {
-		ItemStack itemStack = this.removeDisplayedItem();
-		SurfaceDisplayBlocker.release(worldIn, pos);
+	@Override
+	public SurfaceSetting getSurfaceSetting() {
+		return this.surfaceSetting;
+	}
 
-		if (itemStack != null) {
+	@Override
+	public void markSurfaceSettingChanged() {
+		this.markForDisplayUpdate();
+	}
+
+	public void dropDisplayedItem(World worldIn, BlockPos pos) {
+		for (Slot slot : Slot.values()) {
+			ItemStack itemStack = this.surfaceSetting.remove(slot);
+
+			if (itemStack == null) {
+				continue;
+			}
+
 			ItemStack vasePlant = VasePlantHelper.removePlant(itemStack);
 
 			if (vasePlant != null) {
@@ -455,6 +468,9 @@ public class TileEntityCabinet extends TileEntityLockable implements ISidedInven
 
 			net.minecraft.block.Block.spawnAsEntity(worldIn, pos, itemStack);
 		}
+
+		this.markSurfaceSettingChanged();
+		SurfaceDisplayBlocker.release(worldIn, pos);
 	}
 
 	public boolean isConnectionBlocked(EnumFacing direction) {
@@ -515,15 +531,7 @@ public class TileEntityCabinet extends TileEntityLockable implements ISidedInven
 			this.customName = null;
 		}
 
-		if (compound.hasKey("DisplayedItem")) {
-			this.displayedItem = ItemStack.loadItemStackFromNBT(compound.getCompoundTag("DisplayedItem"));
-			this.displayedFacing = compound.hasKey("DisplayedFacing")
-				? EnumFacing.getHorizontal(compound.getInteger("DisplayedFacing") & 3)
-				: EnumFacing.NORTH;
-		} else {
-			this.displayedItem = null;
-			this.displayedFacing = EnumFacing.NORTH;
-		}
+		this.surfaceSetting.readFromNBT(compound);
 
 		this.blockedConnections = compound.getInteger("BlockedConnections") & 63;
 		this.verticalJoinDirection = null;
@@ -559,15 +567,7 @@ public class TileEntityCabinet extends TileEntityLockable implements ISidedInven
 			compound.removeTag("CustomName");
 		}
 
-		if (this.hasDisplayedItem()) {
-			NBTTagCompound itemTag = new NBTTagCompound();
-			this.displayedItem.writeToNBT(itemTag);
-			compound.setTag("DisplayedItem", itemTag);
-			compound.setInteger("DisplayedFacing", this.displayedFacing.getHorizontalIndex());
-		} else {
-			compound.removeTag("DisplayedItem");
-			compound.removeTag("DisplayedFacing");
-		}
+		this.surfaceSetting.writeToNBT(compound);
 
 		compound.setInteger("BlockedConnections", this.blockedConnections & 63);
 

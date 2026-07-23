@@ -5,6 +5,11 @@ import java.util.Random;
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 import com.mcmoddev.ironagefurniture.api.Items.DrinkContainerHelper;
 import com.mcmoddev.ironagefurniture.api.Items.ItemDrinkware;
+import com.mcmoddev.ironagefurniture.api.VasePlantHelper;
+import com.mcmoddev.ironagefurniture.api.surface.SurfaceSetting;
+import com.mcmoddev.ironagefurniture.api.surface.SurfaceSetting.Slot;
+import com.mcmoddev.ironagefurniture.api.surface.SurfaceSettingInteraction;
+import com.mcmoddev.ironagefurniture.api.surface.SurfaceSettingInteraction.Result;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityCabinet;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityDiningTable;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntitySurfaceDisplay;
@@ -33,7 +38,7 @@ import net.minecraft.world.World;
 
 public class SurfaceDisplayBlocker extends Block {
 	public static final PropertyBool STANDALONE = PropertyBool.create("standalone");
-	private static final AxisAlignedBB DISPLAY_SELECTION_AABB =
+	private static final AxisAlignedBB FALLBACK_SELECTION_AABB =
 		new AxisAlignedBB(0.25D, 0.0D, 0.25D, 0.75D, 0.75D, 0.75D);
 
 	public SurfaceDisplayBlocker(Material materialIn, String name) {
@@ -95,15 +100,42 @@ public class SurfaceDisplayBlocker extends Block {
 
 	public static boolean placeDrinkware(World worldIn, BlockPos surfacePos, ItemStack itemStack,
 			EnumFacing displayedFacing) {
+		return placeSurfaceItem(worldIn, surfacePos, itemStack, displayedFacing, 0.75F, 0.5F);
+	}
+
+	public static boolean placeSurfaceItem(World worldIn, BlockPos surfacePos, ItemStack itemStack,
+			EnumFacing displayedFacing, float hitX, float hitZ) {
 		if (!(BlockObjectHolder.surface_display_blocker instanceof SurfaceDisplayBlocker)
 				|| itemStack == null || itemStack.stackSize <= 0
-				|| !(itemStack.getItem() instanceof ItemDrinkware)
+				|| !SurfaceSetting.isSettingItem(itemStack)
 				|| !worldIn.getBlockState(surfacePos).isSideSolid(worldIn, surfacePos, EnumFacing.UP)) {
 			return false;
 		}
 
 		BlockPos displayPos = surfacePos.up();
 		IBlockState existingState = worldIn.getBlockState(displayPos);
+
+		if (existingState.getBlock() == BlockObjectHolder.surface_display_blocker
+				&& existingState.getValue(STANDALONE).booleanValue()) {
+			TileEntity existingTile = worldIn.getTileEntity(displayPos);
+
+			if (!(existingTile instanceof TileEntitySurfaceDisplay)) {
+				return false;
+			}
+
+			TileEntitySurfaceDisplay display = (TileEntitySurfaceDisplay)existingTile;
+
+			if (!display.getSurfaceSetting().canInsert(itemStack, displayedFacing, hitX, hitZ, null)) {
+				return false;
+			}
+
+			if (!worldIn.isRemote
+					&& display.getSurfaceSetting().insert(itemStack, displayedFacing, hitX, hitZ, null)) {
+				display.markSurfaceSettingChanged();
+			}
+
+			return true;
+		}
 
 		if (!existingState.getBlock().isReplaceable(worldIn, displayPos)) {
 			return false;
@@ -127,9 +159,14 @@ public class SurfaceDisplayBlocker extends Block {
 			return false;
 		}
 
-		ItemStack displayedItem = itemStack.copy();
-		displayedItem.stackSize = 1;
-		((TileEntitySurfaceDisplay)tileEntity).setDisplayedItem(displayedItem, displayedFacing);
+		TileEntitySurfaceDisplay display = (TileEntitySurfaceDisplay)tileEntity;
+
+		if (!display.getSurfaceSetting().insert(itemStack, displayedFacing, hitX, hitZ, null)) {
+			worldIn.setBlockToAir(displayPos);
+			return false;
+		}
+
+		display.markSurfaceSettingChanged();
 		return true;
 	}
 
@@ -165,14 +202,58 @@ public class SurfaceDisplayBlocker extends Block {
 
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-		return state.getValue(STANDALONE).booleanValue() ? DISPLAY_SELECTION_AABB : FULL_BLOCK_AABB;
+		if (!state.getValue(STANDALONE).booleanValue()) {
+			return FULL_BLOCK_AABB;
+		}
+
+		TileEntity tileEntity = source.getTileEntity(pos);
+
+		if (tileEntity instanceof TileEntitySurfaceDisplay) {
+			AxisAlignedBB bounds = ((TileEntitySurfaceDisplay)tileEntity).getSurfaceSetting().getCombinedBounds();
+
+			if (bounds != null) {
+				return bounds;
+			}
+		}
+
+		return FALLBACK_SELECTION_AABB;
 	}
 
 	@Override
 	public RayTraceResult collisionRayTrace(IBlockState blockState, World worldIn, BlockPos pos, Vec3d start,
 			Vec3d end) {
-		return blockState.getValue(STANDALONE).booleanValue()
-			? super.collisionRayTrace(blockState, worldIn, pos, start, end) : null;
+		if (!blockState.getValue(STANDALONE).booleanValue()) {
+			return null;
+		}
+
+		TileEntity tileEntity = worldIn.getTileEntity(pos);
+
+		if (!(tileEntity instanceof TileEntitySurfaceDisplay)) {
+			return this.rayTrace(pos, start, end, FALLBACK_SELECTION_AABB);
+		}
+
+		SurfaceSetting setting = ((TileEntitySurfaceDisplay)tileEntity).getSurfaceSetting();
+		RayTraceResult closest = null;
+		double closestDistance = Double.MAX_VALUE;
+
+		for (Slot slot : Slot.values()) {
+			if (setting.getItem(slot) == null) {
+				continue;
+			}
+
+			RayTraceResult hit = this.rayTrace(pos, start, end, setting.getItemBounds(slot));
+
+			if (hit != null) {
+				double distance = start.squareDistanceTo(hit.hitVec);
+
+				if (distance < closestDistance) {
+					closest = hit;
+					closestDistance = distance;
+				}
+			}
+		}
+
+		return closest;
 	}
 
 	@Override
@@ -206,33 +287,14 @@ public class SurfaceDisplayBlocker extends Block {
 		}
 
 		TileEntitySurfaceDisplay display = (TileEntitySurfaceDisplay)tileEntity;
-		ItemStack displayedItem = display.getDisplayedItem();
-		boolean canFill = DrinkContainerHelper.canFillDisplayedDrinkware(displayedItem, heldItem);
-		boolean canRetrieve = this.canRetrieveDisplayedItem(displayedItem, heldItem);
+		Result result = SurfaceSettingInteraction.handle(display, playerIn, hand, heldItem,
+			hitX, hitZ, null, false);
 
-		if (!canFill && !canRetrieve) {
-			return false;
+		if (result == Result.HANDLED_AND_EMPTIED && !worldIn.isRemote) {
+			worldIn.setBlockToAir(pos);
 		}
 
-		if (worldIn.isRemote) {
-			return true;
-		}
-
-		if (canFill) {
-			ItemStack filledItem = DrinkContainerHelper.fillDisplayedDrinkware(displayedItem, heldItem,
-				playerIn, hand);
-
-			if (filledItem != null) {
-				display.setDisplayedItem(filledItem, display.getDisplayedFacing());
-			}
-
-			return true;
-		}
-
-		ItemStack removedItem = display.removeDisplayedItem();
-		worldIn.setBlockToAir(pos);
-		DrinkContainerHelper.giveOrDrop(playerIn, removedItem);
-		return true;
+		return result != Result.NOT_HANDLED;
 	}
 
 	@Override
@@ -251,10 +313,20 @@ public class SurfaceDisplayBlocker extends Block {
 			TileEntity tileEntity = worldIn.getTileEntity(pos);
 
 			if (tileEntity instanceof TileEntitySurfaceDisplay) {
-				ItemStack displayedItem = ((TileEntitySurfaceDisplay)tileEntity).removeDisplayedItem();
+				SurfaceSetting setting = ((TileEntitySurfaceDisplay)tileEntity).getSurfaceSetting();
 
-				if (displayedItem != null) {
-					Block.spawnAsEntity(worldIn, pos, displayedItem);
+				for (Slot slot : Slot.values()) {
+					ItemStack displayedItem = setting.remove(slot);
+
+					if (displayedItem != null) {
+						ItemStack vasePlant = VasePlantHelper.removePlant(displayedItem);
+
+						if (vasePlant != null) {
+							Block.spawnAsEntity(worldIn, pos, vasePlant);
+						}
+
+						Block.spawnAsEntity(worldIn, pos, displayedItem);
+					}
 				}
 			}
 		}
@@ -309,16 +381,4 @@ public class SurfaceDisplayBlocker extends Block {
 			&& ((TileEntityWallShelf)tileEntity).hasDisplayedItem();
 	}
 
-	private boolean canRetrieveDisplayedItem(ItemStack displayedItem, ItemStack heldItem) {
-		if (displayedItem == null || displayedItem.stackSize <= 0) {
-			return false;
-		}
-
-		if (heldItem == null || heldItem.stackSize <= 0) {
-			return true;
-		}
-
-		return ItemStack.areItemsEqual(displayedItem, heldItem)
-			&& ItemStack.areItemStackTagsEqual(displayedItem, heldItem);
-	}
 }

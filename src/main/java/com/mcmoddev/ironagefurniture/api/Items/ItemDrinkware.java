@@ -196,8 +196,8 @@ public class ItemDrinkware extends Item {
 		if (stack == null || stack.stackSize <= 0 || facing != EnumFacing.UP
 				|| !(BlockObjectHolder.surface_display_blocker instanceof SurfaceDisplayBlocker)
 				|| !playerIn.canPlayerEdit(pos.up(), facing, stack)
-				|| !SurfaceDisplayBlocker.placeDrinkware(worldIn, pos, stack,
-					playerIn.getHorizontalFacing())) {
+				|| !SurfaceDisplayBlocker.placeSurfaceItem(worldIn, pos, stack,
+					playerIn.getHorizontalFacing(), hitX, hitZ)) {
 			return EnumActionResult.PASS;
 		}
 

@@ -7,6 +7,8 @@ import com.mcmoddev.ironagefurniture.Ironagefurniture;
 import com.mcmoddev.ironagefurniture.api.SurfaceItemRules;
 import com.mcmoddev.ironagefurniture.api.VasePlantHelper;
 import com.mcmoddev.ironagefurniture.api.Items.DrinkContainerHelper;
+import com.mcmoddev.ironagefurniture.api.surface.SurfaceSettingInteraction;
+import com.mcmoddev.ironagefurniture.api.surface.SurfaceSettingInteraction.Result;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityCabinet;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityGlassVase;
 
@@ -163,7 +165,8 @@ public class Cabinet extends Block {
 			return false;
 		}
 
-		if (side == EnumFacing.UP && this.handleSurfaceActivation(worldIn, pos, playerIn, hand, heldItem)) {
+		if (side == EnumFacing.UP && this.handleSurfaceActivation(worldIn, pos, state, playerIn, hand,
+				heldItem, hitX, hitZ)) {
 			return true;
 		}
 
@@ -182,26 +185,14 @@ public class Cabinet extends Block {
 		return true;
 	}
 
-	private boolean handleSurfaceActivation(World worldIn, BlockPos pos, EntityPlayer playerIn, EnumHand hand,
-			ItemStack heldItem) {
+	private boolean handleSurfaceActivation(World worldIn, BlockPos pos, IBlockState state,
+			EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, float hitX, float hitZ) {
+		float settingHitX = (float)(hitX - this.getDisplayItemXOffset(state) + 0.5D);
+		float settingHitZ = (float)(hitZ - this.getDisplayItemZOffset(state) + 0.5D);
 		boolean canRetrievePlacedBlock = this.canRetrievePlacedBlockAbove(worldIn, pos, playerIn, heldItem);
 		TileEntityCabinet cabinet = this.getCabinetEntity(worldIn, pos);
 		boolean hasDisplayedItem = cabinet != null && cabinet.hasDisplayedItem();
 		boolean hasHeldItem = heldItem != null && heldItem.stackSize > 0;
-
-		if (hasDisplayedItem
-				&& DrinkContainerHelper.canFillDisplayedDrinkware(cabinet.getDisplayedItem(), heldItem)) {
-			if (!worldIn.isRemote) {
-				ItemStack filledDrinkware = DrinkContainerHelper.fillDisplayedDrinkware(
-					cabinet.getDisplayedItem(), heldItem, playerIn, hand);
-
-				if (filledDrinkware != null) {
-					cabinet.setDisplayedItem(filledDrinkware);
-				}
-			}
-
-			return true;
-		}
 
 		if (this.isDisplayExcluded(heldItem) && !canRetrievePlacedBlock) {
 			return false;
@@ -212,28 +203,14 @@ public class Cabinet extends Block {
 		}
 
 		if (worldIn.isRemote) {
-			return true;
+			return hasDisplayedItem
+				? SurfaceSettingInteraction.handle(cabinet, playerIn, hand, heldItem, settingHitX, settingHitZ,
+					this.getSurfaceSettingAxis(state), true) != Result.NOT_HANDLED
+				: canRetrievePlacedBlock || hasHeldItem;
 		}
 
 		if (cabinet == null) {
 			return false;
-		}
-
-		if (cabinet.hasDisplayedItem()
-				&& VasePlantHelper.canHandleVaseClick(cabinet.getDisplayedItem(), heldItem)) {
-			this.handleDisplayedVaseClick(worldIn, pos, cabinet, playerIn, hand, heldItem);
-			return true;
-		}
-
-		if (cabinet.hasDisplayedItem() && this.canRetrieveDisplayedItem(cabinet, heldItem)) {
-			ItemStack displayedItem = cabinet.removeDisplayedItem();
-			SurfaceDisplayBlocker.release(worldIn, pos);
-
-			if (displayedItem != null) {
-				this.returnItem(worldIn, pos, playerIn, displayedItem);
-			}
-
-			return true;
 		}
 
 		if (!cabinet.hasDisplayedItem() && canRetrievePlacedBlock
@@ -241,27 +218,27 @@ public class Cabinet extends Block {
 			return true;
 		}
 
-		if (!cabinet.hasDisplayedItem() && heldItem != null && heldItem.stackSize > 0) {
+		if (!cabinet.hasDisplayedItem() && hasHeldItem) {
 			if (!SurfaceDisplayBlocker.reserve(worldIn, pos)) {
 				return true;
 			}
+		}
 
-			ItemStack displayedItem = heldItem.copy();
-			displayedItem.stackSize = 1;
-			cabinet.setDisplayedItem(displayedItem, playerIn.getHorizontalFacing());
+		Result result = SurfaceSettingInteraction.handle(cabinet, playerIn, hand, heldItem,
+			settingHitX, settingHitZ, this.getSurfaceSettingAxis(state), true);
 
-			if (!playerIn.capabilities.isCreativeMode) {
-				heldItem.stackSize--;
-
-				if (heldItem.stackSize <= 0) {
-					playerIn.setHeldItem(hand, null);
-				}
-			}
-
+		if (result == Result.HANDLED_AND_EMPTIED) {
+			SurfaceDisplayBlocker.release(worldIn, pos);
+		}
+		if (result != Result.NOT_HANDLED) {
 			return true;
 		}
 
 		return false;
+	}
+
+	protected EnumFacing.Axis getSurfaceSettingAxis(IBlockState state) {
+		return null;
 	}
 
 	protected boolean isDisplayExcluded(ItemStack heldItem) {

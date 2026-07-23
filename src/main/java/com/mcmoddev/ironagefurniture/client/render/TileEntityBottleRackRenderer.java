@@ -24,12 +24,21 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidStack;
 
 public class TileEntityBottleRackRenderer extends TileEntitySpecialRenderer<TileEntityBottleRack> {
 	private static final double[] SLOT_X = new double[] { 3.525D / 16.0D, 0.5D, 12.475D / 16.0D };
 	private static final double[] SLOT_Y = new double[] { 0.759D, 0.448D, 0.140D };
 	private static final double WALL_SLOT_DEPTH = 0.715D;
 	private static final double STANDING_SLOT_DEPTH = 0.405D;
+	private static final double LIQUID_MIN_Y = -0.066D;
+	private static final double LIQUID_MAX_Y = 0.066D;
+	private static final double LIQUID_TOP_Z = -0.155D;
+	private static final double LIQUID_SHOULDER_TOP_Z = -0.040D;
+	private static final double LIQUID_BODY_TOP_Z = 0.030D;
+	private static final double LIQUID_BOTTOM_Z = 0.220D;
+	private static final float BODY_VOLUME_FRACTION = 0.73F;
+	private static final float SHOULDER_VOLUME_FRACTION = 0.90F;
 	private static ResourceLocation whiteTexture;
 
 	private static final class SurfaceModelHolder {
@@ -46,7 +55,8 @@ public class TileEntityBottleRackRenderer extends TileEntitySpecialRenderer<Tile
 		GlStateManager.enableRescaleNormal();
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		renderer.bindWhiteTexture();
-		renderer.renderBottleShape(renderer.getBottleColor(bottle), renderer.getCapColor(bottle));
+		renderer.renderBottleShape(renderer.getBottleColor(bottle), renderer.getCapColor(bottle),
+			renderer.getFillRatio(bottle), true);
 		GlStateManager.disableRescaleNormal();
 		GlStateManager.enableCull();
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
@@ -91,7 +101,8 @@ public class TileEntityBottleRackRenderer extends TileEntitySpecialRenderer<Tile
 		GlStateManager.translate(point[0], SLOT_Y[row], point[1]);
 		GlStateManager.rotate(this.getYaw(bottleFacing), 0.0F, 1.0F, 0.0F);
 		GlStateManager.scale(1.16D, 1.16D, 1.16D);
-		this.renderBottleShape(this.getBottleColor(bottle), this.getCapColor(bottle));
+		this.renderBottleShape(this.getBottleColor(bottle), this.getCapColor(bottle),
+			this.getFillRatio(bottle), false);
 		GlStateManager.popMatrix();
 	}
 
@@ -103,21 +114,21 @@ public class TileEntityBottleRackRenderer extends TileEntitySpecialRenderer<Tile
 		return bottleFacing == rackFacing.getOpposite() ? 1.0D - STANDING_SLOT_DEPTH : STANDING_SLOT_DEPTH;
 	}
 
-	private void renderBottleShape(float[] liquid, float[] cap) {
+	private void renderBottleShape(float[] liquid, float[] cap, float fillRatio, boolean upright) {
 		float[] glass = new float[] { 0.75F, 0.92F, 0.86F };
 		float[] shadow = this.darken(liquid, 0.52F);
 		float[] label = new float[] { 0.86F, 0.78F, 0.60F };
 
-		this.drawCuboid(-0.066D, -0.066D, 0.030D, 0.066D, 0.066D, 0.220D,
-			shadow[0], shadow[1], shadow[2]);
-		this.drawCuboid(-0.056D, -0.056D, 0.040D, 0.056D, 0.056D, 0.205D,
-			liquid[0], liquid[1], liquid[2]);
+		this.drawLiquidCuboid(-0.066D, -0.066D, 0.030D, 0.066D, 0.066D, 0.220D,
+			shadow, fillRatio, upright);
+		this.drawLiquidCuboid(-0.056D, -0.056D, 0.040D, 0.056D, 0.056D, 0.205D,
+			liquid, fillRatio, upright);
 		this.drawCuboid(-0.050D, 0.026D, -0.010D, 0.050D, 0.061D, 0.065D,
 			label[0], label[1], label[2]);
-		this.drawCuboid(-0.045D, -0.045D, -0.040D, 0.045D, 0.045D, 0.052D,
-			this.darken(liquid, 0.84F));
-		this.drawCuboid(-0.031D, -0.031D, -0.155D, 0.031D, 0.031D, -0.035D,
-			this.darken(liquid, 0.72F));
+		this.drawLiquidCuboid(-0.045D, -0.045D, -0.040D, 0.045D, 0.045D, 0.052D,
+			this.darken(liquid, 0.84F), fillRatio, upright);
+		this.drawLiquidCuboid(-0.031D, -0.031D, -0.155D, 0.031D, 0.031D, -0.035D,
+			this.darken(liquid, 0.72F), fillRatio, upright);
 		this.drawCuboid(-0.036D, -0.036D, -0.210D, 0.036D, 0.036D, -0.145D,
 			cap[0], cap[1], cap[2]);
 
@@ -129,6 +140,63 @@ public class TileEntityBottleRackRenderer extends TileEntitySpecialRenderer<Tile
 		this.drawCuboid(-0.037D, -0.037D, -0.160D, 0.037D, 0.037D, -0.038D,
 			glass[0], glass[1], glass[2], 0.18F);
 		this.endGlassLayer();
+	}
+
+	private void drawLiquidCuboid(double minX, double minY, double minZ, double maxX, double maxY,
+			double maxZ, float[] color, float fillRatio, boolean upright) {
+		if (fillRatio <= 0.0F) {
+			return;
+		}
+
+		if (upright) {
+			double surfaceZ = this.getUprightLiquidSurface(fillRatio);
+			double clippedMinZ = Math.max(minZ, surfaceZ);
+
+			if (clippedMinZ < maxZ) {
+				this.drawCuboid(minX, minY, clippedMinZ, maxX, maxY, maxZ, color);
+			}
+
+			return;
+		}
+
+		double surfaceY = LIQUID_MIN_Y + (LIQUID_MAX_Y - LIQUID_MIN_Y) * fillRatio;
+		double clippedMaxY = Math.min(maxY, surfaceY);
+
+		if (minY < clippedMaxY) {
+			this.drawCuboid(minX, minY, minZ, maxX, clippedMaxY, maxZ, color);
+		}
+	}
+
+	private double getUprightLiquidSurface(float fillRatio) {
+		if (fillRatio <= BODY_VOLUME_FRACTION) {
+			double bodyProgress = fillRatio / BODY_VOLUME_FRACTION;
+			return LIQUID_BOTTOM_Z - (LIQUID_BOTTOM_Z - LIQUID_BODY_TOP_Z) * bodyProgress;
+		}
+		if (fillRatio <= SHOULDER_VOLUME_FRACTION) {
+			double shoulderProgress = (fillRatio - BODY_VOLUME_FRACTION)
+				/ (SHOULDER_VOLUME_FRACTION - BODY_VOLUME_FRACTION);
+			return LIQUID_BODY_TOP_Z
+				- (LIQUID_BODY_TOP_Z - LIQUID_SHOULDER_TOP_Z) * shoulderProgress;
+		}
+
+		double neckProgress = (fillRatio - SHOULDER_VOLUME_FRACTION)
+			/ (1.0F - SHOULDER_VOLUME_FRACTION);
+		return LIQUID_SHOULDER_TOP_Z
+			- (LIQUID_SHOULDER_TOP_Z - LIQUID_TOP_Z) * neckProgress;
+	}
+
+	private float getFillRatio(ItemStack stack) {
+		if (stack.getItem() == Items.GLASS_BOTTLE) {
+			return 0.0F;
+		}
+
+		if (stack.getItem() instanceof ItemFluidBottle) {
+			FluidStack fluid = ItemFluidBottle.getFluid(stack);
+			int amount = fluid == null ? 0 : fluid.amount;
+			return Math.max(0.0F, Math.min(1.0F, (float)amount / (float)ItemFluidBottle.CAPACITY));
+		}
+
+		return 1.0F;
 	}
 
 	private float[] getBottleColor(ItemStack stack) {
