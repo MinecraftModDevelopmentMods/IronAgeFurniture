@@ -149,7 +149,7 @@ public final class SurfaceDisplayRenderHelper {
 		GlStateManager.popMatrix();
 	}
 
-	private static void renderBottle(ItemStack itemStack, double x, double y, double z,
+	public static void renderBottle(ItemStack itemStack, double x, double y, double z,
 			double itemX, double itemZ, double surfaceY, float yaw) {
 		double bottomOffset = BOTTLE_MODEL_BOTTOM * SURFACE_BOTTLE_SCALE;
 

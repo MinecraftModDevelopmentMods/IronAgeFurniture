@@ -9,7 +9,9 @@ import com.mcmoddev.ironagefurniture.api.CreativeModeBreakTracker;
 import com.mcmoddev.ironagefurniture.api.DiningTableSurfaceInteractionHandler;
 import com.mcmoddev.ironagefurniture.api.FoudreBrewingRegistry;
 import com.mcmoddev.ironagefurniture.api.PotStillDistillingRegistry;
+import com.mcmoddev.ironagefurniture.api.InnkeeperManager;
 import com.mcmoddev.ironagefurniture.api.network.IronAgeFurnitureNetwork;
+import com.mcmoddev.ironagefurniture.api.drink.DrinkEffectHandler;
 import com.mcmoddev.ironagefurniture.api.entity.EntityFallingMetalBlock;
 import com.mcmoddev.ironagefurniture.api.entity.EntityThrownLavaLamp;
 import com.mcmoddev.ironagefurniture.api.entity.Seat;
@@ -24,6 +26,7 @@ import com.mcmoddev.ironagefurniture.api.tile.TileEntityPotStillPort;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityGlassVase;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityGrandChandelierSconce;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityHalfCabinet;
+import com.mcmoddev.ironagefurniture.api.tile.TileEntityHangingInnSign;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityMetalVariant;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityWallShelf;
 import com.mcmoddev.ironagefurniture.client.resources.GeneratedModelResourcePack;
@@ -61,6 +64,7 @@ public class Ironagefurniture
 	public static final int GUI_BARREL = 1;
 	public static final int GUI_FOUDRE_LABEL = 2;
 	public static final int GUI_POT_STILL = 3;
+	public static final int GUI_INNKEEPER = 4;
 
 	@Instance(MODID)
 	public static Ironagefurniture instance;
@@ -112,6 +116,7 @@ public class Ironagefurniture
 		GameRegistry.registerTileEntity(TileEntityBottleRack.class, MODID + ":bottle_rack_wood_ironage");
 		GameRegistry.registerTileEntity(TileEntityMetalVariant.class, MODID + ":metal_variant");
 		GameRegistry.registerTileEntity(TileEntityGrandChandelierSconce.class, MODID + ":chandelier_grand_sconce");
+		GameRegistry.registerTileEntity(TileEntityHangingInnSign.class, MODID + ":hanging_inn_sign");
     	EntityRegistry.registerModEntity(Seat.class, MODID + ":seat", 0, this, 80, 1, false);
 		if (BlockObjectHolder.light_metal_ironage_block_floor_lava_clear != null) {
 			EntityRegistry.registerModEntity(EntityThrownLavaLamp.class, MODID + ":thrown_lava_lamp", 1, this, 64, 10, true);
@@ -129,6 +134,8 @@ public class Ironagefurniture
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
     	IronAgeFurnitureConfiguration.init(event);
+		DrinkEffectHandler.init();
+		InnkeeperManager.init();
 		IronAgeFurnitureNetwork.init();
 		FoudreBrewingRegistry.registerFluids();
 		PotStillDistillingRegistry.registerFluids();

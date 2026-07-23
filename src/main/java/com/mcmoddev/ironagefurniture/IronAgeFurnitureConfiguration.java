@@ -21,6 +21,7 @@ public class IronAgeFurnitureConfiguration {
 	public static boolean GENERATE_POT_STILLS = true;
 	public static boolean GENERATE_FLUID_BOTTLES = true;
 	public static boolean GENERATE_DRINKWARE = true;
+	public static boolean GENERATE_INNKEEPERS = true;
 	public static boolean GENERATE_IRON_NUGGETS = true;
 	public static boolean GENERATE_ORNAMENTS = true;
 	public static boolean GENERATE_SHIELD_CHAIRS = true;
@@ -44,6 +45,13 @@ public class IronAgeFurnitureConfiguration {
 	public static boolean INTEGRATION_BASEMETALS = true;
 	public static boolean INTEGRATION_HARVESTCRAFT = true;
 	public static boolean INTEGRATION_MINERALOGY = true;
+	public static boolean INTEGRATION_MCA = true;
+	public static boolean ENABLE_DRINK_EFFECTS = true;
+	public static int DRINK_EFFECT_RECOVERY_TICKS = 1200;
+	public static int INN_RADIUS_HORIZONTAL = 16;
+	public static int INN_RADIUS_VERTICAL = 8;
+	public static int INNKEEPER_DAILY_PURSE = 32;
+	public static int DRINK_VALUE_PERCENT = 100;
 	public static final int DEFAULT_DRINK_TIME_MULTIPLIER = 10;
 	private static final int MIN_DRINK_TIME_MULTIPLIER = 1;
 	private static final int MAX_DRINK_TIME_MULTIPLIER = 1200;
@@ -79,6 +87,8 @@ public class IronAgeFurnitureConfiguration {
     	INTEGRATION_BASEMETALS = config.getBoolean("INTEGRATION_BASEMETALS", "integration", INTEGRATION_BASEMETALS, "If true, then Base Metals lighting variants will be generated when Base Metals is loaded");
 		INTEGRATION_HARVESTCRAFT = config.getBoolean("INTEGRATION_HARVESTCRAFT", "integration", INTEGRATION_HARVESTCRAFT, "If true, then HarvestCraft foods will use shaped table and shelf display rendering when HarvestCraft is loaded");
 		INTEGRATION_MINERALOGY = config.getBoolean("INTEGRATION_MINERALOGY", "integration", INTEGRATION_MINERALOGY, "If true, then Minecraft Mineralogy rock salt lamps can be placed in sconces and grand chandeliers when Mineralogy is loaded");
+		INTEGRATION_MCA = config.getBoolean("INTEGRATION_MCA", "integration", INTEGRATION_MCA,
+			"If true, nearby adult Minecraft Comes Alive villagers can be assigned to an inn without changing their MCA profession");
     	
     	GENERATE_SHIELD_CHAIRS = config.getBoolean("GENERATE_SHIELD_CHAIRS", "options", GENERATE_SHIELD_CHAIRS, "If true, then shield chairs will be generated");
 		GENERATE_CLASSIC_CHAIRS = config.getBoolean("GENERATE_CLASSIC_CHAIRS", "options", GENERATE_CLASSIC_CHAIRS, "If true, then classic chairs will be generated");
@@ -98,6 +108,21 @@ public class IronAgeFurnitureConfiguration {
 		GENERATE_POT_STILLS = config.getBoolean("GENERATE_POT_STILLS", "options", GENERATE_POT_STILLS, "If true, then pot stills will be generated when wooden barrels, foudres, and at least one drink container family are enabled");
 		GENERATE_FLUID_BOTTLES = config.getBoolean("GENERATE_FLUID_BOTTLES", "options", GENERATE_FLUID_BOTTLES, "If true, then generic Iron Age fluid bottles will be generated");
 		GENERATE_DRINKWARE = config.getBoolean("GENERATE_DRINKWARE", "options", GENERATE_DRINKWARE, "If true, then reusable tankards, glasses, shot glasses, and mugs will be generated");
+		GENERATE_INNKEEPERS = config.getBoolean("GENERATE_INNKEEPERS", "options", GENERATE_INNKEEPERS,
+			"If true, then Hanging Inn Signs and Innkeeper appraisal are enabled");
+		ENABLE_DRINK_EFFECTS = config.getBoolean("ENABLE_DRINK_EFFECTS", "options", ENABLE_DRINK_EFFECTS,
+			"If true, drinks apply non-lethal effects based on serving size and Strength");
+		DRINK_EFFECT_RECOVERY_TICKS = config.getInt("DRINK_EFFECT_RECOVERY_TICKS", "options",
+			DRINK_EFFECT_RECOVERY_TICKS, 100, 72000,
+			"Ticks required to recover one Effect serving. 1200 is one Minecraft minute");
+		INN_RADIUS_HORIZONTAL = config.getInt("INN_RADIUS_HORIZONTAL", "options", INN_RADIUS_HORIZONTAL,
+			4, 64, "Horizontal radius controlled by a Hanging Inn Sign");
+		INN_RADIUS_VERTICAL = config.getInt("INN_RADIUS_VERTICAL", "options", INN_RADIUS_VERTICAL,
+			2, 32, "Vertical radius controlled by a Hanging Inn Sign");
+		INNKEEPER_DAILY_PURSE = config.getInt("INNKEEPER_DAILY_PURSE", "options",
+			INNKEEPER_DAILY_PURSE, 1, 256, "Emeralds available to each Innkeeper per Minecraft day");
+		DRINK_VALUE_PERCENT = config.getInt("DRINK_VALUE_PERCENT", "options", DRINK_VALUE_PERCENT,
+			1, 1000, "Innkeeper appraisal value as a percentage of the default values");
 		GENERATE_IRON_NUGGETS = config.getBoolean("GENERATE_IRON_NUGGETS", "options", GENERATE_IRON_NUGGETS, "If true, then iron nuggets will be generated");
 		GENERATE_ORNAMENTS = config.getBoolean("GENERATE_ORNAMENTS", "options", GENERATE_ORNAMENTS, "If true, then decorative ornaments will be generated");
 	

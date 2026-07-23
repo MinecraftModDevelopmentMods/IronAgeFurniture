@@ -41,6 +41,13 @@ public class BlockInitialiser {
 		generateFallbackGoldBars();
 		generateLights(); // and then he saw that the vanilla torches were boring and said, let there be light!
 		generateOrnaments(); // and then the house finally started to look lived in.
+		generateInnkeepers();
+	}
+
+	private static void generateInnkeepers() {
+		if (IronAgeFurnitureConfiguration.GENERATE_INNKEEPERS) {
+			BlockObjectHolder.hanging_inn_sign = FurnitureFactory.CreateHangingInnSign();
+		}
 	}
 
 	private static void generateFallbackGoldBars() {

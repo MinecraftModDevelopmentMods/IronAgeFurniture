@@ -94,6 +94,7 @@ public class WallShelf extends BlockHBase {
 		FLOWER_POT("flower_pot", 2, 0),
 		BOOKS("books", 5, 0),
 		RECORDS("records", 6, 0),
+		BOTTLES("bottles", 3, 0),
 		DRINKWARE_LARGE("drinkware_large", 4, 0),
 		DRINKWARE_MEDIUM("drinkware_medium", 6, 0),
 		DRINKWARE_SMALL("drinkware_small", 9, 0);
@@ -362,6 +363,13 @@ public class WallShelf extends BlockHBase {
 				return true;
 			}
 
+			if (shelf != null && shelf.getEmbeddedKind() == heldContent
+					&& this.isVesselClusterKind(heldContent)
+					&& shelf.getEmbeddedCount() >= this.getEmbeddedCapacityForPosition(worldIn, pos, heldContent)) {
+				this.removeAllEmbeddedItemsFromShelf(worldIn, pos, shelf, playerIn);
+				return true;
+			}
+
 			if (shelf != null && shelf.hasEmbeddedContent()
 					&& !this.canAddEmbeddedContentAt(worldIn, pos, shelf, heldContent)
 					&& this.isSameShelfStack(shelf.getLastEmbeddedItem(), heldItem)) {
@@ -460,6 +468,15 @@ public class WallShelf extends BlockHBase {
 		ItemStack embeddedItem = shelf.removeLastEmbeddedItem();
 
 		if (embeddedItem != null) {
+			this.returnShelfItem(worldIn, pos, playerIn, embeddedItem);
+		}
+
+		this.removeShelfEntityIfEmpty(worldIn, pos);
+	}
+
+	private void removeAllEmbeddedItemsFromShelf(World worldIn, BlockPos pos, TileEntityWallShelf shelf,
+			EntityPlayer playerIn) {
+		for (ItemStack embeddedItem : shelf.removeAllEmbeddedItems()) {
 			this.returnShelfItem(worldIn, pos, playerIn, embeddedItem);
 		}
 
@@ -585,6 +602,10 @@ public class WallShelf extends BlockHBase {
 			}
 		}
 
+		if (BottleRack.isValidBottleItem(heldItem)) {
+			return ShelfContentKind.BOTTLES;
+		}
+
 		Block heldBlock = this.getHeldItemBlock(heldItem);
 
 		if (this.isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_block_floor_lava_clear)) {
@@ -638,6 +659,13 @@ public class WallShelf extends BlockHBase {
 		}
 
 		return ShelfContentKind.NONE;
+	}
+
+	private boolean isVesselClusterKind(ShelfContentKind kind) {
+		return kind == ShelfContentKind.BOTTLES
+			|| kind == ShelfContentKind.DRINKWARE_LARGE
+			|| kind == ShelfContentKind.DRINKWARE_MEDIUM
+			|| kind == ShelfContentKind.DRINKWARE_SMALL;
 	}
 
 	private boolean isFlowerPotPlantItem(ItemStack heldItem) {
@@ -1218,7 +1246,8 @@ public class WallShelf extends BlockHBase {
 	}
 
 	private int getEmbeddedCapacityForPosition(IBlockAccess worldIn, BlockPos pos, ShelfContentKind kind) {
-		if (kind != ShelfContentKind.BOOKS && kind != ShelfContentKind.DRINKWARE_LARGE
+		if (kind != ShelfContentKind.BOOKS && kind != ShelfContentKind.BOTTLES
+				&& kind != ShelfContentKind.DRINKWARE_LARGE
 				&& kind != ShelfContentKind.DRINKWARE_MEDIUM
 				&& kind != ShelfContentKind.DRINKWARE_SMALL) {
 			return kind.getCapacity();
@@ -1238,6 +1267,8 @@ public class WallShelf extends BlockHBase {
 		}
 
 		switch (kind) {
+		case BOTTLES:
+			return 3;
 		case DRINKWARE_LARGE:
 			return 3;
 		case DRINKWARE_MEDIUM:

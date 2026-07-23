@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import com.mcmoddev.ironagefurniture.api.DrinkDisplayHelper;
+import com.mcmoddev.ironagefurniture.api.DrinkProperties;
 import com.mcmoddev.ironagefurniture.api.FoudreBrewingRegistry;
 
 import net.minecraft.entity.Entity;
@@ -62,6 +63,7 @@ public class ItemFluidBottle extends Item {
 
 		if (player != null) {
 			player.addStat(StatList.getObjectUseStats(this));
+			DrinkProperties.consume(player, getFluid(stack), CAPACITY);
 		}
 
 		if (player == null || !player.capabilities.isCreativeMode) {
@@ -114,6 +116,7 @@ public class ItemFluidBottle extends Item {
 		if (fluid != null && fluid.getFluid() != null && fluid.amount > 0) {
 			tooltip.add(DrinkDisplayHelper.getDisplayName(fluid));
 			this.addQualityTooltip(fluid, tooltip);
+			DrinkProperties.addTooltip(fluid, fluid.amount, tooltip);
 			tooltip.add(fluid.amount + " / " + CAPACITY + " mB");
 		}
 

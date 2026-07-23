@@ -18,6 +18,7 @@ import com.mcmoddev.ironagefurniture.api.Blocks.GoldBars;
 import com.mcmoddev.ironagefurniture.api.Blocks.GrandChandelierHub;
 import com.mcmoddev.ironagefurniture.api.Blocks.GrandChandelierSconce;
 import com.mcmoddev.ironagefurniture.api.Blocks.HalfCabinet;
+import com.mcmoddev.ironagefurniture.api.Blocks.HangingInnSign;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightHolderSconceFloor;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightHolderSconceHanging;
 import com.mcmoddev.ironagefurniture.api.Blocks.LightHolderSconceWall;
@@ -539,6 +540,11 @@ public class FurnitureFactory {
 		return registerBlockWithoutItem(new SurfaceDisplayBlocker(Material.BARRIER, name), name);
 	}
 
+	public static Block CreateHangingInnSign() {
+		String name = "hanging_inn_sign";
+		return registerBlock(new HangingInnSign(name), name, 16);
+	}
+
 	public static Block CreateClayOrnaments(String name) {
 		return registerBlock(new OrnamentBlock(Material.CLAY, name,
 			new String[] { "clay_vase", "clay_jug", "clay_bowl", "banded_clay_urn" },
@@ -990,7 +996,8 @@ public class FurnitureFactory {
 	private static void registerWoodFurnitureFireInfo(Block block) {
 		if (block instanceof Chair || block instanceof MultiBlockChair || block instanceof MultiBlockBed
 				|| block instanceof MultiBlockWoodBed || block instanceof DiningTable || block instanceof WallShelf
-				|| block instanceof BottleRack || block instanceof Barrel || block instanceof PotStill) {
+				|| block instanceof BottleRack || block instanceof Barrel || block instanceof PotStill
+				|| block instanceof HangingInnSign) {
 			Blocks.FIRE.setFireInfo(block, WOOD_FURNITURE_FIRE_SPREAD_SPEED, WOOD_FURNITURE_FLAMMABILITY);
 		}
 	}

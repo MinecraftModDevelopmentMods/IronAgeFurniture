@@ -396,7 +396,7 @@ public final class PotStillDistillingRegistry {
 		}
 
 		return new DistillationResult(recipe.output, recipe.outputName, outputAmount,
-			getDistillationTime(input.amount), 1);
+			getDistillationTime(input.amount), 1, input);
 	}
 
 	public static boolean canAcceptInput(@Nullable FluidStack input) {
@@ -521,7 +521,7 @@ public final class PotStillDistillingRegistry {
 		SpiritProfile profile = SPIRIT_PROFILES.get(input.getFluid());
 		String outputName = profile == null ? input.getLocalizedName() : profile.displayName;
 		return new DistillationResult(input.getFluid(), outputName, outputAmount,
-			getDistillationTime(input.amount), passes + 1);
+			getDistillationTime(input.amount), passes + 1, input);
 	}
 
 	private static int getDistillationTime(int inputAmount) {
@@ -615,14 +615,16 @@ public final class PotStillDistillingRegistry {
 		private final int outputAmount;
 		private final int distillationTime;
 		private final int outputPasses;
+		private final FluidStack input;
 
 		private DistillationResult(Fluid output, String outputName, int outputAmount, int distillationTime,
-				int outputPasses) {
+				int outputPasses, FluidStack input) {
 			this.output = output;
 			this.outputName = outputName;
 			this.outputAmount = outputAmount;
 			this.distillationTime = distillationTime;
 			this.outputPasses = outputPasses;
+			this.input = input.copy();
 		}
 
 		public Fluid getOutput() {
@@ -646,7 +648,9 @@ public final class PotStillDistillingRegistry {
 		}
 
 		public FluidStack createOutputStack() {
-			return createSpiritFluid(this.output, this.outputAmount, this.outputPasses);
+			FluidStack outputStack = createSpiritFluid(this.output, this.outputAmount, this.outputPasses);
+			DrinkProperties.preserveInputValue(outputStack, this.input, this.outputAmount, 110);
+			return outputStack;
 		}
 	}
 

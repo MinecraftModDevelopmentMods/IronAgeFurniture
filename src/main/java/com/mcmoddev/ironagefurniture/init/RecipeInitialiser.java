@@ -49,6 +49,13 @@ public class RecipeInitialiser {
 		generateGoldBarsRecipes();
 		generateLightRecipes();
 		generateOrnamentRecipes();
+		generateInnkeeperRecipe();
+	}
+
+	private static void generateInnkeeperRecipe() {
+		if (BlockObjectHolder.hanging_inn_sign == null) return;
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockObjectHolder.hanging_inn_sign),
+			" i ", "isi", "p p", 'i', "ingotIron", 's', Items.SIGN, 'p', "plankWood"));
 	}
 
 	private static void generateDrinkwareRecipes() {

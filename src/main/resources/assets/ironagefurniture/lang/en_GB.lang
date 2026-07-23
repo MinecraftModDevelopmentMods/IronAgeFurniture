@@ -1998,3 +1998,6 @@ gui.ironagefurniture.tooltip.seal=Seal the vessel to begin processing
 gui.ironagefurniture.tooltip.open=Open the vessel and reset current age progress
 gui.ironagefurniture.tooltip.flush=Discard the vessel contents
 gui.ironagefurniture.tooltip.flush_confirm=Click again to confirm flushing
+tile.ironagefurniture.hanging_inn_sign.name=Hanging Inn Sign
+gui.ironagefurniture.innkeeper=Innkeeper Appraisal
+entity.Villager.innkeeper=Innkeeper

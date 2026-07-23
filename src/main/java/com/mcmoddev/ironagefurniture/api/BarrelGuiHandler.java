@@ -5,9 +5,11 @@ import com.mcmoddev.ironagefurniture.api.container.ContainerBarrel;
 import com.mcmoddev.ironagefurniture.api.container.ContainerFoudre;
 import com.mcmoddev.ironagefurniture.api.container.ContainerFoudreLabel;
 import com.mcmoddev.ironagefurniture.api.container.ContainerPotStill;
+import com.mcmoddev.ironagefurniture.api.container.ContainerInnkeeper;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityBarrel;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityFoudre;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityPotStill;
+import com.mcmoddev.ironagefurniture.api.tile.TileEntityHangingInnSign;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -20,6 +22,10 @@ public class BarrelGuiHandler implements IGuiHandler {
 	@Override
 	public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity tileEntity = world.getTileEntity(new BlockPos(x, y, z));
+		if (id == Ironagefurniture.GUI_INNKEEPER) {
+			return tileEntity instanceof TileEntityHangingInnSign
+				? new ContainerInnkeeper(player.inventory, (TileEntityHangingInnSign)tileEntity) : null;
+		}
 
 		if (id == Ironagefurniture.GUI_FOUDRE_LABEL) {
 			return tileEntity instanceof TileEntityFoudre ? new ContainerFoudreLabel((TileEntityFoudre)tileEntity)
@@ -41,6 +47,10 @@ public class BarrelGuiHandler implements IGuiHandler {
 	@Override
 	public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity tileEntity = world.getTileEntity(new BlockPos(x, y, z));
+		if (id == Ironagefurniture.GUI_INNKEEPER) {
+			return tileEntity instanceof TileEntityHangingInnSign
+				? createClientInnkeeperGui((TileEntityHangingInnSign)tileEntity, player.inventory) : null;
+		}
 
 		if (id == Ironagefurniture.GUI_FOUDRE_LABEL) {
 			return tileEntity instanceof TileEntityFoudre ? createClientLabelGui((TileEntityFoudre)tileEntity) : null;
@@ -93,6 +103,16 @@ public class BarrelGuiHandler implements IGuiHandler {
 			return guiClass.getConstructor(TileEntityFoudre.class).newInstance(foudre);
 		} catch (ReflectiveOperationException e) {
 			throw new RuntimeException("Unable to open foudre label GUI", e);
+		}
+	}
+
+	private static Object createClientInnkeeperGui(TileEntityHangingInnSign sign, InventoryPlayer playerInventory) {
+		try {
+			Class<?> guiClass = Class.forName("com.mcmoddev.ironagefurniture.client.gui.GuiInnkeeper");
+			return guiClass.getConstructor(TileEntityHangingInnSign.class, InventoryPlayer.class)
+				.newInstance(sign, playerInventory);
+		} catch (ReflectiveOperationException e) {
+			throw new RuntimeException("Unable to open Innkeeper GUI", e);
 		}
 	}
 }

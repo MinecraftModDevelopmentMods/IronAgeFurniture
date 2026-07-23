@@ -23,18 +23,35 @@ public class TileEntityWallShelfRenderer extends TileEntitySpecialRenderer<TileE
 	private static final double SHELF_TOP_Y = 0.8125D;
 	private static final float ITEM_SCALE = 0.45F;
 	private static final float BLOCK_ITEM_SCALE = 0.35F;
+	private static final double BOTTLE_SPACING = 0.28D;
+	private static final double[][] INNER_CORNER_BOTTLE_LAYOUT = {
+		{ -0.12D, -0.28D },
+		{ -0.10D, 0.07D },
+		{ 0.22D, 0.12D }
+	};
+	private static final double[][] OUTER_CORNER_BOTTLE_LAYOUT = {
+		{ 0.32D, 0.12D },
+		{ 0.14D, 0.15D },
+		{ 0.12D, 0.36D }
+	};
 
 	@Override
 	public void renderTileEntityAt(TileEntityWallShelf te, double x, double y, double z, float partialTicks,
 			int destroyStage) {
 		ItemStack itemStack = te.getDisplayedItem();
 
-		EnumFacing facing = this.getFacing(te);
+		IBlockState shelfState = this.getShelfState(te);
+		EnumFacing facing = this.getFacing(shelfState);
+		WallShelf.ShelfSupport support = this.getSupport(shelfState);
 		double itemX = 0.5D - facing.getFrontOffsetX() * 0.125D;
 		double itemZ = 0.5D - facing.getFrontOffsetZ() * 0.125D;
 
 		if (this.isDrinkwareKind(te.getEmbeddedKind())) {
 			this.renderDrinkwareCluster(te.getEmbeddedItems(), te.getEmbeddedKind(), facing, x, y, z);
+		}
+
+		if (te.getEmbeddedKind() == WallShelf.ShelfContentKind.BOTTLES) {
+			this.renderBottleCluster(te.getEmbeddedItems(), facing, support, x, y, z);
 		}
 
 		if (te.getEmbeddedKind() == WallShelf.ShelfContentKind.FLOWER_POT && te.getLastEmbeddedItem() != null
@@ -115,6 +132,50 @@ public class TileEntityWallShelfRenderer extends TileEntitySpecialRenderer<TileE
 		}
 	}
 
+	private void renderBottleCluster(List<ItemStack> items, EnumFacing facing, WallShelf.ShelfSupport support,
+			double x, double y, double z) {
+		if (support == WallShelf.ShelfSupport.INNER_CORNER
+				|| support == WallShelf.ShelfSupport.OUTER_CORNER) {
+			double[][] layout = support == WallShelf.ShelfSupport.INNER_CORNER
+				? INNER_CORNER_BOTTLE_LAYOUT : OUTER_CORNER_BOTTLE_LAYOUT;
+			this.renderCornerBottleCluster(items, facing, layout, x, y, z);
+			return;
+		}
+
+		double outwardX = -facing.getFrontOffsetX();
+		double outwardZ = -facing.getFrontOffsetZ();
+		double rightX = -outwardZ;
+		double rightZ = outwardX;
+		float yaw = this.getYaw(facing);
+
+		for (int index = 0; index < items.size(); index++) {
+			double lateral = (index - (items.size() - 1) / 2.0D) * BOTTLE_SPACING;
+			double itemX = 0.5D + outwardX * 0.12D + rightX * lateral;
+			double itemZ = 0.5D + outwardZ * 0.12D + rightZ * lateral;
+			SurfaceDisplayRenderHelper.renderBottle(items.get(index), x, y, z, itemX, itemZ,
+				SHELF_TOP_Y, yaw);
+		}
+	}
+
+	private void renderCornerBottleCluster(List<ItemStack> items, EnumFacing facing, double[][] layout,
+			double x, double y, double z) {
+		double outwardX = -facing.getFrontOffsetX();
+		double outwardZ = -facing.getFrontOffsetZ();
+		double rightX = -outwardZ;
+		double rightZ = outwardX;
+		float yaw = this.getYaw(facing);
+		int start = items.size() == 1 ? 1 : 0;
+		int step = items.size() == 2 ? 2 : 1;
+
+		for (int index = 0; index < items.size() && index < layout.length; index++) {
+			double[] offset = layout[start + index * step];
+			double itemX = 0.5D + outwardX * offset[1] + rightX * offset[0];
+			double itemZ = 0.5D + outwardZ * offset[1] + rightZ * offset[0];
+			SurfaceDisplayRenderHelper.renderBottle(items.get(index), x, y, z, itemX, itemZ,
+				SHELF_TOP_Y, yaw);
+		}
+	}
+
 	private boolean isSameStack(ItemStack first, ItemStack second) {
 		return first != null && second != null && first.isItemEqual(second)
 			&& ItemStack.areItemStackTagsEqual(first, second);
@@ -133,7 +194,7 @@ public class TileEntityWallShelfRenderer extends TileEntitySpecialRenderer<TileE
 		}
 	}
 
-	private EnumFacing getFacing(TileEntityWallShelf te) {
+	private IBlockState getShelfState(TileEntityWallShelf te) {
 		World world = te.getWorld();
 		BlockPos pos = te.getPos();
 
@@ -141,11 +202,19 @@ public class TileEntityWallShelfRenderer extends TileEntitySpecialRenderer<TileE
 			IBlockState state = world.getBlockState(pos);
 
 			if (state.getBlock() instanceof WallShelf) {
-				return state.getValue(WallShelf.FACING);
+				return state.getBlock().getActualState(state, world, pos);
 			}
 		}
 
-		return EnumFacing.NORTH;
+		return null;
+	}
+
+	private EnumFacing getFacing(IBlockState shelfState) {
+		return shelfState == null ? EnumFacing.NORTH : shelfState.getValue(WallShelf.FACING);
+	}
+
+	private WallShelf.ShelfSupport getSupport(IBlockState shelfState) {
+		return shelfState == null ? WallShelf.ShelfSupport.STRAIGHT : shelfState.getValue(WallShelf.SUPPORT);
 	}
 
 	private ItemTransformVec3f getFixedTransform(ItemStack itemStack) {

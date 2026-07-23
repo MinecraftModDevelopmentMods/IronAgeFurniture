@@ -3,6 +3,7 @@ package com.mcmoddev.ironagefurniture.api.Items;
 import java.util.List;
 
 import com.mcmoddev.ironagefurniture.api.DrinkDisplayHelper;
+import com.mcmoddev.ironagefurniture.api.DrinkProperties;
 import com.mcmoddev.ironagefurniture.api.Blocks.Barrel;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityBarrel;
 
@@ -38,6 +39,7 @@ public class ItemBlockBarrel extends ItemBlock {
 				tooltip.add(line);
 			}
 		}
+		DrinkProperties.addTooltip(fluid, fluid.amount, tooltip);
 
 		tooltip.add(fluid.amount + " / " + this.getCapacity() + " mB");
 	}

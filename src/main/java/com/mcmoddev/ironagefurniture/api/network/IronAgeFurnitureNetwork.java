@@ -29,5 +29,7 @@ public final class IronAgeFurnitureNetwork {
 			Side.SERVER);
 		channel.registerMessage(PotStillPortModeMessage.Handler.class, PotStillPortModeMessage.class, 9,
 			Side.SERVER);
+		channel.registerMessage(InnkeeperActionMessage.Handler.class, InnkeeperActionMessage.class, 10,
+			Side.SERVER);
 	}
 }

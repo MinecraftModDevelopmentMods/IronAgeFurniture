@@ -11,6 +11,7 @@ import javax.annotation.Nullable;
 
 import com.mcmoddev.ironagefurniture.IronAgeFurnitureConfiguration;
 import com.mcmoddev.ironagefurniture.api.DrinkDisplayHelper;
+import com.mcmoddev.ironagefurniture.api.DrinkProperties;
 import com.mcmoddev.ironagefurniture.api.FoudreBrewingRegistry;
 import com.mcmoddev.ironagefurniture.api.MetalVariantHelper.MetalVariant;
 
@@ -145,6 +146,7 @@ public class ItemDrinkware extends Item {
 
 		if (player != null) {
 			player.addStat(StatList.getObjectUseStats(this));
+			DrinkProperties.consume(player, fluid, fluid.amount);
 		}
 
 		if (player == null || !player.capabilities.isCreativeMode) {
@@ -201,6 +203,8 @@ public class ItemDrinkware extends Item {
 					tooltip.add(TextFormatting.GRAY + line);
 				}
 			}
+
+			DrinkProperties.addTooltip(fluid, fluid.amount, tooltip);
 
 			tooltip.add(fluid.amount + " / " + this.getCapacity(stack) + " mB");
 		}

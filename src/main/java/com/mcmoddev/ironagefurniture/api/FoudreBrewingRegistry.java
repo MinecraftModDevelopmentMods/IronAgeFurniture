@@ -1110,6 +1110,16 @@ public final class FoudreBrewingRegistry {
 		return profile == null ? "" : profile.getName(getAgeTicks(fluid));
 	}
 
+	public static int getAgeLevel(FluidStack fluid) {
+		AgeProfile profile = getAgeProfile(fluid);
+		return profile == null ? 0 : profile.getLevel(getAgeTicks(fluid));
+	}
+
+	public static int getMaximumAgeLevel(FluidStack fluid) {
+		AgeProfile profile = getAgeProfile(fluid);
+		return profile == null ? 0 : profile.getMaxLevel();
+	}
+
 	public static String getNextAgeLevelName(FluidStack fluid) {
 		AgeProfile profile = getAgeProfile(fluid);
 		return profile == null ? "" : profile.getNextName(getAgeTicks(fluid));
@@ -1583,6 +1593,7 @@ public final class FoudreBrewingRegistry {
 					outputFluid.tag.setTag(INFUSION_BASE_TAG,
 						provenance.writeToNBT(new NBTTagCompound()));
 				}
+				DrinkProperties.preserveInputValue(outputFluid, inputFluid, amount, 110);
 			}
 			return outputFluid;
 		}
