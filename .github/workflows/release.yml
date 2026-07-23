@@ -5,7 +5,7 @@ on:
     tags: [ '*' ]
 
 env:
-  JAVA_VERSION: 25
+  JAVA_VERSION: 17
   BUILD_NUMBER: ${{ github.run_number }}
   MAVEN_UPLOAD_URL: ${{ secrets.MAVEN_UPLOAD_URL }}
   MAVEN_UPLOAD_USERNAME: ${{ secrets.MAVEN_UPLOAD_USERNAME }}

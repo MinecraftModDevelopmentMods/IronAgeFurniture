@@ -8,7 +8,7 @@ plugins {
 
 version = mod_version
 group = mod_group
-base.archivesName = mod_id
+base.archivesName = mod_archive_name
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(8)
 
@@ -75,6 +75,12 @@ dependencies {
     // If the group id is "net.minecraft" and the artifact id is one of ["client", "server", "joined"],
     // then special handling is done to allow a setup of a vanilla dependency without the use of an external repository.
     implementation minecraft.dependency("net.minecraftforge:forge:$minecraft_version-$forge_version")
+
+    // Minecraft 1.10.2 exposes lwjgl_util types (for example Vector3f through
+    // ItemTransformVec3f), but the legacy Mavenizer metadata puts this jar on
+    // the runtime classpath only. Keep it compile-only because Forge already
+    // supplies the same library at runtime.
+    compileOnly "org.lwjgl.lwjgl:lwjgl_util:2.9.4-nightly-20150209"
 
     // Forge 1.21.6+ uses EventBus 7, which shifts most of its runtime validation to compile-time via an annotation processor
     // to improve performance in production environments. This line is required to enable said compile-time validation
@@ -167,11 +173,11 @@ eclipse {
         downloadJavadoc = downloadSources = true
     }
 
-    // NOTE: ForgeGradle 7 does not yet support Eclipse run configurations
-    // Run everytime eclipse builds the code
+    // Refresh ForgeGradle launch configurations when Buildship imports/synchronizes the project.
+    synchronizationTasks 'genEclipseRuns'
+
+    // Uncomment to regenerate launch configurations every time Eclipse builds the code.
     //autoBuildTasks genEclipseRuns
-    // Run when importing the project
-    //synchronizationTasks 'genEclipseRuns'
 }
 
 // NOTE: Merging of source sets is now controlled by the property 'net.minecraftforge.gradle.merge-source-sets'
