@@ -37,7 +37,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.FluidStack;
 
 public class PotStill extends Barrel {
 	public static final PropertyDirection FACING = BlockHorizontal.FACING;

@@ -250,56 +250,6 @@ public class LightHolderSconceFloor extends BlockHBase {
 	public boolean isOpaqueCube(IBlockState bs) {
 		return false;
 	}
-	
-	 private boolean ActivateSconce(IBlockState state, World worldIn, BlockPos pos, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
-		// guard null/empty
-		if (heldItem == null || heldItem.stackSize <= 0) {
-			return false;
-		}
-		
-		Block newBlock = null;
-		
-		// the sconce is empty, so we can place a light source in it
-		
-		// regular torch
-		if (heldItem.getItem() == Item.getItemFromBlock(Blocks.TORCH)) {
-			newBlock = GetTorchVariant();
-		}
-		else if (heldItem.getItem() == Item.getItemFromBlock(BlockObjectHolder.light_metal_ironage_block_floor_glow_clear)) {
-			newBlock = GetGlowVariant(); // glow lamp
-		}
-		else if (heldItem.getItem() == Item.getItemFromBlock(BlockObjectHolder.light_metal_ironage_block_floor_lava_clear)) {
-			newBlock = GetLavaVariant(); 
-		}
-		else if (heldItem.getItem() == Item.getItemFromBlock(Blocks.REDSTONE_TORCH)) {
-			newBlock = GetRedTorchVariant(); // redstone torch
-		}
-		else if (heldItem.getItem() == Item.getItemFromBlock(BlockObjectHolder.light_metal_ironage_candle_floor)) {
-			newBlock = GetCandleVariant();
-		}
-		else if (heldItem.getItem() == Item.getItemFromBlock(BlockObjectHolder.light_metal_ironage_block_floor_red_clear)) {
-			newBlock = GetRedVariant(); // redstone lamp
-		}
-		else if (MineralogyCompat.isRockSaltLampItem(heldItem)) {
-			newBlock = GetRockSaltVariant();
-		}
-		
-		// if nothing matched, we did not handle it
-		if (newBlock == null) {
-			return false;
-		}
-		
-		// replace the block, preserve facing
-		MetalVariantHelper.replaceBlockPreservingMetal(worldIn, pos,
-			newBlock.getDefaultState().withProperty(FACING, state.getValue(FACING)), 3 /* UPDATE_ALL */);
-		
-		// consume one
-		if (!playerIn.capabilities.isCreativeMode) {
-			heldItem.stackSize--;
-		}
-		
-		return true;
-	}
 
 	
 	@Override

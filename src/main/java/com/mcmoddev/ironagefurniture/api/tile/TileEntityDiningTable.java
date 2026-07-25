@@ -335,12 +335,4 @@ public class TileEntityDiningTable extends TileEntity implements SurfaceSettingH
 		}
 	}
 
-	private EnumFacing horizontalOrNorth(EnumFacing facing) {
-		if (facing == EnumFacing.NORTH || facing == EnumFacing.EAST
-				|| facing == EnumFacing.SOUTH || facing == EnumFacing.WEST) {
-			return facing;
-		}
-
-		return EnumFacing.NORTH;
-	}
 }

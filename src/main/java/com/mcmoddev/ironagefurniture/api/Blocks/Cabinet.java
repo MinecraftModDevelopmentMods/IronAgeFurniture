@@ -6,7 +6,6 @@ import com.mcmoddev.ironagefurniture.BlockObjectHolder;
 import com.mcmoddev.ironagefurniture.Ironagefurniture;
 import com.mcmoddev.ironagefurniture.api.SurfaceItemRules;
 import com.mcmoddev.ironagefurniture.api.VasePlantHelper;
-import com.mcmoddev.ironagefurniture.api.Items.DrinkContainerHelper;
 import com.mcmoddev.ironagefurniture.api.surface.SurfaceSettingInteraction;
 import com.mcmoddev.ironagefurniture.api.surface.SurfaceSettingInteraction.Result;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityCabinet;
@@ -37,7 +36,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -247,49 +245,6 @@ public class Cabinet extends Block {
 
 	protected boolean isFlowerPotItem(ItemStack heldItem) {
 		return SurfaceItemRules.isFlowerPotItem(heldItem);
-	}
-
-	private boolean canRetrieveDisplayedItem(TileEntityCabinet cabinet, ItemStack heldItem) {
-		if (heldItem == null || heldItem.stackSize <= 0) {
-			return true;
-		}
-
-		ItemStack displayedItem = cabinet.getDisplayedItem();
-		return displayedItem != null && displayedItem.stackSize > 0
-			&& this.isSameItemStack(displayedItem, heldItem);
-	}
-
-	private void handleDisplayedVaseClick(World worldIn, BlockPos pos, TileEntityCabinet cabinet,
-			EntityPlayer playerIn, EnumHand hand, ItemStack heldItem) {
-		ItemStack displayedItem = cabinet.getDisplayedItem();
-		ItemStack plant = VasePlantHelper.removePlant(displayedItem);
-
-		if (plant != null) {
-			cabinet.setDisplayedItem(displayedItem);
-			this.returnItem(worldIn, pos, playerIn, plant);
-			return;
-		}
-
-		if (VasePlantHelper.addPlant(displayedItem, heldItem)) {
-			cabinet.setDisplayedItem(displayedItem);
-
-			if (!playerIn.capabilities.isCreativeMode) {
-				heldItem.stackSize--;
-
-				if (heldItem.stackSize <= 0) {
-					playerIn.setHeldItem(hand, null);
-				}
-			}
-		}
-	}
-
-	private void returnItem(World worldIn, BlockPos pos, EntityPlayer playerIn, ItemStack itemStack) {
-		if (itemStack != null && itemStack.stackSize > 0
-				&& !playerIn.inventory.addItemStackToInventory(itemStack)) {
-			EntityItem entityItem = new EntityItem(worldIn, pos.getX() + 0.5D, pos.getY() + 1.1D,
-				pos.getZ() + 0.5D, itemStack);
-			worldIn.spawnEntity(entityItem);
-		}
 	}
 
 	private boolean canRetrievePlacedBlockAbove(World worldIn, BlockPos pos, EntityPlayer playerIn,

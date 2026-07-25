@@ -51,7 +51,6 @@ public final class GeneratedModelResourcePack implements IResourcePack {
 		}
 
 		Minecraft minecraft = Minecraft.getMinecraft();
-		@SuppressWarnings("unchecked")
 		List<IResourcePack> defaultResourcePacks = ObfuscationReflectionHelper.getPrivateValue(Minecraft.class,
 				minecraft, "defaultResourcePacks", "field_110449_ao");
 

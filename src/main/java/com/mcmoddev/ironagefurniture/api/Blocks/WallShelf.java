@@ -209,6 +209,8 @@ public class WallShelf extends BlockHBase {
 			this.support = support;
 		}
 
+		// Keep the old bridge shape for Eclipse sessions that still have a stale nested class loaded.
+		@SuppressWarnings("unused")
 		ShelfRenderState(EnumFacing facing, ShelfSupport support, ShelfRenderState ignored) {
 			this(facing, support);
 		}

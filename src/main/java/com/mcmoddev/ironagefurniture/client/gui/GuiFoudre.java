@@ -16,6 +16,7 @@ import com.mcmoddev.ironagefurniture.api.network.IronAgeFurnitureNetwork;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityBarrel;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityFoudre;
 
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -76,7 +77,6 @@ public class GuiFoudre extends GuiContainer {
 	private static final int TOP_PANEL_HEIGHT = 108;
 	private static final int BARREL_PANEL_GAP = 6;
 	private static final int SIDE_PANEL_VERTICAL_GAP = 3;
-	private static final int HIDDEN_PANEL_OFFSET = Integer.MIN_VALUE;
 	private static final int BARREL_PANEL_WIDTH = AdjacentBarrelPanel.WIDTH;
 	private static final int BARREL_PANEL_X = -BARREL_PANEL_WIDTH - BARREL_PANEL_GAP;
 	private static final int BARREL_PANEL_Y = TOP_PANEL_Y;
@@ -88,7 +88,6 @@ public class GuiFoudre extends GuiContainer {
 	private static final int TRANSFER_BUTTON_Y = BARREL_PANEL_Y + AdjacentBarrelPanel.BUTTON_Y;
 	private static final int PIPE_PANEL_WIDTH = 84;
 	private static final int PIPE_PANEL_HEIGHT = 96;
-	private static final int PIPE_PANEL_X = BARREL_PANEL_X + (BARREL_PANEL_WIDTH - PIPE_PANEL_WIDTH) / 2;
 	private static final int PIPE_PANEL_Y = BARREL_PANEL_Y + BARREL_PANEL_HEIGHT + SIDE_PANEL_VERTICAL_GAP;
 	private static final int INVENTORY_PANEL_X = 7;
 	private static final int INVENTORY_PANEL_Y = 118;
@@ -274,15 +273,15 @@ public class GuiFoudre extends GuiContainer {
 	}
 
 	private void drawWoodFrame() {
-		this.drawRect(this.guiLeft, this.guiTop, this.guiLeft + this.xSize, this.guiTop + this.ySize, WOOD_DARK);
-		this.drawRect(this.guiLeft + FRAME_OUTER_INSET, this.guiTop + FRAME_OUTER_INSET,
+		Gui.drawRect(this.guiLeft, this.guiTop, this.guiLeft + this.xSize, this.guiTop + this.ySize, WOOD_DARK);
+		Gui.drawRect(this.guiLeft + FRAME_OUTER_INSET, this.guiTop + FRAME_OUTER_INSET,
 			this.guiLeft + this.xSize - FRAME_OUTER_INSET, this.guiTop + this.ySize - FRAME_OUTER_INSET, WOOD_MID);
-		this.drawRect(this.guiLeft + FRAME_INNER_INSET, this.guiTop + FRAME_INNER_INSET,
+		Gui.drawRect(this.guiLeft + FRAME_INNER_INSET, this.guiTop + FRAME_INNER_INSET,
 			this.guiLeft + this.xSize - FRAME_INNER_INSET, this.guiTop + this.ySize - FRAME_INNER_INSET, WOOD_LIGHT);
 
 		for (int y = GRAIN_TOP; y < this.ySize - GRAIN_BOTTOM_INSET; y += GRAIN_STEP) {
 			int grain = y % GRAIN_VARIANT_DIVISOR == GRAIN_VARIANT_OFFSET ? WOOD_GRAIN_DARK : WOOD_GRAIN_LIGHT;
-			this.drawRect(this.guiLeft + GRAIN_LEFT_INSET, this.guiTop + y,
+			Gui.drawRect(this.guiLeft + GRAIN_LEFT_INSET, this.guiTop + y,
 				this.guiLeft + this.xSize - GRAIN_LEFT_INSET, this.guiTop + y + MIN_DRAWN_FILL, grain);
 		}
 	}
@@ -365,20 +364,20 @@ public class GuiFoudre extends GuiContainer {
 	private void drawOuterPanel(int x, int y, int width, int height) {
 		int left = this.guiLeft + x;
 		int top = this.guiTop + y;
-		this.drawRect(left, top, left + width, top + height, WOOD_DARK);
-		this.drawRect(left + FRAME_OUTER_INSET, top + FRAME_OUTER_INSET,
+		Gui.drawRect(left, top, left + width, top + height, WOOD_DARK);
+		Gui.drawRect(left + FRAME_OUTER_INSET, top + FRAME_OUTER_INSET,
 			left + width - FRAME_OUTER_INSET, top + height - FRAME_OUTER_INSET, WOOD_MID);
-		this.drawRect(left + FRAME_INNER_INSET, top + FRAME_INNER_INSET,
+		Gui.drawRect(left + FRAME_INNER_INSET, top + FRAME_INNER_INSET,
 			left + width - FRAME_INNER_INSET, top + height - FRAME_INNER_INSET, PANEL_LIGHT);
 	}
 
 	private void drawInsetPanel(int x, int y, int width, int height) {
 		int left = this.guiLeft + x;
 		int top = this.guiTop + y;
-		this.drawRect(left, top, left + width, top + height, PANEL_DARK);
-		this.drawRect(left + INSET_BORDER, top + INSET_BORDER, left + width - INSET_BORDER,
+		Gui.drawRect(left, top, left + width, top + height, PANEL_DARK);
+		Gui.drawRect(left + INSET_BORDER, top + INSET_BORDER, left + width - INSET_BORDER,
 			top + height - INSET_BORDER, PANEL_MID);
-		this.drawRect(left + INSET_FILL, top + INSET_FILL, left + width - INSET_FILL,
+		Gui.drawRect(left + INSET_FILL, top + INSET_FILL, left + width - INSET_FILL,
 			top + height - INSET_FILL, PANEL_LIGHT);
 	}
 
@@ -438,7 +437,7 @@ public class GuiFoudre extends GuiContainer {
 		int left = this.guiLeft + this.getBarrelPanelOffsetX() + AdjacentBarrelPanel.GAUGE_X;
 		int top = this.guiTop + BARREL_PANEL_Y + AdjacentBarrelPanel.GAUGE_Y;
 		this.drawFluid(left, top, fillWidth, AdjacentBarrelPanel.GAUGE_HEIGHT, fluid);
-		this.drawRect(left, top, left + fillWidth, top + MIN_DRAWN_FILL,
+		Gui.drawRect(left, top, left + fillWidth, top + MIN_DRAWN_FILL,
 			HIGHLIGHT_COLOR);
 	}
 
@@ -463,9 +462,9 @@ public class GuiFoudre extends GuiContainer {
 		int trayTop = this.guiTop + INGREDIENT_Y - 4;
 		int trayRight = trayLeft + SLOT_SIZE * 2 + SLOT_STEP - SLOT_SIZE + 8;
 		int trayBottom = trayTop + SLOT_SIZE * 2 + SLOT_STEP - SLOT_SIZE + 8;
-		this.drawRect(trayLeft, trayTop, trayRight, trayBottom, BRASS_DARK);
-		this.drawRect(trayLeft + 2, trayTop + 2, trayRight - 2, trayBottom - 2, BRASS_LIGHT);
-		this.drawRect(trayLeft + 4, trayTop + 4, trayRight - 4, trayBottom - 4, PANEL_DARK);
+		Gui.drawRect(trayLeft, trayTop, trayRight, trayBottom, BRASS_DARK);
+		Gui.drawRect(trayLeft + 2, trayTop + 2, trayRight - 2, trayBottom - 2, BRASS_LIGHT);
+		Gui.drawRect(trayLeft + 4, trayTop + 4, trayRight - 4, trayBottom - 4, PANEL_DARK);
 		this.drawSlot(INGREDIENT_X, INGREDIENT_Y);
 		this.drawSlot(INGREDIENT_X + SLOT_STEP, INGREDIENT_Y);
 		this.drawSlot(INGREDIENT_X, INGREDIENT_Y + SLOT_STEP);
@@ -487,11 +486,11 @@ public class GuiFoudre extends GuiContainer {
 	private void drawSlot(int x, int y) {
 		int left = this.guiLeft + x;
 		int top = this.guiTop + y;
-		this.drawRect(left - SLOT_BORDER, top - SLOT_BORDER, left + SLOT_SIZE + SLOT_BORDER,
+		Gui.drawRect(left - SLOT_BORDER, top - SLOT_BORDER, left + SLOT_SIZE + SLOT_BORDER,
 			top + SLOT_SIZE + SLOT_BORDER, SLOT_BORDER_COLOR);
-		this.drawRect(left, top, left + SLOT_SIZE, top + SLOT_SIZE, SLOT_RIM_COLOR);
-		this.drawRect(left + SLOT_BORDER, top + SLOT_BORDER, left + SLOT_SIZE, top + SLOT_SIZE, SLOT_SHADOW_COLOR);
-		this.drawRect(left + SLOT_INNER_INSET, top + SLOT_INNER_INSET, left + SLOT_SIZE - SLOT_BORDER,
+		Gui.drawRect(left, top, left + SLOT_SIZE, top + SLOT_SIZE, SLOT_RIM_COLOR);
+		Gui.drawRect(left + SLOT_BORDER, top + SLOT_BORDER, left + SLOT_SIZE, top + SLOT_SIZE, SLOT_SHADOW_COLOR);
+		Gui.drawRect(left + SLOT_INNER_INSET, top + SLOT_INNER_INSET, left + SLOT_SIZE - SLOT_BORDER,
 			top + SLOT_SIZE - SLOT_BORDER, SLOT_FILL_COLOR);
 	}
 
@@ -511,10 +510,10 @@ public class GuiFoudre extends GuiContainer {
 	private void drawFluidGauge() {
 		int left = this.guiLeft + FLUID_GAUGE_X;
 		int top = this.guiTop + FLUID_GAUGE_Y;
-		this.drawRect(left - FLUID_GAUGE_BORDER, top - FLUID_GAUGE_BORDER,
+		Gui.drawRect(left - FLUID_GAUGE_BORDER, top - FLUID_GAUGE_BORDER,
 			left + FLUID_GAUGE_WIDTH + FLUID_GAUGE_BORDER,
 			top + FLUID_GAUGE_HEIGHT + FLUID_GAUGE_BORDER, SLOT_BORDER_COLOR);
-		this.drawRect(left, top, left + FLUID_GAUGE_WIDTH, top + FLUID_GAUGE_HEIGHT, GAUGE_EMPTY_COLOR);
+		Gui.drawRect(left, top, left + FLUID_GAUGE_WIDTH, top + FLUID_GAUGE_HEIGHT, GAUGE_EMPTY_COLOR);
 
 		FluidStack fluid = this.foudre.getFluid();
 
@@ -526,7 +525,7 @@ public class GuiFoudre extends GuiContainer {
 			fluid.amount * FLUID_GAUGE_HEIGHT / this.foudre.getCapacity()));
 		int fillTop = top + FLUID_GAUGE_HEIGHT - fillHeight;
 		this.drawFluid(left, fillTop, FLUID_GAUGE_WIDTH, fillHeight, fluid);
-		this.drawRect(left, fillTop, left + FLUID_GAUGE_WIDTH, fillTop + MIN_DRAWN_FILL, HIGHLIGHT_COLOR);
+		Gui.drawRect(left, fillTop, left + FLUID_GAUGE_WIDTH, fillTop + MIN_DRAWN_FILL, HIGHLIGHT_COLOR);
 	}
 
 	private void drawFluid(int left, int top, int width, int height, FluidStack fluid) {
@@ -538,7 +537,7 @@ public class GuiFoudre extends GuiContainer {
 		ResourceLocation still = fluid.getFluid().getStill(fluid);
 
 		if (still == null) {
-			this.drawRect(left, top, left + width, top + height, this.getFluidColor(fluid));
+			Gui.drawRect(left, top, left + width, top + height, this.getFluidColor(fluid));
 			return;
 		}
 
@@ -561,12 +560,12 @@ public class GuiFoudre extends GuiContainer {
 	}
 
 	private void drawBrewedFluid(int left, int top, int width, int height, FluidStack fluid) {
-		this.drawRect(left, top, left + width, top + height, this.getFluidColor(fluid));
-		this.drawRect(left, top, left + MIN_DRAWN_FILL, top + height, BREWED_FLUID_EDGE_SHADOW);
-		this.drawRect(left + width - MIN_DRAWN_FILL, top, left + width, top + height, BREWED_FLUID_EDGE_SHADOW);
+		Gui.drawRect(left, top, left + width, top + height, this.getFluidColor(fluid));
+		Gui.drawRect(left, top, left + MIN_DRAWN_FILL, top + height, BREWED_FLUID_EDGE_SHADOW);
+		Gui.drawRect(left + width - MIN_DRAWN_FILL, top, left + width, top + height, BREWED_FLUID_EDGE_SHADOW);
 
 		for (int y = top + BREWED_FLUID_RIPPLE_TOP_INSET; y < top + height; y += BREWED_FLUID_RIPPLE_STEP) {
-			this.drawRect(left + MIN_DRAWN_FILL, y, left + width - MIN_DRAWN_FILL,
+			Gui.drawRect(left + MIN_DRAWN_FILL, y, left + width - MIN_DRAWN_FILL,
 				Math.min(y + MIN_DRAWN_FILL, top + height), BREWED_FLUID_RIPPLE_COLOR);
 		}
 	}
@@ -615,12 +614,6 @@ public class GuiFoudre extends GuiContainer {
 	private int getFluidColor(FluidStack fluid) {
 		int color = fluid.getFluid().getColor(fluid);
 		return (color & OPAQUE_ALPHA_MASK) == 0 ? color | OPAQUE_ALPHA_MASK : color;
-	}
-
-	private void drawBoundedCenteredText(String text, int x, int width, int y) {
-		String trimmed = this.fontRendererObj.trimStringToWidth(text, width);
-		this.fontRendererObj.drawString(trimmed, x + (width - this.fontRendererObj.getStringWidth(trimmed)) / 2, y,
-			TEXT_DARK);
 	}
 
 	private void drawFittedCenteredText(String text, int x, int width, int y) {

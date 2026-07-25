@@ -24,7 +24,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityLockable;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
@@ -635,12 +634,4 @@ public class TileEntityCabinet extends TileEntityLockable
 		}
 	}
 
-	private EnumFacing horizontalOrNorth(EnumFacing facing) {
-		if (facing == EnumFacing.NORTH || facing == EnumFacing.EAST
-				|| facing == EnumFacing.SOUTH || facing == EnumFacing.WEST) {
-			return facing;
-		}
-
-		return EnumFacing.NORTH;
-	}
 }

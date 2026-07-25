@@ -3,8 +3,6 @@ package com.mcmoddev.ironagefurniture.api.Blocks;
 import java.util.Random;
 
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
-import com.mcmoddev.ironagefurniture.api.Items.DrinkContainerHelper;
-import com.mcmoddev.ironagefurniture.api.Items.ItemDrinkware;
 import com.mcmoddev.ironagefurniture.api.VasePlantHelper;
 import com.mcmoddev.ironagefurniture.api.surface.SurfaceSetting;
 import com.mcmoddev.ironagefurniture.api.surface.SurfaceSetting.Slot;

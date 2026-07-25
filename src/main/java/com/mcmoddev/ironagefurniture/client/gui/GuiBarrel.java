@@ -8,6 +8,7 @@ import com.mcmoddev.ironagefurniture.api.network.BarrelSealMessage;
 import com.mcmoddev.ironagefurniture.api.network.IronAgeFurnitureNetwork;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityBarrel;
 
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -133,16 +134,16 @@ public class GuiBarrel extends GuiContainer {
 	}
 
 	private void drawWoodFrame() {
-		this.drawRect(this.guiLeft, this.guiTop, this.guiLeft + this.xSize, this.guiTop + this.ySize, WOOD_DARK);
-		this.drawRect(this.guiLeft + FRAME_OUTER_INSET, this.guiTop + FRAME_OUTER_INSET,
+		Gui.drawRect(this.guiLeft, this.guiTop, this.guiLeft + this.xSize, this.guiTop + this.ySize, WOOD_DARK);
+		Gui.drawRect(this.guiLeft + FRAME_OUTER_INSET, this.guiTop + FRAME_OUTER_INSET,
 			this.guiLeft + this.xSize - FRAME_OUTER_INSET, this.guiTop + this.ySize - FRAME_OUTER_INSET, WOOD_MID);
-		this.drawRect(this.guiLeft + FRAME_INNER_INSET, this.guiTop + FRAME_INNER_INSET,
+		Gui.drawRect(this.guiLeft + FRAME_INNER_INSET, this.guiTop + FRAME_INNER_INSET,
 			this.guiLeft + this.xSize - FRAME_INNER_INSET, this.guiTop + this.ySize - FRAME_INNER_INSET,
 			WOOD_LIGHT);
 
 		for (int y = GRAIN_TOP; y < this.ySize - GRAIN_BOTTOM_INSET; y += GRAIN_STEP) {
 			int grain = y % GRAIN_VARIANT_DIVISOR == GRAIN_VARIANT_OFFSET ? WOOD_GRAIN_DARK : WOOD_GRAIN_LIGHT;
-			this.drawRect(this.guiLeft + GRAIN_LEFT_INSET, this.guiTop + y,
+			Gui.drawRect(this.guiLeft + GRAIN_LEFT_INSET, this.guiTop + y,
 				this.guiLeft + this.xSize - GRAIN_LEFT_INSET, this.guiTop + y + MIN_DRAWN_FILL, grain);
 		}
 	}
@@ -150,10 +151,10 @@ public class GuiBarrel extends GuiContainer {
 	private void drawInsetPanel(int x, int y, int width, int height) {
 		int left = this.guiLeft + x;
 		int top = this.guiTop + y;
-		this.drawRect(left, top, left + width, top + height, PANEL_DARK);
-		this.drawRect(left + INSET_BORDER, top + INSET_BORDER, left + width - INSET_BORDER,
+		Gui.drawRect(left, top, left + width, top + height, PANEL_DARK);
+		Gui.drawRect(left + INSET_BORDER, top + INSET_BORDER, left + width - INSET_BORDER,
 			top + height - INSET_BORDER, PANEL_MID);
-		this.drawRect(left + INSET_FILL, top + INSET_FILL, left + width - INSET_FILL,
+		Gui.drawRect(left + INSET_FILL, top + INSET_FILL, left + width - INSET_FILL,
 			top + height - INSET_FILL, PANEL_LIGHT);
 	}
 
@@ -169,9 +170,9 @@ public class GuiBarrel extends GuiContainer {
 	private void drawGauge() {
 		int left = this.guiLeft + GAUGE_X;
 		int top = this.guiTop + GAUGE_Y;
-		this.drawRect(left - GAUGE_BORDER, top - GAUGE_BORDER, left + GAUGE_WIDTH + GAUGE_BORDER,
+		Gui.drawRect(left - GAUGE_BORDER, top - GAUGE_BORDER, left + GAUGE_WIDTH + GAUGE_BORDER,
 			top + GAUGE_HEIGHT + GAUGE_BORDER, GAUGE_BORDER_COLOR);
-		this.drawRect(left, top, left + GAUGE_WIDTH, top + GAUGE_HEIGHT, GAUGE_EMPTY_COLOR);
+		Gui.drawRect(left, top, left + GAUGE_WIDTH, top + GAUGE_HEIGHT, GAUGE_EMPTY_COLOR);
 
 		FluidStack fluid = this.barrel.getFluid();
 
@@ -182,7 +183,7 @@ public class GuiBarrel extends GuiContainer {
 		int fillHeight = Math.max(1, fluid.amount * GAUGE_HEIGHT / this.barrel.getCapacity());
 		int fillTop = top + GAUGE_HEIGHT - fillHeight;
 		this.drawFluid(left, fillTop, GAUGE_WIDTH, fillHeight, fluid);
-		this.drawRect(left, fillTop, left + GAUGE_WIDTH, fillTop + MIN_DRAWN_FILL, HIGHLIGHT_COLOR);
+		Gui.drawRect(left, fillTop, left + GAUGE_WIDTH, fillTop + MIN_DRAWN_FILL, HIGHLIGHT_COLOR);
 	}
 
 	private void drawFluid(int left, int top, int width, int height, FluidStack fluid) {
@@ -194,7 +195,7 @@ public class GuiBarrel extends GuiContainer {
 		ResourceLocation still = fluid.getFluid().getStill(fluid);
 
 		if (still == null) {
-			this.drawRect(left, top, left + width, top + height, this.getFluidColor(fluid));
+			Gui.drawRect(left, top, left + width, top + height, this.getFluidColor(fluid));
 			return;
 		}
 
@@ -217,12 +218,12 @@ public class GuiBarrel extends GuiContainer {
 	}
 
 	private void drawBrewedFluid(int left, int top, int width, int height, FluidStack fluid) {
-		this.drawRect(left, top, left + width, top + height, this.getFluidColor(fluid));
-		this.drawRect(left, top, left + MIN_DRAWN_FILL, top + height, BREWED_FLUID_EDGE_SHADOW);
-		this.drawRect(left + width - MIN_DRAWN_FILL, top, left + width, top + height, BREWED_FLUID_EDGE_SHADOW);
+		Gui.drawRect(left, top, left + width, top + height, this.getFluidColor(fluid));
+		Gui.drawRect(left, top, left + MIN_DRAWN_FILL, top + height, BREWED_FLUID_EDGE_SHADOW);
+		Gui.drawRect(left + width - MIN_DRAWN_FILL, top, left + width, top + height, BREWED_FLUID_EDGE_SHADOW);
 
 		for (int y = top + BREWED_FLUID_RIPPLE_TOP_INSET; y < top + height; y += BREWED_FLUID_RIPPLE_STEP) {
-			this.drawRect(left + MIN_DRAWN_FILL, y, left + width - MIN_DRAWN_FILL,
+			Gui.drawRect(left + MIN_DRAWN_FILL, y, left + width - MIN_DRAWN_FILL,
 				Math.min(y + MIN_DRAWN_FILL, top + height), BREWED_FLUID_RIPPLE_COLOR);
 		}
 	}

@@ -205,7 +205,7 @@ public class TileEntityWallShelfRenderer extends TileEntitySpecialRenderer<TileE
 			IBlockState state = world.getBlockState(pos);
 
 			if (state.getBlock() instanceof WallShelf) {
-				return state.getBlock().getActualState(state, world, pos);
+				return state.getActualState(world, pos);
 			}
 		}
 

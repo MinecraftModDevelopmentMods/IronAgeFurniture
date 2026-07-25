@@ -37,6 +37,7 @@ public class TileEntityBottleRackRenderer extends TileEntitySpecialRenderer<Tile
 	private static final double LIQUID_SHOULDER_TOP_Z = -0.040D;
 	private static final double LIQUID_BODY_TOP_Z = 0.030D;
 	private static final double LIQUID_BOTTOM_Z = 0.220D;
+	private static final double LIQUID_SURFACE_LAYER_OFFSET = 0.001D;
 	private static final float BODY_VOLUME_FRACTION = 0.73F;
 	private static final float SHOULDER_VOLUME_FRACTION = 0.90F;
 	private static ResourceLocation whiteTexture;
@@ -120,15 +121,15 @@ public class TileEntityBottleRackRenderer extends TileEntitySpecialRenderer<Tile
 		float[] label = new float[] { 0.86F, 0.78F, 0.60F };
 
 		this.drawLiquidCuboid(-0.066D, -0.066D, 0.030D, 0.066D, 0.066D, 0.220D,
-			shadow, fillRatio, upright);
+			shadow, fillRatio, upright, 0.0D);
 		this.drawLiquidCuboid(-0.056D, -0.056D, 0.040D, 0.056D, 0.056D, 0.205D,
-			liquid, fillRatio, upright);
+			liquid, fillRatio, upright, LIQUID_SURFACE_LAYER_OFFSET);
 		this.drawCuboid(-0.050D, 0.026D, -0.010D, 0.050D, 0.061D, 0.065D,
 			label[0], label[1], label[2]);
 		this.drawLiquidCuboid(-0.045D, -0.045D, -0.040D, 0.045D, 0.045D, 0.052D,
-			this.darken(liquid, 0.84F), fillRatio, upright);
+			this.darken(liquid, 0.84F), fillRatio, upright, LIQUID_SURFACE_LAYER_OFFSET * 2.0D);
 		this.drawLiquidCuboid(-0.031D, -0.031D, -0.155D, 0.031D, 0.031D, -0.035D,
-			this.darken(liquid, 0.72F), fillRatio, upright);
+			this.darken(liquid, 0.72F), fillRatio, upright, LIQUID_SURFACE_LAYER_OFFSET * 3.0D);
 		this.drawCuboid(-0.036D, -0.036D, -0.210D, 0.036D, 0.036D, -0.145D,
 			cap[0], cap[1], cap[2]);
 
@@ -143,14 +144,14 @@ public class TileEntityBottleRackRenderer extends TileEntitySpecialRenderer<Tile
 	}
 
 	private void drawLiquidCuboid(double minX, double minY, double minZ, double maxX, double maxY,
-			double maxZ, float[] color, float fillRatio, boolean upright) {
+			double maxZ, float[] color, float fillRatio, boolean upright, double surfaceOffset) {
 		if (fillRatio <= 0.0F) {
 			return;
 		}
 
 		if (upright) {
 			double surfaceZ = this.getUprightLiquidSurface(fillRatio);
-			double clippedMinZ = Math.max(minZ, surfaceZ);
+			double clippedMinZ = Math.max(minZ, surfaceZ - surfaceOffset);
 
 			if (clippedMinZ < maxZ) {
 				this.drawCuboid(minX, minY, clippedMinZ, maxX, maxY, maxZ, color);
@@ -160,7 +161,7 @@ public class TileEntityBottleRackRenderer extends TileEntitySpecialRenderer<Tile
 		}
 
 		double surfaceY = LIQUID_MIN_Y + (LIQUID_MAX_Y - LIQUID_MIN_Y) * fillRatio;
-		double clippedMaxY = Math.min(maxY, surfaceY);
+		double clippedMaxY = Math.min(maxY, surfaceY + surfaceOffset);
 
 		if (minY < clippedMaxY) {
 			this.drawCuboid(minX, minY, minZ, maxX, clippedMaxY, maxZ, color);

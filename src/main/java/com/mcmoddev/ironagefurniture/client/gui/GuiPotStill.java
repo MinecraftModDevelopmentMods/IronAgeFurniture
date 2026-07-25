@@ -15,6 +15,7 @@ import com.mcmoddev.ironagefurniture.api.network.PotStillStartMessage;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityBarrel;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityPotStill;
 
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -85,7 +86,6 @@ public class GuiPotStill extends GuiContainer {
 	private static final int TRANSFER_BUTTON_Y = BARREL_PANEL_Y + AdjacentBarrelPanel.BUTTON_Y;
 	private static final int PIPE_PANEL_WIDTH = 84;
 	private static final int PIPE_PANEL_HEIGHT = 96;
-	private static final int PIPE_PANEL_X = BARREL_PANEL_X + (BARREL_PANEL_WIDTH - PIPE_PANEL_WIDTH) / 2;
 	private static final int PIPE_PANEL_Y = BARREL_PANEL_Y + BARREL_PANEL_HEIGHT + SIDE_PANEL_VERTICAL_GAP;
 	private static final int INVENTORY_PANEL_X = 7;
 	private static final int INVENTORY_PANEL_Y = 138;
@@ -304,10 +304,10 @@ public class GuiPotStill extends GuiContainer {
 	}
 
 	private void drawWoodFrame() {
-		this.drawRect(this.guiLeft, this.guiTop, this.guiLeft + this.xSize, this.guiTop + this.ySize, WOOD_DARK);
-		this.drawRect(this.guiLeft + FRAME_OUTER_INSET, this.guiTop + FRAME_OUTER_INSET,
+		Gui.drawRect(this.guiLeft, this.guiTop, this.guiLeft + this.xSize, this.guiTop + this.ySize, WOOD_DARK);
+		Gui.drawRect(this.guiLeft + FRAME_OUTER_INSET, this.guiTop + FRAME_OUTER_INSET,
 			this.guiLeft + this.xSize - FRAME_OUTER_INSET, this.guiTop + this.ySize - FRAME_OUTER_INSET, WOOD_MID);
-		this.drawRect(this.guiLeft + FRAME_INNER_INSET, this.guiTop + FRAME_INNER_INSET,
+		Gui.drawRect(this.guiLeft + FRAME_INNER_INSET, this.guiTop + FRAME_INNER_INSET,
 			this.guiLeft + this.xSize - FRAME_INNER_INSET, this.guiTop + this.ySize - FRAME_INNER_INSET,
 			WOOD_LIGHT);
 	}
@@ -315,10 +315,10 @@ public class GuiPotStill extends GuiContainer {
 	private void drawInsetPanel(int x, int y, int width, int height) {
 		int left = this.guiLeft + x;
 		int top = this.guiTop + y;
-		this.drawRect(left, top, left + width, top + height, PANEL_DARK);
-		this.drawRect(left + INSET_BORDER, top + INSET_BORDER, left + width - INSET_BORDER,
+		Gui.drawRect(left, top, left + width, top + height, PANEL_DARK);
+		Gui.drawRect(left + INSET_BORDER, top + INSET_BORDER, left + width - INSET_BORDER,
 			top + height - INSET_BORDER, PANEL_MID);
-		this.drawRect(left + INSET_FILL, top + INSET_FILL, left + width - INSET_FILL,
+		Gui.drawRect(left + INSET_FILL, top + INSET_FILL, left + width - INSET_FILL,
 			top + height - INSET_FILL, PANEL_LIGHT);
 	}
 
@@ -346,10 +346,10 @@ public class GuiPotStill extends GuiContainer {
 	private void drawOuterPanel(int x, int y, int width, int height) {
 		int left = this.guiLeft + x;
 		int top = this.guiTop + y;
-		this.drawRect(left, top, left + width, top + height, WOOD_DARK);
-		this.drawRect(left + FRAME_OUTER_INSET, top + FRAME_OUTER_INSET,
+		Gui.drawRect(left, top, left + width, top + height, WOOD_DARK);
+		Gui.drawRect(left + FRAME_OUTER_INSET, top + FRAME_OUTER_INSET,
 			left + width - FRAME_OUTER_INSET, top + height - FRAME_OUTER_INSET, WOOD_MID);
-		this.drawRect(left + FRAME_INNER_INSET, top + FRAME_INNER_INSET,
+		Gui.drawRect(left + FRAME_INNER_INSET, top + FRAME_INNER_INSET,
 			left + width - FRAME_INNER_INSET, top + height - FRAME_INNER_INSET, PANEL_LIGHT);
 	}
 
@@ -365,7 +365,7 @@ public class GuiPotStill extends GuiContainer {
 		int left = this.guiLeft + this.getBarrelPanelOffsetX() + AdjacentBarrelPanel.GAUGE_X;
 		int top = this.guiTop + BARREL_PANEL_Y + AdjacentBarrelPanel.GAUGE_Y;
 		this.drawFluid(left, top, fillWidth, AdjacentBarrelPanel.GAUGE_HEIGHT, fluid);
-		this.drawRect(left, top, left + fillWidth, top + MIN_DRAWN_FILL,
+		Gui.drawRect(left, top, left + fillWidth, top + MIN_DRAWN_FILL,
 			HIGHLIGHT_COLOR);
 	}
 
@@ -384,20 +384,20 @@ public class GuiPotStill extends GuiContainer {
 	private void drawSlot(int x, int y) {
 		int left = this.guiLeft + x;
 		int top = this.guiTop + y;
-		this.drawRect(left - SLOT_BORDER, top - SLOT_BORDER, left + SLOT_SIZE + SLOT_BORDER,
+		Gui.drawRect(left - SLOT_BORDER, top - SLOT_BORDER, left + SLOT_SIZE + SLOT_BORDER,
 			top + SLOT_SIZE + SLOT_BORDER, SLOT_BORDER_COLOR);
-		this.drawRect(left, top, left + SLOT_SIZE, top + SLOT_SIZE, SLOT_RIM_COLOR);
-		this.drawRect(left + SLOT_BORDER, top + SLOT_BORDER, left + SLOT_SIZE, top + SLOT_SIZE, SLOT_SHADOW_COLOR);
-		this.drawRect(left + SLOT_INNER_INSET, top + SLOT_INNER_INSET, left + SLOT_SIZE - SLOT_BORDER,
+		Gui.drawRect(left, top, left + SLOT_SIZE, top + SLOT_SIZE, SLOT_RIM_COLOR);
+		Gui.drawRect(left + SLOT_BORDER, top + SLOT_BORDER, left + SLOT_SIZE, top + SLOT_SIZE, SLOT_SHADOW_COLOR);
+		Gui.drawRect(left + SLOT_INNER_INSET, top + SLOT_INNER_INSET, left + SLOT_SIZE - SLOT_BORDER,
 			top + SLOT_SIZE - SLOT_BORDER, SLOT_FILL_COLOR);
 	}
 
 	private void drawGauge() {
 		int left = this.guiLeft + GAUGE_X;
 		int top = this.guiTop + GAUGE_Y;
-		this.drawRect(left - GAUGE_BORDER, top - GAUGE_BORDER, left + GAUGE_WIDTH + GAUGE_BORDER,
+		Gui.drawRect(left - GAUGE_BORDER, top - GAUGE_BORDER, left + GAUGE_WIDTH + GAUGE_BORDER,
 			top + GAUGE_HEIGHT + GAUGE_BORDER, GAUGE_BORDER_COLOR);
-		this.drawRect(left, top, left + GAUGE_WIDTH, top + GAUGE_HEIGHT, GAUGE_EMPTY_COLOR);
+		Gui.drawRect(left, top, left + GAUGE_WIDTH, top + GAUGE_HEIGHT, GAUGE_EMPTY_COLOR);
 
 		FluidStack baseFluid = this.getGaugeBaseFluid();
 		int baseAmount = this.getGaugeBaseAmount();
@@ -406,10 +406,10 @@ public class GuiPotStill extends GuiContainer {
 			int fillHeight = this.getGaugeFillHeight(baseAmount);
 			int fillTop = top + GAUGE_HEIGHT - fillHeight;
 			this.drawFluid(left, fillTop, GAUGE_WIDTH, fillHeight, baseFluid);
-			this.drawRect(left, fillTop, left + GAUGE_WIDTH, fillTop + MIN_DRAWN_FILL, HIGHLIGHT_COLOR);
+			Gui.drawRect(left, fillTop, left + GAUGE_WIDTH, fillTop + MIN_DRAWN_FILL, HIGHLIGHT_COLOR);
 
 			if (this.potStill.isDistilling()) {
-				this.drawRect(left, fillTop, left + GAUGE_WIDTH, top + GAUGE_HEIGHT, ACTIVE_WASTE_OVERLAY_COLOR);
+				Gui.drawRect(left, fillTop, left + GAUGE_WIDTH, top + GAUGE_HEIGHT, ACTIVE_WASTE_OVERLAY_COLOR);
 			}
 		}
 
@@ -425,7 +425,7 @@ public class GuiPotStill extends GuiContainer {
 		int productLeft = left + PRODUCT_LAYER_SIDE_INSET;
 		int productWidth = GAUGE_WIDTH - PRODUCT_LAYER_SIDE_INSET * 2;
 		this.drawFluid(productLeft, productTop, productWidth, productHeight, productFluid);
-		this.drawRect(productLeft, productTop, productLeft + productWidth, productTop + MIN_DRAWN_FILL,
+		Gui.drawRect(productLeft, productTop, productLeft + productWidth, productTop + MIN_DRAWN_FILL,
 			SEPARATION_LINE_COLOR);
 	}
 
@@ -489,7 +489,7 @@ public class GuiPotStill extends GuiContainer {
 		ResourceLocation still = fluid.getFluid().getStill(fluid);
 
 		if (still == null) {
-			this.drawRect(left, top, left + width, top + height, this.getFluidColor(fluid));
+			Gui.drawRect(left, top, left + width, top + height, this.getFluidColor(fluid));
 			return;
 		}
 
@@ -512,13 +512,13 @@ public class GuiPotStill extends GuiContainer {
 	}
 
 	private void drawTintedFluid(int left, int top, int width, int height, FluidStack fluid) {
-		this.drawRect(left, top, left + width, top + height, this.getFluidColor(fluid));
-		this.drawRect(left, top, left + MIN_DRAWN_FILL, top + height, TINTED_FLUID_EDGE_SHADOW);
-		this.drawRect(left + width - MIN_DRAWN_FILL, top, left + width, top + height,
+		Gui.drawRect(left, top, left + width, top + height, this.getFluidColor(fluid));
+		Gui.drawRect(left, top, left + MIN_DRAWN_FILL, top + height, TINTED_FLUID_EDGE_SHADOW);
+		Gui.drawRect(left + width - MIN_DRAWN_FILL, top, left + width, top + height,
 			TINTED_FLUID_EDGE_SHADOW);
 
 		for (int y = top + TINTED_FLUID_RIPPLE_TOP_INSET; y < top + height; y += TINTED_FLUID_RIPPLE_STEP) {
-			this.drawRect(left + MIN_DRAWN_FILL, y, left + width - MIN_DRAWN_FILL,
+			Gui.drawRect(left + MIN_DRAWN_FILL, y, left + width - MIN_DRAWN_FILL,
 				Math.min(y + MIN_DRAWN_FILL, top + height), TINTED_FLUID_RIPPLE_COLOR);
 		}
 	}
@@ -612,12 +612,6 @@ public class GuiPotStill extends GuiContainer {
 	private int getFluidColor(FluidStack fluid) {
 		int color = fluid.getFluid().getColor(fluid);
 		return (color & FULL_ALPHA_MASK) == 0 ? color | FULL_ALPHA_MASK : color;
-	}
-
-	private void drawBoundedCenteredText(String text, int x, int width, int y) {
-		String trimmed = this.fontRendererObj.trimStringToWidth(text, width);
-		this.fontRendererObj.drawString(trimmed, x + (width - this.fontRendererObj.getStringWidth(trimmed)) / 2, y,
-			TEXT_DARK);
 	}
 
 	private void drawFittedCenteredText(String text, int x, int width, int y) {

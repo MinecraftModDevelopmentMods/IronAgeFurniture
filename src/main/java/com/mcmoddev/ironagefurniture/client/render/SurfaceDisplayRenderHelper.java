@@ -3438,11 +3438,6 @@ public final class SurfaceDisplayRenderHelper {
 	}
 
 	private static void drawCuboid(double minX, double minY, double minZ, double maxX, double maxY,
-			double maxZ, float[] color, float alpha) {
-		drawCuboid(minX, minY, minZ, maxX, maxY, maxZ, color[0], color[1], color[2], alpha);
-	}
-
-	private static void drawCuboid(double minX, double minY, double minZ, double maxX, double maxY,
 			double maxZ, float r, float g, float b) {
 		drawCuboid(minX, minY, minZ, maxX, maxY, maxZ, r, g, b, 1.0F);
 	}

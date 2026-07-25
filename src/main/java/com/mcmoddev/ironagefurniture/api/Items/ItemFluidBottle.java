@@ -154,10 +154,6 @@ public class ItemFluidBottle extends Item {
 		return DrinkContainerHelper.tryUseWithTank(heldItem, tank, player, hand, fillLabel);
 	}
 
-	private static void writeFluid(ItemStack stack, FluidStack fluid) {
-		DrinkContainerHelper.writeFluid(stack, fluid);
-	}
-
 	private static void normalizeFluidAge(ItemStack stack) {
 		DrinkContainerHelper.normalizeFluidAge(stack);
 	}

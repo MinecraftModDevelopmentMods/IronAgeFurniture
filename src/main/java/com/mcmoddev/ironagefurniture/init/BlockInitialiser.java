@@ -9,9 +9,7 @@ import com.mcmoddev.ironagefurniture.api.FurnitureFactory;
 import com.mcmoddev.ironagefurniture.api.MineralogyCompat;
 
 import net.minecraft.block.Block;
-import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
  * This class initialises all blocks in ironagefurniture.
@@ -504,23 +502,5 @@ public class BlockInitialiser {
 
 	private interface WoodBlockFactory {
 		Block create(String name);
-	}
-	
-    private static Block registerBlock(Block block, String name, int maxStackSize) {
-    	GameRegistry.register(block.setRegistryName(Ironagefurniture.MODID, name));
-    	block.setUnlocalizedName(Ironagefurniture.MODID + "." + name);
-		
-		ItemBlock itemBlock = new ItemBlock(block);
-		
-		itemBlock.setMaxStackSize(maxStackSize);
-		
-		ItemInitialiser.RegisterItem(itemBlock, name);
-		Ironagefurniture.BlockRegistry.put(name, block);
-		
-		return block;
-    }
-    
-	private static Block registerBlock(Block block, String name) {
-		return registerBlock(block, name, 16);
 	}
 }
