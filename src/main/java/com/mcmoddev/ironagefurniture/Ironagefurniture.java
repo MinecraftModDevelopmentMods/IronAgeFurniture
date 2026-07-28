@@ -45,7 +45,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-@Mod(modid = Ironagefurniture.MODID, version = Ironagefurniture.VERSION)
+@Mod(modid = Ironagefurniture.MODID, name = "Iron Age Furniture", version = Ironagefurniture.VERSION)
 public class Ironagefurniture
 {
 	public static final String MODID = "ironagefurniture";
@@ -61,10 +61,10 @@ public class Ironagefurniture
 
 	@Instance(MODID)
 	public static Ironagefurniture instance;
-    
+
 	public static final Map<String,Block> BlockRegistry = new HashMap<String, Block>();
 	public static final Map<String,Item> ItemRegistry = new HashMap<String, Item>();
-    
+
     public static CreativeTabs ironagefurnitureTab = new CreativeTabs("ironagefurnitureTab"){
 		@Override
 		public Item getTabIconItem(){
@@ -76,13 +76,13 @@ public class Ironagefurniture
 			}
 			return Items.IRON_INGOT;
 		}
-		
+
 		public boolean hasSearchBar() {
 			return true;
 		};
 	};
-    
-    
+
+
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
@@ -95,7 +95,7 @@ public class Ironagefurniture
     		ItemInitialiser.RegisterItemRenders();
     		ClientRenderInitialiser.RegisterTileEntityRenderers();
     	}
-    	
+
     	GameRegistry.registerTileEntity(TileEntityDiningTable.class, MODID + ":table_dining");
 		GameRegistry.registerTileEntity(TileEntityCabinet.class, MODID + ":cabinet_wood_ironage");
 		GameRegistry.registerTileEntity(TileEntityHalfCabinet.class, MODID + ":half_cabinet_wood_ironage");
@@ -117,10 +117,10 @@ public class Ironagefurniture
 		}
 
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new BarrelGuiHandler());
-    	
+
     	RecipeInitialiser.init();
     }
-    
+
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
     	IronAgeFurnitureConfiguration.init(event);
@@ -135,7 +135,7 @@ public class Ironagefurniture
 			ItemInitialiser.RegisterItemModels();
 			ClientRenderInitialiser.RegisterEntityRenderers();
 		}
-    	
+
     }
 
 	private static boolean hasChandelierBlocks() {

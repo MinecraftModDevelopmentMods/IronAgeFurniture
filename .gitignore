@@ -21,6 +21,7 @@ bin
 # Other
 /eclipse/
 */reports/*
+/run/
 
 # Visual Studio Code
 /.settings/

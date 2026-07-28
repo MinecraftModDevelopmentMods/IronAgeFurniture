@@ -3,14 +3,35 @@ plugins {
     id "idea"
     id "eclipse"
     id "maven-publish"
+    id "net.minecraftforge.renamer" version "1.1.5"
     id "net.minecraftforge.gradle" version "[7.0.29,8.0)"
 }
 
-version = mod_version
+def tag = providers.environmentVariable("TAG")
+def isPreviewBuild = tag.orNull?.matches(".+-.+") ?: false
+def buildNumber = tag.orElse(providers.environmentVariable("BUILD_NUMBER").map { "build.${it}" })
+
+// Format the tag to include the Minecraft version if a tag is present
+def formattedTag = tag.map { t -> "${minecraft_version}-${t}" }
+
+version = formattedTag.orElse(provider {
+    def result = "${minecraft_version}-${mod_version}-development"
+    if (isPreviewBuild && !tag.isPresent()) {
+        result += buildNumber.map { "+${it}" }.getOrElse("")
+    }
+    return result
+}).get()
+
+println "Building ${project.name}-${version}"
+
 group = mod_group
 base.archivesName = mod_archive_name
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(8)
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(8)
+    withSourcesJar()
+    withJavadocJar()
+}
 
 minecraft {
     //For use with FG 7 on older MC versions
@@ -29,6 +50,12 @@ minecraft {
         }
 
         register('client') {
+            if (project.hasProperty("mc_username")) {
+                args "--username", mc_username
+            }
+            if (project.hasProperty("mc_uuid")) {
+                args "--uuid", mc_uuid
+            }
         }
 
         register('server') {
@@ -135,6 +162,7 @@ tasks.named('processResources', ProcessResources) {
 
 // Example for how to get properties into the manifest for reading at runtime.
 tasks.named('jar', Jar) {
+    archiveClassifier = "dev"
     manifest {
         attributes([
             "Specification-Title"     : mod_id,
@@ -148,6 +176,29 @@ tasks.named('jar', Jar) {
     }
 }
 
+// Set the default mappings file to our default minecraft dependency
+// This must be done after `minecraft.dependency('coords')` has been done so that gradle knows what dependency we want
+// This mapping will be used by default for all renamer tasks, including deobfuscating dependencies
+// You can still override each specific task, this is just to save repeating yourself in your buildscript.
+renamer.mappings.from minecraft.dependency.toSrgFile
+
+// Creates a task named 'renameJar'
+renamer.classes(tasks.named('jar', Jar)) {
+    // Unless set globally like above, You need to point to the mappings you wish to apply, typically this is
+    // the Mapped names to SRG for older versions.
+    // ForgeGradle/Mavenizer generate these files for the dependencies you declare. So you can use the helper.
+    // Or you can specify the file or dependency if you host them yourself.
+    map.from minecraft.dependency.toSrgFile
+    // This is publishable task so you can specify things such as the classifier
+    archiveClassifier = ''
+}
+
+// If you want to create another task, or customize the name you can specify it as the first argument
+renamer.classes('renameJarToSrg', tasks.named('jar', Jar)) {
+    // This specifies the map via a dependency coordinate, such as 'net.minecraft:mappings_official:1.20.1-20230612.114412:map2srg@tsrg.gz'
+    mappings(minecraft.dependency.toSrg.get())
+}
+
 // Example configuration to allow publishing using the maven-publish plugin
 publishing {
     repositories {
@@ -155,7 +206,8 @@ publishing {
     }
 
     publications.register('mavenJava', MavenPublication) {
-        artifact tasks.named("jar")
+        from components.java // Publish the normal jar
+        artifact renameJar // Publish the renamed jar in addition
     }
 }
 
