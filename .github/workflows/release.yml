@@ -13,7 +13,22 @@ env:
   TAG: ${{ github.ref_name }}
 
 jobs:
+  # 1. Extract the short version (e.g. "1.0.0" from "1.20.1-1.0.0")
+  prepare:
+    name: Prepare Variables
+    runs-on: ubuntu-latest
+    outputs:
+      mod_version: ${{ steps.extract.outputs.version }}
+    steps:
+      - name: Extract version from tag
+        id: extract
+        run: |
+          FULL_TAG="${{ github.ref_name }}"
+          EXTRACTED="${FULL_TAG#*-}"
+          echo "version=$EXTRACTED" >> $GITHUB_OUTPUT
+
   build:
+    needs: [prepare]
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -38,17 +53,16 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew assemble
 
-      # TODO Enable this once MMD's new maven is set up fully.
-      #- name: Maven Release
-      #  if: ${{ env.MAVEN_UPLOAD_URL }}
-      #  run: ./gradlew publish
+      - name: Maven Release
+        if: ${{ env.MAVEN_UPLOAD_URL }}
+        run: ./gradlew publish
 
       # Upload
       - name: Upload build artifacts
         continue-on-error: true
         uses: actions/upload-artifact@v7
         with:
-          name: ${{ github.event.repository.name }}-${{ env.TAG }}
+          name: ${{ github.event.repository.name }}-${{ needs.prepare.outputs.mod_version }}
           path: |
             build/libs/*.jar
 
@@ -62,7 +76,7 @@ jobs:
       - name: Download build artifacts
         uses: actions/download-artifact@v8
         with:
-          name: ${{ github.event.repository.name }}-${{ env.TAG }}
+          name: ${{ github.event.repository.name }}-${{ needs.prepare.outputs.mod_version }}
           path: |
             build/libs
 
@@ -75,20 +89,21 @@ jobs:
             build/libs/*.jar
 
   publish_platforms:
-    name: Publish (${{ matrix.platform }}
+    name: Publish (${{ matrix.platform }})
     strategy:
       fail-fast: false
       matrix:
         platform: [ 'Curseforge' ]
     needs: build
     runs-on: ubuntu-latest
-    outputs:
-      curseforge_id: ${{ steps.store_ids.outputs.curseforge_id }}
+    # outputs:
+      # This is used later when we have a mods.toml or fabric.mods file or so on.
+      # curseforge_id: ${{ steps.store_ids.outputs.curseforge_id }}
     steps:
       - name: Download build artifacts
         uses: actions/download-artifact@v8
         with:
-          name: ${{ github.event.repository.name }}-${{ env.TAG }}
+          name: ${{ github.event.repository.name }}-${{ needs.prepare.outputs.mod_version }}
           path: build/libs
 
       - name: Publish (Curseforge)
@@ -97,9 +112,10 @@ jobs:
         uses: Kira-NT/mc-publish@v3.3.1
         with:
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
-          version: ${{ env.TAG }}
+          curseforge-id: 238065
+          version: ${{ needs.prepare.outputs.mod_version }}
           version-type: beta
           environment: client | server
           files: |
-            build/libs/!(*-@(sources|javadoc)).jar
+            build/libs/!(*-@(sources|javadoc|unused-dev-jar)).jar
             build/libs/*-@(sources|javadoc).jar

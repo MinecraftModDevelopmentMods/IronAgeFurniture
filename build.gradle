@@ -160,9 +160,8 @@ tasks.named('processResources', ProcessResources) {
     }
 }
 
-// Example for how to get properties into the manifest for reading at runtime.
 tasks.named('jar', Jar) {
-    archiveClassifier = "dev"
+    archiveClassifier = "unused-dev-jar"
     manifest {
         attributes([
             "Specification-Title"     : mod_id,
@@ -172,15 +171,8 @@ tasks.named('jar', Jar) {
             "Implementation-Version"  : project.jar.archiveVersion,
             "Implementation-Vendor"   : mod_authors
         ])
-        //attributes['MixinConfigs'] = "${mod_id}.mixins.json"
     }
 }
-
-// Set the default mappings file to our default minecraft dependency
-// This must be done after `minecraft.dependency('coords')` has been done so that gradle knows what dependency we want
-// This mapping will be used by default for all renamer tasks, including deobfuscating dependencies
-// You can still override each specific task, this is just to save repeating yourself in your buildscript.
-renamer.mappings.from minecraft.dependency.toSrgFile
 
 // Creates a task named 'renameJar'
 renamer.classes(tasks.named('jar', Jar)) {
@@ -193,12 +185,6 @@ renamer.classes(tasks.named('jar', Jar)) {
     archiveClassifier = ''
 }
 
-// If you want to create another task, or customize the name you can specify it as the first argument
-renamer.classes('renameJarToSrg', tasks.named('jar', Jar)) {
-    // This specifies the map via a dependency coordinate, such as 'net.minecraft:mappings_official:1.20.1-20230612.114412:map2srg@tsrg.gz'
-    mappings(minecraft.dependency.toSrg.get())
-}
-
 // Example configuration to allow publishing using the maven-publish plugin
 publishing {
     repositories {
@@ -208,6 +194,7 @@ publishing {
     publications.register('mavenJava', MavenPublication) {
         from components.java // Publish the normal jar
         artifact renameJar // Publish the renamed jar in addition
+        artifacts.removeAll { it.classifier == 'unused-dev-jar'}
     }
 }
 
