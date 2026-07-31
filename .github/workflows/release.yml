@@ -114,6 +114,8 @@ jobs:
           curseforge-id: 238065
           version: ${{ needs.prepare.outputs.mod_version }}
           version-type: beta
+          loaders: |
+            forge
           environment: client | server
           files: |
             build/libs/!(*-@(sources|javadoc|unused-dev-jar)).jar
