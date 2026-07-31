@@ -68,7 +68,7 @@ jobs:
 
   publish_github:
     name: Publish (GitHub Releases)
-    needs: build
+    needs: [build, prepare]
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -94,7 +94,7 @@ jobs:
       fail-fast: false
       matrix:
         platform: [ 'Curseforge' ]
-    needs: build
+    needs: [build, prepare]
     runs-on: ubuntu-latest
     # outputs:
       # This is used later when we have a mods.toml or fabric.mods file or so on.
