@@ -96,11 +96,18 @@ jobs:
         uses: Kira-NT/mc-publish@v3.3.1
         with:
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
-          curseforge-id: 238065
+          # This is the projects CurseForge ID
+          curseforge-id: 341834
+          # The mods version, this gets pulled from the Github tag
           version: ${{ env.TAG }}
+          # The release type, can be release, beta or alpha
           version-type: beta
+          # The modloaders this release supports
           loaders: |
             forge
+          # The version or versions of Minecraft that this mod will run on
+          game-versions: |
+            [1.10,1.10.2)
           environment: client | server
           files: |
             build/libs/!(*-@(sources|javadoc)).jar
