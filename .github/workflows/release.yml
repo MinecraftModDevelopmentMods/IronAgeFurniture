@@ -77,8 +77,7 @@ jobs:
         uses: actions/download-artifact@v8
         with:
           name: ${{ github.event.repository.name }}-${{ needs.prepare.outputs.mod_version }}
-          path: |
-            build/libs
+          path: build/libs
 
       - name: Publish (GitHub Releases)
         id: publish_github
