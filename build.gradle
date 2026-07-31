@@ -186,7 +186,7 @@ def renameJar = renamer.classes(tasks.named('jar', Jar)) {
 }
 
 ["apiElements", "runtimeElements"].each { cfg ->
-    configurations.named(cfg).configure {
+    configurations.named(cfg) {
         artifacts.clear()
     }
 
