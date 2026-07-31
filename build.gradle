@@ -160,29 +160,41 @@ tasks.named('processResources', ProcessResources) {
 }
 
 tasks.named('jar', Jar) {
-    archiveClassifier = "unused-dev-jar"
+    archiveClassifier = "deobf"
+    destinationDirectory = layout.buildDirectory.dir("libs-dev")
     manifest {
         attributes([
             "Specification-Title"     : mod_id,
             "Specification-Vendor"    : mod_authors,
             "Specification-Version"   : '1', // We are version 1 of ourselves
             "Implementation-Title"    : project.name,
-            "Implementation-Version"  : project.jar.archiveVersion,
+            "Implementation-Version"  : archiveVersion,
             "Implementation-Vendor"   : mod_authors
         ])
     }
 }
 
 // Creates a task named 'renameJar'
-renamer.classes(tasks.named('jar', Jar)) {
+def renameJar = renamer.classes(tasks.named('jar', Jar)) {
     // Unless set globally like above, You need to point to the mappings you wish to apply, typically this is
     // the Mapped names to SRG for older versions.
     // ForgeGradle/Mavenizer generate these files for the dependencies you declare. So you can use the helper.
     // Or you can specify the file or dependency if you host them yourself.
     map.from minecraft.dependency.toSrgFile
     // This is publishable task so you can specify things such as the classifier
-    archiveClassifier = ''
+    archiveClassifier = null
 }
+
+["apiElements", "runtimeElements"].each { cfg ->
+    configurations.named(cfg).configure {
+        artifacts.clear()
+    }
+
+    artifacts {
+        add(cfg, renameJar)
+    }
+}
+
 
 // Example configuration to allow publishing using the maven-publish plugin
 publishing {
@@ -191,9 +203,7 @@ publishing {
     }
 
     publications.register('mavenJava', MavenPublication) {
-        from components.java // Publish the normal jar
-        artifact renameJar // Publish the renamed jar in addition
-        artifacts.removeAll { it.classifier == 'unused-dev-jar'}
+        from components.java
     }
 }
 
