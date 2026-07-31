@@ -11,10 +11,7 @@ def tag = providers.environmentVariable("TAG")
 def isPreviewBuild = tag.orNull?.matches(".+-.+") ?: false
 def buildNumber = tag.orElse(providers.environmentVariable("BUILD_NUMBER").map { "build.${it}" })
 
-// Format the tag to include the Minecraft version if a tag is present
-def formattedTag = tag.map { t -> "${minecraft_version}-${t}" }
-
-version = formattedTag.orElse(provider {
+version = tag.orElse(provider {
     def result = "${minecraft_version}-${mod_version}-development"
     if (isPreviewBuild && !tag.isPresent()) {
         result += buildNumber.map { "+${it}" }.getOrElse("")
