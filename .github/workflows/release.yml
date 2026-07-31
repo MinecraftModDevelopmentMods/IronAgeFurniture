@@ -13,22 +13,7 @@ env:
   TAG: ${{ github.ref_name }}
 
 jobs:
-  # 1. Extract the short version (e.g. "1.0.0" from "1.20.1-1.0.0")
-  prepare:
-    name: Prepare Variables
-    runs-on: ubuntu-latest
-    outputs:
-      mod_version: ${{ steps.extract.outputs.version }}
-    steps:
-      - name: Extract version from tag
-        id: extract
-        run: |
-          FULL_TAG="${{ github.ref_name }}"
-          EXTRACTED="${FULL_TAG#*-}"
-          echo "version=$EXTRACTED" >> $GITHUB_OUTPUT
-
   build:
-    needs: [prepare]
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -62,13 +47,13 @@ jobs:
         continue-on-error: true
         uses: actions/upload-artifact@v7
         with:
-          name: ${{ github.event.repository.name }}-${{ needs.prepare.outputs.mod_version }}
+          name: ${{ github.event.repository.name }}-${{ env.TAG }}
           path: |
             build/libs/*.jar
 
   publish_github:
     name: Publish (GitHub Releases)
-    needs: [build, prepare]
+    needs: [build]
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -76,7 +61,7 @@ jobs:
       - name: Download build artifacts
         uses: actions/download-artifact@v8
         with:
-          name: ${{ github.event.repository.name }}-${{ needs.prepare.outputs.mod_version }}
+          name: ${{ github.event.repository.name }}-${{ env.TAG }}
           path: build/libs
 
       - name: Publish (GitHub Releases)
@@ -93,7 +78,7 @@ jobs:
       fail-fast: false
       matrix:
         platform: [ 'Curseforge' ]
-    needs: [build, prepare]
+    needs: [build]
     runs-on: ubuntu-latest
     # outputs:
       # This is used later when we have a mods.toml or fabric.mods file or so on.
@@ -102,7 +87,7 @@ jobs:
       - name: Download build artifacts
         uses: actions/download-artifact@v8
         with:
-          name: ${{ github.event.repository.name }}-${{ needs.prepare.outputs.mod_version }}
+          name: ${{ github.event.repository.name }}-${{ env.TAG }}
           path: build/libs
 
       - name: Publish (Curseforge)
@@ -112,11 +97,11 @@ jobs:
         with:
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
           curseforge-id: 238065
-          version: ${{ needs.prepare.outputs.mod_version }}
+          version: ${{ env.TAG }}
           version-type: beta
           loaders: |
             forge
           environment: client | server
           files: |
-            build/libs/!(*-@(sources|javadoc|unused-dev-jar)).jar
+            build/libs/!(*-@(sources|javadoc)).jar
             build/libs/*-@(sources|javadoc).jar
