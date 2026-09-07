@@ -189,7 +189,8 @@ public class LowTable extends DiningTable {
 	public int getLightValue(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
 		TileEntity tileEntity = worldIn.getTileEntity(pos);
 		return tileEntity instanceof TileEntityDiningTable
-			? ((TileEntityDiningTable)tileEntity).getEmbeddedLightLevel() : 0;
+			? Math.max(((TileEntityDiningTable)tileEntity).getEmbeddedLightLevel(),
+				super.getLightValue(state, worldIn, pos)) : 0;
 	}
 
 	@Override
@@ -207,6 +208,7 @@ public class LowTable extends DiningTable {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand) {
+		super.randomDisplayTick(state, world, pos, rand);
 		TableEmbeddedContent contents = this.getEmbeddedContents(world, pos);
 
 		if (contents != TableEmbeddedContent.CANDLE && contents != TableEmbeddedContent.ROCK_SALT) {
@@ -326,15 +328,6 @@ public class LowTable extends DiningTable {
 		if (this.hasRegistryPath(heldBlock, "light_metal_ironage_block_floor_glow_clear")
 				|| heldBlock instanceof LightSourceGlowdust) {
 			return TableEmbeddedContent.GLOW;
-		}
-
-		if (this.isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_candle_floor)) {
-			return TableEmbeddedContent.CANDLE;
-		}
-
-		if (this.hasRegistryPath(heldBlock, "light_metal_ironage_candle_floor")
-				|| heldBlock instanceof LightSourceCandleFloor) {
-			return TableEmbeddedContent.CANDLE;
 		}
 
 		if (this.isFlowerPotItem(heldItem)) {

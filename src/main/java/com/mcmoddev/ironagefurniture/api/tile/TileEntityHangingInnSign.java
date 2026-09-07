@@ -10,10 +10,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntitySign;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
 
-public class TileEntityHangingInnSign extends TileEntity {
-	private String innName = "The Inn";
+public class TileEntityHangingInnSign extends TileEntitySign {
 	private String ownerId = "";
 	private String keeperId = "";
 	private String keeperName = "";
@@ -21,7 +22,24 @@ public class TileEntityHangingInnSign extends TileEntity {
 	private int purse = IronAgeFurnitureConfiguration.INNKEEPER_DAILY_PURSE;
 	private long purseDay = -1L;
 
-	public String getInnName() { return this.innName; }
+	public String getInnName() {
+		StringBuilder name = new StringBuilder();
+
+		for (ITextComponent line : this.signText) {
+			String text = line == null ? "" : line.getUnformattedText().trim();
+
+			if (!text.isEmpty()) {
+				if (name.length() > 0) {
+					name.append(' ');
+				}
+
+				name.append(text);
+			}
+		}
+
+		return name.length() == 0 ? "The Inn" : name.toString();
+	}
+
 	public String getOwnerId() { return this.ownerId; }
 	public String getKeeperId() { return this.keeperId; }
 	public String getKeeperName() { return this.keeperName; }
@@ -31,7 +49,12 @@ public class TileEntityHangingInnSign extends TileEntity {
 
 	public void setInnName(String value) {
 		String clean = value == null ? "" : value.trim();
-		this.innName = clean.isEmpty() ? "The Inn" : clean.substring(0, Math.min(32, clean.length()));
+		clean = clean.isEmpty() ? "The Inn" : clean.substring(0, Math.min(32, clean.length()));
+
+		for (int line = 0; line < this.signText.length; line++) {
+			this.signText[line] = new TextComponentString(line == 0 ? clean : "");
+		}
+
 		this.markForUpdate();
 	}
 
@@ -84,8 +107,26 @@ public class TileEntityHangingInnSign extends TileEntity {
 
 	@Override
 	public void readFromNBT(NBTTagCompound tag) {
+		String legacyName = tag.hasKey("InnName", 8) ? tag.getString("InnName") : "";
+		boolean hasSignText = false;
+
+		for (int line = 1; line <= this.signText.length; line++) {
+			String key = "Text" + line;
+
+			if (tag.hasKey(key, 8)) {
+				hasSignText = true;
+			} else {
+				String text = line == 1 && !legacyName.trim().isEmpty() ? legacyName : "";
+				tag.setString(key, ITextComponent.Serializer.componentToJson(new TextComponentString(text)));
+			}
+		}
+
 		super.readFromNBT(tag);
-		this.innName = tag.hasKey("InnName", 8) ? tag.getString("InnName") : "The Inn";
+
+		if (!hasSignText && legacyName.trim().isEmpty()) {
+			this.signText[0] = new TextComponentString("The Inn");
+		}
+
 		this.ownerId = tag.getString("OwnerId");
 		this.keeperId = tag.getString("KeeperId");
 		this.keeperName = tag.getString("KeeperName");
@@ -97,7 +138,7 @@ public class TileEntityHangingInnSign extends TileEntity {
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound tag) {
 		super.writeToNBT(tag);
-		tag.setString("InnName", this.innName);
+		tag.setString("InnName", this.getInnName());
 		tag.setString("OwnerId", this.ownerId);
 		tag.setString("KeeperId", this.keeperId);
 		tag.setString("KeeperName", this.keeperName);
@@ -109,7 +150,7 @@ public class TileEntityHangingInnSign extends TileEntity {
 
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket() {
-		return new SPacketUpdateTileEntity(this.pos, 0, this.getUpdateTag());
+		return super.getUpdatePacket();
 	}
 
 	@Override

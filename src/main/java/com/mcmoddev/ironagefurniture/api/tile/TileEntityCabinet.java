@@ -449,6 +449,7 @@ public class TileEntityCabinet extends TileEntityLockable
 	@Override
 	public void markSurfaceSettingChanged() {
 		this.markForDisplayUpdate();
+		this.refreshLighting();
 	}
 
 	public void dropDisplayedItem(World worldIn, BlockPos pos) {
@@ -612,6 +613,18 @@ public class TileEntityCabinet extends TileEntityLockable
 	private void refreshRender() {
 		if (this.world != null && this.world.isRemote && this.pos != null) {
 			this.world.markBlockRangeForRenderUpdate(this.pos, this.pos);
+		}
+	}
+
+	private void refreshLighting() {
+		if (this.world == null || this.pos == null) {
+			return;
+		}
+
+		this.world.checkLight(this.pos);
+
+		for (EnumFacing facing : EnumFacing.values()) {
+			this.world.checkLight(this.pos.offset(facing));
 		}
 	}
 

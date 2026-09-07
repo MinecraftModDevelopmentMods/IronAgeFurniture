@@ -87,5 +87,13 @@ public class TileEntitySurfaceDisplay extends TileEntity implements SurfaceSetti
 			this.world.notifyBlockUpdate(this.pos, this.world.getBlockState(this.pos),
 				this.world.getBlockState(this.pos), 3);
 		}
+
+		if (this.world != null) {
+			this.world.checkLight(this.pos);
+
+			for (EnumFacing facing : EnumFacing.values()) {
+				this.world.checkLight(this.pos.offset(facing));
+			}
+		}
 	}
 }

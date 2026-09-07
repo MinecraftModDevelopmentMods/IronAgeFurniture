@@ -12,6 +12,7 @@ import com.mcmoddev.ironagefurniture.api.tile.TileEntityCabinet;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityDiningTable;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntitySurfaceDisplay;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityWallShelf;
+import com.mcmoddev.ironagefurniture.client.particle.CandleFlameParticle;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -33,6 +34,8 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class SurfaceDisplayBlocker extends Block {
 	public static final PropertyBool STANDALONE = PropertyBool.create("standalone");
@@ -215,6 +218,37 @@ public class SurfaceDisplayBlocker extends Block {
 		}
 
 		return FALLBACK_SELECTION_AABB;
+	}
+
+	@Override
+	public int getLightValue(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+		TileEntity tileEntity = worldIn.getTileEntity(pos);
+		return state.getValue(STANDALONE).booleanValue()
+			&& tileEntity instanceof TileEntitySurfaceDisplay
+			&& ((TileEntitySurfaceDisplay)tileEntity).getSurfaceSetting().hasCandle() ? 12 : 0;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand) {
+		if (!state.getValue(STANDALONE).booleanValue()) {
+			return;
+		}
+
+		TileEntity tileEntity = world.getTileEntity(pos);
+
+		if (!(tileEntity instanceof TileEntitySurfaceDisplay)) {
+			return;
+		}
+
+		SurfaceSetting setting = ((TileEntitySurfaceDisplay)tileEntity).getSurfaceSetting();
+
+		for (Slot slot : Slot.values()) {
+			if (com.mcmoddev.ironagefurniture.api.SurfaceItemRules.isCandle(setting.getItem(slot))) {
+				CandleFlameParticle.spawn(world, pos.getX() + setting.getX(slot),
+					pos.getY() + 0.39D, pos.getZ() + setting.getZ(slot));
+			}
+		}
 	}
 
 	@Override

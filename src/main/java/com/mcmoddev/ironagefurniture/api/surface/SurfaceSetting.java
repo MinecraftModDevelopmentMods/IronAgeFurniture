@@ -46,6 +46,7 @@ public class SurfaceSetting {
 
 	public static enum Category {
 		BOTTLE,
+		CANDLE,
 		DRINKWARE,
 		MEAL,
 		SINGLETON
@@ -173,7 +174,7 @@ public class SurfaceSetting {
 		if (!this.hasAnyItem()) {
 			this.axis = incoming == Category.SINGLETON ? null : chooseAxis(hitX, hitZ, facing, forcedAxis);
 
-			if (incoming == Category.BOTTLE || incoming == Category.SINGLETON) {
+			if (incoming == Category.BOTTLE || incoming == Category.CANDLE || incoming == Category.SINGLETON) {
 				this.put(Slot.CENTER, copySingle(itemStack), facing);
 			} else {
 				this.put(this.preferredGuest(hitX, hitZ, this.axis), copySingle(itemStack), facing);
@@ -199,6 +200,9 @@ public class SurfaceSetting {
 		}
 		if (this.hasCategory(Category.MEAL)) {
 			return this.insertBesideMeal(itemStack, facing);
+		}
+		if (incoming == Category.CANDLE) {
+			return this.insertCandle(itemStack, facing);
 		}
 		if (incoming == Category.BOTTLE) {
 			return this.insertBottle(itemStack, facing, preferred);
@@ -346,6 +350,9 @@ public class SurfaceSetting {
 		if (BottleRack.isValidBottleItem(itemStack)) {
 			return Category.BOTTLE;
 		}
+		if (SurfaceItemRules.isCandle(itemStack)) {
+			return Category.CANDLE;
+		}
 		if (SurfaceItemRules.isMeal(itemStack)) {
 			return Category.MEAL;
 		}
@@ -355,7 +362,12 @@ public class SurfaceSetting {
 
 	public static boolean isSettingItem(ItemStack itemStack) {
 		Category category = classify(itemStack);
-		return category == Category.BOTTLE || category == Category.DRINKWARE || category == Category.MEAL;
+		return category == Category.BOTTLE || category == Category.CANDLE
+			|| category == Category.DRINKWARE || category == Category.MEAL;
+	}
+
+	public boolean hasCandle() {
+		return this.hasCategory(Category.CANDLE);
 	}
 
 	private boolean insertMeal(ItemStack itemStack, EnumFacing facing, Slot preferred) {
@@ -402,6 +414,10 @@ public class SurfaceSetting {
 	}
 
 	private boolean insertBottle(ItemStack itemStack, EnumFacing facing, Slot preferred) {
+		if (this.hasCategory(Category.CANDLE)) {
+			return false;
+		}
+
 		int bottleCount = this.countCategory(Category.BOTTLE);
 		int drinkwareCount = this.countCategory(Category.DRINKWARE);
 
@@ -440,21 +456,23 @@ public class SurfaceSetting {
 
 	private boolean insertDrinkware(ItemStack itemStack, EnumFacing facing, Slot preferred) {
 		int bottleCount = this.countCategory(Category.BOTTLE);
+		int candleCount = this.countCategory(Category.CANDLE);
 		int drinkwareCount = this.countCategory(Category.DRINKWARE);
 
-		if (bottleCount > 1 || drinkwareCount >= 2) {
+		if (bottleCount + candleCount > 1 || drinkwareCount >= 2) {
 			return false;
 		}
 
-		if (bottleCount == 1) {
-			Slot bottleSlot = this.findCategorySlot(Category.BOTTLE);
+		if (bottleCount + candleCount == 1) {
+			Slot centerSlot = bottleCount == 1
+				? this.findCategorySlot(Category.BOTTLE) : this.findCategorySlot(Category.CANDLE);
 
-			if (bottleSlot != Slot.CENTER && this.getItemCount() == 1) {
-				this.move(bottleSlot, Slot.CENTER);
+			if (centerSlot != Slot.CENTER && this.getItemCount() == 1) {
+				this.move(centerSlot, Slot.CENTER);
 			}
 		}
 
-		if (bottleCount == 0 && drinkwareCount == 1 && this.getItemCount() == 1
+		if (bottleCount + candleCount == 0 && drinkwareCount == 1 && this.getItemCount() == 1
 				&& !isEmpty(this.getItem(Slot.CENTER))) {
 			this.move(Slot.CENTER, oppositeGuest(preferred));
 		}
@@ -473,6 +491,17 @@ public class SurfaceSetting {
 		return true;
 	}
 
+	private boolean insertCandle(ItemStack itemStack, EnumFacing facing) {
+		if (this.hasCategory(Category.BOTTLE) || this.hasCategory(Category.CANDLE)
+				|| this.hasCategory(Category.MEAL) || this.countCategory(Category.DRINKWARE) > 2
+				|| !isEmpty(this.getItem(Slot.CENTER))) {
+			return false;
+		}
+
+		this.put(Slot.CENTER, copySingle(itemStack), facing);
+		return true;
+	}
+
 	private AxisAlignedBB getItemBounds(Slot slot, ItemStack itemStack) {
 		double width = 0.5D;
 		double height = 0.75D;
@@ -481,6 +510,9 @@ public class SurfaceSetting {
 		if (category == Category.BOTTLE) {
 			width = 0.22D;
 			height = 0.68D;
+		} else if (category == Category.CANDLE) {
+			width = 0.34D;
+			height = 0.42D;
 		} else if (category == Category.MEAL) {
 			width = 0.42D;
 			height = 0.20D;

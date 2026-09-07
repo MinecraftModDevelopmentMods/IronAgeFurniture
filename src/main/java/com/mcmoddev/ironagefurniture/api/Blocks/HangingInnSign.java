@@ -22,8 +22,10 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class HangingInnSign extends BlockHBase implements ITileEntityProvider {
-	private static final AxisAlignedBB NORTH_SOUTH = new AxisAlignedBB(0.0625D, 0.125D, 0.375D, 0.9375D, 1.0D, 0.625D);
-	private static final AxisAlignedBB EAST_WEST = new AxisAlignedBB(0.375D, 0.125D, 0.0625D, 0.625D, 1.0D, 0.9375D);
+	private static final AxisAlignedBB NORTH_SOUTH =
+		new AxisAlignedBB(0.0D, 0.1125D, 0.35D, 1.0D, 1.0D, 0.65D);
+	private static final AxisAlignedBB EAST_WEST =
+		new AxisAlignedBB(0.35D, 0.1125D, 0.0D, 0.65D, 1.0D, 1.0D);
 
 	public HangingInnSign(String name) {
 		super(Material.WOOD);
@@ -39,7 +41,21 @@ public class HangingInnSign extends BlockHBase implements ITileEntityProvider {
 	@Override
 	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing side, float hitX, float hitY,
 			float hitZ, int meta, EntityLivingBase placer, ItemStack stack) {
-		return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
+		EnumFacing facing = side.getAxis().isHorizontal()
+			? side.rotateY()
+			: placer.getHorizontalFacing();
+		return this.getDefaultState().withProperty(FACING, facing);
+	}
+
+	@Override
+	public boolean canPlaceBlockOnSide(World world, BlockPos pos, EnumFacing side) {
+		if (!side.getAxis().isHorizontal()) {
+			return false;
+		}
+
+		BlockPos supportPos = pos.offset(side.getOpposite());
+		return world.getBlockState(supportPos).isSideSolid(world, supportPos, side)
+			&& super.canPlaceBlockOnSide(world, pos, side);
 	}
 
 	@Override
@@ -48,7 +64,11 @@ public class HangingInnSign extends BlockHBase implements ITileEntityProvider {
 		if (tile instanceof TileEntityHangingInnSign && placer instanceof EntityPlayer) {
 			TileEntityHangingInnSign sign = (TileEntityHangingInnSign)tile;
 			sign.setOwner(placer.getUniqueID());
-			if (stack != null && stack.hasDisplayName()) sign.setInnName(stack.getDisplayName());
+			sign.setInnName(stack != null && stack.hasDisplayName() ? stack.getDisplayName() : "The Inn");
+
+			if (!world.isRemote) {
+				((EntityPlayer)placer).openEditSign(sign);
+			}
 		}
 	}
 
@@ -79,6 +99,22 @@ public class HangingInnSign extends BlockHBase implements ITileEntityProvider {
 		TileEntity tile = world.getTileEntity(pos);
 		if (!world.isRemote && tile instanceof TileEntityHangingInnSign) InnkeeperManager.release((TileEntityHangingInnSign)tile);
 		super.breakBlock(world, pos, state);
+	}
+
+	@Override
+	public void neighborChanged(IBlockState state, World world, BlockPos pos, net.minecraft.block.Block blockIn) {
+		EnumFacing supportDirection = state.getValue(FACING).rotateY();
+		BlockPos supportPos = pos.offset(supportDirection);
+
+		if (!world.getBlockState(supportPos).isSideSolid(world, supportPos, supportDirection.getOpposite())) {
+			if (!world.isRemote) {
+				this.dropBlockAsItem(world, pos, state, 0);
+			}
+			world.setBlockToAir(pos);
+			return;
+		}
+
+		super.neighborChanged(state, world, pos, blockIn);
 	}
 
 	@Override public IBlockState getStateFromMeta(int meta) { return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta & 3)); }

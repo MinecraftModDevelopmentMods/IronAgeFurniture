@@ -140,7 +140,7 @@ public class TileEntityDiningTable extends TileEntity implements SurfaceSettingH
 
 	@Override
 	public void markSurfaceSettingChanged() {
-		this.markForUpdate();
+		this.markForUpdate(true);
 	}
 
 	public void dropDisplayedItem(World worldIn, BlockPos pos) {

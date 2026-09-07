@@ -146,8 +146,10 @@ public class Ironagefurniture
     	BlockInitialiser.init();
 		if(event.getSide().isClient()) {
 			GeneratedModelResourcePack.install();
+			ClientRenderInitialiser.RegisterBlockStateMappers();
 			ItemInitialiser.RegisterItemModels();
 			ClientRenderInitialiser.RegisterEntityRenderers();
+			ClientRenderInitialiser.RegisterGuiEventHandlers();
 		}
     	
     }

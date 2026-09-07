@@ -35,7 +35,6 @@ public final class SurfaceItemRules {
 		return isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_block_floor_glow_clear)
 			|| isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_block_floor_red_clear)
 			|| isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_block_floor_lava_clear)
-			|| isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_candle_floor)
 			|| MineralogyCompat.isRockSaltLampItem(heldItem)
 			|| isFlowerPotItem(heldItem)
 			|| isOrnamentItem(heldItem);
@@ -79,6 +78,10 @@ public final class SurfaceItemRules {
 	public static boolean isOrnamentItem(ItemStack heldItem) {
 		Block block = getHeldItemBlock(heldItem);
 		return block instanceof OrnamentBlock || block instanceof GlassVaseBlock;
+	}
+
+	public static boolean isCandle(ItemStack heldItem) {
+		return isItemFromBlock(heldItem, BlockObjectHolder.light_metal_ironage_candle_floor);
 	}
 
 	public static boolean isHopperItem(ItemStack heldItem) {

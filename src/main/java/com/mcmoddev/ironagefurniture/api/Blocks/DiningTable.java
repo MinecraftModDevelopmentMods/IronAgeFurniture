@@ -3,6 +3,7 @@ package com.mcmoddev.ironagefurniture.api.Blocks;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 
 import com.mcmoddev.ironagefurniture.BlockObjectHolder;
@@ -13,6 +14,7 @@ import com.mcmoddev.ironagefurniture.api.surface.SurfaceSettingInteraction;
 import com.mcmoddev.ironagefurniture.api.surface.SurfaceSettingInteraction.Result;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityDiningTable;
 import com.mcmoddev.ironagefurniture.api.tile.TileEntityGlassVase;
+import com.mcmoddev.ironagefurniture.client.particle.CandleFlameParticle;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -39,6 +41,8 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class DiningTable extends Block {
 	public static final PropertyInteger CONNECTIONS = PropertyInteger.create("connections", 0, 15);
@@ -446,6 +450,35 @@ public class DiningTable extends Block {
 
 	public double getDisplayBlockSurfaceYOffset() {
 		return 1.0D;
+	}
+
+	@Override
+	public int getLightValue(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+		TileEntity tileEntity = worldIn.getTileEntity(pos);
+		return tileEntity instanceof TileEntityDiningTable
+			&& ((TileEntityDiningTable)tileEntity).getSurfaceSetting().hasCandle() ? 12 : 0;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand) {
+		TileEntity tileEntity = world.getTileEntity(pos);
+
+		if (!(tileEntity instanceof TileEntityDiningTable)) {
+			return;
+		}
+
+		com.mcmoddev.ironagefurniture.api.surface.SurfaceSetting setting =
+			((TileEntityDiningTable)tileEntity).getSurfaceSetting();
+
+		for (com.mcmoddev.ironagefurniture.api.surface.SurfaceSetting.Slot slot
+				: com.mcmoddev.ironagefurniture.api.surface.SurfaceSetting.Slot.values()) {
+			if (SurfaceItemRules.isCandle(setting.getItem(slot))) {
+				CandleFlameParticle.spawn(world, pos.getX() + setting.getX(slot),
+					pos.getY() + this.getDisplayBlockSurfaceYOffset() + 0.39D,
+					pos.getZ() + setting.getZ(slot));
+			}
+		}
 	}
 
 	@Override

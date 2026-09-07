@@ -4,6 +4,6 @@
     "board": "minecraft:blocks/planks_spruce",
     "timber": "minecraft:blocks/log_spruce",
     "timber_top": "minecraft:blocks/log_spruce_top",
-    "metal": "minecraft:blocks/anvil_base"
+    "metal": "basemetals:blocks/adamantine_block"
   }
 }
