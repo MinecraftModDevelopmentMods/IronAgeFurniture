@@ -1,16 +1,16 @@
 [
-{
-  "modid": "ironagefurniture",
-  "name": "Iron Age Furniture",
-  "description": "A mod to add Iron Age Furniture to Minecraft",
-  "version": "${version}",
-  "mcversion": "${mcversion}",
-  "url": "",
-  "updateUrl": "",
-  "authorList": ["SkyBlade1978", "FoxNekitsune"],
-  "credits": "",
-  "logoFile": "",
-  "screenshots": [],
-  "dependencies": []
-}
+  {
+    "modid": "ironagefurniture",
+    "name": "Iron Age Furniture",
+    "description": "Furniture from the iron age of men.",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "https://www.curseforge.com/minecraft/mc-mods/ironagefurniture",
+    "updateUrl": "https://raw.githubusercontent.com/SkyBlade1978/IronAgeFurniture/master-1.10/update.json",
+    "authorList": ["SkyBlade1978", "FoxNekitsune"],
+    "credits": "",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
+  }
 ]

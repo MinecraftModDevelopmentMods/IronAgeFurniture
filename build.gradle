@@ -1,393 +1,238 @@
-buildscript {
-    repositories {
-        flatDir {
-        	dirs("../libs")
-    	}
-        mavenLocal()
-        maven { url = 'https://files.minecraftforge.net/maven' }
-        jcenter()
-        mavenCentral()
-        maven { url = 'https://plugins.gradle.org/m2/' }
-        maven { url = 'https://oss.sonatype.org/content/groups/public' }
-    }
-    dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2.2'
-    }
-}
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+import java.nio.charset.StandardCharsets
+import org.apache.tools.ant.filters.FixCrLfFilter
+import org.gradle.jvm.toolchain.JvmVendorSpec
+import org.gradle.plugins.ide.eclipse.model.Container
 
 plugins {
-    id 'com.github.spotbugs'                                 version '1.6.9'
-    id 'com.matthewprenger.cursegradle'                     version '1.4.0'
-    id 'org.sonarqube'                                      version '2.8'
-    id 'se.bjurr.gitchangelog.git-changelog-gradle-plugin'  version '1.60'
+    id 'java'
+    id 'eclipse'
+    id 'idea'
     id 'maven-publish'
-    id 'jacoco'
-    id 'checkstyle'
+    id 'net.minecraftforge.renamer' version '1.1.5'
+    id 'net.minecraftforge.gradle' version '7.0.34'
 }
 
-apply plugin: 'net.minecraftforge.gradle.forge'
-apply plugin: 'eclipse'
-apply plugin: 'idea'
-apply plugin: 'maven-publish'
-apply plugin: 'pmd'
+group = project.mod_group
+version = project.mod_version
+base.archivesName = project.mod_archive_name
 
-project.afterEvaluate {
-    
-    jacoco {
-        toolVersion = '0.8.3'
-    }
-    
-    project.task(type: JacocoReport, 'junitPlatformJacocoReport',
-            {
-                if (GradleVersion.current() >= GradleVersion.version('5.0')) {
-                    getSourceDirectories().from(files('./src/main'))
-                    getClassDirectories().from(files("${project.buildDir}/classes/main"))
-                } else {
-                    sourceDirectories = files('./src/main')
-                    classDirectories = files("${project.buildDir}/classes/main")
-                }
-            })
+def versionParts = project.mod_version.toString().tokenize('.')
+if (versionParts.size() != 4 || !versionParts.every { it ==~ /\d+/ }) {
+    throw new GradleException("mod_version must use Major.Minor.Bug.Target numeric form: ${project.mod_version}")
 }
 
-if (GradleVersion.current() >= GradleVersion.version('4.0')) {
-    spotbugs {
-        ignoreFailures = true
-        toolVersion = '3.1.6'
-        effort = 'max'
-        reportLevel = 'low'
-    }
-
-    tasks.withType(com.github.spotbugs.SpotBugsTask) {
-        reports {
-            xml.enabled = false
-            html.enabled = true
-        }
-    }
+def minecraftVersionParts = project.minecraft_version.toString().tokenize('.')
+if (minecraftVersionParts.size() < 2 || minecraftVersionParts.size() > 3
+        || !minecraftVersionParts.every { it ==~ /\d+/ }) {
+    throw new GradleException("minecraft_version must use major.minor or major.minor.patch numeric form: ${project.minecraft_version}")
+}
+def minecraftPatch = minecraftVersionParts.size() == 3 ? minecraftVersionParts[2] : '0'
+def expectedTargetVersion = "${minecraftVersionParts[0]}" \
+        + "${minecraftVersionParts[1].padLeft(2, '0')}" \
+        + "${minecraftPatch.padLeft(2, '0')}" \
+        + project.loader_code
+if (versionParts[3] != expectedTargetVersion) {
+    throw new GradleException("mod_version target ${versionParts[3]} does not match "
+            + "Minecraft ${project.minecraft_version} ${project.loader_name} target ${expectedTargetVersion}")
 }
 
-if (GradleVersion.current() >= GradleVersion.version('2.7')) {
-    checkstyle {
-        ignoreFailures = true
-        toolVersion = '8.20'
-        showViolations = false
-    }
+ext.functional_version = versionParts[0..2].join('.')
+ext.display_version = project.mod_version
+ext.release_tag = project.mod_version
+
+if (GradleVersion.current() != GradleVersion.version('9.6.1')) {
+    throw new GradleException("This build requires Gradle 9.6.1, found ${GradleVersion.current()}")
+}
+if (JavaVersion.current() != JavaVersion.VERSION_17) {
+    throw new GradleException("Gradle must run on Java 17, found ${System.getProperty('java.version')}")
 }
 
-pmd {
-    consoleOutput = false
-    ignoreFailures = true
-    sourceSets = [sourceSets.main]
-    reportsDir = file("$project.buildDir/reports/pmd")
-    rulePriority = 5
-    ruleSets = [
-            'java-android',
-            'java-basic',
-            'java-braces',
-            'java-clone',
-            'java-codesize',
-            'java-comments',
-            'java-controversial',
-            'java-coupling',
-            'java-design',
-            'java-empty',
-            'java-finalizers',
-            'java-imports',
-            'java-j2ee',
-            'java-javabeans',
-            'java-junit',
-            'java-logging-jakarta-commons',
-            'java-logging-java',
-            'java-migrating',
-            'java-migrating_to_junit4',
-            'java-naming',
-            'java-optimizations',
-            'java-strictexception',
-            'java-strings',
-            'java-sunsecure',
-            'java-typeresolution',
-            'java-unnecessary',
-            'java-unusedcode'
-    ]
-    toolVersion = '5.8.1';
-    if (GradleVersion.current() >= GradleVersion.version('5.6')) {
-    }
+def java8Compiler = javaToolchains.compilerFor {
+    languageVersion = JavaLanguageVersion.of(project.java_version as int)
+    vendor = JvmVendorSpec.ADOPTIUM
 }
 
-tasks.withType(JavaCompile) {
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(project.java_version as int)
+    toolchain.vendor = JvmVendorSpec.ADOPTIUM
+    withSourcesJar()
+    withJavadocJar()
+}
+
+tasks.withType(JavaCompile).configureEach {
+    javaCompiler = java8Compiler
+
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
     options.encoding = 'UTF-8'
-    options.compilerArgs = [
-            '-Xlint:deprecation',
-    ]
-    compileJava.options.compilerArgs += '-proc:none'
+    options.compilerArgs.addAll(['-Xmaxerrs', '1000', '-proc:none'])
 }
 
-tasks.withType(Test) {
-    compileTestJava.options.compilerArgs += '-proc:none'
-}
-
-javadoc {
-    failOnError = false
-}
-
-import org.gradle.util.GradleVersion
-test {
-    if (GradleVersion.current() >= GradleVersion.version('4.6')) {
-        useJUnitPlatform()
-    }
-}
-
-project.ext.short_version = getModVersion('VERSION')
-version = (project.hasProperty('mc_version') ? project.mc_version : project.forge_mc_version) + '-' + short_version
-project.ext.display_version = short_version
-
-if ((System.getenv('BUILD_NUMBER')) || (System.getenv('TRAVIS_BUILD_NUMBER')) || (System.getenv('CIRCLE_BUILD_NUM'))) {
-    version += '.' + buildNumber
-    display_version += '.' + buildNumber
-}
-
-static String getBuildNumber() {
-    return System.getenv('BUILD_NUMBER') ?: System.getenv('TRAVIS_BUILD_NUMBER') ?: System.getenv('CIRCLE_BUILD_NUM') ?: '0'
-}
-
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
-
-eclipse.project {
-    buildCommand 'org.eclipse.buildship.core.gradleprojectbuilder'
-    natures 'org.eclipse.buildship.core.gradleprojectnature'
-}
-
-// Eclipse only needs the main mod classpath until this branch has test sources.
-// Keeping the unused test runtime out avoids broken workspace entries when old
-// JUnit/Mockito artifacts are evicted from Gradle's cache.
-eclipse.classpath {
-    plusConfigurations += [configurations.deobfCompile]
-    minusConfigurations += [configurations.testCompile, configurations.testRuntime]
-
-    file.whenMerged { classpath ->
-        final Set<String> sourcePaths = new LinkedHashSet<>()
-        classpath.entries.removeAll { entry ->
-            entry.kind == 'src' && !sourcePaths.add(entry.path)
+tasks.register('verifyBuildEnvironment') {
+    group = 'verification'
+    description = 'Verifies the pinned Gradle runtime and exact Java 8 compiler toolchain.'
+    doLast {
+        String configured = project.java_toolchain_version.toString()
+        def expected = configured =~ /^8\.0\.(\d+)\+(\d+)$/
+        if (!expected.matches()) {
+            throw new GradleException("java_toolchain_version must use 8.0.update+build form: ${configured}")
+        }
+        def metadata = java8Compiler.get().metadata
+        def actual = metadata.javaRuntimeVersion.toString() =~ /^1\.8\.0_(\d+)-b0*(\d+)$/
+        if (!actual.matches()
+                || actual.group(1) != expected.group(1)
+                || actual.group(2) != expected.group(2)) {
+            throw new GradleException("Java compiler toolchain must be ${configured}; found "
+                    + "${metadata.vendor} ${metadata.javaRuntimeVersion} at ${metadata.installationPath}")
         }
     }
 }
 
-eclipseJdt.doLast {
-    final File resourcePreferences = file('.settings/org.eclipse.core.resources.prefs')
-    resourcePreferences.parentFile.mkdirs()
-    resourcePreferences.text = 'eclipse.preferences.version=1\nencoding/<project>=UTF-8\n'
+tasks.withType(JavaCompile).configureEach {
+    dependsOn tasks.named('verifyBuildEnvironment')
 }
 
-idea.module {
-    downloadJavadoc = true
+tasks.withType(Javadoc).configureEach {
+    failOnError = false
+    options.encoding = 'UTF-8'
+    options.addStringOption('Xdoclint:none', '-quiet')
+    options.addBooleanOption('notimestamp', true)
 }
 
-class Secrets {
-    Map m_data = null
-
-    final String getProperty(final String key) {
-        return (m_data && (m_data[key] != null)) ? m_data[key] : ''
-    }
+tasks.withType(AbstractArchiveTask).configureEach {
+    preserveFileTimestamps = false
+    reproducibleFileOrder = true
 }
 
-final def secretFile
-if (System.getenv('SECRET_FILE')) {
-    secretFile = file System.getenv().SECRET_FILE
-} else {
-    secretFile = file 'secret.json'
-}
-
-import groovy.json.JsonSlurper
-project.ext.secret = new Secrets()
-if (secretFile.exists()) {
-    secretFile.withReader {
-        project.secret.m_data = new JsonSlurper().parse it
-    }
-} else {
-    project.secret.m_data = new JsonSlurper().parseText(
-            '{ "username" : "' + (System.getenv('userMaven') ?: '') + '",'
-                    + '"password" : "' + (System.getenv('authMaven') ?: '') + '",'
-                    + '"url" : "' + (System.getenv('urlMaven') ?: '') + '",'
-                    + '"curseforgeAPIKey" : "' + (System.getenv('curse_auth') ?: '00000000-0000-0000-0000-000000000000') + '",'
-                    + '"sonarHost" : "' + (System.getenv('SONAR_HOST_URL') ?: 'https://sonarcloud.io') + '",'
-                    + '"sonarOrganization" : "' + (System.getenv('SONAR_ORGANIZATION') ?: '') + '",'
-                    + '"sonarToken" : "' + (System.getenv('SONAR_AUTH_TOKEN') ?: 0) + '"}'
-    )
+def archiveTextSuffixes = [
+        '.cfg', '.css', '.html', '.info', '.java', '.js', '.json', '.lang',
+        '.mcmeta', '.md', '.properties', '.txt', '.xml'
+]
+def archiveTextPatterns = archiveTextSuffixes.collect { "**/*${it}".toString() }
+archiveTextPatterns.addAll(['**/element-list', '**/package-list'])
+def normalizeArchiveLineEndings = { details ->
+    details.filter(FixCrLfFilter,
+            eol: FixCrLfFilter.CrLf.newInstance('lf'),
+            eof: FixCrLfFilter.AddAsisRemove.newInstance('asis'))
 }
 
 minecraft {
-    version = project.forge_mc_version + '-' + project.forge_version
-    mappings = project.mcp_mappings_version
+    mappings channel: project.mapping_channel, version: project.mapping_version
 
-    if (project.hasProperty('runDir')) {
-        runDir = project.runDir
-    } else if (file('../run').exists()) {
-        runDir = '../run'
-    } else {
-        runDir = 'run'
-    }
-
-    replace '@MOD_VERSION@', project.short_version
-
-    if (project.hasProperty('signSHA1') && getBooleanProperty('do_sign_jar')) {
-        replace '@FINGERPRINT@', project.findProperty('signSHA1')
-    } else {
-        replace '@FINGERPRINT@', ''
-    }
-
-    if (project.hasProperty('core_plugin')) {
-        clientJvmArgs += "-Dfml.coreMods.load=${project.core_plugin}"
-        serverJvmArgs += "-Dfml.coreMods.load=${project.core_plugin}"
-    }
-
-    if (project.hasProperty('mc_username')) {
-        clientRunArgs += ['--username', project.mc_username]
-        if (project.hasProperty('mc_password')) {
-            clientRunArgs += ['--password', project.mc_password]
+    runs {
+        configureEach {
+            workingDir.convention layout.projectDirectory.dir('run')
+            systemProperty 'forge.logging.console.level', 'info'
+        }
+        register('client')
+        register('server') {
+            args '--nogui'
         }
     }
-    if (project.hasProperty('mc_uuid')) {
-        clientRunArgs += ['--uuid', project.mc_uuid]
-    }
+}
 
-    if (getBooleanProperty('mc_server_nogui')) {
-        serverRunArgs += 'nogui'
-    }
-
-    if (getBooleanProperty('forge_do_not_backup')) {
-        serverJvmArgs += '-Dfml.doNotBackup=true'
-        clientJvmArgs += '-Dfml.doNotBackup=true'
-    }
-
-    if (getBooleanProperty('forge_query_result_confirm')) {
-        serverJvmArgs += '-Dfml.queryResult=confirm'
-    }
-
-    if (getBooleanProperty('log4j_skip_jansi')) {
-        serverJvmArgs += '-Dlog4j.skipJansi=true'
-        clientJvmArgs += '-Dlog4j.skipJansi=true'
-    }
-
-    if (project.hasProperty('mc_resolution')) {
-        final def res = [
-                '480p': [640, 480],
-                '576p': [640, 576],
-                '720p': [1280, 720],
-                '1080p': [1920, 1080],
-                'custom': [project.findProperty('mc_custom_resolution_width'), project.findProperty('mc_custom_resolution_height')]]
-        final def choice = res?.get(project.mc_resolution)
-        if (choice != null) {
-            clientRunArgs += ['--width', choice[0]]
-            clientRunArgs += ['--height', choice[1]]
+// Forge 1.10 expects classes and resources for a development mod to share one
+// classpath root. ForgeGradle 7 separates them, so merge only the launch output.
+def forge10DevelopmentOutput = layout.buildDirectory.dir('forge10-development/main')
+def syncForge10DevelopmentResources = tasks.register('syncForge10DevelopmentResources', Sync) {
+    group = 'ide'
+    description = 'Merges processed resources into the Forge 1.10 development launch root.'
+    dependsOn tasks.named('classes')
+    from tasks.named('compileJava', JavaCompile).flatMap { it.destinationDirectory }
+    from sourceSets.main.output.resourcesDir
+    into forge10DevelopmentOutput
+}
+tasks.configureEach {
+    if (name == 'runClient' || name == 'runServer') {
+        dependsOn syncForge10DevelopmentResources
+        doFirst {
+            Set<File> splitMainOutputs = [
+                    tasks.named('compileJava', JavaCompile).get().destinationDirectory.get().asFile,
+                    sourceSets.main.output.resourcesDir
+            ] as Set<File>
+            classpath = files(forge10DevelopmentOutput, classpath.filter {
+                !splitMainOutputs.contains(it)
+            })
         }
     }
-
-    if (project.hasProperty('client_jvm_args')) {
-        clientJvmArgs += project.client_jvm_args
-    }
-    if (project.hasProperty('server_jvm_args')) {
-        serverJvmArgs += project.server_jvm_args
-    }
-
-    if (project.hasProperty('client_game_args')) {
-        clientRunArgs += project.client_game_args
-    }
-    if (project.hasProperty('server_game_args')) {
-        serverRunArgs += project.server_game_args
-    }
-
-    makeObfSourceJar = getBooleanProperty('create_source_jar')
-
-    useDepAts = getBooleanProperty('dep_has_ats')
 }
 
 repositories {
-    mavenLocal()
-    jcenter()
+    minecraft.mavenizer(it)
+    maven fg.forgeMaven
+    maven fg.minecraftLibsMaven
     mavenCentral()
-
     maven {
-        name 'MMD'
-        url 'https://maven.mcmoddev.com/'
+        name = 'MinecraftLibraries'
+        url = 'https://libraries.minecraft.net/'
     }
-
-    maven {
-        name 'ModMaven'
-        url 'https://modmaven.dev/'
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = 'BlameJared'
+                url = 'https://maven.blamejared.com/'
+            }
+        }
+        filter { includeGroup('mezz.jei') }
     }
 }
 
 dependencies {
-    deobfCompile 'mezz.jei:jei_1.10.2:3.14.7.420:api'
-    testCompile('org.junit.platform:junit-platform-launcher:1.5.+')
-    testCompile('org.junit.jupiter:junit-jupiter-api:5.5.+')
-    testRuntime('org.junit.jupiter:junit-jupiter-engine:5.5.+')
-    if (GradleVersion.current() >= GradleVersion.version('2.13')) {
-        testCompileOnly 'junit:junit:4.12'
-    }
-    testRuntime 'org.junit.vintage:junit-vintage-engine:5.5.+'
-    testCompile('org.mockito:mockito-core:2.+')
-    testCompile('org.mockito:mockito-junit-jupiter:2.+') {
-        exclude group: 'org.junit.jupiter', module: 'junit-jupiter-engine'
-    }
-    if (GradleVersion.current() >= GradleVersion.version('4.6')) {
-        annotationProcessor group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.0'
-    }
+    implementation minecraft.dependency(
+            "net.minecraftforge:forge:${project.minecraft_version}-${project.forge_version}")
+    compileOnly "mezz.jei:jei_1.10.2:${project.jei_version}:api"
+    compileOnly 'org.lwjgl.lwjgl:lwjgl_util:2.9.4-nightly-20150209'
 }
 
-import groovy.json.JsonSlurper
-import groovy.json.JsonOutput
+tasks.named('processResources', ProcessResources) {
+    filteringCharset = 'UTF-8'
+    inputs.property('version', project.version)
+    inputs.property('mcversion', project.minecraft_version)
 
-processResources {
-    inputs.property 'version', project.short_version
-    inputs.property 'mcversion', project.minecraft.version
-
-    from (sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-        expand 'version': project.short_version, 'mcversion': project.minecraft.version
+    filesMatching('mcmod.info') {
+        expand version: project.version, mcversion: project.minecraft_version
     }
-
-    from (sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
-
-    rename '(.+_at.cfg)', 'META-INF/$1'
+    filesMatching(archiveTextPatterns, normalizeArchiveLineEndings)
 
     doLast {
-        final String assetRoot = outputs.files.asPath + '/assets/ironagefurniture'
-        final File blockstateDir = file(assetRoot + '/blockstates')
-        final File itemModelDir = file(assetRoot + '/models/item')
-        final String blockModelPrefix = 'ironagefurniture:block/'
-        final Set<String> collapsibleItemModelKeys = ['credit', 'parent'] as Set
-
-        def collapsedItemModels = 0
-        def collapsedItemModelBytes = 0
+        def parseJsonFile = { File jsonFile ->
+            String jsonText = jsonFile.getText('UTF-8')
+            if (jsonText.startsWith('\uFEFF')) {
+                jsonText = jsonText.substring(1)
+            }
+            new JsonSlurper().parseText(jsonText)
+        }
+        File resourceOutput = destinationDir
+        File assetRoot = new File(resourceOutput, 'assets/ironagefurniture')
+        File blockstateDir = new File(assetRoot, 'blockstates')
+        File itemModelDir = new File(assetRoot, 'models/item')
+        String blockModelPrefix = 'ironagefurniture:block/'
+        Set<String> collapsibleItemModelKeys = ['credit', 'parent'] as Set
+        int collapsedItemModels = 0
+        long collapsedItemModelBytes = 0
 
         if (blockstateDir.exists() && itemModelDir.exists()) {
-            fileTree(dir: itemModelDir, include: '**/*.json').each {
-                File itemModelFile = it
+            fileTree(dir: itemModelDir, include: '**/*.json').each { File itemModelFile ->
                 File blockstateFile = new File(blockstateDir, itemModelFile.name)
-
                 if (blockstateFile.exists()) {
-                    def itemModel = new JsonSlurper().parse(itemModelFile)
-
+                    def itemModel = parseJsonFile(itemModelFile)
                     if (itemModel instanceof Map) {
-                        def itemModelKeys = itemModel.keySet()
                         def parent = itemModel.parent
-
                         if (parent instanceof String && parent.startsWith(blockModelPrefix)
-                                && (itemModelKeys as Set).every { collapsibleItemModelKeys.contains(it) }) {
-                            def blockstate = new JsonSlurper().parse(blockstateFile)
-
+                                && (itemModel.keySet() as Set).every {
+                                    collapsibleItemModelKeys.contains(it)
+                                }) {
+                            def blockstate = parseJsonFile(blockstateFile)
                             if (blockstate instanceof Map && blockstate.variants instanceof Map
                                     && !blockstate.variants.containsKey('inventory')) {
                                 blockstate.variants.inventory = [
-                                        model: 'ironagefurniture:' + parent.substring(blockModelPrefix.length())
+                                        model: 'ironagefurniture:'
+                                                + parent.substring(blockModelPrefix.length())
                                 ]
-
-                                blockstateFile.text = JsonOutput.toJson(blockstate)
+                                blockstateFile.setText(JsonOutput.toJson(blockstate), 'UTF-8')
                                 collapsedItemModelBytes += itemModelFile.length()
-
                                 if (itemModelFile.delete()) {
                                     collapsedItemModels++
                                 }
@@ -397,463 +242,220 @@ processResources {
                 }
             }
         }
+        logger.lifecycle('Collapsed {} item wrapper models into blockstate inventory variants; removed {} raw bytes.',
+                collapsedItemModels, collapsedItemModelBytes)
 
-        println('Collapsed ' + collapsedItemModels + ' item wrapper models into blockstate inventory variants. Removed '
-                + collapsedItemModelBytes + ' raw bytes before compression.')
-    
-        def jsonMinifyStart = System.currentTimeMillis()
-        def jsonMinified = 0
-        def jsonBytesSaved = 0
-        
-        fileTree(dir: outputs.files.asPath, include: '**/*.json').each {
-        
-            File file = it
+        int jsonMinified = 0
+        long jsonBytesSaved = 0
+        fileTree(dir: resourceOutput, include: '**/*.json').each { File jsonFile ->
+            long oldLength = jsonFile.length()
+            jsonFile.setText(JsonOutput.toJson(parseJsonFile(jsonFile)), 'UTF-8')
             jsonMinified++
-            def oldLength = file.length()
-            file.text = JsonOutput.toJson(new JsonSlurper().parse(file))
-            jsonBytesSaved += oldLength - file.length()
+            jsonBytesSaved += oldLength - jsonFile.length()
         }
-        
-        println('Minified ' + jsonMinified + ' json files. Saved ' + jsonBytesSaved + ' bytes. Took ' + (System.currentTimeMillis() - jsonMinifyStart) + 'ms.')
+        logger.lifecycle('Minified {} JSON files; saved {} bytes.', jsonMinified, jsonBytesSaved)
     }
 }
 
-jar {
+def commonManifest = {
+    attributes([
+            'Specification-Title'       : project.mod_name,
+            'Specification-Vendor'      : project.mod_authors,
+            'Specification-Version'     : versionParts[0],
+            'Implementation-Title'      : base.archivesName.get(),
+            'Implementation-Version'    : project.version,
+            'Implementation-Vendor'     : project.mod_authors,
+            'Maven-Artifact'             : "${project.group}:${base.archivesName.get()}:${project.version}",
+            'Built-On-Java'              : project.java_version,
+            'Built-On'                   : "${project.minecraft_version}-${project.forge_version}"
+    ])
+}
+
+tasks.named('jar', Jar) {
+    archiveClassifier = 'deobf'
+    destinationDirectory = layout.buildDirectory.dir('libs-dev')
+    manifest(commonManifest)
+}
+
+def releaseJar = renamer.classes(tasks.named('jar', Jar)) {
+    map.from minecraft.dependency.toSrgFile
+    archiveClassifier = null
+    output = layout.buildDirectory.file("libs/${base.archivesName.get()}-${project.version}.jar")
+}
+
+tasks.named('sourcesJar', Jar) {
+    filteringCharset = 'UTF-8'
+    includeEmptyDirs = false
+    archiveClassifier = 'sources'
+    filesMatching(archiveTextPatterns, normalizeArchiveLineEndings)
     manifest {
-        mainAttributes(
-                'Maven-Artifact': "${project.group}:${project.archivesBaseName}:${project.version}",
-                'Timestamp': System.currentTimeMillis(),
-                'Specification-Title': 'examplemod',
-                'Specification-Vendor': 'mcmoddev',
-                'Specification-Version': '1',
-                'Implementation-Title': project.archivesBaseName,
-                'Implementation-Version': project.version,
-                'Implementation-Vendor' :'mcmoddev',
-                'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                'Built-On-Java': "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
-                'Built-On': "${project.forge_mc_version}-${project.forge_version}"
-        )
-        if (project.hasProperty('core_plugin')) {
-            attributes 'FMLCorePluginContainsFMLMod': 'true'
-            attributes 'FMLCorePlugin': project.core_plugin
-        }
-        if (project.hasProperty('mod_at_file')) {
-            attributes 'FMLAT': project.mod_at_file
-        }
-        if (project.hasProperty('mod_contained_deps')) {
-            attributes 'ContainedDeps': project.mod_contained_deps
-        }
+        attributes([
+                'Maven-Artifact'        : "${project.group}:${base.archivesName.get()}:${project.version}:sources",
+                'Implementation-Title'  : "${project.mod_name}-sources",
+                'Implementation-Version': project.version
+        ])
     }
 }
 
-task apiJar(type: Jar) {
-    onlyIf {
-        getBooleanProperty('create_api_jar')
-    }
-
-    description = 'Creates a JAR containing the API Classes.'
-    classifier = 'api'
-    from apiClasses
+tasks.named('javadocJar', Jar) {
+    filteringCharset = 'UTF-8'
+    archiveClassifier = 'javadoc'
+    filesMatching(archiveTextPatterns, normalizeArchiveLineEndings)
     manifest {
-        mainAttributes(
-                'Maven-Artifact': "${project.group}:${project.archivesBaseName}:${project.version}:api",
-                'Timestamp': System.currentTimeMillis(),
-                'Specification-Title': 'examplemod',
-                'Specification-Vendor': 'mcmoddev',
-                'Specification-Version': '1',
-                'Implementation-Title': project.name + '-api',
-                'Implementation-Version': project.version,
-                'Implementation-Vendor' :'mcmoddev',
-                'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                'Built-On-Java': "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
-                'Built-On': "${project.forge_mc_version}-${project.forge_version}"
-        )
+        attributes([
+                'Maven-Artifact'        : "${project.group}:${base.archivesName.get()}:${project.version}:javadoc",
+                'Implementation-Title'  : "${project.mod_name}-javadoc",
+                'Implementation-Version': project.version
+        ])
     }
 }
 
-task deobfJar(type: Jar) {
-    onlyIf {
-        getBooleanProperty('create_deobf_jar')
+['apiElements', 'runtimeElements'].each { configurationName ->
+    configurations.named(configurationName) {
+        artifacts.clear()
     }
-
-    description = 'Creates a JAR containing the non-obfuscated compiled code.'
-    classifier = 'deobf'
-    from sourceSets.main.output
-    manifest {
-        mainAttributes(
-                'Maven-Artifact': "${project.group}:${project.archivesBaseName}:${project.version}:deobf",
-                'Timestamp': System.currentTimeMillis(),
-                'Specification-Title': 'examplemod',
-                'Specification-Vendor': 'mcmoddev',
-                'Specification-Version': '1',
-                'Implementation-Title': project.name + '-deobf',
-                'Implementation-Version': project.version,
-                'Implementation-Vendor' :'mcmoddev',
-                'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                'Built-On-Java': "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
-                'Built-On': "${project.forge_mc_version}-${project.forge_version}"
-        )
-        if (project.hasProperty('mod_at_file')) {
-            attributes 'FMLAT': project.mod_at_file
-        }
-        if (project.hasProperty('core_plugin')) {
-            attributes 'FMLCorePlugin': project.core_plugin
-        }
+    artifacts {
+        add(configurationName, releaseJar)
     }
 }
 
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    onlyIf {
-        getBooleanProperty('create_javadoc_jar')
-    }
-
-    description = 'Creates a JAR containing the JavaDocs.'
-    classifier = 'javadoc'
-    from javadoc.getDestinationDir()
-    manifest.mainAttributes(
-            'Maven-Artifact': "${project.group}:${project.archivesBaseName}:${project.version}:javadoc",
-            'Timestamp': System.currentTimeMillis(),
-            'Implementation-Title': project.name + '-javadoc',
-            'Implementation-Version': project.version,
-            'Built-On-Java': "${System.getProperty('java.vm.version')} + (${System.getProperty('java.vm.vendor')})",
-            'Built-On': "${project.forge_mc_version}-${project.forge_version}"
-    )
+tasks.named('assemble') {
+    dependsOn releaseJar
+    dependsOn tasks.named('sourcesJar')
+    dependsOn tasks.named('javadocJar')
 }
 
-task signJar(type: SignJar, dependsOn: reobfJar) {
-    onlyIf {
-        getBooleanProperty('do_sign_jar') &&
-                project.hasProperty('keyStore')
+def obsoleteForgeGradle2EclipseLaunches = [
+        'IronAgeFurniture_Client.launch': 'GradleStart',
+        'IronAgeFurniture_Server.launch': 'GradleStartServer'
+]
+
+eclipse {
+    project {
+        buildCommand 'org.eclipse.buildship.core.gradleprojectbuilder'
+        natures 'org.eclipse.buildship.core.gradleprojectnature'
     }
-
-    description = 'Sign the Main JAR'
-    inputFile = jar.archivePath
-    outputFile = jar.archivePath
-
-    keyStore = project.findProperty('keyStore')
-    alias = project.findProperty('keyStoreAlias')
-    storePass = project.findProperty('keyStorePass')
-    keyPass = project.findProperty('keyStoreKeyPass')
-}
-
-task signApiJar(type: SignJar) {
-    onlyIf {
-        getBooleanProperty('create_api_jar') &&
-                getBooleanProperty('do_sign_jar') &&
-                project.hasProperty('keyStore')
-    }
-
-    description = 'Sign the API JAR'
-    keyStore = project.findProperty('keyStore')
-    alias = project.findProperty('keyStoreAlias')
-    storePass = project.findProperty('keyStorePass')
-    keyPass = project.findProperty('keyStoreKeyPass')
-
-    inputFile = apiJar.archivePath
-    outputFile = apiJar.archivePath
-}
-
-task signDeobfJar(type: SignJar) {
-    onlyIf {
-        getBooleanProperty('create_deobf_jar') &&
-                getBooleanProperty('do_sign_jar') &&
-                project.hasProperty('keyStore')
-    }
-
-    description = 'Sign the deobf JAR'
-    keyStore = project.findProperty('keyStore')
-    alias = project.findProperty('keyStoreAlias')
-    storePass = project.findProperty('keyStorePass')
-    keyPass = project.findProperty('keyStoreKeyPass')
-
-    inputFile = deobfJar.archivePath
-    outputFile = deobfJar.archivePath
-}
-
-task signSourceJar(type: SignJar) {
-    onlyIf {
-        getBooleanProperty('create_source_jar') &&
-                getBooleanProperty('do_sign_jar') &&
-                project.hasProperty('keyStore')
-    }
-
-    description = 'Sign the Sources JAR'
-    keyStore = project.findProperty('keyStore')
-    alias = project.findProperty('keyStoreAlias')
-    storePass = project.findProperty('keyStorePass')
-    keyPass = project.findProperty('keyStoreKeyPass')
-
-    inputFile = sourceJar.archivePath
-    outputFile = sourceJar.archivePath
-}
-
-task signJavadocJar(type: SignJar) {
-    onlyIf {
-        getBooleanProperty('create_javadoc_jar') &&
-                getBooleanProperty('do_sign_jar') &&
-                project.hasProperty('keyStore')
-    }
-
-    keyStore = project.findProperty('keyStore')
-    alias = project.findProperty('keyStoreAlias')
-    storePass = project.findProperty('keyStorePass')
-    keyPass = project.findProperty('keyStoreKeyPass')
-
-    inputFile = javadocJar.archivePath
-    outputFile = javadocJar.archivePath
-}
-
-if (getBooleanProperty('do_sign_jar')) {
-    build.dependsOn signJar
-    if (getBooleanProperty('create_api_jar')) {
-        build.dependsOn signApiJar
-    }
-    if (getBooleanProperty('create_deobf_jar')) {
-        build.dependsOn signDeobfJar
-    }
-    if (getBooleanProperty('create_source_jar')) {
-        build.dependsOn signSourceJar
-    }
-    if (getBooleanProperty('create_javadoc_jar')) {
-        build.dependsOn signJavadocJar
-    }
-}
-
-tasks.publish.dependsOn build
-tasks.curseforge.dependsOn publish
-
-artifacts {
-    if (getBooleanProperty('create_api_jar')) {
-        archives apiJar
-    }
-    if (getBooleanProperty('create_deobf_jar')) {
-        archives deobfJar
-    }
-    if (getBooleanProperty('create_source_jar')) {
-        archives sourceJar
-    }
-    if (getBooleanProperty('create_javadoc_jar')) {
-        archives javadocJar
-    }
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            groupId project.group
-            artifactId project.archivesBaseName
-            version project.version
-            from components.java
-            if (getBooleanProperty('create_source_jar')) {
-                artifact sourceJar {
-                    classifier 'sources'
-                }
+    classpath {
+        downloadSources = true
+        downloadJavadoc = true
+        file.whenMerged { classpath ->
+            classpath.entries.removeAll { it.kind == 'lib' }
+            if (!classpath.entries.any {
+                    it.kind == 'con' && it.path == 'org.eclipse.buildship.core.gradleclasspathcontainer'
+            }) {
+                classpath.entries.add(new Container('org.eclipse.buildship.core.gradleclasspathcontainer'))
             }
-            if (getBooleanProperty('create_api_jar')) {
-                artifact apiJar {
-                    classifier 'api'
-                }
-            }
-            if (getBooleanProperty('create_deobf_jar')) {
-                artifact deobfJar {
-                    classifier 'deobf'
-                }
-            }
-            if (getBooleanProperty('create_javadoc_jar')) {
-                artifact javadocJar {
-                    classifier 'javadoc'
-                }
-            }
-           
         }
     }
-    repositories {
-        maven {
-            if ((secret.username != '') && (secret.password != '')) {
-                credentials {
-                    username secret.username
-                    password secret.password
-                }
-            }
-            if (secret.url != '') {
-                url secret.url
-            } else {
-                url "file:///${project.buildDir}/repo"
-            }
+    synchronizationTasks 'isolateEclipseProductionRuns'
+}
+
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+    }
+}
+
+tasks.register('configureEclipseBuildship') {
+    group = 'ide'
+    description = 'Creates Buildship wrapper and project-cache preferences.'
+    doLast {
+        File preferencesFile = file('.settings/org.eclipse.buildship.core.prefs')
+        Properties preferences = new Properties()
+        [
+                'eclipse.preferences.version'     : '1',
+                'connection.gradle.distribution' : 'GRADLE_DISTRIBUTION(WRAPPER)',
+                'connection.gradle.user.home'    : gradle.gradleUserHomeDir.canonicalPath,
+                'connection.project.dir'         : '',
+                'gradle.user.home'                : gradle.gradleUserHomeDir.canonicalPath,
+                'override.workspace.settings'    : 'true'
+        ].each { key, value -> preferences.setProperty(key, value) }
+        preferencesFile.parentFile.mkdirs()
+        preferencesFile.withOutputStream {
+            preferences.store(it, 'Generated by configureEclipseBuildship.')
         }
     }
 }
 
-curseforge {
-    if (project.hasProperty('curseforge_project_id')) {
-        apiKey = secret.curseforgeAPIKey
-        project {
-            id = project.curseforge_project_id
-            if (project.hasProperty('curseforge_changelog_filename')) {
-                changelog = file(project.curseforge_changelog_filename)
-            } else {
-                changelog = ''
-            }
-            if (project.hasProperty('curseforge_changelog_type')) {
-                changelogType = project.curseforge_changelog_type
-            }
-            if ((project.hasProperty('curseforge_release_type')) && ((project.curseforge_release_type == 'alpha') || (project.curseforge_release_type == 'beta') || (project.curseforge_release_type == 'release'))) {
-                releaseType = project.curseforge_release_type
-            } else {
-                releaseType = 'alpha'
-            }
-            if (project.hasProperty('curseforge_versions')) {
-                final def versions = "${project.curseforge_versions}".split(', ')
-                versions.each {
-                    addGameVersion "${it}"
+tasks.register('isolateEclipseProductionRuns') {
+    group = 'ide'
+    description = 'Generates FG7 Eclipse runs, removes exact FG2 launches, and excludes tests.'
+    dependsOn tasks.named('genEclipseRuns')
+    dependsOn tasks.named('configureEclipseBuildship')
+
+    doLast {
+        obsoleteForgeGradle2EclipseLaunches.each { String name, String mainClass ->
+            File launch = file(name)
+            if (launch.isFile()) {
+                String contents = launch.getText('UTF-8')
+                String obsoleteMainType =
+                        "org.eclipse.jdt.launching.MAIN_TYPE\" value=\"${mainClass}\""
+                if (contents.contains(obsoleteMainType) && !launch.delete()) {
+                    throw new GradleException("Could not remove obsolete ForgeGradle 2 launch ${name}")
                 }
             }
-            mainArtifact(jar) {
-                if (getBooleanProperty('curseforge_use_custom_display_name')) {
-                    displayName = "${project.name} ${project.display_version}"
-                }
-                if (project.hasProperty('curseforge_requirements') || project.hasProperty('curseforge_optionals') || project.hasProperty('curseforge_embeddeds') || project.hasProperty('curseforge_tools') || project.hasProperty('curseforge_incompatibles') || project.hasProperty('curseforge_includes')) {
-                    relations {
-                        if (project.hasProperty('curseforge_requirements')) {
-                            final def requirements = "${project.curseforge_requirements}".split(', ')
-                            requirements.each {
-                                requiredDependency "${it}"
-                            }
-                        }
-                        if (project.hasProperty('curseforge_optionals')) {
-                            final def optionals = "${project.curseforge_optionals}".split(', ')
-                            optionals.each {
-                                optionalDependency "${it}"
-                            }
-                        }
-                        if (project.hasProperty('curseforge_embeddeds')) {
-                            final def embeddeds = "${project.curseforge_embeddeds}".split(', ')
-                            embeddeds.each {
-                                embeddedLibrary "${it}"
-                            }
-                        }
-                        if (project.hasProperty('curseforge_tools')) {
-                            final def tools = "${project.curseforge_tools}".split(', ')
-                            tools.each {
-                                tool "${it}"
-                            }
-                        }
-                        if (project.hasProperty('curseforge_incompatibles')) {
-                            final def incompatibles = "${project.curseforge_incompatibles}".split(', ')
-                            incompatibles.each {
-                                incompatible "${it}"
-                            }
-                        }
-                        if (project.hasProperty('curseforge_includes')) {
-                            final def includes = "${project.curseforge_includes}".split(', ')
-                            includes.each {
-                                include "${it}"
-                            }
-                        }
-                    }
-                }
+        }
+
+        List<File> runLaunches = [
+                file('runClient.launch'), file('runServer.launch'),
+                file('.eclipse/runClient.launch'), file('.eclipse/runServer.launch')
+        ].findAll { it.isFile() }
+        if (runLaunches.size() < 2) {
+            throw new GradleException('ForgeGradle did not generate ordinary client/server Eclipse launches')
+        }
+        runLaunches.each { File launch ->
+            String contents = launch.getText('UTF-8')
+            if (!contents.contains('org.eclipse.jdt.launching.ATTR_EXCLUDE_TEST_CODE')) {
+                String marker = '</launchConfiguration>'
+                String attribute =
+                        '  <booleanAttribute key="org.eclipse.jdt.launching.ATTR_EXCLUDE_TEST_CODE" value="true"/>'
+                contents = contents.replace(marker, attribute + '\n' + marker)
             }
-            if (getBooleanProperty('create_api_jar')) {
-                addArtifact(apiJar) {
-                    if (getBooleanProperty('curseforge_use_custom_display_name')) {
-                        displayName = "${project.name} ${project.display_version} API"
-                    }
-                }
-            }
-            if (getBooleanProperty('create_source_jar')) {
-                addArtifact(sourceJar) {
-                    if (getBooleanProperty('curseforge_use_custom_display_name')) {
-                        displayName = "${project.name} ${project.display_version} Sources"
-                    }
-                }
-            }
-            if (getBooleanProperty('create_deobf_jar')) {
-                addArtifact(deobfJar) {
-                    if (getBooleanProperty('curseforge_use_custom_display_name')) {
-                        displayName = "${project.name} ${project.display_version} Development"
-                    }
-                }
-            }
-            if (getBooleanProperty('create_javadoc_jar')) {
-                addArtifact(javadocJar) {
-                    if (getBooleanProperty('curseforge_use_custom_display_name')) {
-                        displayName = "${project.name} ${project.display_version} Javadoc"
-                    }
-                }
-            }
+            launch.setText(contents.replace('\r\n', '\n'), 'UTF-8')
         }
     }
 }
 
-sonarqube {
-    properties {
-        if (project.hasProperty('sonar_host_url')) {
-            property 'sonar.host.url', project.sonar_host_url
-        } else if (secret.sonarHost != '') {
-            property 'sonar.host.url', secret.sonarHost
-        }
-        property 'sonar.login', secret.sonarToken
-        if (project.hasProperty('sonar_organisation')) {
-            property 'sonar.organization', project.sonar_organisation
-        } else if (secret.sonarOrganisation != '') {
-            property 'sonar.organization', secret.sonarOrganization
-        }
-        
-        property 'sonar.junit.reportPaths', "${project.buildDir}/test-results/junit-platform/*.xml"
-        property 'sonar.jacoco.reportPaths', "${project.buildDir}/jacoco/junitPlatformTest.exec"
-    }
+tasks.register('prepareEclipse') {
+    group = 'ide'
+    description = 'Creates the Buildship project model and ForgeGradle 7 launch profiles.'
+    dependsOn tasks.named('eclipse')
+    dependsOn tasks.named('isolateEclipseProductionRuns')
 }
 
-String getModFile() {
-    String path = ''
-    final FileTree tree = fileTree(dir: 'src/main/java')
-    tree.include '**/*.java'
-    tree.visit { final element ->
-        if (element.file.isFile()) {
-            element.file.eachLine { final String s ->
-                final String sTrim = s.trim()
-                if (sTrim.startsWith('@Mod(')) {
-                    path = "src/main/java/${element.relativePath}"
-                }
+tasks.register('verifyEclipseProductionClasspath') {
+    group = 'verification'
+    description = 'Verifies Buildship classpath use and production-only FG7 launches.'
+    dependsOn tasks.named('prepareEclipse')
+
+    doLast {
+        File classpathFile = file('.classpath')
+        String classpathText = classpathFile.getText('UTF-8')
+        if (!classpathText.contains('org.eclipse.buildship.core.gradleclasspathcontainer')) {
+            throw new GradleException('Eclipse classpath does not use the Buildship Gradle container')
+        }
+        if (classpathText.contains('<classpathentry kind="lib"')
+                || classpathText ==~ /(?s).*<classpathentry[^>]+path="[A-Za-z]:[\\\/].*/) {
+            throw new GradleException('Eclipse classpath contains an absolute library entry')
+        }
+        obsoleteForgeGradle2EclipseLaunches.each { String name, String mainClass ->
+            File launch = file(name)
+            if (launch.isFile() && launch.getText('UTF-8').contains(
+                    "org.eclipse.jdt.launching.MAIN_TYPE\" value=\"${mainClass}\"")) {
+                throw new GradleException("Obsolete ForgeGradle 2 launch remains at ${name}")
             }
         }
-    }
-    return path
-}
-
-String getModVersion(final String type) {
-    return getModVersion(type, modFile)
-}
-
-import java.util.regex.Matcher
-String getModVersion(final String type, final String modFile) {
-    if ((modFile != null) && (modFile != '')) {
-        final File file = file(modFile)
-        final def prefix = ~/^(?:\s*)(?:(?<modifier>public|protected|private) )?(?:(?<static>static) )?(?:(?<final>final) )?String $type = "(?:(?<major>\d*)\.)?(?:(?<minor>\d*)\.)?(?:(?<patch>[^."]*)\.?)(?<build>[^"]*)";$/
-        for (final String s in file.readLines()) {
-            final Matcher matcher = (s.trim() =~ prefix)
-            if (matcher.matches()) {
-                return "${matcher.group('major') ?: '0'}.${matcher.group('minor') ?: '0'}.${matcher.group('patch')}"
-            }
+        List<File> launchFiles = [
+                file('runClient.launch'), file('runServer.launch'),
+                file('.eclipse/runClient.launch'), file('.eclipse/runServer.launch')
+        ].findAll { it.isFile() }
+        if (launchFiles.size() < 2 || launchFiles.any {
+                String text = it.getText('UTF-8')
+                !text.contains('org.eclipse.jdt.launching.ATTR_EXCLUDE_TEST_CODE')
+                        || !text.contains('value="true"')
+        }) {
+            throw new GradleException('Generated Eclipse launches do not consistently exclude test code')
         }
     }
-    return '0.0.0'
-}
-
-boolean getBooleanProperty(final String property) {
-    if (project.hasProperty(property)) {
-        return ((String) project.findProperty(property)).toBoolean()
-    } else {
-        return false
-    }
-}
-
-task gitChangelog(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask) {
-    file = new File('CHANGELOG.md')
-    gitHubIssuePattern = "nonada123"
-    templateContent = file('changelog.mustache').getText('UTF-8')
-}
-
-Object findProperty(final String propertyName) {
-    return hasProperty(propertyName) ? property(propertyName) : null;
 }
