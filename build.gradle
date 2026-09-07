@@ -372,6 +372,7 @@ tasks.register('configureEclipseBuildship') {
                 'connection.gradle.user.home'    : gradle.gradleUserHomeDir.canonicalPath,
                 'connection.project.dir'         : '',
                 'gradle.user.home'                : gradle.gradleUserHomeDir.canonicalPath,
+                'java.home'                       : new File(System.getProperty('java.home')).canonicalPath,
                 'override.workspace.settings'    : 'true'
         ].each { key, value -> preferences.setProperty(key, value) }
         preferencesFile.parentFile.mkdirs()
@@ -437,6 +438,15 @@ tasks.register('verifyEclipseProductionClasspath') {
         String classpathText = classpathFile.getText('UTF-8')
         if (!classpathText.contains('org.eclipse.buildship.core.gradleclasspathcontainer')) {
             throw new GradleException('Eclipse classpath does not use the Buildship Gradle container')
+        }
+
+        File buildshipPreferencesFile = file('.settings/org.eclipse.buildship.core.prefs')
+        Properties buildshipPreferences = new Properties()
+        buildshipPreferencesFile.withInputStream { buildshipPreferences.load(it) }
+        File configuredGradleJavaHome = new File(buildshipPreferences.getProperty('java.home', ''))
+        File currentGradleJavaHome = new File(System.getProperty('java.home'))
+        if (configuredGradleJavaHome.canonicalFile != currentGradleJavaHome.canonicalFile) {
+            throw new GradleException('Buildship must run Gradle with Java ' + project.gradle_java_version + '; found ' + configuredGradleJavaHome)
         }
         if (classpathText.contains('<classpathentry kind="lib"')
                 || classpathText ==~ /(?s).*<classpathentry[^>]+path="[A-Za-z]:[\\\/].*/) {
