@@ -332,6 +332,32 @@ def obsoleteForgeGradle2EclipseLaunches = [
         'IronAgeFurniture_Server.launch': 'GradleStartServer'
 ]
 
+def slimeLauncherPathBoundaries = [
+        ['--cache', '--metadata'],
+        ['--metadata', '--to-srg'],
+        ['--to-srg', '--to-obf'],
+        ['--to-obf', '--']
+]
+
+def quoteSlimeLauncherPathArguments = { String contents ->
+    slimeLauncherPathBoundaries.each { List<String> boundary ->
+        String option = boundary[0]
+        String nextOption = boundary[1]
+        java.util.regex.Pattern pattern = java.util.regex.Pattern.compile(
+                java.util.regex.Pattern.quote(option + ' ') + '(.+?)' +
+                        java.util.regex.Pattern.quote(' ' + nextOption))
+        java.util.regex.Matcher matcher = pattern.matcher(contents)
+        if (matcher.find()) {
+            String value = matcher.group(1)
+            if (!(value.startsWith('&quot;') && value.endsWith('&quot;'))) {
+                String replacement = option + ' &quot;' + value + '&quot; ' + nextOption
+                contents = matcher.replaceFirst(java.util.regex.Matcher.quoteReplacement(replacement))
+            }
+        }
+    }
+    contents
+}
+
 eclipse {
     project {
         buildCommand 'org.eclipse.buildship.core.gradleprojectbuilder'
@@ -405,6 +431,17 @@ tasks.register('isolateEclipseProductionRuns') {
             }
         }
 
+        List<File> allRunLaunches = [
+                file('runClient.launch'), file('runServer.launch'),
+                file('runTestClient.launch'), file('runTestServer.launch'),
+                file('.eclipse/runClient.launch'), file('.eclipse/runServer.launch'),
+                file('.eclipse/runTestClient.launch'), file('.eclipse/runTestServer.launch')
+        ].findAll { it.isFile() }
+        allRunLaunches.each { File launch ->
+            String contents = quoteSlimeLauncherPathArguments(launch.getText('UTF-8'))
+            launch.setText(contents.replace('\r\n', '\n'), 'UTF-8')
+        }
+
         List<File> runLaunches = [
                 file('runClient.launch'), file('runServer.launch'),
                 file('.eclipse/runClient.launch'), file('.eclipse/runServer.launch')
@@ -473,6 +510,30 @@ tasks.register('verifyEclipseProductionClasspath') {
                         || !text.contains('value="true"')
         }) {
             throw new GradleException('Generated Eclipse launches do not consistently exclude test code')
+        }
+        List<File> allLaunchFiles = [
+                file('runClient.launch'), file('runServer.launch'),
+                file('runTestClient.launch'), file('runTestServer.launch'),
+                file('.eclipse/runClient.launch'), file('.eclipse/runServer.launch'),
+                file('.eclipse/runTestClient.launch'), file('.eclipse/runTestServer.launch')
+        ].findAll { it.isFile() }
+        allLaunchFiles.each { File launch ->
+            String text = launch.getText('UTF-8')
+            slimeLauncherPathBoundaries.each { List<String> boundary ->
+                String option = boundary[0]
+                String nextOption = boundary[1]
+                java.util.regex.Pattern quotedPath = java.util.regex.Pattern.compile(
+                        java.util.regex.Pattern.quote(option + ' &quot;') + '(.+?)' +
+                                java.util.regex.Pattern.quote('&quot; ' + nextOption))
+                java.util.regex.Matcher matcher = quotedPath.matcher(text)
+                if (!matcher.find()) {
+                    throw new GradleException("${launch.name} does not quote ${option} path")
+                }
+                File target = new File(matcher.group(1))
+                if (!target.exists()) {
+                    throw new GradleException("${launch.name} ${option} path does not exist: ${target}")
+                }
+            }
         }
     }
 }
