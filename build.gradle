@@ -6,7 +6,6 @@ import java.util.jar.Manifest
 import java.util.zip.ZipFile
 import org.apache.tools.ant.filters.FixCrLfFilter
 import org.gradle.jvm.toolchain.JvmVendorSpec
-import org.gradle.plugins.ide.eclipse.model.Container
 
 plugins {
     id 'java'
@@ -341,12 +340,17 @@ eclipse {
     classpath {
         downloadSources = true
         downloadJavadoc = true
-        file.whenMerged { classpath ->
-            classpath.entries.removeAll { it.kind == 'lib' }
-            if (!classpath.entries.any {
-                    it.kind == 'con' && it.path == 'org.eclipse.buildship.core.gradleclasspathcontainer'
+        file.withXml { provider ->
+            Node classpath = provider.asNode()
+            classpath.classpathentry.findAll { it.@kind == 'lib' }.each {
+                classpath.remove(it)
+            }
+            if (!classpath.classpathentry.any {
+                    it.@kind == 'con' && it.@path == 'org.eclipse.buildship.core.gradleclasspathcontainer'
             }) {
-                classpath.entries.add(new Container('org.eclipse.buildship.core.gradleclasspathcontainer'))
+                classpath.appendNode('classpathentry', [
+                        kind: 'con', path: 'org.eclipse.buildship.core.gradleclasspathcontainer'
+                ])
             }
         }
     }
