@@ -1,7 +1,0 @@
-{
-  "credit": "By FoxNekitsune",
-  "parent": "ironagefurniture:block/template_chain_top",
-  "textures": {
-    "metal": "minecraft:blocks/gold_block"
-  }
-}

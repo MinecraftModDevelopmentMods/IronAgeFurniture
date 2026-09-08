@@ -1,7 +1,0 @@
-{
-  "credit": "By FoxNekitsune",
-  "parent": "ironagefurniture:block/template_chandelier_candle",
-  "textures": {
-    "metal": "basemetals:blocks/steel_block"
-  }
-}

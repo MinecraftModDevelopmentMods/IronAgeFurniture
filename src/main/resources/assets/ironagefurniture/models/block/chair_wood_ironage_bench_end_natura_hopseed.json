@@ -1,9 +1,0 @@
-{
-  "credit": "By FoxNekitsune",
-  "parent": "ironagefurniture:block/template_chair_wood_ironage_bench_end",
-  "textures": {
-    "0": "natura:blocks/logs/overworld/hopseed_log",
-    "1": "natura:blocks/planks/overworld/hopseed_planks",
-    "particle": "natura:blocks/logs/overworld/hopseed_log"
-  }
-}

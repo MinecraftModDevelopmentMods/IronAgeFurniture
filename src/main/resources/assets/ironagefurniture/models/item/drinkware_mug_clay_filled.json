@@ -1,0 +1,1 @@
+{ "parent": "ironagefurniture:item/template_drinkware_mug_filled", "textures": { "shell": "minecraft:blocks/hardened_clay", "fluid": "minecraft:blocks/snow" } }

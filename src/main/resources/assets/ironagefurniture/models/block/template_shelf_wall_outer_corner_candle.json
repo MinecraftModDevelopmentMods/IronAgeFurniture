@@ -13,10 +13,10 @@
       "from": [
         0,
         10,
-        4
+        6
       ],
       "to": [
-        12,
+        10,
         13,
         16
       ],
@@ -166,12 +166,12 @@
     {
       "name": "embedded standalone candle",
       "from": [
-        7.5,
+        6.5,
         14,
         8
       ],
       "to": [
-        8.5,
+        7.5,
         19,
         9
       ],
@@ -235,12 +235,12 @@
     {
       "name": "embedded standalone base",
       "from": [
-        6.5,
+        5.5,
         13,
         7
       ],
       "to": [
-        9.5,
+        8.5,
         14,
         10
       ],
@@ -304,12 +304,12 @@
     {
       "name": "embedded standalone N edge",
       "from": [
-        6.5,
+        5.5,
         14,
         6
       ],
       "to": [
-        9.5,
+        8.5,
         15,
         7
       ],
@@ -373,12 +373,12 @@
     {
       "name": "embedded standalone E edge",
       "from": [
-        9.5,
+        8.5,
         14,
         7
       ],
       "to": [
-        10.5,
+        9.5,
         15,
         10
       ],
@@ -442,12 +442,12 @@
     {
       "name": "embedded standalone S edge",
       "from": [
-        6.5,
+        5.5,
         14,
         10
       ],
       "to": [
-        9.5,
+        8.5,
         15,
         11
       ],
@@ -511,12 +511,12 @@
     {
       "name": "embedded standalone W edge",
       "from": [
-        5.5,
+        4.5,
         14,
         7
       ],
       "to": [
-        6.5,
+        5.5,
         15,
         10
       ],
@@ -580,12 +580,12 @@
     {
       "name": "embedded standalone handle",
       "from": [
-        7.5,
+        6.5,
         14,
         11
       ],
       "to": [
-        8.5,
+        7.5,
         16,
         13
       ],

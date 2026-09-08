@@ -1,0 +1,88 @@
+name: Validate four-component release tag
+run-name: Validate IronAgeFurniture release tag ${{ inputs.release_tag || github.ref_name }}
+
+on:
+  push:
+    tags:
+      - "*.*.*.*"
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Existing four-component tag to validate without publishing.
+        required: true
+        type: string
+
+permissions:
+  actions: read
+  contents: read
+
+concurrency:
+  group: iron-age-furniture-tag-${{ inputs.release_tag || github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  validate-release-tag:
+    name: Validate tag for manual release
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out tagged source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ inputs.release_tag || github.ref_name }}
+          fetch-depth: 0
+
+      - name: Validate tag, target metadata, and prior CI
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}
+        run: |
+          set -euo pipefail
+          value() { sed -n "s/^$1=//p" gradle.properties; }
+          release_version="$(value mod_version)"
+          minecraft_version="$(value minecraft_version)"
+          loader_name="$(value loader_name)"
+          loader_code="$(value loader_code)"
+
+          IFS=. read -r mc_major mc_minor mc_patch extra <<<"$minecraft_version"
+          mc_patch="${mc_patch:-0}"
+          if [[ -n "${extra:-}" || ! "$mc_major" =~ ^[0-9]+$ \
+              || ! "$mc_minor" =~ ^[0-9]+$ || ! "$mc_patch" =~ ^[0-9]+$ ]]; then
+            echo "Invalid minecraft_version=$minecraft_version" >&2
+            exit 1
+          fi
+          if [[ "$loader_name:$loader_code" != "forge:1" ]]; then
+            echo "Invalid loader metadata $loader_name/$loader_code" >&2
+            exit 1
+          fi
+          printf -v minor_padded '%02d' "$((10#$mc_minor))"
+          printf -v patch_padded '%02d' "$((10#$mc_patch))"
+          target_suffix="${mc_major}${minor_padded}${patch_padded}${loader_code}"
+          if [[ ! "$release_version" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.${target_suffix}$ ]]; then
+            echo "Version $release_version does not match target $target_suffix" >&2
+            exit 1
+          fi
+          if [[ "$RELEASE_TAG" != "$release_version" ]]; then
+            echo "Tag must equal mod_version $release_version; found $RELEASE_TAG" >&2
+            exit 1
+          fi
+          tag_sha="$(git rev-parse "refs/tags/$RELEASE_TAG^{commit}")"
+          checkout_sha="$(git rev-parse HEAD)"
+          if [[ "$tag_sha" != "$checkout_sha" ]]; then
+            echo "Checked-out commit $checkout_sha does not match tag commit $tag_sha" >&2
+            exit 1
+          fi
+          successful_ci="$(gh api \
+            "repos/$GITHUB_REPOSITORY/commits/$tag_sha/check-runs?per_page=100" \
+            --jq '[.check_runs[] | select(.name == "Build, test, and audit" and .conclusion == "success")] | length')"
+          if [[ "$successful_ci" -lt 1 ]]; then
+            echo "The tagged commit has no successful Build, test, and audit check" >&2
+            exit 1
+          fi
+
+      - name: Confirm that publication remains manual
+        run: |
+          echo '## Tag validated' >> "$GITHUB_STEP_SUMMARY"
+          echo >> "$GITHUB_STEP_SUMMARY"
+          echo '**Nothing has been published.** Use the manually dispatched release workflow and its release-environment approval to continue.' >> "$GITHUB_STEP_SUMMARY"

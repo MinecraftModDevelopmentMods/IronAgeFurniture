@@ -1,8 +1,0 @@
-{
-  "credit": "By FoxNekitsune",
-  "parent": "ironagefurniture:block/template_ornament_glass_vase",
-  "textures": {
-    "glass": "minecraft:blocks/glass_silver",
-    "particle": "minecraft:blocks/glass_silver"
-  }
-}

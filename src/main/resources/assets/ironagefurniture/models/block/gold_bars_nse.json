@@ -1,9 +1,0 @@
-{
-    "credit": "By FoxNekitsune",
-    "parent": "ironagefurniture:block/template_gold_bars_nse",
-    "textures": {
-        "particle": "ironagefurniture:blocks/gold_bars",
-        "bars": "ironagefurniture:blocks/gold_bars",
-        "edge": "ironagefurniture:blocks/gold_bars"
-    }
-}

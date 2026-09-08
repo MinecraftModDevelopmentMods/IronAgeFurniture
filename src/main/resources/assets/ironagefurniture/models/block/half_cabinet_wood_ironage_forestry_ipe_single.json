@@ -1,9 +1,0 @@
-{
-    "credit": "By FoxNekitsune",
-    "parent": "ironagefurniture:block/template_half_cabinet_wood_ironage_single",
-    "textures": {
-        "log": "forestry:blocks/wood/bark.ipe",
-        "planks": "forestry:blocks/wood/planks.ipe",
-        "particle": "forestry:blocks/wood/bark.ipe"
-    }
-}

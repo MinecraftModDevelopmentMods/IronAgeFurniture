@@ -1,9 +1,0 @@
-{
-  "credit": "By FoxNekitsune",
-  "parent": "ironagefurniture:block/template_chair_wood_ironage_dining_inventory",
-  "textures": {
-    "0": "biomesoplenty:blocks/sacred_oak_log",
-    "1": "biomesoplenty:blocks/sacred_oak_planks",
-    "particle": "biomesoplenty:blocks/sacred_oak_log"
-  }
-}

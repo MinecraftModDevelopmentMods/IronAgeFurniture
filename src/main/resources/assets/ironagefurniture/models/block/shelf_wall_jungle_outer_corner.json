@@ -1,9 +1,0 @@
-{
-  "credit": "By FoxNekitsune",
-  "parent": "ironagefurniture:block/template_shelf_wall_outer_corner",
-  "textures": {
-    "log": "minecraft:blocks/log_jungle",
-    "planks": "minecraft:blocks/planks_jungle",
-    "particle": "minecraft:blocks/log_jungle"
-  }
-}

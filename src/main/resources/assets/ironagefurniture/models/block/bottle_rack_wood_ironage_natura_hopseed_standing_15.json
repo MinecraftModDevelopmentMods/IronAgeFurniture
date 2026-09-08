@@ -1,9 +1,0 @@
-{
-  "credit": "By FoxNekitsune",
-  "parent": "ironagefurniture:block/template_bottle_rack_wood_ironage_standing_15",
-  "textures": {
-    "log": "natura:blocks/logs/overworld/hopseed_log",
-    "planks": "natura:blocks/planks/overworld/hopseed_planks",
-    "particle": "natura:blocks/logs/overworld/hopseed_log"
-  }
-}

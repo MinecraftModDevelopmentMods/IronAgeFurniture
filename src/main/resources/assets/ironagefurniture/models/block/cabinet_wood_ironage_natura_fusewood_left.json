@@ -1,9 +1,0 @@
-{
-    "credit":  "By FoxNekitsune",
-    "parent":  "ironagefurniture:block/template_cabinet_wood_ironage_left",
-    "textures":  {
-                     "log":  "natura:blocks/logs/nether/fusewood_log",
-                     "planks":  "natura:blocks/planks/nether/fusewood_planks",
-                     "particle":  "natura:blocks/logs/nether/fusewood_log"
-                 }
-}

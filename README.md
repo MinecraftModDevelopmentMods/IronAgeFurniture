@@ -1,29 +1,20 @@
+[![Discord](https://img.shields.io/badge/Discord-MMD-green.svg?style=flat&logo=Discord)](https://discord.mcmoddev.com)
+
 # Iron Age Furniture
-A mod for adding Iron Age Furniture to Minecraft
 
-[![Discord Badge](https://img.shields.io/badge/Discord-16181C?style=for-the-badge&logo=discord&logoColor=5865F2)](https://discord.moddev.zone)
-[![CurseForge Badge](https://img.shields.io/badge/CurseForge-16181C?style=for-the-badge&logo=curseforge&logoColor=FF784D)](https://www.curseforge.com/minecraft/mc-mods/ironagefurniture)
-[![Github Badge](https://img.shields.io/badge/GitHub-16181C?style=for-the-badge&logo=github&logoColor=BBDDE5)](https://github.com/minecraftmoddevelopmentmods/ironagefurniture)
+Furniture from the iron age of men, for Minecraft 1.10.2 and Forge 12.18.3.2511.
 
-## CLI development setup
+The current development version is `0.3.0.110021`. This Phase 3 candidate is unreleased; the latest published Minecraft 1.10.2 build remains `0.2.0.5`.
 
-Install a JDK 17. The Gradle wrapper runs on Java 17 while the build's Java
-toolchain compiles the Minecraft 1.10.2 mod for Java 8.
+## Development
 
-On Windows:
+The project uses ForgeGradle 7.0.34 and Gradle 9.6.1. Run Gradle itself on Java 17; the build compiles Java 8 bytecode with a Java 8 toolchain.
 
-```powershell
-.\gradlew.bat eclipse genEclipseRuns
-.\gradlew.bat build
+The maintained Java package is `zone.moddev.mc.ironagefurniture`, and the Maven coordinate for this candidate is `zone.moddev.mc:iron-age-furniture:0.3.0.110021`.
+
+```text
+./gradlew clean check build javadoc verifyReleaseArtifacts writeReleaseChecksums
+./gradlew prepareEclipse verifyEclipseProductionClasspath
 ```
 
-On Linux or macOS:
-
-```bash
-./gradlew eclipse genEclipseRuns
-./gradlew build
-```
-
-`setupDecompWorkspace` was a ForgeGradle 2 task and is not used by this
-ForgeGradle 7 build. The first command can take several minutes while the
-Minecraft Mavenizer prepares the legacy Forge dependency.
+Release publication is manual and gated. A branch push or tag alone does not publish artifacts.

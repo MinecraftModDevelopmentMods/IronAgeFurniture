@@ -586,6 +586,74 @@
         }
       },
       "shade": true
+    },
+    {
+      "name": "inlet_flange_upper_back_left",
+      "from": [
+        6,
+        6.2,
+        16.05
+      ],
+      "to": [
+        9.8,
+        9.8,
+        16.75
+      ],
+      "faces": {
+        "north": {
+          "texture": "#iron"
+        },
+        "east": {
+          "texture": "#iron"
+        },
+        "south": {
+          "texture": "#iron"
+        },
+        "west": {
+          "texture": "#iron"
+        },
+        "up": {
+          "texture": "#iron"
+        },
+        "down": {
+          "texture": "#iron"
+        }
+      },
+      "shade": true
+    },
+    {
+      "name": "inlet_socket_upper_back_left",
+      "from": [
+        6.75,
+        7,
+        16.65
+      ],
+      "to": [
+        9.05,
+        9,
+        17.75
+      ],
+      "faces": {
+        "north": {
+          "texture": "#inside"
+        },
+        "east": {
+          "texture": "#inside"
+        },
+        "south": {
+          "texture": "#inside"
+        },
+        "west": {
+          "texture": "#inside"
+        },
+        "up": {
+          "texture": "#inside"
+        },
+        "down": {
+          "texture": "#inside"
+        }
+      },
+      "shade": true
     }
   ]
 }

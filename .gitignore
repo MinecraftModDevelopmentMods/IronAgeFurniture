@@ -1,34 +1,75 @@
 # Eclipse
-bin
+bin/
 *.launch
-.settings
-.metadata
+.settings/
+.metadata*/
+.eclipse/
 .classpath
 .project
-/workspace/
+eclipse/
 
-# IntelliJ
-/out/
+# IntelliJ IDEA
+out/
 *.ipr
 *.iws
 *.iml
-/.idea/*
+.idea/
 
 # Gradle
-/build/
-/.gradle/
+build/
+.gradle/
+.gradle-home/
+classes/
 
-# Other
-/eclipse/
-*/reports/*
-/run/
+# Machine-specific agent context (at any repository depth)
+AGENTS.md
+AGENT.md
+agent-notes/
+.agent/
+.agents/
+.codex/
+.claude/
+.gemini/
+CLAUDE.md
+GEMINI.md
+agent-*.md
+codex-*.md
 
-# Visual Studio Code
-/.settings/
-/.vscode/
-/bin/
+# Generated Minecraft, test, benchmark, and evidence output
+run/
+run-data/
+run-*/
+benchmark/
+benchmark-*/
+regression/
+regression-*/
+evidence/
+evidence-*/
+*-evidence/
+test-output/
+test-results/
+reports/
+logs/
+crash-reports/
+mcmodsrepo/
+
+# Local runtime and diagnostic files
+local.properties
+*.log
+*.jfr
+*.hprof
+hs_err_pid*.log
+replay_pid*.log
+
+/README.txt
+/forge-*-changelog.txt
 
 secret.json
+*.keystore
+*.jks
+*.p12
+libs/*
+!/libs/README.txt
 
-# MacOS
 .DS_Store
+.okhttpcache/

@@ -1,8 +1,0 @@
-{
-  "credit": "By FoxNekitsune",
-  "parent": "ironagefurniture:block/template_light_metal_ironage_sconce_floor_torch",
-  "textures": {
-    "metal": "basemetals:blocks/mithril_block",
-    "torchtexture": "minecraft:blocks/torch_on"
-  }
-}

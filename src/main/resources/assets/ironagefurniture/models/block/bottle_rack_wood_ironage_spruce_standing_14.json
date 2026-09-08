@@ -1,9 +1,0 @@
-{
-  "credit": "By FoxNekitsune",
-  "parent": "ironagefurniture:block/template_bottle_rack_wood_ironage_standing_14",
-  "textures": {
-    "log": "minecraft:blocks/log_spruce",
-    "planks": "minecraft:blocks/planks_spruce",
-    "particle": "minecraft:blocks/log_spruce"
-  }
-}

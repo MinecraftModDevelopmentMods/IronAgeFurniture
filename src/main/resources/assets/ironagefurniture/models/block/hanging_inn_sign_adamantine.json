@@ -1,0 +1,9 @@
+{
+  "parent": "ironagefurniture:block/template_hanging_inn_sign",
+  "textures": {
+    "board": "minecraft:blocks/planks_spruce",
+    "timber": "minecraft:blocks/log_spruce",
+    "timber_top": "minecraft:blocks/log_spruce_top",
+    "metal": "basemetals:blocks/adamantine_block"
+  }
+}

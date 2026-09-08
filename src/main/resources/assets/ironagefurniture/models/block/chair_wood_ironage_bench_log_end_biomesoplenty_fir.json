@@ -1,9 +1,0 @@
-{
-  "credit": "By FoxNekitsune",
-  "parent": "ironagefurniture:block/template_chair_wood_ironage_bench_log_end",
-  "textures": {
-    "0": "biomesoplenty:blocks/fir_log",
-    "1": "biomesoplenty:blocks/fir_log_top",
-    "particle": "biomesoplenty:blocks/fir_log"
-  }
-}

@@ -1,9 +1,0 @@
-{
-  "credit": "By FoxNekitsune",
-  "parent": "ironagefurniture:block/template_chair_wood_ironage_stool_short",
-  "textures": {
-    "0": "forestry:blocks/wood/bark.pine",
-    "1": "forestry:blocks/wood/planks.pine",
-    "particle": "forestry:blocks/wood/bark.pine"
-  }
-}

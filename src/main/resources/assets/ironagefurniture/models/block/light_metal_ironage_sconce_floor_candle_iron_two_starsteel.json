@@ -1,8 +1,0 @@
-{
-  "credit": "By FoxNekitsune",
-  "parent": "ironagefurniture:block/template_light_metal_ironage_sconce_floor_candle_two",
-  "textures": {
-    "metal": "basemetals:blocks/starsteel_block",
-    "wax": "ironagefurniture:blocks/candle_wax"
-  }
-}

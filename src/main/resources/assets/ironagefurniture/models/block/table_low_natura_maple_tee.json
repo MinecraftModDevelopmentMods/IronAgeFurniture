@@ -1,9 +1,0 @@
-{
-  "credit": "By FoxNekitsune",
-  "parent": "ironagefurniture:block/template_table_low_tee",
-  "textures": {
-    "log": "natura:blocks/logs/overworld/maple_log",
-    "planks": "natura:blocks/planks/overworld/maple_planks",
-    "particle": "natura:blocks/logs/overworld/maple_log"
-  }
-}

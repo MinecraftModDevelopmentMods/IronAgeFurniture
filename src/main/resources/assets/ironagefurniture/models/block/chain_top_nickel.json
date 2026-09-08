@@ -1,7 +1,0 @@
-{
-  "credit": "By FoxNekitsune",
-  "parent": "ironagefurniture:block/template_chain_top",
-  "textures": {
-    "metal": "basemetals:blocks/nickel_block"
-  }
-}
