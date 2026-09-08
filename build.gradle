@@ -181,11 +181,73 @@ repositories {
     }
 }
 
+// Power Advantage is optional at runtime. Until its migrated Maven coordinate is
+// publishable, compile against the reproducible deobf jar built from the pinned
+// GitHub source commit. The property override keeps CI and alternate workspaces
+// independent of this checkout's sibling-directory layout.
+def defaultPowerAdvantageDeobfJar = file("../../../PowerAdvantage/PA110/PowerAdvantage/build/libs-dev/" \
+        + project.poweradvantage_deobf_jar)
+def powerAdvantageDeobfJar = providers.gradleProperty('powerAdvantageDeobfJar')
+        .map { file(it) }
+        .getOrElse(defaultPowerAdvantageDeobfJar)
+
 dependencies {
     implementation minecraft.dependency(
             "net.minecraftforge:forge:${project.minecraft_version}-${project.forge_version}")
     compileOnly "mezz.jei:jei_1.10.2:${project.jei_version}:api"
     compileOnly 'org.lwjgl.lwjgl:lwjgl_util:2.9.4-nightly-20150209'
+    compileOnly files(powerAdvantageDeobfJar)
+}
+
+def verifyPowerAdvantageApiDependency = tasks.register('verifyPowerAdvantageApiDependency') {
+    group = 'verification'
+    description = 'Verifies the pinned Power Advantage compile-only fluid API input.'
+    inputs.file(powerAdvantageDeobfJar).withPropertyName('powerAdvantageDeobfJar').optional()
+
+    doLast {
+        if (!powerAdvantageDeobfJar.isFile()) {
+            throw new GradleException("Missing Power Advantage deobf jar: ${powerAdvantageDeobfJar}. "
+                    + "Build ${project.poweradvantage_source_repository}@${project.poweradvantage_source_commit} "
+                    + "with deobfJar, or pass -PpowerAdvantageDeobfJar=<path>.")
+        }
+
+        String actualHash = MessageDigest.getInstance('SHA-256')
+                .digest(powerAdvantageDeobfJar.bytes).encodeHex().toString().toUpperCase()
+        if (actualHash != project.poweradvantage_deobf_sha256) {
+            throw new GradleException("Power Advantage deobf jar SHA-256 is ${actualHash}, expected "
+                    + project.poweradvantage_deobf_sha256)
+        }
+
+        new ZipFile(powerAdvantageDeobfJar).withCloseable { ZipFile zip ->
+            if (zip.getEntry('cyano/poweradvantage/api/fluid/FluidNetworkApi.class') == null) {
+                throw new GradleException('Power Advantage deobf jar is missing FluidNetworkApi.class')
+            }
+        }
+
+        Set<File> compileFiles = configurations.compileClasspath.files.collect { it.canonicalFile } as Set<File>
+        if (!compileFiles.contains(powerAdvantageDeobfJar.canonicalFile)) {
+            throw new GradleException('Power Advantage API jar is missing from compileClasspath')
+        }
+        Set<File> runtimeFiles = configurations.runtimeClasspath.files.collect { it.canonicalFile } as Set<File>
+        if (runtimeFiles.contains(powerAdvantageDeobfJar.canonicalFile)) {
+            throw new GradleException('Optional Power Advantage API leaked onto runtimeClasspath')
+        }
+
+        ['.github/workflows/ci.yml', '.github/workflows/codeql-analysis.yml',
+         '.github/workflows/publish-release.yml'].each { String workflowPath ->
+            String workflow = file(workflowPath).getText('UTF-8')
+            if (!workflow.contains('repository: ' + project.poweradvantage_source_repository)
+                    || !workflow.contains('ref: ' + project.poweradvantage_source_commit)
+                    || !workflow.contains('repository: ' + project.orespawn_source_repository)
+                    || !workflow.contains('ref: ' + project.orespawn_source_commit)) {
+                throw new GradleException("${workflowPath} does not build the pinned Power Advantage dependency chain")
+            }
+        }
+    }
+}
+
+tasks.named('compileJava') {
+    dependsOn verifyPowerAdvantageApiDependency
 }
 
 tasks.named('processResources', ProcessResources) {
@@ -567,7 +629,7 @@ tasks.register('verifyRepositoryHygiene') {
         List<String> tracked = new String(trackedBytes, StandardCharsets.UTF_8)
                 .split('\u0000').findAll { !it.isEmpty() }
         Set<String> forbiddenDirectories = [
-                '.agent', '.agents', '.claude', '.codex', '.eclipse', '.gemini', '.gradle',
+                '.agent', '.agents', '.ci-dependencies', '.claude', '.codex', '.eclipse', '.gemini', '.gradle',
                 '.gradle-home', '.idea', '.okhttpcache', '.settings', 'agent-notes', 'benchmark',
                 'bin', 'build', 'classes', 'crash-reports', 'eclipse', 'evidence', 'logs',
                 'mcmodsrepo', 'out', 'regression', 'reports', 'run', 'run-data', 'test-output',
@@ -688,6 +750,21 @@ tasks.register('verifyVersionMetadata') {
                 java_version           : '8',
                 java_toolchain_version : '8.0.502+7',
                 gradle_java_version    : '17',
+                poweradvantage_version : '2.4.3.110021',
+                poweradvantage_source_repository:
+                        'MinecraftModDevelopmentMods/PowerAdvantage',
+                poweradvantage_source_commit:
+                        '88e9818b4b7011a430436b40367fb1609073875b',
+                poweradvantage_deobf_jar:
+                        'PowerAdvantage-2.4.3.110021-deobf.jar',
+                poweradvantage_deobf_sha256:
+                        '316262B51DDF4BD4258E19CC45221959E20133855B37E2367686F752A48C07C5',
+                orespawn_version       : '4.0.8.110021',
+                orespawn_source_repository:
+                        'MinecraftModDevelopmentMods/OreSpawn',
+                orespawn_source_commit:
+                        '5a50df1158e948c8db55814e819090b34c12d765',
+                orespawn_deobf_jar     : 'OreSpawn-4.0.8.110021-deobf.jar',
                 mod_group              : 'zone.moddev.mc',
                 mod_archive_name       : 'iron-age-furniture',
                 curseforge_project_id  : '341834'
@@ -773,6 +850,7 @@ tasks.register('verifyWorkflowPins') {
 
 tasks.named('check') {
     dependsOn tasks.named('verifyBuildEnvironment')
+    dependsOn verifyPowerAdvantageApiDependency
     dependsOn tasks.named('verifyRepositoryHygiene')
     dependsOn tasks.named('verifyResourceJson')
     dependsOn tasks.named('verifyNamespace')
@@ -789,6 +867,7 @@ tasks.register('verifyReleaseArtifacts') {
     dependsOn tasks.named('verifyResourceJson')
     dependsOn tasks.named('verifyNamespace')
     dependsOn tasks.named('verifyVersionMetadata')
+    dependsOn verifyPowerAdvantageApiDependency
 
     doLast {
         File libs = layout.buildDirectory.dir('libs').get().asFile
@@ -806,7 +885,8 @@ tasks.register('verifyReleaseArtifacts') {
         List<String> forbiddenEntries = [
                 'src/test/', 'src/integrationTest/', 'agent-notes/', '.github/',
                 '.classpath', '.project', 'GradleStart', 'org/junit/', 'org/mockito/',
-                'net/bytebuddy/', 'build/', 'run/'
+                'net/bytebuddy/', 'build/', 'run/', 'cyano/poweradvantage/',
+                'com/mcmoddev/poweradvantage/', 'zone/moddev/mc/poweradvantage/'
         ]
         jars.each { File candidate ->
             new ZipFile(candidate).withCloseable { ZipFile zip ->

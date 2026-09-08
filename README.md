@@ -12,6 +12,11 @@ The project uses ForgeGradle 7.0.34 and Gradle 9.6.1. Run Gradle itself on Java 
 
 The maintained Java package is `zone.moddev.mc.ironagefurniture`, and the Maven coordinate for this candidate is `zone.moddev.mc:iron-age-furniture:0.3.0.110021`.
 
+Power Advantage remains optional at runtime. Until its migrated Maven artifact can be published,
+the build compiles against the deobfuscated development jar produced from pinned Power Advantage
+commit `88e9818b4b7011a430436b40367fb1609073875b`. Build that sibling checkout with `deobfJar`, or pass
+its exact jar as `-PpowerAdvantageDeobfJar=<path>`; the build verifies the expected API and SHA-256.
+
 ```text
 ./gradlew clean check build javadoc verifyReleaseArtifacts writeReleaseChecksums
 ./gradlew prepareEclipse verifyEclipseProductionClasspath

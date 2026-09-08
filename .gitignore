@@ -19,6 +19,7 @@ out/
 build/
 .gradle/
 .gradle-home/
+.ci-dependencies/
 classes/
 
 # Machine-specific agent context (at any repository depth)
