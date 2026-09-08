@@ -345,40 +345,71 @@ tasks.named('compileJava') {
 
 def verifyPowerAdvantageIntegration = tasks.register('verifyPowerAdvantageIntegration') {
     group = 'verification'
-    description = 'Rejects reflection and verifies the lazy optional Power Advantage API boundary.'
+    description = 'Audits Power Advantage capability selection and isolates the removable legacy bridge.'
     dependsOn tasks.named('compileJava')
 
     doLast {
         File sourceFile = file(
                 'src/main/java/zone/moddev/mc/ironagefurniture/api/PowerAdvantageFluidCompat.java')
         String source = sourceFile.getText('UTF-8')
-        ['java.lang.reflect', 'Class.forName', 'getDeclaredMethod', 'getMethod(',
-         'com.mcmoddev.poweradvantage', 'zone.moddev.mc.poweradvantage'].each { String forbidden ->
+        ['getDeclaredMethod', 'com.mcmoddev.poweradvantage',
+         'zone.moddev.mc.poweradvantage'].each { String forbidden ->
             if (source.contains(forbidden)) {
-                throw new GradleException("Power Advantage compatibility still uses ${forbidden}")
+                throw new GradleException("Power Advantage compatibility contains forbidden ${forbidden}")
             }
         }
         ['cyano.poweradvantage.api.fluid.FluidNetworkApi',
          'FluidNetworkApi.offerFluid', 'Loader.isModLoaded',
-         'private static final class FluidApiBridge'].each { String required ->
+         'ModContainer', 'getSource()', 'private static final class FluidApiBridge',
+         'private static final class LegacyFluidBridge',
+         'cyano.poweradvantage.conduitnetwork.ConduitRegistry',
+         'cyano.poweradvantage.init.Fluids'].each { String required ->
             if (!source.contains(required)) {
                 throw new GradleException("Power Advantage compatibility is missing ${required}")
             }
         }
+        if (source.indexOf('return Backend.API') > source.indexOf('return Backend.LEGACY')) {
+            throw new GradleException('Power Advantage API detection must take precedence over the legacy surface')
+        }
 
         File classRoot = tasks.named('compileJava', JavaCompile).get().destinationDirectory.get().asFile
-        File outerClass = new File(classRoot,
-                'zone/moddev/mc/ironagefurniture/api/PowerAdvantageFluidCompat.class')
-        File bridgeClass = new File(classRoot,
-                'zone/moddev/mc/ironagefurniture/api/PowerAdvantageFluidCompat$FluidApiBridge.class')
-        if (!outerClass.isFile() || !bridgeClass.isFile()) {
+        File packageRoot = new File(classRoot, 'zone/moddev/mc/ironagefurniture/api')
+        File apiBridgeClass = new File(packageRoot,
+                'PowerAdvantageFluidCompat$FluidApiBridge.class')
+        File legacyBridgeClass = new File(packageRoot,
+                'PowerAdvantageFluidCompat$LegacyFluidBridge.class')
+        List<File> compatibilityClasses = (packageRoot.listFiles() ?: [] as File[]).findAll {
+            it.name.startsWith('PowerAdvantageFluidCompat') && it.name.endsWith('.class')
+        }
+        if (!new File(packageRoot, 'PowerAdvantageFluidCompat.class').isFile()
+                || !apiBridgeClass.isFile() || !legacyBridgeClass.isFile()) {
             throw new GradleException('Compiled Power Advantage compatibility classes are missing')
         }
         String apiClassName = 'cyano/poweradvantage/api/fluid/FluidNetworkApi'
-        String outerBytecode = new String(outerClass.bytes, StandardCharsets.ISO_8859_1)
-        String bridgeBytecode = new String(bridgeClass.bytes, StandardCharsets.ISO_8859_1)
-        if (outerBytecode.contains(apiClassName) || !bridgeBytecode.contains(apiClassName)) {
-            throw new GradleException('Power Advantage API reference is not isolated in the lazy bridge class')
+        String reflectionMethod = 'java/lang/reflect/Method'
+        String reflectionField = 'java/lang/reflect/Field'
+        compatibilityClasses.each { File classFile ->
+            String bytecode = new String(classFile.bytes, StandardCharsets.ISO_8859_1)
+            if (bytecode.contains(apiClassName) && classFile != apiBridgeClass) {
+                throw new GradleException("FluidNetworkApi leaked into ${classFile.name}")
+            }
+            if ((bytecode.contains(reflectionMethod) || bytecode.contains(reflectionField))
+                    && classFile != legacyBridgeClass) {
+                throw new GradleException("Compatibility reflection leaked into ${classFile.name}")
+            }
+        }
+        String apiBridgeBytecode = new String(apiBridgeClass.bytes, StandardCharsets.ISO_8859_1)
+        if (!apiBridgeBytecode.contains(apiClassName)
+                || apiBridgeBytecode.contains(reflectionMethod) || apiBridgeBytecode.contains(reflectionField)) {
+            throw new GradleException('Typed Power Advantage calls are not isolated in FluidApiBridge')
+        }
+        String legacyBridgeBytecode = new String(legacyBridgeClass.bytes, StandardCharsets.ISO_8859_1)
+        ['cyano.poweradvantage.conduitnetwork.ConduitRegistry',
+         'cyano.poweradvantage.init.Fluids', 'java/lang/Class',
+         reflectionMethod, reflectionField].each { String required ->
+            if (!legacyBridgeBytecode.contains(required)) {
+                throw new GradleException("LegacyFluidBridge is missing ${required}")
+            }
         }
     }
 }

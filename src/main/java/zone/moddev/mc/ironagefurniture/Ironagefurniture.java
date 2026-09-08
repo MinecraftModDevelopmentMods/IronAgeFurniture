@@ -9,6 +9,7 @@ import zone.moddev.mc.ironagefurniture.api.CreativeModeBreakTracker;
 import zone.moddev.mc.ironagefurniture.api.DiningTableSurfaceInteractionHandler;
 import zone.moddev.mc.ironagefurniture.api.FoudreBrewingRegistry;
 import zone.moddev.mc.ironagefurniture.api.PotStillDistillingRegistry;
+import zone.moddev.mc.ironagefurniture.api.PowerAdvantageFluidCompat;
 import zone.moddev.mc.ironagefurniture.api.InnkeeperManager;
 import zone.moddev.mc.ironagefurniture.api.network.IronAgeFurnitureNetwork;
 import zone.moddev.mc.ironagefurniture.api.drink.DrinkEffectHandler;
@@ -130,6 +131,7 @@ public class Ironagefurniture
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new BarrelGuiHandler());
     	
     	RecipeInitialiser.init();
+		PowerAdvantageFluidCompat.initialize();
     }
     
     @EventHandler

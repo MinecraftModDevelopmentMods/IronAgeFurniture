@@ -16,6 +16,10 @@ Power Advantage remains optional at runtime. Until its migrated Maven artifact c
 the build compiles against the deobfuscated development jar produced from pinned Power Advantage
 commit `88e9818b4b7011a430436b40367fb1609073875b`. Build that sibling checkout with `deobfJar`, or pass
 its exact jar as `-PpowerAdvantageDeobfJar=<path>`; the build verifies the expected API and SHA-256.
+At runtime IAF selects that typed API only when it is present in the loaded Power Advantage source.
+The published Power Advantage 2.3.0 binary surface is supported by a small, isolated legacy adapter
+until the API release is available; its CurseMaven file is used only for verification and never enters
+IAF's compile, runtime, Maven, or release artifacts.
 
 ```text
 ./gradlew clean check build javadoc verifyReleaseArtifacts writeReleaseChecksums
