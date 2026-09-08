@@ -7,6 +7,7 @@
 - Migrated the Minecraft 1.10.2 development build to ForgeGradle 7 and target-qualified MMD versioning.
 - Moved the Java API and implementation from `com.mcmoddev.ironagefurniture` to `zone.moddev.mc.ironagefurniture`, and changed the Maven group to `zone.moddev.mc`.
 - Fixed dedicated-server startup by isolating client-only item model and color registration.
+- Prefer the pinned public Power Advantage `FluidNetworkApi` for fluid-pipe integration, with a removable legacy adapter for the published Power Advantage 2.3.0 binary surface; Power Advantage remains optional at runtime.
 - Preserved compact resource generation while making release archives deterministic.
 
 ## 0.2.0.5 - Published
