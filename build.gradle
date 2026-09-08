@@ -179,6 +179,15 @@ repositories {
         }
         filter { includeGroup('mezz.jei') }
     }
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = 'CurseMaven'
+                url = 'https://cursemaven.com/'
+            }
+        }
+        filter { includeGroup('curse.maven') }
+    }
 }
 
 // Power Advantage is optional at runtime. Until its migrated Maven coordinate is
@@ -191,12 +200,96 @@ def powerAdvantageDeobfJar = providers.gradleProperty('powerAdvantageDeobfJar')
         .map { file(it) }
         .getOrElse(defaultPowerAdvantageDeobfJar)
 
+configurations {
+    legacyPowerAdvantageVerification {
+        canBeConsumed = false
+        canBeResolved = true
+        transitive = false
+    }
+}
+
 dependencies {
     implementation minecraft.dependency(
             "net.minecraftforge:forge:${project.minecraft_version}-${project.forge_version}")
     compileOnly "mezz.jei:jei_1.10.2:${project.jei_version}:api"
     compileOnly 'org.lwjgl.lwjgl:lwjgl_util:2.9.4-nightly-20150209'
     compileOnly files(powerAdvantageDeobfJar)
+    testImplementation 'junit:junit:4.13.2'
+    legacyPowerAdvantageVerification project.poweradvantage_legacy_coordinate
+}
+
+def verifyLegacyPowerAdvantageArtifact = tasks.register('verifyLegacyPowerAdvantageArtifact') {
+    group = 'verification'
+    description = 'Verifies the published Power Advantage 2.3.0 legacy compatibility surface.'
+
+    doLast {
+        File legacyJar = configurations.legacyPowerAdvantageVerification.singleFile
+        String actualHash = MessageDigest.getInstance('SHA-256')
+                .digest(legacyJar.bytes).encodeHex().toString().toUpperCase()
+        if (actualHash != project.poweradvantage_legacy_sha256) {
+            throw new GradleException("Published Power Advantage ${project.poweradvantage_legacy_version} "
+                    + "SHA-256 is ${actualHash}, expected ${project.poweradvantage_legacy_sha256}")
+        }
+
+        Map<String, List<String>> expectedClassSurface = [
+                'cyano/poweradvantage/conduitnetwork/ConduitRegistry.class': [
+                        'getInstance', 'getRequestsForPower',
+                        '(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;',
+                        'Lcyano/poweradvantage/api/ConduitType;'
+                ],
+                'cyano/poweradvantage/init/Fluids.class': [
+                        'fluidConduit_general', 'fluidToConduitType',
+                        'Lcyano/poweradvantage/api/ConduitType;',
+                        '(Lnet/minecraftforge/fluids/Fluid;)'
+                ],
+                'cyano/poweradvantage/api/PowerRequest.class': [
+                        'amount', 'priority', 'entity', 'LAST_PRIORITY',
+                        'Lcyano/poweradvantage/api/IPowerMachine;'
+                ],
+                'cyano/poweradvantage/api/IPowerMachine.class': [
+                        'addEnergy', '(FLcyano/poweradvantage/api/ConduitType;)F'
+                ],
+                'cyano/poweradvantage/api/fluid/FluidConduitBlock.class': [],
+                'cyano/poweradvantage/PowerAdvantage.class': [
+                        'poweradvantage', project.poweradvantage_legacy_version.toString(),
+                        'Lnet/minecraftforge/fml/common/Mod;'
+                ]
+        ]
+
+        new ZipFile(legacyJar).withCloseable { ZipFile zip ->
+            if (zip.getEntry('cyano/poweradvantage/api/fluid/FluidNetworkApi.class') != null) {
+                throw new GradleException('Published Power Advantage 2.3.0 unexpectedly contains FluidNetworkApi')
+            }
+            expectedClassSurface.each { String className, List<String> constants ->
+                def entry = zip.getEntry(className)
+                if (entry == null) {
+                    throw new GradleException("Published Power Advantage 2.3.0 is missing ${className}")
+                }
+                byte[] classBytes = zip.getInputStream(entry).withCloseable { it.bytes }
+                if (classBytes.length < 8
+                        || classBytes[0..3] != [(byte) 0xCA, (byte) 0xFE, (byte) 0xBA, (byte) 0xBE]) {
+                    throw new GradleException("Cannot inspect bytecode header for ${className}")
+                }
+                int major = ((classBytes[6] & 0xff) << 8) | (classBytes[7] & 0xff)
+                if (major != 52) {
+                    throw new GradleException("${className} uses class major ${major}, expected 52")
+                }
+                String constantPool = new String(classBytes, StandardCharsets.ISO_8859_1)
+                constants.each { String required ->
+                    if (!constantPool.contains(required)) {
+                        throw new GradleException("${className} is missing binary surface ${required}")
+                    }
+                }
+            }
+        }
+
+        Set<File> forbiddenClasspaths = [] as Set<File>
+        forbiddenClasspaths.addAll(configurations.compileClasspath.files.collect { it.canonicalFile })
+        forbiddenClasspaths.addAll(configurations.runtimeClasspath.files.collect { it.canonicalFile })
+        if (forbiddenClasspaths.contains(legacyJar.canonicalFile)) {
+            throw new GradleException('Legacy Power Advantage verification jar leaked onto a production classpath')
+        }
+    }
 }
 
 def verifyPowerAdvantageApiDependency = tasks.register('verifyPowerAdvantageApiDependency') {
@@ -799,6 +892,16 @@ tasks.register('verifyVersionMetadata') {
                         'PowerAdvantage-2.4.3.110021-deobf.jar',
                 poweradvantage_deobf_sha256:
                         '316262B51DDF4BD4258E19CC45221959E20133855B37E2367686F752A48C07C5',
+                poweradvantage_legacy_version:
+                        '2.3.0',
+                poweradvantage_legacy_curse_project_id:
+                        '240982',
+                poweradvantage_legacy_curse_file_id:
+                        '2323095',
+                poweradvantage_legacy_coordinate:
+                        'curse.maven:power-advantage-240982:2323095',
+                poweradvantage_legacy_sha256:
+                        '47CD509C1141095BFE1C8C7DD689C2ECD3F99C89195E34A88CC9E0B5FC12413E',
                 orespawn_version       : '4.0.8.110021',
                 orespawn_source_repository:
                         'MinecraftModDevelopmentMods/OreSpawn',
@@ -891,6 +994,7 @@ tasks.register('verifyWorkflowPins') {
 tasks.named('check') {
     dependsOn tasks.named('verifyBuildEnvironment')
     dependsOn verifyPowerAdvantageApiDependency
+    dependsOn verifyLegacyPowerAdvantageArtifact
     dependsOn verifyPowerAdvantageIntegration
     dependsOn tasks.named('verifyRepositoryHygiene')
     dependsOn tasks.named('verifyResourceJson')
@@ -909,6 +1013,7 @@ tasks.register('verifyReleaseArtifacts') {
     dependsOn tasks.named('verifyNamespace')
     dependsOn tasks.named('verifyVersionMetadata')
     dependsOn verifyPowerAdvantageApiDependency
+    dependsOn verifyLegacyPowerAdvantageArtifact
     dependsOn verifyPowerAdvantageIntegration
 
     doLast {
