@@ -10,6 +10,8 @@ The current development version is `0.3.0.110021`. This Phase 3 candidate is unr
 
 The project uses ForgeGradle 7.0.34 and Gradle 9.6.1. Run Gradle itself on Java 17; the build compiles Java 8 bytecode with a Java 8 toolchain.
 
+The maintained Java package is `zone.moddev.mc.ironagefurniture`, and the Maven coordinate for this candidate is `zone.moddev.mc:iron-age-furniture:0.3.0.110021`.
+
 ```text
 ./gradlew clean check build javadoc verifyReleaseArtifacts writeReleaseChecksums
 ./gradlew prepareEclipse verifyEclipseProductionClasspath

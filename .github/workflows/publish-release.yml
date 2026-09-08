@@ -101,7 +101,7 @@ jobs:
             exit 1
           fi
           if [[ "$curseforge_project_id" != '341834' \
-              || "$mod_group:$archive_name" != 'com.mcmoddev.ironagefurniture:iron-age-furniture' ]]; then
+              || "$mod_group:$archive_name" != 'zone.moddev.mc:iron-age-furniture' ]]; then
             echo 'Publication identity is inconsistent.' >&2
             exit 1
           fi

@@ -11,4 +11,6 @@ Iron Age Furniture uses the MMD four-component version form:
 
 For Minecraft 1.10.2 on Forge, the target is `110021`, so this candidate is `0.3.0.110021`.
 
+The maintained Java package is `zone.moddev.mc.ironagefurniture`. Maven publications use group `zone.moddev.mc`, giving this candidate the coordinate `zone.moddev.mc:iron-age-furniture:0.3.0.110021`. The persistent mod and resource namespace remains `ironagefurniture`.
+
 The build validates that the fourth component matches `minecraft_version` and `loader_code` in `gradle.properties`. `gradle.properties` is authoritative for release and target metadata; source code, `mcmod.info`, the manifest, README, and changelog must agree with it.

@@ -610,6 +610,42 @@ tasks.register('verifyResourceJson') {
     }
 }
 
+tasks.register('verifyNamespace') {
+    group = 'verification'
+    description = 'Requires the maintained zone.moddev.mc namespace and rejects legacy IronAgeFurniture packages.'
+    doLast {
+        String legacyPackage = 'com.mcmoddev.ironagefurniture'
+        String maintainedPackage = 'zone.moddev.mc.ironagefurniture'
+        String legacyPath = "src/main/java/${legacyPackage.replace('.', '/')}/"
+        String maintainedPath = "src/main/java/${maintainedPackage.replace('.', '/')}/"
+        List<File> sources = fileTree('src/main/java') { include '**/*.java' }.files.sort { it.path }
+        if (sources.isEmpty()) {
+            throw new GradleException('No Java sources were found for namespace validation')
+        }
+
+        sources.each { File sourceFile ->
+            String relativePath = project.relativePath(sourceFile).replace('\\', '/')
+            String contents = sourceFile.getText('UTF-8')
+            if (!relativePath.startsWith(maintainedPath)) {
+                throw new GradleException("Java source is outside the maintained namespace: ${relativePath}")
+            }
+            if (relativePath.startsWith(legacyPath) || contents.contains(legacyPackage)) {
+                throw new GradleException("Legacy IronAgeFurniture namespace remains in ${relativePath}")
+            }
+
+            def packageMatch = contents =~ /(?m)^package\s+([^;]+);/
+            if (!packageMatch.find()) {
+                throw new GradleException("Java source has no package declaration: ${relativePath}")
+            }
+            String expectedPackage = relativePath.substring('src/main/java/'.length(), relativePath.lastIndexOf('/'))
+                    .replace('/', '.')
+            if (packageMatch.group(1) != expectedPackage) {
+                throw new GradleException("Package/path mismatch in ${relativePath}: ${packageMatch.group(1)}")
+            }
+        }
+    }
+}
+
 tasks.register('verifyVersionMetadata') {
     group = 'verification'
     description = 'Checks the authoritative version, target metadata, update feed, and generated mcmod.info.'
@@ -626,7 +662,7 @@ tasks.register('verifyVersionMetadata') {
                 java_version           : '8',
                 java_toolchain_version : '8.0.502+7',
                 gradle_java_version    : '17',
-                mod_group              : 'com.mcmoddev.ironagefurniture',
+                mod_group              : 'zone.moddev.mc',
                 mod_archive_name       : 'iron-age-furniture',
                 curseforge_project_id  : '341834'
         ]
@@ -641,7 +677,7 @@ tasks.register('verifyVersionMetadata') {
             throw new GradleException('Resolved Maven coordinates do not match gradle.properties')
         }
 
-        String source = file('src/main/java/com/mcmoddev/ironagefurniture/Ironagefurniture.java')
+        String source = file('src/main/java/zone/moddev/mc/ironagefurniture/Ironagefurniture.java')
                 .getText('UTF-8')
         if (!source.contains("VERSION = \"${project.version}\"")) {
             throw new GradleException('Java VERSION constant is not synchronized')
@@ -672,7 +708,7 @@ tasks.register('verifyDedicatedServerBoundaries') {
     description = 'Keeps common item registration free of client-only Minecraft and Forge types.'
     doLast {
         String commonInitializer = file(
-                'src/main/java/com/mcmoddev/ironagefurniture/init/ItemInitialiser.java').getText('UTF-8')
+                'src/main/java/zone/moddev/mc/ironagefurniture/init/ItemInitialiser.java').getText('UTF-8')
         ['net.minecraft.client.', 'net.minecraftforge.client.', 'ItemMeshDefinition', 'ModelLoader']
                 .each { String forbidden ->
                     if (commonInitializer.contains(forbidden)) {
@@ -680,7 +716,7 @@ tasks.register('verifyDedicatedServerBoundaries') {
                     }
                 }
         String clientInitializer = file(
-                'src/main/java/com/mcmoddev/ironagefurniture/init/ClientItemInitialiser.java').getText('UTF-8')
+                'src/main/java/zone/moddev/mc/ironagefurniture/init/ClientItemInitialiser.java').getText('UTF-8')
         if (!clientInitializer.contains('@SideOnly(Side.CLIENT)')) {
             throw new GradleException('ClientItemInitialiser must remain explicitly client-only')
         }
@@ -713,6 +749,7 @@ tasks.named('check') {
     dependsOn tasks.named('verifyBuildEnvironment')
     dependsOn tasks.named('verifyRepositoryHygiene')
     dependsOn tasks.named('verifyResourceJson')
+    dependsOn tasks.named('verifyNamespace')
     dependsOn tasks.named('verifyVersionMetadata')
     dependsOn tasks.named('verifyWorkflowPins')
     dependsOn tasks.named('verifyDedicatedServerBoundaries')
@@ -724,6 +761,7 @@ tasks.register('verifyReleaseArtifacts') {
     dependsOn tasks.named('assemble')
     dependsOn tasks.named('verifyRepositoryHygiene')
     dependsOn tasks.named('verifyResourceJson')
+    dependsOn tasks.named('verifyNamespace')
     dependsOn tasks.named('verifyVersionMetadata')
 
     doLast {
@@ -747,6 +785,9 @@ tasks.register('verifyReleaseArtifacts') {
         jars.each { File candidate ->
             new ZipFile(candidate).withCloseable { ZipFile zip ->
                 List<String> names = zip.entries().collect { it.name }
+                if (names.any { it.startsWith('com/mcmoddev/ironagefurniture/') }) {
+                    throw new GradleException("${candidate.name} contains the legacy IronAgeFurniture namespace")
+                }
                 forbiddenEntries.each { String forbidden ->
                     if (names.any { it.contains(forbidden) }) {
                         throw new GradleException("${candidate.name} contains forbidden entry matching ${forbidden}")
@@ -766,7 +807,7 @@ tasks.register('verifyReleaseArtifacts') {
 
         File mainJar = new File(libs, expectedReleaseFiles.get()[0])
         new ZipFile(mainJar).withCloseable { ZipFile zip ->
-            ['mcmod.info', 'com/mcmoddev/ironagefurniture/Ironagefurniture.class'].each { required ->
+            ['mcmod.info', 'zone/moddev/mc/ironagefurniture/Ironagefurniture.class'].each { required ->
                 if (zip.getEntry(required) == null) {
                     throw new GradleException("Release jar is missing ${required}")
                 }
@@ -807,7 +848,7 @@ tasks.register('verifyReleaseArtifacts') {
         }
 
         new ZipFile(new File(libs, expectedReleaseFiles.get()[1])).withCloseable { ZipFile zip ->
-            if (zip.getEntry('com/mcmoddev/ironagefurniture/Ironagefurniture.java') == null) {
+            if (zip.getEntry('zone/moddev/mc/ironagefurniture/Ironagefurniture.java') == null) {
                 throw new GradleException('Sources jar is missing Ironagefurniture.java')
             }
         }
