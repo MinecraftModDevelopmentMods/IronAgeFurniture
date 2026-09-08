@@ -199,6 +199,11 @@ def defaultPowerAdvantageDeobfJar = file("../../../PowerAdvantage/PA110/PowerAdv
 def powerAdvantageDeobfJar = providers.gradleProperty('powerAdvantageDeobfJar')
         .map { file(it) }
         .getOrElse(defaultPowerAdvantageDeobfJar)
+def defaultOreSpawnDeobfJar = file("../../../MinecraftMineralogy/OS110/OreSpawn/build/libs-dev/" \
+        + project.orespawn_deobf_jar)
+def oreSpawnDeobfJar = providers.gradleProperty('oreSpawnDeobfJar')
+        .map { file(it) }
+        .getOrElse(defaultOreSpawnDeobfJar)
 
 configurations {
     legacyPowerAdvantageVerification {
@@ -335,6 +340,45 @@ def verifyPowerAdvantageApiDependency = tasks.register('verifyPowerAdvantageApiD
                     || !workflow.contains('ref: ' + project.orespawn_source_commit)) {
                 throw new GradleException("${workflowPath} does not build the pinned Power Advantage dependency chain")
             }
+        }
+    }
+}
+
+def verifyEclipsePowerAdvantageRuntime = tasks.register('verifyEclipsePowerAdvantageRuntime') {
+    group = 'verification'
+    description = 'Verifies the pinned Power Advantage and OreSpawn Eclipse runtime inputs.'
+    dependsOn verifyPowerAdvantageApiDependency
+    inputs.file(oreSpawnDeobfJar).withPropertyName('oreSpawnDeobfJar').optional()
+
+    doLast {
+        if (!oreSpawnDeobfJar.isFile()) {
+            throw new GradleException("Missing OreSpawn deobf jar: ${oreSpawnDeobfJar}. "
+                    + "Build ${project.orespawn_source_repository}@${project.orespawn_source_commit} "
+                    + "with deobfJar, or pass -PoreSpawnDeobfJar=<path>.")
+        }
+
+        String actualHash = MessageDigest.getInstance('SHA-256')
+                .digest(oreSpawnDeobfJar.bytes).encodeHex().toString().toUpperCase()
+        if (actualHash != project.orespawn_deobf_sha256) {
+            throw new GradleException("OreSpawn deobf jar SHA-256 is ${actualHash}, expected "
+                    + project.orespawn_deobf_sha256)
+        }
+
+        new ZipFile(oreSpawnDeobfJar).withCloseable { ZipFile zip ->
+            ['com/mcmoddev/orespawn/OreSpawn.class',
+             'zone/moddev/mc/orespawn/api/OreSpawnApi.class',
+             'zone/moddev/mc/orespawn/api/WorldgenProvider.class',
+             'mcmod.info'].each { String required ->
+                if (zip.getEntry(required) == null) {
+                    throw new GradleException("OreSpawn deobf jar is missing ${required}")
+                }
+            }
+        }
+
+        Set<File> runtimeFiles = configurations.runtimeClasspath.files.collect { it.canonicalFile } as Set<File>
+        if (runtimeFiles.contains(powerAdvantageDeobfJar.canonicalFile)
+                || runtimeFiles.contains(oreSpawnDeobfJar.canonicalFile)) {
+            throw new GradleException('Optional compatibility jars leaked onto runtimeClasspath')
         }
     }
 }
@@ -584,6 +628,39 @@ def quoteSlimeLauncherPathArguments = { String contents ->
     contents
 }
 
+def eclipseXmlEscape = { String value ->
+    value.replace('&', '&amp;')
+            .replace('"', '&quot;')
+            .replace('<', '&lt;')
+            .replace('>', '&gt;')
+}
+
+def eclipseArchiveLaunchEntry = { File archive ->
+    String memento = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' \
+            + '<runtimeClasspathEntry externalArchive="' + archive.canonicalPath \
+            + '" type="2" path="5" />'
+    '    <listEntry value="' + eclipseXmlEscape(memento) + '"/>'
+}
+
+def replaceBuildshipLaunchClasspath = { String contents, Collection<File> archives ->
+    List<String> lines = contents.replace('\r\n', '\n').split('\n', -1) as List<String>
+    List<Integer> buildshipLines = (0..<lines.size()).findAll {
+        lines[it].contains('org.eclipse.buildship.core.gradleclasspathcontainer')
+    }
+    if (buildshipLines.size() != 1) {
+        throw new GradleException("Expected one Buildship launch classpath entry, found ${buildshipLines.size()}")
+    }
+    List<File> uniqueArchives = archives.collect { it.canonicalFile }
+            .unique { File archive -> archive.path.toLowerCase(Locale.ROOT) }
+            .sort { File left, File right -> left.path.compareToIgnoreCase(right.path) }
+    List<File> missingArchives = uniqueArchives.findAll { !it.isFile() }
+    if (!missingArchives.isEmpty()) {
+        throw new GradleException("Eclipse launch archives are missing: ${missingArchives}")
+    }
+    lines[buildshipLines[0]] = uniqueArchives.collect(eclipseArchiveLaunchEntry).join('\n')
+    lines.join('\n')
+}
+
 eclipse {
     project {
         buildCommand 'org.eclipse.buildship.core.gradleprojectbuilder'
@@ -640,9 +717,10 @@ tasks.register('configureEclipseBuildship') {
 
 tasks.register('isolateEclipseProductionRuns') {
     group = 'ide'
-    description = 'Generates FG7 Eclipse runs, removes exact FG2 launches, and excludes tests.'
+    description = 'Generates runtime-isolated FG7 Eclipse runs and optional Power Advantage profiles.'
     dependsOn tasks.named('genEclipseRuns')
     dependsOn tasks.named('configureEclipseBuildship')
+    dependsOn verifyEclipsePowerAdvantageRuntime
 
     doLast {
         obsoleteForgeGradle2EclipseLaunches.each { String name, String mainClass ->
@@ -675,6 +753,7 @@ tasks.register('isolateEclipseProductionRuns') {
         if (runLaunches.size() < 2) {
             throw new GradleException('ForgeGradle did not generate ordinary client/server Eclipse launches')
         }
+        List<File> runtimeArchives = configurations.runtimeClasspath.files as List<File>
         runLaunches.each { File launch ->
             String contents = launch.getText('UTF-8')
             if (!contents.contains('org.eclipse.jdt.launching.ATTR_EXCLUDE_TEST_CODE')) {
@@ -683,7 +762,14 @@ tasks.register('isolateEclipseProductionRuns') {
                         '  <booleanAttribute key="org.eclipse.jdt.launching.ATTR_EXCLUDE_TEST_CODE" value="true"/>'
                 contents = contents.replace(marker, attribute + '\n' + marker)
             }
-            launch.setText(contents.replace('\r\n', '\n'), 'UTF-8')
+            String isolatedContents = replaceBuildshipLaunchClasspath(contents, runtimeArchives)
+            launch.setText(isolatedContents.replace('\r\n', '\n'), 'UTF-8')
+
+            String compatibilityName = launch.name.replace('.launch', 'PowerAdvantage.launch')
+            File compatibilityLaunch = new File(launch.parentFile, compatibilityName)
+            String compatibilityContents = replaceBuildshipLaunchClasspath(contents,
+                    runtimeArchives + [powerAdvantageDeobfJar, oreSpawnDeobfJar])
+            compatibilityLaunch.setText(compatibilityContents.replace('\r\n', '\n'), 'UTF-8')
         }
     }
 }
@@ -728,19 +814,50 @@ tasks.register('verifyEclipseProductionClasspath') {
         }
         List<File> launchFiles = [
                 file('runClient.launch'), file('runServer.launch'),
-                file('.eclipse/runClient.launch'), file('.eclipse/runServer.launch')
+                file('runClientPowerAdvantage.launch'), file('runServerPowerAdvantage.launch'),
+                file('.eclipse/runClient.launch'), file('.eclipse/runServer.launch'),
+                file('.eclipse/runClientPowerAdvantage.launch'),
+                file('.eclipse/runServerPowerAdvantage.launch')
         ].findAll { it.isFile() }
-        if (launchFiles.size() < 2 || launchFiles.any {
+        if (launchFiles.size() < 4 || launchFiles.any {
                 String text = it.getText('UTF-8')
                 !text.contains('org.eclipse.jdt.launching.ATTR_EXCLUDE_TEST_CODE')
                         || !text.contains('value="true"')
         }) {
             throw new GradleException('Generated Eclipse launches do not consistently exclude test code')
         }
+        List<File> ordinaryLaunchFiles = launchFiles.findAll {
+            !it.name.contains('PowerAdvantage')
+        }
+        List<File> compatibilityLaunchFiles = launchFiles.findAll {
+            it.name.contains('PowerAdvantage')
+        }
+        if (ordinaryLaunchFiles.size() < 2 || compatibilityLaunchFiles.size() < 2) {
+            throw new GradleException('Eclipse ordinary and Power Advantage launch profiles are incomplete')
+        }
+        ordinaryLaunchFiles.each { File launch ->
+            String text = launch.getText('UTF-8')
+            if (text.contains('org.eclipse.buildship.core.gradleclasspathcontainer')
+                    || text.contains(powerAdvantageDeobfJar.canonicalPath)
+                    || text.contains(oreSpawnDeobfJar.canonicalPath)) {
+                throw new GradleException("${launch.name} contains a compile-only compatibility dependency")
+            }
+        }
+        compatibilityLaunchFiles.each { File launch ->
+            String text = launch.getText('UTF-8')
+            if (text.contains('org.eclipse.buildship.core.gradleclasspathcontainer')
+                    || !text.contains(powerAdvantageDeobfJar.canonicalPath)
+                    || !text.contains(oreSpawnDeobfJar.canonicalPath)) {
+                throw new GradleException("${launch.name} does not contain the isolated compatibility runtime")
+            }
+        }
         List<File> allLaunchFiles = [
                 file('runClient.launch'), file('runServer.launch'),
+                file('runClientPowerAdvantage.launch'), file('runServerPowerAdvantage.launch'),
                 file('runTestClient.launch'), file('runTestServer.launch'),
                 file('.eclipse/runClient.launch'), file('.eclipse/runServer.launch'),
+                file('.eclipse/runClientPowerAdvantage.launch'),
+                file('.eclipse/runServerPowerAdvantage.launch'),
                 file('.eclipse/runTestClient.launch'), file('.eclipse/runTestServer.launch')
         ].findAll { it.isFile() }
         allLaunchFiles.each { File launch ->
@@ -939,6 +1056,8 @@ tasks.register('verifyVersionMetadata') {
                 orespawn_source_commit:
                         '5a50df1158e948c8db55814e819090b34c12d765',
                 orespawn_deobf_jar     : 'OreSpawn-4.0.8.110021-deobf.jar',
+                orespawn_deobf_sha256  :
+                        '33BFB8C9D626D071147A0952A74B633F0BCC6A27E0408B4524370F4833B003C2',
                 mod_group              : 'zone.moddev.mc',
                 mod_archive_name       : 'iron-age-furniture',
                 curseforge_project_id  : '341834'

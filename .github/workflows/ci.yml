@@ -79,6 +79,7 @@ jobs:
           poweradvantage_jar="$poweradvantage/build/libs-dev/PowerAdvantage-2.4.3.110021-deobf.jar"
           test -f "$poweradvantage_jar"
           echo "jar=$poweradvantage_jar" >> "$GITHUB_OUTPUT"
+          echo "orespawn_jar=$orespawn_jar" >> "$GITHUB_OUTPUT"
 
       - name: Build, check, document, and audit
         run: |
@@ -86,6 +87,7 @@ jobs:
           ./gradlew clean check build javadoc verifyReleaseArtifacts verifyReleaseChecksums \
             verifyEclipseProductionClasspath --no-daemon --stacktrace \
             -PpowerAdvantageDeobfJar="${{ steps.poweradvantage.outputs.jar }}" \
+            -PoreSpawnDeobfJar="${{ steps.poweradvantage.outputs.orespawn_jar }}" \
             -Dorg.gradle.java.installations.paths="$JAVA_HOME_25_X64,$JAVA_HOME_8_X64,$JAVA_HOME" \
             -Dorg.gradle.java.installations.auto-detect=false \
             -Dorg.gradle.java.installations.auto-download=false

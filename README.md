@@ -21,6 +21,13 @@ The published Power Advantage 2.3.0 binary surface is supported by a small, isol
 until the API release is available; its CurseMaven file is used only for verification and never enters
 IAF's compile, runtime, Maven, or release artifacts.
 
+`prepareEclipse` generates isolated launch profiles. `runClient` and `runServer` use the real Gradle
+runtime classpath, so the compile-only Power Advantage jar is not discovered as a mod. The additional
+`runClientPowerAdvantage` and `runServerPowerAdvantage` profiles add the pinned Power Advantage and
+OreSpawn development jars for integration work. Build the pinned sibling checkouts with `deobfJar`,
+or pass their exact locations with `-PpowerAdvantageDeobfJar=<path>` and
+`-PoreSpawnDeobfJar=<path>`; both jars are verified by SHA-256 before the profiles are generated.
+
 ```text
 ./gradlew clean check build javadoc verifyReleaseArtifacts writeReleaseChecksums
 ./gradlew prepareEclipse verifyEclipseProductionClasspath
