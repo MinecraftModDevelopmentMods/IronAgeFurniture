@@ -250,6 +250,46 @@ tasks.named('compileJava') {
     dependsOn verifyPowerAdvantageApiDependency
 }
 
+def verifyPowerAdvantageIntegration = tasks.register('verifyPowerAdvantageIntegration') {
+    group = 'verification'
+    description = 'Rejects reflection and verifies the lazy optional Power Advantage API boundary.'
+    dependsOn tasks.named('compileJava')
+
+    doLast {
+        File sourceFile = file(
+                'src/main/java/zone/moddev/mc/ironagefurniture/api/PowerAdvantageFluidCompat.java')
+        String source = sourceFile.getText('UTF-8')
+        ['java.lang.reflect', 'Class.forName', 'getDeclaredMethod', 'getMethod(',
+         'com.mcmoddev.poweradvantage', 'zone.moddev.mc.poweradvantage'].each { String forbidden ->
+            if (source.contains(forbidden)) {
+                throw new GradleException("Power Advantage compatibility still uses ${forbidden}")
+            }
+        }
+        ['cyano.poweradvantage.api.fluid.FluidNetworkApi',
+         'FluidNetworkApi.offerFluid', 'Loader.isModLoaded',
+         'private static final class FluidApiBridge'].each { String required ->
+            if (!source.contains(required)) {
+                throw new GradleException("Power Advantage compatibility is missing ${required}")
+            }
+        }
+
+        File classRoot = tasks.named('compileJava', JavaCompile).get().destinationDirectory.get().asFile
+        File outerClass = new File(classRoot,
+                'zone/moddev/mc/ironagefurniture/api/PowerAdvantageFluidCompat.class')
+        File bridgeClass = new File(classRoot,
+                'zone/moddev/mc/ironagefurniture/api/PowerAdvantageFluidCompat$FluidApiBridge.class')
+        if (!outerClass.isFile() || !bridgeClass.isFile()) {
+            throw new GradleException('Compiled Power Advantage compatibility classes are missing')
+        }
+        String apiClassName = 'cyano/poweradvantage/api/fluid/FluidNetworkApi'
+        String outerBytecode = new String(outerClass.bytes, StandardCharsets.ISO_8859_1)
+        String bridgeBytecode = new String(bridgeClass.bytes, StandardCharsets.ISO_8859_1)
+        if (outerBytecode.contains(apiClassName) || !bridgeBytecode.contains(apiClassName)) {
+            throw new GradleException('Power Advantage API reference is not isolated in the lazy bridge class')
+        }
+    }
+}
+
 tasks.named('processResources', ProcessResources) {
     filteringCharset = 'UTF-8'
     inputs.property('version', project.version)
@@ -851,6 +891,7 @@ tasks.register('verifyWorkflowPins') {
 tasks.named('check') {
     dependsOn tasks.named('verifyBuildEnvironment')
     dependsOn verifyPowerAdvantageApiDependency
+    dependsOn verifyPowerAdvantageIntegration
     dependsOn tasks.named('verifyRepositoryHygiene')
     dependsOn tasks.named('verifyResourceJson')
     dependsOn tasks.named('verifyNamespace')
@@ -868,6 +909,7 @@ tasks.register('verifyReleaseArtifacts') {
     dependsOn tasks.named('verifyNamespace')
     dependsOn tasks.named('verifyVersionMetadata')
     dependsOn verifyPowerAdvantageApiDependency
+    dependsOn verifyPowerAdvantageIntegration
 
     doLast {
         File libs = layout.buildDirectory.dir('libs').get().asFile
