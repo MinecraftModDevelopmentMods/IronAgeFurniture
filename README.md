@@ -27,6 +27,8 @@ runtime classpath, so the compile-only Power Advantage jar is not discovered as 
 OreSpawn development jars for integration work. Build the pinned sibling checkouts with `deobfJar`,
 or pass their exact locations with `-PpowerAdvantageDeobfJar=<path>` and
 `-PoreSpawnDeobfJar=<path>`; both jars are verified by SHA-256 before the profiles are generated.
+Local builds prefer pinned checkouts under the ignored `.ci-dependencies` directory, then fall back
+to the sibling repositories, so an actively developed sibling cannot silently replace a pinned jar.
 
 ```text
 ./gradlew clean check build javadoc verifyReleaseArtifacts writeReleaseChecksums

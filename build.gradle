@@ -194,13 +194,21 @@ repositories {
 // publishable, compile against the reproducible deobf jar built from the pinned
 // GitHub source commit. The property override keeps CI and alternate workspaces
 // independent of this checkout's sibling-directory layout.
-def defaultPowerAdvantageDeobfJar = file("../../../PowerAdvantage/PA110/PowerAdvantage/build/libs-dev/" \
+def cachedPowerAdvantageDeobfJar = file(".ci-dependencies/PowerAdvantage/build/libs-dev/" \
         + project.poweradvantage_deobf_jar)
+def siblingPowerAdvantageDeobfJar = file("../../../PowerAdvantage/PA110/PowerAdvantage/build/libs-dev/" \
+        + project.poweradvantage_deobf_jar)
+def defaultPowerAdvantageDeobfJar = cachedPowerAdvantageDeobfJar.isFile()
+        ? cachedPowerAdvantageDeobfJar : siblingPowerAdvantageDeobfJar
 def powerAdvantageDeobfJar = providers.gradleProperty('powerAdvantageDeobfJar')
         .map { file(it) }
         .getOrElse(defaultPowerAdvantageDeobfJar)
-def defaultOreSpawnDeobfJar = file("../../../MinecraftMineralogy/OS110/OreSpawn/build/libs-dev/" \
+def cachedOreSpawnDeobfJar = file(".ci-dependencies/OreSpawn/build/libs-dev/" \
         + project.orespawn_deobf_jar)
+def siblingOreSpawnDeobfJar = file("../../../MinecraftMineralogy/OS110/OreSpawn/build/libs-dev/" \
+        + project.orespawn_deobf_jar)
+def defaultOreSpawnDeobfJar = cachedOreSpawnDeobfJar.isFile()
+        ? cachedOreSpawnDeobfJar : siblingOreSpawnDeobfJar
 def oreSpawnDeobfJar = providers.gradleProperty('oreSpawnDeobfJar')
         .map { file(it) }
         .getOrElse(defaultOreSpawnDeobfJar)
