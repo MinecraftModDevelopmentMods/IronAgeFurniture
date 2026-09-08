@@ -559,30 +559,56 @@ def parseUtf8Json = { File jsonFile ->
 
 tasks.register('verifyRepositoryHygiene') {
     group = 'verification'
-    description = 'Rejects tracked build outputs, IDE state, launch profiles, and secret material.'
+    description = 'Rejects tracked agent context, generated output, IDE state, secrets, and machine paths.'
     doLast {
         byte[] trackedBytes = providers.exec {
             commandLine 'git', 'ls-files', '-z'
         }.standardOutput.asBytes.get()
         List<String> tracked = new String(trackedBytes, StandardCharsets.UTF_8)
                 .split('\u0000').findAll { !it.isEmpty() }
+        Set<String> forbiddenDirectories = [
+                '.agent', '.agents', '.claude', '.codex', '.eclipse', '.gemini', '.gradle',
+                '.gradle-home', '.idea', '.okhttpcache', '.settings', 'agent-notes', 'benchmark',
+                'bin', 'build', 'classes', 'crash-reports', 'eclipse', 'evidence', 'logs',
+                'mcmodsrepo', 'out', 'regression', 'reports', 'run', 'run-data', 'test-output',
+                'test-results'
+        ] as Set<String>
+        Set<String> forbiddenFiles = [
+                '.classpath', '.project', 'agent.md', 'agents.md', 'claude.md', 'gemini.md',
+                'local.properties', 'secret.json', 'forgegradle-2.2.2.jar'
+        ] as Set<String>
         List<String> forbidden = tracked.findAll { String path ->
-            path == '.classpath' || path == '.project' || path.endsWith('.launch')
-                    || path.startsWith('.settings/') || path.startsWith('.gradle/')
-                    || path.startsWith('build/') || path.startsWith('bin/')
-                    || path.startsWith('run/') || path.startsWith('run-data/')
-                    || path == 'secret.json' || path.endsWith('.keystore')
-                    || path.endsWith('.jks') || path.endsWith('.p12')
+            List<String> segments = path.tokenize('/')
+            String fileName = segments.last().toLowerCase(Locale.ROOT)
+            List<String> parentSegments = segments.size() > 1 ? segments[0..-2] : []
+            boolean forbiddenParent = parentSegments.any { String segment ->
+                String name = segment.toLowerCase(Locale.ROOT)
+                forbiddenDirectories.contains(name) || name.startsWith('.metadata')
+                        || name.startsWith('run-') || name.startsWith('benchmark-')
+                        || name.startsWith('regression-') || name.startsWith('evidence-')
+                        || name.endsWith('-evidence')
+            }
+            forbiddenParent || forbiddenFiles.contains(fileName)
+                    || fileName ==~ /(?:agent|codex)-.*\.md/
+                    || ['.launch', '.keystore', '.jks', '.p12', '.jfr', '.hprof', '.log']
+                            .any { fileName.endsWith(it) }
         }
         if (!forbidden.isEmpty()) {
-            throw new GradleException("Tracked generated or secret files: ${forbidden}")
+            throw new GradleException("Tracked agent, generated, IDE, obsolete, or secret files: ${forbidden}")
         }
 
-        tracked.findAll { it.endsWith('.classpath') || it.endsWith('.launch') || it.endsWith('.prefs') }
+        Set<String> repositoryTextSuffixes = (archiveTextSuffixes + [
+                '.bat', '.gradle', '.sh', '.toml', '.yaml', '.yml'
+        ]) as Set<String>
+        tracked.findAll { String path ->
+            String fileName = new File(path).name
+            repositoryTextSuffixes.any { fileName.endsWith(it) }
+                    || ['.gitattributes', '.gitignore', 'gradlew'].contains(fileName)
+        }
                 .each { String path ->
                     String contents = file(path).getText('UTF-8')
-                    if (contents ==~ /(?s).*[A-Za-z]:[\\\/](Users|Program Files)[\\\/].*/) {
-                        throw new GradleException("Tracked IDE file contains an absolute machine path: ${path}")
+                    if (contents ==~ /(?s).*(?:[A-Za-z]:[\\\/](?:Users|Program Files)[\\\/]|\/home\/[^\/]+\/).*/) {
+                        throw new GradleException("Tracked text file contains an absolute machine path: ${path}")
                     }
                 }
     }
