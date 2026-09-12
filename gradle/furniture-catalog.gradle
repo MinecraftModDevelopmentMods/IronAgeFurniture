@@ -1,0 +1,271 @@
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
+
+def furnitureCatalogFile = layout.projectDirectory.file('gradle/furniture-catalog.json')
+def furnitureTemplateDirectory = layout.projectDirectory.dir('gradle/furniture-templates')
+def furnitureResourceDirectories = [
+        'assets/ironagefurniture/blockstates',
+        'assets/ironagefurniture/models/block',
+        'assets/ironagefurniture/models/item',
+        'data/ironagefurniture/recipes',
+        'data/ironagefurniture/advancements/recipes/chairs'
+]
+def furnitureJavaClasses = [
+        ModVanillaChairs          : 'Chair',
+        ModVanillaShieldChairs    : 'Chair',
+        ModVanillaStools          : 'Stool',
+        ModVanillaTallStools      : 'TallStool',
+        ModVanillaBench           : 'Bench',
+        ModVanillaBackBench       : 'BackBench',
+        ModVanillaLogBench        : 'LogBench',
+        ModVanillaPaddedBench     : 'Bench',
+        ModVanillaPaddedBackBench : 'BackBench'
+]
+
+def normalizeFurniturePath = { String path -> path.replace('\\', '/') }
+def readFurnitureCatalog = {
+    def parsed = new JsonSlurper().parse(furnitureCatalogFile.asFile)
+    if (parsed.schema != 1) {
+        throw new GradleException("Unsupported furniture catalog schema: ${parsed.schema}")
+    }
+    parsed
+}
+def renderFurnitureText = { String template, Map<String, ?> values ->
+    String rendered = template
+    values.each { key, value -> rendered = rendered.replace("{{${key}}}", value.toString()) }
+    if (rendered.contains('{{')) {
+        throw new GradleException("Unresolved furniture template token in: ${rendered.take(160)}")
+    }
+    rendered.replace('\r\n', '\n')
+}
+def writeFurnitureFile = { File root, String relative, String text, Set<String> generated ->
+    String normalized = normalizeFurniturePath(relative)
+    File output = new File(root, normalized)
+    output.parentFile.mkdirs()
+    output.setText(text.replace('\r\n', '\n'), 'UTF-8')
+    generated.add(normalized)
+}
+def mappedFurnitureResourcePath = { String relative, def catalog ->
+    if (catalog.dataLayout == 'singular') {
+        return relative
+                .replace('data/ironagefurniture/recipes/', 'data/ironagefurniture/recipe/')
+                .replace('data/ironagefurniture/advancements/', 'data/ironagefurniture/advancement/')
+    }
+    relative
+}
+
+def renderFurnitureCatalog = { File outputRoot ->
+    def catalog = readFurnitureCatalog()
+    Set<String> generated = new TreeSet<>()
+    File templates = furnitureTemplateDirectory.asFile
+
+    File vanillaTemplates = new File(templates, 'vanilla')
+    vanillaTemplates.eachFileRecurse { File template ->
+        if (!template.isFile()) return
+        String relativeTemplate = normalizeFurniturePath(vanillaTemplates.toPath().relativize(template.toPath()).toString())
+        String source = template.getText('UTF-8')
+        catalog.vanilla.each { wood ->
+            Map<String, ?> values = [
+                    wood    : wood.wood,
+                    display : wood.display,
+                    log     : wood.log,
+                    logTop  : wood.logTop,
+                    planks  : wood.planks
+            ]
+            String relative = mappedFurnitureResourcePath(renderFurnitureText(relativeTemplate, values), catalog)
+            writeFurnitureFile(outputRoot, "src/main/resources/${relative}",
+                    renderFurnitureText(source, values), generated)
+        }
+    }
+
+    File integrationTemplates = new File(templates, 'integration')
+    integrationTemplates.eachFileRecurse { File template ->
+        if (!template.isFile()) return
+        String relativeTemplate = normalizeFurniturePath(integrationTemplates.toPath().relativize(template.toPath()).toString())
+        String source = template.getText('UTF-8')
+        catalog.integrations.each { integration ->
+            integration.woods.each { wood ->
+                Map<String, ?> values = [
+                        integration : integration.integration,
+                        modId       : integration.modId,
+                        namespace   : integration.namespace,
+                        wood        : wood.wood,
+                        externalWood: wood.externalWood,
+                        externalLog : wood.externalLog ?: "${wood.externalWood}_log",
+                        externalLogTop: wood.externalLogTop ?: "${wood.externalWood}_log_top",
+                        externalPlanks: wood.externalPlanks ?: "${wood.externalWood}_planks",
+                        display     : wood.display
+                ]
+                String relative = mappedFurnitureResourcePath(renderFurnitureText(relativeTemplate, values), catalog)
+                writeFurnitureFile(outputRoot, "src/main/resources/${relative}",
+                        renderFurnitureText(source, values), generated)
+            }
+        }
+    }
+
+    if (catalog.retainedIntegrationResources) {
+        File retainedTemplates = new File(templates, 'retained')
+        retainedTemplates.eachFileRecurse { File template ->
+            if (!template.isFile()) return
+            String relative = normalizeFurniturePath(
+                    retainedTemplates.toPath().relativize(template.toPath()).toString())
+            writeFurnitureFile(outputRoot, relative, template.getText('UTF-8'), generated)
+        }
+    }
+
+    furnitureJavaClasses.each { className, baseBlockClass ->
+        String prefix = new File(templates, "java/${className}.prefix").getText('UTF-8')
+        String fields = new File(templates, "java/${className}.fields").getText('UTF-8')
+        StringBuilder source = new StringBuilder(prefix)
+        catalog.vanilla.each { wood ->
+            source.append(renderFurnitureText(fields, [
+                    wood      : wood.wood,
+                    blockClass: wood.nether ? "${baseBlockClass}Nether" : baseBlockClass
+            ]))
+        }
+        source.append('}\n')
+        writeFurnitureFile(outputRoot,
+                "src/main/java/zone/moddev/mc/ironagefurniture/init/${className}.java",
+                source.toString(), generated)
+    }
+
+    String integrationPrefix = new File(templates, 'java/integration.prefix').getText('UTF-8')
+    String integrationFields = new File(templates, 'java/integration.fields').getText('UTF-8')
+    catalog.integrations.each { integration ->
+        StringBuilder source = new StringBuilder(renderFurnitureText(integrationPrefix,
+                [className: integration.className]))
+        integration.woods.each { wood ->
+            source.append(renderFurnitureText(integrationFields, [
+                    integration: integration.integration,
+                    wood       : wood.wood
+            ]))
+        }
+        source.append('}\n')
+        writeFurnitureFile(outputRoot,
+                "src/main/java/zone/moddev/mc/ironagefurniture/init/${integration.className}.java",
+                source.toString(), generated)
+    }
+    catalog.retainedIntegrationClasses.each { className ->
+        File template = new File(templates, "java/${className}.java")
+        writeFurnitureFile(outputRoot,
+                "src/main/java/zone/moddev/mc/ironagefurniture/init/${className}.java",
+                template.getText('UTF-8'), generated)
+    }
+
+    Map<String, Object> language = new TreeMap<>()
+    language.putAll((Map<String, Object>) new JsonSlurper().parse(new File(templates, 'lang/base.json')))
+    Map<String, Object> vanillaLanguage =
+            (Map<String, Object>) new JsonSlurper().parse(new File(templates, 'lang/vanilla.json'))
+    catalog.vanilla.each { wood ->
+        vanillaLanguage.each { key, value ->
+            Map<String, ?> values = [wood: wood.wood, display: wood.display]
+            language[renderFurnitureText(key, values)] = renderFurnitureText(value.toString(), values)
+        }
+    }
+    Map<String, Object> integrationLanguage =
+            (Map<String, Object>) new JsonSlurper().parse(new File(templates, 'lang/integration.json'))
+    catalog.integrations.each { integration ->
+        integration.woods.each { wood ->
+            integrationLanguage.each { key, value ->
+                Map<String, ?> values = [
+                        integration: integration.integration,
+                        wood       : wood.wood,
+                        display    : wood.display
+                ]
+                language[renderFurnitureText(key, values)] = renderFurnitureText(value.toString(), values)
+            }
+        }
+    }
+    String languageJson = JsonOutput.prettyPrint(JsonOutput.toJson(language)) + '\n'
+    ['en_en.json', 'en_gb.json', 'en_us.json'].each { locale ->
+        writeFurnitureFile(outputRoot,
+                "src/main/resources/assets/ironagefurniture/lang/${locale}", languageJson, generated)
+    }
+
+    if (catalog.itemDefinitions) {
+        Set<String> visibleItems = new TreeSet<>()
+        generated.findAll { it.startsWith('src/main/resources/assets/ironagefurniture/models/item/') }
+                .each { relative -> visibleItems.add(new File(relative).name.replaceFirst(/\.json$/, '')) }
+        visibleItems.each { itemId ->
+            String definition = JsonOutput.prettyPrint(JsonOutput.toJson([
+                    model: [type: 'minecraft:model', model: "ironagefurniture:item/${itemId}"]
+            ])) + '\n'
+            writeFurnitureFile(outputRoot,
+                    "src/main/resources/assets/ironagefurniture/items/${itemId}.json",
+                    definition, generated)
+        }
+    }
+
+    generated
+}
+
+def isManagedFurnitureResource = { File file ->
+    if (!file.isFile() || file.name == null || !file.name.endsWith('.json')
+            || !file.name.startsWith('chair_wood_ironage_')) return false
+    String relative = normalizeFurniturePath(project.projectDir.toPath().relativize(file.toPath()).toString())
+    relative.startsWith('src/main/resources/assets/ironagefurniture/blockstates/') ||
+            relative.startsWith('src/main/resources/assets/ironagefurniture/models/block/') ||
+            relative.startsWith('src/main/resources/assets/ironagefurniture/models/item/') ||
+            relative.startsWith('src/main/resources/assets/ironagefurniture/items/') ||
+            relative.startsWith('src/main/resources/data/ironagefurniture/recipes/') ||
+            relative.startsWith('src/main/resources/data/ironagefurniture/recipe/') ||
+            relative.startsWith('src/main/resources/data/ironagefurniture/advancements/recipes/chairs/') ||
+            relative.startsWith('src/main/resources/data/ironagefurniture/advancement/recipes/chairs/')
+}
+
+tasks.register('updateFurnitureCatalog') {
+    group = 'generation'
+    description = 'Explicitly regenerates catalog-owned furniture registrations and resources.'
+    inputs.file furnitureCatalogFile
+    inputs.dir furnitureTemplateDirectory
+    doLast {
+        fileTree('src/main/resources').matching { include '**/*.json' }.files
+                .findAll(isManagedFurnitureResource)
+                .each { File stale -> Files.delete(stale.toPath()) }
+        File oldBygClass = file('src/main/java/zone/moddev/mc/ironagefurniture/init/ModBYGBlocks.java')
+        if (oldBygClass.isFile()) Files.delete(oldBygClass.toPath())
+        renderFurnitureCatalog(project.projectDir)
+    }
+}
+
+tasks.register('verifyFurnitureCatalog') {
+    group = 'verification'
+    description = 'Regenerates furniture into a temporary tree and compares it byte-for-byte with committed output.'
+    inputs.file furnitureCatalogFile
+    inputs.dir furnitureTemplateDirectory
+    doLast {
+        File expectedRoot = layout.buildDirectory.dir('tmp/furnitureCatalog/expected').get().asFile
+        project.delete(expectedRoot)
+        expectedRoot.mkdirs()
+        Set<String> expected = renderFurnitureCatalog(expectedRoot)
+        expected.each { relative ->
+            File expectedFile = new File(expectedRoot, relative)
+            File actualFile = new File(project.projectDir, relative)
+            if (!actualFile.isFile()) throw new GradleException("Missing catalog output: ${relative}")
+            if (Files.mismatch(expectedFile.toPath(), actualFile.toPath()) != -1L) {
+                throw new GradleException("Catalog output differs; run updateFurnitureCatalog: ${relative}")
+            }
+        }
+
+        Set<String> expectedResources = expected.findAll {
+            it.startsWith('src/main/resources/') && !it.contains('/lang/')
+        } as Set
+        Set<String> actualResources = fileTree('src/main/resources').matching { include '**/*.json' }.files
+                .findAll(isManagedFurnitureResource)
+                .collect { normalizeFurniturePath(project.projectDir.toPath().relativize(it.toPath()).toString()) } as Set
+        if (actualResources != expectedResources) {
+            Set<String> missing = new TreeSet<>(expectedResources); missing.removeAll(actualResources)
+            Set<String> stale = new TreeSet<>(actualResources); stale.removeAll(expectedResources)
+            throw new GradleException("Catalog resource inventory differs; missing=${missing.take(10)}, stale=${stale.take(10)}")
+        }
+        if (file('src/main/java/zone/moddev/mc/ironagefurniture/init/ModBYGBlocks.java').exists()) {
+            throw new GradleException('Retired BYG registration class remains after BWG migration')
+        }
+    }
+}
+
+tasks.named('check') {
+    dependsOn tasks.named('verifyFurnitureCatalog')
+}

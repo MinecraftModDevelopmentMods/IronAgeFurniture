@@ -1,7 +1,0 @@
-{
-  "parent": "ironagefurniture:block/template_chair_wood_ironage_classic",
-  "textures": {
-    "log": "byg:block/skyris/log",
-    "planks": "byg:block/skyris/planks"
-  }
-}

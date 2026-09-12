@@ -31,11 +31,14 @@ public class ModVanillaLogBench {
 	}
 
 	public static RegistryObject<Block> chair_wood_ironage_bench_log_single_oak = register("chair_wood_ironage_bench_log_single_oak", () -> new LogBench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_log_single_oak"));;
-	public static RegistryObject<Block> chair_wood_ironage_bench_log_single_acacia = register("chair_wood_ironage_bench_log_single_acacia", () -> new LogBench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_log_single_acacia"));
-	public static RegistryObject<Block> chair_wood_ironage_bench_log_single_dark_oak = register("chair_wood_ironage_bench_log_single_dark_oak", () -> new LogBench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_log_single_dark_oak"));
-	public static RegistryObject<Block> chair_wood_ironage_bench_log_single_birch = register("chair_wood_ironage_bench_log_single_birch", () -> new LogBench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_log_single_birch"));
-	public static RegistryObject<Block> chair_wood_ironage_bench_log_single_jungle = register("chair_wood_ironage_bench_log_single_jungle", () -> new LogBench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_log_single_jungle"));
-	public static RegistryObject<Block> chair_wood_ironage_bench_log_single_spruce = register("chair_wood_ironage_bench_log_single_spruce", () -> new LogBench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_log_single_spruce"));
-	public static RegistryObject<Block> chair_wood_ironage_bench_log_single_warped = register("chair_wood_ironage_bench_log_single_warped", () -> new LogBenchNether(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_log_single_warped"));
-	public static RegistryObject<Block> chair_wood_ironage_bench_log_single_crimson = register("chair_wood_ironage_bench_log_single_crimson", () -> new LogBenchNether(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_log_single_crimson"));
+	public static RegistryObject<Block> chair_wood_ironage_bench_log_single_spruce = register("chair_wood_ironage_bench_log_single_spruce", () -> new LogBench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_log_single_spruce"));;
+	public static RegistryObject<Block> chair_wood_ironage_bench_log_single_birch = register("chair_wood_ironage_bench_log_single_birch", () -> new LogBench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_log_single_birch"));;
+	public static RegistryObject<Block> chair_wood_ironage_bench_log_single_jungle = register("chair_wood_ironage_bench_log_single_jungle", () -> new LogBench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_log_single_jungle"));;
+	public static RegistryObject<Block> chair_wood_ironage_bench_log_single_acacia = register("chair_wood_ironage_bench_log_single_acacia", () -> new LogBench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_log_single_acacia"));;
+	public static RegistryObject<Block> chair_wood_ironage_bench_log_single_dark_oak = register("chair_wood_ironage_bench_log_single_dark_oak", () -> new LogBench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_log_single_dark_oak"));;
+	public static RegistryObject<Block> chair_wood_ironage_bench_log_single_mangrove = register("chair_wood_ironage_bench_log_single_mangrove", () -> new LogBench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_log_single_mangrove"));;
+	public static RegistryObject<Block> chair_wood_ironage_bench_log_single_cherry = register("chair_wood_ironage_bench_log_single_cherry", () -> new LogBench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_log_single_cherry"));;
+	public static RegistryObject<Block> chair_wood_ironage_bench_log_single_bamboo = register("chair_wood_ironage_bench_log_single_bamboo", () -> new LogBench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_log_single_bamboo"));;
+	public static RegistryObject<Block> chair_wood_ironage_bench_log_single_crimson = register("chair_wood_ironage_bench_log_single_crimson", () -> new LogBenchNether(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_log_single_crimson"));;
+	public static RegistryObject<Block> chair_wood_ironage_bench_log_single_warped = register("chair_wood_ironage_bench_log_single_warped", () -> new LogBenchNether(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_log_single_warped"));;
 }

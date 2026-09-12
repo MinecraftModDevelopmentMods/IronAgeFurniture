@@ -12,7 +12,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Fallable;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
 
 import java.util.Random;
 
@@ -51,9 +50,7 @@ public abstract class FallingFurnitureBlock extends FurnitureBlock implements Fa
 	}
 
 	public static boolean isFree(BlockState state) {
-		Material material = state.getMaterial();
-
-		return state.isAir() || state.is(BlockTags.FIRE) || material.isLiquid() || material.isReplaceable();
+		return state.isAir() || state.is(BlockTags.FIRE) || state.liquid() || state.canBeReplaced();
 	}
 
 	public void animateTick(BlockState state, Level level, BlockPos pos, Random rnd) {

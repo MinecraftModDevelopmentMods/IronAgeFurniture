@@ -1,0 +1,7 @@
+{
+  "parent": "ironagefurniture:block/template_chair_wood_ironage_bench_log_right",
+  "textures": {
+    "log": "minecraft:block/bamboo_block",
+    "logtop": "minecraft:block/bamboo_block_top"
+  }
+}

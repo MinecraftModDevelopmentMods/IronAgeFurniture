@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "conditions": [
+    {
+      "modid": "biomeswevegone",
+      "type": "forge:mod_loaded"
+    }
+  ],
+  "group": "furniture",
+  "pattern": [
+    " x ",
+    "yyy"
+  ],
+  "key": {
+    "y": {
+      "tag": "forge:rods/wooden"
+    },
+    "x": {
+      "item": "biomeswevegone:cika_planks"
+    }
+  },
+  "result": {
+    "item": "ironagefurniture:chair_wood_ironage_stool_short_biomeswevegone_cika",
+    "count": 1
+  }
+}

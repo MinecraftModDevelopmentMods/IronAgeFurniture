@@ -18,6 +18,7 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlockContainer;
@@ -26,8 +27,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.storage.loot.LootContext.Builder;
+import net.minecraft.world.level.storage.loot.LootParams.Builder;
 import oshi.util.tuples.Pair;
 
 import java.util.ArrayList;
@@ -104,7 +104,7 @@ public class LightSourceSconceLavaFloor extends LightSourceSconceGlowFloor imple
 	}
 
 	public LightSourceSconceLavaFloor(float hardness, float blastResistance, SoundType sound, String name) {
-		super(Block.Properties.of(Material.METAL).strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> 14));
+		super(Block.Properties.of().strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> 14));
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
@@ -151,7 +151,9 @@ public class LightSourceSconceLavaFloor extends LightSourceSconceGlowFloor imple
 				world.playSound(null, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, friction, explosionResistance);
 				world.playSound(null, pos, SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, friction, explosionResistance);
 
-				Block.dropResources(blockState, null);
+				if (world instanceof ServerLevel serverLevel) {
+					Block.dropResources(blockState, serverLevel, pos);
+				}
 				world.setBlock(pos.below(), ModVanillaLights.obsidian_chunk.get().defaultBlockState(), Block.UPDATE_ALL_IMMEDIATE, Block.UPDATE_ALL);
 
 				world.scheduleTick(pos, fluidState.getType(), fluidState.getType().getTickDelay(world));

@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[45,46)"
+loaderVersion="[47,48)"
 license="LGPL-2.1-only"
 
 [[mods]]
@@ -10,41 +10,41 @@ displayName="Iron Age Furniture Optional Integration Probe"
 [[dependencies.ironagefurnitureintegrationprobe]]
 modId="forge"
 mandatory=true
-versionRange="[45.4.0,46)"
+versionRange="[47.4.10,48)"
 ordering="NONE"
 side="SERVER"
 
 [[dependencies.ironagefurnitureintegrationprobe]]
 modId="minecraft"
 mandatory=true
-versionRange="[1.19.4]"
+versionRange="[1.20.1]"
 ordering="NONE"
 side="SERVER"
 
 [[dependencies.ironagefurnitureintegrationprobe]]
 modId="ironagefurniture"
 mandatory=true
-versionRange="[0.3.0.119041]"
+versionRange="[0.3.0.120011]"
 ordering="AFTER"
 side="SERVER"
 
 [[dependencies.ironagefurnitureintegrationprobe]]
 modId="biomesoplenty"
 mandatory=true
-versionRange="[17.3.0.593]"
+versionRange="[19.0.0.96]"
 ordering="AFTER"
 side="SERVER"
 
 [[dependencies.ironagefurnitureintegrationprobe]]
-modId="byg"
+modId="biomeswevegone"
 mandatory=true
-versionRange="[4.0.1.3]"
+versionRange="[1.8.0]"
 ordering="AFTER"
 side="SERVER"
 
 [[dependencies.ironagefurnitureintegrationprobe]]
 modId="immersiveengineering"
 mandatory=true
-versionRange="[1.19.4-9.4.1-168]"
+versionRange="[1.20.1-10.2.0-183]"
 ordering="AFTER"
 side="SERVER"

@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "conditions": [
+    {
+      "modid": "biomeswevegone",
+      "type": "forge:mod_loaded"
+    }
+  ],
+  "group": "furniture",
+  "pattern": [
+    "x ",
+    "xx",
+    "yy"
+  ],
+  "key": {
+    "y": {
+      "tag": "forge:rods/wooden"
+    },
+    "x": {
+      "item": "biomeswevegone:skyris_planks"
+    }
+  },
+  "result": {
+    "item": "ironagefurniture:chair_wood_ironage_bench_back_single_biomeswevegone_skyris",
+    "count": 1
+  }
+}

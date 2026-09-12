@@ -1,8 +1,8 @@
-# IronAgeFurniture 0.3.0.119041
+# IronAgeFurniture 0.3.0.120011
 
-- Modernize the Minecraft 1.19.4 build to ForgeGradle 7 and Gradle 9.6.1.
-- Move the Java API namespace to `zone.moddev.mc.ironagefurniture` while preserving the `ironagefurniture` runtime namespace.
-- Add deterministic release artifacts, local verification, Buildship generation, and guarded CI/CD metadata.
-- Gate optional Biomes O' Plenty, Oh The Biomes You'll Go, and Immersive Engineering recipe advancements so absent integrations do not spam server logs.
+- Port IronAgeFurniture to Minecraft 1.20.1 and Forge 47.4.10.
+- Add mangrove, cherry, and bamboo furniture plus the complete contemporary Biomes O' Plenty wood family.
+- Replace retired BYG furniture with Oh The Biomes We've Gone furniture and scoped block/item remaps for defensible legacy names.
+- Add a deterministic, checked-in furniture catalog and positive optional-integration runtime probes.
 
 This is a release candidate changelog. Publication requires the protected default-branch release workflow.

@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "conditions": [
+    {
+      "modid": "{{modId}}",
+      "type": "forge:mod_loaded"
+    }
+  ],
+  "group": "furniture",
+  "pattern": [
+    "xx",
+    "yy"
+  ],
+  "key": {
+    "y": {
+      "tag": "forge:rods/wooden"
+    },
+    "x": {
+      "item": "{{namespace}}:{{externalPlanks}}"
+    }
+  },
+  "result": {
+    "item": "ironagefurniture:chair_wood_ironage_bench_single_{{integration}}_{{wood}}",
+    "count": 1
+  }
+}

@@ -29,8 +29,8 @@ public final class OptionalIntegrationRecipeProbe
 
     private static final Logger LOGGER = LogUtils.getLogger();
     private static final List<String> REQUIRED_MODS = List.of(
-            "biomesoplenty", "byg", "immersiveengineering",
-            "terrablender", "corgilib", "geckolib");
+            "biomesoplenty", "biomeswevegone", "immersiveengineering",
+            "terrablender", "corgilib", "geckolib", "ohthetreesyoullgrow", "glitchcore");
 
     public OptionalIntegrationRecipeProbe()
     {
@@ -48,10 +48,10 @@ public final class OptionalIntegrationRecipeProbe
 
         int recipeCount = recipes.values().stream().mapToInt(Integer::intValue).sum();
         int advancementCount = advancements.values().stream().mapToInt(Integer::intValue).sum();
-        require(recipeCount == 1536,
-                "Expected 1536 conditional recipes, found " + recipeCount);
-        require(advancementCount == 1520,
-                "Expected 1520 conditional advancements, found " + advancementCount);
+        require(recipeCount == 1497,
+                "Expected 1497 conditional recipes, found " + recipeCount);
+        require(advancementCount == 1481,
+                "Expected 1481 conditional advancements, found " + advancementCount);
 
         writeMarker(versions, recipes, advancements, recipeCount, advancementCount);
         LOGGER.info("IRON AGE FURNITURE OPTIONAL INTEGRATION PROBE PASSED: "
@@ -150,7 +150,7 @@ public final class OptionalIntegrationRecipeProbe
             result.append("mod.").append(modId).append("=")
                     .append(versions.get(modId)).append('\n');
         }
-        for (String modId : List.of("biomesoplenty", "byg", "immersiveengineering"))
+        for (String modId : List.of("biomesoplenty", "biomeswevegone", "immersiveengineering"))
         {
             result.append("recipes.").append(modId).append("=")
                     .append(recipes.getOrDefault(modId, 0)).append('\n');

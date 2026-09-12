@@ -1,0 +1,20 @@
+{
+  "type": "crafting_shapeless",
+  "conditions": [
+    {
+      "modid": "biomeswevegone",
+      "type": "forge:mod_loaded"
+    }
+  ],
+  "ingredients": [
+    {
+      "item": "minecraft:cyan_carpet"
+    },
+    {
+      "item": "ironagefurniture:chair_wood_ironage_bench_back_single_biomeswevegone_skyris"
+    }
+  ],
+  "result": {
+    "item": "ironagefurniture:chair_wood_ironage_bench_back_padded_cyan_single_biomeswevegone_skyris"
+  }
+}

@@ -10,7 +10,6 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.Material;
 import oshi.util.tuples.Pair;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.DustParticleOptions;
@@ -183,7 +182,7 @@ public class LightSourceSconceRedTorchWall extends LightSourceSconceTorchWall {
 	}
 
 	public LightSourceSconceRedTorchWall(float hardness, float blastResistance, SoundType sound, String name) {
-		super(Block.Properties.of(Material.METAL).strength(hardness, blastResistance).sound(sound)
+		super(Block.Properties.of().strength(hardness, blastResistance).sound(sound)
 			.lightLevel((p_50886_) -> 8));
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
