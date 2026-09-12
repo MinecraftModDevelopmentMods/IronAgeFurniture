@@ -101,8 +101,11 @@ ext.release_tag = project.mod_version
 if (GradleVersion.current() != GradleVersion.version('9.6.1')) {
     throw new GradleException("This build requires Gradle 9.6.1, found ${GradleVersion.current()}")
 }
-if (JavaVersion.current() != JavaVersion.VERSION_17) {
-    throw new GradleException("Gradle must run on Java 17, found ${System.getProperty('java.version')}")
+// Buildship normally launches Gradle with the JVM that runs Eclipse. Gradle 9.6.1
+// supports newer JVMs, while compilation remains pinned to the exact Java 17
+// toolchain below and in verifyBuildEnvironment.
+if (!JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_17)) {
+    throw new GradleException("Gradle requires Java 17 or newer, found ${System.getProperty('java.version')}")
 }
 
 def java17Compiler = javaToolchains.compilerFor {
@@ -157,7 +160,7 @@ def normalizeArchiveLineEndings = { details ->
 
 tasks.register('verifyBuildEnvironment') {
     group = 'verification'
-    description = 'Verifies the pinned Gradle runtime and exact Java 17 compiler toolchain.'
+    description = 'Verifies the supported Gradle runtime and exact Java 17 compiler toolchain.'
     doLast {
         def metadata = java17Compiler.get().metadata
         String actual = metadata.javaRuntimeVersion.toString()
@@ -884,11 +887,12 @@ tasks.register('syncForge45EclipseLaunches') {
     group = 'ide'
     description = 'Synchronizes processed resources and hardens Forge 45 Eclipse launches.'
     dependsOn tasks.named('processResources')
+    dependsOn tasks.named('verifyBuildEnvironment')
     doLast {
         String mainClass = 'net.minecraftforge.userdev.LaunchTesting'
         String mainOutput = new File(projectDir, 'bin/main').absolutePath
         String modClasses = "${project.mod_id}%%${mainOutput}"
-        String eclipseGradleJavaHome = System.getenv('JAVA_HOME') ?: System.getProperty('java.home')
+        String eclipseGradleJavaHome = java17Compiler.get().metadata.installationPath.asFile.absolutePath
         def escapePreference = { value -> value.replace('\\', '\\\\').replace(':', '\\:') }
         File buildshipPreferences = file('.settings/org.eclipse.buildship.core.prefs')
         buildshipPreferences.parentFile.mkdirs()
