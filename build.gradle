@@ -112,6 +112,10 @@ def java17Compiler = javaToolchains.compilerFor {
     languageVersion = JavaLanguageVersion.of(17)
     vendor = JvmVendorSpec.ADOPTIUM
 }
+def java17Launcher = javaToolchains.launcherFor {
+    languageVersion = JavaLanguageVersion.of(17)
+    vendor = JvmVendorSpec.ADOPTIUM
+}
 
 java {
     toolchain {
@@ -152,6 +156,11 @@ def archiveTextSuffixes = [
 ]
 def archiveTextPatterns = archiveTextSuffixes.collect { "**/*${it}".toString() }
 archiveTextPatterns.addAll(['**/element-list', '**/package-list'])
+def optionalIntegrationExpectedCounts = [
+        byg                  : [recipes: 1053, advancements: 1053],
+        biomesoplenty        : [recipes: 429, advancements: 429],
+        immersiveengineering: [recipes: 54, advancements: 38]
+]
 def normalizeArchiveLineEndings = { details ->
     details.filter(FixCrLfFilter,
             eol: FixCrLfFilter.CrLf.newInstance('lf'),
@@ -263,6 +272,202 @@ renamer.mappings.from minecraft.dependency.toSrgFile
 
 tasks.withType(Test).configureEach {
     workingDir = project.projectDir
+}
+
+def optionalIntegrationManifestFile = layout.projectDirectory.file(
+        'gradle/verification/optional-integration-mods.json')
+def optionalIntegrationRunDirectory = layout.projectDirectory.dir('run-optional-integrations')
+def optionalIntegrationServerDirectory = providers.gradleProperty('optionalIntegrationServerDir')
+        .map { project.file(it) }
+        .orElse(optionalIntegrationRunDirectory.asFile)
+def optionalIntegrationModsDirectory = optionalIntegrationServerDirectory
+        .map { new File(it, 'mods') }
+def optionalIntegrationFixtureClasses = layout.buildDirectory.dir(
+        'optional-integration-fixture/classes')
+def optionalIntegrationFixtureGeneratedResources = layout.buildDirectory.dir(
+        'optional-integration-fixture/generated-resources')
+
+tasks.register('verifyOptionalIntegrationMods') {
+    group = 'verification'
+    description = 'Verifies the pinned third-party jars for the positive optional-integration test.'
+    inputs.file optionalIntegrationManifestFile
+    doLast {
+        Map manifest = new JsonSlurper().parse(optionalIntegrationManifestFile.asFile) as Map
+        if (manifest.minecraft != project.minecraft_version.toString()
+                || !(manifest.mods instanceof List) || manifest.mods.size() != 6) {
+            throw new GradleException('Optional-integration mod manifest is incomplete or targets the wrong game')
+        }
+        File modsDirectory = optionalIntegrationModsDirectory.get()
+        manifest.mods.each { mod ->
+            File candidate = new File(modsDirectory, mod.file.toString())
+            if (!candidate.isFile()) {
+                throw new GradleException("Missing optional-integration test mod ${candidate.name} in " +
+                        modsDirectory)
+            }
+            String actual = sha256Of(candidate)
+            if (!actual.equalsIgnoreCase(mod.sha256.toString())) {
+                throw new GradleException("Checksum mismatch for optional-integration test mod " +
+                        "${candidate.name}: expected ${mod.sha256}, found ${actual}")
+            }
+        }
+    }
+}
+
+tasks.register('generateOptionalIntegrationFixtureData') {
+    group = 'verification'
+    description = 'Generates the exact conditional recipe and advancement IDs for the runtime probe.'
+    File recipeRoot = file('src/main/resources/data/ironagefurniture/recipes')
+    File advancementRoot = file('src/main/resources/data/ironagefurniture/advancements')
+    inputs.files fileTree(recipeRoot) { include '**/*.json' }
+    inputs.files fileTree(advancementRoot) { include '**/*.json' }
+    outputs.dir optionalIntegrationFixtureGeneratedResources
+    doLast {
+        Map<String, Integer> recipeCounts = optionalIntegrationExpectedCounts.collectEntries {
+            modId, counts -> [(modId): 0]
+        }
+        Map<String, Integer> advancementCounts = optionalIntegrationExpectedCounts.collectEntries {
+            modId, counts -> [(modId): 0]
+        }
+        List<String> recipes = []
+        fileTree(recipeRoot) { include '**/*.json' }.files.each { recipeFile ->
+            Map recipe = new JsonSlurper().parse(recipeFile) as Map
+            List<Map> matching = recipe.conditions instanceof List
+                    ? recipe.conditions.findAll { condition ->
+                        condition instanceof Map && condition.type == 'forge:mod_loaded'
+                                && optionalIntegrationExpectedCounts.containsKey(condition.modid)
+                    } as List<Map> : []
+            if (matching.size() == 1) {
+                String modId = matching[0].modid
+                String path = recipeRoot.toPath().relativize(recipeFile.toPath()).toString()
+                        .replace('\\', '/').replaceFirst(/\.json$/, '')
+                recipes.add("${modId}=ironagefurniture:${path}")
+                recipeCounts[modId]++
+            }
+        }
+        List<String> advancements = []
+        fileTree(advancementRoot) { include '**/*.json' }.files.each { advancementFile ->
+            Map wrapper = new JsonSlurper().parse(advancementFile) as Map
+            List branches = wrapper.advancements instanceof List ? wrapper.advancements : []
+            List<Map> matching = branches.size() == 1 && branches[0].conditions instanceof List
+                    ? branches[0].conditions.findAll { condition ->
+                        condition instanceof Map && condition.type == 'forge:mod_loaded'
+                                && optionalIntegrationExpectedCounts.containsKey(condition.modid)
+                    } as List<Map> : []
+            if (matching.size() == 1) {
+                String modId = matching[0].modid
+                String path = advancementRoot.toPath().relativize(advancementFile.toPath()).toString()
+                        .replace('\\', '/').replaceFirst(/\.json$/, '')
+                advancements.add("${modId}=ironagefurniture:${path}")
+                advancementCounts[modId]++
+            }
+        }
+        optionalIntegrationExpectedCounts.each { modId, expected ->
+            if (recipeCounts[modId] != expected.recipes
+                    || advancementCounts[modId] != expected.advancements) {
+                throw new GradleException("Unexpected ${modId} fixture inventory: " +
+                        "${recipeCounts[modId]} recipes and ${advancementCounts[modId]} advancements")
+            }
+        }
+        File output = optionalIntegrationFixtureGeneratedResources.get().asFile
+        output.mkdirs()
+        new File(output, 'expected-conditional-recipes.txt')
+                .setText(recipes.sort().join('\n') + '\n', 'UTF-8')
+        new File(output, 'expected-conditional-advancements.txt')
+                .setText(advancements.sort().join('\n') + '\n', 'UTF-8')
+    }
+}
+
+tasks.register('compileOptionalIntegrationFixture', JavaCompile) {
+    group = 'verification'
+    description = 'Compiles the test-only Forge probe for positive optional-integration validation.'
+    dependsOn tasks.named('classes')
+    source fileTree('src/optionalIntegrationTest/java')
+    classpath = files(sourceSets.main.output, sourceSets.main.compileClasspath)
+    destinationDirectory = optionalIntegrationFixtureClasses
+    javaCompiler = java17Compiler
+    options.encoding = 'UTF-8'
+    options.release = 17
+    options.compilerArgs.add('-proc:none')
+}
+
+def optionalIntegrationFixtureDeobfJar = tasks.register(
+        'optionalIntegrationFixtureDeobfJar', Jar) {
+    group = 'verification'
+    description = 'Builds the development-named optional-integration runtime probe.'
+    dependsOn tasks.named('compileOptionalIntegrationFixture')
+    dependsOn tasks.named('generateOptionalIntegrationFixtureData')
+    archiveFileName = 'ironagefurniture-optional-integration-probe-deobf.jar'
+    destinationDirectory = layout.buildDirectory.dir('optional-integration-fixture')
+    from optionalIntegrationFixtureClasses
+    from 'src/optionalIntegrationTest/resources'
+    from optionalIntegrationFixtureGeneratedResources
+    filesMatching(archiveTextPatterns, normalizeArchiveLineEndings)
+}
+
+def optionalIntegrationFixtureJarFile = layout.buildDirectory.file(
+        'optional-integration-fixture/ironagefurniture-optional-integration-probe.jar')
+def reobfOptionalIntegrationFixtureJar = renamer.classes(optionalIntegrationFixtureDeobfJar) {
+    map.from minecraft.dependency.toSrgFile
+    output = optionalIntegrationFixtureJarFile
+}
+
+tasks.register('optionalIntegrationFixtureJar') {
+    group = 'verification'
+    description = 'Builds the non-published packaged-server optional-integration probe.'
+    dependsOn reobfOptionalIntegrationFixtureJar
+    outputs.file optionalIntegrationFixtureJarFile
+}
+
+tasks.register('stageOptionalIntegrationFixture', Copy) {
+    group = 'verification'
+    description = 'Stages the verified runtime probe beside the locally supplied integration mods.'
+    dependsOn tasks.named('verifyOptionalIntegrationMods')
+    dependsOn tasks.named('optionalIntegrationFixtureJar')
+    dependsOn tasks.named('assemble')
+    from optionalIntegrationFixtureJarFile
+    from layout.buildDirectory.file(
+            "libs/${base.archivesName.get()}-${project.version}.jar")
+    into optionalIntegrationModsDirectory
+}
+
+tasks.register('runOptionalIntegrationServer', Exec) {
+    group = 'verification'
+    description = 'Runs the packaged Forge server and proves all optional recipes are loaded.'
+    dependsOn tasks.named('stageOptionalIntegrationFixture')
+    doFirst {
+        File serverDirectory = optionalIntegrationServerDirectory.get()
+        File marker = new File(serverDirectory, 'optional-integration-pass.properties')
+        if (marker.exists() && !marker.delete()) {
+            throw new GradleException("Could not remove stale optional-integration marker ${marker}")
+        }
+        String argumentFileName = System.getProperty('os.name').toLowerCase(Locale.ROOT)
+                .contains('windows') ? 'win_args.txt' : 'unix_args.txt'
+        File argumentFile = new File(serverDirectory,
+                "libraries/net/minecraftforge/forge/${minecraft_version}-${forge_version}/" +
+                        argumentFileName)
+        File userArguments = new File(serverDirectory, 'user_jvm_args.txt')
+        if (!argumentFile.isFile() || !userArguments.isFile()) {
+            throw new GradleException("Install the Forge ${minecraft_version}-${forge_version} " +
+                    "server in ${serverDirectory} before running this test")
+        }
+        workingDir serverDirectory
+        executable java17Launcher.get().executablePath.asFile
+        args '@user_jvm_args.txt', "@${argumentFile.toPath().toString()}", 'nogui'
+    }
+    doLast {
+        File marker = new File(optionalIntegrationServerDirectory.get(),
+                'optional-integration-pass.properties')
+        if (!marker.isFile()) {
+            throw new GradleException('Optional-integration server exited without a passing probe marker')
+        }
+        Properties result = new Properties()
+        marker.withInputStream { result.load(it) }
+        if (result.getProperty('status') != 'PASS'
+                || result.getProperty('conditional_recipes_loaded') != '1536'
+                || result.getProperty('conditional_advancements_loaded') != '1520') {
+            throw new GradleException("Unexpected optional-integration result ${result}")
+        }
+    }
 }
 
 tasks.named('processResources', ProcessResources) {
@@ -588,11 +793,7 @@ tasks.register('verifyResourceJson') {
             throw new GradleException('English locale files must retain 7782 identical translation keys')
         }
 
-        Map<String, Map<String, Integer>> optionalIntegrations = [
-                byg                  : [recipes: 1053, advancements: 1053],
-                biomesoplenty        : [recipes: 429, advancements: 429],
-                immersiveengineering: [recipes: 54, advancements: 38]
-        ]
+        Map<String, Map<String, Integer>> optionalIntegrations = optionalIntegrationExpectedCounts
         def hasModLoadedCondition = { Object conditions, String modId ->
             conditions instanceof List && conditions.any { condition ->
                 condition instanceof Map && condition.type == 'forge:mod_loaded'
@@ -789,7 +990,9 @@ tasks.register('verifyReleaseArtifacts') {
                     "found ${jars.collect { it.name }}")
         }
         List<String> forbiddenEntries = [
-                'com/mcmoddev/ironagefurniture/', 'src/test/', 'agent-notes/', '.github/',
+                'com/mcmoddev/ironagefurniture/', 'src/test/', 'src/optionalIntegrationTest/',
+                'zone/moddev/mc/ironagefurniture/fixture/',
+                'ironagefurniture-optional-integration-probe', 'agent-notes/', '.github/',
                 '.classpath', '.project', 'ci-fixtures/', 'minecraft-mavenizer', 'build/', 'run/'
         ]
         jars.each { candidate ->
