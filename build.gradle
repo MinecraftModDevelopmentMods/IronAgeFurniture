@@ -563,7 +563,7 @@ tasks.register('verifyRepositoryHygiene') {
 
 tasks.register('verifyResourceJson') {
     group = 'verification'
-    description = 'Parses and inventories the 1.19.4 resource pack and validates locale parity.'
+    description = 'Parses resources and validates locale parity and optional-integration conditions.'
     doLast {
         List<File> jsonFiles = fileTree('src/main/resources') {
             include '**/*.json'
@@ -587,8 +587,75 @@ tasks.register('verifyResourceJson') {
                 || !locales.tail().every { it.keySet() == locales.first().keySet() }) {
             throw new GradleException('English locale files must retain 7782 identical translation keys')
         }
-        logger.lifecycle('Validated {} resource JSON documents and {} locale keys.',
-                jsonFiles.size(), locales.first().size())
+
+        Map<String, Map<String, Integer>> optionalIntegrations = [
+                byg                  : [recipes: 1053, advancements: 1053],
+                biomesoplenty        : [recipes: 429, advancements: 429],
+                immersiveengineering: [recipes: 54, advancements: 38]
+        ]
+        def hasModLoadedCondition = { Object conditions, String modId ->
+            conditions instanceof List && conditions.any { condition ->
+                condition instanceof Map && condition.type == 'forge:mod_loaded'
+                        && condition.modid == modId
+            }
+        }
+        File recipeRoot = file('src/main/resources/data/ironagefurniture/recipes')
+        File advancementRoot = file('src/main/resources/data/ironagefurniture/advancements')
+        Map<File, Map> recipeDocuments = fileTree(recipeRoot) { include '**/*.json' }.files.collectEntries {
+            [(it): new JsonSlurper().parse(it) as Map]
+        }
+        Map<File, Map> advancementDocuments = fileTree(advancementRoot) { include '**/*.json' }.files.collectEntries {
+            [(it): new JsonSlurper().parse(it) as Map]
+        }
+        if (recipeDocuments.any { recipeFile, recipe -> recipe.type == 'forge:conditional' }) {
+            throw new GradleException('Optional recipes must use top-level conditions, not forge:conditional, ' +
+                    'because an unmet wrapper condition is logged once per recipe at info level')
+        }
+        optionalIntegrations.each { modId, expectedCounts ->
+            Set<File> recipes = recipeDocuments.findAll { recipeFile, recipe ->
+                hasModLoadedCondition(recipe.conditions, modId)
+            }.keySet()
+            if (recipes.size() != expectedCounts.recipes) {
+                throw new GradleException("Expected ${expectedCounts.recipes} ${modId} recipes, " +
+                        "found ${recipes.size()}")
+            }
+            recipes.each { recipeFile ->
+                Map recipe = recipeDocuments[recipeFile]
+                if (!(recipe.type instanceof String) || recipe.type == 'forge:conditional'
+                        || !(recipe.conditions instanceof List) || recipe.conditions.size() != 1
+                        || !hasModLoadedCondition(recipe.conditions, modId)) {
+                    throw new GradleException(
+                            "Optional recipe lacks one top-level forge:mod_loaded condition for ${modId}: " +
+                                    recipeFile)
+                }
+            }
+
+            Set<File> advancements = advancementDocuments.findAll { advancementFile, advancement ->
+                advancement.advancements instanceof List && advancement.advancements.size() == 1
+                        && hasModLoadedCondition(advancement.advancements[0].conditions, modId)
+            }.keySet()
+            if (advancements.size() != expectedCounts.advancements) {
+                throw new GradleException("Expected ${expectedCounts.advancements} ${modId} advancements, " +
+                        "found ${advancements.size()}")
+            }
+            advancements.each { advancementFile ->
+                Map wrapper = advancementDocuments[advancementFile]
+                if (wrapper.keySet() != ['advancements'] as Set
+                        || !(wrapper.advancements instanceof List)
+                        || wrapper.advancements.size() != 1
+                        || !hasModLoadedCondition(wrapper.advancements[0].conditions, modId)
+                        || !(wrapper.advancements[0].advancement instanceof Map)) {
+                    throw new GradleException(
+                            "Optional advancement lacks a forge:mod_loaded condition for ${modId}: " +
+                                    advancementFile)
+                }
+            }
+        }
+        int conditionalRecipeCount = optionalIntegrations.values().sum { it.recipes } as int
+        int conditionalAdvancementCount = optionalIntegrations.values().sum { it.advancements } as int
+        logger.lifecycle('Validated {} resource JSON documents, {} locale keys, {} conditional recipes, ' +
+                        'and {} conditional advancements.', jsonFiles.size(), locales.first().size(),
+                conditionalRecipeCount, conditionalAdvancementCount)
     }
 }
 
