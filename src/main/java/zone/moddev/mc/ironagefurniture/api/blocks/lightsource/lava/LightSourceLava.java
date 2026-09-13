@@ -2,7 +2,6 @@ package zone.moddev.mc.ironagefurniture.api.blocks.lightsource.lava;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import zone.moddev.mc.ironagefurniture.api.blocks.base.FurnitureBlock;
@@ -95,10 +94,7 @@ public class LightSourceLava extends LightSourceGlowdust {
 		ItemStack tool = player.getInventory().getSelected();
 
 		if (tool != null) {
-			Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(tool);
-
-			if (enchantments != null && !enchantments.isEmpty())
-				isSilkTouch = enchantments.get(Enchantments.SILK_TOUCH) > 0;
+			isSilkTouch = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.SILK_TOUCH, tool) > 0;
 		}
 
 		if (isSilkTouch && !player.isCreative())

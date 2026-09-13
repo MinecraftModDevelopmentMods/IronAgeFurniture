@@ -55,6 +55,43 @@ def mappedFurnitureResourcePath = { String relative, def catalog ->
     }
     relative
 }
+def renderTargetFurnitureData = { String relative, String rendered, def catalog ->
+    if (catalog.dataSchema != 'forge50' || !relative.endsWith('.json')) {
+        return rendered
+    }
+    if (relative.contains('/advancements/')) {
+        Map wrapper = new JsonSlurper().parseText(rendered) as Map
+        if (wrapper.advancements instanceof List && wrapper.advancements.size() == 1
+                && wrapper.advancements[0].conditions instanceof List
+                && wrapper.advancements[0].conditions.size() == 1) {
+            Map branch = wrapper.advancements[0] as Map
+            Map advancement = new LinkedHashMap(branch.advancement as Map)
+            advancement['forge:condition'] = branch.conditions[0]
+            wrapper = [advancements: [advancement]]
+        }
+        return JsonOutput.prettyPrint(JsonOutput.toJson(wrapper)) + '\n'
+    }
+    if (relative.contains('/recipes/')) {
+        Map recipe = new JsonSlurper().parseText(rendered) as Map
+        List conditions = recipe.remove('conditions') as List
+        if (recipe.type instanceof String && !recipe.type.contains(':')) {
+            recipe.type = "minecraft:${recipe.type}"
+        }
+        if (recipe.result instanceof Map && recipe.result.item != null) {
+            recipe.result.id = recipe.result.remove('item')
+        }
+        Map output = recipe
+        if (conditions != null && conditions.size() == 1) {
+            output = [
+                    type             : 'forge:conditional',
+                    'forge:condition': conditions[0],
+                    recipes          : [[recipe: recipe]]
+            ]
+        }
+        return JsonOutput.prettyPrint(JsonOutput.toJson(output)) + '\n'
+    }
+    rendered
+}
 
 def renderFurnitureCatalog = { File outputRoot ->
     def catalog = readFurnitureCatalog()
@@ -75,8 +112,9 @@ def renderFurnitureCatalog = { File outputRoot ->
                     planks  : wood.planks
             ]
             String relative = mappedFurnitureResourcePath(renderFurnitureText(relativeTemplate, values), catalog)
+            String rendered = renderFurnitureText(source, values)
             writeFurnitureFile(outputRoot, "src/main/resources/${relative}",
-                    renderFurnitureText(source, values), generated)
+                    renderTargetFurnitureData(relative, rendered, catalog), generated)
         }
     }
 
@@ -99,8 +137,9 @@ def renderFurnitureCatalog = { File outputRoot ->
                         display     : wood.display
                 ]
                 String relative = mappedFurnitureResourcePath(renderFurnitureText(relativeTemplate, values), catalog)
+                String rendered = renderFurnitureText(source, values)
                 writeFurnitureFile(outputRoot, "src/main/resources/${relative}",
-                        renderFurnitureText(source, values), generated)
+                        renderTargetFurnitureData(relative, rendered, catalog), generated)
             }
         }
     }
@@ -221,11 +260,19 @@ tasks.register('updateFurnitureCatalog') {
     inputs.file furnitureCatalogFile
     inputs.dir furnitureTemplateDirectory
     doLast {
+        def catalog = readFurnitureCatalog()
         fileTree('src/main/resources').matching { include '**/*.json' }.files
                 .findAll(isManagedFurnitureResource)
                 .each { File stale -> Files.delete(stale.toPath()) }
-        File oldBygClass = file('src/main/java/zone/moddev/mc/ironagefurniture/init/ModBYGBlocks.java')
-        if (oldBygClass.isFile()) Files.delete(oldBygClass.toPath())
+        Set<String> enabledIntegrationClasses = (catalog.integrations.collect { it.className }
+                + catalog.retainedIntegrationClasses) as Set<String>
+        ['ModBYGBlocks', 'ModBOPBlocks', 'ModBWGBlocks', 'ModIEBlocks'].each { className ->
+            File integrationClass = file(
+                    "src/main/java/zone/moddev/mc/ironagefurniture/init/${className}.java")
+            if (!enabledIntegrationClasses.contains(className) && integrationClass.isFile()) {
+                Files.delete(integrationClass.toPath())
+            }
+        }
         renderFurnitureCatalog(project.projectDir)
     }
 }

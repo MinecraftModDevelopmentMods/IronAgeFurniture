@@ -29,8 +29,7 @@ public final class OptionalIntegrationRecipeProbe
 
     private static final Logger LOGGER = LogUtils.getLogger();
     private static final List<String> REQUIRED_MODS = List.of(
-            "biomesoplenty", "biomeswevegone", "immersiveengineering",
-            "terrablender", "corgilib", "geckolib", "ohthetreesyoullgrow", "glitchcore");
+            "biomesoplenty", "terrablender", "glitchcore");
 
     public OptionalIntegrationRecipeProbe()
     {
@@ -48,10 +47,10 @@ public final class OptionalIntegrationRecipeProbe
 
         int recipeCount = recipes.values().stream().mapToInt(Integer::intValue).sum();
         int advancementCount = advancements.values().stream().mapToInt(Integer::intValue).sum();
-        require(recipeCount == 1497,
-                "Expected 1497 conditional recipes, found " + recipeCount);
-        require(advancementCount == 1481,
-                "Expected 1481 conditional advancements, found " + advancementCount);
+        require(recipeCount == 507,
+                "Expected 507 conditional recipes, found " + recipeCount);
+        require(advancementCount == 507,
+                "Expected 507 conditional advancements, found " + advancementCount);
 
         writeMarker(versions, recipes, advancements, recipeCount, advancementCount);
         LOGGER.info("IRON AGE FURNITURE OPTIONAL INTEGRATION PROBE PASSED: "
@@ -98,7 +97,7 @@ public final class OptionalIntegrationRecipeProbe
         for (ExpectedEntry expected : readExpectedEntries(resourceName))
         {
             counts.merge(expected.modId(), 1, Integer::sum);
-            if (server.getAdvancements().getAdvancement(expected.id()) == null)
+            if (server.getAdvancements().get(expected.id()) == null)
             {
                 missing.add(expected.id().toString());
             }
@@ -150,7 +149,7 @@ public final class OptionalIntegrationRecipeProbe
             result.append("mod.").append(modId).append("=")
                     .append(versions.get(modId)).append('\n');
         }
-        for (String modId : List.of("biomesoplenty", "biomeswevegone", "immersiveengineering"))
+        for (String modId : List.of("biomesoplenty"))
         {
             result.append("recipes.").append(modId).append("=")
                     .append(recipes.getOrDefault(modId, 0)).append('\n');

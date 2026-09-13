@@ -110,7 +110,7 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 
 	
 	@Override
-	public boolean canPlaceLiquid(BlockGetter blockGetter, BlockPos blockPos, BlockState blockState, Fluid fluid) {
+	public boolean canPlaceLiquid(Player player, BlockGetter blockGetter, BlockPos blockPos, BlockState blockState, Fluid fluid) {
 		return true;
 	}
 

@@ -32,7 +32,6 @@ import oshi.util.tuples.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 public class LightSourceSconceLavaFloor extends LightSourceSconceGlowFloor implements LiquidBlockContainer {
@@ -71,10 +70,7 @@ public class LightSourceSconceLavaFloor extends LightSourceSconceGlowFloor imple
 		ItemStack tool = player.getInventory().getSelected();
 
 		if (tool != null) {
-			Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(tool);
-
-			if (enchantments != null && !enchantments.isEmpty())
-				isSilkTouch = enchantments.get(Enchantments.SILK_TOUCH) > 0;
+			isSilkTouch = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.SILK_TOUCH, tool) > 0;
 		}
 
 		if (isSilkTouch && !player.isCreative())

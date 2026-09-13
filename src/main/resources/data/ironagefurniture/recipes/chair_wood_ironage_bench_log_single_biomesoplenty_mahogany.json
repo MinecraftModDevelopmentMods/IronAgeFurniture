@@ -1,22 +1,27 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "conditions": [
-    {
-      "modid": "biomesoplenty",
-      "type": "forge:mod_loaded"
-    }
-  ],
-  "group": "furniture",
-  "pattern": [
-    "xxx"
-  ],
-  "key": {
-    "x": {
-      "item": "biomesoplenty:mahogany_log"
-    }
-  },
-  "result": {
-    "item": "ironagefurniture:chair_wood_ironage_bench_log_single_biomesoplenty_mahogany",
-    "count": 3
-  }
+    "type": "forge:conditional",
+    "forge:condition": {
+        "modid": "biomesoplenty",
+        "type": "forge:mod_loaded"
+    },
+    "recipes": [
+        {
+            "recipe": {
+                "type": "minecraft:crafting_shaped",
+                "group": "furniture",
+                "pattern": [
+                    "xxx"
+                ],
+                "key": {
+                    "x": {
+                        "item": "biomesoplenty:mahogany_log"
+                    }
+                },
+                "result": {
+                    "count": 3,
+                    "id": "ironagefurniture:chair_wood_ironage_bench_log_single_biomesoplenty_mahogany"
+                }
+            }
+        }
+    ]
 }

@@ -1,20 +1,25 @@
 {
-  "type": "crafting_shapeless",
-  "conditions": [
-    {
-      "modid": "biomesoplenty",
-      "type": "forge:mod_loaded"
-    }
-  ],
-  "ingredients": [
-    {
-      "item": "minecraft:light_gray_carpet"
+    "type": "forge:conditional",
+    "forge:condition": {
+        "modid": "biomesoplenty",
+        "type": "forge:mod_loaded"
     },
-    {
-      "item": "ironagefurniture:chair_wood_ironage_bench_back_single_biomesoplenty_empyreal"
-    }
-  ],
-  "result": {
-    "item": "ironagefurniture:chair_wood_ironage_bench_back_padded_light_gray_single_biomesoplenty_empyreal"
-  }
+    "recipes": [
+        {
+            "recipe": {
+                "type": "minecraft:crafting_shapeless",
+                "ingredients": [
+                    {
+                        "item": "minecraft:light_gray_carpet"
+                    },
+                    {
+                        "item": "ironagefurniture:chair_wood_ironage_bench_back_single_biomesoplenty_empyreal"
+                    }
+                ],
+                "result": {
+                    "id": "ironagefurniture:chair_wood_ironage_bench_back_padded_light_gray_single_biomesoplenty_empyreal"
+                }
+            }
+        }
+    ]
 }
