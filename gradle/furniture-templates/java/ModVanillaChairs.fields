@@ -1,1 +1,1 @@
-	public static RegistryObject<Block> chair_wood_ironage_classic_{{wood}} = register("chair_wood_ironage_classic_{{wood}}", () -> new {{blockClass}}(1, 10, SoundType.WOOD, "chair_wood_ironage_classic_{{wood}}"));
+	public static DeferredHolder<Block, Block> chair_wood_ironage_classic_{{wood}} = register("chair_wood_ironage_classic_{{wood}}", () -> new {{blockClass}}(1, 10, SoundType.WOOD, "chair_wood_ironage_classic_{{wood}}"));

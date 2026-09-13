@@ -1,31 +1,26 @@
 {
-    "type": "forge:conditional",
-    "forge:condition": {
-        "modid": "biomesoplenty",
-        "type": "forge:mod_loaded"
+    "type": "minecraft:crafting_shaped",
+    "group": "furniture",
+    "pattern": [
+        "xx",
+        "yy"
+    ],
+    "key": {
+        "y": {
+            "tag": "c:rods/wooden"
+        },
+        "x": {
+            "item": "biomesoplenty:hellbark_planks"
+        }
     },
-    "recipes": [
+    "result": {
+        "count": 1,
+        "id": "ironagefurniture:chair_wood_ironage_bench_single_biomesoplenty_hellbark"
+    },
+    "neoforge:conditions": [
         {
-            "recipe": {
-                "type": "minecraft:crafting_shaped",
-                "group": "furniture",
-                "pattern": [
-                    "xx",
-                    "yy"
-                ],
-                "key": {
-                    "y": {
-                        "tag": "forge:rods/wooden"
-                    },
-                    "x": {
-                        "item": "biomesoplenty:hellbark_planks"
-                    }
-                },
-                "result": {
-                    "count": 1,
-                    "id": "ironagefurniture:chair_wood_ironage_bench_single_biomesoplenty_hellbark"
-                }
-            }
+            "modid": "biomesoplenty",
+            "type": "neoforge:mod_loaded"
         }
     ]
 }

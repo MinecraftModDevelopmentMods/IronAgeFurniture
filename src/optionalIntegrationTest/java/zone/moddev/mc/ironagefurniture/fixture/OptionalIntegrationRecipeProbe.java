@@ -3,10 +3,10 @@ package zone.moddev.mc.ironagefurniture.fixture;
 import com.mojang.logging.LogUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.server.ServerStartedEvent;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.server.ServerStartedEvent;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.common.Mod;
 import org.slf4j.Logger;
 
 import java.io.BufferedReader;
@@ -33,7 +33,7 @@ public final class OptionalIntegrationRecipeProbe
 
     public OptionalIntegrationRecipeProbe()
     {
-        MinecraftForge.EVENT_BUS.addListener(this::serverStarted);
+        NeoForge.EVENT_BUS.addListener(this::serverStarted);
     }
 
     private void serverStarted(ServerStartedEvent event)
@@ -124,7 +124,7 @@ public final class OptionalIntegrationRecipeProbe
                 if (line.isBlank()) continue;
                 String[] parts = line.split("=", 2);
                 require(parts.length == 2, "Invalid probe entry: " + line);
-                result.add(new ExpectedEntry(parts[0], ResourceLocation.parse(parts[1])));
+                result.add(new ExpectedEntry(parts[0], new ResourceLocation(parts[1])));
             }
         }
         catch (IOException exception)

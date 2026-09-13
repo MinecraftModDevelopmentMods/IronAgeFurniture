@@ -3,7 +3,7 @@
   "minecraft": "1.20.6",
   "loader": "forge",
   "dataLayout": "plural",
-  "dataSchema": "forge50",
+    "dataSchema": "neoforge20",
   "itemDefinitions": false,
   "vanilla": [
     { "wood": "oak", "display": "Oak", "log": "oak_log", "logTop": "oak_log_top", "planks": "oak_planks", "nether": false },

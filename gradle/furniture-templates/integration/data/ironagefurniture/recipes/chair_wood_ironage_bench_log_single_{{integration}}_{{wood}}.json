@@ -3,7 +3,7 @@
   "conditions": [
     {
       "modid": "{{modId}}",
-      "type": "forge:mod_loaded"
+      "type": "neoforge:mod_loaded"
     }
   ],
   "group": "furniture",
