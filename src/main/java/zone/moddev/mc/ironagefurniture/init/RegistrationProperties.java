@@ -10,7 +10,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 
 /**
  * Applies stable registry identities before Minecraft constructs blocks and
- * items. Minecraft 26.1.2 derives description and loot identities during
+ * items. Minecraft 26.2 derives description and loot identities during
  * construction, so assigning the registry entry afterward is too late.
  */
 public final class RegistrationProperties {

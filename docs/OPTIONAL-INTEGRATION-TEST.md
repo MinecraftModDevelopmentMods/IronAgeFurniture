@@ -1,6 +1,6 @@
 # Optional integration runtime test
 
-This positive-path test starts Forge 26.1.2 with Iron Age Furniture and the supported
+This positive-path test starts Forge 26.2 with Iron Age Furniture and the supported
 Biomes O' Plenty integration. A test-only Forge mod then checks the live server
 registries for every conditional recipe and recipe advancement and stops the server.
 
@@ -10,7 +10,7 @@ exact filenames, versions, SHA-256 checksums, roles, and source pages are pinned
 
 ## Setup
 
-1. Install the Forge `26.1.2-64.0.9` server into the ignored
+1. Install the Forge `26.2-65.1.0` server into the ignored
    `run-optional-integrations` directory and accept its EULA.
 2. Download every jar listed in the manifest into
    `run-optional-integrations/mods`. This directory may also contain the generated
