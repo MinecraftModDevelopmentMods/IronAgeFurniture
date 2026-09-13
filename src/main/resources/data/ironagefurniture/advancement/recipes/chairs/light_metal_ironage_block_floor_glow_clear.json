@@ -10,15 +10,24 @@
       "conditions": {
         "items": [
           {
-            "item": "minecraft:glowstone_dust"
+            "items": [
+              "minecraft:glowstone_dust"
+            ]
           }
         ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "ironagefurniture:light_metal_ironage_block_floor_glow_clear"
       }
     }
   },
   "requirements": [
     [
-      "has_nugget"
+      "has_nugget",
+      "has_the_recipe"
     ]
   ]
 }
