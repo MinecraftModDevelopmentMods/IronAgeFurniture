@@ -16,6 +16,9 @@ public class Entities
 	public static final DeferredRegister<EntityType<?>> REGISTER = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, Ironagefurniture.MODID);
 
     public static final DeferredHolder<EntityType<?>, EntityType<Seat>> SEAT = register("seat", EntityType.Builder.<Seat>of((type, world) -> new Seat(world), MobCategory.MISC).sized(0.0F, 0.0F));
+	public static final DeferredHolder<EntityType<?>, EntityType<ThrownLavaLamp>> THROWN_LAVA_LAMP = register("thrown_lava_lamp",
+		EntityType.Builder.<ThrownLavaLamp>of(ThrownLavaLamp::new, MobCategory.MISC)
+			.sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(10));
 
     private static <T extends Entity> DeferredHolder<EntityType<?>, EntityType<T>> register(String name, EntityType.Builder<T> builder)
     {
