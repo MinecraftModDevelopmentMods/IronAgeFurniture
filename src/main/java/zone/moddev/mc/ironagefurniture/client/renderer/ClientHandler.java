@@ -8,6 +8,7 @@ import zone.moddev.mc.ironagefurniture.init.ModVanillaChairs;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.event.CreativeModeTabEvent;
 
@@ -15,6 +16,7 @@ public class ClientHandler {
 	 public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event)
 	    {
 	        event.registerEntityRenderer(Entities.SEAT.get(), SeatRenderer::new);
+	        event.registerEntityRenderer(Entities.THROWN_LAVA_LAMP.get(), ThrownItemRenderer::new);
 	    }
 	 
 	 public static void onRegisterCreativeTab(CreativeModeTabEvent.Register event) {
