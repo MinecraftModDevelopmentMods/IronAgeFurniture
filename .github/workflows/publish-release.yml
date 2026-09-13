@@ -51,6 +51,7 @@ jobs:
       gradle_java_version: ${{ steps.validate.outputs.gradle_java_version }}
       install_gradle_java: ${{ steps.validate.outputs.install_gradle_java }}
       curseforge_project_id: ${{ steps.validate.outputs.curseforge_project_id }}
+      curseforge_dependencies: ${{ steps.validate.outputs.curseforge_dependencies }}
       mod_group: ${{ steps.validate.outputs.mod_group }}
       archive_name: ${{ steps.validate.outputs.archive_name }}
       main_jar: ${{ steps.validate.outputs.main_jar }}
@@ -144,6 +145,7 @@ jobs:
           java_setup_version="$(value java_setup_version)"
           gradle_java_version="$(value gradle_java_version)"
           curseforge_project_id="$(value curseforge_project_id)"
+          curseforge_optionals="$(value curseforge_optionals)"
           mod_group="$(value mod_group)"
           archive_name="$(value mod_archive_name)"
 
@@ -181,7 +183,8 @@ jobs:
             '16.0.2+7 17 true'
             '17.0.1+12 17 false'
             '17 17 false'
-            '21.0.8+9 21 false'
+            '21.0.7+6 21 false'
+            '25.0.3+9 25 false'
           )
           for contract in "${java_setup_contracts[@]}"; do
             read -r contract_toolchain contract_gradle expected <<<"$contract"
@@ -231,6 +234,18 @@ jobs:
             exit 1
           fi
 
+          curseforge_dependencies=
+          if [[ -n "$curseforge_optionals" ]]; then
+            IFS=',' read -ra optional_projects <<<"$curseforge_optionals"
+            for project_slug in "${optional_projects[@]}"; do
+              if [[ ! "$project_slug" =~ ^[a-z0-9][a-z0-9-]*$ ]]; then
+                echo "Invalid CurseForge optional project slug $project_slug" >&2
+                exit 1
+              fi
+              curseforge_dependencies+="${curseforge_dependencies:+$'\n'}${project_slug}(optional)"
+            done
+          fi
+
           printf -v minor_padded '%02d' "$((10#$mc_minor))"
           printf -v patch_padded '%02d' "$((10#$mc_patch))"
           target_suffix="${mc_major}${minor_padded}${patch_padded}${loader_code}"
@@ -257,6 +272,11 @@ jobs:
           echo "gradle_java_version=$gradle_java_version" >> "$GITHUB_OUTPUT"
           echo "install_gradle_java=$install_gradle_java" >> "$GITHUB_OUTPUT"
           echo "curseforge_project_id=$curseforge_project_id" >> "$GITHUB_OUTPUT"
+          {
+            echo 'curseforge_dependencies<<IRONAGEFURNITURE_DEPENDENCIES'
+            printf '%s\n' "$curseforge_dependencies"
+            echo 'IRONAGEFURNITURE_DEPENDENCIES'
+          } >> "$GITHUB_OUTPUT"
           echo "mod_group=$mod_group" >> "$GITHUB_OUTPUT"
           echo "archive_name=$archive_name" >> "$GITHUB_OUTPUT"
           echo "main_jar=$archive_name-$release_version.jar" >> "$GITHUB_OUTPUT"
@@ -680,6 +700,7 @@ jobs:
         with:
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
           curseforge-id: ${{ needs.preflight.outputs.curseforge_project_id }}
+          curseforge-dependencies: ${{ needs.preflight.outputs.curseforge_dependencies }}
           name: IronAgeFurniture ${{ needs.preflight.outputs.release_version }} for Minecraft ${{ needs.preflight.outputs.minecraft_version }} (${{ needs.preflight.outputs.loader_display }})
           version: ${{ needs.preflight.outputs.release_version }}
           version-type: ${{ inputs.curseforge_release_level }}
