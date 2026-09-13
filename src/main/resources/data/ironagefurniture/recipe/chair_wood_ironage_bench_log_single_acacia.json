@@ -5,9 +5,7 @@
         "xxx"
     ],
     "key": {
-        "x": {
-            "item": "minecraft:acacia_log"
-        }
+        "x": "minecraft:acacia_log"
     },
     "result": {
         "count": 3,

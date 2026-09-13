@@ -5,9 +5,7 @@
         "xxx"
     ],
     "key": {
-        "x": {
-            "item": "biomesoplenty:umbran_log"
-        }
+        "x": "biomesoplenty:umbran_log"
     },
     "result": {
         "count": 3,

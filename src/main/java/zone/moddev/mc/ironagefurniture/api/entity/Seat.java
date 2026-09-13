@@ -1,11 +1,14 @@
 package zone.moddev.mc.ironagefurniture.api.entity;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -15,7 +18,7 @@ public class Seat extends Entity {
 	private BlockPos source;
 
     public Seat(Level world) {
-        super(Entities.SEAT.get(), world);
+        super(zone.moddev.mc.ironagefurniture.api.entity.Entities.SEAT.get(), world);
         this.noPhysics = true;
     }
 
@@ -27,7 +30,7 @@ public class Seat extends Entity {
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag compound) {}
+    protected void addAdditionalSaveData(ValueOutput output) {}
 
     @Override
     protected boolean canRide(Entity entity) { return true; }
@@ -36,10 +39,13 @@ public class Seat extends Entity {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {}
 
     @Override
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) { return false; }
+
+    @Override
     public Vec3 getPassengerRidingPosition(Entity passenger) { return position(); }
 
     @Override
-    protected void readAdditionalSaveData(CompoundTag compound) {}
+    protected void readAdditionalSaveData(ValueInput input) {}
 
     @Override
     public void tick() {
@@ -48,7 +54,7 @@ public class Seat extends Entity {
         if(this.source == null)
             this.source = this.blockPosition();
 
-		if (this.level().isClientSide)
+		if (this.level().isClientSide())
 			return;
 
 		if(this.getPassengers().isEmpty() || this.level().isEmptyBlock(this.source))
@@ -68,7 +74,7 @@ public class Seat extends Entity {
             {
                 Seat seatEntity = new Seat(level, pos, yOffset);
                 level.addFreshEntity(seatEntity);
-                player.startRiding(seatEntity, false);
+                player.startRiding(seatEntity, false, true);
             }
         }
         return InteractionResult.SUCCESS;

@@ -3,7 +3,6 @@ package zone.moddev.mc.ironagefurniture.api.blocks.lightsource.red;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.WeakHashMap;
 
 import com.google.common.collect.ImmutableList;
@@ -27,6 +26,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.redstone.Orientation;
+import org.jetbrains.annotations.Nullable;
 import net.minecraft.world.level.storage.loot.LootParams.Builder;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -50,7 +51,7 @@ public class LightSourceRed extends FallingFurnitureBlock {
 	}
 
 	@Override
-	public boolean propagatesSkylightDown(BlockState state, BlockGetter getter, BlockPos pos) {
+	protected boolean propagatesSkylightDown(BlockState state) {
 		return true;
 	}
 
@@ -75,7 +76,7 @@ public class LightSourceRed extends FallingFurnitureBlock {
 	}
 
 	public LightSourceRed(float hardness, float blastResistance, SoundType sound, String name) {
-		super(Block.Properties.of().strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> LIGHT_LEVEL));
+		super(zone.moddev.mc.ironagefurniture.init.RegistrationProperties.block(Block.Properties.of().strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> LIGHT_LEVEL), name));
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
@@ -106,7 +107,7 @@ public class LightSourceRed extends FallingFurnitureBlock {
 	}
 
 	@Override
-	public void onRemove(BlockState state, Level level, BlockPos pos, BlockState state2, boolean flag) {
+	protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos, boolean flag) {
 		if (flag)
 			return;
 
@@ -233,7 +234,7 @@ public class LightSourceRed extends FallingFurnitureBlock {
 	}
 
 	@Override
-	public void animateTick(BlockState state, Level level, BlockPos pos, Random rnd) {
+	public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource rnd) {
 		if (GetLightLevel() <= 0)
 			return;
 
@@ -245,7 +246,7 @@ public class LightSourceRed extends FallingFurnitureBlock {
 	}
 
 	@Override
-	public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos blockPos,
+	protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, @Nullable Orientation orientation,
 								boolean flag) {
 	    boolean hasSignal = this.hasNeighborSignal(level, pos, state);
 	    boolean willTick = level.getBlockTicks().willTickThisTick(pos, this);

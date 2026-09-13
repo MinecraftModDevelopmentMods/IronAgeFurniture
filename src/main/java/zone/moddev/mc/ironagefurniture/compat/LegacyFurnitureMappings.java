@@ -3,7 +3,7 @@ package zone.moddev.mc.ironagefurniture.compat;
 import java.util.Map;
 
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.bus.api.IEventBus;
@@ -92,8 +92,8 @@ public final class LegacyFurnitureMappings {
     }
 
     private static void registerAlias(String oldPath, String targetPath) {
-        ResourceLocation oldId = ResourceLocation.fromNamespaceAndPath(Ironagefurniture.MODID, oldPath);
-        ResourceLocation targetId = ResourceLocation.fromNamespaceAndPath(
+        Identifier oldId = Identifier.fromNamespaceAndPath(Ironagefurniture.MODID, oldPath);
+        Identifier targetId = Identifier.fromNamespaceAndPath(
                 Ironagefurniture.MODID, targetPath);
         BLOCK_ALIASES.addAlias(oldId, targetId);
         ITEM_ALIASES.addAlias(oldId, targetId);

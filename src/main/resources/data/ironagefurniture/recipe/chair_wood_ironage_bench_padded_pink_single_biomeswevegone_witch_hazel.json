@@ -1,12 +1,8 @@
 {
     "type": "minecraft:crafting_shapeless",
     "ingredients": [
-        {
-            "item": "minecraft:pink_carpet"
-        },
-        {
-            "item": "ironagefurniture:chair_wood_ironage_bench_single_biomeswevegone_witch_hazel"
-        }
+        "minecraft:pink_carpet",
+        "ironagefurniture:chair_wood_ironage_bench_single_biomeswevegone_witch_hazel"
     ],
     "result": {
         "id": "ironagefurniture:chair_wood_ironage_bench_padded_pink_single_biomeswevegone_witch_hazel"

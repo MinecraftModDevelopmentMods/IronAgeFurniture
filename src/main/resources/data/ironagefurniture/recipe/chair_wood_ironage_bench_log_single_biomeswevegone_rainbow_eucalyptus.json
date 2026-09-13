@@ -5,9 +5,7 @@
         "xxx"
     ],
     "key": {
-        "x": {
-            "item": "biomeswevegone:rainbow_eucalyptus_log"
-        }
+        "x": "biomeswevegone:rainbow_eucalyptus_log"
     },
     "result": {
         "count": 3,

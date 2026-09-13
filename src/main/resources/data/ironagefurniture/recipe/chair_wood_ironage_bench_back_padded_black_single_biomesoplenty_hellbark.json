@@ -1,12 +1,8 @@
 {
     "type": "minecraft:crafting_shapeless",
     "ingredients": [
-        {
-            "item": "minecraft:black_carpet"
-        },
-        {
-            "item": "ironagefurniture:chair_wood_ironage_bench_back_single_biomesoplenty_hellbark"
-        }
+        "minecraft:black_carpet",
+        "ironagefurniture:chair_wood_ironage_bench_back_single_biomesoplenty_hellbark"
     ],
     "result": {
         "id": "ironagefurniture:chair_wood_ironage_bench_back_padded_black_single_biomesoplenty_hellbark"

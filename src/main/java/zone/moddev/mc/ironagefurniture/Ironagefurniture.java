@@ -8,10 +8,10 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import zone.moddev.mc.ironagefurniture.api.entity.Entities;
 import zone.moddev.mc.ironagefurniture.compat.LegacyFurnitureMappings;
+import zone.moddev.mc.ironagefurniture.client.OptionalIntegrationResourcePacks;
 import zone.moddev.mc.ironagefurniture.init.ModBOPBlocks;
 import zone.moddev.mc.ironagefurniture.init.ModBWGBlocks;
 import zone.moddev.mc.ironagefurniture.init.ModCreativeTab;
-import zone.moddev.mc.ironagefurniture.init.ModIEBlocks;
 import zone.moddev.mc.ironagefurniture.init.ModVanillaBackBench;
 import zone.moddev.mc.ironagefurniture.init.ModVanillaBench;
 import zone.moddev.mc.ironagefurniture.init.ModVanillaChairs;
@@ -59,15 +59,11 @@ public class Ironagefurniture
 			ModBWGBlocks.REGISTER.register(modEventBus);
 		}
 
-		if (ModList.get().isLoaded("immersiveengineering")) {
-			LOGGER.info("Iron Age Furniture Immersive Engineering integration is loading...");
-			ModIEBlocks.REGISTER.register(modEventBus);
-		}
-		
         ModItems.REGISTER.register(modEventBus);
         ModCreativeTab.REGISTER.register(modEventBus);
         Entities.REGISTER.register(modEventBus);
         LegacyFurnitureMappings.registerAliases(modEventBus);
+        OptionalIntegrationResourcePacks.register(modEventBus);
         
         modEventBus.addListener(this::commonSetup);
 

@@ -6,12 +6,8 @@
         "yy"
     ],
     "key": {
-        "y": {
-            "tag": "c:rods/wooden"
-        },
-        "x": {
-            "item": "minecraft:oak_planks"
-        }
+        "y": "#c:rods/wooden",
+        "x": "minecraft:oak_planks"
     },
     "result": {
         "count": 1,

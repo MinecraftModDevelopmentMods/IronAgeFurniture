@@ -1,6 +1,8 @@
 {
+  "render_type": "cutout",
 	"parent": "ironagefurniture:block/template_light_metal_ironage_sconce_wall_vial",
 	"textures": {
+  "render_type": "cutout",
 		"contents": "minecraft:block/lava_still",
 		"metal": "minecraft:block/iron_block"
 	}

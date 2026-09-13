@@ -6,12 +6,8 @@
         "yyy"
     ],
     "key": {
-        "y": {
-            "tag": "c:rods/wooden"
-        },
-        "x": {
-            "item": "biomesoplenty:palm_planks"
-        }
+        "y": "#c:rods/wooden",
+        "x": "biomesoplenty:palm_planks"
     },
     "result": {
         "count": 1,

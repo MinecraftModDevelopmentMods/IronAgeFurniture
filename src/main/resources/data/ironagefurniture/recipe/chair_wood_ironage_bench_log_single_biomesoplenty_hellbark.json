@@ -5,9 +5,7 @@
         "xxx"
     ],
     "key": {
-        "x": {
-            "item": "biomesoplenty:hellbark_log"
-        }
+        "x": "biomesoplenty:hellbark_log"
     },
     "result": {
         "count": 3,

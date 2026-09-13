@@ -10,41 +10,34 @@ displayName="Iron Age Furniture Optional Integration Probe"
 [[dependencies.ironagefurnitureintegrationprobe]]
 modId="neoforge"
 type="required"
-versionRange="[21.1.247,21.2)"
+versionRange="[21.11.45,21.12)"
 ordering="NONE"
 side="SERVER"
 
 [[dependencies.ironagefurnitureintegrationprobe]]
 modId="minecraft"
 type="required"
-versionRange="[1.21.1]"
+versionRange="[1.21.11]"
 ordering="NONE"
 side="SERVER"
 
 [[dependencies.ironagefurnitureintegrationprobe]]
 modId="ironagefurniture"
 type="required"
-versionRange="[0.3.0.121012]"
+versionRange="[0.3.0.121112]"
 ordering="AFTER"
 side="SERVER"
 
 [[dependencies.ironagefurnitureintegrationprobe]]
 modId="biomesoplenty"
 type="optional"
-versionRange="[21.1.0.14]"
+versionRange="[21.11.0.31]"
 ordering="AFTER"
 side="SERVER"
 
 [[dependencies.ironagefurnitureintegrationprobe]]
 modId="biomeswevegone"
 type="optional"
-versionRange="[2.6.0]"
-ordering="AFTER"
-side="SERVER"
-
-[[dependencies.ironagefurnitureintegrationprobe]]
-modId="immersiveengineering"
-type="optional"
-versionRange="[12.4.2-194]"
+versionRange="[4.4.0]"
 ordering="AFTER"
 side="SERVER"

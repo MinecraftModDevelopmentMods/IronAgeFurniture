@@ -7,12 +7,8 @@
         "y y"
     ],
     "key": {
-        "y": {
-            "tag": "c:rods/wooden"
-        },
-        "x": {
-            "item": "biomeswevegone:sakura_planks"
-        }
+        "y": "#c:rods/wooden",
+        "x": "biomeswevegone:sakura_planks"
     },
     "result": {
         "count": 1,

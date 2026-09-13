@@ -1,6 +1,8 @@
 {
+  "render_type": "cutout",
 	"parent": "ironagefurniture:block/template_light_metal_ironage_block_floor_vial",
 	"textures": {
+  "render_type": "cutout",
 		"contents": "minecraft:block/glowstone"
 	}
 }

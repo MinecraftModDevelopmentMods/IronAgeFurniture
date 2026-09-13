@@ -1,12 +1,8 @@
 {
     "type": "minecraft:crafting_shapeless",
     "ingredients": [
-        {
-            "item": "minecraft:shield"
-        },
-        {
-            "item": "ironagefurniture:chair_wood_ironage_classic_biomeswevegone_cypress"
-        }
+        "minecraft:shield",
+        "ironagefurniture:chair_wood_ironage_classic_biomeswevegone_cypress"
     ],
     "result": {
         "id": "ironagefurniture:chair_wood_ironage_shield_biomeswevegone_cypress"

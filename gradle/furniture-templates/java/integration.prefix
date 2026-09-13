@@ -4,9 +4,9 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
-import net.neoforged.neoforge.registries.DeferredRegister;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.neoforged.neoforge.registries.DeferredHolder;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
 import zone.moddev.mc.ironagefurniture.Ironagefurniture;
 import zone.moddev.mc.ironagefurniture.ModItems;
@@ -21,16 +21,16 @@ import zone.moddev.mc.ironagefurniture.api.blocks.furniture.TallStool;
 import java.util.function.Supplier;
 
 public class {{className}} {
-	public static final DeferredRegister<Block> REGISTER = DeferredRegister.create(BuiltInRegistries.BLOCK, Ironagefurniture.MODID);
+	public static final DeferredRegister<Block> REGISTER = DeferredRegister.create(ForgeRegistries.BLOCKS, Ironagefurniture.MODID);
 	
-	private static DeferredHolder<Block, Block> register(String name, Supplier<Block> block) {
+	private static RegistryObject<Block> register(String name, Supplier<Block> block) {
 		return register(name, block, new Item.Properties()); 
 	}
 	
-	private static DeferredHolder<Block, Block> register(String name, Supplier<Block> block, Item.Properties properties) {
-		DeferredHolder<Block, Block> registryObject = REGISTER.register(name, block);
+	private static RegistryObject<Block> register(String name, Supplier<Block> block, Item.Properties properties) {
+		RegistryObject<Block> registryObject = REGISTER.register(name, block);
 		
-		ModItems.REGISTER.register(name, () -> new BlockItem(registryObject.get(), properties));
+		ModItems.REGISTER.register(name, () -> new BlockItem(registryObject.get(), RegistrationProperties.item(properties, name).useBlockDescriptionPrefix()));
 		
 		return registryObject; 
 	}

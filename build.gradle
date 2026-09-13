@@ -114,9 +114,8 @@ def archiveTextSuffixes = [
 def archiveTextPatterns = archiveTextSuffixes.collect { "**/*${it}".toString() }
 archiveTextPatterns.addAll(['**/element-list', '**/package-list'])
 def optionalIntegrationExpectedCounts = [
-        biomesoplenty     : [recipes: 507, advancements: 507],
-        biomeswevegone    : [recipes: 975, advancements: 975],
-        immersiveengineering: [recipes: 54, advancements: 38]
+        biomesoplenty : [recipes: 546, advancements: 546],
+        biomeswevegone: [recipes: 975, advancements: 975]
 ]
 def optionalIntegrationProbeMods = providers.gradleProperty('optionalIntegrationProbeMods')
         .orElse(optionalIntegrationExpectedCounts.keySet().join(','))
@@ -190,12 +189,6 @@ runs {
     client
     server {
         argument '--nogui'
-    }
-    data {
-        workingDirectory project.layout.projectDirectory.dir('run-data')
-        arguments.addAll '--mod', project.mod_id, '--all', '--output',
-                file('src/generated/resources/').absolutePath, '--existing',
-                file('src/main/resources/').absolutePath
     }
 }
 
@@ -595,18 +588,18 @@ tasks.register('verifyMavenCoordinates') {
 
 tasks.register('verifyReleaseConfiguration') {
     group = 'verification'
-    description = 'Verifies the exact IronAgeFurniture 1.21.1 NeoForge release identity.'
+    description = 'Verifies the exact IronAgeFurniture 1.21.11 NeoForge release identity.'
     doLast {
         Map<String, String> expected = [
-                mod_version            : '0.3.0.121012',
+                mod_version            : '0.3.0.121112',
                 mod_group              : 'zone.moddev.mc',
                 mod_archive_name       : 'iron-age-furniture',
                 mod_id                 : 'ironagefurniture',
-                minecraft_version      : '1.21.1',
+                minecraft_version      : '1.21.11',
                 loader_name            : 'neoforge',
                 loader_code            : '2',
-                neo_version            : '21.1.247',
-                neo_version_range      : '[21.1.247,21.2)',
+                neo_version            : '21.11.45',
+                neo_version_range      : '[21.11.45,21.12)',
                 loader_version_range   : '[3,)',
                 java_version           : '21',
                 java_toolchain_version : '21.0.7+6',
@@ -675,8 +668,8 @@ tasks.register('verifyResourceJson') {
             include '**/*.json'
             include 'pack.mcmeta'
         }.files.sort { it.path }
-        if (jsonFiles.size() != 15348) {
-            throw new GradleException("Expected 15348 runtime JSON documents, found ${jsonFiles.size()}")
+        if (jsonFiles.size() != 17698) {
+            throw new GradleException("Expected 17698 runtime JSON documents, found ${jsonFiles.size()}")
         }
         jsonFiles.each { candidate ->
             try {
@@ -689,9 +682,9 @@ tasks.register('verifyResourceJson') {
         List<Map> locales = localeNames.collect { name ->
             new JsonSlurper().parse(file("src/main/resources/assets/ironagefurniture/lang/${name}")) as Map
         }
-        if (!locales.every { it.size() == 7206 }
+        if (!locales.every { it.size() == 7350 }
                 || !locales.tail().every { it.keySet() == locales.first().keySet() }) {
-            throw new GradleException('English locale files must retain 7206 identical translation keys')
+            throw new GradleException('English locale files must retain 7350 identical translation keys')
         }
 
         Map<String, Map<String, Integer>> optionalIntegrations = optionalIntegrationExpectedCounts
@@ -711,7 +704,7 @@ tasks.register('verifyResourceJson') {
             if (document.result instanceof Map
                     && (document.result.id == null || document.result.item != null)) {
                 throw new GradleException(
-                        "Minecraft 1.21.1 recipe result must use id rather than item: ${recipeFile}")
+                        "Minecraft 1.21.11 recipe result must use id rather than item: ${recipeFile}")
             }
         }
         optionalIntegrations.each { modId, expectedCounts ->
@@ -776,8 +769,8 @@ tasks.register('verifyNamespace') {
         String maintainedPackage = 'zone.moddev.mc.ironagefurniture'
         String maintainedPath = "src/main/java/${maintainedPackage.replace('.', '/')}/"
         List<File> sources = fileTree('src/main/java') { include '**/*.java' }.files.sort { it.path }
-        if (sources.size() != 116) {
-            throw new GradleException("Expected 116 production Java sources, found ${sources.size()}")
+        if (sources.size() != 117) {
+            throw new GradleException("Expected 117 production Java sources, found ${sources.size()}")
         }
         sources.each { sourceFile ->
             String relativePath = project.relativePath(sourceFile).replace('\\', '/')
@@ -824,8 +817,8 @@ tasks.register('verifyVersionMetadata') {
                 'modId="ironagefurniture"',
                 "version=\"${project.version}\"",
                 'license="LGPL-2.1"',
-                'versionRange="[21.1.247,21.2)"',
-                'versionRange="[1.21.1,1.22)"'
+                'versionRange="[21.11.45,21.12)"',
+                'versionRange="[1.21.11]"'
         ].each { required ->
             if (!metadata.contains(required)) {
                 throw new GradleException("Generated neoforge.mods.toml is missing ${required}")
@@ -933,6 +926,24 @@ tasks.register('verifyReleaseArtifacts') {
         }
         File mainJar = new File(libs, expectedReleaseFiles.get()[0])
         new ZipFile(mainJar).withCloseable { ZipFile zip ->
+            List<String> names = zip.entries().collect { it.name }
+            List<String> itemModels = names.findAll {
+                it ==~ /(?:resourcepacks\/ironagefurniture_[^\/]+\/)?assets\/ironagefurniture\/models\/item\/[^\/]+\.json/
+            }
+            List<String> itemDefinitions = names.findAll {
+                it ==~ /(?:resourcepacks\/ironagefurniture_[^\/]+\/)?assets\/ironagefurniture\/items\/[^\/]+\.json/
+            }
+            if (itemModels.size() != 2085 || itemDefinitions.size() != 2058) {
+                throw new GradleException('Release jar must contain 2,085 item models and 2,058 visible-item definitions')
+            }
+            itemDefinitions.each { definitionName ->
+                String id = definitionName.tokenize('/').last().replaceFirst(/\.json$/, '')
+                Map definition = new JsonSlurper().parse(zip.getInputStream(zip.getEntry(definitionName))) as Map
+                if (definition.model?.type != 'minecraft:model'
+                        || definition.model?.model != "ironagefurniture:item/${id}") {
+                    throw new GradleException("Invalid NeoForge 21.11 item definition: ${definitionName}")
+                }
+            }
             [
                     'META-INF/neoforge.mods.toml',
                     'assets/ironagefurniture/lang/en_us.json',

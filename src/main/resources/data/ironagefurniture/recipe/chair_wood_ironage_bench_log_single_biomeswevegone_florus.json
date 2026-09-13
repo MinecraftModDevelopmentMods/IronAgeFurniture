@@ -5,9 +5,7 @@
         "xxx"
     ],
     "key": {
-        "x": {
-            "item": "biomeswevegone:florus_stem"
-        }
+        "x": "biomeswevegone:florus_stem"
     },
     "result": {
         "count": 3,

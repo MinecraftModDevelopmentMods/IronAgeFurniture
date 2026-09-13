@@ -6,12 +6,8 @@
         "yyy"
     ],
     "key": {
-        "y": {
-            "tag": "c:rods/wooden"
-        },
-        "x": {
-            "item": "biomeswevegone:white_mangrove_planks"
-        }
+        "y": "#c:rods/wooden",
+        "x": "biomeswevegone:white_mangrove_planks"
     },
     "result": {
         "count": 1,

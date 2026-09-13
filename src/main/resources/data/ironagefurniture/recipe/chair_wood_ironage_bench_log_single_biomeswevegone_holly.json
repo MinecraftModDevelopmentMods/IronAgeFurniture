@@ -5,9 +5,7 @@
         "xxx"
     ],
     "key": {
-        "x": {
-            "item": "biomeswevegone:holly_log"
-        }
+        "x": "biomeswevegone:holly_log"
     },
     "result": {
         "count": 3,

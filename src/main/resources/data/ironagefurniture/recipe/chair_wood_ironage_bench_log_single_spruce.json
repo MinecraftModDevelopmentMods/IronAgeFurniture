@@ -5,9 +5,7 @@
         "xxx"
     ],
     "key": {
-        "x": {
-            "item": "minecraft:spruce_log"
-        }
+        "x": "minecraft:spruce_log"
     },
     "result": {
         "count": 3,

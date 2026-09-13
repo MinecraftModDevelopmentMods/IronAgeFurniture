@@ -1,10 +1,24 @@
 {
-  "rewards": { "recipes": ["minecraft:obsidian"] },
+  "rewards": {
+    "recipes": [
+      "minecraft:obsidian"
+    ]
+  },
   "criteria": {
     "has_nugget": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": { "items": [{ "item": "ironagefurniture:obsidian_chunk" }] }
+      "conditions": {
+        "items": [
+          {
+            "item": "ironagefurniture:obsidian_chunk"
+          }
+        ]
+      }
     }
   },
-  "requirements": [["has_nugget"]]
+  "requirements": [
+    [
+      "has_nugget"
+    ]
+  ]
 }

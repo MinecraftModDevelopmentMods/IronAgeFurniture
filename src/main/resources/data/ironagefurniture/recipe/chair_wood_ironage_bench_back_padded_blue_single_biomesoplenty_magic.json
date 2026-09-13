@@ -1,12 +1,8 @@
 {
     "type": "minecraft:crafting_shapeless",
     "ingredients": [
-        {
-            "item": "minecraft:blue_carpet"
-        },
-        {
-            "item": "ironagefurniture:chair_wood_ironage_bench_back_single_biomesoplenty_magic"
-        }
+        "minecraft:blue_carpet",
+        "ironagefurniture:chair_wood_ironage_bench_back_single_biomesoplenty_magic"
     ],
     "result": {
         "id": "ironagefurniture:chair_wood_ironage_bench_back_padded_blue_single_biomesoplenty_magic"

@@ -7,7 +7,7 @@ import zone.moddev.mc.ironagefurniture.Ironagefurniture;
 import zone.moddev.mc.ironagefurniture.api.entity.Entities;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 
-@EventBusSubscriber(modid = Ironagefurniture.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = Ironagefurniture.MODID, value = Dist.CLIENT)
 public class ClientHandler {
 	 @SubscribeEvent
 	 public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event)

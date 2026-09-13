@@ -5,6 +5,9 @@ import zone.moddev.mc.ironagefurniture.api.entity.Seat;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -15,6 +18,8 @@ public class entities {
 
     private static <T extends Entity> DeferredHolder<EntityType<?>, EntityType<T>> register(String name, EntityType.Builder<T> builder)
     {
-        return REGISTER.register(name, () -> builder.build(name));
+        ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE,
+                Identifier.fromNamespaceAndPath(Ironagefurniture.MODID, name));
+        return REGISTER.register(name, () -> builder.build(key));
     }
 }

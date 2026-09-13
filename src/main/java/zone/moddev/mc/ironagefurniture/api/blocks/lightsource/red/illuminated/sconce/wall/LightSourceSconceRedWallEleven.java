@@ -15,7 +15,7 @@ public class LightSourceSconceRedWallEleven extends LightSourceSconceRedWall {
 	}
 
 	public LightSourceSconceRedWallEleven(float hardness, float blastResistance, SoundType sound, String name) {
-		super(Properties.of().strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> LIGHT_LEVEL) );
+		super(zone.moddev.mc.ironagefurniture.init.RegistrationProperties.block(Properties.of().strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> LIGHT_LEVEL) , name));
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());

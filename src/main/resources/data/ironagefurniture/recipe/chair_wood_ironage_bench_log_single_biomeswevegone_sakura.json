@@ -5,9 +5,7 @@
         "xxx"
     ],
     "key": {
-        "x": {
-            "item": "biomeswevegone:sakura_log"
-        }
+        "x": "biomeswevegone:sakura_log"
     },
     "result": {
         "count": 3,

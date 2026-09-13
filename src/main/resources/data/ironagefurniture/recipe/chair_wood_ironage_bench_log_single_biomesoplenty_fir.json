@@ -5,9 +5,7 @@
         "xxx"
     ],
     "key": {
-        "x": {
-            "item": "biomesoplenty:fir_log"
-        }
+        "x": "biomesoplenty:fir_log"
     },
     "result": {
         "count": 3,

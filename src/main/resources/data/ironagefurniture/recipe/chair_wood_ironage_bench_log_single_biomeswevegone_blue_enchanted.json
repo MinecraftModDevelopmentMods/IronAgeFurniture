@@ -5,9 +5,7 @@
         "xxx"
     ],
     "key": {
-        "x": {
-            "item": "biomeswevegone:blue_enchanted_log"
-        }
+        "x": "biomeswevegone:blue_enchanted_log"
     },
     "result": {
         "count": 3,

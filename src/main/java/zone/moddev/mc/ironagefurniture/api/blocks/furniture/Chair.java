@@ -6,11 +6,11 @@ import zone.moddev.mc.ironagefurniture.api.blocks.base.FallingFurnitureBlock;
 import zone.moddev.mc.ironagefurniture.api.entity.Seat;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
@@ -45,7 +45,7 @@ public class Chair extends FallingFurnitureBlock implements SimpleWaterloggedBlo
 	}
 
 	@Override
-	public int getAnalogOutputSignal(BlockState state, Level world, BlockPos pos) {
+	protected int getAnalogOutputSignal(BlockState state, Level world, BlockPos pos, Direction direction) {
 		return AbstractContainerMenu.getRedstoneSignalFromBlockEntity(world.getBlockEntity(pos));
 	}
 
@@ -60,13 +60,13 @@ public class Chair extends FallingFurnitureBlock implements SimpleWaterloggedBlo
 	}
 
 	@Override
-	public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean isMoving) {
-		if (state.getBlock() != newState.getBlock() && world.getBlockEntity(pos) instanceof Container) {
+	protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel world, BlockPos pos, boolean isMoving) {
+		if (world.getBlockEntity(pos) instanceof Container) {
 			Containers.dropContents(world, pos, (Container) world.getBlockEntity(pos));
 			world.updateNeighbourForOutputSignal(pos, this);
 		}
 
-		super.onRemove(state, world, pos, newState, isMoving);
+		super.affectNeighborsAfterRemoval(state, world, pos, isMoving);
 	}
 
 	public Chair(Properties properties) {
@@ -77,7 +77,7 @@ public class Chair extends FallingFurnitureBlock implements SimpleWaterloggedBlo
 	}
 
 	public Chair(float hardness, float blastResistance, SoundType sound, String name) {
-		super(Block.Properties.of().strength(hardness, blastResistance).sound(sound));
+		super(zone.moddev.mc.ironagefurniture.init.RegistrationProperties.block(Block.Properties.of().strength(hardness, blastResistance).sound(sound), name));
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
@@ -111,9 +111,9 @@ public class Chair extends FallingFurnitureBlock implements SimpleWaterloggedBlo
 	}
 
 	@Override
-	protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+	protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
 		Seat.create(world, pos, seatYOffset(), player);
-		return ItemInteractionResult.sidedSuccess(world.isClientSide);
+		return world.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER;
 	}
 
 	protected double seatYOffset() {
