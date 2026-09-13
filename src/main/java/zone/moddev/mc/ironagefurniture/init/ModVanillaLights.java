@@ -77,6 +77,7 @@ import zone.moddev.mc.ironagefurniture.api.blocks.lightsource.torch.LightSourceS
 import zone.moddev.mc.ironagefurniture.api.blocks.lightsource.torch.LightSourceSconceTorchFloorUnlit;
 import zone.moddev.mc.ironagefurniture.api.blocks.lightsource.torch.LightSourceSconceTorchWall;
 import zone.moddev.mc.ironagefurniture.api.blocks.lightsource.torch.LightSourceSconceTorchWallUnlit;
+import zone.moddev.mc.ironagefurniture.api.items.ThrowableLavaLampBlockItem;
 
 import java.util.function.Supplier;
 
@@ -98,6 +99,13 @@ public class ModVanillaLights {
 		return registryObject;
 	}
 
+	private static RegistryObject<Block> registerThrowableLavaLamp(String name, Supplier<Block> block) {
+		RegistryObject<Block> registryObject = REGISTER.register(name, block);
+		ModItems.REGISTER.register(name, () -> new ThrowableLavaLampBlockItem(registryObject.get(),
+				RegistrationProperties.item(new Item.Properties(), name).useBlockDescriptionPrefix()));
+		return registryObject;
+	}
+
 	public static RegistryObject<Block> light_metal_ironage_sconce_floor_empty_iron = register("light_metal_ironage_sconce_floor_empty_iron", () -> new LightHolderSconceFloor(1, 10, SoundType.METAL, "light_metal_ironage_sconce_floor_empty_iron"), true);
 	public static RegistryObject<Block> light_metal_ironage_sconce_wall_empty_iron = register("light_metal_ironage_sconce_wall_empty_iron", () -> new LightHolderSconceWall(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_empty_iron"), false);
 	public static RegistryObject<Block> light_metal_ironage_sconce_floor_torch_iron = register("light_metal_ironage_sconce_floor_torch_iron", () -> new LightSourceSconceTorchFloor(1, 10, SoundType.METAL, "light_metal_ironage_sconce_floor_torch_iron"), false);
@@ -111,7 +119,7 @@ public class ModVanillaLights {
 	public static RegistryObject<Block> light_metal_ironage_block_floor_glow_clear = register("light_metal_ironage_block_floor_glow_clear", () -> new LightSourceGlowdust(1, 10, SoundType.GLASS, "light_metal_ironage_block_floor_glow_clear"), true);
 	public static RegistryObject<Block> light_metal_ironage_sconce_floor_glow_iron = register("light_metal_ironage_sconce_floor_glow_iron", () -> new LightSourceSconceGlowFloor(1, 10, SoundType.METAL, "light_metal_ironage_sconce_floor_glow_iron"), false);
 	public static RegistryObject<Block> light_metal_ironage_sconce_wall_glow_iron = register("light_metal_ironage_sconce_wall_glow_iron", () -> new LightSourceSconceGlowWall(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_glow_iron"), false);
-	public static RegistryObject<Block> light_metal_ironage_block_floor_lava_clear = register("light_metal_ironage_block_floor_lava_clear", () -> new LightSourceLava(1, 10, SoundType.GLASS, "light_metal_ironage_block_floor_lava_clear"), true);
+	public static RegistryObject<Block> light_metal_ironage_block_floor_lava_clear = registerThrowableLavaLamp("light_metal_ironage_block_floor_lava_clear", () -> new LightSourceLava(1, 10, SoundType.GLASS, "light_metal_ironage_block_floor_lava_clear"));
 	public static RegistryObject<Block> light_metal_ironage_sconce_floor_lava_iron = register("light_metal_ironage_sconce_floor_lava_iron", () -> new LightSourceSconceLavaFloor(1, 10, SoundType.METAL, "light_metal_ironage_sconce_floor_lava_iron"), false);
 	public static RegistryObject<Block> light_metal_ironage_sconce_wall_lava_iron = register("light_metal_ironage_sconce_wall_lava_iron", () -> new LightSourceSconceLavaWall(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_lava_iron"), false);
 	public static RegistryObject<Block> light_metal_ironage_block_floor_red_clear = register("light_metal_ironage_block_floor_red_clear", () -> new LightSourceRed(1, 10, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear"), true);
