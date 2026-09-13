@@ -31,6 +31,7 @@ public final class LegacyFurnitureMappings {
             Map.entry("fir", "fir"),
             Map.entry("green_enchanted", "green_enchanted"),
             Map.entry("holly", "holly"),
+            Map.entry("ironwood", "ironwood"),
             Map.entry("jacaranda", "jacaranda"),
             Map.entry("mahogany", "mahogany"),
             Map.entry("mangrove", "white_mangrove"),
