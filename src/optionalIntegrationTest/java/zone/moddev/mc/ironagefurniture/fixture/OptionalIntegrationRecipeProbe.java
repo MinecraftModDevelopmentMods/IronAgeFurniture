@@ -32,7 +32,7 @@ public final class OptionalIntegrationRecipeProbe
 
     private static final Logger LOGGER = LogUtils.getLogger();
     private static final List<String> REQUIRED_DEPENDENCIES = List.of(
-            "terrablender", "glitchcore", "corgilib", "ohthetreesyoullgrow", "geckolib");
+            "terrablender", "glitchcore");
 
     public OptionalIntegrationRecipeProbe()
     {
@@ -70,7 +70,7 @@ public final class OptionalIntegrationRecipeProbe
         requiredMods.addAll(REQUIRED_DEPENDENCIES);
         for (String modId : requiredMods)
         {
-            String version = ModList.get().getModContainerById(modId)
+            String version = ModList.getModContainerById(modId)
                     .map(container -> container.getModInfo().getVersion().toString())
                     .orElseThrow(() -> new IllegalStateException(
                             "Required optional-integration test mod is not loaded: " + modId));

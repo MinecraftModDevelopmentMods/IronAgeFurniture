@@ -1,7 +1,0 @@
-{
-  "parent": "ironagefurniture:block/template_chair_wood_ironage_bench_log_single",
-  "textures": {
-    "log": "biomeswevegone:block/jacaranda/log",
-    "logtop": "biomeswevegone:block/jacaranda/log_top"
-  }
-}

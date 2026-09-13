@@ -1,19 +1,18 @@
 package zone.moddev.mc.ironagefurniture;
 
 import net.minecraftforge.eventbus.api.bus.BusGroup;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import zone.moddev.mc.ironagefurniture.api.entity.Entities;
 import zone.moddev.mc.ironagefurniture.client.renderer.ClientHandler;
 import zone.moddev.mc.ironagefurniture.client.renderer.LightRendering;
 import zone.moddev.mc.ironagefurniture.client.OptionalIntegrationResourcePacks;
 import zone.moddev.mc.ironagefurniture.compat.LegacyFurnitureMappings;
 import zone.moddev.mc.ironagefurniture.init.ModBOPBlocks;
-import zone.moddev.mc.ironagefurniture.init.ModBWGBlocks;
 import zone.moddev.mc.ironagefurniture.init.ModCreativeTab;
 import zone.moddev.mc.ironagefurniture.init.ModVanillaBackBench;
 import zone.moddev.mc.ironagefurniture.init.ModVanillaBench;
@@ -25,7 +24,6 @@ import zone.moddev.mc.ironagefurniture.init.ModVanillaPaddedBench;
 import zone.moddev.mc.ironagefurniture.init.ModVanillaShieldChairs;
 import zone.moddev.mc.ironagefurniture.init.ModVanillaStools;
 import zone.moddev.mc.ironagefurniture.init.ModVanillaTallStools;
-import zone.moddev.mc.ironagefurniture.proxy.CommonProxy;
 import net.minecraftforge.fml.config.ModConfig;
 
 import com.mojang.logging.LogUtils;
@@ -36,7 +34,6 @@ import org.slf4j.Logger;
 public class Ironagefurniture
 {
     public static final String MODID = "ironagefurniture";
-    public static final CommonProxy PROXY = DistExecutor.runForDist(() -> zone.moddev.mc.ironagefurniture.proxy.ClientProxy::new, () -> CommonProxy::new);
     private static final Logger LOGGER = LogUtils.getLogger();
     
 	public Ironagefurniture(FMLJavaModLoadingContext context) {
@@ -55,16 +52,11 @@ public class Ironagefurniture
 		ModVanillaPaddedBench.REGISTER.register(modBusGroup);
 		ModVanillaPaddedBackBench.REGISTER.register(modBusGroup);
 		
-		if (ModList.get().isLoaded("biomesoplenty")) {
+		if (ModList.isLoaded("biomesoplenty")) {
 			LOGGER.info("Iron Age Furniture Biomes O Plenty Integration is loading...");
 			ModBOPBlocks.REGISTER.register(modBusGroup);
 		}
 
-		if (ModList.get().isLoaded("biomeswevegone")) {
-			LOGGER.info("Iron Age Furniture Oh The Biomes We've Gone integration is loading...");
-			ModBWGBlocks.REGISTER.register(modBusGroup);
-		}
-		
         ModItems.REGISTER.register(modBusGroup);
         ModCreativeTab.REGISTER.register(modBusGroup);
         Entities.REGISTER.register(modBusGroup);
@@ -72,12 +64,12 @@ public class Ironagefurniture
         FMLCommonSetupEvent.getBus(modBusGroup).addListener(this::commonSetup);
         LegacyFurnitureMappings.registerRuntimeListener();
         
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+        if (FMLEnvironment.dist == Dist.CLIENT) {
 			OptionalIntegrationResourcePacks.register();
 			net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers.BUS
 					.addListener(ClientHandler::onRegisterRenderers);
 			FMLClientSetupEvent.getBus(modBusGroup).addListener(LightRendering::clientSetup);
-        });
+        }
         
         context.registerConfig(ModConfig.Type.COMMON, IronAgeFurnitureConfiguration.SPEC);
         
