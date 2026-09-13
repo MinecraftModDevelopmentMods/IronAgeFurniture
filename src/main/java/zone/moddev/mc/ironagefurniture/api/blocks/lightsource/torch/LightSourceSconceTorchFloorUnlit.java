@@ -20,7 +20,7 @@ import net.minecraft.world.level.Level;
 
 public class LightSourceSconceTorchFloorUnlit extends LightSourceSconceTorchFloor {
 	public LightSourceSconceTorchFloorUnlit(float hardness, float blastResistance, SoundType sound, String name) {
-		super(Block.Properties.of().strength(hardness, blastResistance).sound(sound));
+		super(zone.moddev.mc.ironagefurniture.init.RegistrationProperties.block(Block.Properties.of().strength(hardness, blastResistance).sound(sound), name));
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
@@ -77,7 +77,7 @@ public class LightSourceSconceTorchFloorUnlit extends LightSourceSconceTorchFloo
 					.setValue(DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
 					.setValue(WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)), UPDATE_ALL);
 
-			return InteractionResult.CONSUME_PARTIAL;
+			return InteractionResult.CONSUME;
 		}
 
 		return InteractionResult.FAIL;

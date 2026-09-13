@@ -1,12 +1,8 @@
 {
     "type": "minecraft:crafting_shapeless",
     "ingredients": [
-        {
-            "item": "minecraft:magenta_carpet"
-        },
-        {
-            "item": "ironagefurniture:chair_wood_ironage_bench_back_single_crimson"
-        }
+        "minecraft:magenta_carpet",
+        "ironagefurniture:chair_wood_ironage_bench_back_single_crimson"
     ],
     "result": {
         "id": "ironagefurniture:chair_wood_ironage_bench_back_padded_magenta_single_crimson"

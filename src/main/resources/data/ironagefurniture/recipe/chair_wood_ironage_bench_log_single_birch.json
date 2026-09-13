@@ -5,9 +5,7 @@
         "xxx"
     ],
     "key": {
-        "x": {
-            "item": "minecraft:birch_log"
-        }
+        "x": "minecraft:birch_log"
     },
     "result": {
         "count": 3,

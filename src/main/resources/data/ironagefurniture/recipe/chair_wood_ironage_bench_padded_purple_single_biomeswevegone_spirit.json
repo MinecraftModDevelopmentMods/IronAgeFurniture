@@ -1,25 +1,14 @@
 {
-    "type": "forge:conditional",
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        "minecraft:purple_carpet",
+        "ironagefurniture:chair_wood_ironage_bench_single_biomeswevegone_spirit"
+    ],
+    "result": {
+        "id": "ironagefurniture:chair_wood_ironage_bench_padded_purple_single_biomeswevegone_spirit"
+    },
     "forge:condition": {
         "modid": "biomeswevegone",
         "type": "forge:mod_loaded"
-    },
-    "recipes": [
-        {
-            "recipe": {
-                "type": "minecraft:crafting_shapeless",
-                "ingredients": [
-                    {
-                        "item": "minecraft:purple_carpet"
-                    },
-                    {
-                        "item": "ironagefurniture:chair_wood_ironage_bench_single_biomeswevegone_spirit"
-                    }
-                ],
-                "result": {
-                    "id": "ironagefurniture:chair_wood_ironage_bench_padded_purple_single_biomeswevegone_spirit"
-                }
-            }
-        }
-    ]
+    }
 }

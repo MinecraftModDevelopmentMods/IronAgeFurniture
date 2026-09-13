@@ -1,31 +1,20 @@
 {
-    "type": "forge:conditional",
+    "type": "minecraft:crafting_shaped",
+    "group": "furniture",
+    "pattern": [
+        " x ",
+        "yyy"
+    ],
+    "key": {
+        "y": "#c:rods/wooden",
+        "x": "biomesoplenty:maple_planks"
+    },
+    "result": {
+        "count": 1,
+        "id": "ironagefurniture:chair_wood_ironage_stool_short_biomesoplenty_maple"
+    },
     "forge:condition": {
         "modid": "biomesoplenty",
         "type": "forge:mod_loaded"
-    },
-    "recipes": [
-        {
-            "recipe": {
-                "type": "minecraft:crafting_shaped",
-                "group": "furniture",
-                "pattern": [
-                    " x ",
-                    "yyy"
-                ],
-                "key": {
-                    "y": {
-                        "tag": "c:rods/wooden"
-                    },
-                    "x": {
-                        "item": "biomesoplenty:maple_planks"
-                    }
-                },
-                "result": {
-                    "count": 1,
-                    "id": "ironagefurniture:chair_wood_ironage_stool_short_biomesoplenty_maple"
-                }
-            }
-        }
-    ]
+    }
 }

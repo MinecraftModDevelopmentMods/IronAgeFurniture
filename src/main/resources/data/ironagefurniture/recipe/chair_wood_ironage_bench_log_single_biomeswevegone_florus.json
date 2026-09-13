@@ -1,27 +1,18 @@
 {
-    "type": "forge:conditional",
+    "type": "minecraft:crafting_shaped",
+    "group": "furniture",
+    "pattern": [
+        "xxx"
+    ],
+    "key": {
+        "x": "biomeswevegone:florus/stem"
+    },
+    "result": {
+        "count": 3,
+        "id": "ironagefurniture:chair_wood_ironage_bench_log_single_biomeswevegone_florus"
+    },
     "forge:condition": {
         "modid": "biomeswevegone",
         "type": "forge:mod_loaded"
-    },
-    "recipes": [
-        {
-            "recipe": {
-                "type": "minecraft:crafting_shaped",
-                "group": "furniture",
-                "pattern": [
-                    "xxx"
-                ],
-                "key": {
-                    "x": {
-                        "item": "biomeswevegone:florus_stem"
-                    }
-                },
-                "result": {
-                    "count": 3,
-                    "id": "ironagefurniture:chair_wood_ironage_bench_log_single_biomeswevegone_florus"
-                }
-            }
-        }
-    ]
+    }
 }

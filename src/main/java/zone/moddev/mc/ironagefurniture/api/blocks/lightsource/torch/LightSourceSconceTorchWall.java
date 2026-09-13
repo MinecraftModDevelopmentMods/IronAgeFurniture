@@ -22,6 +22,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 
 public class LightSourceSconceTorchWall extends LightSourceSconceTorchFloor {
 	public LightSourceSconceTorchWall(Properties properties) {
@@ -81,7 +82,7 @@ public class LightSourceSconceTorchWall extends LightSourceSconceTorchFloor {
 	}
 
 	public LightSourceSconceTorchWall(float hardness, float blastResistance, SoundType sound, String name) {
-		super(Block.Properties.of().strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> 14) );
+		super(zone.moddev.mc.ironagefurniture.init.RegistrationProperties.block(Block.Properties.of().strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> 14) , name));
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
@@ -90,8 +91,9 @@ public class LightSourceSconceTorchWall extends LightSourceSconceTorchFloor {
 	}
 
 	@Override
-	public BlockState updateShape(BlockState state, Direction direction, BlockState state2, LevelAccessor level, BlockPos pos1, BlockPos pos2) {
-		return direction.getOpposite() == state.getValue(DIRECTION) && !state.canSurvive(level, pos1) ? Blocks.AIR.defaultBlockState() : state;
+	protected BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess ticks, BlockPos pos,
+			Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random) {
+		return direction.getOpposite() == state.getValue(DIRECTION) && !state.canSurvive(level, pos) ? Blocks.AIR.defaultBlockState() : state;
 	}
 
 	@Override

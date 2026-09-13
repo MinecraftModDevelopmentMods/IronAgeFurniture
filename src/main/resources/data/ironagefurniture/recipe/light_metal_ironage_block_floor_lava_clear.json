@@ -7,12 +7,8 @@
     "yyy"
   ],
   "key": {
-    "y": {
-      "item": "minecraft:glass_bottle"
-    },
-    "x": {
-      "item": "minecraft:lava_bucket"
-    }
+    "y": "minecraft:glass_bottle",
+    "x": "minecraft:lava_bucket"
   },
   "result": {
     "id": "ironagefurniture:light_metal_ironage_block_floor_lava_clear",

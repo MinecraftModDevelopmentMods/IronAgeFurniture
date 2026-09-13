@@ -19,6 +19,8 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -33,16 +35,16 @@ import oshi.util.tuples.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class LightSourceSconceLavaFloor extends LightSourceSconceGlowFloor implements LiquidBlockContainer {
 
 	@Override
-	public BlockState updateShape(BlockState state, Direction direction, BlockState state2, LevelAccessor levelAccessor, BlockPos pos, BlockPos pos2) {
-		if (direction == Direction.DOWN && !this.canSurvive(state, levelAccessor, pos)) {
-			if (levelAccessor instanceof Level level) {
+	protected BlockState updateShape(BlockState state, LevelReader levelReader, ScheduledTickAccess ticks, BlockPos pos,
+			Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random) {
+		if (direction == Direction.DOWN && !this.canSurvive(state, levelReader, pos) && levelReader instanceof LevelAccessor levelAccessor) {
+			if (levelReader instanceof Level level) {
 	            // Check if the level is server-side
-	            if (!level.isClientSide) {
+	            if (!level.isClientSide()) {
 	                Player nearestPlayer = level.getNearestPlayer(pos.getX(), pos.getY(), pos.getZ(), 10, false);
 	                if (nearestPlayer != null && nearestPlayer.isCreative()) {
 	                    levelAccessor.destroyBlock(pos, false);
@@ -54,7 +56,7 @@ public class LightSourceSconceLavaFloor extends LightSourceSconceGlowFloor imple
 	        return LightDrop().defaultBlockState().setValue(FurnitureBlock.WATERLOGGED, false);
 		}
 
-		return super.updateShape(state, direction, state2, levelAccessor, pos, pos2);
+		return super.updateShape(state, levelReader, ticks, pos, direction, neighborPos, neighborState, random);
 	}
 
 	@Override
@@ -68,11 +70,11 @@ public class LightSourceSconceLavaFloor extends LightSourceSconceGlowFloor imple
 
 		boolean isSilkTouch = false;
 
-		ItemStack tool = player.getInventory().getSelected();
+		ItemStack tool = player.getInventory().getSelectedItem();
 
 		if (tool != null) {
 			isSilkTouch = EnchantmentHelper.getItemEnchantmentLevel(level.registryAccess()
-					.registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.SILK_TOUCH), tool) > 0;
+					.lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.SILK_TOUCH), tool) > 0;
 		}
 
 		if (isSilkTouch && !player.isCreative())
@@ -102,7 +104,7 @@ public class LightSourceSconceLavaFloor extends LightSourceSconceGlowFloor imple
 	}
 
 	public LightSourceSconceLavaFloor(float hardness, float blastResistance, SoundType sound, String name) {
-		super(Block.Properties.of().strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> 14));
+		super(zone.moddev.mc.ironagefurniture.init.RegistrationProperties.block(Block.Properties.of().strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> 14), name));
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
@@ -112,7 +114,7 @@ public class LightSourceSconceLavaFloor extends LightSourceSconceGlowFloor imple
 	@Override
 	public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource rnd) {
 		BlockPos blockpos = pos.above();
-		if (level.getBlockState(blockpos).isAir() && !level.getBlockState(blockpos).isSolidRender(level, blockpos)) {
+		if (level.getBlockState(blockpos).isAir() && !level.getBlockState(blockpos).isSolidRender()) {
 			if (rnd.nextInt(25) == 0) {
 				Direction direction = state.getValue(FurnitureBlock.DIRECTION);
 

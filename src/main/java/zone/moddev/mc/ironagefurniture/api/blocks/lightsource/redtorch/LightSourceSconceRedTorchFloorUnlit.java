@@ -5,6 +5,8 @@ import zone.moddev.mc.ironagefurniture.init.ModVanillaLights;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.redstone.Orientation;
+import org.jetbrains.annotations.Nullable;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.core.Direction;
@@ -43,7 +45,7 @@ public class LightSourceSconceRedTorchFloorUnlit extends LightSourceSconceRedTor
 	}
 
 	@Override
-	public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos blockPos,
+	protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, @Nullable Orientation orientation,
 								boolean flag) {
 		if (!this.hasNeighborSignal(level, pos, state) && !level.getBlockTicks().willTickThisTick(pos, this)) {
 			level.scheduleTick(pos, this, 2);
@@ -51,8 +53,8 @@ public class LightSourceSconceRedTorchFloorUnlit extends LightSourceSconceRedTor
 	}
 
 	public LightSourceSconceRedTorchFloorUnlit(float hardness, float blastResistance, SoundType sound, String name) {
-		super(Block.Properties.of().strength(hardness, blastResistance).sound(sound)
-				.lightLevel((p_50886_) -> 0));
+		super(zone.moddev.mc.ironagefurniture.init.RegistrationProperties.block(Block.Properties.of().strength(hardness, blastResistance).sound(sound)
+				.lightLevel((p_50886_) -> 0), name));
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());

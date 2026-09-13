@@ -92,7 +92,8 @@ public class ModVanillaLights {
 		RegistryObject<Block> registryObject = REGISTER.register(name, block);
 
 		if (registerItem)
-			ModItems.REGISTER.register(name, () -> new BlockItem(registryObject.get(), properties));
+			ModItems.REGISTER.register(name,
+					() -> new BlockItem(registryObject.get(), RegistrationProperties.item(properties, name).useBlockDescriptionPrefix()));
 
 		return registryObject;
 	}

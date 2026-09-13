@@ -1,0 +1,8 @@
+{
+  "parent": "ironagefurniture:block/template_chair_wood_ironage_bench_back_padded_single",
+  "textures": {
+    "log": "biomeswevegone:block/cika/log",
+    "planks": "biomeswevegone:block/cika/planks",
+    "wool": "minecraft:block/brown_wool"
+  }
+}

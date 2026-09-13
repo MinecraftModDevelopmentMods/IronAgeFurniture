@@ -2,7 +2,7 @@
 
 IronAgeFurniture adds chairs, stools, benches, lighting, and other ye olde-style furniture to Minecraft.
 
-This branch targets Minecraft 1.21.1 with Forge 52.1.0. Its current complete version is `0.3.0.121011` and its Maven coordinate is `zone.moddev.mc:iron-age-furniture:0.3.0.121011`.
+This branch targets Minecraft 1.21.11 with Forge 61.1.0. Its current complete version is `0.3.0.121111` and its Maven coordinate is `zone.moddev.mc:iron-age-furniture:0.3.0.121111`.
 
 ## Build
 

@@ -39,15 +39,15 @@ def mavenizerLicense = mavenizerToolsDirectory.file('LICENSE-MAVENIZER.txt')
 def mavenizerReadme = mavenizerToolsDirectory.file('README.md')
 def mavenizerFixtureChecksums = [
         (mavenizerCompatibilityJar.asFile):
-                '019032A4A26ECB473D403EF017054D5892CE59A9904E8831B452287CD756397E',
+                'B36CA046DB72E30F27BD38E02B4AE34274ADB51AE1D65BAF9E1D07763755682E',
         (mavenizerRuleManifest.asFile):
-                '7F669F225520D0382E76991A8A3E5E4020840F0FA975F7DCB86681D7E7C3F766',
+                '88F2EE4C6B7C903EB1C7D693C0BEEFC0EFC601C1023FB197F7CBA187B1142DB7',
         (mavenizerSourcePatch.asFile):
-                '84FEA234619CC2D1931E609B22B6E5D96F59366F7D6C2783C3BEE0F726F3E876',
+                '88F9035C8545CF1CBC7342C14F2F95076C4E415EDB7A74D585409CFC3F1BDD5C',
         (mavenizerLicense.asFile):
                 '20C17D8B8C48A600800DFD14F95D5CB9FF47066A9641DDEAB48DC54AEC96E331',
         (mavenizerReadme.asFile):
-                '45C527DD0EDF0E366F585D0E46F2E572CA8AD9CA9D798D03D27A92438FA6AF8E'
+                'E09DC0CC6CBF830E9E3E68C6B507B59786705ABAEA29D48EDAC7D3538428A453'
 ]
 
 [mavenizerCompatibilityJar.asFile, mavenizerRuleManifest.asFile].each { fixture ->
@@ -97,10 +97,10 @@ ext.functional_version = versionParts[0..2].join('.')
 ext.display_version = project.mod_version
 ext.release_tag = project.mod_version
 
-if (GradleVersion.current() != GradleVersion.version('9.6.1')) {
-    throw new GradleException("This build requires Gradle 9.6.1, found ${GradleVersion.current()}")
+if (GradleVersion.current() != GradleVersion.version('9.3.1')) {
+    throw new GradleException("This build requires Gradle 9.3.1, found ${GradleVersion.current()}")
 }
-// Buildship normally launches Gradle with the JVM that runs Eclipse. Gradle 9.6.1
+// Buildship normally launches Gradle with the JVM that runs Eclipse. Gradle 9.3.1
 // supports newer JVMs, while compilation remains pinned to the exact Java 21
 // toolchain below and in verifyBuildEnvironment.
 if (!JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_21)) {
@@ -157,7 +157,7 @@ def archiveTextSuffixes = [
 def archiveTextPatterns = archiveTextSuffixes.collect { "**/*${it}".toString() }
 archiveTextPatterns.addAll(['**/element-list', '**/package-list'])
 def optionalIntegrationExpectedCounts = [
-        biomesoplenty : [recipes: 507, advancements: 507],
+        biomesoplenty : [recipes: 546, advancements: 546],
         biomeswevegone: [recipes: 975, advancements: 975]
 ]
 def optionalIntegrationProbeMods = providers.gradleProperty('optionalIntegrationProbeMods')
@@ -190,6 +190,11 @@ tasks.withType(JavaCompile).configureEach {
     dependsOn tasks.named('verifyBuildEnvironment')
 }
 
+def processedMainResourcesDirectory = { sourceSets.main.output.resourcesDir }
+def processedMainResourcesPath = {
+    project.relativePath(processedMainResourcesDirectory()).replace('\\', '/')
+}
+
 def eclipseWorkspaceProjectName = 'IronAgeFurniture'
 eclipse {
     project {
@@ -200,14 +205,28 @@ eclipse {
     classpath {
         downloadSources = true
         downloadJavadoc = true
+        defaultOutputDir = file('bin/default')
         file.whenMerged { classpath ->
+            classpath.entries.findAll { entry ->
+                entry instanceof org.gradle.plugins.ide.eclipse.model.Output
+            }.each { entry -> entry.path = 'bin/default' }
             classpath.entries.removeAll { entry ->
                 entry instanceof org.gradle.plugins.ide.eclipse.model.SourceFolder
-                        && entry.path == 'src/main/resources'
+                        && ['src/main/resources', 'src/generated/resources'].contains(entry.path)
             }
-            if (!classpath.entries.any { entry -> entry.path == 'build/resources/main' }) {
+            String resourcesPath = processedMainResourcesPath()
+            if (!classpath.entries.any { entry -> entry.path == resourcesPath }) {
                 classpath.entries.add(new org.gradle.plugins.ide.eclipse.model.SourceFolder(
-                        'build/resources/main', 'bin/main'))
+                        resourcesPath, 'bin/main'))
+            }
+            classpath.entries.findAll { entry ->
+                entry instanceof org.gradle.plugins.ide.eclipse.model.SourceFolder
+            }.each { entry ->
+                if (entry.path == 'src/main/java' || entry.path == resourcesPath) {
+                    entry.output = 'bin/main'
+                } else if (entry.path.startsWith('src/test/')) {
+                    entry.output = 'bin/test'
+                }
             }
         }
     }
@@ -252,7 +271,7 @@ sourceSets.main.resources.srcDir 'src/generated/resources'
 def developmentModOutput = layout.buildDirectory.dir('forge-run-mod-classes/main')
 def prepareDevelopmentMod = tasks.register('prepareDevelopmentMod', Sync) {
     group = 'ide'
-    description = 'Merges production classes and resources for Forge 52 development discovery.'
+    description = 'Merges production classes and resources for Forge 61 development discovery.'
     dependsOn tasks.named('classes')
     from sourceSets.main.output.classesDirs
     from sourceSets.main.output.resourcesDir
@@ -383,10 +402,9 @@ tasks.register('generateOptionalIntegrationFixtureData') {
         }
         List<String> advancements = []
         fileTree(advancementRoot) { include '**/*.json' }.files.each { advancementFile ->
-            Map wrapper = new JsonSlurper().parse(advancementFile) as Map
-            List branches = wrapper.advancements instanceof List ? wrapper.advancements : []
-            Map condition = branches.size() == 1 && branches[0]['forge:condition'] instanceof Map
-                    ? branches[0]['forge:condition'] as Map : null
+            Map advancement = new JsonSlurper().parse(advancementFile) as Map
+            Map condition = advancement['forge:condition'] instanceof Map
+                    ? advancement['forge:condition'] as Map : null
             if (condition?.type == 'forge:mod_loaded' && selected.contains(condition.modid)
                     && optionalIntegrationExpectedCounts.containsKey(condition.modid)) {
                 String modId = condition.modid
@@ -535,6 +553,15 @@ tasks.named('processResources', ProcessResources) {
     }
 }
 
+// ForgeGradle 7 merges the main Java and resource outputs for Forge 61. A
+// cache restore for either producer can otherwise erase the other producer's
+// output and yield a resource-only or class-only jar.
+['compileJava', 'processResources'].each { taskName ->
+    tasks.named(taskName) {
+        outputs.doNotCacheIf('ForgeGradle merged main output has multiple producers') { true }
+    }
+}
+
 def commonManifest = {
     attributes([
             'Specification-Title'       : project.mod_name,
@@ -678,12 +705,12 @@ tasks.register('verifyMavenizerCompatibilityFixture') {
         }
         def parsed = new JsonSlurper().parse(mavenizerRuleManifest.asFile)
         if (parsed.schema != 1 || parsed.targets.keySet() !=
-                ['net.minecraftforge:forge:1.21.1-52.1.0'] as Set) {
+                ['net.minecraftforge:forge:1.21.11-61.1.0'] as Set) {
             throw new GradleException('Mavenizer target-rule manifest has unexpected targets or schema')
         }
-        def rules = parsed.targets['net.minecraftforge:forge:1.21.1-52.1.0']
+        def rules = parsed.targets['net.minecraftforge:forge:1.21.11-61.1.0']
         if (rules.expectedApplications != 0 || !rules.rules.isEmpty()) {
-            throw new GradleException('Forge 52 Mavenizer target must be an explicit zero-rule qualification')
+            throw new GradleException('Forge 61 Mavenizer target must be an explicit zero-rule qualification')
         }
         new ZipFile(mavenizerCompatibilityJar.asFile).withCloseable { ZipFile zip ->
             def embeddedEntry = zip.getEntry('META-INF/orespawn/minecraft-source-compatibility.json')
@@ -709,7 +736,7 @@ tasks.register('verifyMavenizerCompatibilityFixture') {
             }
         }
         if (!mavenizerReadme.asFile.getText('UTF-8').contains('Temurin `25.0.3+9`')
-                || !mavenizerReadme.asFile.getText('UTF-8').contains('1.21.1-52.1.0')
+                || !mavenizerReadme.asFile.getText('UTF-8').contains('1.21.11-61.1.0')
                 || !mavenizerSourcePatch.asFile.getText('UTF-8').contains('SourceCompatibilityPatcher.java')
                 || !mavenizerLicense.asFile.getText('UTF-8').contains('GNU LESSER GENERAL PUBLIC LICENSE')) {
             throw new GradleException('Mavenizer provenance, patch, or license documentation is incomplete')
@@ -719,22 +746,22 @@ tasks.register('verifyMavenizerCompatibilityFixture') {
 
 tasks.register('verifyReleaseConfiguration') {
     group = 'verification'
-    description = 'Verifies the exact IronAgeFurniture 1.21.1 release identity.'
+    description = 'Verifies the exact IronAgeFurniture 1.21.11 release identity.'
     dependsOn tasks.named('verifyMavenizerCompatibilityFixture')
     doLast {
         Map<String, String> expected = [
-                mod_version            : '0.3.0.121011',
+                mod_version            : '0.3.0.121111',
                 mod_group              : 'zone.moddev.mc',
                 mod_archive_name       : 'iron-age-furniture',
                 mod_id                 : 'ironagefurniture',
-                minecraft_version      : '1.21.1',
+                minecraft_version      : '1.21.11',
                 loader_name            : 'forge',
                 loader_code            : '1',
-                forge_version          : '52.1.0',
-                forge_version_range    : '[52.1.0,53)',
-                loader_version_range   : '[52,)',
+                forge_version          : '61.1.0',
+                forge_version_range    : '[61.1.0,62)',
+                loader_version_range   : '[61,)',
                 mcp_mappings_channel   : 'official',
-                mcp_mappings_version   : '1.21.1',
+                mcp_mappings_version   : '1.21.11',
                 java_version           : '21',
                 java_toolchain_version : '21.0.7+6',
                 gradle_java_version    : '21',
@@ -802,8 +829,8 @@ tasks.register('verifyResourceJson') {
             include '**/*.json'
             include 'pack.mcmeta'
         }.files.sort { it.path }
-        if (jsonFiles.size() != 15032) {
-            throw new GradleException("Expected 15032 runtime JSON documents, found ${jsonFiles.size()}")
+        if (jsonFiles.size() != 17698) {
+            throw new GradleException("Expected 17698 runtime JSON documents, found ${jsonFiles.size()}")
         }
         jsonFiles.each { candidate ->
             try {
@@ -816,9 +843,9 @@ tasks.register('verifyResourceJson') {
         List<Map> locales = localeNames.collect { name ->
             new JsonSlurper().parse(file("src/main/resources/assets/ironagefurniture/lang/${name}")) as Map
         }
-        if (!locales.every { it.size() == 7062 }
+        if (!locales.every { it.size() == 7350 }
                 || !locales.tail().every { it.keySet() == locales.first().keySet() }) {
-            throw new GradleException('English locale files must retain 7062 identical translation keys')
+            throw new GradleException('English locale files must retain 7350 identical translation keys')
         }
 
         Map<String, Map<String, Integer>> optionalIntegrations = optionalIntegrationExpectedCounts
@@ -835,15 +862,20 @@ tasks.register('verifyResourceJson') {
             [(it): new JsonSlurper().parse(it) as Map]
         }
         recipeDocuments.each { recipeFile, document ->
-            List<Map> recipes = document.type == 'forge:conditional'
-                    ? (document.recipes ?: []).collect { it.recipe as Map }
-                    : [document]
-            recipes.each { recipe ->
-                if (recipe.result instanceof Map
-                        && (recipe.result.id == null || recipe.result.item != null)) {
-                    throw new GradleException(
-                            "Minecraft 1.21.1 recipe result must use id rather than item: ${recipeFile}")
-                }
+            if (document.type == 'forge:conditional' || document.containsKey('recipes')) {
+                throw new GradleException("Forge 61 recipe must use a direct forge:condition: ${recipeFile}")
+            }
+            if (document.result instanceof Map
+                    && (document.result.id == null || document.result.item != null)) {
+                throw new GradleException(
+                        "Minecraft 1.21.11 recipe result must use id rather than item: ${recipeFile}")
+            }
+            Collection ingredients = []
+            if (document.key instanceof Map) ingredients.addAll(document.key.values())
+            if (document.ingredients instanceof List) ingredients.addAll(document.ingredients)
+            if (ingredients.any { !(it instanceof String) || it.isEmpty() }) {
+                throw new GradleException(
+                        "Minecraft 1.21.11 recipe ingredients must use item or tag strings: ${recipeFile}")
             }
         }
         optionalIntegrations.each { modId, expectedCounts ->
@@ -856,34 +888,30 @@ tasks.register('verifyResourceJson') {
             }
             recipes.each { recipeFile ->
                 Map recipe = recipeDocuments[recipeFile]
-                if (recipe.type != 'forge:conditional'
+                if (recipe.type == 'forge:conditional'
                         || !hasModLoadedCondition(recipe['forge:condition'], modId)
-                        || !(recipe.recipes instanceof List) || recipe.recipes.size() != 1
-                        || !(recipe.recipes[0].recipe instanceof Map)
-                        || recipe.recipes[0].recipe.result?.id == null
-                        || recipe.recipes[0].recipe.result?.item != null) {
+                        || recipe.containsKey('recipes')
+                        || recipe.result?.id == null
+                        || recipe.result?.item != null) {
                     throw new GradleException(
-                            "Optional recipe lacks one top-level forge:mod_loaded condition for ${modId}: " +
+                            "Optional recipe lacks one direct forge:mod_loaded condition for ${modId}: " +
                                     recipeFile)
                 }
             }
 
             Set<File> advancements = advancementDocuments.findAll { advancementFile, advancement ->
-                advancement.advancements instanceof List && advancement.advancements.size() == 1
-                        && hasModLoadedCondition(advancement.advancements[0]['forge:condition'], modId)
+                hasModLoadedCondition(advancement['forge:condition'], modId)
             }.keySet()
             if (advancements.size() != expectedCounts.advancements) {
                 throw new GradleException("Expected ${expectedCounts.advancements} ${modId} advancements, " +
                         "found ${advancements.size()}")
             }
             advancements.each { advancementFile ->
-                Map wrapper = advancementDocuments[advancementFile]
-                if (wrapper.keySet() != ['advancements'] as Set
-                        || !(wrapper.advancements instanceof List)
-                        || wrapper.advancements.size() != 1
-                        || !hasModLoadedCondition(wrapper.advancements[0]['forge:condition'], modId)
-                        || wrapper.advancements[0].advancement != null
-                        || wrapper.advancements[0].parent == null) {
+                Map advancement = advancementDocuments[advancementFile]
+                if (advancement.containsKey('advancements')
+                        || !hasModLoadedCondition(advancement['forge:condition'], modId)
+                        || advancement.parent == null
+                        || advancement.sends_telemetry_event != false) {
                     throw new GradleException(
                             "Optional advancement lacks a forge:mod_loaded condition for ${modId}: " +
                                     advancementFile)
@@ -906,8 +934,8 @@ tasks.register('verifyNamespace') {
         String maintainedPackage = 'zone.moddev.mc.ironagefurniture'
         String maintainedPath = "src/main/java/${maintainedPackage.replace('.', '/')}/"
         List<File> sources = fileTree('src/main/java') { include '**/*.java' }.files.sort { it.path }
-        if (sources.size() != 115) {
-            throw new GradleException("Expected 115 production Java sources, found ${sources.size()}")
+        if (sources.size() != 117) {
+            throw new GradleException("Expected 117 production Java sources, found ${sources.size()}")
         }
         sources.each { sourceFile ->
             String relativePath = project.relativePath(sourceFile).replace('\\', '/')
@@ -948,14 +976,14 @@ tasks.register('verifyVersionMetadata') {
                 throw new GradleException("Version is missing from ${path}")
             }
         }
-        File generated = layout.buildDirectory.file('resources/main/META-INF/mods.toml').get().asFile
+        File generated = new File(processedMainResourcesDirectory(), 'META-INF/mods.toml')
         String metadata = generated.getText('UTF-8')
         [
                 'modId="ironagefurniture"',
                 "version=\"${project.version}\"",
                 'license="LGPL-2.1"',
-                'versionRange="[52.1.0,53)"',
-                'versionRange="[1.21.1]"'
+                'versionRange="[61.1.0,62)"',
+                'versionRange="[1.21.11]"'
         ].each { required ->
             if (!metadata.contains(required)) {
                 throw new GradleException("Generated mods.toml is missing ${required}")
@@ -1062,6 +1090,23 @@ tasks.register('verifyReleaseArtifacts') {
             if (!legacyDataPaths.isEmpty()) {
                 throw new GradleException(
                         "${mainJar.name} contains pre-1.21 plural data paths: ${legacyDataPaths}")
+            }
+            List<String> itemModels = names.findAll {
+                it ==~ /(?:resourcepacks\/ironagefurniture_[^\/]+\/)?assets\/ironagefurniture\/models\/item\/[^\/]+\.json/
+            }
+            List<String> itemDefinitions = names.findAll {
+                it ==~ /(?:resourcepacks\/ironagefurniture_[^\/]+\/)?assets\/ironagefurniture\/items\/[^\/]+\.json/
+            }
+            if (itemModels.size() != 2085 || itemDefinitions.size() != 2058) {
+                throw new GradleException('Release jar must contain 2,085 item models and 2,058 visible-item definitions')
+            }
+            itemDefinitions.each { definitionName ->
+                String id = definitionName.tokenize('/').last().replaceFirst(/\.json$/, '')
+                Map definition = new JsonSlurper().parse(zip.getInputStream(zip.getEntry(definitionName))) as Map
+                if (definition.model?.type != 'minecraft:model'
+                        || definition.model?.model != "ironagefurniture:item/${id}") {
+                    throw new GradleException("Invalid Forge 61 item definition: ${definitionName}")
+                }
             }
             [
                     'META-INF/mods.toml',
@@ -1200,11 +1245,12 @@ tasks.withType(PublishToMavenRepository).configureEach {
             : tasks.named('verifyReleaseArtifacts'))
 }
 
-tasks.register('syncForge52EclipseLaunches') {
+tasks.register('syncForge61EclipseLaunches') {
     group = 'ide'
-    description = 'Synchronizes processed resources and hardens Forge 52 Eclipse launches.'
+    description = 'Synchronizes processed resources and hardens Forge 61 Eclipse launches.'
     dependsOn tasks.named('processResources')
     dependsOn tasks.named('verifyBuildEnvironment')
+    mustRunAfter tasks.named('genEclipseRuns')
     doLast {
         String mainClass = 'net.minecraftforge.userdev.LaunchTesting'
         String mainOutput = new File(projectDir, 'bin/main').absolutePath
@@ -1231,7 +1277,7 @@ tasks.register('syncForge52EclipseLaunches') {
                 ''
         ].join('\r\n'), 'UTF-8')
 
-        File processedResources = layout.buildDirectory.dir('resources/main').get().asFile
+        File processedResources = processedMainResourcesDirectory()
         copy {
             from processedResources
             into mainOutput
@@ -1316,8 +1362,10 @@ tasks.register('syncForge52EclipseLaunches') {
 
 tasks.register('verifyEclipseProductionClasspath') {
     group = 'verification'
-    description = 'Verifies Buildship and production-only Forge 52 launch metadata.'
-    dependsOn tasks.named('syncForge52EclipseLaunches')
+    description = 'Verifies Buildship and production-only Forge 61 launch metadata.'
+    dependsOn tasks.named('eclipseClasspath')
+    dependsOn tasks.named('eclipseProject')
+    dependsOn tasks.named('isolateEclipseProductionRuns')
     doLast {
         File classpath = file('.classpath')
         File eclipseProject = file('.project')
@@ -1326,6 +1374,33 @@ tasks.register('verifyEclipseProductionClasspath') {
             throw new GradleException('Eclipse project metadata is missing or misnamed')
         }
         def classpathXml = new XmlSlurper(false, false).parse(classpath)
+        def sourcePaths = classpathXml.classpathentry.findAll { it.@kind.text() == 'src' }
+                .collect { it.@path.text() }
+        String resourcesPath = processedMainResourcesPath()
+        if (sourcePaths.contains('src/main/resources')
+                || sourcePaths.contains('src/generated/resources')
+                || !sourcePaths.contains(resourcesPath)) {
+            throw new GradleException('Eclipse must use processed production resources, not raw resources')
+        }
+        String defaultOutput = classpathXml.classpathentry.find { it.@kind.text() == 'output' }?.@path?.text()
+        Map<String, String> expectedOutputs = [
+                'src/main/java': 'bin/main',
+                (resourcesPath): 'bin/main',
+                'src/test/java': 'bin/test',
+                'src/test/resources': 'bin/test'
+        ]
+        def invalidOutputs = classpathXml.classpathentry.findAll { it.@kind.text() == 'src' }
+                .collect { [it.@path.text(), it.@output.text()] }
+                .findAll { pair -> expectedOutputs[pair[0]] != null && expectedOutputs[pair[0]] != pair[1] }
+        boolean nestedOutput = classpathXml.classpathentry
+                .findAll { it.@kind.text() == 'src' && !it.@output.text().isEmpty() }
+                .any { entry -> entry.@output.text() == defaultOutput
+                        || entry.@output.text().startsWith(defaultOutput + '/') }
+        if (defaultOutput != 'bin/default' || !invalidOutputs.isEmpty() || nestedOutput
+                || classpath.getText('UTF-8').contains('output="build/sourceSets')) {
+            throw new GradleException("Eclipse outputs must be disjoint bin/default, bin/main and bin/test; " +
+                    "default=${defaultOutput}, invalid=${invalidOutputs}")
+        }
         classpathXml.classpathentry.each { entry ->
             String path = entry.@path.text()
             boolean testSource = path.replace('\\', '/').startsWith('src/test/')
@@ -1373,8 +1448,7 @@ tasks.register('verifyEclipseProductionClasspath') {
                 throw new GradleException("Eclipse launch does not quote its legacy classpath: ${launch.name}")
             }
         }
-        File processedModsToml = layout.buildDirectory.file(
-                'resources/main/META-INF/mods.toml').get().asFile
+        File processedModsToml = new File(processedMainResourcesDirectory(), 'META-INF/mods.toml')
         File eclipseModsToml = file('bin/main/META-INF/mods.toml')
         if (!eclipseModsToml.isFile()
                 || !Arrays.equals(eclipseModsToml.bytes, processedModsToml.bytes)) {
@@ -1384,17 +1458,13 @@ tasks.register('verifyEclipseProductionClasspath') {
 }
 
 tasks.matching { it.name == 'genEclipseRuns' }.configureEach {
-    finalizedBy tasks.named('syncForge52EclipseLaunches')
+    finalizedBy tasks.named('syncForge61EclipseLaunches')
 }
 
 tasks.register('isolateEclipseProductionRuns') {
     group = 'ide'
     dependsOn tasks.named('genEclipseRuns')
-    dependsOn tasks.named('syncForge52EclipseLaunches')
-}
-
-tasks.matching { it.name == 'eclipse' }.configureEach {
-    finalizedBy tasks.named('syncForge52EclipseLaunches')
+    dependsOn tasks.named('syncForge61EclipseLaunches')
 }
 
 tasks.register('prepareEclipse') {
