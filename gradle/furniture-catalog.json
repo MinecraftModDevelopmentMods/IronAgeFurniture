@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "minecraft": "26.1.2",
+  "minecraft": "26.2",
   "loader": "neoforge",
   "dataLayout": "singular",
   "dataSchema": "neoforge",

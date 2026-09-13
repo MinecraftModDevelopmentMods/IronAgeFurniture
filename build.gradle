@@ -94,6 +94,17 @@ tasks.named('compileTestJava', JavaCompile) {
     options.compilerArgs.add('-proc:none')
 }
 
+// NeoGradle stores downloaded vanilla executables in its project-local cache.
+// Preserve complete cached executables during an offline rerun; missing or
+// incomplete entries still execute normally and retain NeoGradle's diagnostic.
+tasks.matching { task -> task.name.startsWith('cacheVersionExecutable') }.configureEach {
+    onlyIf {
+        Set<File> cachedOutputs = outputs.files.files
+        !gradle.startParameter.offline || cachedOutputs.isEmpty()
+                || !cachedOutputs.every { it.exists() }
+    }
+}
+
 tasks.withType(Javadoc).configureEach {
     failOnError = false
     options.encoding = 'UTF-8'
@@ -215,6 +226,8 @@ def optionalIntegrationRunDirectory = layout.projectDirectory.dir('run-optional-
 def optionalIntegrationServerDirectory = providers.gradleProperty('optionalIntegrationServerDir')
         .map { project.file(it) }
         .orElse(optionalIntegrationRunDirectory.asFile)
+def optionalIntegrationNeoVersion = providers.gradleProperty('optionalIntegrationNeoVersion')
+        .orElse(project.neo_version.toString())
 def optionalIntegrationModsDirectory = optionalIntegrationServerDirectory
         .map { new File(it, 'mods') }
 def optionalIntegrationFixtureClasses = layout.buildDirectory.dir(
@@ -388,10 +401,10 @@ tasks.register('runOptionalIntegrationServer', Exec) {
         String argumentFileName = System.getProperty('os.name').toLowerCase(Locale.ROOT)
                 .contains('windows') ? 'win_args.txt' : 'unix_args.txt'
         File argumentFile = new File(serverDirectory,
-                "libraries/net/neoforged/neoforge/${neo_version}/${argumentFileName}")
+                "libraries/net/neoforged/neoforge/${optionalIntegrationNeoVersion.get()}/${argumentFileName}")
         File userArguments = new File(serverDirectory, 'user_jvm_args.txt')
         if (!argumentFile.isFile() || !userArguments.isFile()) {
-            throw new GradleException("Install NeoForge ${neo_version} " +
+            throw new GradleException("Install NeoForge ${optionalIntegrationNeoVersion.get()} " +
                     "server in ${serverDirectory} before running this test")
         }
         workingDir serverDirectory
@@ -586,18 +599,18 @@ tasks.register('verifyMavenCoordinates') {
 
 tasks.register('verifyReleaseConfiguration') {
     group = 'verification'
-    description = 'Verifies the exact IronAgeFurniture 26.1.2 NeoForge release identity.'
+    description = 'Verifies the exact IronAgeFurniture 26.2 NeoForge release identity.'
     doLast {
         Map<String, String> expected = [
-                mod_version            : '0.3.0.2601022',
+                mod_version            : '0.3.0.2602002',
                 mod_group              : 'zone.moddev.mc',
                 mod_archive_name       : 'iron-age-furniture',
                 mod_id                 : 'ironagefurniture',
-                minecraft_version      : '26.1.2',
+                minecraft_version      : '26.2',
                 loader_name            : 'neoforge',
                 loader_code            : '2',
-                neo_version            : '26.1.2.94',
-                neo_version_range      : '[26.1.2.94,26.1.3)',
+                neo_version            : '26.2.0.45-beta',
+                neo_version_range      : '[26.2.0.45-beta,26.2.1)',
                 java_version           : '25',
                 java_toolchain_version : '25.0.3+9',
                 gradle_java_version    : '25',
@@ -608,6 +621,9 @@ tasks.register('verifyReleaseConfiguration') {
             if (!project.hasProperty(key) || project.property(key).toString() != value) {
                 throw new GradleException("Unexpected ${key}: ${project.findProperty(key)}")
             }
+        }
+        if (project.findProperty('neogradle.subsystems.decompiler.enabled') != null) {
+            throw new GradleException('NeoForge 26.2 must retain its validated binary userdev path')
         }
     }
 }
@@ -701,7 +717,7 @@ tasks.register('verifyResourceJson') {
             if (document.result instanceof Map
                     && (document.result.id == null || document.result.item != null)) {
                 throw new GradleException(
-                        "Minecraft 26.1.2 recipe result must use id rather than item: ${recipeFile}")
+                        "Minecraft 26.2 recipe result must use id rather than item: ${recipeFile}")
             }
         }
         optionalIntegrations.each { modId, expectedCounts ->
@@ -814,8 +830,8 @@ tasks.register('verifyVersionMetadata') {
                 'modId="ironagefurniture"',
                 "version=\"${project.version}\"",
                 'license="LGPL-2.1"',
-                'versionRange="[26.1.2.94,26.1.3)"',
-                'versionRange="[26.1.2]"'
+                'versionRange="[26.2.0.45-beta,26.2.1)"',
+                'versionRange="[26.2]"'
         ].each { required ->
             if (!metadata.contains(required)) {
                 throw new GradleException("Generated neoforge.mods.toml is missing ${required}")
@@ -924,6 +940,10 @@ tasks.register('verifyReleaseArtifacts') {
         File mainJar = new File(libs, expectedReleaseFiles.get()[0])
         new ZipFile(mainJar).withCloseable { ZipFile zip ->
             List<String> names = zip.entries().collect { it.name }
+            Map pack = new JsonSlurper().parse(zip.getInputStream(zip.getEntry('pack.mcmeta'))) as Map
+            if (pack.pack?.max_format != 107 || pack.pack?.min_format != [107, 1]) {
+                throw new GradleException('Release jar does not use Minecraft 26.2 data format 107.1')
+            }
             List<String> itemModels = names.findAll {
                 it ==~ /(?:resourcepacks\/ironagefurniture_[^\/]+\/)?assets\/ironagefurniture\/models\/item\/[^\/]+\.json/
             }
@@ -938,7 +958,7 @@ tasks.register('verifyReleaseArtifacts') {
                 Map definition = new JsonSlurper().parse(zip.getInputStream(zip.getEntry(definitionName))) as Map
                 if (definition.model?.type != 'minecraft:model'
                         || definition.model?.model != "ironagefurniture:item/${id}") {
-                    throw new GradleException("Invalid NeoForge 26.1.2 item definition: ${definitionName}")
+                    throw new GradleException("Invalid NeoForge 26.2 item definition: ${definitionName}")
                 }
             }
             [

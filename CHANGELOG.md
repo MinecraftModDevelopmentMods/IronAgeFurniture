@@ -1,6 +1,6 @@
-# IronAgeFurniture 0.3.0.2601022
+# IronAgeFurniture 0.3.0.2602002
 
-- Port IronAgeFurniture to Minecraft 26.1.2 and NeoForge 26.1.2.94 on Java 25.
+- Port IronAgeFurniture to Minecraft 26.2 and NeoForge 26.2.0.45-beta on Java 25.
 - Retain Pale Oak and the complete contemporary Biomes O' Plenty furniture family, including Origin Oak.
 - Omit Oh The Biomes We've Gone and Immersive Engineering because neither integration supports this target matrix.
 - Generate NeoForge item definitions and target-native `neoforge:conditions` recipe and advancement data.

@@ -3,11 +3,11 @@ name: CodeQL
 on:
   push:
     branches:
-      - master-26.1.2-neo
+      - master-26.2-neo
       - 'feature/**'
   pull_request:
     branches:
-      - master-26.1.2-neo
+      - master-26.2-neo
   schedule:
     - cron: '43 7 * * 4'
 
@@ -43,14 +43,14 @@ jobs:
       - name: Compile production code
         run: |
           chmod +x ./gradlew
-          gradle_args=(
-            clean classes --rerun-tasks --no-build-cache --no-daemon --stacktrace
+          gradle_jdk_args=(
             "-Dorg.gradle.java.installations.paths=$JAVA_HOME"
             -Dorg.gradle.java.installations.auto-detect=false
             -Dorg.gradle.java.installations.auto-download=false
           )
+          ./gradlew clean --no-build-cache --no-daemon --stacktrace "${gradle_jdk_args[@]}"
           for attempt in 1 2 3; do
-            if ./gradlew "${gradle_args[@]}"; then
+            if ./gradlew classes --rerun-tasks --no-build-cache --no-daemon --stacktrace "${gradle_jdk_args[@]}"; then
               exit 0
             fi
             if [ "$attempt" -eq 3 ]; then

@@ -1,6 +1,6 @@
 # Optional integration runtime test
 
-This positive-path test starts NeoForge 26.1.2 with Iron Age Furniture and the supported
+This positive-path test starts NeoForge 26.2 with Iron Age Furniture and the supported
 Biomes O' Plenty integration. A test-only NeoForge mod then checks the live server
 registries for every conditional recipe and recipe advancement and stops the server.
 
@@ -10,7 +10,7 @@ exact filenames, versions, SHA-256 checksums, roles, and source pages are pinned
 
 ## Setup
 
-1. Install the NeoForge `26.1.2.94` server into the ignored
+1. Install the NeoForge `26.2.0.45-beta` server into the ignored
    `run-optional-integrations` directory and accept its EULA.
 2. Download every jar listed in the manifest into
    `run-optional-integrations/mods`. This directory may also contain the generated
@@ -29,6 +29,12 @@ The default probes BOP and its pinned dependencies. It can also be selected expl
 ```text
 gradlew.bat runOptionalIntegrationServer -PoptionalIntegrationProbeMods=biomesoplenty
 ```
+
+To repeat the packaged-jar probe against another compatible NeoForge 26.2 server,
+set both `-PoptionalIntegrationServerDir=<server-directory>` and
+`-PoptionalIntegrationNeoVersion=<loader-version>`. This is used to validate the
+release candidate against stable NeoForge `26.2.0.87` without changing the branch's
+declared build identity.
 
 The Gradle task verifies every supplied jar against the pinned checksum before the
 server starts. It builds and stages

@@ -12,7 +12,7 @@ import zone.moddev.mc.ironagefurniture.Ironagefurniture;
 
 /**
  * Exposes integration models only when their owning mod is present. Minecraft
- * 26.1.2 resolves item definitions eagerly, so keeping these assets in the
+ * 26.2 resolves item definitions eagerly, so keeping these assets in the
  * ordinary mod resource pack would produce missing-model noise on a clean
  * installation.
  */
