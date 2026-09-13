@@ -1,0 +1,20 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:green_carpet"
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_bench_single_biomeswevegone_fir"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:chair_wood_ironage_bench_padded_green_single_biomeswevegone_fir"
+    },
+    "neoforge:conditions": [
+        {
+            "modid": "biomeswevegone",
+            "type": "neoforge:mod_loaded"
+        }
+    ]
+}

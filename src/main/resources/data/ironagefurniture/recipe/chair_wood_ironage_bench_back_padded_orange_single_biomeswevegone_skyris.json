@@ -1,0 +1,20 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:orange_carpet"
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_bench_back_single_biomeswevegone_skyris"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:chair_wood_ironage_bench_back_padded_orange_single_biomeswevegone_skyris"
+    },
+    "neoforge:conditions": [
+        {
+            "modid": "biomeswevegone",
+            "type": "neoforge:mod_loaded"
+        }
+    ]
+}

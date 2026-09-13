@@ -1,0 +1,20 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:shield"
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_classic_biomeswevegone_rainbow_eucalyptus"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:chair_wood_ironage_shield_biomeswevegone_rainbow_eucalyptus"
+    },
+    "neoforge:conditions": [
+        {
+            "modid": "biomeswevegone",
+            "type": "neoforge:mod_loaded"
+        }
+    ]
+}

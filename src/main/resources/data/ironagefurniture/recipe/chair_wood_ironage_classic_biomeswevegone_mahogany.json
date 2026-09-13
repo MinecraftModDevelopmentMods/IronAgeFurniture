@@ -1,0 +1,27 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "group": "furniture",
+    "pattern": [
+        "x  ",
+        "xxx",
+        "y y"
+    ],
+    "key": {
+        "y": {
+            "tag": "c:rods/wooden"
+        },
+        "x": {
+            "item": "biomeswevegone:mahogany_planks"
+        }
+    },
+    "result": {
+        "count": 1,
+        "id": "ironagefurniture:chair_wood_ironage_classic_biomeswevegone_mahogany"
+    },
+    "neoforge:conditions": [
+        {
+            "modid": "biomeswevegone",
+            "type": "neoforge:mod_loaded"
+        }
+    ]
+}

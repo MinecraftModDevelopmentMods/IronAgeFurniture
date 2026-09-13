@@ -1,0 +1,20 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:purple_carpet"
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_bench_single_biomeswevegone_maple"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:chair_wood_ironage_bench_padded_purple_single_biomeswevegone_maple"
+    },
+    "neoforge:conditions": [
+        {
+            "modid": "biomeswevegone",
+            "type": "neoforge:mod_loaded"
+        }
+    ]
+}

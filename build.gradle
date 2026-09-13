@@ -104,6 +104,7 @@ tasks.withType(Javadoc).configureEach {
 tasks.withType(AbstractArchiveTask).configureEach {
     preserveFileTimestamps = false
     reproducibleFileOrder = true
+    includeEmptyDirs = false
 }
 
 def archiveTextSuffixes = [
@@ -113,8 +114,15 @@ def archiveTextSuffixes = [
 def archiveTextPatterns = archiveTextSuffixes.collect { "**/*${it}".toString() }
 archiveTextPatterns.addAll(['**/element-list', '**/package-list'])
 def optionalIntegrationExpectedCounts = [
-        biomesoplenty: [recipes: 507, advancements: 507]
+        biomesoplenty     : [recipes: 507, advancements: 507],
+        biomeswevegone    : [recipes: 975, advancements: 975],
+        immersiveengineering: [recipes: 54, advancements: 38]
 ]
+def optionalIntegrationProbeMods = providers.gradleProperty('optionalIntegrationProbeMods')
+        .orElse(optionalIntegrationExpectedCounts.keySet().join(','))
+        .map { value ->
+            value.split(',').collect { it.trim() }.findAll { !it.isEmpty() } as Set<String>
+        }
 def normalizeArchiveLineEndings = { details ->
     details.filter(FixCrLfFilter,
             eol: FixCrLfFilter.CrLf.newInstance('lf'),
@@ -191,6 +199,10 @@ runs {
     }
 }
 
+tasks.withType(JavaExec).configureEach {
+    if (name == 'runServer') standardInput = System.in
+}
+
 sourceSets.main.resources.srcDir 'src/generated/resources'
 
 repositories {
@@ -225,11 +237,24 @@ tasks.register('verifyOptionalIntegrationMods') {
     doLast {
         Map manifest = new JsonSlurper().parse(optionalIntegrationManifestFile.asFile) as Map
         if (manifest.minecraft != project.minecraft_version.toString()
-                || !(manifest.mods instanceof List) || manifest.mods.size() != 3) {
+                || !(manifest.mods instanceof List)) {
             throw new GradleException('Optional-integration mod manifest is incomplete or targets the wrong game')
         }
+        Set<String> declaredIntegrations = manifest.mods.findAll { it.role == 'integration' }
+                .collect { it.modId.toString() } as Set<String>
+        if (declaredIntegrations != optionalIntegrationExpectedCounts.keySet()) {
+            throw new GradleException("Optional-integration manifest declares ${declaredIntegrations}; " +
+                    "expected ${optionalIntegrationExpectedCounts.keySet()}")
+        }
+        Set<String> selected = optionalIntegrationProbeMods.get()
+        Set<String> unknown = selected - optionalIntegrationExpectedCounts.keySet()
+        if (selected.isEmpty() || !unknown.isEmpty()) {
+            throw new GradleException("Select one or more known optional integrations; unknown values: ${unknown}")
+        }
         File modsDirectory = optionalIntegrationModsDirectory.get()
-        manifest.mods.each { mod ->
+        manifest.mods.findAll { mod ->
+            mod.role == 'dependency' || selected.contains(mod.modId.toString())
+        }.each { mod ->
             File candidate = new File(modsDirectory, mod.file.toString())
             if (!candidate.isFile()) {
                 throw new GradleException("Missing optional-integration test mod ${candidate.name} in " +
@@ -241,16 +266,26 @@ tasks.register('verifyOptionalIntegrationMods') {
                         "${candidate.name}: expected ${mod.sha256}, found ${actual}")
             }
         }
+        manifest.mods.findAll { mod ->
+            mod.role == 'integration' && !selected.contains(mod.modId.toString())
+        }.each { mod ->
+            File excluded = new File(modsDirectory, mod.file.toString())
+            if (excluded.exists()) {
+                throw new GradleException("Unselected integration must be absent for an isolated probe: " +
+                        excluded.name)
+            }
+        }
     }
 }
 
 tasks.register('generateOptionalIntegrationFixtureData') {
     group = 'verification'
     description = 'Generates the exact conditional recipe and advancement IDs for the runtime probe.'
-    File recipeRoot = file('src/main/resources/data/ironagefurniture/recipes')
-    File advancementRoot = file('src/main/resources/data/ironagefurniture/advancements')
+    File recipeRoot = file('src/main/resources/data/ironagefurniture/recipe')
+    File advancementRoot = file('src/main/resources/data/ironagefurniture/advancement')
     inputs.files fileTree(recipeRoot) { include '**/*.json' }
     inputs.files fileTree(advancementRoot) { include '**/*.json' }
+    inputs.property 'optionalIntegrationProbeMods', optionalIntegrationProbeMods
     outputs.dir optionalIntegrationFixtureGeneratedResources
     doLast {
         Map<String, Integer> recipeCounts = optionalIntegrationExpectedCounts.collectEntries {
@@ -259,13 +294,14 @@ tasks.register('generateOptionalIntegrationFixtureData') {
         Map<String, Integer> advancementCounts = optionalIntegrationExpectedCounts.collectEntries {
             modId, counts -> [(modId): 0]
         }
+        Set<String> selected = optionalIntegrationProbeMods.get()
         List<String> recipes = []
         fileTree(recipeRoot) { include '**/*.json' }.files.each { recipeFile ->
             Map recipe = new JsonSlurper().parse(recipeFile) as Map
             List conditions = recipe['neoforge:conditions'] instanceof List
                     ? recipe['neoforge:conditions'] as List : []
             Map condition = conditions.size() == 1 ? conditions[0] as Map : null
-            if (condition?.type == 'neoforge:mod_loaded'
+            if (condition?.type == 'neoforge:mod_loaded' && selected.contains(condition.modid)
                     && optionalIntegrationExpectedCounts.containsKey(condition.modid)) {
                 String modId = condition.modid
                 String path = recipeRoot.toPath().relativize(recipeFile.toPath()).toString()
@@ -280,7 +316,7 @@ tasks.register('generateOptionalIntegrationFixtureData') {
             List conditions = advancement['neoforge:conditions'] instanceof List
                     ? advancement['neoforge:conditions'] as List : []
             Map condition = conditions.size() == 1 ? conditions[0] as Map : null
-            if (condition?.type == 'neoforge:mod_loaded'
+            if (condition?.type == 'neoforge:mod_loaded' && selected.contains(condition.modid)
                     && optionalIntegrationExpectedCounts.containsKey(condition.modid)) {
                 String modId = condition.modid
                 String path = advancementRoot.toPath().relativize(advancementFile.toPath()).toString()
@@ -289,7 +325,8 @@ tasks.register('generateOptionalIntegrationFixtureData') {
                 advancementCounts[modId]++
             }
         }
-        optionalIntegrationExpectedCounts.each { modId, expected ->
+        optionalIntegrationExpectedCounts.findAll { modId, expected -> selected.contains(modId) }
+                .each { modId, expected ->
             if (recipeCounts[modId] != expected.recipes
                     || advancementCounts[modId] != expected.advancements) {
                 throw new GradleException("Unexpected ${modId} fixture inventory: " +
@@ -377,9 +414,16 @@ tasks.register('runOptionalIntegrationServer', Exec) {
         }
         Properties result = new Properties()
         marker.withInputStream { result.load(it) }
+        Set<String> selected = optionalIntegrationProbeMods.get()
+        String expectedRecipes = optionalIntegrationExpectedCounts.findAll { modId, counts ->
+            selected.contains(modId)
+        }.values().sum { it.recipes }.toString()
+        String expectedAdvancements = optionalIntegrationExpectedCounts.findAll { modId, counts ->
+            selected.contains(modId)
+        }.values().sum { it.advancements }.toString()
         if (result.getProperty('status') != 'PASS'
-                || result.getProperty('conditional_recipes_loaded') != '507'
-                || result.getProperty('conditional_advancements_loaded') != '507') {
+                || result.getProperty('conditional_recipes_loaded') != expectedRecipes
+                || result.getProperty('conditional_advancements_loaded') != expectedAdvancements) {
             throw new GradleException("Unexpected optional-integration result ${result}")
         }
     }
@@ -551,19 +595,19 @@ tasks.register('verifyMavenCoordinates') {
 
 tasks.register('verifyReleaseConfiguration') {
     group = 'verification'
-    description = 'Verifies the exact IronAgeFurniture 1.20.6 NeoForge release identity.'
+    description = 'Verifies the exact IronAgeFurniture 1.21.1 NeoForge release identity.'
     doLast {
         Map<String, String> expected = [
-                mod_version            : '0.3.0.120062',
+                mod_version            : '0.3.0.121012',
                 mod_group              : 'zone.moddev.mc',
                 mod_archive_name       : 'iron-age-furniture',
                 mod_id                 : 'ironagefurniture',
-                minecraft_version      : '1.20.6',
+                minecraft_version      : '1.21.1',
                 loader_name            : 'neoforge',
                 loader_code            : '2',
-                neo_version            : '20.6.139',
-                neo_version_range      : '[20.6.139,20.7)',
-                loader_version_range   : '[2,)',
+                neo_version            : '21.1.247',
+                neo_version_range      : '[21.1.247,21.2)',
+                loader_version_range   : '[3,)',
                 java_version           : '21',
                 java_toolchain_version : '21.0.7+6',
                 gradle_java_version    : '21',
@@ -631,8 +675,8 @@ tasks.register('verifyResourceJson') {
             include '**/*.json'
             include 'pack.mcmeta'
         }.files.sort { it.path }
-        if (jsonFiles.size() != 7532) {
-            throw new GradleException("Expected 7532 runtime JSON documents, found ${jsonFiles.size()}")
+        if (jsonFiles.size() != 15348) {
+            throw new GradleException("Expected 15348 runtime JSON documents, found ${jsonFiles.size()}")
         }
         jsonFiles.each { candidate ->
             try {
@@ -645,9 +689,9 @@ tasks.register('verifyResourceJson') {
         List<Map> locales = localeNames.collect { name ->
             new JsonSlurper().parse(file("src/main/resources/assets/ironagefurniture/lang/${name}")) as Map
         }
-        if (!locales.every { it.size() == 3462 }
+        if (!locales.every { it.size() == 7206 }
                 || !locales.tail().every { it.keySet() == locales.first().keySet() }) {
-            throw new GradleException('English locale files must retain 3462 identical translation keys')
+            throw new GradleException('English locale files must retain 7206 identical translation keys')
         }
 
         Map<String, Map<String, Integer>> optionalIntegrations = optionalIntegrationExpectedCounts
@@ -655,8 +699,8 @@ tasks.register('verifyResourceJson') {
             condition instanceof Map && condition.type == 'neoforge:mod_loaded'
                     && condition.modid == modId
         }
-        File recipeRoot = file('src/main/resources/data/ironagefurniture/recipes')
-        File advancementRoot = file('src/main/resources/data/ironagefurniture/advancements')
+        File recipeRoot = file('src/main/resources/data/ironagefurniture/recipe')
+        File advancementRoot = file('src/main/resources/data/ironagefurniture/advancement')
         Map<File, Map> recipeDocuments = fileTree(recipeRoot) { include '**/*.json' }.files.collectEntries {
             [(it): new JsonSlurper().parse(it) as Map]
         }
@@ -667,7 +711,7 @@ tasks.register('verifyResourceJson') {
             if (document.result instanceof Map
                     && (document.result.id == null || document.result.item != null)) {
                 throw new GradleException(
-                        "Minecraft 1.20.6 recipe result must use id rather than item: ${recipeFile}")
+                        "Minecraft 1.21.1 recipe result must use id rather than item: ${recipeFile}")
             }
         }
         optionalIntegrations.each { modId, expectedCounts ->
@@ -732,8 +776,8 @@ tasks.register('verifyNamespace') {
         String maintainedPackage = 'zone.moddev.mc.ironagefurniture'
         String maintainedPath = "src/main/java/${maintainedPackage.replace('.', '/')}/"
         List<File> sources = fileTree('src/main/java') { include '**/*.java' }.files.sort { it.path }
-        if (sources.size() != 114) {
-            throw new GradleException("Expected 114 production Java sources, found ${sources.size()}")
+        if (sources.size() != 116) {
+            throw new GradleException("Expected 116 production Java sources, found ${sources.size()}")
         }
         sources.each { sourceFile ->
             String relativePath = project.relativePath(sourceFile).replace('\\', '/')
@@ -780,8 +824,8 @@ tasks.register('verifyVersionMetadata') {
                 'modId="ironagefurniture"',
                 "version=\"${project.version}\"",
                 'license="LGPL-2.1"',
-                'versionRange="[20.6.139,20.7)"',
-                'versionRange="[1.20.6,1.21)"'
+                'versionRange="[21.1.247,21.2)"',
+                'versionRange="[1.21.1,1.22)"'
         ].each { required ->
             if (!metadata.contains(required)) {
                 throw new GradleException("Generated neoforge.mods.toml is missing ${required}")
@@ -868,6 +912,13 @@ tasks.register('verifyReleaseArtifacts') {
                     if (names.any { it.contains(forbidden) }) {
                         throw new GradleException("${candidate.name} contains forbidden entry ${forbidden}")
                     }
+                }
+                if (names.any { name ->
+                        name.matches('data/[^/]+/(recipes|advancements|loot_tables)/.*')
+                                || name.matches('data/[^/]+/tags/(items|blocks|fluids)/.*')
+                }) {
+                    throw new GradleException(
+                            "${candidate.name} contains a stale pre-1.21 plural data directory")
                 }
                 zip.entries().findAll { entry ->
                     !entry.isDirectory() && (archiveTextSuffixes.any { entry.name.endsWith(it) }

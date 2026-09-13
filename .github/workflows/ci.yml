@@ -1,19 +1,19 @@
-name: IronAgeFurniture 1.20.6 NeoForge CI
+name: IronAgeFurniture 1.21.1 NeoForge CI
 
 on:
   push:
     branches:
-      - master-1.20.6-neo
+      - master-1.21.1-neo
       - 'feature/**'
   pull_request:
     branches:
-      - master-1.20.6-neo
+      - master-1.21.1-neo
 
 permissions:
   contents: read
 
 concurrency:
-  group: iron-age-furniture-1.20.6-neoforge-${{ github.workflow }}-${{ github.ref }}
+  group: iron-age-furniture-1.21.1-neoforge-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -81,20 +81,20 @@ jobs:
       - name: Upload audited release candidate
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
-          name: iron-age-furniture-1.20.6-neoforge-${{ github.sha }}
+          name: iron-age-furniture-1.21.1-neoforge-${{ github.sha }}
           if-no-files-found: error
           retention-days: 30
           path: |
-            build/libs/iron-age-furniture-0.3.0.120062.jar
-            build/libs/iron-age-furniture-0.3.0.120062-sources.jar
-            build/libs/iron-age-furniture-0.3.0.120062-javadoc.jar
+            build/libs/iron-age-furniture-0.3.0.121012.jar
+            build/libs/iron-age-furniture-0.3.0.121012-sources.jar
+            build/libs/iron-age-furniture-0.3.0.121012-javadoc.jar
             build/release/SHA256SUMS
             CHANGELOG.md
       - name: Upload diagnostics on failure
         if: failure()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
-          name: iron-age-furniture-1.20.6-neoforge-diagnostics-${{ github.sha }}
+          name: iron-age-furniture-1.21.1-neoforge-diagnostics-${{ github.sha }}
           if-no-files-found: ignore
           retention-days: 14
           path: |
