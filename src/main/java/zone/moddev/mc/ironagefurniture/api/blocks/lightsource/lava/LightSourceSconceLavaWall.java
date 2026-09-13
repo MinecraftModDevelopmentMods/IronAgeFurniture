@@ -34,16 +34,6 @@ public class LightSourceSconceLavaWall extends LightSourceSconceGlowWall {
 			Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random) {
 	    if (direction.getOpposite() == state.getValue(FurnitureBlock.DIRECTION) && !state.canSurvive(levelReader, pos)
 			&& levelReader instanceof LevelAccessor levelAccessor) {
-	        if (levelReader instanceof Level level) {
-	            // Check if the level is server-side
-	            if (!level.isClientSide()) {
-	                Player nearestPlayer = level.getNearestPlayer(pos.getX(), pos.getY(), pos.getZ(), 10, false);
-	                if (nearestPlayer != null && nearestPlayer.isCreative()) {
-	                    levelAccessor.destroyBlock(pos, false);
-	                    return Blocks.AIR.defaultBlockState();
-	                }
-	            }
-	        }
 	        levelAccessor.destroyBlock(pos, true);
 	        return LightDrop().defaultBlockState().setValue(FurnitureBlock.WATERLOGGED, false);
 	    }
