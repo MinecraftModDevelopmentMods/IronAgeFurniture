@@ -761,7 +761,7 @@ tasks.register('verifyRepositoryHygiene') {
 
 tasks.register('verifyResourceJson') {
     group = 'verification'
-    description = 'Parses resources and validates locale parity and optional-integration conditions.'
+    description = 'Parses resources and validates recipe advancements, locale parity, and optional conditions.'
     doLast {
         List<File> jsonFiles = fileTree('src/main/resources') {
             include '**/*.json'
@@ -808,6 +808,64 @@ tasks.register('verifyResourceJson') {
                         && (recipe.result.id == null || recipe.result.item != null)) {
                     throw new GradleException(
                             "Minecraft 1.20.6 recipe result must use id rather than item: ${recipeFile}")
+                }
+            }
+        }
+        def advancementPayloads = { Map document ->
+            if (document.advancements instanceof List) {
+                return document.advancements.collect { branch ->
+                    branch instanceof Map ? branch.advancement : null
+                }.findAll { it instanceof Map } as List<Map>
+            }
+            [document]
+        }
+        advancementDocuments.each { advancementFile, document ->
+            advancementPayloads(document).each { Map advancement ->
+                List<String> rewards = advancement.rewards instanceof Map
+                        && advancement.rewards.recipes instanceof List
+                        ? advancement.rewards.recipes as List<String> : []
+                if (rewards.isEmpty()) {
+                    return
+                }
+                if (!(advancement.criteria instanceof Map)) {
+                    throw new GradleException("Recipe advancement has no criteria: ${advancementFile}")
+                }
+                Map criteria = advancement.criteria as Map
+                criteria.each { criterionName, criterion ->
+                    if (criterion instanceof Map && criterion.trigger == 'minecraft:inventory_changed') {
+                        Object predicates = criterion.conditions instanceof Map
+                                ? criterion.conditions.items : null
+                        if (!(predicates instanceof List) || predicates.isEmpty()) {
+                            throw new GradleException("Recipe advancement has no item predicates at " +
+                                    "${advancementFile}:${criterionName}")
+                        }
+                        predicates.each { predicate ->
+                            if (!(predicate instanceof Map) || predicate.containsKey('item') || predicate.isEmpty()) {
+                                throw new GradleException("Invalid item predicate at " +
+                                        "${advancementFile}:${criterionName}; use items or tag, not item")
+                            }
+                        }
+                    }
+                }
+                Map recipeCriteria = criteria.findAll { criterionName, criterion ->
+                    criterion instanceof Map && criterion.trigger == 'minecraft:recipe_unlocked'
+                }
+                List<String> requirements = advancement.requirements instanceof List
+                        ? advancement.requirements.flatten().findAll { it instanceof String } as List<String> : []
+                rewards.each { recipeId ->
+                    String recipePath = recipeId.startsWith('ironagefurniture:')
+                            ? recipeId.substring('ironagefurniture:'.length()) : null
+                    if (recipePath == null || !new File(recipeRoot, "${recipePath}.json").isFile()) {
+                        throw new GradleException("Recipe advancement rewards missing recipe ${recipeId}: " +
+                                advancementFile)
+                    }
+                    List matchingCriteria = recipeCriteria.findAll { criterionName, criterion ->
+                        criterion.conditions instanceof Map && criterion.conditions.recipe == recipeId
+                    }.keySet() as List
+                    if (matchingCriteria.isEmpty() || !matchingCriteria.any { requirements.contains(it) }) {
+                        throw new GradleException("Recipe advancement must require a matching recipe_unlocked " +
+                                "criterion for ${recipeId}: ${advancementFile}")
+                    }
                 }
             }
         }

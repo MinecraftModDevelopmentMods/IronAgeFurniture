@@ -1,7 +1,7 @@
 {
   "rewards": {
     "recipes": [
-      "minecraft:obsidian"
+      "ironagefurniture:obsidian"
     ]
   },
   "criteria": {
@@ -10,15 +10,24 @@
       "conditions": {
         "items": [
           {
-            "item": "ironagefurniture:obsidian_chunk"
+            "items": [
+              "ironagefurniture:obsidian_chunk"
+            ]
           }
         ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "ironagefurniture:obsidian"
       }
     }
   },
   "requirements": [
     [
-      "has_nugget"
+      "has_nugget",
+      "has_the_recipe"
     ]
   ]
 }
