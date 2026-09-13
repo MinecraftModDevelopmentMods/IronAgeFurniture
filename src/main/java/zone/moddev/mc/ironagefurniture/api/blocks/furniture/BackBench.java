@@ -42,6 +42,9 @@ import java.util.List;
 import java.util.Objects;
 
 public class BackBench extends FurnitureBlock {
+	protected static final int FIRE_SPREAD_SPEED = 5;
+	protected static final int FLAMMABILITY = 20;
+
 	public static final net.minecraft.world.level.block.state.properties.EnumProperty<BenchType> TYPE = BenchTypeProperty.create("type", BenchType.SINGLE, BenchType.LEFT, BenchType.MIDDLE, BenchType.RIGHT);
 
 	public BackBench(float hardness, float blastResistance, SoundType sound, String name) {
@@ -66,6 +69,16 @@ public class BackBench extends FurnitureBlock {
 	@Override
 	public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
 		return true;
+	}
+
+	@Override
+	public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+		return FLAMMABILITY;
+	}
+
+	@Override
+	public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+		return FIRE_SPREAD_SPEED;
 	}
 	
 	@Override
