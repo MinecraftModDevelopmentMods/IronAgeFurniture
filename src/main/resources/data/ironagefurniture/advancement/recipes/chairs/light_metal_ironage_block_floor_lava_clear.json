@@ -10,15 +10,24 @@
       "conditions": {
         "items": [
           {
-            "item": "minecraft:lava_bucket"
+            "items": [
+              "minecraft:lava_bucket"
+            ]
           }
         ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "ironagefurniture:light_metal_ironage_block_floor_lava_clear"
       }
     }
   },
   "requirements": [
     [
-      "has_nugget"
+      "has_nugget",
+      "has_the_recipe"
     ]
   ]
 }
