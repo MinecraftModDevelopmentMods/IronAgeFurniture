@@ -6,6 +6,7 @@ import net.neoforged.fml.ModList;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import zone.moddev.mc.ironagefurniture.api.CreativeModeBreakTracker;
 import zone.moddev.mc.ironagefurniture.api.entity.Entities;
 import zone.moddev.mc.ironagefurniture.compat.LegacyFurnitureMappings;
 import zone.moddev.mc.ironagefurniture.init.ModBOPBlocks;
@@ -72,6 +73,7 @@ public class Ironagefurniture
         modEventBus.addListener(this::commonSetup);
 
         NeoForge.EVENT_BUS.register(this);
+		NeoForge.EVENT_BUS.register(new CreativeModeBreakTracker());
         
         modContainer.registerConfig(ModConfig.Type.COMMON, IronAgeFurnitureConfiguration.SPEC);
         
