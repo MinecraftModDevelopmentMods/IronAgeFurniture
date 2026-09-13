@@ -1,9 +1,9 @@
-# IronAgeFurniture 0.3.0.121112
+# IronAgeFurniture 0.3.0.2601022
 
-- Advance IronAgeFurniture to Minecraft 1.21.11 and NeoForge 21.11.45 on Java 21.
-- Move recipes and recipe advancements to Minecraft 1.21's singular data directories and retain native `neoforge:conditions`.
-- Retain contemporary Biomes O' Plenty furniture and add 25 Oh The Biomes We've Gone wood families, including spirit wood.
-- Remap IronAgeFurniture's legacy BOP cherry IDs to vanilla cherry, and defensible BYG furniture IDs to their BWG replacements.
-- Expand the deterministic catalog and positive optional-integration runtime probe across BOP and BWG.
+- Port IronAgeFurniture to Minecraft 26.1.2 and NeoForge 26.1.2.94 on Java 25.
+- Retain Pale Oak and the complete contemporary Biomes O' Plenty furniture family, including Origin Oak.
+- Omit Oh The Biomes We've Gone and Immersive Engineering because neither integration supports this target matrix.
+- Generate NeoForge item definitions and target-native `neoforge:conditions` recipe and advancement data.
+- Carry forward the deterministic checked-in furniture catalog, scoped BOP cherry alias, and positive BOP runtime probe.
 
 This is a release candidate changelog. Publication requires the protected default-branch release workflow.

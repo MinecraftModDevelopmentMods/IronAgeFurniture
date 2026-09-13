@@ -1,7 +1,0 @@
-{
-  "parent": "ironagefurniture:block/template_chair_wood_ironage_classic",
-  "textures": {
-    "log": "biomeswevegone:block/baobab/log",
-    "planks": "biomeswevegone:block/baobab/planks"
-  }
-}

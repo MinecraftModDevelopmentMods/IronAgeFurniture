@@ -58,24 +58,24 @@ if (GradleVersion.current() != GradleVersion.version('9.2.1')) {
     throw new GradleException("This build requires Gradle 9.2.1, found ${GradleVersion.current()}")
 }
 // Buildship normally launches Gradle with the JVM that runs Eclipse. Gradle 9.2.1
-// supports newer JVMs, while compilation remains pinned to the exact Java 21
+// supports newer JVMs, while compilation remains pinned to the exact Java 25
 // toolchain below and in verifyBuildEnvironment.
-if (!JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_21)) {
-    throw new GradleException("Gradle requires Java 21 or newer, found ${System.getProperty('java.version')}")
+if (!JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_25)) {
+    throw new GradleException("Gradle requires Java 25 or newer, found ${System.getProperty('java.version')}")
 }
 
-def java21Compiler = javaToolchains.compilerFor {
-    languageVersion = JavaLanguageVersion.of(21)
+def java25Compiler = javaToolchains.compilerFor {
+    languageVersion = JavaLanguageVersion.of(25)
     vendor = JvmVendorSpec.ADOPTIUM
 }
-def java21Launcher = javaToolchains.launcherFor {
-    languageVersion = JavaLanguageVersion.of(21)
+def java25Launcher = javaToolchains.launcherFor {
+    languageVersion = JavaLanguageVersion.of(25)
     vendor = JvmVendorSpec.ADOPTIUM
 }
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(25)
         vendor = JvmVendorSpec.ADOPTIUM
     }
     withSourcesJar()
@@ -83,9 +83,9 @@ java {
 }
 
 tasks.withType(JavaCompile).configureEach {
-    javaCompiler = java21Compiler
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
+    javaCompiler = java25Compiler
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
     options.encoding = 'UTF-8'
     options.compilerArgs.addAll(['-Xlint:deprecation', '-Xmaxerrs', '1000'])
 }
@@ -114,8 +114,7 @@ def archiveTextSuffixes = [
 def archiveTextPatterns = archiveTextSuffixes.collect { "**/*${it}".toString() }
 archiveTextPatterns.addAll(['**/element-list', '**/package-list'])
 def optionalIntegrationExpectedCounts = [
-        biomesoplenty : [recipes: 546, advancements: 546],
-        biomeswevegone: [recipes: 975, advancements: 975]
+        biomesoplenty: [recipes: 546, advancements: 546]
 ]
 def optionalIntegrationProbeMods = providers.gradleProperty('optionalIntegrationProbeMods')
         .orElse(optionalIntegrationExpectedCounts.keySet().join(','))
@@ -130,9 +129,9 @@ def normalizeArchiveLineEndings = { details ->
 
 tasks.register('verifyBuildEnvironment') {
     group = 'verification'
-    description = 'Verifies the supported Gradle runtime and exact Java 21 compiler toolchain.'
+    description = 'Verifies the supported Gradle runtime and exact Java 25 compiler toolchain.'
     doLast {
-        def metadata = java21Compiler.get().metadata
+        def metadata = java25Compiler.get().metadata
         String actual = metadata.javaRuntimeVersion.toString()
         String normalizedActual = actual.replaceFirst(/-LTS$/, '')
         if (normalizedActual != project.java_toolchain_version.toString()
@@ -342,9 +341,9 @@ tasks.register('compileOptionalIntegrationFixture', JavaCompile) {
     source fileTree('src/optionalIntegrationTest/java')
     classpath = files(sourceSets.main.output, sourceSets.main.compileClasspath)
     destinationDirectory = optionalIntegrationFixtureClasses
-    javaCompiler = java21Compiler
+    javaCompiler = java25Compiler
     options.encoding = 'UTF-8'
-    options.release = 21
+    options.release = 25
     options.compilerArgs.add('-proc:none')
 }
 
@@ -396,7 +395,7 @@ tasks.register('runOptionalIntegrationServer', Exec) {
                     "server in ${serverDirectory} before running this test")
         }
         workingDir serverDirectory
-        executable java21Launcher.get().executablePath.asFile
+        executable java25Launcher.get().executablePath.asFile
         args '@user_jvm_args.txt', "@${argumentFile.toPath().toString()}", 'nogui'
     }
     doLast {
@@ -430,7 +429,6 @@ tasks.named('processResources', ProcessResources) {
             minecraft_version_range: project.minecraft_version_range,
             neo_version            : project.neo_version,
             neo_version_range      : project.neo_version_range,
-            loader_version_range   : project.loader_version_range,
             mod_id                 : project.mod_id,
             mod_name               : project.mod_name,
             mod_license            : project.mod_license,
@@ -588,22 +586,21 @@ tasks.register('verifyMavenCoordinates') {
 
 tasks.register('verifyReleaseConfiguration') {
     group = 'verification'
-    description = 'Verifies the exact IronAgeFurniture 1.21.11 NeoForge release identity.'
+    description = 'Verifies the exact IronAgeFurniture 26.1.2 NeoForge release identity.'
     doLast {
         Map<String, String> expected = [
-                mod_version            : '0.3.0.121112',
+                mod_version            : '0.3.0.2601022',
                 mod_group              : 'zone.moddev.mc',
                 mod_archive_name       : 'iron-age-furniture',
                 mod_id                 : 'ironagefurniture',
-                minecraft_version      : '1.21.11',
+                minecraft_version      : '26.1.2',
                 loader_name            : 'neoforge',
                 loader_code            : '2',
-                neo_version            : '21.11.45',
-                neo_version_range      : '[21.11.45,21.12)',
-                loader_version_range   : '[3,)',
-                java_version           : '21',
-                java_toolchain_version : '21.0.7+6',
-                gradle_java_version    : '21',
+                neo_version            : '26.1.2.94',
+                neo_version_range      : '[26.1.2.94,26.1.3)',
+                java_version           : '25',
+                java_toolchain_version : '25.0.3+9',
+                gradle_java_version    : '25',
                 curseforge_project_id  : '341834',
                 mod_license            : 'LGPL-2.1'
         ]
@@ -668,8 +665,8 @@ tasks.register('verifyResourceJson') {
             include '**/*.json'
             include 'pack.mcmeta'
         }.files.sort { it.path }
-        if (jsonFiles.size() != 17698) {
-            throw new GradleException("Expected 17698 runtime JSON documents, found ${jsonFiles.size()}")
+        if (jsonFiles.size() != 9223) {
+            throw new GradleException("Expected 9223 runtime JSON documents, found ${jsonFiles.size()}")
         }
         jsonFiles.each { candidate ->
             try {
@@ -682,9 +679,9 @@ tasks.register('verifyResourceJson') {
         List<Map> locales = localeNames.collect { name ->
             new JsonSlurper().parse(file("src/main/resources/assets/ironagefurniture/lang/${name}")) as Map
         }
-        if (!locales.every { it.size() == 7350 }
+        if (!locales.every { it.size() == 3750 }
                 || !locales.tail().every { it.keySet() == locales.first().keySet() }) {
-            throw new GradleException('English locale files must retain 7350 identical translation keys')
+            throw new GradleException('English locale files must retain 3750 identical translation keys')
         }
 
         Map<String, Map<String, Integer>> optionalIntegrations = optionalIntegrationExpectedCounts
@@ -704,7 +701,7 @@ tasks.register('verifyResourceJson') {
             if (document.result instanceof Map
                     && (document.result.id == null || document.result.item != null)) {
                 throw new GradleException(
-                        "Minecraft 1.21.11 recipe result must use id rather than item: ${recipeFile}")
+                        "Minecraft 26.1.2 recipe result must use id rather than item: ${recipeFile}")
             }
         }
         optionalIntegrations.each { modId, expectedCounts ->
@@ -769,8 +766,8 @@ tasks.register('verifyNamespace') {
         String maintainedPackage = 'zone.moddev.mc.ironagefurniture'
         String maintainedPath = "src/main/java/${maintainedPackage.replace('.', '/')}/"
         List<File> sources = fileTree('src/main/java') { include '**/*.java' }.files.sort { it.path }
-        if (sources.size() != 117) {
-            throw new GradleException("Expected 117 production Java sources, found ${sources.size()}")
+        if (sources.size() != 116) {
+            throw new GradleException("Expected 116 production Java sources, found ${sources.size()}")
         }
         sources.each { sourceFile ->
             String relativePath = project.relativePath(sourceFile).replace('\\', '/')
@@ -817,8 +814,8 @@ tasks.register('verifyVersionMetadata') {
                 'modId="ironagefurniture"',
                 "version=\"${project.version}\"",
                 'license="LGPL-2.1"',
-                'versionRange="[21.11.45,21.12)"',
-                'versionRange="[1.21.11]"'
+                'versionRange="[26.1.2.94,26.1.3)"',
+                'versionRange="[26.1.2]"'
         ].each { required ->
             if (!metadata.contains(required)) {
                 throw new GradleException("Generated neoforge.mods.toml is missing ${required}")
@@ -876,7 +873,7 @@ tasks.register('verifyWorkflowPins') {
 
 tasks.register('verifyReleaseArtifacts') {
     group = 'verification'
-    description = 'Audits exactly three deterministic Java 21 release jars.'
+    description = 'Audits exactly three deterministic Java 25 release jars.'
     dependsOn tasks.named('assemble')
     dependsOn tasks.named('verifyReleaseConfiguration')
     dependsOn tasks.named('verifyRepositoryHygiene')
@@ -933,15 +930,15 @@ tasks.register('verifyReleaseArtifacts') {
             List<String> itemDefinitions = names.findAll {
                 it ==~ /(?:resourcepacks\/ironagefurniture_[^\/]+\/)?assets\/ironagefurniture\/items\/[^\/]+\.json/
             }
-            if (itemModels.size() != 2085 || itemDefinitions.size() != 2058) {
-                throw new GradleException('Release jar must contain 2,085 item models and 2,058 visible-item definitions')
+            if (itemModels.size() != 1110 || itemDefinitions.size() != 1083) {
+                throw new GradleException('Release jar must contain 1,110 item models and 1,083 visible-item definitions')
             }
             itemDefinitions.each { definitionName ->
                 String id = definitionName.tokenize('/').last().replaceFirst(/\.json$/, '')
                 Map definition = new JsonSlurper().parse(zip.getInputStream(zip.getEntry(definitionName))) as Map
                 if (definition.model?.type != 'minecraft:model'
                         || definition.model?.model != "ironagefurniture:item/${id}") {
-                    throw new GradleException("Invalid NeoForge 21.11 item definition: ${definitionName}")
+                    throw new GradleException("Invalid NeoForge 26.1.2 item definition: ${definitionName}")
                 }
             }
             [
@@ -970,8 +967,8 @@ tasks.register('verifyReleaseArtifacts') {
             zip.entries().findAll { it.name.endsWith('.class') }.each { entry ->
                 byte[] header = zip.getInputStream(entry).withCloseable { it.readNBytes(8) }
                 int major = ((header[6] & 0xff) << 8) | (header[7] & 0xff)
-                if (major != 65) {
-                    throw new GradleException("${entry.name} uses class major ${major}, expected 65")
+                if (major != 69) {
+                    throw new GradleException("${entry.name} uses class major ${major}, expected 69")
                 }
             }
             if (zip.entries().any { it.name.endsWith('.java')

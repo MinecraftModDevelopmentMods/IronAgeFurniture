@@ -12,7 +12,7 @@ import zone.moddev.mc.ironagefurniture.Ironagefurniture;
 
 /**
  * Exposes integration models only when their owning mod is present. Minecraft
- * 1.21.11 resolves item definitions eagerly, so keeping these assets in the
+ * 26.1.2 resolves item definitions eagerly, so keeping these assets in the
  * ordinary mod resource pack would produce missing-model noise on a clean
  * installation.
  */
@@ -26,7 +26,6 @@ public final class OptionalIntegrationResourcePacks {
 
     private static void addPacks(AddPackFindersEvent event) {
         addIfLoaded(event, "biomesoplenty");
-        addIfLoaded(event, "biomeswevegone");
     }
 
     private static void addIfLoaded(AddPackFindersEvent event, String integrationId) {

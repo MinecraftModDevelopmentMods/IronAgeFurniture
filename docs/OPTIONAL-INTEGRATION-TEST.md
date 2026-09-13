@@ -1,7 +1,7 @@
 # Optional integration runtime test
 
-This positive-path test starts NeoForge 1.21.11 with Iron Age Furniture and the supported
-Biomes O' Plenty and Oh The Biomes We've Gone integrations. A test-only NeoForge mod then checks the live server
+This positive-path test starts NeoForge 26.1.2 with Iron Age Furniture and the supported
+Biomes O' Plenty integration. A test-only NeoForge mod then checks the live server
 registries for every conditional recipe and recipe advancement and stops the server.
 
 The third-party mod jars are deliberately not committed or redistributed. Their
@@ -10,7 +10,7 @@ exact filenames, versions, SHA-256 checksums, roles, and source pages are pinned
 
 ## Setup
 
-1. Install the NeoForge `21.11.45` server into the ignored
+1. Install the NeoForge `26.1.2.94` server into the ignored
    `run-optional-integrations` directory and accept its EULA.
 2. Download every jar listed in the manifest into
    `run-optional-integrations/mods`. This directory may also contain the generated
@@ -24,12 +24,10 @@ jars must be in that server's `mods` directory. The task stages only the current
 packaged Iron Age Furniture jar and generated probe; the server installation and
 third-party jars remain local.
 
-The default probes the combined BOP and BWG stack. Each
-integration can also be selected independently; dependency jars may remain installed:
+The default probes BOP and its pinned dependencies. It can also be selected explicitly:
 
 ```text
 gradlew.bat runOptionalIntegrationServer -PoptionalIntegrationProbeMods=biomesoplenty
-gradlew.bat runOptionalIntegrationServer -PoptionalIntegrationProbeMods=biomeswevegone
 ```
 
 The Gradle task verifies every supplied jar against the pinned checksum before the
@@ -38,8 +36,7 @@ server starts. It builds and stages
 accepts success only when the probe writes
 `optional-integration-pass.properties` in the selected server directory with all
 selected conditional resources present. The exact expectations are 546 recipes and
-546 advancements for BOP and 975 recipes and advancements for BWG. The combined
-stack contains 1,521 recipes and 1,521 advancements.
+546 advancements for BOP.
 
 The probe also records the loaded versions and per-integration counts. It is built
 from `src/optionalIntegrationTest` and is explicitly excluded from all release

@@ -1,5 +1,4 @@
 modLoader="javafml"
-loaderVersion="${loader_version_range}"
 license="${mod_license}"
 issueTrackerURL="https://github.com/MinecraftModDevelopmentMods/IronAgeFurniture/issues"
 
@@ -30,12 +29,6 @@ ${mod_description}
 
 [[dependencies.ironagefurniture]]
     modId="biomesoplenty"
-    type="optional"
-    versionRange="[0,)"
-    ordering="AFTER"
-    side="BOTH"
-[[dependencies.ironagefurniture]]
-    modId="biomeswevegone"
     type="optional"
     versionRange="[0,)"
     ordering="AFTER"

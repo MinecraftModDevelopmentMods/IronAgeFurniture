@@ -1,19 +1,19 @@
-name: IronAgeFurniture 1.21.11 NeoForge CI
+name: IronAgeFurniture 26.1.2 NeoForge CI
 
 on:
   push:
     branches:
-      - master-1.21.11-neo
+      - master-26.1.2-neo
       - 'feature/**'
   pull_request:
     branches:
-      - master-1.21.11-neo
+      - master-26.1.2-neo
 
 permissions:
   contents: read
 
 concurrency:
-  group: iron-age-furniture-1.21.11-neoforge-${{ github.workflow }}-${{ github.ref }}
+  group: iron-age-furniture-26.1.2-neoforge-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -24,11 +24,11 @@ jobs:
     steps:
       - name: Check out source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - name: Install exact Java 21
+      - name: Install exact Java 25
         uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
         with:
           distribution: temurin
-          java-version: '21.0.7+6.0.LTS'
+          java-version: '25.0.3+9.0.LTS'
       - name: Bootstrap an isolated empty NeoGradle cache
         shell: bash
         run: |
@@ -52,11 +52,11 @@ jobs:
     steps:
       - name: Check out source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - name: Install exact Java 21
+      - name: Install exact Java 25
         uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
         with:
           distribution: temurin
-          java-version: '21.0.7+6.0.LTS'
+          java-version: '25.0.3+9.0.LTS'
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6
       - name: Build, test, document, and audit
@@ -81,20 +81,20 @@ jobs:
       - name: Upload audited release candidate
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
-          name: iron-age-furniture-1.21.11-neoforge-${{ github.sha }}
+          name: iron-age-furniture-26.1.2-neoforge-${{ github.sha }}
           if-no-files-found: error
           retention-days: 30
           path: |
-            build/libs/iron-age-furniture-0.3.0.121112.jar
-            build/libs/iron-age-furniture-0.3.0.121112-sources.jar
-            build/libs/iron-age-furniture-0.3.0.121112-javadoc.jar
+            build/libs/iron-age-furniture-0.3.0.2601022.jar
+            build/libs/iron-age-furniture-0.3.0.2601022-sources.jar
+            build/libs/iron-age-furniture-0.3.0.2601022-javadoc.jar
             build/release/SHA256SUMS
             CHANGELOG.md
       - name: Upload diagnostics on failure
         if: failure()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
-          name: iron-age-furniture-1.21.11-neoforge-diagnostics-${{ github.sha }}
+          name: iron-age-furniture-26.1.2-neoforge-diagnostics-${{ github.sha }}
           if-no-files-found: ignore
           retention-days: 14
           path: |

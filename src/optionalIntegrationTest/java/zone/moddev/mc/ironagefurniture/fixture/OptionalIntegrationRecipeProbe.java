@@ -33,7 +33,7 @@ public final class OptionalIntegrationRecipeProbe
 
     private static final Logger LOGGER = LogUtils.getLogger();
     private static final List<String> REQUIRED_DEPENDENCIES = List.of(
-            "terrablender", "glitchcore", "corgilib", "ohthetreesyoullgrow", "geckolib");
+            "terrablender", "glitchcore");
 
     public OptionalIntegrationRecipeProbe()
     {
