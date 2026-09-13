@@ -10,6 +10,7 @@ import zone.moddev.mc.ironagefurniture.init.ModVanillaLights;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -94,7 +95,8 @@ public class LightSourceLava extends LightSourceGlowdust {
 		ItemStack tool = player.getInventory().getSelected();
 
 		if (tool != null) {
-			isSilkTouch = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.SILK_TOUCH, tool) > 0;
+			isSilkTouch = EnchantmentHelper.getItemEnchantmentLevel(level.registryAccess()
+					.registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.SILK_TOUCH), tool) > 0;
 		}
 
 		if (isSilkTouch && !player.isCreative())

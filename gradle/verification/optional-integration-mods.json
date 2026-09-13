@@ -1,29 +1,61 @@
 {
-  "minecraft": "1.20.6",
+  "minecraft": "1.21.1",
   "mods": [
     {
       "modId": "biomesoplenty",
       "role": "integration",
-      "version": "18.4.0.8",
-      "file": "BiomesOPlenty-forge-1.20.6-18.4.0.8.jar",
-      "sha256": "84be86eb4d488551b9b1b7fde60720e2f3ef58116a376e793fab9195ca036351",
-      "source": "https://modrinth.com/mod/biomes-o-plenty/version/lbOqSzdZ"
+      "version": "21.1.0.14",
+      "file": "BiomesOPlenty-forge-1.21.1-21.1.0.14.jar",
+      "sha256": "0ef10498f05f86a534b0175e4ecbe840b53a5d6bfd9b1563d6c9a174c65bac3f",
+      "source": "https://modrinth.com/mod/biomes-o-plenty/version/QjacNZfm"
+    },
+    {
+      "modId": "biomeswevegone",
+      "role": "integration",
+      "version": "2.6.0",
+      "file": "Oh-The-Biomes-Weve-Gone-Forge-2.6.0.jar",
+      "sha256": "e8a8eedb7f72ffe60f8b1e0d2adc90ad539c52a067598bcfac4c5baa8b4d87c0",
+      "source": "https://modrinth.com/mod/oh-the-biomes-weve-gone/version/iUBsVYnm"
     },
     {
       "modId": "terrablender",
       "role": "dependency",
-      "version": "3.5.0.5",
-      "file": "TerraBlender-forge-1.20.6-3.5.0.5.jar",
-      "sha256": "394560db07def6ea89239bebd6ab409cf493bfa5f3779ff4a5ca51f94d7a4a5c",
-      "source": "https://modrinth.com/mod/terrablender/version/D2wyURAU"
+      "version": "4.1.0.8",
+      "file": "TerraBlender-forge-1.21.1-4.1.0.8.jar",
+      "sha256": "3809c3d05511e5ca7303c84ffaeed55cf383578e6f0eb890dbd44c062116a765",
+      "source": "https://modrinth.com/mod/terrablender/version/GYvJwlAJ"
     },
     {
       "modId": "glitchcore",
       "role": "dependency",
-      "version": "1.1.0.10",
-      "file": "GlitchCore-forge-1.20.6-1.1.0.10.jar",
-      "sha256": "158fff8cb6319028eb762ac63e4503b25b2b6360249b7ab13df88bbcd8d2c51c",
-      "source": "https://modrinth.com/mod/glitchcore/version/VgEdUrLh"
+      "version": "2.1.0.2",
+      "file": "GlitchCore-forge-1.21.1-2.1.0.2.jar",
+      "sha256": "a58ec83d327b888c4cf9c0822d4f68730f97b9280c87c809cfbd4afc2b3e5801",
+      "source": "https://modrinth.com/mod/glitchcore/version/dE20KE7b"
+    },
+    {
+      "modId": "corgilib",
+      "role": "dependency",
+      "version": "5.0.0.9",
+      "file": "Corgilib-Forge-1.21.1-5.0.0.9.jar",
+      "sha256": "d8264111ba380f013bb637f3e48c14e175329227e8fb2fdba2e0d6dde231b3a6",
+      "source": "https://modrinth.com/mod/corgilib/version/ERwPyVD2"
+    },
+    {
+      "modId": "ohthetreesyoullgrow",
+      "role": "dependency",
+      "version": "5.3.2",
+      "file": "Oh-The-Trees-Youll-Grow-forge-1.21.1-5.3.2.jar",
+      "sha256": "c67fd8b6507eae69f95b9f5fdf0e14bfa9cd3e431a89c8567f1086a598f7a9d5",
+      "source": "https://modrinth.com/mod/oh-the-trees-youll-grow/version/UYcvsBKj"
+    },
+    {
+      "modId": "geckolib",
+      "role": "dependency",
+      "version": "4.9.2",
+      "file": "geckolib-forge-1.21.1-4.9.2.jar",
+      "sha256": "57faa8c74d3db3f2ede0f5e2c16a3721e8a8f9024c694e3a435f8a7452510c08",
+      "source": "https://modrinth.com/mod/geckolib/version/54HVH8sg"
     }
   ]
 }

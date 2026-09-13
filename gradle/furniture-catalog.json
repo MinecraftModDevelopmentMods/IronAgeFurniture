@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "minecraft": "1.20.6",
+  "minecraft": "1.21.1",
   "loader": "forge",
-  "dataLayout": "plural",
-  "dataSchema": "forge50",
+  "dataLayout": "singular",
+  "dataSchema": "forge52",
   "itemDefinitions": false,
   "vanilla": [
     { "wood": "oak", "display": "Oak", "log": "oak_log", "logTop": "oak_log_top", "planks": "oak_planks", "nether": false },
@@ -38,6 +38,39 @@
         { "wood": "redwood", "externalWood": "redwood", "display": "Redwood" },
         { "wood": "umbran", "externalWood": "umbran", "display": "Umbran" },
         { "wood": "willow", "externalWood": "willow", "display": "Willow" }
+      ]
+    },
+    {
+      "className": "ModBWGBlocks",
+      "integration": "biomeswevegone",
+      "modId": "biomeswevegone",
+      "namespace": "biomeswevegone",
+      "woods": [
+        { "wood": "aspen", "externalWood": "aspen", "display": "Aspen" },
+        { "wood": "baobab", "externalWood": "baobab", "display": "Baobab" },
+        { "wood": "blue_enchanted", "externalWood": "blue_enchanted", "display": "Blue Enchanted" },
+        { "wood": "cika", "externalWood": "cika", "display": "Cika" },
+        { "wood": "cypress", "externalWood": "cypress", "display": "Cypress" },
+        { "wood": "ebony", "externalWood": "ebony", "display": "Ebony" },
+        { "wood": "fir", "externalWood": "fir", "display": "Fir" },
+        { "wood": "florus", "externalWood": "florus", "externalLog": "florus_stem", "externalLogTop": "florus_stem_top", "display": "Florus" },
+        { "wood": "green_enchanted", "externalWood": "green_enchanted", "display": "Green Enchanted" },
+        { "wood": "holly", "externalWood": "holly", "display": "Holly" },
+        { "wood": "ironwood", "externalWood": "ironwood", "display": "Ironwood" },
+        { "wood": "jacaranda", "externalWood": "jacaranda", "display": "Jacaranda" },
+        { "wood": "mahogany", "externalWood": "mahogany", "display": "Mahogany" },
+        { "wood": "maple", "externalWood": "maple", "display": "Maple" },
+        { "wood": "palm", "externalWood": "palm", "display": "Palm" },
+        { "wood": "pine", "externalWood": "pine", "display": "Pine" },
+        { "wood": "rainbow_eucalyptus", "externalWood": "rainbow_eucalyptus", "display": "Rainbow Eucalyptus" },
+        { "wood": "redwood", "externalWood": "redwood", "display": "Redwood" },
+        { "wood": "sakura", "externalWood": "sakura", "display": "Sakura" },
+        { "wood": "skyris", "externalWood": "skyris", "display": "Skyris" },
+        { "wood": "spirit", "externalWood": "spirit", "display": "Spirit" },
+        { "wood": "white_mangrove", "externalWood": "white_mangrove", "display": "White Mangrove" },
+        { "wood": "willow", "externalWood": "willow", "display": "Willow" },
+        { "wood": "witch_hazel", "externalWood": "witch_hazel", "display": "Witch Hazel" },
+        { "wood": "zelkova", "externalWood": "zelkova", "display": "Zelkova" }
       ]
     }
   ],

@@ -56,10 +56,10 @@ def mappedFurnitureResourcePath = { String relative, def catalog ->
     relative
 }
 def renderTargetFurnitureData = { String relative, String rendered, def catalog ->
-    if (catalog.dataSchema != 'forge50' || !relative.endsWith('.json')) {
+    if (!(catalog.dataSchema in ['forge50', 'forge52']) || !relative.endsWith('.json')) {
         return rendered
     }
-    if (relative.contains('/advancements/')) {
+    if (relative.contains('/advancements/') || relative.contains('/advancement/')) {
         Map wrapper = new JsonSlurper().parseText(rendered) as Map
         if (wrapper.advancements instanceof List && wrapper.advancements.size() == 1
                 && wrapper.advancements[0].conditions instanceof List
@@ -71,7 +71,7 @@ def renderTargetFurnitureData = { String relative, String rendered, def catalog 
         }
         return JsonOutput.prettyPrint(JsonOutput.toJson(wrapper)) + '\n'
     }
-    if (relative.contains('/recipes/')) {
+    if (relative.contains('/recipes/') || relative.contains('/recipe/')) {
         Map recipe = new JsonSlurper().parseText(rendered) as Map
         List conditions = recipe.remove('conditions') as List
         if (recipe.type instanceof String && !recipe.type.contains(':')) {
