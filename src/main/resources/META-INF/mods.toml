@@ -1,9 +1,50 @@
 modLoader="javafml"
 loaderVersion="${loader_version_range}"
 license="${mod_license}"
+issueTrackerURL="https://github.com/MinecraftModDevelopmentMods/IronAgeFurniture/issues"
+
 [[mods]]
-modId="ironagefurniture"
-version="${mod_version}" 
-displayName="Iron Age Furniture"
-description='''${mod_description}'''
-authors="SkyBlade1978" 
+modId="${mod_id}"
+version="${version}"
+displayName="${mod_name}"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/iron-age-furniture"
+credits="Cyanobacterium, SkyBlade1978, FoxNekitsune, the MMD Team, Forge, FML, and the mod authors"
+authors="${mod_authors}"
+description='''
+${mod_description}
+'''
+
+[[dependencies.ironagefurniture]]
+    modId="forge"
+    mandatory=true
+    versionRange="${forge_version_range}"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.ironagefurniture]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[${minecraft_version}]"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.ironagefurniture]]
+    modId="biomesoplenty"
+    mandatory=false
+    versionRange="[0,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.ironagefurniture]]
+    modId="immersiveengineering"
+    mandatory=false
+    versionRange="[0,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.ironagefurniture]]
+    modId="byg"
+    mandatory=false
+    versionRange="[0,)"
+    ordering="AFTER"
+    side="BOTH"

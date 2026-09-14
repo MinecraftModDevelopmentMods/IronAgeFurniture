@@ -18,6 +18,11 @@ gradlew      text eol=lf
 *.yaml       text
 *.toml       text
 
+# Preserve every checksum-sealed Mavenizer fixture byte-for-byte across clones.
+# The upstream patch also contains intentional trailing spaces.
+ci-fixtures/tools/*      -text
+ci-fixtures/tools/*.patch -whitespace
+
 # Documents
 *.pdf  binary
 
