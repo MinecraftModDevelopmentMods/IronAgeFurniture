@@ -1,0 +1,157 @@
+import groovy.json.JsonSlurper
+
+import java.util.zip.ZipFile
+
+def integrationTextureCatalogFile = layout.projectDirectory.file('gradle/furniture-catalog.json')
+def integrationTextureManifestFile = layout.projectDirectory.file(
+        'gradle/verification/optional-integration-mods.json')
+def integrationTextureServerDirectory = providers.gradleProperty('optionalIntegrationServerDir')
+        .map { project.file(it) }
+        .orElse(layout.projectDirectory.dir('run-optional-integrations').asFile)
+def selectedTextureIntegrations = providers.gradleProperty('optionalIntegrationProbeMods')
+        .map { value ->
+            value.split(',').collect { it.trim() }.findAll { !it.isEmpty() } as Set<String>
+        }
+
+def expectedIntegrationTextures = { Map integration, Map wood ->
+    String layoutName = integration.textureLayout ?: 'flat'
+    if (!(layoutName in ['flat', 'nested', 'wood_directory'])) {
+        throw new GradleException("Unsupported texture layout '${layoutName}' for ${integration.integration}")
+    }
+    boolean directoryTextures = layoutName in ['nested', 'wood_directory']
+    String externalWood = wood.externalWood.toString()
+    String textureRoot = "block/${externalWood}"
+    String externalLog = wood.externalLog ?: "${externalWood}_log"
+    String externalLogTop = wood.externalLogTop ?: "${externalWood}_log_top"
+    String externalPlanks = wood.externalPlanks ?: "${externalWood}_planks"
+    String logTexture = wood.externalLogTexture ?:
+            (directoryTextures
+                    ? (externalLog.toString().contains('/') ? "block/${externalLog}" : "${textureRoot}/log")
+                    : "block/${externalLog}")
+    String logTopTexture = wood.externalLogTopTexture ?:
+            (directoryTextures
+                    ? (externalLogTop.toString().contains('/') ? "block/${externalLogTop}" : "${textureRoot}/log_top")
+                    : "block/${externalLogTop}")
+    String planksTexture = wood.externalPlanksTexture ?:
+            (directoryTextures
+                    ? (externalPlanks.toString().contains('/') ? "block/${externalPlanks}" : "${textureRoot}/planks")
+                    : "block/${externalPlanks}")
+    [
+            "${integration.namespace}:${logTexture}".toString(),
+            "${integration.namespace}:${logTopTexture}".toString(),
+            "${integration.namespace}:${planksTexture}".toString()
+    ] as Set<String>
+}
+
+tasks.register('verifyOptionalIntegrationTextures') {
+    group = 'verification'
+    description = 'Checks generated optional-integration texture mappings against pinned mod jars.'
+    dependsOn tasks.named('verifyFurnitureCatalog')
+    dependsOn tasks.named('verifyOptionalIntegrationMods')
+    inputs.file integrationTextureCatalogFile
+    inputs.file integrationTextureManifestFile
+    inputs.files fileTree('src/main/resources') {
+        include '**/models/block/*.json'
+        include '**/models/block/**/*.json'
+    }
+    inputs.property 'optionalIntegrationProbeMods', providers.gradleProperty(
+            'optionalIntegrationProbeMods').orElse('all')
+    doLast {
+        Map catalog = new JsonSlurper().parse(integrationTextureCatalogFile.asFile) as Map
+        Map manifest = new JsonSlurper().parse(integrationTextureManifestFile.asFile) as Map
+        Set<String> declaredIntegrations = manifest.mods.findAll { it.role == 'integration' }
+                .collect { it.modId.toString() } as Set<String>
+        Set<String> selected = selectedTextureIntegrations.isPresent()
+                ? selectedTextureIntegrations.get() : declaredIntegrations
+        if (selected.isEmpty() || !(selected - declaredIntegrations).isEmpty()) {
+            throw new GradleException("Unknown or empty optional-integration texture selection: ${selected}")
+        }
+
+        File modsDirectory = new File(integrationTextureServerDirectory.get(), 'mods')
+        Map<String, Set<String>> jarEntriesByNamespace = [:]
+        manifest.mods.findAll { mod ->
+            mod.role == 'integration' && selected.contains(mod.modId.toString())
+        }.each { mod ->
+            File jarFile = new File(modsDirectory, mod.file.toString())
+            if (!jarFile.isFile()) {
+                throw new GradleException("Missing pinned integration jar for texture audit: ${jarFile}")
+            }
+            Set<String> entries = new HashSet<>()
+            ZipFile zip = new ZipFile(jarFile)
+            try {
+                def enumeration = zip.entries()
+                while (enumeration.hasMoreElements()) {
+                    entries.add(enumeration.nextElement().name)
+                }
+            } finally {
+                zip.close()
+            }
+            Map catalogIntegration = catalog.integrations.find {
+                it.modId.toString() == mod.modId.toString()
+            } as Map
+            String namespace = catalogIntegration?.namespace?.toString() ?: mod.modId.toString()
+            jarEntriesByNamespace[namespace] = entries
+        }
+
+        List<File> blockModels = fileTree('src/main/resources') {
+            include '**/models/block/*.json'
+            include '**/models/block/**/*.json'
+        }.files.sort { it.absolutePath }
+        Map<File, Map> modelDocuments = blockModels.collectEntries { modelFile ->
+            [(modelFile): new JsonSlurper().parse(modelFile) as Map]
+        }
+        Set<String> missingTextures = new TreeSet<>()
+        modelDocuments.each { modelFile, document ->
+            if (!(document.textures instanceof Map)) return
+            document.textures.values().findAll { it instanceof String }.each { value ->
+                String reference = value.toString()
+                if (reference.startsWith('#') || !reference.contains(':')) return
+                String namespace = reference.substring(0, reference.indexOf(':'))
+                if (!jarEntriesByNamespace.containsKey(namespace)) return
+                String texturePath = reference.substring(reference.indexOf(':') + 1)
+                String jarEntry = "assets/${namespace}/textures/${texturePath}.png"
+                if (!jarEntriesByNamespace[namespace].contains(jarEntry)) {
+                    String relativeModel = project.relativePath(modelFile).replace('\\', '/')
+                    missingTextures.add("${relativeModel} -> ${reference}")
+                }
+            }
+        }
+        if (!missingTextures.isEmpty()) {
+            throw new GradleException('Optional-integration models reference missing textures:\n' +
+                    missingTextures.take(30).join('\n'))
+        }
+
+        catalog.integrations.findAll { integration ->
+            selected.contains(integration.modId.toString())
+        }.each { integration ->
+            integration.woods.each { wood ->
+                String modelSuffix = "_${integration.integration}_${wood.wood}.json"
+                List<File> woodModels = blockModels.findAll { it.name.endsWith(modelSuffix) }
+                if (woodModels.isEmpty()) {
+                    throw new GradleException("No block models found for ${integration.integration}:${wood.wood}")
+                }
+                Set<String> actual = new TreeSet<>()
+                woodModels.each { modelFile ->
+                    Map textures = modelDocuments[modelFile].textures instanceof Map
+                            ? modelDocuments[modelFile].textures as Map : [:]
+                    textures.values().findAll { value ->
+                        value instanceof String && value.toString().startsWith(
+                                "${integration.namespace}:")
+                    }.each { actual.add(it.toString()) }
+                }
+                Set<String> expected = expectedIntegrationTextures(
+                        integration as Map, wood as Map) as Set<String>
+                if (actual != expected) {
+                    throw new GradleException("Wrong textures for ${integration.integration}:${wood.wood}; " +
+                            "expected ${expected.sort()}, found ${actual.sort()}")
+                }
+            }
+        }
+        logger.lifecycle("Verified ${blockModels.size()} block models against " +
+                "${jarEntriesByNamespace.keySet().sort().join(', ')} texture jars")
+    }
+}
+
+tasks.named('stageOptionalIntegrationFixture') {
+    dependsOn tasks.named('verifyOptionalIntegrationTextures')
+}
