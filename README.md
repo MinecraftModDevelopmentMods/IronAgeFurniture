@@ -18,15 +18,12 @@ dedicated servers.
 IronAgeFurniture adds matching furniture and recipes when these mods are
 installed:
 
-- Biomes O' Plenty 19.0.0.96 or newer
+- Biomes O' Plenty
 - Immersive Engineering
 - Oh The Biomes We've Gone
 
 They are optional. Their recipes and recipe advancements are conditionally
 loaded, so a normal installation does not need any of them.
-
-The Biomes O' Plenty minimum is intentional: older 1.20.1 releases do not
-contain the complete contemporary wood set used by this version.
 
 ## Compatibility
 

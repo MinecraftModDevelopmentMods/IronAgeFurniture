@@ -26,15 +26,12 @@
       "textureLayout": "flat",
       "woods": [
         { "wood": "dead", "externalWood": "dead", "display": "Dead" },
-        { "wood": "empyreal", "externalWood": "empyreal", "display": "Empyreal" },
         { "wood": "fir", "externalWood": "fir", "display": "Fir" },
         { "wood": "hellbark", "externalWood": "hellbark", "display": "Hellbark" },
         { "wood": "jacaranda", "externalWood": "jacaranda", "display": "Jacaranda" },
         { "wood": "magic", "externalWood": "magic", "display": "Magic" },
         { "wood": "mahogany", "externalWood": "mahogany", "display": "Mahogany" },
-        { "wood": "maple", "externalWood": "maple", "display": "Maple" },
         { "wood": "palm", "externalWood": "palm", "display": "Palm" },
-        { "wood": "pine", "externalWood": "pine", "display": "Pine" },
         { "wood": "redwood", "externalWood": "redwood", "display": "Redwood" },
         { "wood": "umbran", "externalWood": "umbran", "display": "Umbran" },
         { "wood": "willow", "externalWood": "willow", "display": "Willow" }

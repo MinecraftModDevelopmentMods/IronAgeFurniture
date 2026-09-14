@@ -31,7 +31,7 @@ side="SERVER"
 [[dependencies.ironagefurnitureintegrationprobe]]
 modId="biomesoplenty"
 mandatory=true
-versionRange="[19.0.0.96]"
+versionRange="[0,)"
 ordering="AFTER"
 side="SERVER"
 

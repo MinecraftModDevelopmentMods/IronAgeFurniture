@@ -158,7 +158,7 @@ def archiveTextPatterns = archiveTextSuffixes.collect { "**/*${it}".toString() }
 archiveTextPatterns.addAll(['**/element-list', '**/package-list'])
 def optionalIntegrationExpectedCounts = [
         biomeswevegone       : [recipes: 936, advancements: 936],
-        biomesoplenty        : [recipes: 507, advancements: 507],
+        biomesoplenty        : [recipes: 390, advancements: 390],
         immersiveengineering: [recipes: 54, advancements: 38]
 ]
 def normalizeArchiveLineEndings = { details ->
@@ -463,8 +463,8 @@ tasks.register('runOptionalIntegrationServer', Exec) {
         Properties result = new Properties()
         marker.withInputStream { result.load(it) }
         if (result.getProperty('status') != 'PASS'
-                || result.getProperty('conditional_recipes_loaded') != '1497'
-                || result.getProperty('conditional_advancements_loaded') != '1481') {
+                || result.getProperty('conditional_recipes_loaded') != '1380'
+                || result.getProperty('conditional_advancements_loaded') != '1364') {
             throw new GradleException("Unexpected optional-integration result ${result}")
         }
     }
@@ -774,8 +774,8 @@ tasks.register('verifyResourceJson') {
             include '**/*.json'
             include 'pack.mcmeta'
         }.files.sort { it.path }
-        if (jsonFiles.size() != 15048) {
-            throw new GradleException("Expected 15048 runtime JSON documents, found ${jsonFiles.size()}")
+        if (jsonFiles.size() != 14148) {
+            throw new GradleException("Expected 14148 runtime JSON documents, found ${jsonFiles.size()}")
         }
         jsonFiles.each { candidate ->
             try {
@@ -788,9 +788,9 @@ tasks.register('verifyResourceJson') {
         List<Map> locales = localeNames.collect { name ->
             new JsonSlurper().parse(file("src/main/resources/assets/ironagefurniture/lang/${name}")) as Map
         }
-        if (!locales.every { it.size() == 7062 }
+        if (!locales.every { it.size() == 6630 }
                 || !locales.tail().every { it.keySet() == locales.first().keySet() }) {
-            throw new GradleException('English locale files must retain 7062 identical translation keys')
+            throw new GradleException('English locale files must retain 6630 identical translation keys')
         }
 
         Map<String, Map<String, Integer>> optionalIntegrations = optionalIntegrationExpectedCounts
@@ -975,8 +975,7 @@ tasks.register('verifyVersionMetadata') {
                 "version=\"${project.version}\"",
                 'license="LGPL-2.1"',
                 'versionRange="[47.4.10,48)"',
-                'versionRange="[1.20.1]"',
-                'versionRange="[19.0.0.96,)"'
+                'versionRange="[1.20.1]"'
         ].each { required ->
             if (!metadata.contains(required)) {
                 throw new GradleException("Generated mods.toml is missing ${required}")

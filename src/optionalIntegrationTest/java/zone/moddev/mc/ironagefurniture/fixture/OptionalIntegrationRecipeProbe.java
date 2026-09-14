@@ -48,10 +48,10 @@ public final class OptionalIntegrationRecipeProbe
 
         int recipeCount = recipes.values().stream().mapToInt(Integer::intValue).sum();
         int advancementCount = advancements.values().stream().mapToInt(Integer::intValue).sum();
-        require(recipeCount == 1497,
-                "Expected 1497 conditional recipes, found " + recipeCount);
-        require(advancementCount == 1481,
-                "Expected 1481 conditional advancements, found " + advancementCount);
+        require(recipeCount == 1380,
+                "Expected 1380 conditional recipes, found " + recipeCount);
+        require(advancementCount == 1364,
+                "Expected 1364 conditional advancements, found " + advancementCount);
 
         writeMarker(versions, recipes, advancements, recipeCount, advancementCount);
         LOGGER.info("IRON AGE FURNITURE OPTIONAL INTEGRATION PROBE PASSED: "
