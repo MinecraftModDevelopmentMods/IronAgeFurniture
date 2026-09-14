@@ -7,6 +7,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.slf4j.Logger;
 
 import java.io.BufferedReader;
@@ -48,10 +49,27 @@ public final class OptionalIntegrationRecipeProbe
 
         int recipeCount = recipes.values().stream().mapToInt(Integer::intValue).sum();
         int advancementCount = advancements.values().stream().mapToInt(Integer::intValue).sum();
-        require(recipeCount == 1380,
-                "Expected 1380 conditional recipes, found " + recipeCount);
-        require(advancementCount == 1364,
-                "Expected 1364 conditional advancements, found " + advancementCount);
+        int extendedBopWoods = (int) List.of(
+                        "biomesoplenty:empyreal_planks",
+                        "biomesoplenty:maple_planks",
+                        "biomesoplenty:pine_planks")
+                .stream()
+                .map(ResourceLocation::parse)
+                .filter(ForgeRegistries.ITEMS::containsKey)
+                .count();
+        int expectedBopCount = 390 + (extendedBopWoods * 39);
+        require(recipes.getOrDefault("biomesoplenty", 0) == expectedBopCount,
+                "Expected " + expectedBopCount + " BOP recipes, found "
+                        + recipes.getOrDefault("biomesoplenty", 0));
+        require(advancements.getOrDefault("biomesoplenty", 0) == expectedBopCount,
+                "Expected " + expectedBopCount + " BOP advancements, found "
+                        + advancements.getOrDefault("biomesoplenty", 0));
+        require(recipeCount == 990 + expectedBopCount,
+                "Expected " + (990 + expectedBopCount)
+                        + " conditional recipes, found " + recipeCount);
+        require(advancementCount == 974 + expectedBopCount,
+                "Expected " + (974 + expectedBopCount)
+                        + " conditional advancements, found " + advancementCount);
 
         writeMarker(versions, recipes, advancements, recipeCount, advancementCount);
         LOGGER.info("IRON AGE FURNITURE OPTIONAL INTEGRATION PROBE PASSED: "
@@ -80,6 +98,7 @@ public final class OptionalIntegrationRecipeProbe
         List<String> missing = new ArrayList<>();
         for (ExpectedEntry expected : readExpectedEntries(resourceName))
         {
+            if (!expected.isApplicable()) continue;
             counts.merge(expected.modId(), 1, Integer::sum);
             if (server.getRecipeManager().byKey(expected.id()).isEmpty())
             {
@@ -97,6 +116,7 @@ public final class OptionalIntegrationRecipeProbe
         List<String> missing = new ArrayList<>();
         for (ExpectedEntry expected : readExpectedEntries(resourceName))
         {
+            if (!expected.isApplicable()) continue;
             counts.merge(expected.modId(), 1, Integer::sum);
             if (server.getAdvancements().getAdvancement(expected.id()) == null)
             {
@@ -125,7 +145,11 @@ public final class OptionalIntegrationRecipeProbe
                 if (line.isBlank()) continue;
                 String[] parts = line.split("=", 2);
                 require(parts.length == 2, "Invalid probe entry: " + line);
-                result.add(new ExpectedEntry(parts[0], ResourceLocation.parse(parts[1])));
+                String[] selector = parts[0].split("\\|", 2);
+                ResourceLocation requiredItem = selector.length == 2
+                        ? ResourceLocation.parse(selector[1]) : null;
+                result.add(new ExpectedEntry(selector[0], ResourceLocation.parse(parts[1]),
+                        requiredItem));
             }
         }
         catch (IOException exception)
@@ -181,7 +205,12 @@ public final class OptionalIntegrationRecipeProbe
         if (!condition) throw new IllegalStateException(message);
     }
 
-    private record ExpectedEntry(String modId, ResourceLocation id)
+    private record ExpectedEntry(String modId, ResourceLocation id,
+                                 ResourceLocation requiredItem)
     {
+        private boolean isApplicable()
+        {
+            return requiredItem == null || ForgeRegistries.ITEMS.containsKey(requiredItem);
+        }
     }
 }

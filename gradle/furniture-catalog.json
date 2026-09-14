@@ -35,6 +35,17 @@
         { "wood": "redwood", "externalWood": "redwood", "display": "Redwood" },
         { "wood": "umbran", "externalWood": "umbran", "display": "Umbran" },
         { "wood": "willow", "externalWood": "willow", "display": "Willow" }
+      ],
+      "versionTiers": [
+        {
+          "className": "ModBOP19Blocks",
+          "minimumVersion": "19.0.0.96",
+          "woods": [
+            { "wood": "empyreal", "externalWood": "empyreal", "display": "Empyreal" },
+            { "wood": "maple", "externalWood": "maple", "display": "Maple" },
+            { "wood": "pine", "externalWood": "pine", "display": "Pine" }
+          ]
+        }
       ]
     },
     {

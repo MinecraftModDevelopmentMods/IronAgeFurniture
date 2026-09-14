@@ -1,0 +1,24 @@
+{
+    "type": "crafting_shapeless",
+    "conditions": [
+        {
+            "modid": "biomesoplenty",
+            "type": "forge:mod_loaded"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "biomesoplenty:empyreal_planks"
+        }
+    ],
+    "ingredients": [
+        {
+            "item": "minecraft:yellow_carpet"
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_bench_back_single_biomesoplenty_empyreal"
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_bench_back_padded_yellow_single_biomesoplenty_empyreal"
+    }
+}

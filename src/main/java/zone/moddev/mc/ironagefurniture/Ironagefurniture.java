@@ -11,6 +11,8 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import zone.moddev.mc.ironagefurniture.api.entity.Entities;
 import zone.moddev.mc.ironagefurniture.api.CreativeModeBreakTracker;
 import zone.moddev.mc.ironagefurniture.client.renderer.ClientHandler;
+import zone.moddev.mc.ironagefurniture.compat.OptionalModSupport;
+import zone.moddev.mc.ironagefurniture.init.ModBOP19Blocks;
 import zone.moddev.mc.ironagefurniture.init.ModBOPBlocks;
 import zone.moddev.mc.ironagefurniture.init.ModBWGBlocks;
 import zone.moddev.mc.ironagefurniture.init.ModIEBlocks;
@@ -60,6 +62,10 @@ public class Ironagefurniture
 		if (ModList.get().isLoaded("biomesoplenty")) {
 			LOGGER.info("Iron Age Furniture Biomes O Plenty Integration is loading...");
 			ModBOPBlocks.REGISTER.register(modEventBus);
+			if (OptionalModSupport.isLoadedAtLeast("biomesoplenty", "19.0.0.96")) {
+				LOGGER.info("Iron Age Furniture Biomes O Plenty 19 wood tier is loading...");
+				ModBOP19Blocks.REGISTER.register(modEventBus);
+			}
 		}
 		
 		if (ModList.get().isLoaded("immersiveengineering")) {

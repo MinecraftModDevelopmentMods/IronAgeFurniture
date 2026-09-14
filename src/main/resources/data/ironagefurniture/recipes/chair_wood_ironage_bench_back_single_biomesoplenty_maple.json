@@ -1,0 +1,31 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "conditions": [
+        {
+            "modid": "biomesoplenty",
+            "type": "forge:mod_loaded"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "biomesoplenty:maple_planks"
+        }
+    ],
+    "group": "furniture",
+    "pattern": [
+        "x ",
+        "xx",
+        "yy"
+    ],
+    "key": {
+        "y": {
+            "tag": "forge:rods/wooden"
+        },
+        "x": {
+            "item": "biomesoplenty:maple_planks"
+        }
+    },
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_bench_back_single_biomesoplenty_maple",
+        "count": 1
+    }
+}

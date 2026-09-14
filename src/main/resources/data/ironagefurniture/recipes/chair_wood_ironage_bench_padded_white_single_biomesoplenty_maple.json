@@ -1,0 +1,24 @@
+{
+    "type": "crafting_shapeless",
+    "conditions": [
+        {
+            "modid": "biomesoplenty",
+            "type": "forge:mod_loaded"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "biomesoplenty:maple_planks"
+        }
+    ],
+    "ingredients": [
+        {
+            "item": "minecraft:white_carpet"
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_bench_single_biomesoplenty_maple"
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_bench_padded_white_single_biomesoplenty_maple"
+    }
+}

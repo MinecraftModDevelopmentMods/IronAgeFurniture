@@ -5,8 +5,9 @@ First IronAgeFurniture release for Minecraft 1.20.1 and Forge 47.4.10.
 ## Player-visible changes
 
 - Add furniture for the vanilla mangrove, cherry, and bamboo wood families.
-- Update Biomes O' Plenty support to the wood set shared by its compatible
-  1.20.1 releases, without imposing a minimum BOP version.
+- Support the Biomes O' Plenty wood set shared by its compatible 1.20.1
+  releases, and conditionally add Empyreal, Maple, and Pine furniture when BOP
+  19.0.0.96 or newer is installed, without imposing a minimum BOP version.
 - Replace the retired Oh The Biomes You'll Go integration with Oh The Biomes
   We've Gone furniture, while retaining Immersive Engineering treated-wood
   furniture.

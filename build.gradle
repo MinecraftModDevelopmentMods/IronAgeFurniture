@@ -157,9 +157,12 @@ def archiveTextSuffixes = [
 def archiveTextPatterns = archiveTextSuffixes.collect { "**/*${it}".toString() }
 archiveTextPatterns.addAll(['**/element-list', '**/package-list'])
 def optionalIntegrationExpectedCounts = [
-        biomeswevegone       : [recipes: 936, advancements: 936],
-        biomesoplenty        : [recipes: 390, advancements: 390],
-        immersiveengineering: [recipes: 54, advancements: 38]
+        biomeswevegone       : [recipes: 936, advancements: 936,
+                                capabilityRecipes: 0, capabilityAdvancements: 0],
+        biomesoplenty        : [recipes: 507, advancements: 507,
+                                capabilityRecipes: 117, capabilityAdvancements: 117],
+        immersiveengineering: [recipes: 54, advancements: 38,
+                                capabilityRecipes: 0, capabilityAdvancements: 0]
 ]
 def normalizeArchiveLineEndings = { details ->
     details.filter(FixCrLfFilter,
@@ -338,9 +341,17 @@ tasks.register('generateOptionalIntegrationFixtureData') {
                     } as List<Map> : []
             if (matching.size() == 1) {
                 String modId = matching[0].modid
+                List<Map> capabilityConditions = recipe.conditions.findAll { condition ->
+                    condition instanceof Map && condition.type == 'forge:item_exists'
+                } as List<Map>
+                if (capabilityConditions.size() > 1) {
+                    throw new GradleException("Recipe has multiple item capability conditions: ${recipeFile}")
+                }
                 String path = recipeRoot.toPath().relativize(recipeFile.toPath()).toString()
                         .replace('\\', '/').replaceFirst(/\.json$/, '')
-                recipes.add("${modId}=ironagefurniture:${path}")
+                String capability = capabilityConditions.isEmpty()
+                        ? '' : "|${capabilityConditions[0].item}"
+                recipes.add("${modId}${capability}=ironagefurniture:${path}")
                 recipeCounts[modId]++
             }
         }
@@ -355,9 +366,18 @@ tasks.register('generateOptionalIntegrationFixtureData') {
                     } as List<Map> : []
             if (matching.size() == 1) {
                 String modId = matching[0].modid
+                List<Map> capabilityConditions = branches[0].conditions.findAll { condition ->
+                    condition instanceof Map && condition.type == 'forge:item_exists'
+                } as List<Map>
+                if (capabilityConditions.size() > 1) {
+                    throw new GradleException(
+                            "Advancement has multiple item capability conditions: ${advancementFile}")
+                }
                 String path = advancementRoot.toPath().relativize(advancementFile.toPath()).toString()
                         .replace('\\', '/').replaceFirst(/\.json$/, '')
-                advancements.add("${modId}=ironagefurniture:${path}")
+                String capability = capabilityConditions.isEmpty()
+                        ? '' : "|${capabilityConditions[0].item}"
+                advancements.add("${modId}${capability}=ironagefurniture:${path}")
                 advancementCounts[modId]++
             }
         }
@@ -463,8 +483,8 @@ tasks.register('runOptionalIntegrationServer', Exec) {
         Properties result = new Properties()
         marker.withInputStream { result.load(it) }
         if (result.getProperty('status') != 'PASS'
-                || result.getProperty('conditional_recipes_loaded') != '1380'
-                || result.getProperty('conditional_advancements_loaded') != '1364') {
+                || result.getProperty('conditional_recipes_loaded') != '1497'
+                || result.getProperty('conditional_advancements_loaded') != '1481') {
             throw new GradleException("Unexpected optional-integration result ${result}")
         }
     }
@@ -774,8 +794,8 @@ tasks.register('verifyResourceJson') {
             include '**/*.json'
             include 'pack.mcmeta'
         }.files.sort { it.path }
-        if (jsonFiles.size() != 14148) {
-            throw new GradleException("Expected 14148 runtime JSON documents, found ${jsonFiles.size()}")
+        if (jsonFiles.size() != 15048) {
+            throw new GradleException("Expected 15048 runtime JSON documents, found ${jsonFiles.size()}")
         }
         jsonFiles.each { candidate ->
             try {
@@ -788,9 +808,9 @@ tasks.register('verifyResourceJson') {
         List<Map> locales = localeNames.collect { name ->
             new JsonSlurper().parse(file("src/main/resources/assets/ironagefurniture/lang/${name}")) as Map
         }
-        if (!locales.every { it.size() == 6630 }
+        if (!locales.every { it.size() == 7062 }
                 || !locales.tail().every { it.keySet() == locales.first().keySet() }) {
-            throw new GradleException('English locale files must retain 6630 identical translation keys')
+            throw new GradleException('English locale files must retain 7062 identical translation keys')
         }
 
         Map<String, Map<String, Integer>> optionalIntegrations = optionalIntegrationExpectedCounts
@@ -799,6 +819,12 @@ tasks.register('verifyResourceJson') {
                 condition instanceof Map && condition.type == 'forge:mod_loaded'
                         && condition.modid == modId
             }
+        }
+        def itemExistsConditions = { Object conditions ->
+            conditions instanceof List ? conditions.findAll { condition ->
+                condition instanceof Map && condition.type == 'forge:item_exists'
+                        && condition.item instanceof String
+            } as List<Map> : []
         }
         File recipeRoot = file('src/main/resources/data/ironagefurniture/recipes')
         File advancementRoot = file('src/main/resources/data/ironagefurniture/advancements')
@@ -878,14 +904,30 @@ tasks.register('verifyResourceJson') {
                 throw new GradleException("Expected ${expectedCounts.recipes} ${modId} recipes, " +
                         "found ${recipes.size()}")
             }
+            int capabilityRecipeCount = recipes.count { recipeFile ->
+                !itemExistsConditions(recipeDocuments[recipeFile].conditions).isEmpty()
+            }
+            if (capabilityRecipeCount != expectedCounts.capabilityRecipes) {
+                throw new GradleException("Expected ${expectedCounts.capabilityRecipes} ${modId} " +
+                        "capability-gated recipes, found ${capabilityRecipeCount}")
+            }
             recipes.each { recipeFile ->
                 Map recipe = recipeDocuments[recipeFile]
+                List<Map> capabilityConditions = itemExistsConditions(recipe.conditions)
                 if (!(recipe.type instanceof String) || recipe.type == 'forge:conditional'
-                        || !(recipe.conditions instanceof List) || recipe.conditions.size() != 1
+                        || !(recipe.conditions instanceof List)
+                        || recipe.conditions.size() != 1 + capabilityConditions.size()
+                        || capabilityConditions.size() > 1
                         || !hasModLoadedCondition(recipe.conditions, modId)) {
                     throw new GradleException(
-                            "Optional recipe lacks one top-level forge:mod_loaded condition for ${modId}: " +
+                            "Optional recipe has invalid top-level conditions for ${modId}: " +
                                     recipeFile)
+                }
+                capabilityConditions.each { condition ->
+                    if (!condition.item.startsWith("${modId}:") || !condition.item.endsWith('_planks')) {
+                        throw new GradleException(
+                                "Optional recipe has invalid item capability for ${modId}: ${recipeFile}")
+                    }
                 }
             }
 
@@ -897,16 +939,36 @@ tasks.register('verifyResourceJson') {
                 throw new GradleException("Expected ${expectedCounts.advancements} ${modId} advancements, " +
                         "found ${advancements.size()}")
             }
+            int capabilityAdvancementCount = advancements.count { advancementFile ->
+                !itemExistsConditions(
+                        advancementDocuments[advancementFile].advancements[0].conditions).isEmpty()
+            }
+            if (capabilityAdvancementCount != expectedCounts.capabilityAdvancements) {
+                throw new GradleException("Expected ${expectedCounts.capabilityAdvancements} ${modId} " +
+                        "capability-gated advancements, found ${capabilityAdvancementCount}")
+            }
             advancements.each { advancementFile ->
                 Map wrapper = advancementDocuments[advancementFile]
+                List<Map> capabilityConditions = itemExistsConditions(
+                        wrapper.advancements[0].conditions)
                 if (wrapper.keySet() != ['advancements'] as Set
                         || !(wrapper.advancements instanceof List)
                         || wrapper.advancements.size() != 1
                         || !hasModLoadedCondition(wrapper.advancements[0].conditions, modId)
+                        || wrapper.advancements[0].conditions.size() !=
+                                1 + capabilityConditions.size()
+                        || capabilityConditions.size() > 1
                         || !(wrapper.advancements[0].advancement instanceof Map)) {
                     throw new GradleException(
-                            "Optional advancement lacks a forge:mod_loaded condition for ${modId}: " +
+                            "Optional advancement has invalid conditions for ${modId}: " +
                                     advancementFile)
+                }
+                capabilityConditions.each { condition ->
+                    if (!condition.item.startsWith("${modId}:") || !condition.item.endsWith('_planks')) {
+                        throw new GradleException(
+                                "Optional advancement has invalid item capability for ${modId}: " +
+                                        advancementFile)
+                    }
                 }
             }
         }
@@ -926,8 +988,8 @@ tasks.register('verifyNamespace') {
         String maintainedPackage = 'zone.moddev.mc.ironagefurniture'
         String maintainedPath = "src/main/java/${maintainedPackage.replace('.', '/')}/"
         List<File> sources = fileTree('src/main/java') { include '**/*.java' }.files.sort { it.path }
-        if (sources.size() != 121) {
-            throw new GradleException("Expected 121 production Java sources, found ${sources.size()}")
+        if (sources.size() != 123) {
+            throw new GradleException("Expected 123 production Java sources, found ${sources.size()}")
         }
         sources.each { sourceFile ->
             String relativePath = project.relativePath(sourceFile).replace('\\', '/')

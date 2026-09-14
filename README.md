@@ -25,6 +25,12 @@ installed:
 They are optional. Their recipes and recipe advancements are conditionally
 loaded, so a normal installation does not need any of them.
 
+Biomes O' Plenty 18 and 19 both receive furniture for their shared wood set.
+When BOP 19.0.0.96 or newer is detected, IronAgeFurniture additionally enables
+Empyreal, Maple, and Pine furniture. This does not impose a minimum BOP version.
+Back up a world before downgrading from BOP 19 to BOP 18: those three source
+woods, and furniture made from them, are not available in BOP 18.
+
 ## Compatibility
 
 The persistent mod ID, core registry names, resource paths, configuration

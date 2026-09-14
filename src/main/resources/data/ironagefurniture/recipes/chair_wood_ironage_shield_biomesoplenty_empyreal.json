@@ -1,0 +1,24 @@
+{
+    "type": "crafting_shapeless",
+    "conditions": [
+        {
+            "modid": "biomesoplenty",
+            "type": "forge:mod_loaded"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "biomesoplenty:empyreal_planks"
+        }
+    ],
+    "ingredients": [
+        {
+            "item": "minecraft:shield"
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_empyreal"
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_shield_biomesoplenty_empyreal"
+    }
+}

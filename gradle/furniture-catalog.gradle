@@ -57,6 +57,61 @@ def mappedFurnitureResourcePath = { String relative, def catalog ->
     relative
 }
 
+def integrationFurnitureTiers = { integration ->
+    List<Map<String, ?>> tiers = [[
+            className     : integration.className.toString(),
+            minimumVersion: null,
+            woods         : integration.woods
+    ]]
+    if (integration.versionTiers instanceof List) {
+        integration.versionTiers.each { tier ->
+            if (!tier.className || !tier.minimumVersion || !(tier.woods instanceof List)
+                    || tier.woods.isEmpty()) {
+                throw new GradleException("Invalid version tier for ${integration.integration}: ${tier}")
+            }
+            tiers.add([
+                    className     : tier.className.toString(),
+                    minimumVersion: tier.minimumVersion.toString(),
+                    woods         : tier.woods
+            ])
+        }
+    }
+    tiers
+}
+
+def addTierCapabilityCondition = { String rendered, String relative, Map<String, ?> values,
+                                   Map<String, ?> tier ->
+    if (tier.minimumVersion == null) return rendered
+    boolean recipe = relative.startsWith('data/ironagefurniture/recipes/') ||
+            relative.startsWith('data/ironagefurniture/recipe/')
+    boolean advancement = relative.startsWith('data/ironagefurniture/advancements/') ||
+            relative.startsWith('data/ironagefurniture/advancement/')
+    if (!recipe && !advancement) return rendered
+
+    Map document = new JsonSlurper().parseText(rendered) as Map
+    Map condition = [
+            type: 'forge:item_exists',
+            item: "${values.namespace}:${values.externalPlanks}"
+    ]
+    if (recipe) {
+        if (!(document.conditions instanceof List)) {
+            throw new GradleException("Tiered recipe has no condition list: ${relative}")
+        }
+        document.conditions.add(condition)
+    } else {
+        if (!(document.advancements instanceof List) || document.advancements.isEmpty()) {
+            throw new GradleException("Tiered advancement has no branches: ${relative}")
+        }
+        document.advancements.each { branch ->
+            if (!(branch.conditions instanceof List)) {
+                throw new GradleException("Tiered advancement has no condition list: ${relative}")
+            }
+            branch.conditions.add(condition)
+        }
+    }
+    JsonOutput.prettyPrint(JsonOutput.toJson(document)) + '\n'
+}
+
 def integrationTextureValues = { integration, wood ->
     String externalLog = wood.externalLog ?: "${wood.externalWood}_log"
     String externalLogTop = wood.externalLogTop ?: "${wood.externalWood}_log_top"
@@ -109,19 +164,23 @@ def renderFurnitureCatalog = { File outputRoot ->
         String relativeTemplate = normalizeFurniturePath(integrationTemplates.toPath().relativize(template.toPath()).toString())
         String source = template.getText('UTF-8')
         catalog.integrations.each { integration ->
-            integration.woods.each { wood ->
-                Map<String, ?> values = [
-                        integration : integration.integration,
-                        modId       : integration.modId,
-                        namespace   : integration.namespace,
-                        wood        : wood.wood,
-                        externalWood: wood.externalWood,
-                        display     : wood.display
-                ]
-                values.putAll(integrationTextureValues(integration, wood))
-                String relative = mappedFurnitureResourcePath(renderFurnitureText(relativeTemplate, values), catalog)
-                writeFurnitureFile(outputRoot, "src/main/resources/${relative}",
-                        renderFurnitureText(source, values), generated)
+            integrationFurnitureTiers(integration).each { tier ->
+                tier.woods.each { wood ->
+                    Map<String, ?> values = [
+                            integration : integration.integration,
+                            modId       : integration.modId,
+                            namespace   : integration.namespace,
+                            wood        : wood.wood,
+                            externalWood: wood.externalWood,
+                            display     : wood.display
+                    ]
+                    values.putAll(integrationTextureValues(integration, wood))
+                    String relative = mappedFurnitureResourcePath(
+                            renderFurnitureText(relativeTemplate, values), catalog)
+                    String rendered = renderFurnitureText(source, values)
+                    rendered = addTierCapabilityCondition(rendered, relative, values, tier)
+                    writeFurnitureFile(outputRoot, "src/main/resources/${relative}", rendered, generated)
+                }
             }
         }
     }
@@ -155,18 +214,20 @@ def renderFurnitureCatalog = { File outputRoot ->
     String integrationPrefix = new File(templates, 'java/integration.prefix').getText('UTF-8')
     String integrationFields = new File(templates, 'java/integration.fields').getText('UTF-8')
     catalog.integrations.each { integration ->
-        StringBuilder source = new StringBuilder(renderFurnitureText(integrationPrefix,
-                [className: integration.className]))
-        integration.woods.each { wood ->
-            source.append(renderFurnitureText(integrationFields, [
-                    integration: integration.integration,
-                    wood       : wood.wood
-            ]))
+        integrationFurnitureTiers(integration).each { tier ->
+            StringBuilder source = new StringBuilder(renderFurnitureText(integrationPrefix,
+                    [className: tier.className]))
+            tier.woods.each { wood ->
+                source.append(renderFurnitureText(integrationFields, [
+                        integration: integration.integration,
+                        wood       : wood.wood
+                ]))
+            }
+            source.append('}\n')
+            writeFurnitureFile(outputRoot,
+                    "src/main/java/zone/moddev/mc/ironagefurniture/init/${tier.className}.java",
+                    source.toString(), generated)
         }
-        source.append('}\n')
-        writeFurnitureFile(outputRoot,
-                "src/main/java/zone/moddev/mc/ironagefurniture/init/${integration.className}.java",
-                source.toString(), generated)
     }
     catalog.retainedIntegrationClasses.each { className ->
         File template = new File(templates, "java/${className}.java")
@@ -188,14 +249,17 @@ def renderFurnitureCatalog = { File outputRoot ->
     Map<String, Object> integrationLanguage =
             (Map<String, Object>) new JsonSlurper().parse(new File(templates, 'lang/integration.json'))
     catalog.integrations.each { integration ->
-        integration.woods.each { wood ->
-            integrationLanguage.each { key, value ->
-                Map<String, ?> values = [
-                        integration: integration.integration,
-                        wood       : wood.wood,
-                        display    : wood.display
-                ]
-                language[renderFurnitureText(key, values)] = renderFurnitureText(value.toString(), values)
+        integrationFurnitureTiers(integration).each { tier ->
+            tier.woods.each { wood ->
+                integrationLanguage.each { key, value ->
+                    Map<String, ?> values = [
+                            integration: integration.integration,
+                            wood       : wood.wood,
+                            display    : wood.display
+                    ]
+                    language[renderFurnitureText(key, values)] =
+                            renderFurnitureText(value.toString(), values)
+                }
             }
         }
     }
@@ -341,31 +405,33 @@ tasks.register('verifyOptionalIntegrationTextures') {
 
         def catalog = readFurnitureCatalog()
         catalog.integrations.each { integration ->
-            integration.woods.each { wood ->
-                Map textures = integrationTextureValues(integration, wood)
-                Set<String> expected = [
-                        "${integration.namespace}:${textures.externalLogTexture}",
-                        "${integration.namespace}:${textures.externalLogTopTexture}",
-                        "${integration.namespace}:${textures.externalPlanksTexture}"
-                ] as Set
-                String suffix = "_${integration.integration}_${wood.wood}.json"
-                List<File> woodModels = blockModels.findAll { it.name.endsWith(suffix) }
-                if (woodModels.isEmpty()) {
-                    throw new GradleException("No generated block models found for " +
-                            "${integration.integration}:${wood.wood}")
-                }
-                Set<String> actual = new TreeSet<>()
-                woodModels.each { modelFile ->
-                    Map model = new JsonSlurper().parse(modelFile) as Map
-                    if (model.textures instanceof Map) {
-                        ((Map) model.textures).values().findAll { it instanceof String }
-                                .findAll { it.startsWith("${integration.namespace}:") }
-                                .each { actual.add(it.toString()) }
+            integrationFurnitureTiers(integration).each { tier ->
+                tier.woods.each { wood ->
+                    Map textures = integrationTextureValues(integration, wood)
+                    Set<String> expected = [
+                            "${integration.namespace}:${textures.externalLogTexture}",
+                            "${integration.namespace}:${textures.externalLogTopTexture}",
+                            "${integration.namespace}:${textures.externalPlanksTexture}"
+                    ] as Set
+                    String suffix = "_${integration.integration}_${wood.wood}.json"
+                    List<File> woodModels = blockModels.findAll { it.name.endsWith(suffix) }
+                    if (woodModels.isEmpty()) {
+                        throw new GradleException("No generated block models found for " +
+                                "${integration.integration}:${wood.wood}")
                     }
-                }
-                if (actual != expected) {
-                    throw new GradleException("Unexpected texture mapping for " +
-                            "${integration.integration}:${wood.wood}; expected=${expected}, actual=${actual}")
+                    Set<String> actual = new TreeSet<>()
+                    woodModels.each { modelFile ->
+                        Map model = new JsonSlurper().parse(modelFile) as Map
+                        if (model.textures instanceof Map) {
+                            ((Map) model.textures).values().findAll { it instanceof String }
+                                    .findAll { it.startsWith("${integration.namespace}:") }
+                                    .each { actual.add(it.toString()) }
+                        }
+                    }
+                    if (actual != expected) {
+                        throw new GradleException("Unexpected texture mapping for " +
+                                "${integration.integration}:${wood.wood}; expected=${expected}, actual=${actual}")
+                    }
                 }
             }
         }

@@ -1,0 +1,31 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "conditions": [
+        {
+            "modid": "biomesoplenty",
+            "type": "forge:mod_loaded"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "biomesoplenty:empyreal_planks"
+        }
+    ],
+    "group": "furniture",
+    "pattern": [
+        " x ",
+        "yyy",
+        "yyy"
+    ],
+    "key": {
+        "y": {
+            "tag": "forge:rods/wooden"
+        },
+        "x": {
+            "item": "biomesoplenty:empyreal_planks"
+        }
+    },
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_stool_tall_biomesoplenty_empyreal",
+        "count": 1
+    }
+}
