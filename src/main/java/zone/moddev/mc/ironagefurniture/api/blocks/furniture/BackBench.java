@@ -16,6 +16,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
@@ -41,6 +42,9 @@ import java.util.List;
 import java.util.Objects;
 
 public class BackBench extends FurnitureBlock {
+	protected static final int FIRE_SPREAD_SPEED = 5;
+	protected static final int FLAMMABILITY = 20;
+
 	public static final BenchTypeProperty TYPE = BenchTypeProperty.create("type", BenchType.SINGLE, BenchType.LEFT, BenchType.MIDDLE, BenchType.RIGHT);
 
 	public BackBench(float hardness, float blastResistance, SoundType sound, String name) {
@@ -65,6 +69,16 @@ public class BackBench extends FurnitureBlock {
 	@Override
 	public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
 		return true;
+	}
+
+	@Override
+	public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+		return FLAMMABILITY;
+	}
+
+	@Override
+	public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+		return FIRE_SPREAD_SPEED;
 	}
 	
 	@Override
@@ -454,7 +468,17 @@ public class BackBench extends FurnitureBlock {
 	}
 
 	@Override
-	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult rayTraceResult) {
-		return Seat.create(world, pos, 0.3, player);
+	protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult rayTraceResult) {
+		return Seat.create(world, pos, seatYOffset(), player);
+	}
+
+	@Override
+	protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+		Seat.create(world, pos, seatYOffset(), player);
+		return ItemInteractionResult.sidedSuccess(world.isClientSide);
+	}
+
+	protected double seatYOffset() {
+		return 0.3;
 	}
 }

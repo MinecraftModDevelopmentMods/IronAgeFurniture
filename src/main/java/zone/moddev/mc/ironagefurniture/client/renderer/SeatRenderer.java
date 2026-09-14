@@ -14,7 +14,7 @@ public class SeatRenderer extends EntityRenderer<Seat> {
     }
 
     @Override
-    protected void renderNameTag(Seat entity, Component component, PoseStack stack, MultiBufferSource source, int light) {}
+    protected void renderNameTag(Seat entity, Component component, PoseStack stack, MultiBufferSource source, int light, float partialTick) {}
     
     @Override
     public ResourceLocation getTextureLocation(Seat seatEntity) { return null; }

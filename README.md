@@ -2,11 +2,11 @@
 
 IronAgeFurniture adds chairs, stools, benches, lighting, and other ye olde-style furniture to Minecraft.
 
-This branch targets Minecraft 1.20.1 with Forge 47.4.10. Its current complete version is `0.3.0.120011` and its Maven coordinate is `zone.moddev.mc:iron-age-furniture:0.3.0.120011`.
+This branch targets Minecraft 1.20.6 with Forge 50.2.0. Its current complete version is `0.3.0.120061` and its Maven coordinate is `zone.moddev.mc:iron-age-furniture:0.3.0.120061`.
 
 ## Build
 
-Use the checked-in Gradle wrapper with Temurin Java 17.0.1+12. ForgeGradle's Renamer uses Temurin Java 8.0.502+7, while the checked-in Mavenizer compatibility fixture uses Temurin Java 25.0.3+9.
+Use the checked-in Gradle wrapper with Temurin Java 21.0.7+6. The checked-in Mavenizer compatibility fixture uses Temurin Java 25.0.3+9; the Java 8 installation retained in CI is only a launcher toolchain needed by the Forge preparation stack.
 
 ```text
 gradlew.bat clean check build javadoc verifyReleaseArtifacts verifyReleaseChecksums

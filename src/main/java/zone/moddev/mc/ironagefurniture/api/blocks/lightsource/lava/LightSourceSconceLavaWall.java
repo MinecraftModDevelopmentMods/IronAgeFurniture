@@ -16,7 +16,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 
-import java.util.Map;
 import java.util.Random;
 
 import net.minecraft.core.BlockPos;
@@ -32,16 +31,6 @@ public class LightSourceSconceLavaWall extends LightSourceSconceGlowWall {
 	@Override
 	public BlockState updateShape(BlockState state, Direction direction, BlockState state2, LevelAccessor levelAccessor, BlockPos pos, BlockPos pos2) {
 	    if (direction.getOpposite() == state.getValue(FurnitureBlock.DIRECTION) && !state.canSurvive(levelAccessor, pos)) {
-	        if (levelAccessor instanceof Level level) {
-	            // Check if the level is server-side
-	            if (!level.isClientSide) {
-	                Player nearestPlayer = level.getNearestPlayer(pos.getX(), pos.getY(), pos.getZ(), 10, false);
-	                if (nearestPlayer != null && nearestPlayer.isCreative()) {
-	                    levelAccessor.destroyBlock(pos, false);
-	                    return Blocks.AIR.defaultBlockState();
-	                }
-	            }
-	        }
 	        levelAccessor.destroyBlock(pos, true);
 	        return LightDrop().defaultBlockState().setValue(FurnitureBlock.WATERLOGGED, false);
 	    }
@@ -58,10 +47,7 @@ public class LightSourceSconceLavaWall extends LightSourceSconceGlowWall {
 		ItemStack tool = player.getInventory().getSelected();
 
 		if (tool != null) {
-			Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(tool);
-
-			if (enchantments != null && !enchantments.isEmpty())
-				isSilkTouch = enchantments.get(Enchantments.SILK_TOUCH) > 0;
+			isSilkTouch = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.SILK_TOUCH, tool) > 0;
 		}
 
 		if (isSilkTouch && !player.isCreative())

@@ -9,10 +9,9 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import zone.moddev.mc.ironagefurniture.api.entity.Entities;
+import zone.moddev.mc.ironagefurniture.api.CreativeModeBreakTracker;
 import zone.moddev.mc.ironagefurniture.client.renderer.ClientHandler;
 import zone.moddev.mc.ironagefurniture.init.ModBOPBlocks;
-import zone.moddev.mc.ironagefurniture.init.ModBWGBlocks;
-import zone.moddev.mc.ironagefurniture.init.ModIEBlocks;
 import zone.moddev.mc.ironagefurniture.init.ModCreativeTab;
 import zone.moddev.mc.ironagefurniture.init.ModVanillaBackBench;
 import zone.moddev.mc.ironagefurniture.init.ModVanillaBench;
@@ -61,17 +60,6 @@ public class Ironagefurniture
 			ModBOPBlocks.REGISTER.register(modEventBus);
 		}
 		
-		if (ModList.get().isLoaded("immersiveengineering")) {
-			
-			LOGGER.info("Iron Age Furniture Immersive Engineering Integration is loading...");
-			ModIEBlocks.REGISTER.register(modEventBus);
-		}
-
-		if (ModList.get().isLoaded("biomeswevegone")) {
-			LOGGER.info("Iron Age Furniture Oh The Biomes We've Gone integration is loading...");
-			ModBWGBlocks.REGISTER.register(modEventBus);
-		}
-		
         ModItems.REGISTER.register(modEventBus);
         ModCreativeTab.REGISTER.register(modEventBus);
         Entities.REGISTER.register(modEventBus);
@@ -79,6 +67,7 @@ public class Ironagefurniture
         modEventBus.addListener(this::commonSetup);
 
         MinecraftForge.EVENT_BUS.register(this);
+		MinecraftForge.EVENT_BUS.register(new CreativeModeBreakTracker());
         
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
         	modEventBus.addListener(ClientHandler::onRegisterRenderers);
