@@ -88,7 +88,8 @@ jobs:
       - name: Compile production code
         run: |
           chmod +x ./gradlew
-          ./gradlew clean classes --no-daemon --stacktrace \
+          # CodeQL must observe javac; a Gradle cache hit produces an empty database.
+          ./gradlew clean classes --no-build-cache --no-daemon --stacktrace \
             -PpowerAdvantageDeobfJar="${{ steps.poweradvantage.outputs.jar }}" \
             -Dorg.gradle.java.installations.paths="$JAVA_HOME_25_X64,$JAVA_HOME_8_X64,$JAVA_HOME" \
             -Dorg.gradle.java.installations.auto-detect=false \
