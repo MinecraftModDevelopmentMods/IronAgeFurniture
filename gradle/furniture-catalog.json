@@ -25,6 +25,7 @@
       "integration": "biomesoplenty",
       "modId": "biomesoplenty",
       "namespace": "biomesoplenty",
+      "textureLayout": "flat",
       "woods": [
         { "wood": "dead", "externalWood": "dead", "display": "Dead" },
         { "wood": "empyreal", "externalWood": "empyreal", "display": "Empyreal" },
