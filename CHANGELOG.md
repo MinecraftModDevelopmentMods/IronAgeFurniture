@@ -3,6 +3,7 @@
 - Port IronAgeFurniture to Minecraft 1.21.11 and Forge 61.1.0 on Java 21.
 - Add Pale Oak to the vanilla furniture families and Origin Oak to the contemporary Biomes O' Plenty furniture family.
 - Retain Oh The Biomes We've Gone furniture, including Spirit wood, while continuing to omit Immersive Engineering on this target.
+- Validate every optional wood model semantically and against the exact pinned BOP and BWG texture jars.
 - Generate Forge 61 item definitions for every visible item and use target-native recipe ingredients and conditional data.
 - Carry forward the deterministic checked-in furniture catalog, scoped BOP/BYG remaps, and positive optional-integration runtime probe.
 
