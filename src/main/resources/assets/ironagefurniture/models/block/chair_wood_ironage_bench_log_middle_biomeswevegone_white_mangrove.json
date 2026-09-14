@@ -1,7 +1,7 @@
 {
   "parent": "ironagefurniture:block/template_chair_wood_ironage_bench_log_middle",
   "textures": {
-    "log": "biomeswevegone:block/fir_log",
-    "logtop": "biomeswevegone:block/fir_log_top"
+    "log": "biomeswevegone:block/white_mangrove/log",
+    "logtop": "biomeswevegone:block/white_mangrove/log_top"
   }
 }

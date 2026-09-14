@@ -24,6 +24,7 @@
       "integration": "biomesoplenty",
       "modId": "biomesoplenty",
       "namespace": "biomesoplenty",
+      "textureLayout": "flat",
       "woods": [
         { "wood": "dead", "externalWood": "dead", "display": "Dead" },
         { "wood": "empyreal", "externalWood": "empyreal", "display": "Empyreal" },
@@ -45,6 +46,7 @@
       "integration": "biomeswevegone",
       "modId": "biomeswevegone",
       "namespace": "biomeswevegone",
+      "textureLayout": "nested",
       "woods": [
         { "wood": "aspen", "externalWood": "aspen", "display": "Aspen" },
         { "wood": "baobab", "externalWood": "baobab", "display": "Baobab" },
@@ -53,7 +55,7 @@
         { "wood": "cypress", "externalWood": "cypress", "display": "Cypress" },
         { "wood": "ebony", "externalWood": "ebony", "display": "Ebony" },
         { "wood": "fir", "externalWood": "fir", "display": "Fir" },
-        { "wood": "florus", "externalWood": "florus", "externalLog": "florus_stem", "externalLogTop": "florus_stem_top", "display": "Florus" },
+        { "wood": "florus", "externalWood": "florus", "externalLog": "florus_stem", "externalLogTop": "florus_stem_top", "externalLogTexture": "block/florus/stem", "externalLogTopTexture": "block/florus/stem_top", "display": "Florus" },
         { "wood": "green_enchanted", "externalWood": "green_enchanted", "display": "Green Enchanted" },
         { "wood": "holly", "externalWood": "holly", "display": "Holly" },
         { "wood": "ironwood", "externalWood": "ironwood", "display": "Ironwood" },
