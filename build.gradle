@@ -1431,3 +1431,4 @@ tasks.named('check') {
 }
 
 apply from: 'gradle/furniture-catalog.gradle'
+apply from: 'gradle/verify-integration-textures.gradle'
