@@ -144,6 +144,12 @@ def renderFurnitureCatalog = { File outputRoot ->
         String source = template.getText('UTF-8')
         catalog.integrations.each { integration ->
             integration.woods.each { wood ->
+                String textureLayout = integration.textureLayout ?: 'flat'
+                if (!(textureLayout in ['flat', 'nested', 'wood_directory'])) {
+                    throw new GradleException("Unsupported texture layout '${textureLayout}' for ${integration.integration}")
+                }
+                boolean directoryTextures = textureLayout in ['nested', 'wood_directory']
+                String textureRoot = "block/${wood.externalWood}"
                 Map<String, ?> values = [
                         integration : integration.integration,
                         modId       : integration.modId,
@@ -153,6 +159,12 @@ def renderFurnitureCatalog = { File outputRoot ->
                         externalLog : wood.externalLog ?: "${wood.externalWood}_log",
                         externalLogTop: wood.externalLogTop ?: "${wood.externalWood}_log_top",
                         externalPlanks: wood.externalPlanks ?: "${wood.externalWood}_planks",
+                        externalLogTexture: wood.externalLogTexture ?:
+                                (directoryTextures ? "${textureRoot}/log" : "block/${wood.externalWood}_log"),
+                        externalLogTopTexture: wood.externalLogTopTexture ?:
+                                (directoryTextures ? "${textureRoot}/log_top" : "block/${wood.externalWood}_log_top"),
+                        externalPlanksTexture: wood.externalPlanksTexture ?:
+                                (directoryTextures ? "${textureRoot}/planks" : "block/${wood.externalWood}_planks"),
                         display     : wood.display
                 ]
                 String relative = mappedFurnitureResourcePath(renderFurnitureText(relativeTemplate, values), catalog)
