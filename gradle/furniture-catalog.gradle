@@ -1,0 +1,452 @@
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
+import java.util.zip.ZipFile
+
+def furnitureCatalogFile = layout.projectDirectory.file('gradle/furniture-catalog.json')
+def furnitureTemplateDirectory = layout.projectDirectory.dir('gradle/furniture-templates')
+def furnitureResourceDirectories = [
+        'assets/ironagefurniture/blockstates',
+        'assets/ironagefurniture/models/block',
+        'assets/ironagefurniture/models/item',
+        'data/ironagefurniture/recipes',
+        'data/ironagefurniture/advancements/recipes/chairs'
+]
+def furnitureJavaClasses = [
+        ModVanillaChairs          : 'Chair',
+        ModVanillaShieldChairs    : 'Chair',
+        ModVanillaStools          : 'Stool',
+        ModVanillaTallStools      : 'TallStool',
+        ModVanillaBench           : 'Bench',
+        ModVanillaBackBench       : 'BackBench',
+        ModVanillaLogBench        : 'LogBench',
+        ModVanillaPaddedBench     : 'Bench',
+        ModVanillaPaddedBackBench : 'BackBench'
+]
+
+def normalizeFurniturePath = { String path -> path.replace('\\', '/') }
+def readFurnitureCatalog = {
+    def parsed = new JsonSlurper().parse(furnitureCatalogFile.asFile)
+    if (parsed.schema != 1) {
+        throw new GradleException("Unsupported furniture catalog schema: ${parsed.schema}")
+    }
+    parsed
+}
+def renderFurnitureText = { String template, Map<String, ?> values ->
+    String rendered = template
+    values.each { key, value -> rendered = rendered.replace("{{${key}}}", value.toString()) }
+    if (rendered.contains('{{')) {
+        throw new GradleException("Unresolved furniture template token in: ${rendered.take(160)}")
+    }
+    rendered.replace('\r\n', '\n')
+}
+def writeFurnitureFile = { File root, String relative, String text, Set<String> generated ->
+    String normalized = normalizeFurniturePath(relative)
+    File output = new File(root, normalized)
+    output.parentFile.mkdirs()
+    output.setText(text.replace('\r\n', '\n'), 'UTF-8')
+    generated.add(normalized)
+}
+def mappedFurnitureResourcePath = { String relative, def catalog ->
+    if (catalog.dataLayout == 'singular') {
+        return relative
+                .replace('data/ironagefurniture/recipes/', 'data/ironagefurniture/recipe/')
+                .replace('data/ironagefurniture/advancements/', 'data/ironagefurniture/advancement/')
+    }
+    relative
+}
+
+def integrationFurnitureTiers = { integration ->
+    List<Map<String, ?>> tiers = [[
+            className     : integration.className.toString(),
+            minimumVersion: null,
+            woods         : integration.woods
+    ]]
+    if (integration.versionTiers instanceof List) {
+        integration.versionTiers.each { tier ->
+            if (!tier.className || !tier.minimumVersion || !(tier.woods instanceof List)
+                    || tier.woods.isEmpty()) {
+                throw new GradleException("Invalid version tier for ${integration.integration}: ${tier}")
+            }
+            tiers.add([
+                    className     : tier.className.toString(),
+                    minimumVersion: tier.minimumVersion.toString(),
+                    woods         : tier.woods
+            ])
+        }
+    }
+    tiers
+}
+
+def addTierCapabilityCondition = { String rendered, String relative, Map<String, ?> values,
+                                   Map<String, ?> tier ->
+    if (tier.minimumVersion == null) return rendered
+    boolean recipe = relative.startsWith('data/ironagefurniture/recipes/') ||
+            relative.startsWith('data/ironagefurniture/recipe/')
+    boolean advancement = relative.startsWith('data/ironagefurniture/advancements/') ||
+            relative.startsWith('data/ironagefurniture/advancement/')
+    if (!recipe && !advancement) return rendered
+
+    Map document = new JsonSlurper().parseText(rendered) as Map
+    Map condition = [
+            type: 'forge:item_exists',
+            item: "${values.namespace}:${values.externalPlanks}"
+    ]
+    if (recipe) {
+        if (!(document.conditions instanceof List)) {
+            throw new GradleException("Tiered recipe has no condition list: ${relative}")
+        }
+        document.conditions.add(condition)
+    } else {
+        if (!(document.advancements instanceof List) || document.advancements.isEmpty()) {
+            throw new GradleException("Tiered advancement has no branches: ${relative}")
+        }
+        document.advancements.each { branch ->
+            if (!(branch.conditions instanceof List)) {
+                throw new GradleException("Tiered advancement has no condition list: ${relative}")
+            }
+            branch.conditions.add(condition)
+        }
+    }
+    JsonOutput.prettyPrint(JsonOutput.toJson(document)) + '\n'
+}
+
+def integrationTextureValues = { integration, wood ->
+    String externalLog = wood.externalLog ?: "${wood.externalWood}_log"
+    String externalLogTop = wood.externalLogTop ?: "${wood.externalWood}_log_top"
+    String externalPlanks = wood.externalPlanks ?: "${wood.externalWood}_planks"
+    String textureLayout = integration.textureLayout ?: 'flat'
+    if (!(textureLayout in ['flat', 'nested'])) {
+        throw new GradleException("Unsupported ${integration.integration} texture layout: ${textureLayout}")
+    }
+    String nestedRoot = "block/${wood.externalWood}"
+    [
+            externalLog      : externalLog,
+            externalLogTop   : externalLogTop,
+            externalPlanks   : externalPlanks,
+            externalLogTexture: wood.externalLogTexture ?:
+                    (textureLayout == 'nested' ? "${nestedRoot}/log" : "block/${externalLog}"),
+            externalLogTopTexture: wood.externalLogTopTexture ?:
+                    (textureLayout == 'nested' ? "${nestedRoot}/log_top" : "block/${externalLogTop}"),
+            externalPlanksTexture: wood.externalPlanksTexture ?:
+                    (textureLayout == 'nested' ? "${nestedRoot}/planks" : "block/${externalPlanks}")
+    ]
+}
+
+def renderFurnitureCatalog = { File outputRoot ->
+    def catalog = readFurnitureCatalog()
+    Set<String> generated = new TreeSet<>()
+    File templates = furnitureTemplateDirectory.asFile
+
+    File vanillaTemplates = new File(templates, 'vanilla')
+    vanillaTemplates.eachFileRecurse { File template ->
+        if (!template.isFile()) return
+        String relativeTemplate = normalizeFurniturePath(vanillaTemplates.toPath().relativize(template.toPath()).toString())
+        String source = template.getText('UTF-8')
+        catalog.vanilla.each { wood ->
+            Map<String, ?> values = [
+                    wood    : wood.wood,
+                    display : wood.display,
+                    log     : wood.log,
+                    logTop  : wood.logTop,
+                    planks  : wood.planks
+            ]
+            String relative = mappedFurnitureResourcePath(renderFurnitureText(relativeTemplate, values), catalog)
+            writeFurnitureFile(outputRoot, "src/main/resources/${relative}",
+                    renderFurnitureText(source, values), generated)
+        }
+    }
+
+    File integrationTemplates = new File(templates, 'integration')
+    integrationTemplates.eachFileRecurse { File template ->
+        if (!template.isFile()) return
+        String relativeTemplate = normalizeFurniturePath(integrationTemplates.toPath().relativize(template.toPath()).toString())
+        String source = template.getText('UTF-8')
+        catalog.integrations.each { integration ->
+            integrationFurnitureTiers(integration).each { tier ->
+                tier.woods.each { wood ->
+                    Map<String, ?> values = [
+                            integration : integration.integration,
+                            modId       : integration.modId,
+                            namespace   : integration.namespace,
+                            wood        : wood.wood,
+                            externalWood: wood.externalWood,
+                            display     : wood.display
+                    ]
+                    values.putAll(integrationTextureValues(integration, wood))
+                    String relative = mappedFurnitureResourcePath(
+                            renderFurnitureText(relativeTemplate, values), catalog)
+                    String rendered = renderFurnitureText(source, values)
+                    rendered = addTierCapabilityCondition(rendered, relative, values, tier)
+                    writeFurnitureFile(outputRoot, "src/main/resources/${relative}", rendered, generated)
+                }
+            }
+        }
+    }
+
+    if (catalog.retainedIntegrationResources) {
+        File retainedTemplates = new File(templates, 'retained')
+        retainedTemplates.eachFileRecurse { File template ->
+            if (!template.isFile()) return
+            String relative = normalizeFurniturePath(
+                    retainedTemplates.toPath().relativize(template.toPath()).toString())
+            writeFurnitureFile(outputRoot, relative, template.getText('UTF-8'), generated)
+        }
+    }
+
+    furnitureJavaClasses.each { className, baseBlockClass ->
+        String prefix = new File(templates, "java/${className}.prefix").getText('UTF-8')
+        String fields = new File(templates, "java/${className}.fields").getText('UTF-8')
+        StringBuilder source = new StringBuilder(prefix)
+        catalog.vanilla.each { wood ->
+            source.append(renderFurnitureText(fields, [
+                    wood      : wood.wood,
+                    blockClass: wood.nether ? "${baseBlockClass}Nether" : baseBlockClass
+            ]))
+        }
+        source.append('}\n')
+        writeFurnitureFile(outputRoot,
+                "src/main/java/zone/moddev/mc/ironagefurniture/init/${className}.java",
+                source.toString(), generated)
+    }
+
+    String integrationPrefix = new File(templates, 'java/integration.prefix').getText('UTF-8')
+    String integrationFields = new File(templates, 'java/integration.fields').getText('UTF-8')
+    catalog.integrations.each { integration ->
+        integrationFurnitureTiers(integration).each { tier ->
+            StringBuilder source = new StringBuilder(renderFurnitureText(integrationPrefix,
+                    [className: tier.className]))
+            tier.woods.each { wood ->
+                source.append(renderFurnitureText(integrationFields, [
+                        integration: integration.integration,
+                        wood       : wood.wood
+                ]))
+            }
+            source.append('}\n')
+            writeFurnitureFile(outputRoot,
+                    "src/main/java/zone/moddev/mc/ironagefurniture/init/${tier.className}.java",
+                    source.toString(), generated)
+        }
+    }
+    catalog.retainedIntegrationClasses.each { className ->
+        File template = new File(templates, "java/${className}.java")
+        writeFurnitureFile(outputRoot,
+                "src/main/java/zone/moddev/mc/ironagefurniture/init/${className}.java",
+                template.getText('UTF-8'), generated)
+    }
+
+    Map<String, Object> language = new TreeMap<>()
+    language.putAll((Map<String, Object>) new JsonSlurper().parse(new File(templates, 'lang/base.json')))
+    Map<String, Object> vanillaLanguage =
+            (Map<String, Object>) new JsonSlurper().parse(new File(templates, 'lang/vanilla.json'))
+    catalog.vanilla.each { wood ->
+        vanillaLanguage.each { key, value ->
+            Map<String, ?> values = [wood: wood.wood, display: wood.display]
+            language[renderFurnitureText(key, values)] = renderFurnitureText(value.toString(), values)
+        }
+    }
+    Map<String, Object> integrationLanguage =
+            (Map<String, Object>) new JsonSlurper().parse(new File(templates, 'lang/integration.json'))
+    catalog.integrations.each { integration ->
+        integrationFurnitureTiers(integration).each { tier ->
+            tier.woods.each { wood ->
+                integrationLanguage.each { key, value ->
+                    Map<String, ?> values = [
+                            integration: integration.integration,
+                            wood       : wood.wood,
+                            display    : wood.display
+                    ]
+                    language[renderFurnitureText(key, values)] =
+                            renderFurnitureText(value.toString(), values)
+                }
+            }
+        }
+    }
+    String languageJson = JsonOutput.prettyPrint(JsonOutput.toJson(language)) + '\n'
+    ['en_en.json', 'en_gb.json', 'en_us.json'].each { locale ->
+        writeFurnitureFile(outputRoot,
+                "src/main/resources/assets/ironagefurniture/lang/${locale}", languageJson, generated)
+    }
+
+    if (catalog.itemDefinitions) {
+        Set<String> visibleItems = new TreeSet<>()
+        generated.findAll { it.startsWith('src/main/resources/assets/ironagefurniture/models/item/') }
+                .each { relative -> visibleItems.add(new File(relative).name.replaceFirst(/\.json$/, '')) }
+        visibleItems.each { itemId ->
+            String definition = JsonOutput.prettyPrint(JsonOutput.toJson([
+                    model: [type: 'minecraft:model', model: "ironagefurniture:item/${itemId}"]
+            ])) + '\n'
+            writeFurnitureFile(outputRoot,
+                    "src/main/resources/assets/ironagefurniture/items/${itemId}.json",
+                    definition, generated)
+        }
+    }
+
+    generated
+}
+
+def isManagedFurnitureResource = { File file ->
+    if (!file.isFile() || file.name == null || !file.name.endsWith('.json')
+            || !file.name.startsWith('chair_wood_ironage_')) return false
+    String relative = normalizeFurniturePath(project.projectDir.toPath().relativize(file.toPath()).toString())
+    relative.startsWith('src/main/resources/assets/ironagefurniture/blockstates/') ||
+            relative.startsWith('src/main/resources/assets/ironagefurniture/models/block/') ||
+            relative.startsWith('src/main/resources/assets/ironagefurniture/models/item/') ||
+            relative.startsWith('src/main/resources/assets/ironagefurniture/items/') ||
+            relative.startsWith('src/main/resources/data/ironagefurniture/recipes/') ||
+            relative.startsWith('src/main/resources/data/ironagefurniture/recipe/') ||
+            relative.startsWith('src/main/resources/data/ironagefurniture/advancements/recipes/chairs/') ||
+            relative.startsWith('src/main/resources/data/ironagefurniture/advancement/recipes/chairs/')
+}
+
+tasks.register('updateFurnitureCatalog') {
+    group = 'generation'
+    description = 'Explicitly regenerates catalog-owned furniture registrations and resources.'
+    inputs.file furnitureCatalogFile
+    inputs.dir furnitureTemplateDirectory
+    doLast {
+        fileTree('src/main/resources').matching { include '**/*.json' }.files
+                .findAll(isManagedFurnitureResource)
+                .each { File stale -> Files.delete(stale.toPath()) }
+        File oldBygClass = file('src/main/java/zone/moddev/mc/ironagefurniture/init/ModBYGBlocks.java')
+        if (oldBygClass.isFile()) Files.delete(oldBygClass.toPath())
+        renderFurnitureCatalog(project.projectDir)
+    }
+}
+
+tasks.register('verifyFurnitureCatalog') {
+    group = 'verification'
+    description = 'Regenerates furniture into a temporary tree and compares it byte-for-byte with committed output.'
+    inputs.file furnitureCatalogFile
+    inputs.dir furnitureTemplateDirectory
+    doLast {
+        File expectedRoot = layout.buildDirectory.dir('tmp/furnitureCatalog/expected').get().asFile
+        project.delete(expectedRoot)
+        expectedRoot.mkdirs()
+        Set<String> expected = renderFurnitureCatalog(expectedRoot)
+        expected.each { relative ->
+            File expectedFile = new File(expectedRoot, relative)
+            File actualFile = new File(project.projectDir, relative)
+            if (!actualFile.isFile()) throw new GradleException("Missing catalog output: ${relative}")
+            if (Files.mismatch(expectedFile.toPath(), actualFile.toPath()) != -1L) {
+                throw new GradleException("Catalog output differs; run updateFurnitureCatalog: ${relative}")
+            }
+        }
+
+        Set<String> expectedResources = expected.findAll {
+            it.startsWith('src/main/resources/') && !it.contains('/lang/')
+        } as Set
+        Set<String> actualResources = fileTree('src/main/resources').matching { include '**/*.json' }.files
+                .findAll(isManagedFurnitureResource)
+                .collect { normalizeFurniturePath(project.projectDir.toPath().relativize(it.toPath()).toString()) } as Set
+        if (actualResources != expectedResources) {
+            Set<String> missing = new TreeSet<>(expectedResources); missing.removeAll(actualResources)
+            Set<String> stale = new TreeSet<>(actualResources); stale.removeAll(expectedResources)
+            throw new GradleException("Catalog resource inventory differs; missing=${missing.take(10)}, stale=${stale.take(10)}")
+        }
+        if (file('src/main/java/zone/moddev/mc/ironagefurniture/init/ModBYGBlocks.java').exists()) {
+            throw new GradleException('Retired BYG registration class remains after BWG migration')
+        }
+    }
+}
+
+tasks.register('verifyOptionalIntegrationTextures') {
+    group = 'verification'
+    description = 'Checks every optional-mod texture reference against the pinned integration jars.'
+    dependsOn tasks.named('verifyFurnitureCatalog')
+    dependsOn tasks.named('verifyOptionalIntegrationMods')
+    inputs.file furnitureCatalogFile
+    inputs.files fileTree('src/main/resources/assets/ironagefurniture/models/block') {
+        include '**/*.json'
+    }
+    doLast {
+        File manifestFile = file('gradle/verification/optional-integration-mods.json')
+        Map manifest = new JsonSlurper().parse(manifestFile) as Map
+        File serverDirectory = providers.gradleProperty('optionalIntegrationServerDir')
+                .map { project.file(it) }
+                .orElse(file('run-optional-integrations')).get()
+        File modsDirectory = new File(serverDirectory, 'mods')
+        Map<String, File> integrationJars = ((List<Map>) manifest.mods)
+                .findAll { it.role == 'integration' }
+                .collectEntries { [(it.modId.toString()): new File(modsDirectory, it.file.toString())] }
+        Map<String, Set<String>> jarEntries = [:]
+        integrationJars.each { modId, jarFile ->
+            ZipFile archive = new ZipFile(jarFile)
+            try {
+                jarEntries[modId] = archive.entries().collect { it.name }.toSet()
+            } finally {
+                archive.close()
+            }
+        }
+
+        List<File> blockModels = fileTree('src/main/resources/assets/ironagefurniture/models/block') {
+            include '**/*.json'
+        }.files.sort { it.path }
+        Set<String> referencedTextures = new TreeSet<>()
+        blockModels.each { modelFile ->
+            Map model = new JsonSlurper().parse(modelFile) as Map
+            if (!(model.textures instanceof Map)) return
+            ((Map) model.textures).values().findAll { it instanceof String }.each { value ->
+                String texture = value.toString()
+                int separator = texture.indexOf(':')
+                if (separator < 1) return
+                String namespace = texture.substring(0, separator)
+                if (!integrationJars.containsKey(namespace)) return
+                String path = texture.substring(separator + 1)
+                String entry = "assets/${namespace}/textures/${path}.png"
+                if (!jarEntries[namespace].contains(entry)) {
+                    throw new GradleException("Missing optional-mod texture ${texture} referenced by " +
+                            project.projectDir.toPath().relativize(modelFile.toPath()).toString())
+                }
+                referencedTextures.add(texture)
+            }
+        }
+
+        def catalog = readFurnitureCatalog()
+        catalog.integrations.each { integration ->
+            integrationFurnitureTiers(integration).each { tier ->
+                tier.woods.each { wood ->
+                    Map textures = integrationTextureValues(integration, wood)
+                    Set<String> expected = [
+                            "${integration.namespace}:${textures.externalLogTexture}",
+                            "${integration.namespace}:${textures.externalLogTopTexture}",
+                            "${integration.namespace}:${textures.externalPlanksTexture}"
+                    ] as Set
+                    String suffix = "_${integration.integration}_${wood.wood}.json"
+                    List<File> woodModels = blockModels.findAll { it.name.endsWith(suffix) }
+                    if (woodModels.isEmpty()) {
+                        throw new GradleException("No generated block models found for " +
+                                "${integration.integration}:${wood.wood}")
+                    }
+                    Set<String> actual = new TreeSet<>()
+                    woodModels.each { modelFile ->
+                        Map model = new JsonSlurper().parse(modelFile) as Map
+                        if (model.textures instanceof Map) {
+                            ((Map) model.textures).values().findAll { it instanceof String }
+                                    .findAll { it.startsWith("${integration.namespace}:") }
+                                    .each { actual.add(it.toString()) }
+                        }
+                    }
+                    if (actual != expected) {
+                        throw new GradleException("Unexpected texture mapping for " +
+                                "${integration.integration}:${wood.wood}; expected=${expected}, actual=${actual}")
+                    }
+                }
+            }
+        }
+        if (referencedTextures.isEmpty()) {
+            throw new GradleException('No optional-mod texture references were audited')
+        }
+        logger.lifecycle("Verified ${referencedTextures.size()} optional-mod textures against " +
+                "${integrationJars.size()} pinned integration jars")
+    }
+}
+
+tasks.named('stageOptionalIntegrationFixture') {
+    dependsOn tasks.named('verifyOptionalIntegrationTextures')
+}
+
+tasks.named('check') {
+    dependsOn tasks.named('verifyFurnitureCatalog')
+}

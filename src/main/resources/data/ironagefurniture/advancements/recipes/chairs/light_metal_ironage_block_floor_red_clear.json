@@ -10,15 +10,24 @@
       "conditions": {
         "items": [
           {
-            "item": "minecraft:redstone"
+            "items": [
+              "minecraft:redstone"
+            ]
           }
         ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "ironagefurniture:light_metal_ironage_block_floor_red_clear"
       }
     }
   },
   "requirements": [
     [
-      "has_nugget"
+      "has_nugget",
+      "has_the_recipe"
     ]
   ]
 }

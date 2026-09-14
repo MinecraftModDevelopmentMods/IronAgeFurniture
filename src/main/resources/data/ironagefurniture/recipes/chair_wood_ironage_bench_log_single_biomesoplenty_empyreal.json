@@ -1,0 +1,26 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "conditions": [
+        {
+            "modid": "biomesoplenty",
+            "type": "forge:mod_loaded"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "biomesoplenty:empyreal_planks"
+        }
+    ],
+    "group": "furniture",
+    "pattern": [
+        "xxx"
+    ],
+    "key": {
+        "x": {
+            "item": "biomesoplenty:empyreal_log"
+        }
+    },
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_bench_log_single_biomesoplenty_empyreal",
+        "count": 3
+    }
+}

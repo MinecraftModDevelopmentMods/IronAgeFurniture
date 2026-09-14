@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "conditions": [
+    {
+      "modid": "biomeswevegone",
+      "type": "forge:mod_loaded"
+    }
+  ],
+  "group": "furniture",
+  "pattern": [
+    "xxx"
+  ],
+  "key": {
+    "x": {
+      "item": "biomeswevegone:blue_enchanted_log"
+    }
+  },
+  "result": {
+    "item": "ironagefurniture:chair_wood_ironage_bench_log_single_biomeswevegone_blue_enchanted",
+    "count": 3
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "schema": 1,
+  "minecraft": "1.20.1",
+  "loader": "forge",
+  "dataLayout": "plural",
+  "itemDefinitions": false,
+  "vanilla": [
+    { "wood": "oak", "display": "Oak", "log": "oak_log", "logTop": "oak_log_top", "planks": "oak_planks", "nether": false },
+    { "wood": "spruce", "display": "Spruce", "log": "spruce_log", "logTop": "spruce_log_top", "planks": "spruce_planks", "nether": false },
+    { "wood": "birch", "display": "Birch", "log": "birch_log", "logTop": "birch_log_top", "planks": "birch_planks", "nether": false },
+    { "wood": "jungle", "display": "Jungle", "log": "jungle_log", "logTop": "jungle_log_top", "planks": "jungle_planks", "nether": false },
+    { "wood": "acacia", "display": "Acacia", "log": "acacia_log", "logTop": "acacia_log_top", "planks": "acacia_planks", "nether": false },
+    { "wood": "dark_oak", "display": "Dark Oak", "log": "dark_oak_log", "logTop": "dark_oak_log_top", "planks": "dark_oak_planks", "nether": false },
+    { "wood": "mangrove", "display": "Mangrove", "log": "mangrove_log", "logTop": "mangrove_log_top", "planks": "mangrove_planks", "nether": false },
+    { "wood": "cherry", "display": "Cherry", "log": "cherry_log", "logTop": "cherry_log_top", "planks": "cherry_planks", "nether": false },
+    { "wood": "bamboo", "display": "Bamboo", "log": "bamboo_block", "logTop": "bamboo_block_top", "planks": "bamboo_planks", "nether": false },
+    { "wood": "crimson", "display": "Crimson", "log": "crimson_stem", "logTop": "crimson_stem_top", "planks": "crimson_planks", "nether": true },
+    { "wood": "warped", "display": "Warped", "log": "warped_stem", "logTop": "warped_stem_top", "planks": "warped_planks", "nether": true }
+  ],
+  "integrations": [
+    {
+      "className": "ModBOPBlocks",
+      "integration": "biomesoplenty",
+      "modId": "biomesoplenty",
+      "namespace": "biomesoplenty",
+      "textureLayout": "flat",
+      "woods": [
+        { "wood": "dead", "externalWood": "dead", "display": "Dead" },
+        { "wood": "fir", "externalWood": "fir", "display": "Fir" },
+        { "wood": "hellbark", "externalWood": "hellbark", "display": "Hellbark" },
+        { "wood": "jacaranda", "externalWood": "jacaranda", "display": "Jacaranda" },
+        { "wood": "magic", "externalWood": "magic", "display": "Magic" },
+        { "wood": "mahogany", "externalWood": "mahogany", "display": "Mahogany" },
+        { "wood": "palm", "externalWood": "palm", "display": "Palm" },
+        { "wood": "redwood", "externalWood": "redwood", "display": "Redwood" },
+        { "wood": "umbran", "externalWood": "umbran", "display": "Umbran" },
+        { "wood": "willow", "externalWood": "willow", "display": "Willow" }
+      ],
+      "versionTiers": [
+        {
+          "className": "ModBOP19Blocks",
+          "minimumVersion": "19.0.0.96",
+          "woods": [
+            { "wood": "empyreal", "externalWood": "empyreal", "display": "Empyreal" },
+            { "wood": "maple", "externalWood": "maple", "display": "Maple" },
+            { "wood": "pine", "externalWood": "pine", "display": "Pine" }
+          ]
+        }
+      ]
+    },
+    {
+      "className": "ModBWGBlocks",
+      "integration": "biomeswevegone",
+      "modId": "biomeswevegone",
+      "namespace": "biomeswevegone",
+      "textureLayout": "nested",
+      "woods": [
+        { "wood": "aspen", "externalWood": "aspen", "display": "Aspen" },
+        { "wood": "baobab", "externalWood": "baobab", "display": "Baobab" },
+        { "wood": "blue_enchanted", "externalWood": "blue_enchanted", "display": "Blue Enchanted" },
+        { "wood": "cika", "externalWood": "cika", "display": "Cika" },
+        { "wood": "cypress", "externalWood": "cypress", "display": "Cypress" },
+        { "wood": "ebony", "externalWood": "ebony", "display": "Ebony" },
+        { "wood": "fir", "externalWood": "fir", "display": "Fir" },
+        { "wood": "florus", "externalWood": "florus", "externalLog": "florus_stem", "externalLogTop": "florus_stem_top", "externalLogTexture": "block/florus/stem", "externalLogTopTexture": "block/florus/stem_top", "display": "Florus" },
+        { "wood": "green_enchanted", "externalWood": "green_enchanted", "display": "Green Enchanted" },
+        { "wood": "holly", "externalWood": "holly", "display": "Holly" },
+        { "wood": "ironwood", "externalWood": "ironwood", "display": "Ironwood" },
+        { "wood": "jacaranda", "externalWood": "jacaranda", "display": "Jacaranda" },
+        { "wood": "mahogany", "externalWood": "mahogany", "display": "Mahogany" },
+        { "wood": "maple", "externalWood": "maple", "display": "Maple" },
+        { "wood": "palm", "externalWood": "palm", "display": "Palm" },
+        { "wood": "pine", "externalWood": "pine", "display": "Pine" },
+        { "wood": "rainbow_eucalyptus", "externalWood": "rainbow_eucalyptus", "display": "Rainbow Eucalyptus" },
+        { "wood": "redwood", "externalWood": "redwood", "display": "Redwood" },
+        { "wood": "sakura", "externalWood": "sakura", "display": "Sakura" },
+        { "wood": "skyris", "externalWood": "skyris", "display": "Skyris" },
+        { "wood": "white_mangrove", "externalWood": "white_mangrove", "display": "White Mangrove" },
+        { "wood": "willow", "externalWood": "willow", "display": "Willow" },
+        { "wood": "witch_hazel", "externalWood": "witch_hazel", "display": "Witch Hazel" },
+        { "wood": "zelkova", "externalWood": "zelkova", "display": "Zelkova" }
+      ]
+    }
+  ],
+  "retainedIntegrationClasses": ["ModIEBlocks"],
+  "retainedIntegrationResources": true
+}

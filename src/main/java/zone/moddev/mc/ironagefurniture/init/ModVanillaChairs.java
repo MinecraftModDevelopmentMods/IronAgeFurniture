@@ -31,11 +31,14 @@ public class ModVanillaChairs {
 	}
 	
 	public static RegistryObject<Block> chair_wood_ironage_classic_oak = register("chair_wood_ironage_classic_oak", () -> new Chair(1, 10, SoundType.WOOD, "chair_wood_ironage_classic_oak"));
-	public static RegistryObject<Block> chair_wood_ironage_classic_acacia = register("chair_wood_ironage_classic_acacia", () -> new Chair(1, 10, SoundType.WOOD, "chair_wood_ironage_classic_acacia"));
-	public static RegistryObject<Block> chair_wood_ironage_classic_dark_oak = register("chair_wood_ironage_classic_dark_oak", () -> new Chair(1, 10, SoundType.WOOD, "chair_wood_ironage_classic_dark_oak"));
+	public static RegistryObject<Block> chair_wood_ironage_classic_spruce = register("chair_wood_ironage_classic_spruce", () -> new Chair(1, 10, SoundType.WOOD, "chair_wood_ironage_classic_spruce"));
 	public static RegistryObject<Block> chair_wood_ironage_classic_birch = register("chair_wood_ironage_classic_birch", () -> new Chair(1, 10, SoundType.WOOD, "chair_wood_ironage_classic_birch"));
 	public static RegistryObject<Block> chair_wood_ironage_classic_jungle = register("chair_wood_ironage_classic_jungle", () -> new Chair(1, 10, SoundType.WOOD, "chair_wood_ironage_classic_jungle"));
-	public static RegistryObject<Block> chair_wood_ironage_classic_spruce = register("chair_wood_ironage_classic_spruce", () -> new Chair(1, 10, SoundType.WOOD, "chair_wood_ironage_classic_spruce"));
-	public static RegistryObject<Block> chair_wood_ironage_classic_warped = register("chair_wood_ironage_classic_warped", () -> new ChairNether(1, 10, SoundType.WOOD, "chair_wood_ironage_classic_warped"));
+	public static RegistryObject<Block> chair_wood_ironage_classic_acacia = register("chair_wood_ironage_classic_acacia", () -> new Chair(1, 10, SoundType.WOOD, "chair_wood_ironage_classic_acacia"));
+	public static RegistryObject<Block> chair_wood_ironage_classic_dark_oak = register("chair_wood_ironage_classic_dark_oak", () -> new Chair(1, 10, SoundType.WOOD, "chair_wood_ironage_classic_dark_oak"));
+	public static RegistryObject<Block> chair_wood_ironage_classic_mangrove = register("chair_wood_ironage_classic_mangrove", () -> new Chair(1, 10, SoundType.WOOD, "chair_wood_ironage_classic_mangrove"));
+	public static RegistryObject<Block> chair_wood_ironage_classic_cherry = register("chair_wood_ironage_classic_cherry", () -> new Chair(1, 10, SoundType.WOOD, "chair_wood_ironage_classic_cherry"));
+	public static RegistryObject<Block> chair_wood_ironage_classic_bamboo = register("chair_wood_ironage_classic_bamboo", () -> new Chair(1, 10, SoundType.WOOD, "chair_wood_ironage_classic_bamboo"));
 	public static RegistryObject<Block> chair_wood_ironage_classic_crimson = register("chair_wood_ironage_classic_crimson", () -> new ChairNether(1, 10, SoundType.WOOD, "chair_wood_ironage_classic_crimson"));
+	public static RegistryObject<Block> chair_wood_ironage_classic_warped = register("chair_wood_ironage_classic_warped", () -> new ChairNether(1, 10, SoundType.WOOD, "chair_wood_ironage_classic_warped"));
 }

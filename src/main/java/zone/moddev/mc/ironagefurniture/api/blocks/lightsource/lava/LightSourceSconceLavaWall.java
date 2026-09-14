@@ -9,7 +9,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.material.Material;
 import oshi.util.tuples.Pair;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -33,16 +32,6 @@ public class LightSourceSconceLavaWall extends LightSourceSconceGlowWall {
 	@Override
 	public BlockState updateShape(BlockState state, Direction direction, BlockState state2, LevelAccessor levelAccessor, BlockPos pos, BlockPos pos2) {
 	    if (direction.getOpposite() == state.getValue(FurnitureBlock.DIRECTION) && !state.canSurvive(levelAccessor, pos)) {
-	        if (levelAccessor instanceof Level level) {
-	            // Check if the level is server-side
-	            if (!level.isClientSide) {
-	                Player nearestPlayer = level.getNearestPlayer(pos.getX(), pos.getY(), pos.getZ(), 10, false);
-	                if (nearestPlayer != null && nearestPlayer.isCreative()) {
-	                    levelAccessor.destroyBlock(pos, false);
-	                    return Blocks.AIR.defaultBlockState();
-	                }
-	            }
-	        }
 	        levelAccessor.destroyBlock(pos, true);
 	        return LightDrop().defaultBlockState().setValue(FurnitureBlock.WATERLOGGED, false);
 	    }
@@ -89,7 +78,7 @@ public class LightSourceSconceLavaWall extends LightSourceSconceGlowWall {
 	}
 	
 	public LightSourceSconceLavaWall(float hardness, float blastResistance, SoundType sound, String name) {
-		super(Block.Properties.of(Material.METAL).strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> 14));
+		super(Block.Properties.of().strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> 14));
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());

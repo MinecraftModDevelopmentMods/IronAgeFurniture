@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "conditions": [
+    {
+      "modid": "biomeswevegone",
+      "type": "forge:mod_loaded"
+    }
+  ],
+  "group": "furniture",
+  "pattern": [
+    "xx",
+    "yy"
+  ],
+  "key": {
+    "y": {
+      "tag": "forge:rods/wooden"
+    },
+    "x": {
+      "item": "biomeswevegone:mahogany_planks"
+    }
+  },
+  "result": {
+    "item": "ironagefurniture:chair_wood_ironage_bench_single_biomeswevegone_mahogany",
+    "count": 1
+  }
+}

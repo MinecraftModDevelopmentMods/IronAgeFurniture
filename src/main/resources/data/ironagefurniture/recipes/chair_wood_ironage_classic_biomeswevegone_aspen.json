@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "conditions": [
+    {
+      "modid": "biomeswevegone",
+      "type": "forge:mod_loaded"
+    }
+  ],
+  "group": "furniture",
+  "pattern": [
+    "x  ",
+    "xxx",
+    "y y"
+  ],
+  "key": {
+    "y": {
+      "tag": "forge:rods/wooden"
+    },
+    "x": {
+      "item": "biomeswevegone:aspen_planks"
+    }
+  },
+  "result": {
+    "item": "ironagefurniture:chair_wood_ironage_classic_biomeswevegone_aspen",
+    "count": 1
+  }
+}

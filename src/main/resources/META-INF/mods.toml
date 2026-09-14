@@ -43,7 +43,7 @@ ${mod_description}
     side="BOTH"
 
 [[dependencies.ironagefurniture]]
-    modId="byg"
+    modId="biomeswevegone"
     mandatory=false
     versionRange="[0,)"
     ordering="AFTER"

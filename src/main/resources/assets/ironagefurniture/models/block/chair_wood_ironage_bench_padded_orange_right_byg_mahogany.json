@@ -1,8 +1,0 @@
-{
-  "parent": "ironagefurniture:block/template_chair_wood_ironage_bench_padded_right",
-  "textures": {
-    "log": "byg:block/mahogany/log",
-    "planks": "byg:block/mahogany/planks",
-    "wool": "minecraft:block/orange_wool"
-  }
-}

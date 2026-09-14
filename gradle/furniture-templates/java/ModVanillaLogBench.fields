@@ -1,0 +1,1 @@
+	public static RegistryObject<Block> chair_wood_ironage_bench_log_single_{{wood}} = register("chair_wood_ironage_bench_log_single_{{wood}}", () -> new {{blockClass}}(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_log_single_{{wood}}"));;

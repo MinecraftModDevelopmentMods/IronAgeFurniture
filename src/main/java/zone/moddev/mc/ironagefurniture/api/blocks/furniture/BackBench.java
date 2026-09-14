@@ -30,8 +30,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.storage.loot.LootContext.Builder;
+import net.minecraft.world.level.storage.loot.LootParams.Builder;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -42,10 +41,13 @@ import java.util.List;
 import java.util.Objects;
 
 public class BackBench extends FurnitureBlock {
+	protected static final int FIRE_SPREAD_SPEED = 5;
+	protected static final int FLAMMABILITY = 20;
+
 	public static final BenchTypeProperty TYPE = BenchTypeProperty.create("type", BenchType.SINGLE, BenchType.LEFT, BenchType.MIDDLE, BenchType.RIGHT);
 
 	public BackBench(float hardness, float blastResistance, SoundType sound, String name) {
-		super(Block.Properties.of(Material.WOOD).strength(hardness, blastResistance).sound(sound));
+		super(Block.Properties.of().strength(hardness, blastResistance).sound(sound));
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
@@ -66,6 +68,16 @@ public class BackBench extends FurnitureBlock {
 	@Override
 	public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
 		return true;
+	}
+
+	@Override
+	public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+		return FLAMMABILITY;
+	}
+
+	@Override
+	public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+		return FIRE_SPREAD_SPEED;
 	}
 	
 	@Override

@@ -1,0 +1,20 @@
+{
+  "type": "crafting_shapeless",
+  "conditions": [
+    {
+      "modid": "biomeswevegone",
+      "type": "forge:mod_loaded"
+    }
+  ],
+  "ingredients": [
+    {
+      "item": "minecraft:black_carpet"
+    },
+    {
+      "item": "ironagefurniture:chair_wood_ironage_bench_back_single_biomeswevegone_palm"
+    }
+  ],
+  "result": {
+    "item": "ironagefurniture:chair_wood_ironage_bench_back_padded_black_single_biomeswevegone_palm"
+  }
+}

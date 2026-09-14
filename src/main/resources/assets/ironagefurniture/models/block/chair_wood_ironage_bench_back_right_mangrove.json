@@ -1,0 +1,7 @@
+{
+  "parent": "ironagefurniture:block/template_chair_wood_ironage_bench_back_right",
+  "textures": {
+    "log": "minecraft:block/mangrove_log",
+    "planks": "minecraft:block/mangrove_planks"
+  }
+}

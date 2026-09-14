@@ -1,6 +1,6 @@
 # Optional integration runtime test
 
-This positive-path test starts Forge 1.19.4 with Iron Age Furniture and all three
+This positive-path test starts Forge 1.20.1 with Iron Age Furniture and all three
 supported optional integrations. A test-only Forge mod then checks the live server
 registries for every conditional recipe and recipe advancement and stops the server.
 
@@ -10,7 +10,7 @@ exact filenames, versions, SHA-256 checksums, roles, and source pages are pinned
 
 ## Setup
 
-1. Install the Forge `1.19.4-45.4.0` server into the ignored
+1. Install the Forge `1.20.1-47.4.10` server into the ignored
    `run-optional-integrations` directory and accept its EULA.
 2. Download every jar listed in the manifest into
    `run-optional-integrations/mods`. This directory may also contain the generated
@@ -25,11 +25,19 @@ packaged Iron Age Furniture jar and generated probe; the server installation and
 third-party jars remain local.
 
 The Gradle task verifies every supplied jar against the pinned checksum before the
-server starts. It builds and stages
+server starts. It also checks every BOP, BWG, and Immersive Engineering texture
+referenced by an Iron Age Furniture block model against the contents of those
+exact jars. Catalog-generated woods must use their own declared log, log-top, and
+planks mappings, so a valid but incorrect shared texture cannot pass the check.
+It then builds and stages
 `ironagefurniture-optional-integration-probe.jar`, removes any stale result, and
 accepts success only when the probe writes
 `optional-integration-pass.properties` in the selected server directory with all
-1,536 conditional recipes and all 1,520 conditional recipe advancements present.
+applicable conditional data present. The BOP 18 profile expects 1,380 recipes
+and 1,364 recipe advancements; the BOP 19 profile additionally enables the 117
+Empyreal, Maple, and Pine recipes and advancements, for totals of 1,497 and
+1,481. Version-tiered entries are selected by their public registry capability,
+using Forge's `forge:item_exists` condition.
 
 The probe also records the loaded versions and per-integration counts. It is built
 from `src/optionalIntegrationTest` and is explicitly excluded from all release

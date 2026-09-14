@@ -31,11 +31,14 @@ public class ModVanillaBench {
 	}
 	
 	public static RegistryObject<Block> chair_wood_ironage_bench_single_oak = register("chair_wood_ironage_bench_single_oak", () -> new Bench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_single_oak"));;
-	public static RegistryObject<Block> chair_wood_ironage_bench_single_acacia = register("chair_wood_ironage_bench_single_acacia", () -> new Bench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_single_acacia"));
-	public static RegistryObject<Block> chair_wood_ironage_bench_single_dark_oak = register("chair_wood_ironage_bench_single_dark_oak", () -> new Bench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_single_dark_oak"));
-	public static RegistryObject<Block> chair_wood_ironage_bench_single_birch = register("chair_wood_ironage_bench_single_birch", () -> new Bench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_single_birch"));
-	public static RegistryObject<Block> chair_wood_ironage_bench_single_jungle = register("chair_wood_ironage_bench_single_jungle", () -> new Bench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_single_jungle"));
-	public static RegistryObject<Block> chair_wood_ironage_bench_single_spruce = register("chair_wood_ironage_bench_single_spruce", () -> new Bench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_single_spruce"));
-	public static RegistryObject<Block> chair_wood_ironage_bench_single_warped = register("chair_wood_ironage_bench_single_warped", () -> new BenchNether(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_single_warped"));
-    public static RegistryObject<Block> chair_wood_ironage_bench_single_crimson = register("chair_wood_ironage_bench_single_crimson", () -> new BenchNether(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_single_crimson"));	
+	public static RegistryObject<Block> chair_wood_ironage_bench_single_spruce = register("chair_wood_ironage_bench_single_spruce", () -> new Bench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_single_spruce"));;
+	public static RegistryObject<Block> chair_wood_ironage_bench_single_birch = register("chair_wood_ironage_bench_single_birch", () -> new Bench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_single_birch"));;
+	public static RegistryObject<Block> chair_wood_ironage_bench_single_jungle = register("chair_wood_ironage_bench_single_jungle", () -> new Bench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_single_jungle"));;
+	public static RegistryObject<Block> chair_wood_ironage_bench_single_acacia = register("chair_wood_ironage_bench_single_acacia", () -> new Bench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_single_acacia"));;
+	public static RegistryObject<Block> chair_wood_ironage_bench_single_dark_oak = register("chair_wood_ironage_bench_single_dark_oak", () -> new Bench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_single_dark_oak"));;
+	public static RegistryObject<Block> chair_wood_ironage_bench_single_mangrove = register("chair_wood_ironage_bench_single_mangrove", () -> new Bench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_single_mangrove"));;
+	public static RegistryObject<Block> chair_wood_ironage_bench_single_cherry = register("chair_wood_ironage_bench_single_cherry", () -> new Bench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_single_cherry"));;
+	public static RegistryObject<Block> chair_wood_ironage_bench_single_bamboo = register("chair_wood_ironage_bench_single_bamboo", () -> new Bench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_single_bamboo"));;
+	public static RegistryObject<Block> chair_wood_ironage_bench_single_crimson = register("chair_wood_ironage_bench_single_crimson", () -> new BenchNether(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_single_crimson"));;
+	public static RegistryObject<Block> chair_wood_ironage_bench_single_warped = register("chair_wood_ironage_bench_single_warped", () -> new BenchNether(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_single_warped"));;
 }

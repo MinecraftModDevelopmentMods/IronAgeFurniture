@@ -9,10 +9,14 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import zone.moddev.mc.ironagefurniture.api.entity.Entities;
+import zone.moddev.mc.ironagefurniture.api.CreativeModeBreakTracker;
 import zone.moddev.mc.ironagefurniture.client.renderer.ClientHandler;
+import zone.moddev.mc.ironagefurniture.compat.OptionalModSupport;
+import zone.moddev.mc.ironagefurniture.init.ModBOP19Blocks;
 import zone.moddev.mc.ironagefurniture.init.ModBOPBlocks;
-import zone.moddev.mc.ironagefurniture.init.ModBYGBlocks;
+import zone.moddev.mc.ironagefurniture.init.ModBWGBlocks;
 import zone.moddev.mc.ironagefurniture.init.ModIEBlocks;
+import zone.moddev.mc.ironagefurniture.init.ModCreativeTab;
 import zone.moddev.mc.ironagefurniture.init.ModVanillaBackBench;
 import zone.moddev.mc.ironagefurniture.init.ModVanillaBench;
 import zone.moddev.mc.ironagefurniture.init.ModVanillaChairs;
@@ -36,7 +40,6 @@ import org.slf4j.Logger;
 public class Ironagefurniture
 {
     public static final String MODID = "ironagefurniture";
-    public static final String VERSION = "0.3.0.119041";
     public static final CommonProxy PROXY = DistExecutor.runForDist(() -> zone.moddev.mc.ironagefurniture.proxy.ClientProxy::new, () -> CommonProxy::new);
     private static final Logger LOGGER = LogUtils.getLogger();
     
@@ -59,6 +62,10 @@ public class Ironagefurniture
 		if (ModList.get().isLoaded("biomesoplenty")) {
 			LOGGER.info("Iron Age Furniture Biomes O Plenty Integration is loading...");
 			ModBOPBlocks.REGISTER.register(modEventBus);
+			if (OptionalModSupport.isLoadedAtLeast("biomesoplenty", "19.0.0.96")) {
+				LOGGER.info("Iron Age Furniture Biomes O Plenty 19 wood tier is loading...");
+				ModBOP19Blocks.REGISTER.register(modEventBus);
+			}
 		}
 		
 		if (ModList.get().isLoaded("immersiveengineering")) {
@@ -67,21 +74,22 @@ public class Ironagefurniture
 			ModIEBlocks.REGISTER.register(modEventBus);
 		}
 
-		if (ModList.get().isLoaded("byg")) {
-			LOGGER.info("Iron Age Furniture BYG Integration is loading...");
-			ModBYGBlocks.REGISTER.register(modEventBus);
+		if (ModList.get().isLoaded("biomeswevegone")) {
+			LOGGER.info("Iron Age Furniture Oh The Biomes We've Gone integration is loading...");
+			ModBWGBlocks.REGISTER.register(modEventBus);
 		}
 		
         ModItems.REGISTER.register(modEventBus);
+        ModCreativeTab.REGISTER.register(modEventBus);
         Entities.REGISTER.register(modEventBus);
         
         modEventBus.addListener(this::commonSetup);
 
         MinecraftForge.EVENT_BUS.register(this);
+		MinecraftForge.EVENT_BUS.register(new CreativeModeBreakTracker());
         
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
         	modEventBus.addListener(ClientHandler::onRegisterRenderers);
-        	modEventBus.addListener(ClientHandler::onRegisterCreativeTab);
         });
         
         context.registerConfig(ModConfig.Type.COMMON, IronAgeFurnitureConfiguration.SPEC);

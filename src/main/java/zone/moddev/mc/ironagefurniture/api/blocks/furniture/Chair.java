@@ -21,8 +21,7 @@ import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.storage.loot.LootContext.Builder;
+import net.minecraft.world.level.storage.loot.LootParams.Builder;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -32,6 +31,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Chair extends FallingFurnitureBlock implements SimpleWaterloggedBlock {
+	protected static final int FIRE_SPREAD_SPEED = 5;
+	protected static final int FLAMMABILITY = 20;
+
 	@Override
 	public List<ItemStack> getDrops(BlockState state, Builder builder) {
 		List<ItemStack> drops;
@@ -51,7 +53,17 @@ public class Chair extends FallingFurnitureBlock implements SimpleWaterloggedBlo
 
 	@Override
 	public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
-		return false;
+		return true;
+	}
+
+	@Override
+	public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+		return FLAMMABILITY;
+	}
+
+	@Override
+	public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+		return FIRE_SPREAD_SPEED;
 	}
 	
 	@Override
@@ -77,7 +89,7 @@ public class Chair extends FallingFurnitureBlock implements SimpleWaterloggedBlo
 	}
 
 	public Chair(float hardness, float blastResistance, SoundType sound, String name) {
-		super(Block.Properties.of(Material.WOOD).strength(hardness, blastResistance).sound(sound));
+		super(Block.Properties.of().strength(hardness, blastResistance).sound(sound));
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());

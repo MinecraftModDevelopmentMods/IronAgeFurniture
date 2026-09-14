@@ -7,6 +7,7 @@ import java.util.Random;
 
 import zone.moddev.mc.ironagefurniture.api.blocks.base.FurnitureBlock;
 import zone.moddev.mc.ironagefurniture.api.blocks.lightsource.glow.LightSourceGlowdust;
+import zone.moddev.mc.ironagefurniture.api.CreativeModeBreakTracker;
 import zone.moddev.mc.ironagefurniture.init.ModVanillaLights;
 
 import net.minecraft.core.BlockPos;
@@ -16,6 +17,8 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -31,37 +34,44 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.storage.loot.LootContext.Builder;
+import net.minecraft.world.level.storage.loot.LootParams.Builder;
 
 public class LightSourceLava extends LightSourceGlowdust {
 	@Override
-	public void onLand(Level level, BlockPos pos, BlockState state, BlockState state2, FallingBlockEntity fallingEntity) {
+	public void onLand(Level level, BlockPos pos, BlockState state, BlockState replacedState, FallingBlockEntity fallingEntity) {
+		if (level.isClientSide)
+			return;
 
-        if (!level.isClientSide) {
-            Player nearestPlayer = level.getNearestPlayer(pos.getX(), pos.getY(), pos.getZ(), 10, false);
-            if (nearestPlayer != null && nearestPlayer.isCreative()) {
-                return;
-            }
-        }
-		
-		BlockState target = level.getBlockState(pos);
+		if (CreativeModeBreakTracker.shouldSuppressFallingLavaBreak(level, pos))
+			return;
 
-		if (target.getFluidState().getType() == Fluids.WATER) {
-			level.playSound(null, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, friction, explosionResistance);
-			level.playSound(null, pos, SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, friction, explosionResistance);
-			level.setBlock(pos, ModVanillaLights.obsidian_chunk.get().defaultBlockState(), UPDATE_ALL_IMMEDIATE, UPDATE_ALL);
-		} else {
-			level.playSound(null, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, friction, explosionResistance);
-			level.setBlock(pos, Blocks.FIRE.defaultBlockState(), UPDATE_ALL_IMMEDIATE, UPDATE_ALL);
+		if (replacedState.getFluidState().is(Fluids.WATER))
+			breakIntoObsidianChunk(level, pos, state, null);
+		else
+			breakIntoFire(level, pos, null);
+	}
+
+	@Override
+	protected void falling(FallingBlockEntity fallingEntity) {
+		fallingEntity.dropItem = false;
+	}
+
+	@Override
+	public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+		BlockPos below = pos.below();
+		if (level.getBlockState(below).is(Blocks.ICE)) {
+			level.setBlockAndUpdate(below, Blocks.WATER.defaultBlockState());
+			level.neighborChanged(below, Blocks.WATER, below);
 		}
+
+		super.tick(state, level, pos, random);
 	}
 
 
 	public LightSourceLava(float hardness, float blastResistance, SoundType sound, String name) {
-		super(Block.Properties.of(Material.METAL).strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> 15));
+		super(Block.Properties.of().strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> 15));
 
-		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
+		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH).setValue(WATERLOGGED, false));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
 		//this.setRegistryName(name);
 	}
@@ -108,8 +118,7 @@ public class LightSourceLava extends LightSourceGlowdust {
 		boolean destroyed = super.onDestroyedByPlayer(state, level, pos, player, willHarvest, fluid);
 
 		if (!isSilkTouch && !player.isCreative()) {
-			level.playSound(player, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, friction, explosionResistance);
-			level.setBlock(pos, Blocks.FIRE.defaultBlockState(), UPDATE_ALL_IMMEDIATE, UPDATE_ALL);
+			breakIntoFire(level, pos, player);
 		}
 
 		return destroyed;
@@ -130,9 +139,10 @@ public class LightSourceLava extends LightSourceGlowdust {
 		BlockState target = level.getBlockState(context.getClickedPos());
 
 		if (target.getFluidState().getType() == Fluids.WATER) {
-			level.playSound(context.getPlayer(), context.getClickedPos(), SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, friction, explosionResistance);
-			level.playSound(context.getPlayer(), context.getClickedPos(), SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, friction, explosionResistance);
-			return ModVanillaLights.obsidian_chunk.get().defaultBlockState();
+			playWaterBreakSounds(level, context.getClickedPos(), context.getPlayer());
+			return ModVanillaLights.obsidian_chunk.get().defaultBlockState()
+				.setValue(DIRECTION, context.getHorizontalDirection())
+				.setValue(WATERLOGGED, true);
 		}
 
 		return super.getStateForPlacement(context);
@@ -140,19 +150,34 @@ public class LightSourceLava extends LightSourceGlowdust {
 
 	@Override
 	public boolean placeLiquid(LevelAccessor world, BlockPos pos, BlockState blockState, FluidState fluidState) {
-		boolean success = super.placeLiquid(world, pos, blockState, fluidState);
-
 		if (!blockState.getValue(BlockStateProperties.WATERLOGGED) && fluidState.getType() == Fluids.WATER) {
 			if (!world.isClientSide()) {
-				world.playSound(null, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, friction, explosionResistance);
-				world.playSound(null, pos, SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, friction, explosionResistance);
-				world.setBlock(pos, ModVanillaLights.obsidian_chunk.get().defaultBlockState().setValue(DIRECTION, blockState.getValue(BlockStateProperties.HORIZONTAL_FACING)).setValue(WATERLOGGED, Boolean.valueOf(true)), UPDATE_ALL);
+				playWaterBreakSounds(world, pos, null);
+				world.setBlock(pos, ModVanillaLights.obsidian_chunk.get().defaultBlockState().setValue(DIRECTION, blockState.getValue(BlockStateProperties.HORIZONTAL_FACING)).setValue(WATERLOGGED, true), UPDATE_ALL);
 				world.scheduleTick(pos, fluidState.getType(), fluidState.getType().getTickDelay(world));
 			}
-		} else {
-			world.setBlock(pos, ModVanillaLights.obsidian_chunk.get().defaultBlockState().setValue(DIRECTION, blockState.getValue(BlockStateProperties.HORIZONTAL_FACING)).setValue(WATERLOGGED, blockState.getValue(BlockStateProperties.WATERLOGGED)), UPDATE_ALL);
+
+			return true;
 		}
 
-		return success;
+		return super.placeLiquid(world, pos, blockState, fluidState);
+	}
+
+	private void breakIntoFire(Level level, BlockPos pos, Player player) {
+		level.playSound(player, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, 1.0F, 1.0F);
+		level.setBlock(pos, Blocks.FIRE.defaultBlockState(), UPDATE_ALL);
+	}
+
+	private void breakIntoObsidianChunk(Level level, BlockPos pos, BlockState lampState, Player player) {
+		playWaterBreakSounds(level, pos, player);
+		level.setBlock(pos, ModVanillaLights.obsidian_chunk.get().defaultBlockState()
+			.setValue(DIRECTION, lampState.getValue(DIRECTION))
+			.setValue(WATERLOGGED, true), UPDATE_ALL);
+	}
+
+	private void playWaterBreakSounds(LevelAccessor level, BlockPos pos, Player player) {
+		level.playSound(player, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, 1.0F, 1.0F);
+		level.playSound(player, pos, SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, 0.5F,
+			2.6F + (level.getRandom().nextFloat() - level.getRandom().nextFloat()) * 0.8F);
 	}
 }
