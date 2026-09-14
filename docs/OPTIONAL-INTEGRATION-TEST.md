@@ -25,7 +25,11 @@ packaged Iron Age Furniture jar and generated probe; the server installation and
 third-party jars remain local.
 
 The Gradle task verifies every supplied jar against the pinned checksum before the
-server starts. It builds and stages
+server starts. It also checks every BOP, BWG, and Immersive Engineering texture
+referenced by an Iron Age Furniture block model against the contents of those
+exact jars. Catalog-generated woods must use their own declared log, log-top, and
+planks mappings, so a valid but incorrect shared texture cannot pass the check.
+It then builds and stages
 `ironagefurniture-optional-integration-probe.jar`, removes any stale result, and
 accepts success only when the probe writes
 `optional-integration-pass.properties` in the selected server directory with all

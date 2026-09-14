@@ -2,6 +2,7 @@ import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 import java.nio.file.Files
 import java.nio.file.StandardCopyOption
+import java.util.zip.ZipFile
 
 def furnitureCatalogFile = layout.projectDirectory.file('gradle/furniture-catalog.json')
 def furnitureTemplateDirectory = layout.projectDirectory.dir('gradle/furniture-templates')
@@ -56,6 +57,28 @@ def mappedFurnitureResourcePath = { String relative, def catalog ->
     relative
 }
 
+def integrationTextureValues = { integration, wood ->
+    String externalLog = wood.externalLog ?: "${wood.externalWood}_log"
+    String externalLogTop = wood.externalLogTop ?: "${wood.externalWood}_log_top"
+    String externalPlanks = wood.externalPlanks ?: "${wood.externalWood}_planks"
+    String textureLayout = integration.textureLayout ?: 'flat'
+    if (!(textureLayout in ['flat', 'nested'])) {
+        throw new GradleException("Unsupported ${integration.integration} texture layout: ${textureLayout}")
+    }
+    String nestedRoot = "block/${wood.externalWood}"
+    [
+            externalLog      : externalLog,
+            externalLogTop   : externalLogTop,
+            externalPlanks   : externalPlanks,
+            externalLogTexture: wood.externalLogTexture ?:
+                    (textureLayout == 'nested' ? "${nestedRoot}/log" : "block/${externalLog}"),
+            externalLogTopTexture: wood.externalLogTopTexture ?:
+                    (textureLayout == 'nested' ? "${nestedRoot}/log_top" : "block/${externalLogTop}"),
+            externalPlanksTexture: wood.externalPlanksTexture ?:
+                    (textureLayout == 'nested' ? "${nestedRoot}/planks" : "block/${externalPlanks}")
+    ]
+}
+
 def renderFurnitureCatalog = { File outputRoot ->
     def catalog = readFurnitureCatalog()
     Set<String> generated = new TreeSet<>()
@@ -93,11 +116,9 @@ def renderFurnitureCatalog = { File outputRoot ->
                         namespace   : integration.namespace,
                         wood        : wood.wood,
                         externalWood: wood.externalWood,
-                        externalLog : wood.externalLog ?: "${wood.externalWood}_log",
-                        externalLogTop: wood.externalLogTop ?: "${wood.externalWood}_log_top",
-                        externalPlanks: wood.externalPlanks ?: "${wood.externalWood}_planks",
                         display     : wood.display
                 ]
+                values.putAll(integrationTextureValues(integration, wood))
                 String relative = mappedFurnitureResourcePath(renderFurnitureText(relativeTemplate, values), catalog)
                 writeFurnitureFile(outputRoot, "src/main/resources/${relative}",
                         renderFurnitureText(source, values), generated)
@@ -264,6 +285,100 @@ tasks.register('verifyFurnitureCatalog') {
             throw new GradleException('Retired BYG registration class remains after BWG migration')
         }
     }
+}
+
+tasks.register('verifyOptionalIntegrationTextures') {
+    group = 'verification'
+    description = 'Checks every optional-mod texture reference against the pinned integration jars.'
+    dependsOn tasks.named('verifyFurnitureCatalog')
+    dependsOn tasks.named('verifyOptionalIntegrationMods')
+    inputs.file furnitureCatalogFile
+    inputs.files fileTree('src/main/resources/assets/ironagefurniture/models/block') {
+        include '**/*.json'
+    }
+    doLast {
+        File manifestFile = file('gradle/verification/optional-integration-mods.json')
+        Map manifest = new JsonSlurper().parse(manifestFile) as Map
+        File serverDirectory = providers.gradleProperty('optionalIntegrationServerDir')
+                .map { project.file(it) }
+                .orElse(file('run-optional-integrations')).get()
+        File modsDirectory = new File(serverDirectory, 'mods')
+        Map<String, File> integrationJars = ((List<Map>) manifest.mods)
+                .findAll { it.role == 'integration' }
+                .collectEntries { [(it.modId.toString()): new File(modsDirectory, it.file.toString())] }
+        Map<String, Set<String>> jarEntries = [:]
+        integrationJars.each { modId, jarFile ->
+            ZipFile archive = new ZipFile(jarFile)
+            try {
+                jarEntries[modId] = archive.entries().collect { it.name }.toSet()
+            } finally {
+                archive.close()
+            }
+        }
+
+        List<File> blockModels = fileTree('src/main/resources/assets/ironagefurniture/models/block') {
+            include '**/*.json'
+        }.files.sort { it.path }
+        Set<String> referencedTextures = new TreeSet<>()
+        blockModels.each { modelFile ->
+            Map model = new JsonSlurper().parse(modelFile) as Map
+            if (!(model.textures instanceof Map)) return
+            ((Map) model.textures).values().findAll { it instanceof String }.each { value ->
+                String texture = value.toString()
+                int separator = texture.indexOf(':')
+                if (separator < 1) return
+                String namespace = texture.substring(0, separator)
+                if (!integrationJars.containsKey(namespace)) return
+                String path = texture.substring(separator + 1)
+                String entry = "assets/${namespace}/textures/${path}.png"
+                if (!jarEntries[namespace].contains(entry)) {
+                    throw new GradleException("Missing optional-mod texture ${texture} referenced by " +
+                            project.projectDir.toPath().relativize(modelFile.toPath()).toString())
+                }
+                referencedTextures.add(texture)
+            }
+        }
+
+        def catalog = readFurnitureCatalog()
+        catalog.integrations.each { integration ->
+            integration.woods.each { wood ->
+                Map textures = integrationTextureValues(integration, wood)
+                Set<String> expected = [
+                        "${integration.namespace}:${textures.externalLogTexture}",
+                        "${integration.namespace}:${textures.externalLogTopTexture}",
+                        "${integration.namespace}:${textures.externalPlanksTexture}"
+                ] as Set
+                String suffix = "_${integration.integration}_${wood.wood}.json"
+                List<File> woodModels = blockModels.findAll { it.name.endsWith(suffix) }
+                if (woodModels.isEmpty()) {
+                    throw new GradleException("No generated block models found for " +
+                            "${integration.integration}:${wood.wood}")
+                }
+                Set<String> actual = new TreeSet<>()
+                woodModels.each { modelFile ->
+                    Map model = new JsonSlurper().parse(modelFile) as Map
+                    if (model.textures instanceof Map) {
+                        ((Map) model.textures).values().findAll { it instanceof String }
+                                .findAll { it.startsWith("${integration.namespace}:") }
+                                .each { actual.add(it.toString()) }
+                    }
+                }
+                if (actual != expected) {
+                    throw new GradleException("Unexpected texture mapping for " +
+                            "${integration.integration}:${wood.wood}; expected=${expected}, actual=${actual}")
+                }
+            }
+        }
+        if (referencedTextures.isEmpty()) {
+            throw new GradleException('No optional-mod texture references were audited')
+        }
+        logger.lifecycle("Verified ${referencedTextures.size()} optional-mod textures against " +
+                "${integrationJars.size()} pinned integration jars")
+    }
+}
+
+tasks.named('stageOptionalIntegrationFixture') {
+    dependsOn tasks.named('verifyOptionalIntegrationTextures')
 }
 
 tasks.named('check') {

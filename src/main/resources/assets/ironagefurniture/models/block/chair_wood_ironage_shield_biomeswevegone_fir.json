@@ -1,7 +1,7 @@
 {
   "parent": "ironagefurniture:block/template_chair_wood_ironage_shield",
   "textures": {
-    "log": "biomeswevegone:block/fir_log",
-    "planks": "biomeswevegone:block/fir_planks"
+    "log": "biomeswevegone:block/fir/log",
+    "planks": "biomeswevegone:block/fir/planks"
   }
 }

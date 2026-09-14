@@ -31,7 +31,7 @@ ${mod_description}
 [[dependencies.ironagefurniture]]
     modId="biomesoplenty"
     mandatory=false
-    versionRange="[0,)"
+    versionRange="[19.0.0.96,)"
     ordering="AFTER"
     side="BOTH"
 

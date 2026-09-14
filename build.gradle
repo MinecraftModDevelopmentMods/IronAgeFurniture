@@ -975,7 +975,8 @@ tasks.register('verifyVersionMetadata') {
                 "version=\"${project.version}\"",
                 'license="LGPL-2.1"',
                 'versionRange="[47.4.10,48)"',
-                'versionRange="[1.20.1]"'
+                'versionRange="[1.20.1]"',
+                'versionRange="[19.0.0.96,)"'
         ].each { required ->
             if (!metadata.contains(required)) {
                 throw new GradleException("Generated mods.toml is missing ${required}")
