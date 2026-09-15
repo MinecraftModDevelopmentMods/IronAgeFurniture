@@ -1,0 +1,7 @@
+{
+  "parent": "ironagefurniture:block/template_chair_wood_ironage_stool_short",
+  "textures": {
+    "log": "biomeswevegone:block/mahogany/log",
+    "planks": "biomeswevegone:block/mahogany/planks"
+  }
+}

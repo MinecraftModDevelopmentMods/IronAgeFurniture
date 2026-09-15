@@ -1,7 +1,7 @@
 {
   "parent": "ironagefurniture:block/template_chair_wood_ironage_bench_log_right",
   "textures": {
-    "log": "{{modId}}:block/fir_log",
-    "logtop": "{{modId}}:block/fir_log_top"
+    "log": "{{namespace}}:block/{{externalLog}}",
+    "logtop": "{{namespace}}:block/{{externalLogTop}}"
   }
 }

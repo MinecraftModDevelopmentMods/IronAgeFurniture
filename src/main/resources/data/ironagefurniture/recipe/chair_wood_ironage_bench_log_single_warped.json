@@ -5,9 +5,7 @@
         "xxx"
     ],
     "key": {
-        "x": {
-            "item": "minecraft:warped_stem"
-        }
+        "x": "minecraft:warped_stem"
     },
     "result": {
         "count": 3,

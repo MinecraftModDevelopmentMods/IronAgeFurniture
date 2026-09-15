@@ -4,11 +4,9 @@ import java.util.Map;
 
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.MissingMappingsEvent;
@@ -18,7 +16,6 @@ import zone.moddev.mc.ironagefurniture.Ironagefurniture;
  * Remaps IronAgeFurniture's own retired optional-wood registry names. This does
  * not attempt to make a complete BYG world compatible with BWG.
  */
-@Mod.EventBusSubscriber(modid = Ironagefurniture.MODID)
 public final class LegacyFurnitureMappings {
     private static final Map<String, String> BYG_TO_BWG = Map.ofEntries(
             Map.entry("aspen", "aspen"),
@@ -48,7 +45,10 @@ public final class LegacyFurnitureMappings {
     private LegacyFurnitureMappings() {
     }
 
-    @SubscribeEvent
+    public static void registerRuntimeListener() {
+        MissingMappingsEvent.BUS.addListener(LegacyFurnitureMappings::onMissingMappings);
+    }
+
     public static void onMissingMappings(MissingMappingsEvent event) {
         remap(event, ForgeRegistries.Keys.BLOCKS, ForgeRegistries.BLOCKS);
         remap(event, ForgeRegistries.Keys.ITEMS, ForgeRegistries.ITEMS);
@@ -62,7 +62,7 @@ public final class LegacyFurnitureMappings {
             if (targetPath == null) {
                 continue;
             }
-            T target = registry.getValue(ResourceLocation.fromNamespaceAndPath(
+            T target = registry.getValue(Identifier.fromNamespaceAndPath(
                     Ironagefurniture.MODID, targetPath));
             if (target != null) {
                 mapping.remap(target);

@@ -25,7 +25,7 @@ public class ModVanillaTallStools {
 	private static RegistryObject<Block> register(String name, Supplier<Block> block, Item.Properties properties) {
 		RegistryObject<Block> registryObject = REGISTER.register(name, block);
 		
-		ModItems.REGISTER.register(name, () -> new BlockItem(registryObject.get(), properties));
+		ModItems.REGISTER.register(name, () -> new BlockItem(registryObject.get(), RegistrationProperties.item(properties, name).useBlockDescriptionPrefix()));
 		
 		return registryObject; 
 	}
@@ -39,6 +39,7 @@ public class ModVanillaTallStools {
 	public static RegistryObject<Block> chair_wood_ironage_stool_tall_mangrove = register("chair_wood_ironage_stool_tall_mangrove", () -> new TallStool(1, 10, SoundType.WOOD, "chair_wood_ironage_stool_tall_mangrove"));
 	public static RegistryObject<Block> chair_wood_ironage_stool_tall_cherry = register("chair_wood_ironage_stool_tall_cherry", () -> new TallStool(1, 10, SoundType.WOOD, "chair_wood_ironage_stool_tall_cherry"));
 	public static RegistryObject<Block> chair_wood_ironage_stool_tall_bamboo = register("chair_wood_ironage_stool_tall_bamboo", () -> new TallStool(1, 10, SoundType.WOOD, "chair_wood_ironage_stool_tall_bamboo"));
+	public static RegistryObject<Block> chair_wood_ironage_stool_tall_pale_oak = register("chair_wood_ironage_stool_tall_pale_oak", () -> new TallStool(1, 10, SoundType.WOOD, "chair_wood_ironage_stool_tall_pale_oak"));
 	public static RegistryObject<Block> chair_wood_ironage_stool_tall_crimson = register("chair_wood_ironage_stool_tall_crimson", () -> new TallStoolNether(1, 10, SoundType.WOOD, "chair_wood_ironage_stool_tall_crimson"));
 	public static RegistryObject<Block> chair_wood_ironage_stool_tall_warped = register("chair_wood_ironage_stool_tall_warped", () -> new TallStoolNether(1, 10, SoundType.WOOD, "chair_wood_ironage_stool_tall_warped"));
 }

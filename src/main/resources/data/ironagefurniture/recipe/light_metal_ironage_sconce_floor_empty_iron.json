@@ -7,9 +7,7 @@
     "x  "
   ],
   "key": {
-    "x": {
-      "item": "minecraft:iron_nugget"
-    }
+    "x": "minecraft:iron_nugget"
   },
   "result": {
     "id": "ironagefurniture:light_metal_ironage_sconce_floor_empty_iron",

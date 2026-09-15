@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "minecraft": "1.21.1",
+  "minecraft": "1.21.11",
   "loader": "forge",
   "dataLayout": "singular",
-  "dataSchema": "forge52",
-  "itemDefinitions": false,
+  "dataSchema": "forge61",
+  "itemDefinitions": true,
   "vanilla": [
     { "wood": "oak", "display": "Oak", "log": "oak_log", "logTop": "oak_log_top", "planks": "oak_planks", "nether": false },
     { "wood": "spruce", "display": "Spruce", "log": "spruce_log", "logTop": "spruce_log_top", "planks": "spruce_planks", "nether": false },
@@ -15,6 +15,7 @@
     { "wood": "mangrove", "display": "Mangrove", "log": "mangrove_log", "logTop": "mangrove_log_top", "planks": "mangrove_planks", "nether": false },
     { "wood": "cherry", "display": "Cherry", "log": "cherry_log", "logTop": "cherry_log_top", "planks": "cherry_planks", "nether": false },
     { "wood": "bamboo", "display": "Bamboo", "log": "bamboo_block", "logTop": "bamboo_block_top", "planks": "bamboo_planks", "nether": false },
+    { "wood": "pale_oak", "display": "Pale Oak", "log": "pale_oak_log", "logTop": "pale_oak_log_top", "planks": "pale_oak_planks", "nether": false },
     { "wood": "crimson", "display": "Crimson", "log": "crimson_stem", "logTop": "crimson_stem_top", "planks": "crimson_planks", "nether": true },
     { "wood": "warped", "display": "Warped", "log": "warped_stem", "logTop": "warped_stem_top", "planks": "warped_planks", "nether": true }
   ],
@@ -24,6 +25,7 @@
       "integration": "biomesoplenty",
       "modId": "biomesoplenty",
       "namespace": "biomesoplenty",
+      "textureLayout": "flat",
       "woods": [
         { "wood": "dead", "externalWood": "dead", "display": "Dead" },
         { "wood": "empyreal", "externalWood": "empyreal", "display": "Empyreal" },
@@ -37,7 +39,8 @@
         { "wood": "pine", "externalWood": "pine", "display": "Pine" },
         { "wood": "redwood", "externalWood": "redwood", "display": "Redwood" },
         { "wood": "umbran", "externalWood": "umbran", "display": "Umbran" },
-        { "wood": "willow", "externalWood": "willow", "display": "Willow" }
+        { "wood": "willow", "externalWood": "willow", "display": "Willow" },
+        { "wood": "origin_oak", "externalWood": "origin_oak", "display": "Origin Oak" }
       ]
     },
     {
@@ -45,6 +48,7 @@
       "integration": "biomeswevegone",
       "modId": "biomeswevegone",
       "namespace": "biomeswevegone",
+      "textureLayout": "wood_directory",
       "woods": [
         { "wood": "aspen", "externalWood": "aspen", "display": "Aspen" },
         { "wood": "baobab", "externalWood": "baobab", "display": "Baobab" },
@@ -53,7 +57,7 @@
         { "wood": "cypress", "externalWood": "cypress", "display": "Cypress" },
         { "wood": "ebony", "externalWood": "ebony", "display": "Ebony" },
         { "wood": "fir", "externalWood": "fir", "display": "Fir" },
-        { "wood": "florus", "externalWood": "florus", "externalLog": "florus_stem", "externalLogTop": "florus_stem_top", "display": "Florus" },
+        { "wood": "florus", "externalWood": "florus", "externalLog": "florus/stem", "externalLogTop": "florus/stem_top", "display": "Florus" },
         { "wood": "green_enchanted", "externalWood": "green_enchanted", "display": "Green Enchanted" },
         { "wood": "holly", "externalWood": "holly", "display": "Holly" },
         { "wood": "ironwood", "externalWood": "ironwood", "display": "Ironwood" },

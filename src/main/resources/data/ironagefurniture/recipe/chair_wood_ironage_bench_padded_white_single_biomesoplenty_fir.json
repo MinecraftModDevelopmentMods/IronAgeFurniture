@@ -1,25 +1,14 @@
 {
-    "type": "forge:conditional",
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        "minecraft:white_carpet",
+        "ironagefurniture:chair_wood_ironage_bench_single_biomesoplenty_fir"
+    ],
+    "result": {
+        "id": "ironagefurniture:chair_wood_ironage_bench_padded_white_single_biomesoplenty_fir"
+    },
     "forge:condition": {
         "modid": "biomesoplenty",
         "type": "forge:mod_loaded"
-    },
-    "recipes": [
-        {
-            "recipe": {
-                "type": "minecraft:crafting_shapeless",
-                "ingredients": [
-                    {
-                        "item": "minecraft:white_carpet"
-                    },
-                    {
-                        "item": "ironagefurniture:chair_wood_ironage_bench_single_biomesoplenty_fir"
-                    }
-                ],
-                "result": {
-                    "id": "ironagefurniture:chair_wood_ironage_bench_padded_white_single_biomesoplenty_fir"
-                }
-            }
-        }
-    ]
+    }
 }

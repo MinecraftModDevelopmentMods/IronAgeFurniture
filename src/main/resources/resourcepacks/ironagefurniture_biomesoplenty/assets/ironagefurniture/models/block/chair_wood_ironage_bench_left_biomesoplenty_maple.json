@@ -1,0 +1,7 @@
+{
+  "parent": "ironagefurniture:block/template_chair_wood_ironage_bench_left",
+  "textures": {
+    "log": "biomesoplenty:block/maple_log",
+    "planks": "biomesoplenty:block/maple_planks"
+  }
+}

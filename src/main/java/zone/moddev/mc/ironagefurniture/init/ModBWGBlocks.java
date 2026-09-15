@@ -30,7 +30,7 @@ public class ModBWGBlocks {
 	private static RegistryObject<Block> register(String name, Supplier<Block> block, Item.Properties properties) {
 		RegistryObject<Block> registryObject = REGISTER.register(name, block);
 		
-		ModItems.REGISTER.register(name, () -> new BlockItem(registryObject.get(), properties));
+		ModItems.REGISTER.register(name, () -> new BlockItem(registryObject.get(), RegistrationProperties.item(properties, name).useBlockDescriptionPrefix()));
 		
 		return registryObject; 
 	}

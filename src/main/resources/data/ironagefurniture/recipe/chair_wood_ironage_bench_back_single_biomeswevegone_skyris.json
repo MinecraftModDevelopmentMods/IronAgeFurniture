@@ -1,32 +1,21 @@
 {
-    "type": "forge:conditional",
+    "type": "minecraft:crafting_shaped",
+    "group": "furniture",
+    "pattern": [
+        "x ",
+        "xx",
+        "yy"
+    ],
+    "key": {
+        "y": "#c:rods/wooden",
+        "x": "biomeswevegone:skyris/planks"
+    },
+    "result": {
+        "count": 1,
+        "id": "ironagefurniture:chair_wood_ironage_bench_back_single_biomeswevegone_skyris"
+    },
     "forge:condition": {
         "modid": "biomeswevegone",
         "type": "forge:mod_loaded"
-    },
-    "recipes": [
-        {
-            "recipe": {
-                "type": "minecraft:crafting_shaped",
-                "group": "furniture",
-                "pattern": [
-                    "x ",
-                    "xx",
-                    "yy"
-                ],
-                "key": {
-                    "y": {
-                        "tag": "c:rods/wooden"
-                    },
-                    "x": {
-                        "item": "biomeswevegone:skyris_planks"
-                    }
-                },
-                "result": {
-                    "count": 1,
-                    "id": "ironagefurniture:chair_wood_ironage_bench_back_single_biomeswevegone_skyris"
-                }
-            }
-        }
-    ]
+    }
 }

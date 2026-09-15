@@ -1,25 +1,14 @@
 {
-    "type": "forge:conditional",
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        "minecraft:shield",
+        "ironagefurniture:chair_wood_ironage_classic_biomeswevegone_maple"
+    ],
+    "result": {
+        "id": "ironagefurniture:chair_wood_ironage_shield_biomeswevegone_maple"
+    },
     "forge:condition": {
         "modid": "biomeswevegone",
         "type": "forge:mod_loaded"
-    },
-    "recipes": [
-        {
-            "recipe": {
-                "type": "minecraft:crafting_shapeless",
-                "ingredients": [
-                    {
-                        "item": "minecraft:shield"
-                    },
-                    {
-                        "item": "ironagefurniture:chair_wood_ironage_classic_biomeswevegone_maple"
-                    }
-                ],
-                "result": {
-                    "id": "ironagefurniture:chair_wood_ironage_shield_biomeswevegone_maple"
-                }
-            }
-        }
-    ]
+    }
 }

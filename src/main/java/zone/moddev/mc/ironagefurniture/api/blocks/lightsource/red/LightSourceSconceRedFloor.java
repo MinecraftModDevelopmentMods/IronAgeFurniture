@@ -18,6 +18,8 @@ import net.minecraft.world.level.block.LiquidBlockContainer;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.redstone.Orientation;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
@@ -52,7 +54,7 @@ public class LightSourceSconceRedFloor extends LightSourceSconceGlowFloor implem
 	}
 
 	@Override
-	public boolean propagatesSkylightDown(BlockState state, BlockGetter getter, BlockPos pos) {
+	protected boolean propagatesSkylightDown(BlockState state) {
 		return true;
 	}
 
@@ -65,7 +67,7 @@ public class LightSourceSconceRedFloor extends LightSourceSconceGlowFloor implem
 	}
 
 	public LightSourceSconceRedFloor(float hardness, float blastResistance, SoundType sound, String name) {
-		super(Block.Properties.of().strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> LIGHT_LEVEL) );
+		super(zone.moddev.mc.ironagefurniture.init.RegistrationProperties.block(Block.Properties.of().strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> LIGHT_LEVEL) , name));
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
@@ -82,7 +84,7 @@ public class LightSourceSconceRedFloor extends LightSourceSconceGlowFloor implem
 	}
 
 	@Override
-	public void onRemove(BlockState state, Level level, BlockPos pos, BlockState state2, boolean flag) {
+	protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos, boolean flag) {
 		if (!flag)
 			for (Direction direction : Direction.values())
 				level.updateNeighborsAt(pos.relative(direction), this);
@@ -208,7 +210,7 @@ public class LightSourceSconceRedFloor extends LightSourceSconceGlowFloor implem
 	}
 
 	@Override
-	public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos blockPos,
+	protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, @Nullable Orientation orientation,
 								boolean flag) {
 		boolean hasSignal = this.hasNeighborSignal(level, pos, state);
 		boolean willTick = level.getBlockTicks().willTickThisTick(pos, this);
