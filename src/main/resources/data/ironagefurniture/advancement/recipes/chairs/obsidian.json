@@ -1,0 +1,33 @@
+{
+  "rewards": {
+    "recipes": [
+      "ironagefurniture:obsidian"
+    ]
+  },
+  "criteria": {
+    "has_nugget": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "ironagefurniture:obsidian_chunk"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "ironagefurniture:obsidian"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_nugget",
+      "has_the_recipe"
+    ]
+  ]
+}

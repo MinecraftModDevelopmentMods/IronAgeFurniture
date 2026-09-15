@@ -1,0 +1,33 @@
+{
+  "rewards": {
+    "recipes": [
+      "ironagefurniture:light_metal_ironage_sconce_floor_empty_iron"
+    ]
+  },
+  "criteria": {
+    "has_nugget": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:iron_nugget"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "ironagefurniture:light_metal_ironage_sconce_floor_empty_iron"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_nugget",
+      "has_the_recipe"
+    ]
+  ]
+}

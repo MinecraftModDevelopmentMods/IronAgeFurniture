@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /** Exact-loader probe for optional recipe and recipe-advancement conditions. */
 @Mod(OptionalIntegrationRecipeProbe.MOD_ID)
@@ -28,8 +29,8 @@ public final class OptionalIntegrationRecipeProbe
     public static final String MOD_ID = "ironagefurnitureintegrationprobe";
 
     private static final Logger LOGGER = LogUtils.getLogger();
-    private static final List<String> REQUIRED_MODS = List.of(
-            "biomesoplenty", "terrablender", "glitchcore");
+    private static final List<String> REQUIRED_DEPENDENCIES = List.of(
+            "terrablender", "glitchcore", "corgilib", "ohthetreesyoullgrow", "geckolib");
 
     public OptionalIntegrationRecipeProbe()
     {
@@ -39,18 +40,19 @@ public final class OptionalIntegrationRecipeProbe
     private void serverStarted(ServerStartedEvent event)
     {
         MinecraftServer server = event.getServer();
-        Map<String, String> versions = requireMods();
         Map<String, Integer> recipes = verifyRecipes(server,
                 "expected-conditional-recipes.txt");
         Map<String, Integer> advancements = verifyAdvancements(server,
                 "expected-conditional-advancements.txt");
+        require(recipes.keySet().equals(advancements.keySet()),
+                "Recipe and advancement integrations do not match");
+        Map<String, String> versions = requireMods(recipes.keySet());
 
         int recipeCount = recipes.values().stream().mapToInt(Integer::intValue).sum();
         int advancementCount = advancements.values().stream().mapToInt(Integer::intValue).sum();
-        require(recipeCount == 507,
-                "Expected 507 conditional recipes, found " + recipeCount);
-        require(advancementCount == 507,
-                "Expected 507 conditional advancements, found " + advancementCount);
+        require(recipeCount > 0 && recipeCount == advancementCount,
+                "Conditional recipe/advancement counts differ or are empty: "
+                        + recipeCount + "/" + advancementCount);
 
         writeMarker(versions, recipes, advancements, recipeCount, advancementCount);
         LOGGER.info("IRON AGE FURNITURE OPTIONAL INTEGRATION PROBE PASSED: "
@@ -58,10 +60,13 @@ public final class OptionalIntegrationRecipeProbe
         server.halt(false);
     }
 
-    private static Map<String, String> requireMods()
+    private static Map<String, String> requireMods(Set<String> integrationMods)
     {
+        require(!integrationMods.isEmpty(), "No optional integration was selected for the probe");
         Map<String, String> versions = new LinkedHashMap<>();
-        for (String modId : REQUIRED_MODS)
+        List<String> requiredMods = new ArrayList<>(integrationMods);
+        requiredMods.addAll(REQUIRED_DEPENDENCIES);
+        for (String modId : requiredMods)
         {
             String version = ModList.get().getModContainerById(modId)
                     .map(container -> container.getModInfo().getVersion().toString())
@@ -144,12 +149,12 @@ public final class OptionalIntegrationRecipeProbe
                 .append("status=PASS\n")
                 .append("conditional_recipes_loaded=").append(recipeCount).append('\n')
                 .append("conditional_advancements_loaded=").append(advancementCount).append('\n');
-        for (String modId : REQUIRED_MODS)
+        for (Map.Entry<String, String> version : versions.entrySet())
         {
-            result.append("mod.").append(modId).append("=")
-                    .append(versions.get(modId)).append('\n');
+            result.append("mod.").append(version.getKey()).append("=")
+                    .append(version.getValue()).append('\n');
         }
-        for (String modId : List.of("biomesoplenty"))
+        for (String modId : recipes.keySet())
         {
             result.append("recipes.").append(modId).append("=")
                     .append(recipes.getOrDefault(modId, 0)).append('\n');

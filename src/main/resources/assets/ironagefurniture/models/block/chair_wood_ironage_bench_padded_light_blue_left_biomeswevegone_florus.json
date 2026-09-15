@@ -1,0 +1,8 @@
+{
+  "parent": "ironagefurniture:block/template_chair_wood_ironage_bench_padded_left",
+  "textures": {
+    "log": "biomeswevegone:block/florus/stem",
+    "planks": "biomeswevegone:block/florus/planks",
+    "wool": "minecraft:block/light_blue_wool"
+  }
+}

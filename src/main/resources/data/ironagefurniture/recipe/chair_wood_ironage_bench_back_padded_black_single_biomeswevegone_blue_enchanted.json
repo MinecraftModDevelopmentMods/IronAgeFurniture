@@ -1,0 +1,25 @@
+{
+    "type": "forge:conditional",
+    "forge:condition": {
+        "modid": "biomeswevegone",
+        "type": "forge:mod_loaded"
+    },
+    "recipes": [
+        {
+            "recipe": {
+                "type": "minecraft:crafting_shapeless",
+                "ingredients": [
+                    {
+                        "item": "minecraft:black_carpet"
+                    },
+                    {
+                        "item": "ironagefurniture:chair_wood_ironage_bench_back_single_biomeswevegone_blue_enchanted"
+                    }
+                ],
+                "result": {
+                    "id": "ironagefurniture:chair_wood_ironage_bench_back_padded_black_single_biomeswevegone_blue_enchanted"
+                }
+            }
+        }
+    ]
+}

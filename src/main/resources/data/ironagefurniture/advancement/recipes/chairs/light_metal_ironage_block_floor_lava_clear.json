@@ -1,0 +1,33 @@
+{
+  "rewards": {
+    "recipes": [
+      "ironagefurniture:light_metal_ironage_block_floor_lava_clear"
+    ]
+  },
+  "criteria": {
+    "has_nugget": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:lava_bucket"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "ironagefurniture:light_metal_ironage_block_floor_lava_clear"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_nugget",
+      "has_the_recipe"
+    ]
+  ]
+}
