@@ -6,5 +6,7 @@
 - Omit Oh The Biomes We've Gone and Immersive Engineering because neither integration supports this target matrix.
 - Generate Forge 65 item definitions and target-native conditional recipe and advancement data.
 - Carry forward the deterministic checked-in furniture catalog, scoped BOP cherry remap, and positive BOP runtime probe.
-
-This is a release candidate changelog. Publication requires the protected default-branch release workflow.
+- Fix recipe advancements so furniture unlocks only when its actual ingredient is obtained, including conditional BOP recipes.
+- Restore normal wooden-furniture fire behaviour while keeping Crimson and Warped furniture non-flammable.
+- Restore throwable lava lamps, water shattering with the glass sound and obsidean-chunk drop, and safe creative-mode removal.
+- Preserve transparent glass and visible contents while glow, lava, and red lamps are falling.
