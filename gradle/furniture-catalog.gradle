@@ -66,7 +66,7 @@ def isVisibleItemDefinitionId = { String itemId ->
     ].contains(itemId)
 }
 def renderTargetFurnitureData = { String relative, String rendered, def catalog ->
-    if (!(catalog.dataSchema in ['forge50', 'forge52', 'forge61']) || !relative.endsWith('.json')) {
+    if (!(catalog.dataSchema in ['forge50', 'forge52', 'forge61', 'forge64', 'forge65']) || !relative.endsWith('.json')) {
         return rendered
     }
     if (relative.contains('/advancements/') || relative.contains('/advancement/')) {
@@ -77,7 +77,7 @@ def renderTargetFurnitureData = { String relative, String rendered, def catalog 
             Map branch = wrapper.advancements[0] as Map
             Map advancement = new LinkedHashMap(branch.advancement as Map)
             advancement['forge:condition'] = branch.conditions[0]
-            if (catalog.dataSchema == 'forge61') {
+            if (catalog.dataSchema in ['forge61', 'forge64', 'forge65']) {
                 advancement.sends_telemetry_event = false
                 advancement.criteria?.values()?.each { criterion ->
                     criterion.conditions?.items?.each { predicate ->
@@ -102,7 +102,7 @@ def renderTargetFurnitureData = { String relative, String rendered, def catalog 
         if (recipe.result instanceof Map && recipe.result.item != null) {
             recipe.result.id = recipe.result.remove('item')
         }
-        if (catalog.dataSchema == 'forge61') {
+        if (catalog.dataSchema in ['forge61', 'forge64', 'forge65']) {
             def nativeIngredient = { Object ingredient ->
                 if (ingredient instanceof Map && ingredient.keySet() == ['item'] as Set) {
                     return ingredient.item
@@ -123,7 +123,7 @@ def renderTargetFurnitureData = { String relative, String rendered, def catalog 
         }
         Map output = recipe
         if (conditions != null && conditions.size() == 1) {
-            if (catalog.dataSchema == 'forge61') {
+            if (catalog.dataSchema in ['forge61', 'forge64', 'forge65']) {
                 output = new LinkedHashMap(recipe)
                 output['forge:condition'] = conditions[0]
             } else {
@@ -214,8 +214,8 @@ def renderFurnitureCatalog = { File outputRoot ->
             String metadata = JsonOutput.prettyPrint(JsonOutput.toJson([
                     pack: [
                             description: "IronAgeFurniture ${integration.modId} integration resources",
-                            max_format : 94,
-                            min_format : [94, 1]
+                            max_format : 101,
+                            min_format : [101, 1]
                     ]
             ])) + '\n'
             writeFurnitureFile(outputRoot, "${packPrefix}/pack.mcmeta", metadata, generated)
