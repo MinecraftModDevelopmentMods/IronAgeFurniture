@@ -2,6 +2,7 @@ package zone.moddev.mc.ironagefurniture.client.renderer;
 
 import zone.moddev.mc.ironagefurniture.api.entity.Entities;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+import net.minecraft.world.entity.EntityType;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 
 public class ClientHandler {
@@ -9,5 +10,6 @@ public class ClientHandler {
 	    {
 	        event.registerEntityRenderer(Entities.SEAT.get(), SeatRenderer::new);
 	        event.registerEntityRenderer(Entities.THROWN_LAVA_LAMP.get(), ThrownItemRenderer::new);
+	        event.registerEntityRenderer(EntityType.FALLING_BLOCK, FurnitureFallingBlockRenderer::new);
 	    }
 }
