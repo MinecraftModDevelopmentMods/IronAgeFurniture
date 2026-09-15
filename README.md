@@ -2,7 +2,13 @@
 
 IronAgeFurniture adds chairs, stools, benches, lighting, and other ye olde-style furniture to Minecraft.
 
-This branch targets Minecraft 26.1.2 with Forge 64.0.9. Its current complete version is `0.3.0.2601021` and its Maven coordinate is `zone.moddev.mc:iron-age-furniture:0.3.0.2601021`.
+This branch targets Minecraft 26.2 with Forge 65.1.0. Its current complete version is `0.3.0.2602001` and its Maven coordinate is `zone.moddev.mc:iron-age-furniture:0.3.0.2602001`.
+
+## Optional integrations
+
+Biomes O' Plenty furniture is enabled only when Biomes O' Plenty is present. It is not a hard dependency. This target supports the complete contemporary BOP wood family, including Origin Oak. Oh The Biomes We've Gone and Immersive Engineering furniture are intentionally unavailable because neither integration has a compatible release for this target.
+
+Recipes and recipe advancements for BOP furniture are loaded conditionally with the integration. Existing IronAgeFurniture BOP Cherry furniture remaps to vanilla Cherry.
 
 ## Build
 

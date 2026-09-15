@@ -16,7 +16,7 @@ import net.minecraftforge.fml.ModList;
 import zone.moddev.mc.ironagefurniture.Ironagefurniture;
 
 /**
- * Exposes integration models only when their owning mod is present. Forge 64
+ * Exposes integration models only when their owning mod is present. Forge 65
  * resolves item definitions eagerly, so keeping these assets in the ordinary
  * mod resource pack would otherwise produce missing-model noise on a clean
  * installation.

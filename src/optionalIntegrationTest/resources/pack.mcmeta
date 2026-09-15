@@ -1,9 +1,9 @@
 {
   "pack": {
     "description": "Iron Age Furniture optional integration runtime probe",
-    "max_format": 101,
-    "min_format": [
-      101,
+        "max_format": 107,
+        "min_format": [
+            107,
       1
     ]
   }

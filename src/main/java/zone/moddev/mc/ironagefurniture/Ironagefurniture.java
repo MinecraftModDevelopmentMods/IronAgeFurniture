@@ -8,6 +8,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import zone.moddev.mc.ironagefurniture.api.entity.Entities;
+import zone.moddev.mc.ironagefurniture.api.CreativeModeBreakTracker;
 import zone.moddev.mc.ironagefurniture.client.renderer.ClientHandler;
 import zone.moddev.mc.ironagefurniture.client.renderer.LightRendering;
 import zone.moddev.mc.ironagefurniture.client.OptionalIntegrationResourcePacks;
@@ -63,6 +64,7 @@ public class Ironagefurniture
         
         FMLCommonSetupEvent.getBus(modBusGroup).addListener(this::commonSetup);
         LegacyFurnitureMappings.registerRuntimeListener();
+        CreativeModeBreakTracker.registerRuntimeListener();
         
         if (FMLEnvironment.dist == Dist.CLIENT) {
 			OptionalIntegrationResourcePacks.register();
