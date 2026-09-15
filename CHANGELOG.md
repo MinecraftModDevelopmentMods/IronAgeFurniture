@@ -6,5 +6,9 @@
 - Validate built-in texture paths and every optional wood model semantically against the exact pinned BOP and BWG jars.
 - Generate Forge 61 item definitions for every visible item and use target-native recipe ingredients and conditional data.
 - Carry forward the deterministic checked-in furniture catalog, scoped BOP/BYG remaps, and positive optional-integration runtime probe.
+- Fix recipe advancements so furniture unlocks only when its actual ingredient is obtained, including conditional optional-mod recipes.
+- Restore normal wooden-furniture fire behaviour while keeping Crimson and Warped furniture non-flammable.
+- Restore throwable lava lamps, water shattering with the glass sound and obsidean-chunk drop, and safe creative-mode removal.
+- Preserve transparent glass and visible contents while glow, lava, and red lamps are falling.
 
 This is a release candidate changelog. Publication requires the protected default-branch release workflow.
