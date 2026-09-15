@@ -4,7 +4,7 @@
 
 - Added the Phase 3 Iron Age Furniture gameplay line, including candle surface lighting and particle behavior.
 - Reworked hanging inn signs, support behavior, placement, drops, rendering, and compatibility details.
-- Made hanging inn sign text visible while editing and readable from both sides in the world.
+- Added a fixed-size four-line hanging inn sign editor and made the text readable from both sides in the world.
 - Migrated the Minecraft 1.10.2 development build to ForgeGradle 7 and target-qualified MMD versioning.
 - Moved the Java API and implementation from `com.mcmoddev.ironagefurniture` to `zone.moddev.mc.ironagefurniture`, and changed the Maven group to `zone.moddev.mc`.
 - Fixed dedicated-server startup by isolating client-only item model and color registration.
