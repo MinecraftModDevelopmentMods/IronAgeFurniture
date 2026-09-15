@@ -5,6 +5,7 @@
 - Restore Oh The Biomes We've Gone furniture, including Spirit wood, while continuing to omit Immersive Engineering on this target.
 - Correct every BOP and BWG model to use its matching target-native texture path and validate the mappings against the pinned integration jars.
 - Update iron-sconce models to Minecraft's current `block/iron_block` texture path.
+- Carry forward ingredient-specific recipe advancements, normal wooden-furniture flammability with fireproof Nether woods, and the restored throwable/shattering lava-lamp behavior.
 - Carry forward the deterministic checked-in furniture catalog, scoped BOP/BYG remaps, and positive optional-integration runtime probe.
 
 This is a release candidate changelog. Publication requires the protected default-branch release workflow.

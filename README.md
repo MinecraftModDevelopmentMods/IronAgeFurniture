@@ -18,6 +18,8 @@ Generate reproducible Eclipse/Buildship metadata with:
 gradlew.bat prepareEclipse verifyEclipseProductionClasspath
 ```
 
+Run this command from a terminal before the first Eclipse import or Gradle refresh. It records the exact Temurin 21.0.7+6 installation in the machine-local Buildship preferences; otherwise Eclipse may select its bundled JustJ runtime, which is intentionally rejected by the pinned-toolchain check.
+
 Release publication is initiated manually from the protected default-branch dispatcher after the exact target commit has passed hosted CI. Building locally does not tag or publish a release.
 
 Furniture registrations and their matching blockstates, models, recipes, advancements, and translations are generated from `gradle/furniture-catalog.json`. Normal builds verify committed output without changing it; run `gradlew.bat updateFurnitureCatalog` only when intentionally changing the catalog.
