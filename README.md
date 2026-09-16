@@ -24,4 +24,4 @@ Furniture registrations and their matching blockstates, models, recipes, advance
 
 No optional biome or engineering integration currently has a compatible NeoForge 26.3 release, so this target contains the complete vanilla wood catalog only. Integrations can be reintroduced when their owning mods publish compatible builds that can be pinned and tested.
 
-The Java API namespace is `zone.moddev.mc.ironagefurniture`. The persistent Forge mod, registry, resource, data, configuration, and saved-world namespace remains `ironagefurniture`.
+The Java API namespace is `zone.moddev.mc.ironagefurniture`. The persistent runtime mod, registry, resource, data, configuration, and saved-world namespace remains `ironagefurniture`.

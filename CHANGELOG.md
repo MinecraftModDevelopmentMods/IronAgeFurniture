@@ -5,5 +5,4 @@
 - Omit Biomes O' Plenty, Oh The Biomes We've Gone, and Immersive Engineering furniture because none currently provides a compatible NeoForge 26.3 release.
 - Generate Minecraft 26.3 item definitions and target-native recipe and advancement data from the deterministic checked-in furniture catalog.
 - Retain the scoped BOP-cherry registry aliases so existing IronAgeFurniture IDs continue to map to vanilla Cherry furniture.
-
-This is a release candidate changelog. Publication requires the protected default-branch release workflow.
+- Provide reproducible Eclipse/Buildship setup with the exact Temurin Java 25 toolchain, processed resources, and a duplicate-free NeoForge classpath.
