@@ -1,8 +1,9 @@
-# IronAgeFurniture 0.3.0.120061
+# IronAgeFurniture 0.3.0.2601022
 
-- Port IronAgeFurniture to Minecraft 1.20.6 and Forge 50.2.0 on Java 21.
-- Retain the complete contemporary Biomes O' Plenty furniture family and its conditional recipes and advancements.
-- Omit Biomes We've Gone and Immersive Engineering furniture because neither integration has a compatible release for this target.
-- Carry forward the deterministic checked-in furniture catalog, scoped BOP cherry remap, and positive optional-integration runtime probe.
-
-This is a release candidate changelog. Publication requires the protected default-branch release workflow.
+- Port IronAgeFurniture to Minecraft 26.1.2 and NeoForge 26.1.2.94 on Java 25.
+- Retain Pale Oak and the complete contemporary Biomes O' Plenty furniture family, including Origin Oak.
+- Validate built-in texture paths and every optional wood model semantically against the exact pinned Biomes O' Plenty jar.
+- Omit Oh The Biomes We've Gone and Immersive Engineering because neither integration supports this target matrix.
+- Generate NeoForge item definitions and target-native `neoforge:conditions` recipe and advancement data.
+- Carry forward the deterministic checked-in furniture catalog, scoped BOP cherry alias, and positive BOP runtime probe.
+- Provide reproducible Eclipse/Buildship setup with the exact Temurin Java 25 toolchain, processed resources, and a duplicate-free NeoForge classpath.

@@ -1,29 +1,29 @@
 {
-  "minecraft": "1.20.6",
+  "minecraft": "26.1.2",
   "mods": [
     {
       "modId": "biomesoplenty",
       "role": "integration",
-      "version": "18.4.0.8",
-      "file": "BiomesOPlenty-forge-1.20.6-18.4.0.8.jar",
-      "sha256": "84be86eb4d488551b9b1b7fde60720e2f3ef58116a376e793fab9195ca036351",
-      "source": "https://modrinth.com/mod/biomes-o-plenty/version/lbOqSzdZ"
+      "version": "26.1.2.0.22",
+      "file": "BiomesOPlenty-neoforge-26.1.2-26.1.2.0.22.jar",
+      "sha256": "9f0853d3ba2bd9eaf25eee5438d601f8222bb4bd3ef62e8d3afe56011c761209",
+      "source": "https://modrinth.com/mod/biomes-o-plenty/version/mqkuMsI9"
     },
     {
       "modId": "terrablender",
       "role": "dependency",
-      "version": "3.5.0.5",
-      "file": "TerraBlender-forge-1.20.6-3.5.0.5.jar",
-      "sha256": "394560db07def6ea89239bebd6ab409cf493bfa5f3779ff4a5ca51f94d7a4a5c",
-      "source": "https://modrinth.com/mod/terrablender/version/D2wyURAU"
+      "version": "26.1.2.0.3",
+      "file": "TerraBlender-neoforge-26.1.2-26.1.2.0.3.jar",
+      "sha256": "2b9a081fa64edf137b3b059e71aa01568fcc2a330f3471078655eecd328cb587",
+      "source": "https://modrinth.com/mod/terrablender/version/cWLGFrxw"
     },
     {
       "modId": "glitchcore",
       "role": "dependency",
-      "version": "1.1.0.10",
-      "file": "GlitchCore-forge-1.20.6-1.1.0.10.jar",
-      "sha256": "158fff8cb6319028eb762ac63e4503b25b2b6360249b7ab13df88bbcd8d2c51c",
-      "source": "https://modrinth.com/mod/glitchcore/version/VgEdUrLh"
+      "version": "26.1.2.0.2",
+      "file": "GlitchCore-neoforge-26.1.2-26.1.2.0.2.jar",
+      "sha256": "5ee72fd30a43f6c71b7efde17054b93686ebb95604709f912075edbd56b1722b",
+      "source": "https://modrinth.com/mod/glitchcore/version/mYUbCfgT"
     }
   ]
 }

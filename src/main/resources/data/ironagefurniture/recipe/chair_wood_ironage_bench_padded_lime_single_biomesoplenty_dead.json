@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        "minecraft:lime_carpet",
+        "ironagefurniture:chair_wood_ironage_bench_single_biomesoplenty_dead"
+    ],
+    "result": {
+        "id": "ironagefurniture:chair_wood_ironage_bench_padded_lime_single_biomesoplenty_dead"
+    },
+    "neoforge:conditions": [
+        {
+            "modid": "biomesoplenty",
+            "type": "neoforge:mod_loaded"
+        }
+    ]
+}

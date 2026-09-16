@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        "minecraft:white_carpet",
+        "ironagefurniture:chair_wood_ironage_bench_back_single_biomesoplenty_umbran"
+    ],
+    "result": {
+        "id": "ironagefurniture:chair_wood_ironage_bench_back_padded_white_single_biomesoplenty_umbran"
+    },
+    "neoforge:conditions": [
+        {
+            "modid": "biomesoplenty",
+            "type": "neoforge:mod_loaded"
+        }
+    ]
+}

@@ -14,10 +14,10 @@
   ],
   "key": {
     "y": {
-      "tag": "forge:rods/wooden"
+      "tag": "c:rods/wooden"
     },
     "x": {
-      "item": "{{namespace}}:{{externalPlanks}}"
+      "item": "{{namespace}}:{{externalPlanksItem}}"
     }
   },
   "result": {

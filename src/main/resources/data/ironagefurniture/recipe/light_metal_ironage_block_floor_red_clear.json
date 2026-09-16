@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "light_glow",
+  "ingredients": [
+    "minecraft:redstone",
+    "minecraft:glass_bottle"
+  ],
+  "result": {
+    "id": "ironagefurniture:light_metal_ironage_block_floor_red_clear"
+  }
+}

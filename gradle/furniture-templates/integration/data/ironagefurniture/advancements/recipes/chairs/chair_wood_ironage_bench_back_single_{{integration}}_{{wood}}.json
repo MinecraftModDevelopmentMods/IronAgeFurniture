@@ -15,7 +15,7 @@
               "items": [
                 {
                   "items": [
-                    "{{namespace}}:{{externalPlanks}}"
+                    "{{namespace}}:{{externalPlanksItem}}"
                   ]
                 }
               ]

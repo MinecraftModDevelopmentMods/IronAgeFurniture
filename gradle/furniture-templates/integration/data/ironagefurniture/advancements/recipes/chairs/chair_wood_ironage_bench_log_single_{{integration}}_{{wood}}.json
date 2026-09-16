@@ -15,7 +15,7 @@
               "items": [
                 {
                   "items": [
-                    "{{namespace}}:{{externalLog}}"
+                    "{{namespace}}:{{externalLogItem}}"
                   ]
                 }
               ]

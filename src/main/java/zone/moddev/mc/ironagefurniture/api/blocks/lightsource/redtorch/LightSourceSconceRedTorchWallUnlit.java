@@ -19,6 +19,8 @@ import java.util.Random;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.redstone.Orientation;
+import org.jetbrains.annotations.Nullable;
 
 public class LightSourceSconceRedTorchWallUnlit extends LightSourceSconceRedTorchWall {
 	@Override
@@ -51,15 +53,15 @@ public class LightSourceSconceRedTorchWallUnlit extends LightSourceSconceRedTorc
 	}
 
 	@Override
-	public void neighborChanged(BlockState state, Level level, BlockPos pos, Block p_55702_, BlockPos p_55703_,
+	protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block p_55702_, @Nullable Orientation orientation,
 								boolean p_55704_) {
 		if (!this.hasNeighborSignal(level, pos, state) && !level.getBlockTicks().willTickThisTick(pos, this))
 			level.scheduleTick(pos, this, 2);
 	}
 
 	public LightSourceSconceRedTorchWallUnlit(float hardness, float blastResistance, SoundType sound, String name) {
-		super(Block.Properties.of().strength(hardness, blastResistance).sound(sound)
-				.lightLevel((p_50886_) -> 0));
+		super(zone.moddev.mc.ironagefurniture.init.RegistrationProperties.block(Block.Properties.of().strength(hardness, blastResistance).sound(sound)
+				.lightLevel((p_50886_) -> 0), name));
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
