@@ -21,6 +21,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Nullable;
 
 public class LightSourceSconceTorchWallUnlit extends LightSourceSconceTorchWall {
 	public LightSourceSconceTorchWallUnlit(float hardness, float blastResistance, SoundType sound, String name) {
@@ -38,7 +39,8 @@ public class LightSourceSconceTorchWallUnlit extends LightSourceSconceTorchWall 
 	}
 
 	@Override
-	public boolean canConnectRedstone(BlockState state, BlockGetter world, BlockPos pos, Direction direction) {
+	protected boolean shouldRedstoneWireConnectTo(BlockState state, BlockGetter world, BlockPos pos,
+			@Nullable Direction direction) {
 		return true;
 	}
 

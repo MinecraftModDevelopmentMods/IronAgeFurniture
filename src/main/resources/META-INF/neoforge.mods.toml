@@ -26,10 +26,3 @@ ${mod_description}
     versionRange="${minecraft_version_range}"
     ordering="NONE"
     side="BOTH"
-
-[[dependencies.ironagefurniture]]
-    modId="biomesoplenty"
-    type="optional"
-    versionRange="[0,)"
-    ordering="AFTER"
-    side="BOTH"

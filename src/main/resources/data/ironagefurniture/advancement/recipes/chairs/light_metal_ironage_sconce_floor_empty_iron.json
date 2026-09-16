@@ -11,7 +11,7 @@
     },
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
-      "conditions": { "recipe": "ironagefurniture:light_metal_ironage_sconce_floor_empty_iron" }
+      "conditions": { "recipes": "ironagefurniture:light_metal_ironage_sconce_floor_empty_iron" }
     }
   },
   "requirements": [["has_nugget", "has_the_recipe"]]

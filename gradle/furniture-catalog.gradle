@@ -246,8 +246,8 @@ def renderFurnitureCatalog = { File outputRoot ->
             String metadata = JsonOutput.prettyPrint(JsonOutput.toJson([
                     pack: [
                             description: "IronAgeFurniture ${integration.modId} integration resources",
-                            max_format : 107,
-                            min_format : [107, 1]
+                            max_format : 97,
+                            min_format : [97, 1]
                     ]
             ])) + '\n'
             writeFurnitureFile(outputRoot, "${packPrefix}/pack.mcmeta", metadata, generated)

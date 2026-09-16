@@ -2,15 +2,12 @@ package zone.moddev.mc.ironagefurniture;
 
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.ModList;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import zone.moddev.mc.ironagefurniture.api.CreativeModeBreakTracker;
 import zone.moddev.mc.ironagefurniture.api.entity.Entities;
 import zone.moddev.mc.ironagefurniture.compat.LegacyFurnitureMappings;
-import zone.moddev.mc.ironagefurniture.client.OptionalIntegrationResourcePacks;
-import zone.moddev.mc.ironagefurniture.init.ModBOPBlocks;
 import zone.moddev.mc.ironagefurniture.init.ModCreativeTab;
 import zone.moddev.mc.ironagefurniture.init.ModVanillaBackBench;
 import zone.moddev.mc.ironagefurniture.init.ModVanillaBench;
@@ -49,16 +46,10 @@ public class Ironagefurniture
 		ModVanillaPaddedBench.REGISTER.register(modEventBus);
 		ModVanillaPaddedBackBench.REGISTER.register(modEventBus);
 		
-		if (ModList.get().isLoaded("biomesoplenty")) {
-			LOGGER.info("Iron Age Furniture Biomes O Plenty Integration is loading...");
-			ModBOPBlocks.REGISTER.register(modEventBus);
-		}
-
         ModItems.REGISTER.register(modEventBus);
         ModCreativeTab.REGISTER.register(modEventBus);
         Entities.REGISTER.register(modEventBus);
         LegacyFurnitureMappings.registerAliases(modEventBus);
-        OptionalIntegrationResourcePacks.register(modEventBus);
         
         modEventBus.addListener(this::commonSetup);
 

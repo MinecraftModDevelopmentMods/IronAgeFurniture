@@ -7,7 +7,7 @@
     },
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
-      "conditions": { "recipe": "ironagefurniture:obsidian" }
+      "conditions": { "recipes": "ironagefurniture:obsidian" }
     }
   },
   "requirements": [["has_nugget", "has_the_recipe"]]

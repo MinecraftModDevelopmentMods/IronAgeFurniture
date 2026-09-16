@@ -24,7 +24,7 @@
           },
           "has_the_recipe": {
             "conditions": {
-              "recipe": "ironagefurniture:chair_wood_ironage_bench_padded_purple_single_immersiveengineering_treated_wood"
+              "recipes": "ironagefurniture:chair_wood_ironage_bench_padded_purple_single_immersiveengineering_treated_wood"
             },
             "trigger": "minecraft:recipe_unlocked"
           }
