@@ -16,4 +16,14 @@ public class StoolNether extends Stool {
 	public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
 		return false;
 	}
+
+	@Override
+	public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+		return 0;
+	}
+
+	@Override
+	public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+		return 0;
+	}
 }

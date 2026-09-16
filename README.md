@@ -2,11 +2,11 @@
 
 IronAgeFurniture adds chairs, stools, benches, lighting, and other ye olde-style furniture to Minecraft.
 
-This branch targets Minecraft 1.20.6 with Forge 50.2.0. Its current complete version is `0.3.0.120061` and its Maven coordinate is `zone.moddev.mc:iron-age-furniture:0.3.0.120061`.
+This branch targets Minecraft 26.2 with NeoForge 26.2.0.45-beta. Its current complete version is `0.3.0.2602002` and its Maven coordinate is `zone.moddev.mc:iron-age-furniture:0.3.0.2602002`.
 
 ## Build
 
-Use the checked-in Gradle wrapper with Temurin Java 21.0.7+6. The checked-in Mavenizer compatibility fixture uses Temurin Java 25.0.3+9; the Java 8 installation retained in CI is only a launcher toolchain needed by the Forge preparation stack.
+Use the checked-in Gradle wrapper with the exact Temurin Java 25.0.3+9 toolchain. This NeoForge target uses NeoGradle directly and does not need the Forge Mavenizer preparation fixture.
 
 ```text
 gradlew.bat clean check build javadoc verifyReleaseArtifacts verifyReleaseChecksums
@@ -22,4 +22,6 @@ Release publication is initiated manually from the protected default-branch disp
 
 Furniture registrations and their matching blockstates, models, recipes, advancements, and translations are generated from `gradle/furniture-catalog.json`. Normal builds verify committed output without changing it; run `gradlew.bat updateFurnitureCatalog` only when intentionally changing the catalog.
 
-The Java API namespace is `zone.moddev.mc.ironagefurniture`. The persistent Forge mod, registry, resource, data, configuration, and saved-world namespace remains `ironagefurniture`.
+Biomes O' Plenty furniture is optional and registers only when its compatible NeoForge 26.2 mod is loaded; its recipes and advancements use NeoForge conditions. Oh The Biomes We've Gone and Immersive Engineering furniture are intentionally absent because neither integration supports this target matrix.
+
+The Java API namespace is `zone.moddev.mc.ironagefurniture`. The persistent runtime mod, registry, resource, data, configuration, and saved-world namespace remains `ironagefurniture`.

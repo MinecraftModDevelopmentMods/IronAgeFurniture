@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        "minecraft:light_gray_carpet",
+        "ironagefurniture:chair_wood_ironage_bench_back_single_biomesoplenty_dead"
+    ],
+    "result": {
+        "id": "ironagefurniture:chair_wood_ironage_bench_back_padded_light_gray_single_biomesoplenty_dead"
+    },
+    "neoforge:conditions": [
+        {
+            "modid": "biomesoplenty",
+            "type": "neoforge:mod_loaded"
+        }
+    ]
+}

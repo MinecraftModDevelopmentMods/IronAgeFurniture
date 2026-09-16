@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        "minecraft:orange_carpet",
+        "ironagefurniture:chair_wood_ironage_bench_single_biomesoplenty_origin_oak"
+    ],
+    "result": {
+        "id": "ironagefurniture:chair_wood_ironage_bench_padded_orange_single_biomesoplenty_origin_oak"
+    },
+    "neoforge:conditions": [
+        {
+            "modid": "biomesoplenty",
+            "type": "neoforge:mod_loaded"
+        }
+    ]
+}

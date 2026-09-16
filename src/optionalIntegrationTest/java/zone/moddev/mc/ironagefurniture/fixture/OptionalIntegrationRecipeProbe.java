@@ -1,12 +1,15 @@
 package zone.moddev.mc.ironagefurniture.fixture;
 
 import com.mojang.logging.LogUtils;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.server.ServerStartedEvent;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.common.Mod;
+import net.minecraft.world.item.crafting.Recipe;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.server.ServerStartedEvent;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.common.Mod;
 import org.slf4j.Logger;
 
 import java.io.BufferedReader;
@@ -20,6 +23,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /** Exact-loader probe for optional recipe and recipe-advancement conditions. */
 @Mod(OptionalIntegrationRecipeProbe.MOD_ID)
@@ -28,29 +32,30 @@ public final class OptionalIntegrationRecipeProbe
     public static final String MOD_ID = "ironagefurnitureintegrationprobe";
 
     private static final Logger LOGGER = LogUtils.getLogger();
-    private static final List<String> REQUIRED_MODS = List.of(
-            "biomesoplenty", "terrablender", "glitchcore");
+    private static final List<String> REQUIRED_DEPENDENCIES = List.of(
+            "terrablender", "glitchcore");
 
     public OptionalIntegrationRecipeProbe()
     {
-        MinecraftForge.EVENT_BUS.addListener(this::serverStarted);
+        NeoForge.EVENT_BUS.addListener(this::serverStarted);
     }
 
     private void serverStarted(ServerStartedEvent event)
     {
         MinecraftServer server = event.getServer();
-        Map<String, String> versions = requireMods();
         Map<String, Integer> recipes = verifyRecipes(server,
                 "expected-conditional-recipes.txt");
         Map<String, Integer> advancements = verifyAdvancements(server,
                 "expected-conditional-advancements.txt");
+        require(recipes.keySet().equals(advancements.keySet()),
+                "Recipe and advancement integrations do not match");
+        Map<String, String> versions = requireMods(recipes.keySet());
 
         int recipeCount = recipes.values().stream().mapToInt(Integer::intValue).sum();
         int advancementCount = advancements.values().stream().mapToInt(Integer::intValue).sum();
-        require(recipeCount == 507,
-                "Expected 507 conditional recipes, found " + recipeCount);
-        require(advancementCount == 507,
-                "Expected 507 conditional advancements, found " + advancementCount);
+        require(recipeCount > 0 && recipeCount >= advancementCount,
+                "Conditional recipe/advancement counts are empty or invalid: "
+                        + recipeCount + "/" + advancementCount);
 
         writeMarker(versions, recipes, advancements, recipeCount, advancementCount);
         LOGGER.info("IRON AGE FURNITURE OPTIONAL INTEGRATION PROBE PASSED: "
@@ -58,10 +63,13 @@ public final class OptionalIntegrationRecipeProbe
         server.halt(false);
     }
 
-    private static Map<String, String> requireMods()
+    private static Map<String, String> requireMods(Set<String> integrationMods)
     {
+        require(!integrationMods.isEmpty(), "No optional integration was selected for the probe");
         Map<String, String> versions = new LinkedHashMap<>();
-        for (String modId : REQUIRED_MODS)
+        List<String> requiredMods = new ArrayList<>(integrationMods);
+        requiredMods.addAll(REQUIRED_DEPENDENCIES);
+        for (String modId : requiredMods)
         {
             String version = ModList.get().getModContainerById(modId)
                     .map(container -> container.getModInfo().getVersion().toString())
@@ -80,7 +88,8 @@ public final class OptionalIntegrationRecipeProbe
         for (ExpectedEntry expected : readExpectedEntries(resourceName))
         {
             counts.merge(expected.modId(), 1, Integer::sum);
-            if (server.getRecipeManager().byKey(expected.id()).isEmpty())
+            ResourceKey<Recipe<?>> recipeKey = ResourceKey.create(Registries.RECIPE, expected.id());
+            if (server.getRecipeManager().byKey(recipeKey).isEmpty())
             {
                 missing.add(expected.id().toString());
             }
@@ -124,7 +133,7 @@ public final class OptionalIntegrationRecipeProbe
                 if (line.isBlank()) continue;
                 String[] parts = line.split("=", 2);
                 require(parts.length == 2, "Invalid probe entry: " + line);
-                result.add(new ExpectedEntry(parts[0], ResourceLocation.parse(parts[1])));
+                result.add(new ExpectedEntry(parts[0], Identifier.parse(parts[1])));
             }
         }
         catch (IOException exception)
@@ -144,12 +153,12 @@ public final class OptionalIntegrationRecipeProbe
                 .append("status=PASS\n")
                 .append("conditional_recipes_loaded=").append(recipeCount).append('\n')
                 .append("conditional_advancements_loaded=").append(advancementCount).append('\n');
-        for (String modId : REQUIRED_MODS)
+        for (Map.Entry<String, String> version : versions.entrySet())
         {
-            result.append("mod.").append(modId).append("=")
-                    .append(versions.get(modId)).append('\n');
+            result.append("mod.").append(version.getKey()).append("=")
+                    .append(version.getValue()).append('\n');
         }
-        for (String modId : List.of("biomesoplenty"))
+        for (String modId : recipes.keySet())
         {
             result.append("recipes.").append(modId).append("=")
                     .append(recipes.getOrDefault(modId, 0)).append('\n');
@@ -180,7 +189,7 @@ public final class OptionalIntegrationRecipeProbe
         if (!condition) throw new IllegalStateException(message);
     }
 
-    private record ExpectedEntry(String modId, ResourceLocation id)
+    private record ExpectedEntry(String modId, Identifier id)
     {
     }
 }

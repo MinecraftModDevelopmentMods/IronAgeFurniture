@@ -27,7 +27,7 @@ public class LightSourceGlowdust extends FallingFurnitureBlock {
 	}
 
 	@Override
-	public boolean propagatesSkylightDown(BlockState state, BlockGetter getter, BlockPos pos) {
+	protected boolean propagatesSkylightDown(BlockState state) {
 		return true;
 	}
 
@@ -51,7 +51,7 @@ public class LightSourceGlowdust extends FallingFurnitureBlock {
 	}
 
 	public LightSourceGlowdust(float hardness, float blastResistance, SoundType sound, String name) {
-		super(Block.Properties.of().strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> 15));
+		super(zone.moddev.mc.ironagefurniture.init.RegistrationProperties.block(Block.Properties.of().strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> 15), name));
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());

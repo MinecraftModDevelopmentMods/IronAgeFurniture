@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "obsidian",
+  "pattern": [
+    "yyy",
+    "yyy",
+    "yyy"
+  ],
+  "key": {
+    "y": "ironagefurniture:obsidian_chunk"
+  },
+  "result": {
+    "id": "minecraft:obsidian",
+    "count": 1
+  }
+}

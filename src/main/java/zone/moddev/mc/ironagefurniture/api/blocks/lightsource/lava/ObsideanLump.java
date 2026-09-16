@@ -14,9 +14,9 @@ public class ObsideanLump extends FurnitureBlock implements LiquidBlockContainer
 	protected static final VoxelShape AABB = Block.box(6.0D, 0.0D, 6.0D, 10.0D, 4.0D, 10.0D);
 
 	public ObsideanLump(float hardness, float blastResistance, SoundType sound, String name) {
-		super(Block.Properties.of().strength(hardness, blastResistance).sound(sound));
+		super(zone.moddev.mc.ironagefurniture.init.RegistrationProperties.block(Block.Properties.of().strength(hardness, blastResistance).sound(sound), name));
 
-		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
+		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH).setValue(WATERLOGGED, false));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
 		//this.setRegistryName(name);
 	}

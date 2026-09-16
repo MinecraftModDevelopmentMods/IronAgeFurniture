@@ -1,0 +1,7 @@
+{
+  "parent": "ironagefurniture:block/template_chair_wood_ironage_shield",
+  "textures": {
+    "log": "biomesoplenty:block/umbran_log",
+    "planks": "biomesoplenty:block/umbran_planks"
+  }
+}

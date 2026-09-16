@@ -16,17 +16,18 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import oshi.util.tuples.Pair;
+import net.neoforged.neoforge.common.extensions.IBlockExtension;
 
-public abstract class FurnitureBlock extends Block implements SimpleWaterloggedBlock {
+public abstract class FurnitureBlock extends Block implements SimpleWaterloggedBlock, IBlockExtension {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-    public static final DirectionProperty DIRECTION = BlockStateProperties.HORIZONTAL_FACING;
+    public static final EnumProperty<Direction> DIRECTION = BlockStateProperties.HORIZONTAL_FACING;
 
     public ImmutableMap<BlockState, VoxelShape> _shapes;
 
@@ -42,7 +43,7 @@ public abstract class FurnitureBlock extends Block implements SimpleWaterloggedB
     }
 
     @Override
-    public VoxelShape getOcclusionShape(BlockState state, BlockGetter reader, BlockPos pos)
+    protected VoxelShape getOcclusionShape(BlockState state)
     {
         return _shapes.get(state);
     }

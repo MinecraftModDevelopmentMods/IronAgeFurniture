@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "light_lava",
+  "pattern": [
+    "yyy",
+    "yxy",
+    "yyy"
+  ],
+  "key": {
+    "y": "minecraft:glass_bottle",
+    "x": "minecraft:lava_bucket"
+  },
+  "result": {
+    "id": "ironagefurniture:light_metal_ironage_block_floor_lava_clear",
+    "count": 8
+  }
+}

@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "group": "furniture",
+    "pattern": [
+        "xx",
+        "yy"
+    ],
+    "key": {
+        "y": "#c:rods/wooden",
+        "x": "minecraft:warped_planks"
+    },
+    "result": {
+        "count": 1,
+        "id": "ironagefurniture:chair_wood_ironage_bench_single_warped"
+    }
+}

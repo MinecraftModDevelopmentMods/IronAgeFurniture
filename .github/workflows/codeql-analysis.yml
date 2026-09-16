@@ -3,11 +3,11 @@ name: CodeQL
 on:
   push:
     branches:
-      - master-1.20.6
+      - master-26.2-neo
       - 'feature/**'
   pull_request:
     branches:
-      - master-1.20.6
+      - master-26.2-neo
   schedule:
     - cron: '43 7 * * 4'
 
@@ -26,23 +26,11 @@ jobs:
       - name: Check out source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
-      - name: Install pinned Java 25 Mavenizer runtime
+      - name: Install exact Java 25
         uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
         with:
           distribution: temurin
           java-version: '25.0.3+9.0.LTS'
-
-      - name: Install pinned Java 8 launcher toolchain
-        uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
-        with:
-          distribution: temurin
-          java-version: '8.0.502+7'
-
-      - name: Install pinned Java 21 runtime and toolchain
-        uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
-        with:
-          distribution: temurin
-          java-version: '21.0.7+6.0.LTS'
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6
@@ -55,21 +43,21 @@ jobs:
       - name: Compile production code
         run: |
           chmod +x ./gradlew
-          gradle_args=(
-            clean classes --rerun-tasks --no-build-cache --no-daemon --stacktrace
-            "-Dorg.gradle.java.installations.paths=$JAVA_HOME,$JAVA_HOME_8_X64,$JAVA_HOME_25_X64"
+          gradle_jdk_args=(
+            "-Dorg.gradle.java.installations.paths=$JAVA_HOME"
             -Dorg.gradle.java.installations.auto-detect=false
             -Dorg.gradle.java.installations.auto-download=false
           )
+          ./gradlew clean --no-build-cache --no-daemon --stacktrace "${gradle_jdk_args[@]}"
           for attempt in 1 2 3; do
-            if ./gradlew "${gradle_args[@]}"; then
+            if ./gradlew classes --rerun-tasks --no-build-cache --no-daemon --stacktrace "${gradle_jdk_args[@]}"; then
               exit 0
             fi
             if [ "$attempt" -eq 3 ]; then
               echo "CodeQL compilation failed after $attempt attempts." >&2
               exit 1
             fi
-            echo "::warning::CodeQL compilation attempt $attempt failed; retrying with the preserved Forge cache."
+            echo "::warning::CodeQL compilation attempt $attempt failed; retrying with the preserved NeoGradle cache."
           done
 
       - name: Analyze
