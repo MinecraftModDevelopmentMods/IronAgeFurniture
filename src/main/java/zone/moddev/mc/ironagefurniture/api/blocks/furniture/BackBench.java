@@ -11,12 +11,12 @@ import zone.moddev.mc.ironagefurniture.api.util.Swivel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
@@ -42,10 +42,13 @@ import java.util.List;
 import java.util.Objects;
 
 public class BackBench extends FurnitureBlock {
-	public static final BenchTypeProperty TYPE = BenchTypeProperty.create("type", BenchType.SINGLE, BenchType.LEFT, BenchType.MIDDLE, BenchType.RIGHT);
+	protected static final int FIRE_SPREAD_SPEED = 5;
+	protected static final int FLAMMABILITY = 20;
+
+	public static final net.minecraft.world.level.block.state.properties.EnumProperty<BenchType> TYPE = BenchTypeProperty.create("type", BenchType.SINGLE, BenchType.LEFT, BenchType.MIDDLE, BenchType.RIGHT);
 
 	public BackBench(float hardness, float blastResistance, SoundType sound, String name) {
-		super(Block.Properties.of().strength(hardness, blastResistance).sound(sound));
+		super(zone.moddev.mc.ironagefurniture.init.RegistrationProperties.block(Block.Properties.of().strength(hardness, blastResistance).sound(sound), name));
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
@@ -66,6 +69,16 @@ public class BackBench extends FurnitureBlock {
 	@Override
 	public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
 		return true;
+	}
+
+	@Override
+	public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+		return FLAMMABILITY;
+	}
+
+	@Override
+	public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+		return FIRE_SPREAD_SPEED;
 	}
 	
 	@Override
@@ -101,7 +114,7 @@ public class BackBench extends FurnitureBlock {
 		_shapes = builder.build();
 	}
 
-	private ResourceLocation GetResourceLocation(BlockState state) {
+	private Identifier GetResourceLocation(BlockState state) {
 		return BuiltInRegistries.BLOCK.getKey(state.getBlock());
 	}
 	
@@ -158,7 +171,7 @@ public class BackBench extends FurnitureBlock {
 	}
 
 	private boolean isIAFBench(BlockState blockstate) {
-		ResourceLocation resource = GetResourceLocation(blockstate);
+		Identifier resource = GetResourceLocation(blockstate);
 
 		return resource.getNamespace().equals("ironagefurniture") && resource.getPath().contains("bench");
 	}
@@ -435,7 +448,7 @@ public class BackBench extends FurnitureBlock {
 	}
 
 	@Override
-	public int getAnalogOutputSignal(BlockState state, Level world, BlockPos pos) {
+	protected int getAnalogOutputSignal(BlockState state, Level world, BlockPos pos, Direction direction) {
 		return AbstractContainerMenu.getRedstoneSignalFromBlockEntity(world.getBlockEntity(pos));
 	}
 
@@ -445,13 +458,13 @@ public class BackBench extends FurnitureBlock {
 	}
 
 	@Override
-	public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean isMoving) {
-		if (state.getBlock() != newState.getBlock() && world.getBlockEntity(pos) instanceof Container) {
+	protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel world, BlockPos pos, boolean isMoving) {
+		if (world.getBlockEntity(pos) instanceof Container) {
 			Containers.dropContents(world, pos, (Container) world.getBlockEntity(pos));
 			world.updateNeighbourForOutputSignal(pos, this);
 		}
 
-		super.onRemove(state, world, pos, newState, isMoving);
+		super.affectNeighborsAfterRemoval(state, world, pos, isMoving);
 	}
 
 	@Override
@@ -460,9 +473,9 @@ public class BackBench extends FurnitureBlock {
 	}
 
 	@Override
-	protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+	protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
 		Seat.create(world, pos, seatYOffset(), player);
-		return ItemInteractionResult.sidedSuccess(world.isClientSide);
+		return world.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER;
 	}
 
 	protected double seatYOffset() {

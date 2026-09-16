@@ -1,0 +1,50 @@
+import groovy.json.JsonSlurper
+
+def blockModelFiles = {
+    fileTree('src/main/resources') {
+        include '**/models/block/*.json'
+        include '**/models/block/**/*.json'
+    }.files.sort { it.absolutePath }
+}
+
+tasks.register('verifyModelTexturePaths') {
+    group = 'verification'
+    description = 'Rejects legacy vanilla texture paths and missing IronAgeFurniture textures.'
+    dependsOn tasks.named('verifyFurnitureCatalog')
+    inputs.files fileTree('src/main/resources') {
+        include '**/models/block/*.json'
+        include '**/models/block/**/*.json'
+        include 'assets/ironagefurniture/textures/**/*.png'
+    }
+    doLast {
+        Set<String> invalidTextures = new TreeSet<>()
+        blockModelFiles().each { modelFile ->
+            Map document = new JsonSlurper().parse(modelFile) as Map
+            if (!(document.textures instanceof Map)) return
+            document.textures.values().findAll { it instanceof String }.each { value ->
+                String reference = value.toString()
+                if (reference.startsWith('#') || !reference.contains(':')) return
+                String namespace = reference.substring(0, reference.indexOf(':'))
+                String texturePath = reference.substring(reference.indexOf(':') + 1)
+                String relativeModel = project.relativePath(modelFile).replace('\\', '/')
+                if (namespace == 'minecraft' && texturePath.startsWith('blocks/')) {
+                    invalidTextures.add("${relativeModel} -> legacy ${reference}")
+                } else if (namespace == 'ironagefurniture') {
+                    File textureFile = file(
+                            "src/main/resources/assets/ironagefurniture/textures/${texturePath}.png")
+                    if (!textureFile.isFile()) {
+                        invalidTextures.add("${relativeModel} -> missing ${reference}")
+                    }
+                }
+            }
+        }
+        if (!invalidTextures.isEmpty()) {
+            throw new GradleException('Invalid built-in model texture paths:\n' +
+                    invalidTextures.take(30).join('\n'))
+        }
+    }
+}
+
+tasks.named('check') {
+    dependsOn tasks.named('verifyModelTexturePaths')
+}

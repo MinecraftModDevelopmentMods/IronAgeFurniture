@@ -21,10 +21,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Nullable;
 
 public class LightSourceSconceTorchWallUnlit extends LightSourceSconceTorchWall {
 	public LightSourceSconceTorchWallUnlit(float hardness, float blastResistance, SoundType sound, String name) {
-		super(Block.Properties.of().strength(hardness, blastResistance).sound(sound));
+		super(zone.moddev.mc.ironagefurniture.init.RegistrationProperties.block(Block.Properties.of().strength(hardness, blastResistance).sound(sound), name));
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
@@ -38,7 +39,8 @@ public class LightSourceSconceTorchWallUnlit extends LightSourceSconceTorchWall 
 	}
 
 	@Override
-	public boolean canConnectRedstone(BlockState state, BlockGetter world, BlockPos pos, Direction direction) {
+	protected boolean shouldRedstoneWireConnectTo(BlockState state, BlockGetter world, BlockPos pos,
+			@Nullable Direction direction) {
 		return true;
 	}
 
@@ -80,7 +82,7 @@ public class LightSourceSconceTorchWallUnlit extends LightSourceSconceTorchWall 
 				.setValue(DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
 				.setValue(WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)), UPDATE_ALL);
 
-			return InteractionResult.CONSUME_PARTIAL;
+			return InteractionResult.CONSUME;
 		}
 
 		return InteractionResult.FAIL;

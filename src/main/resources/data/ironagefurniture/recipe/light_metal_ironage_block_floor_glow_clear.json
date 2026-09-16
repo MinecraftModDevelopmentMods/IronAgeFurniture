@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "light_glow",
+  "ingredients": [
+    "minecraft:glowstone_dust",
+    "minecraft:glass_bottle"
+  ],
+  "result": {
+    "id": "ironagefurniture:light_metal_ironage_block_floor_glow_clear"
+  }
+}

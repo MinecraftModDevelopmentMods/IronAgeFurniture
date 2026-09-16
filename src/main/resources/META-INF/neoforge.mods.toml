@@ -1,0 +1,28 @@
+modLoader="javafml"
+license="${mod_license}"
+issueTrackerURL="https://github.com/MinecraftModDevelopmentMods/IronAgeFurniture/issues"
+
+[[mods]]
+modId="${mod_id}"
+version="${version}"
+displayName="${mod_name}"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/iron-age-furniture"
+credits="Cyanobacterium, SkyBlade1978, FoxNekitsune, the MMD Team, NeoForge, FML, and the mod authors"
+authors="${mod_authors}"
+description='''
+${mod_description}
+'''
+
+[[dependencies.ironagefurniture]]
+    modId="neoforge"
+    type="required"
+    versionRange="${neo_version_range}"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.ironagefurniture]]
+    modId="minecraft"
+    type="required"
+    versionRange="${minecraft_version_range}"
+    ordering="NONE"
+    side="BOTH"

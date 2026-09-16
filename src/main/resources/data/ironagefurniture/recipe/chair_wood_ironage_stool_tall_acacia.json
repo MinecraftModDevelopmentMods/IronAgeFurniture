@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "group": "furniture",
+    "pattern": [
+        " x ",
+        "yyy",
+        "yyy"
+    ],
+    "key": {
+        "y": "#c:rods/wooden",
+        "x": "minecraft:acacia_planks"
+    },
+    "result": {
+        "count": 1,
+        "id": "ironagefurniture:chair_wood_ironage_stool_tall_acacia"
+    }
+}

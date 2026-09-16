@@ -1,16 +1,13 @@
 package zone.moddev.mc.ironagefurniture;
 
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import zone.moddev.mc.ironagefurniture.api.CreativeModeBreakTracker;
 import zone.moddev.mc.ironagefurniture.api.entity.Entities;
-import zone.moddev.mc.ironagefurniture.client.renderer.ClientHandler;
-import zone.moddev.mc.ironagefurniture.init.ModBOPBlocks;
+import zone.moddev.mc.ironagefurniture.compat.LegacyFurnitureMappings;
 import zone.moddev.mc.ironagefurniture.init.ModCreativeTab;
 import zone.moddev.mc.ironagefurniture.init.ModVanillaBackBench;
 import zone.moddev.mc.ironagefurniture.init.ModVanillaBench;
@@ -22,26 +19,21 @@ import zone.moddev.mc.ironagefurniture.init.ModVanillaPaddedBench;
 import zone.moddev.mc.ironagefurniture.init.ModVanillaShieldChairs;
 import zone.moddev.mc.ironagefurniture.init.ModVanillaStools;
 import zone.moddev.mc.ironagefurniture.init.ModVanillaTallStools;
-import zone.moddev.mc.ironagefurniture.proxy.CommonProxy;
-import net.minecraftforge.fml.config.ModConfig;
+import net.neoforged.fml.config.ModConfig;
 
 import com.mojang.logging.LogUtils;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.event.server.ServerStartingEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import net.neoforged.bus.api.SubscribeEvent;
 import org.slf4j.Logger;
 
 @Mod(Ironagefurniture.MODID)
 public class Ironagefurniture
 {
     public static final String MODID = "ironagefurniture";
-    public static final CommonProxy PROXY = DistExecutor.runForDist(() -> zone.moddev.mc.ironagefurniture.proxy.ClientProxy::new, () -> CommonProxy::new);
     private static final Logger LOGGER = LogUtils.getLogger();
     
-	public Ironagefurniture(FMLJavaModLoadingContext context) {
+	public Ironagefurniture(IEventBus modEventBus, ModContainer modContainer) {
 		LOGGER.info("Iron Age Furniture Mod is loading...");
-		
-        IEventBus modEventBus = context.getModEventBus();
         
         ModVanillaChairs.REGISTER.register(modEventBus);
         ModVanillaShieldChairs.REGISTER.register(modEventBus);
@@ -54,24 +46,17 @@ public class Ironagefurniture
 		ModVanillaPaddedBench.REGISTER.register(modEventBus);
 		ModVanillaPaddedBackBench.REGISTER.register(modEventBus);
 		
-		if (ModList.get().isLoaded("biomesoplenty")) {
-			LOGGER.info("Iron Age Furniture Biomes O Plenty Integration is loading...");
-			ModBOPBlocks.REGISTER.register(modEventBus);
-		}
-		
         ModItems.REGISTER.register(modEventBus);
         ModCreativeTab.REGISTER.register(modEventBus);
         Entities.REGISTER.register(modEventBus);
+        LegacyFurnitureMappings.registerAliases(modEventBus);
         
         modEventBus.addListener(this::commonSetup);
 
-        MinecraftForge.EVENT_BUS.register(this);
+        NeoForge.EVENT_BUS.register(this);
+		NeoForge.EVENT_BUS.register(new CreativeModeBreakTracker());
         
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-        	modEventBus.addListener(ClientHandler::onRegisterRenderers);
-        });
-        
-        context.registerConfig(ModConfig.Type.COMMON, IronAgeFurnitureConfiguration.SPEC);
+        modContainer.registerConfig(ModConfig.Type.COMMON, IronAgeFurnitureConfiguration.SPEC);
         
     }
     
@@ -87,13 +72,4 @@ public class Ironagefurniture
 
     }
 
-    @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-    public static class ClientModEvents
-    {
-        @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent event)
-        {
-
-        }
-    }
 }

@@ -8,6 +8,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -36,6 +37,9 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
+import net.minecraft.util.RandomSource;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.NotNull;
 
 public class LightHolderSconceFloor extends LightHolderSconce {
@@ -47,7 +51,7 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 	}
 
 	public LightHolderSconceFloor(float hardness, float blastResistance, SoundType sound, String name) {
-		super(Block.Properties.of().strength(hardness, blastResistance).sound(sound));
+		super(zone.moddev.mc.ironagefurniture.init.RegistrationProperties.block(Block.Properties.of().strength(hardness, blastResistance).sound(sound), name));
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
@@ -55,10 +59,11 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 	}
 
 	@Override
-	public BlockState updateShape(BlockState state, Direction direction, BlockState state2, LevelAccessor levelAccessor, BlockPos pos, BlockPos pos2) {
-		return direction == Direction.DOWN && !this.canSurvive(state, levelAccessor, pos) ?
+	protected BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess ticks, BlockPos pos,
+			Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random) {
+		return direction == Direction.DOWN && !this.canSurvive(state, level, pos) ?
 			Blocks.AIR.defaultBlockState() :
-			super.updateShape(state, direction, state2, levelAccessor, pos, pos2);
+			super.updateShape(state, level, ticks, pos, direction, neighborPos, neighborState, random);
 	}
 
 	@Override
@@ -110,7 +115,7 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 
 	
 	@Override
-	public boolean canPlaceLiquid(Player player, BlockGetter blockGetter, BlockPos blockPos, BlockState blockState, Fluid fluid) {
+	public boolean canPlaceLiquid(@Nullable LivingEntity player, BlockGetter blockGetter, BlockPos blockPos, BlockState blockState, Fluid fluid) {
 		return true;
 	}
 
@@ -176,7 +181,7 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 				
 				Block.popResource(world, pos, new ItemStack(ModVanillaLights.obsidian_chunk.get(), 1));
 				
-				return InteractionResult.CONSUME_PARTIAL;
+				return InteractionResult.CONSUME;
 			}
 			else
 			{
@@ -205,7 +210,7 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 		if (!player.isCreative())
 			stackInHand.setCount(stackInHand.getCount() - 1);
 
-		return InteractionResult.CONSUME_PARTIAL;
+		return InteractionResult.CONSUME;
 	}
 
 	@Override

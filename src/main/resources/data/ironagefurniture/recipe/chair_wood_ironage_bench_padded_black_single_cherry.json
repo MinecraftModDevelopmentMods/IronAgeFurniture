@@ -1,0 +1,10 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        "minecraft:black_carpet",
+        "ironagefurniture:chair_wood_ironage_bench_single_cherry"
+    ],
+    "result": {
+        "id": "ironagefurniture:chair_wood_ironage_bench_padded_black_single_cherry"
+    }
+}

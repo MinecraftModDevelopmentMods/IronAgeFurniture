@@ -1,36 +1,11 @@
-# Optional integration runtime test
+# Optional integration runtime tests
 
-This positive-path test starts Forge 1.20.6 with Iron Age Furniture and the supported
-Biomes O' Plenty integration. A test-only Forge mod then checks the live server
-registries for every conditional recipe and recipe advancement and stops the server.
+This Minecraft 26.3 NeoForge target has no optional-integration runtime probe because
+Biomes O' Plenty, Oh The Biomes We've Gone, and Immersive Engineering do not currently
+publish compatible NeoForge 26.3 builds. Their furniture registrations and resources
+are deliberately absent rather than left untestable.
 
-The third-party mod jars are deliberately not committed or redistributed. Their
-exact filenames, versions, SHA-256 checksums, roles, and source pages are pinned in
-`gradle/verification/optional-integration-mods.json`.
-
-## Setup
-
-1. Install the Forge `1.20.6-50.2.0` server into the ignored
-   `run-optional-integrations` directory and accept its EULA.
-2. Download every jar listed in the manifest into
-   `run-optional-integrations/mods`. This directory may also contain the generated
-   probe and Iron Age Furniture jars.
-3. Run `gradlew.bat runOptionalIntegrationServer` with the project's pinned Java
-   installations available as described in `gradle.properties`.
-
-An existing disposable Forge server can be used without moving it by adding
-`-PoptionalIntegrationServerDir=<server-directory>` to the command. The manifest
-jars must be in that server's `mods` directory. The task stages only the current
-packaged Iron Age Furniture jar and generated probe; the server installation and
-third-party jars remain local.
-
-The Gradle task verifies every supplied jar against the pinned checksum before the
-server starts. It builds and stages
-`ironagefurniture-optional-integration-probe.jar`, removes any stale result, and
-accepts success only when the probe writes
-`optional-integration-pass.properties` in the selected server directory with all
-507 conditional recipes and all 507 conditional recipe advancements present.
-
-The probe also records the loaded versions and per-integration counts. It is built
-from `src/optionalIntegrationTest` and is explicitly excluded from all release
-artifacts.
+When a compatible integration is released, add it to `gradle/furniture-catalog.json`,
+pin the exact third-party jars and SHA-256 checksums, restore the positive packaged-
+server probe, and verify all conditional recipes, advancements, registrations, and
+external texture paths before enabling it for this target.
