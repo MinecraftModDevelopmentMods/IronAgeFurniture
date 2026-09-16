@@ -6,5 +6,4 @@
 - Omit Oh The Biomes We've Gone and Immersive Engineering because neither integration supports this target matrix.
 - Generate NeoForge item definitions and target-native `neoforge:conditions` recipe and advancement data.
 - Carry forward the deterministic checked-in furniture catalog, scoped BOP cherry alias, and positive BOP runtime probe.
-
-This is a release candidate changelog. Publication requires the protected default-branch release workflow.
+- Provide reproducible Eclipse/Buildship setup with the exact Temurin Java 25 toolchain, processed resources, and a duplicate-free NeoForge classpath.
