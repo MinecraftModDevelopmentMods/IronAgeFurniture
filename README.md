@@ -22,4 +22,6 @@ Release publication is initiated manually from the protected default-branch disp
 
 Furniture registrations and their matching blockstates, models, recipes, advancements, and translations are generated from `gradle/furniture-catalog.json`. Normal builds verify committed output without changing it; run `gradlew.bat updateFurnitureCatalog` only when intentionally changing the catalog.
 
-The Java API namespace is `zone.moddev.mc.ironagefurniture`. The persistent Forge mod, registry, resource, data, configuration, and saved-world namespace remains `ironagefurniture`.
+Biomes O' Plenty furniture is optional and registers only when its compatible NeoForge 26.1.2 mod is loaded; its recipes and advancements use NeoForge conditions. Oh The Biomes We've Gone and Immersive Engineering furniture are intentionally absent because neither integration supports this target matrix.
+
+The Java API namespace is `zone.moddev.mc.ironagefurniture`. The persistent runtime mod, registry, resource, data, configuration, and saved-world namespace remains `ironagefurniture`.
