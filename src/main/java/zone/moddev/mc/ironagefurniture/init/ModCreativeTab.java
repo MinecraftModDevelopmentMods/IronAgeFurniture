@@ -14,7 +14,7 @@ public final class ModCreativeTab {
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Ironagefurniture.MODID);
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> FURNITURE = REGISTER.register("creative_tab", () ->
-            CreativeModeTab.builder()
+            CreativeModeTab.builder(CreativeModeTab.Row.TOP, 0)
                     .title(Component.translatable("itemGroup." + Ironagefurniture.MODID))
                     .icon(() -> new ItemStack(ModVanillaChairs.chair_wood_ironage_classic_oak.get()))
                     .displayItems((parameters, output) ->

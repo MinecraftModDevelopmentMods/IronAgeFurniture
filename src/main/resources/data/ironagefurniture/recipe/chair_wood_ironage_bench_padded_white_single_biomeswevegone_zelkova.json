@@ -1,12 +1,8 @@
 {
     "type": "minecraft:crafting_shapeless",
     "ingredients": [
-        {
-            "item": "minecraft:white_carpet"
-        },
-        {
-            "item": "ironagefurniture:chair_wood_ironage_bench_single_biomeswevegone_zelkova"
-        }
+        "minecraft:white_carpet",
+        "ironagefurniture:chair_wood_ironage_bench_single_biomeswevegone_zelkova"
     ],
     "result": {
         "id": "ironagefurniture:chair_wood_ironage_bench_padded_white_single_biomeswevegone_zelkova"

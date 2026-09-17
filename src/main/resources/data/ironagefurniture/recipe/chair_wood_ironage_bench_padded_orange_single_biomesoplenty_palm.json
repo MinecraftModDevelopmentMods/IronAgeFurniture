@@ -1,12 +1,8 @@
 {
     "type": "minecraft:crafting_shapeless",
     "ingredients": [
-        {
-            "item": "minecraft:orange_carpet"
-        },
-        {
-            "item": "ironagefurniture:chair_wood_ironage_bench_single_biomesoplenty_palm"
-        }
+        "minecraft:orange_carpet",
+        "ironagefurniture:chair_wood_ironage_bench_single_biomesoplenty_palm"
     ],
     "result": {
         "id": "ironagefurniture:chair_wood_ironage_bench_padded_orange_single_biomesoplenty_palm"

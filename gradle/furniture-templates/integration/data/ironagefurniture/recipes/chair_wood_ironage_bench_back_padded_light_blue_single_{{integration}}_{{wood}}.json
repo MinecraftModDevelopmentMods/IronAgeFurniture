@@ -3,7 +3,7 @@
   "conditions": [
     {
       "modid": "{{modId}}",
-      "type": "neoforge:mod_loaded"
+      "type": "forge:mod_loaded"
     }
   ],
   "ingredients": [

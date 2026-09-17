@@ -1,12 +1,6 @@
 package zone.moddev.mc.ironagefurniture;
 
 import net.neoforged.neoforge.common.ModConfigSpec;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.event.config.ModConfigEvent;
-
-@EventBusSubscriber(modid = Ironagefurniture.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class IronAgeFurnitureConfiguration
 {
 	private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
@@ -62,18 +56,4 @@ public class IronAgeFurnitureConfiguration
 //	public static boolean bygIntegration;
 //	public static boolean ieIntegration;
 	
-
-	@SubscribeEvent
-    static void onLoad(final ModConfigEvent event)
-    {
-//		generateClassicChairs = GENERATE_CLASSIC_CHAIRS.get();
-//		generateShieldChairs = GENERATE_SHIELD_CHAIRS.get();
-//		generateShortStools = GENERATE_SHORT_STOOLS.get();
-//		generateTallStools = GENERATE_TALL_STOOLS.get();
-//		generateBenches = GENERATE_BENCHES.get();
-//		bopIntegration = INTEGRATION_BIOMESOPLENTY.get();
-//		bygIntegration = INTEGRATION_BIOMESYOUGO.get();
-//		ieIntegration = INTEGRATION_IMMERSIVEENGINEERING.get();
-
-    }
 }

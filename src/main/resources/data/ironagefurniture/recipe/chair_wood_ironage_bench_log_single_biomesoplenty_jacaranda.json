@@ -5,9 +5,7 @@
         "xxx"
     ],
     "key": {
-        "x": {
-            "item": "biomesoplenty:jacaranda_log"
-        }
+        "x": "biomesoplenty:jacaranda_log"
     },
     "result": {
         "count": 3,

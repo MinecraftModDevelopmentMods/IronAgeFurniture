@@ -6,12 +6,8 @@
         "yy"
     ],
     "key": {
-        "y": {
-            "tag": "c:rods/wooden"
-        },
-        "x": {
-            "item": "biomeswevegone:ebony_planks"
-        }
+        "y": "#c:rods/wooden",
+        "x": "biomeswevegone:ebony_planks"
     },
     "result": {
         "count": 1,

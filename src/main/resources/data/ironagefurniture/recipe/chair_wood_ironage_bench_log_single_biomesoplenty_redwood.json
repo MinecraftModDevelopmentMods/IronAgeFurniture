@@ -5,9 +5,7 @@
         "xxx"
     ],
     "key": {
-        "x": {
-            "item": "biomesoplenty:redwood_log"
-        }
+        "x": "biomesoplenty:redwood_log"
     },
     "result": {
         "count": 3,

@@ -5,9 +5,7 @@
         "xxx"
     ],
     "key": {
-        "x": {
-            "item": "biomeswevegone:pine_log"
-        }
+        "x": "biomeswevegone:pine_log"
     },
     "result": {
         "count": 3,

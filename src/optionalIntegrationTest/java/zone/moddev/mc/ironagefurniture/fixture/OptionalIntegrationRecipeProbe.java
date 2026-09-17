@@ -1,8 +1,11 @@
 package zone.moddev.mc.ironagefurniture.fixture;
 
 import com.mojang.logging.LogUtils;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.item.crafting.Recipe;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.fml.ModList;
@@ -85,7 +88,8 @@ public final class OptionalIntegrationRecipeProbe
         for (ExpectedEntry expected : readExpectedEntries(resourceName))
         {
             counts.merge(expected.modId(), 1, Integer::sum);
-            if (server.getRecipeManager().byKey(expected.id()).isEmpty())
+            ResourceKey<Recipe<?>> recipeKey = ResourceKey.create(Registries.RECIPE, expected.id());
+            if (server.getRecipeManager().byKey(recipeKey).isEmpty())
             {
                 missing.add(expected.id().toString());
             }
@@ -129,7 +133,7 @@ public final class OptionalIntegrationRecipeProbe
                 if (line.isBlank()) continue;
                 String[] parts = line.split("=", 2);
                 require(parts.length == 2, "Invalid probe entry: " + line);
-                result.add(new ExpectedEntry(parts[0], ResourceLocation.parse(parts[1])));
+                result.add(new ExpectedEntry(parts[0], Identifier.parse(parts[1])));
             }
         }
         catch (IOException exception)
@@ -185,7 +189,7 @@ public final class OptionalIntegrationRecipeProbe
         if (!condition) throw new IllegalStateException(message);
     }
 
-    private record ExpectedEntry(String modId, ResourceLocation id)
+    private record ExpectedEntry(String modId, Identifier id)
     {
     }
 }

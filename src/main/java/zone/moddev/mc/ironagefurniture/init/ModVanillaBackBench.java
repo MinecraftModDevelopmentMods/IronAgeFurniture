@@ -25,7 +25,7 @@ public class ModVanillaBackBench {
 	private static DeferredHolder<Block, Block> register(String name, Supplier<Block> block, Item.Properties properties) {
 		DeferredHolder<Block, Block> registryObject = REGISTER.register(name, block);
 		
-		ModItems.REGISTER.register(name, () -> new BlockItem(registryObject.get(), properties));
+		ModItems.REGISTER.register(name, () -> new BlockItem(registryObject.get(), RegistrationProperties.item(properties, name).useBlockDescriptionPrefix()));
 		
 		return registryObject; 
 	}
@@ -39,6 +39,7 @@ public class ModVanillaBackBench {
 	public static DeferredHolder<Block, Block> chair_wood_ironage_bench_back_single_mangrove = register("chair_wood_ironage_bench_back_single_mangrove", () -> new BackBench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_back_single_mangrove"));
 	public static DeferredHolder<Block, Block> chair_wood_ironage_bench_back_single_cherry = register("chair_wood_ironage_bench_back_single_cherry", () -> new BackBench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_back_single_cherry"));
 	public static DeferredHolder<Block, Block> chair_wood_ironage_bench_back_single_bamboo = register("chair_wood_ironage_bench_back_single_bamboo", () -> new BackBench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_back_single_bamboo"));
+	public static DeferredHolder<Block, Block> chair_wood_ironage_bench_back_single_pale_oak = register("chair_wood_ironage_bench_back_single_pale_oak", () -> new BackBench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_back_single_pale_oak"));
 	public static DeferredHolder<Block, Block> chair_wood_ironage_bench_back_single_crimson = register("chair_wood_ironage_bench_back_single_crimson", () -> new BackBenchNether(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_back_single_crimson"));
 	public static DeferredHolder<Block, Block> chair_wood_ironage_bench_back_single_warped = register("chair_wood_ironage_bench_back_single_warped", () -> new BackBenchNether(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_back_single_warped"));
 }

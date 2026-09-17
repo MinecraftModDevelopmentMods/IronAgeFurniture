@@ -7,12 +7,8 @@
         "y y"
     ],
     "key": {
-        "y": {
-            "tag": "c:rods/wooden"
-        },
-        "x": {
-            "item": "minecraft:mangrove_planks"
-        }
+        "y": "#c:rods/wooden",
+        "x": "minecraft:mangrove_planks"
     },
     "result": {
         "count": 1,

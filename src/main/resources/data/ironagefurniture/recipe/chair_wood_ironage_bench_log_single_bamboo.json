@@ -5,9 +5,7 @@
         "xxx"
     ],
     "key": {
-        "x": {
-            "item": "minecraft:bamboo_block"
-        }
+        "x": "minecraft:bamboo_block"
     },
     "result": {
         "count": 3,

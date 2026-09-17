@@ -3,7 +3,7 @@
     {
       "conditions": [
         {
-          "type": "neoforge:mod_loaded",
+          "type": "forge:mod_loaded",
           "modid": "{{modId}}"
         }
       ],
@@ -15,7 +15,7 @@
               "items": [
                 {
                   "items": [
-                    "{{namespace}}:{{externalLog}}"
+                    "{{namespace}}:{{externalLogItem}}"
                   ]
                 }
               ]

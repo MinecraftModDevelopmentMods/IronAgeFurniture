@@ -114,9 +114,8 @@ def archiveTextSuffixes = [
 def archiveTextPatterns = archiveTextSuffixes.collect { "**/*${it}".toString() }
 archiveTextPatterns.addAll(['**/element-list', '**/package-list'])
 def optionalIntegrationExpectedCounts = [
-        biomesoplenty     : [recipes: 507, advancements: 507],
-        biomeswevegone    : [recipes: 975, advancements: 975],
-        immersiveengineering: [recipes: 54, advancements: 38]
+        biomesoplenty : [recipes: 546, advancements: 546],
+        biomeswevegone: [recipes: 975, advancements: 975]
 ]
 def optionalIntegrationProbeMods = providers.gradleProperty('optionalIntegrationProbeMods')
         .orElse(optionalIntegrationExpectedCounts.keySet().join(','))
@@ -163,13 +162,18 @@ eclipse {
                 entry instanceof org.gradle.plugins.ide.eclipse.model.SourceFolder
                         && entry.path == 'src/main/resources'
             }
+            Set<String> libraryPaths = new LinkedHashSet<>()
+            classpath.entries.removeAll { entry ->
+                if (!(entry instanceof org.gradle.plugins.ide.eclipse.model.Library)) return false
+                String normalizedPath = entry.path.replace('\\', '/').toLowerCase(Locale.ROOT)
+                return !libraryPaths.add(normalizedPath)
+            }
             if (!classpath.entries.any { entry -> entry.path == 'build/resources/main' }) {
                 classpath.entries.add(new org.gradle.plugins.ide.eclipse.model.SourceFolder(
                         'build/resources/main', 'bin/main'))
             }
         }
     }
-    synchronizationTasks 'isolateEclipseProductionRuns'
 }
 
 idea {
@@ -190,12 +194,6 @@ runs {
     client
     server {
         argument '--nogui'
-    }
-    data {
-        workingDirectory project.layout.projectDirectory.dir('run-data')
-        arguments.addAll '--mod', project.mod_id, '--all', '--output',
-                file('src/generated/resources/').absolutePath, '--existing',
-                file('src/main/resources/').absolutePath
     }
 }
 
@@ -595,18 +593,18 @@ tasks.register('verifyMavenCoordinates') {
 
 tasks.register('verifyReleaseConfiguration') {
     group = 'verification'
-    description = 'Verifies the exact IronAgeFurniture 1.21.1 NeoForge release identity.'
+    description = 'Verifies the exact IronAgeFurniture 1.21.11 NeoForge release identity.'
     doLast {
         Map<String, String> expected = [
-                mod_version            : '0.3.0.121012',
+                mod_version            : '0.3.0.121112',
                 mod_group              : 'zone.moddev.mc',
                 mod_archive_name       : 'iron-age-furniture',
                 mod_id                 : 'ironagefurniture',
-                minecraft_version      : '1.21.1',
+                minecraft_version      : '1.21.11',
                 loader_name            : 'neoforge',
                 loader_code            : '2',
-                neo_version            : '21.1.247',
-                neo_version_range      : '[21.1.247,21.2)',
+                neo_version            : '21.11.45',
+                neo_version_range      : '[21.11.45,21.12)',
                 loader_version_range   : '[3,)',
                 java_version           : '21',
                 java_toolchain_version : '21.0.7+6',
@@ -669,14 +667,14 @@ tasks.register('verifyRepositoryHygiene') {
 
 tasks.register('verifyResourceJson') {
     group = 'verification'
-    description = 'Parses resources and validates locale parity and optional-integration conditions.'
+    description = 'Parses resources and validates recipe advancements, locale parity, and optional conditions.'
     doLast {
         List<File> jsonFiles = fileTree('src/main/resources') {
             include '**/*.json'
             include 'pack.mcmeta'
         }.files.sort { it.path }
-        if (jsonFiles.size() != 15348) {
-            throw new GradleException("Expected 15348 runtime JSON documents, found ${jsonFiles.size()}")
+        if (jsonFiles.size() != 17698) {
+            throw new GradleException("Expected 17698 runtime JSON documents, found ${jsonFiles.size()}")
         }
         jsonFiles.each { candidate ->
             try {
@@ -689,9 +687,9 @@ tasks.register('verifyResourceJson') {
         List<Map> locales = localeNames.collect { name ->
             new JsonSlurper().parse(file("src/main/resources/assets/ironagefurniture/lang/${name}")) as Map
         }
-        if (!locales.every { it.size() == 7206 }
+        if (!locales.every { it.size() == 7350 }
                 || !locales.tail().every { it.keySet() == locales.first().keySet() }) {
-            throw new GradleException('English locale files must retain 7206 identical translation keys')
+            throw new GradleException('English locale files must retain 7350 identical translation keys')
         }
 
         Map<String, Map<String, Integer>> optionalIntegrations = optionalIntegrationExpectedCounts
@@ -711,7 +709,65 @@ tasks.register('verifyResourceJson') {
             if (document.result instanceof Map
                     && (document.result.id == null || document.result.item != null)) {
                 throw new GradleException(
-                        "Minecraft 1.21.1 recipe result must use id rather than item: ${recipeFile}")
+                        "Minecraft 1.21.11 recipe result must use id rather than item: ${recipeFile}")
+            }
+        }
+        def advancementPayloads = { Map document ->
+            if (document.advancements instanceof List) {
+                return document.advancements.collect { branch ->
+                    branch instanceof Map ? branch.advancement : null
+                }.findAll { it instanceof Map } as List<Map>
+            }
+            [document]
+        }
+        advancementDocuments.each { advancementFile, document ->
+            advancementPayloads(document).each { Map advancement ->
+                List<String> rewards = advancement.rewards instanceof Map
+                        && advancement.rewards.recipes instanceof List
+                        ? advancement.rewards.recipes as List<String> : []
+                if (rewards.isEmpty()) {
+                    return
+                }
+                if (!(advancement.criteria instanceof Map)) {
+                    throw new GradleException("Recipe advancement has no criteria: ${advancementFile}")
+                }
+                Map criteria = advancement.criteria as Map
+                criteria.each { criterionName, criterion ->
+                    if (criterion instanceof Map && criterion.trigger == 'minecraft:inventory_changed') {
+                        Object predicates = criterion.conditions instanceof Map
+                                ? criterion.conditions.items : null
+                        if (!(predicates instanceof List) || predicates.isEmpty()) {
+                            throw new GradleException("Recipe advancement has no item predicates at " +
+                                    "${advancementFile}:${criterionName}")
+                        }
+                        predicates.each { predicate ->
+                            if (!(predicate instanceof Map) || predicate.containsKey('item') || predicate.isEmpty()) {
+                                throw new GradleException("Invalid item predicate at " +
+                                        "${advancementFile}:${criterionName}; use items or tag, not item")
+                            }
+                        }
+                    }
+                }
+                Map recipeCriteria = criteria.findAll { criterionName, criterion ->
+                    criterion instanceof Map && criterion.trigger == 'minecraft:recipe_unlocked'
+                }
+                List<String> requirements = advancement.requirements instanceof List
+                        ? advancement.requirements.flatten().findAll { it instanceof String } as List<String> : []
+                rewards.each { recipeId ->
+                    String recipePath = recipeId.startsWith('ironagefurniture:')
+                            ? recipeId.substring('ironagefurniture:'.length()) : null
+                    if (recipePath == null || !new File(recipeRoot, "${recipePath}.json").isFile()) {
+                        throw new GradleException("Recipe advancement rewards missing recipe ${recipeId}: " +
+                                advancementFile)
+                    }
+                    List matchingCriteria = recipeCriteria.findAll { criterionName, criterion ->
+                        criterion.conditions instanceof Map && criterion.conditions.recipe == recipeId
+                    }.keySet() as List
+                    if (matchingCriteria.isEmpty() || !matchingCriteria.any { requirements.contains(it) }) {
+                        throw new GradleException("Recipe advancement must require a matching recipe_unlocked " +
+                                "criterion for ${recipeId}: ${advancementFile}")
+                    }
+                }
             }
         }
         optionalIntegrations.each { modId, expectedCounts ->
@@ -776,8 +832,8 @@ tasks.register('verifyNamespace') {
         String maintainedPackage = 'zone.moddev.mc.ironagefurniture'
         String maintainedPath = "src/main/java/${maintainedPackage.replace('.', '/')}/"
         List<File> sources = fileTree('src/main/java') { include '**/*.java' }.files.sort { it.path }
-        if (sources.size() != 116) {
-            throw new GradleException("Expected 116 production Java sources, found ${sources.size()}")
+        if (sources.size() != 120) {
+            throw new GradleException("Expected 120 production Java sources, found ${sources.size()}")
         }
         sources.each { sourceFile ->
             String relativePath = project.relativePath(sourceFile).replace('\\', '/')
@@ -824,8 +880,8 @@ tasks.register('verifyVersionMetadata') {
                 'modId="ironagefurniture"',
                 "version=\"${project.version}\"",
                 'license="LGPL-2.1"',
-                'versionRange="[21.1.247,21.2)"',
-                'versionRange="[1.21.1,1.22)"'
+                'versionRange="[21.11.45,21.12)"',
+                'versionRange="[1.21.11]"'
         ].each { required ->
             if (!metadata.contains(required)) {
                 throw new GradleException("Generated neoforge.mods.toml is missing ${required}")
@@ -933,6 +989,24 @@ tasks.register('verifyReleaseArtifacts') {
         }
         File mainJar = new File(libs, expectedReleaseFiles.get()[0])
         new ZipFile(mainJar).withCloseable { ZipFile zip ->
+            List<String> names = zip.entries().collect { it.name }
+            List<String> itemModels = names.findAll {
+                it ==~ /(?:resourcepacks\/ironagefurniture_[^\/]+\/)?assets\/ironagefurniture\/models\/item\/[^\/]+\.json/
+            }
+            List<String> itemDefinitions = names.findAll {
+                it ==~ /(?:resourcepacks\/ironagefurniture_[^\/]+\/)?assets\/ironagefurniture\/items\/[^\/]+\.json/
+            }
+            if (itemModels.size() != 2085 || itemDefinitions.size() != 2058) {
+                throw new GradleException('Release jar must contain 2,085 item models and 2,058 visible-item definitions')
+            }
+            itemDefinitions.each { definitionName ->
+                String id = definitionName.tokenize('/').last().replaceFirst(/\.json$/, '')
+                Map definition = new JsonSlurper().parse(zip.getInputStream(zip.getEntry(definitionName))) as Map
+                if (definition.model?.type != 'minecraft:model'
+                        || definition.model?.model != "ironagefurniture:item/${id}") {
+                    throw new GradleException("Invalid NeoForge 21.11 item definition: ${definitionName}")
+                }
+            }
             [
                     'META-INF/neoforge.mods.toml',
                     'assets/ironagefurniture/lang/en_us.json',
@@ -1078,30 +1152,55 @@ def prepareEclipseResources = tasks.register('prepareEclipseResources', Sync) {
     into layout.projectDirectory.dir('bin/main')
 }
 
+def configureEclipseBuildship = tasks.register('configureEclipseBuildship') {
+    group = 'ide'
+    description = 'Pins Eclipse Buildship to the wrapper, Gradle home, and Java 21 toolchain.'
+    doLast {
+        File preferencesFile = file('.settings/org.eclipse.buildship.core.prefs')
+        Properties preferences = new Properties()
+        if (preferencesFile.isFile()) preferencesFile.withInputStream { preferences.load(it) }
+        String gradleHome = gradle.gradleUserHomeDir.canonicalPath
+        String javaHome = java21Launcher.get().metadata.installationPath.asFile.canonicalPath
+        preferences.setProperty('eclipse.preferences.version', '1')
+        preferences.setProperty('connection.gradle.distribution', 'GRADLE_DISTRIBUTION(WRAPPER)')
+        preferences.setProperty('override.workspace.settings', 'true')
+        preferences.setProperty('gradle.user.home', gradleHome)
+        preferences.setProperty('connection.gradle.user.home', gradleHome)
+        preferences.setProperty('java.home', javaHome)
+        preferencesFile.parentFile.mkdirs()
+        preferencesFile.withOutputStream {
+            preferences.store(it, 'Generated by IronAgeFurniture for its NeoGradle Eclipse import.')
+        }
+        File resourcePreferencesFile = file('.settings/org.eclipse.core.resources.prefs')
+        Properties resourcePreferences = new Properties()
+        if (resourcePreferencesFile.isFile()) {
+            resourcePreferencesFile.withInputStream { resourcePreferences.load(it) }
+        }
+        resourcePreferences.setProperty('eclipse.preferences.version', '1')
+        resourcePreferences.setProperty('encoding/<project>', 'UTF-8')
+        resourcePreferencesFile.withOutputStream {
+            resourcePreferences.store(it, 'Generated by IronAgeFurniture for its Eclipse import.')
+        }
+    }
+}
+
+// Buildship can cache synchronization task names from an earlier project model.
+// Keep this compatibility task until existing workspaces have refreshed onto
+// prepareEclipseResources; it performs only the current safe sync preparation.
+tasks.register('isolateEclipseProductionRuns') {
+    group = 'ide'
+    description = 'Compatibility bridge for Eclipse workspaces with the previous synchronization model.'
+    dependsOn prepareEclipseResources
+    dependsOn configureEclipseBuildship
+}
+
 eclipse {
     synchronizationTasks 'prepareEclipseResources'
 }
 
 tasks.named('eclipse').configure {
     dependsOn prepareEclipseResources
-    doLast {
-        String requestedGradleHome = System.getenv('GRADLE_USER_HOME')
-        if (requestedGradleHome == null || requestedGradleHome.trim().isEmpty()) return
-        File preferencesFile = file('.settings/org.eclipse.buildship.core.prefs')
-        Properties preferences = new Properties()
-        if (preferencesFile.isFile()) preferencesFile.withInputStream { preferences.load(it) }
-        String gradleHome = file(requestedGradleHome).canonicalPath
-        preferences.setProperty('eclipse.preferences.version', '1')
-        preferences.setProperty('connection.gradle.distribution', 'GRADLE_DISTRIBUTION(WRAPPER)')
-        preferences.setProperty('override.workspace.settings', 'true')
-        preferences.setProperty('gradle.user.home', gradleHome)
-        preferences.setProperty('connection.gradle.user.home', gradleHome)
-        preferences.setProperty('java.home', System.getProperty('java.home'))
-        preferencesFile.parentFile.mkdirs()
-        preferencesFile.withOutputStream {
-            preferences.store(it, 'Generated by IronAgeFurniture for its NeoGradle Eclipse import.')
-        }
-    }
+    dependsOn configureEclipseBuildship
 }
 
 tasks.register('prepareEclipse') {
@@ -1121,6 +1220,19 @@ tasks.register('verifyEclipseProductionClasspath') {
         if (preferences.getProperty('override.workspace.settings') != 'true') {
             throw new GradleException('Eclipse Buildship workspace override is not active')
         }
+        String expectedJavaHome = java21Launcher.get().metadata.installationPath.asFile.canonicalPath
+        String configuredJavaHome = preferences.getProperty('java.home', '')
+        if (configuredJavaHome.isEmpty()
+                || file(configuredJavaHome).canonicalPath != expectedJavaHome) {
+            throw new GradleException("Eclipse Buildship must use Java 21 at ${expectedJavaHome}")
+        }
+        File resourcePrefs = file('.settings/org.eclipse.core.resources.prefs')
+        Properties resourcePreferences = new Properties()
+        if (!resourcePrefs.isFile()) throw new GradleException('Missing Eclipse resource preferences')
+        resourcePrefs.withInputStream { resourcePreferences.load(it) }
+        if (resourcePreferences.getProperty('encoding/<project>') != 'UTF-8') {
+            throw new GradleException('Eclipse project encoding must be UTF-8')
+        }
         File eclipseClasspath = file('.classpath')
         File eclipseProject = file('.project')
         if (!eclipseClasspath.isFile() || !eclipseProject.isFile()
@@ -1132,6 +1244,21 @@ tasks.register('verifyEclipseProductionClasspath') {
                 || classpathText.contains('path="src/main/resources"')
                 || classpathText.contains('path="src/generated/resources"')) {
             throw new GradleException('Eclipse must consume only Gradle-processed production resources')
+        }
+        def classpathXml = new XmlSlurper(false, false).parse(eclipseClasspath)
+        List<String> libraryEntries = classpathXml.classpathentry
+                .findAll { it.@kind.text() == 'lib' }
+                .collect { it.@path.text().replace('\\', '/').toLowerCase(Locale.ROOT) }
+        Set<String> duplicateLibraries = libraryEntries.findAll { path ->
+            libraryEntries.count { it == path } > 1
+        } as Set<String>
+        if (!duplicateLibraries.isEmpty()) {
+            throw new GradleException("Eclipse classpath contains duplicate libraries: ${duplicateLibraries}")
+        }
+        if (!classpathXml.classpathentry.any { entry ->
+            entry.@kind.text() == 'con' && entry.@path.text().endsWith('/JavaSE-21/')
+        }) {
+            throw new GradleException('Eclipse classpath is not bound to the JavaSE-21 execution environment')
         }
         ['META-INF/neoforge.mods.toml',
          'META-INF/ironagefurniture/docs/README.md',
@@ -1172,3 +1299,4 @@ tasks.named('check') {
 }
 
 apply from: 'gradle/furniture-catalog.gradle'
+apply from: 'gradle/verify-integration-textures.gradle'

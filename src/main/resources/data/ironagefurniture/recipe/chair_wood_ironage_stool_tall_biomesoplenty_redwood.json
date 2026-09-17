@@ -7,12 +7,8 @@
         "yyy"
     ],
     "key": {
-        "y": {
-            "tag": "c:rods/wooden"
-        },
-        "x": {
-            "item": "biomesoplenty:redwood_planks"
-        }
+        "y": "#c:rods/wooden",
+        "x": "biomesoplenty:redwood_planks"
     },
     "result": {
         "count": 1,

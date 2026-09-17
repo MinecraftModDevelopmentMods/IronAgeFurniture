@@ -25,7 +25,7 @@ public class ModVanillaShieldChairs {
 	private static DeferredHolder<Block, Block> register(String name, Supplier<Block> block, Item.Properties properties) {
 		DeferredHolder<Block, Block> registryObject = REGISTER.register(name, block);
 		
-		ModItems.REGISTER.register(name, () -> new BlockItem(registryObject.get(), properties));
+		ModItems.REGISTER.register(name, () -> new BlockItem(registryObject.get(), RegistrationProperties.item(properties, name).useBlockDescriptionPrefix()));
 		
 		return registryObject; 
 	}
@@ -39,6 +39,7 @@ public class ModVanillaShieldChairs {
 	public static DeferredHolder<Block, Block> chair_wood_ironage_shield_mangrove = register("chair_wood_ironage_shield_mangrove", () -> new Chair(1, 10, SoundType.WOOD, "chair_wood_ironage_shield_mangrove"));
 	public static DeferredHolder<Block, Block> chair_wood_ironage_shield_cherry = register("chair_wood_ironage_shield_cherry", () -> new Chair(1, 10, SoundType.WOOD, "chair_wood_ironage_shield_cherry"));
 	public static DeferredHolder<Block, Block> chair_wood_ironage_shield_bamboo = register("chair_wood_ironage_shield_bamboo", () -> new Chair(1, 10, SoundType.WOOD, "chair_wood_ironage_shield_bamboo"));
+	public static DeferredHolder<Block, Block> chair_wood_ironage_shield_pale_oak = register("chair_wood_ironage_shield_pale_oak", () -> new Chair(1, 10, SoundType.WOOD, "chair_wood_ironage_shield_pale_oak"));
 	public static DeferredHolder<Block, Block> chair_wood_ironage_shield_crimson = register("chair_wood_ironage_shield_crimson", () -> new ChairNether(1, 10, SoundType.WOOD, "chair_wood_ironage_shield_crimson"));
 	public static DeferredHolder<Block, Block> chair_wood_ironage_shield_warped = register("chair_wood_ironage_shield_warped", () -> new ChairNether(1, 10, SoundType.WOOD, "chair_wood_ironage_shield_warped"));
 }
