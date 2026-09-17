@@ -34,3 +34,17 @@ ${mod_description}
     versionRange="[0,)"
     ordering="AFTER"
     side="BOTH"
+
+[[dependencies.ironagefurniture]]
+    modId="biomeswevegone"
+    type="optional"
+    versionRange="[0,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.ironagefurniture]]
+    modId="immersiveengineering"
+    type="optional"
+    versionRange="[0,)"
+    ordering="AFTER"
+    side="BOTH"

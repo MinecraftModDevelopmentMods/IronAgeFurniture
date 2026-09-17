@@ -56,8 +56,12 @@ def mappedFurnitureResourcePath = { String relative, def catalog ->
     relative
 }
 def renderTargetFurnitureData = { String relative, String rendered, def catalog ->
-    if (!['forge50', 'neoforge20'].contains(catalog.dataSchema) || !relative.endsWith('.json')) {
+    if (!['forge50', 'neoforge20', 'neoforge21'].contains(catalog.dataSchema)
+            || !relative.endsWith('.json')) {
         return rendered
+    }
+    if (catalog.dataSchema.toString().startsWith('neoforge')) {
+        rendered = rendered.replace('forge:rods/wooden', 'c:rods/wooden')
     }
     def targetConditions = { List conditions ->
         conditions.collect { condition ->
@@ -66,7 +70,7 @@ def renderTargetFurnitureData = { String relative, String rendered, def catalog 
             normalized
         }
     }
-    if (relative.contains('/advancements/')) {
+    if (relative.contains('/advancements/') || relative.contains('/advancement/')) {
         Map wrapper = new JsonSlurper().parseText(rendered) as Map
         if (wrapper.advancements instanceof List && wrapper.advancements.size() == 1
                 && wrapper.advancements[0].conditions instanceof List
@@ -76,14 +80,14 @@ def renderTargetFurnitureData = { String relative, String rendered, def catalog 
             if (catalog.dataSchema == 'forge50') {
                 advancement['forge:condition'] = branch.conditions[0]
                 wrapper = [advancements: [advancement]]
-            } else {
+            } else if (catalog.dataSchema.toString().startsWith('neoforge')) {
                 advancement['neoforge:conditions'] = targetConditions(branch.conditions as List)
                 wrapper = advancement
             }
         }
         return JsonOutput.prettyPrint(JsonOutput.toJson(wrapper)) + '\n'
     }
-    if (relative.contains('/recipes/')) {
+    if (relative.contains('/recipes/') || relative.contains('/recipe/')) {
         Map recipe = new JsonSlurper().parseText(rendered) as Map
         List conditions = recipe.remove('conditions') as List
         if (recipe.type instanceof String && !recipe.type.contains(':')) {
@@ -99,7 +103,8 @@ def renderTargetFurnitureData = { String relative, String rendered, def catalog 
                     'forge:condition': conditions[0],
                     recipes          : [[recipe: recipe]]
             ]
-        } else if (catalog.dataSchema == 'neoforge20' && conditions != null && !conditions.isEmpty()) {
+        } else if (catalog.dataSchema.toString().startsWith('neoforge')
+                && conditions != null && !conditions.isEmpty()) {
             recipe['neoforge:conditions'] = targetConditions(conditions)
         }
         return JsonOutput.prettyPrint(JsonOutput.toJson(output)) + '\n'
@@ -139,6 +144,12 @@ def renderFurnitureCatalog = { File outputRoot ->
         String source = template.getText('UTF-8')
         catalog.integrations.each { integration ->
             integration.woods.each { wood ->
+                String textureLayout = integration.textureLayout ?: 'flat'
+                if (!(textureLayout in ['flat', 'nested', 'wood_directory'])) {
+                    throw new GradleException("Unsupported texture layout '${textureLayout}' for ${integration.integration}")
+                }
+                boolean directoryTextures = textureLayout in ['nested', 'wood_directory']
+                String textureRoot = "block/${wood.externalWood}"
                 Map<String, ?> values = [
                         integration : integration.integration,
                         modId       : integration.modId,
@@ -148,6 +159,12 @@ def renderFurnitureCatalog = { File outputRoot ->
                         externalLog : wood.externalLog ?: "${wood.externalWood}_log",
                         externalLogTop: wood.externalLogTop ?: "${wood.externalWood}_log_top",
                         externalPlanks: wood.externalPlanks ?: "${wood.externalWood}_planks",
+                        externalLogTexture: wood.externalLogTexture ?:
+                                (directoryTextures ? "${textureRoot}/log" : "block/${wood.externalWood}_log"),
+                        externalLogTopTexture: wood.externalLogTopTexture ?:
+                                (directoryTextures ? "${textureRoot}/log_top" : "block/${wood.externalWood}_log_top"),
+                        externalPlanksTexture: wood.externalPlanksTexture ?:
+                                (directoryTextures ? "${textureRoot}/planks" : "block/${wood.externalWood}_planks"),
                         display     : wood.display
                 ]
                 String relative = mappedFurnitureResourcePath(renderFurnitureText(relativeTemplate, values), catalog)
@@ -164,7 +181,9 @@ def renderFurnitureCatalog = { File outputRoot ->
             if (!template.isFile()) return
             String relative = normalizeFurniturePath(
                     retainedTemplates.toPath().relativize(template.toPath()).toString())
-            writeFurnitureFile(outputRoot, relative, template.getText('UTF-8'), generated)
+            String mappedRelative = mappedFurnitureResourcePath(relative, catalog)
+            writeFurnitureFile(outputRoot, mappedRelative,
+                    renderTargetFurnitureData(mappedRelative, template.getText('UTF-8'), catalog), generated)
         }
     }
 
@@ -202,9 +221,22 @@ def renderFurnitureCatalog = { File outputRoot ->
     }
     catalog.retainedIntegrationClasses.each { className ->
         File template = new File(templates, "java/${className}.java")
+        String source = template.getText('UTF-8')
+        if (catalog.loader == 'neoforge') {
+            source = source
+                    .replace('net.minecraftforge.registries.DeferredRegister',
+                            'net.neoforged.neoforge.registries.DeferredRegister')
+                    .replace('net.minecraftforge.registries.ForgeRegistries',
+                            'net.minecraft.core.registries.BuiltInRegistries')
+                    .replace('net.minecraftforge.registries.RegistryObject',
+                            'net.neoforged.neoforge.registries.DeferredHolder')
+                    .replace('DeferredRegister.create(ForgeRegistries.BLOCKS,',
+                            'DeferredRegister.create(BuiltInRegistries.BLOCK,')
+                    .replace('RegistryObject<Block>', 'DeferredHolder<Block, Block>')
+        }
         writeFurnitureFile(outputRoot,
                 "src/main/java/zone/moddev/mc/ironagefurniture/init/${className}.java",
-                template.getText('UTF-8'), generated)
+                source, generated)
     }
 
     Map<String, Object> language = new TreeMap<>()

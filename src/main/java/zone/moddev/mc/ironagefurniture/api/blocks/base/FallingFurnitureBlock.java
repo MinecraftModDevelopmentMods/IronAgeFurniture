@@ -6,12 +6,15 @@ import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Fallable;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluids;
 
 import java.util.Random;
 
@@ -43,6 +46,16 @@ public abstract class FallingFurnitureBlock extends FurnitureBlock implements Fa
 
 	protected void falling(FallingBlockEntity fallingBlockEntity) {
 
+	}
+
+	@Override
+	public void onLand(Level level, BlockPos pos, BlockState state, BlockState replacedState,
+			FallingBlockEntity fallingEntity) {
+		if (!level.isClientSide && state.hasProperty(WATERLOGGED)
+				&& replacedState.getFluidState().is(FluidTags.WATER)) {
+			level.setBlock(pos, state.setValue(WATERLOGGED, true), Block.UPDATE_ALL);
+			level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
+		}
 	}
 
 	protected int getDelayAfterPlace() {

@@ -1,29 +1,69 @@
 {
-  "minecraft": "1.20.6",
+  "minecraft": "1.21.1",
   "mods": [
     {
       "modId": "biomesoplenty",
       "role": "integration",
-      "version": "18.4.0.6",
-      "file": "BiomesOPlenty-neoforge-1.20.6-18.4.0.6.jar",
-      "sha256": "8ae55294a359eac368dc0720f566ecfc6bc519b90d1a15e651f24021dff17ef6",
-      "source": "https://modrinth.com/mod/biomes-o-plenty/version/n4C5k4TI"
+      "version": "21.1.0.14",
+      "file": "BiomesOPlenty-neoforge-1.21.1-21.1.0.14.jar",
+      "sha256": "5f3c8d752c2e0464eca8c9527d8ffe498129fd37a2fe86a266b64c98371763b1",
+      "source": "https://modrinth.com/mod/biomes-o-plenty/version/BtZKRp69"
+    },
+    {
+      "modId": "biomeswevegone",
+      "role": "integration",
+      "version": "2.6.0",
+      "file": "Oh-The-Biomes-Weve-Gone-NeoForge-2.6.0.jar",
+      "sha256": "d63c45e82bb88d533119d9c814fa43738fd0cca5506c04daad774a1bf8946f93",
+      "source": "https://modrinth.com/mod/oh-the-biomes-weve-gone/version/aPEcdSHb"
+    },
+    {
+      "modId": "immersiveengineering",
+      "role": "integration",
+      "version": "12.4.2-194",
+      "file": "ImmersiveEngineering-1.21.1-12.4.2-194.jar",
+      "sha256": "45942985a4a4aebf265b8e22a0c54a96208637471f36f2532ff5d4911322debc",
+      "source": "https://modrinth.com/mod/immersiveengineering/version/uNRARSH2"
     },
     {
       "modId": "terrablender",
       "role": "dependency",
-      "version": "3.5.0.5",
-      "file": "TerraBlender-neoforge-1.20.6-3.5.0.5.jar",
-      "sha256": "d81f5f79e88ac63a69dba95554528cc303c2e6f662087185db395cd00b327e63",
-      "source": "https://modrinth.com/mod/terrablender/version/h96HEGgV"
+      "version": "4.1.0.8",
+      "file": "TerraBlender-neoforge-1.21.1-4.1.0.8.jar",
+      "sha256": "0c49b5ef447a7f09100e9a210888a7347fbda0aa75322063991f6063b25fe3f9",
+      "source": "https://modrinth.com/mod/terrablender/version/6e8GCrLb"
     },
     {
       "modId": "glitchcore",
       "role": "dependency",
-      "version": "1.1.0.9",
-      "file": "GlitchCore-neoforge-1.20.6-1.1.0.9.jar",
-      "sha256": "84f667c225eb8bafad06f8f4627a607b2ea858174097202a16e484fd59594c51",
-      "source": "https://modrinth.com/mod/glitchcore/version/Kf92NkND"
+      "version": "2.1.0.2",
+      "file": "GlitchCore-neoforge-1.21.1-2.1.0.2.jar",
+      "sha256": "59d2a3fb3d6877e43018fd6a2b199d526074a864276a5f49091409a1cdc62fae",
+      "source": "https://modrinth.com/mod/glitchcore/version/S2TfWrZR"
+    },
+    {
+      "modId": "corgilib",
+      "role": "dependency",
+      "version": "5.0.0.9",
+      "file": "Corgilib-NeoForge-1.21.1-5.0.0.9.jar",
+      "sha256": "5e058a4fcb29a538821351081fcf10172fc707767756774afed1bf0e1953c7e3",
+      "source": "https://modrinth.com/mod/corgilib/version/nqrTa84r"
+    },
+    {
+      "modId": "ohthetreesyoullgrow",
+      "role": "dependency",
+      "version": "5.3.2",
+      "file": "Oh-The-Trees-Youll-Grow-neoforge-1.21.1-5.3.2.jar",
+      "sha256": "571feb4d223ee2b5661ed3450ea5c68db18627badcef4d59095a329fc03a7685",
+      "source": "https://modrinth.com/mod/oh-the-trees-youll-grow/version/ozzakIcu"
+    },
+    {
+      "modId": "geckolib",
+      "role": "dependency",
+      "version": "4.9.2",
+      "file": "geckolib-neoforge-1.21.1-4.9.2.jar",
+      "sha256": "5e548466af9ab6aca7a91a7c7d4dc0dc8bc385e22958aed5da0e7bebd0fa3fba",
+      "source": "https://modrinth.com/mod/geckolib/version/tPkJmim6"
     }
   ]
 }
