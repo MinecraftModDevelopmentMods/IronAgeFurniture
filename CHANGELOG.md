@@ -7,5 +7,10 @@
 - Update legacy vanilla texture paths for iron sconces and treated-wood bench upholstery.
 - Remap IronAgeFurniture's legacy BOP cherry IDs to vanilla cherry, and defensible BYG furniture IDs to their BWG replacements.
 - Expand the deterministic catalog and positive optional-integration runtime probe across BOP, BWG, and Immersive Engineering.
+- Fix recipe advancements so furniture unlocks only when its actual ingredient is obtained, including conditional optional-mod recipes.
+- Restore normal wooden-furniture fire behaviour while keeping Crimson and Warped furniture non-flammable.
+- Restore throwable lava lamps, water shattering with the glass sound and obsidean-chunk drop, and safe creative-mode removal.
+- Preserve waterlogging when lamps and other waterloggable furniture are placed or fall into water.
+- Provide reproducible Eclipse/Buildship setup with the exact Temurin Java 21 toolchain, processed resources, and a duplicate-free NeoForge classpath.
 
 This is a release candidate changelog. Publication requires the protected default-branch release workflow.
