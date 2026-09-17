@@ -1,42 +1,40 @@
 {
-    "advancements": [
-        {
-            "parent": "minecraft:recipes/root",
-            "criteria": {
-                "has_planks": {
-                    "conditions": {
+    "parent": "minecraft:recipes/root",
+    "criteria": {
+        "has_planks": {
+            "conditions": {
+                "items": [
+                    {
                         "items": [
-                            {
-                                "items": [
-                                    "biomesoplenty:willow_planks"
-                                ]
-                            }
+                            "biomesoplenty:willow_planks"
                         ]
-                    },
-                    "trigger": "minecraft:inventory_changed"
-                },
-                "has_the_recipe": {
-                    "conditions": {
-                        "recipe": "ironagefurniture:chair_wood_ironage_bench_padded_pink_single_biomesoplenty_willow"
-                    },
-                    "trigger": "minecraft:recipe_unlocked"
-                }
-            },
-            "requirements": [
-                [
-                    "has_planks",
-                    "has_the_recipe"
-                ]
-            ],
-            "rewards": {
-                "recipes": [
-                    "ironagefurniture:chair_wood_ironage_bench_padded_pink_single_biomesoplenty_willow"
+                    }
                 ]
             },
-            "forge:condition": {
-                "type": "forge:mod_loaded",
-                "modid": "biomesoplenty"
-            }
+            "trigger": "minecraft:inventory_changed"
+        },
+        "has_the_recipe": {
+            "conditions": {
+                "recipe": "ironagefurniture:chair_wood_ironage_bench_padded_pink_single_biomesoplenty_willow"
+            },
+            "trigger": "minecraft:recipe_unlocked"
+        }
+    },
+    "requirements": [
+        [
+            "has_planks",
+            "has_the_recipe"
+        ]
+    ],
+    "rewards": {
+        "recipes": [
+            "ironagefurniture:chair_wood_ironage_bench_padded_pink_single_biomesoplenty_willow"
+        ]
+    },
+    "neoforge:conditions": [
+        {
+            "type": "neoforge:mod_loaded",
+            "modid": "biomesoplenty"
         }
     ]
 }

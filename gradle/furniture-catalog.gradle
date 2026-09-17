@@ -56,8 +56,15 @@ def mappedFurnitureResourcePath = { String relative, def catalog ->
     relative
 }
 def renderTargetFurnitureData = { String relative, String rendered, def catalog ->
-    if (catalog.dataSchema != 'forge50' || !relative.endsWith('.json')) {
+    if (!['forge50', 'neoforge20'].contains(catalog.dataSchema) || !relative.endsWith('.json')) {
         return rendered
+    }
+    def targetConditions = { List conditions ->
+        conditions.collect { condition ->
+            Map normalized = new LinkedHashMap(condition as Map)
+            if (normalized.type == 'forge:mod_loaded') normalized.type = 'neoforge:mod_loaded'
+            normalized
+        }
     }
     if (relative.contains('/advancements/')) {
         Map wrapper = new JsonSlurper().parseText(rendered) as Map
@@ -66,8 +73,13 @@ def renderTargetFurnitureData = { String relative, String rendered, def catalog 
                 && wrapper.advancements[0].conditions.size() == 1) {
             Map branch = wrapper.advancements[0] as Map
             Map advancement = new LinkedHashMap(branch.advancement as Map)
-            advancement['forge:condition'] = branch.conditions[0]
-            wrapper = [advancements: [advancement]]
+            if (catalog.dataSchema == 'forge50') {
+                advancement['forge:condition'] = branch.conditions[0]
+                wrapper = [advancements: [advancement]]
+            } else {
+                advancement['neoforge:conditions'] = targetConditions(branch.conditions as List)
+                wrapper = advancement
+            }
         }
         return JsonOutput.prettyPrint(JsonOutput.toJson(wrapper)) + '\n'
     }
@@ -81,12 +93,14 @@ def renderTargetFurnitureData = { String relative, String rendered, def catalog 
             recipe.result.id = recipe.result.remove('item')
         }
         Map output = recipe
-        if (conditions != null && conditions.size() == 1) {
+        if (catalog.dataSchema == 'forge50' && conditions != null && conditions.size() == 1) {
             output = [
                     type             : 'forge:conditional',
                     'forge:condition': conditions[0],
                     recipes          : [[recipe: recipe]]
             ]
+        } else if (catalog.dataSchema == 'neoforge20' && conditions != null && !conditions.isEmpty()) {
+            recipe['neoforge:conditions'] = targetConditions(conditions)
         }
         return JsonOutput.prettyPrint(JsonOutput.toJson(output)) + '\n'
     }
@@ -125,6 +139,12 @@ def renderFurnitureCatalog = { File outputRoot ->
         String source = template.getText('UTF-8')
         catalog.integrations.each { integration ->
             integration.woods.each { wood ->
+                String textureLayout = integration.textureLayout ?: 'flat'
+                if (!(textureLayout in ['flat', 'nested', 'wood_directory'])) {
+                    throw new GradleException("Unsupported texture layout '${textureLayout}' for ${integration.integration}")
+                }
+                boolean directoryTextures = textureLayout in ['nested', 'wood_directory']
+                String textureRoot = "block/${wood.externalWood}"
                 Map<String, ?> values = [
                         integration : integration.integration,
                         modId       : integration.modId,
@@ -134,6 +154,12 @@ def renderFurnitureCatalog = { File outputRoot ->
                         externalLog : wood.externalLog ?: "${wood.externalWood}_log",
                         externalLogTop: wood.externalLogTop ?: "${wood.externalWood}_log_top",
                         externalPlanks: wood.externalPlanks ?: "${wood.externalWood}_planks",
+                        externalLogTexture: wood.externalLogTexture ?:
+                                (directoryTextures ? "${textureRoot}/log" : "block/${wood.externalWood}_log"),
+                        externalLogTopTexture: wood.externalLogTopTexture ?:
+                                (directoryTextures ? "${textureRoot}/log_top" : "block/${wood.externalWood}_log_top"),
+                        externalPlanksTexture: wood.externalPlanksTexture ?:
+                                (directoryTextures ? "${textureRoot}/planks" : "block/${wood.externalWood}_planks"),
                         display     : wood.display
                 ]
                 String relative = mappedFurnitureResourcePath(renderFurnitureText(relativeTemplate, values), catalog)

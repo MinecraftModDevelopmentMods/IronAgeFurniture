@@ -8,7 +8,7 @@
     ],
     "key": {
         "y": {
-            "tag": "forge:rods/wooden"
+            "tag": "c:rods/wooden"
         },
         "x": {
             "item": "minecraft:crimson_planks"

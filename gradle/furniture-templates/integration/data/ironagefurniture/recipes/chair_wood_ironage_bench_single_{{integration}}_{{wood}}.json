@@ -3,7 +3,7 @@
   "conditions": [
     {
       "modid": "{{modId}}",
-      "type": "forge:mod_loaded"
+      "type": "neoforge:mod_loaded"
     }
   ],
   "group": "furniture",
@@ -13,7 +13,7 @@
   ],
   "key": {
     "y": {
-      "tag": "forge:rods/wooden"
+      "tag": "c:rods/wooden"
     },
     "x": {
       "item": "{{namespace}}:{{externalPlanks}}"

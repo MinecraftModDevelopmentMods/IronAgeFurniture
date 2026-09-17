@@ -16,7 +16,7 @@ public class ObsideanLump extends FurnitureBlock implements LiquidBlockContainer
 	public ObsideanLump(float hardness, float blastResistance, SoundType sound, String name) {
 		super(Block.Properties.of().strength(hardness, blastResistance).sound(sound));
 
-		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
+		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH).setValue(WATERLOGGED, false));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
 		//this.setRegistryName(name);
 	}

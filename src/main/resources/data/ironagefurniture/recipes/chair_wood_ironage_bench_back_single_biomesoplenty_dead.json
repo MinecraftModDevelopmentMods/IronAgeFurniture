@@ -1,32 +1,27 @@
 {
-    "type": "forge:conditional",
-    "forge:condition": {
-        "modid": "biomesoplenty",
-        "type": "forge:mod_loaded"
+    "type": "minecraft:crafting_shaped",
+    "group": "furniture",
+    "pattern": [
+        "x ",
+        "xx",
+        "yy"
+    ],
+    "key": {
+        "y": {
+            "tag": "c:rods/wooden"
+        },
+        "x": {
+            "item": "biomesoplenty:dead_planks"
+        }
     },
-    "recipes": [
+    "result": {
+        "count": 1,
+        "id": "ironagefurniture:chair_wood_ironage_bench_back_single_biomesoplenty_dead"
+    },
+    "neoforge:conditions": [
         {
-            "recipe": {
-                "type": "minecraft:crafting_shaped",
-                "group": "furniture",
-                "pattern": [
-                    "x ",
-                    "xx",
-                    "yy"
-                ],
-                "key": {
-                    "y": {
-                        "tag": "forge:rods/wooden"
-                    },
-                    "x": {
-                        "item": "biomesoplenty:dead_planks"
-                    }
-                },
-                "result": {
-                    "count": 1,
-                    "id": "ironagefurniture:chair_wood_ironage_bench_back_single_biomesoplenty_dead"
-                }
-            }
+            "modid": "biomesoplenty",
+            "type": "neoforge:mod_loaded"
         }
     ]
 }

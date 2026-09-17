@@ -1,52 +1,51 @@
 package zone.moddev.mc.ironagefurniture.compat;
 
-import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.MissingMappingsEvent;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import zone.moddev.mc.ironagefurniture.Ironagefurniture;
 
-/**
- * Remaps IronAgeFurniture's retired Biomes O' Plenty cherry furniture to the
- * equivalent vanilla-cherry entries.
- */
-@Mod.EventBusSubscriber(modid = Ironagefurniture.MODID)
+/** Registers the retired Biomes O' Plenty cherry furniture IDs as NeoForge aliases. */
 public final class LegacyFurnitureMappings {
+    private static final DeferredRegister<Block> BLOCK_ALIASES =
+            DeferredRegister.create(BuiltInRegistries.BLOCK, Ironagefurniture.MODID);
+    private static final DeferredRegister<Item> ITEM_ALIASES =
+            DeferredRegister.create(BuiltInRegistries.ITEM, Ironagefurniture.MODID);
+
+    private static final String[] BASIC_FAMILIES = {
+            "classic", "shield", "stool_short", "stool_tall", "bench_single",
+            "bench_back_single", "bench_log_single", "bench_padded_single",
+            "bench_back_padded_single"
+    };
+    private static final String[] COLORS = {
+            "white", "orange", "magenta", "light_blue", "yellow", "lime", "pink", "gray",
+            "light_gray", "cyan", "purple", "blue", "brown", "green", "red", "black"
+    };
+
     private LegacyFurnitureMappings() {
     }
 
-    @SubscribeEvent
-    public static void onMissingMappings(MissingMappingsEvent event) {
-        remap(event, ForgeRegistries.Keys.BLOCKS, ForgeRegistries.BLOCKS);
-        remap(event, ForgeRegistries.Keys.ITEMS, ForgeRegistries.ITEMS);
+    public static void registerAliases(IEventBus modBus) {
+        for (String family : BASIC_FAMILIES) {
+            registerCherryAlias("chair_wood_ironage_" + family + "_cherry");
+        }
+        for (String color : COLORS) {
+            registerCherryAlias("chair_wood_ironage_bench_padded_" + color + "_single_cherry");
+            registerCherryAlias("chair_wood_ironage_bench_back_padded_" + color + "_single_cherry");
+        }
+        BLOCK_ALIASES.register(modBus);
+        ITEM_ALIASES.register(modBus);
     }
 
-    private static <T> void remap(MissingMappingsEvent event,
-            ResourceKey<Registry<T>> registryKey, IForgeRegistry<T> registry) {
-        for (MissingMappingsEvent.Mapping<T> mapping
-                : event.getMappings(registryKey, Ironagefurniture.MODID)) {
-            String targetPath = targetPath(mapping.getKey().getPath());
-            if (targetPath == null) {
-                continue;
-            }
-            T target = registry.getValue(new ResourceLocation(Ironagefurniture.MODID, targetPath));
-            if (target != null) {
-                mapping.remap(target);
-            }
-        }
-    }
-
-    static String targetPath(String oldPath) {
-        String bopCherry = "_biomesoplenty_cherry";
-        if (oldPath.endsWith(bopCherry)) {
-            return oldPath.substring(0, oldPath.length() - bopCherry.length()) + "_cherry";
-        }
-        return null;
+    private static void registerCherryAlias(String targetPath) {
+        String oldPath = targetPath.substring(0, targetPath.length() - "_cherry".length())
+                + "_biomesoplenty_cherry";
+        ResourceLocation oldId = new ResourceLocation(Ironagefurniture.MODID, oldPath);
+        ResourceLocation targetId = new ResourceLocation(Ironagefurniture.MODID, targetPath);
+        BLOCK_ALIASES.addAlias(oldId, targetId);
+        ITEM_ALIASES.addAlias(oldId, targetId);
     }
 }

@@ -1,25 +1,20 @@
 {
-    "type": "forge:conditional",
-    "forge:condition": {
-        "modid": "biomesoplenty",
-        "type": "forge:mod_loaded"
-    },
-    "recipes": [
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
         {
-            "recipe": {
-                "type": "minecraft:crafting_shapeless",
-                "ingredients": [
-                    {
-                        "item": "minecraft:light_gray_carpet"
-                    },
-                    {
-                        "item": "ironagefurniture:chair_wood_ironage_bench_back_single_biomesoplenty_maple"
-                    }
-                ],
-                "result": {
-                    "id": "ironagefurniture:chair_wood_ironage_bench_back_padded_light_gray_single_biomesoplenty_maple"
-                }
-            }
+            "item": "minecraft:light_gray_carpet"
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_bench_back_single_biomesoplenty_maple"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:chair_wood_ironage_bench_back_padded_light_gray_single_biomesoplenty_maple"
+    },
+    "neoforge:conditions": [
+        {
+            "modid": "biomesoplenty",
+            "type": "neoforge:mod_loaded"
         }
     ]
 }

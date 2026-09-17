@@ -1,7 +1,7 @@
 # Optional integration runtime test
 
-This positive-path test starts Forge 1.20.6 with Iron Age Furniture and the supported
-Biomes O' Plenty integration. A test-only Forge mod then checks the live server
+This positive-path test starts NeoForge 1.20.6 with Iron Age Furniture and the supported
+Biomes O' Plenty integration. A test-only NeoForge mod then checks the live server
 registries for every conditional recipe and recipe advancement and stops the server.
 
 The third-party mod jars are deliberately not committed or redistributed. Their
@@ -10,7 +10,7 @@ exact filenames, versions, SHA-256 checksums, roles, and source pages are pinned
 
 ## Setup
 
-1. Install the Forge `1.20.6-50.2.0` server into the ignored
+1. Install the NeoForge `20.6.139` server into the ignored
    `run-optional-integrations` directory and accept its EULA.
 2. Download every jar listed in the manifest into
    `run-optional-integrations/mods`. This directory may also contain the generated
@@ -18,7 +18,7 @@ exact filenames, versions, SHA-256 checksums, roles, and source pages are pinned
 3. Run `gradlew.bat runOptionalIntegrationServer` with the project's pinned Java
    installations available as described in `gradle.properties`.
 
-An existing disposable Forge server can be used without moving it by adding
+An existing disposable NeoForge server can be used without moving it by adding
 `-PoptionalIntegrationServerDir=<server-directory>` to the command. The manifest
 jars must be in that server's `mods` directory. The task stages only the current
 packaged Iron Age Furniture jar and generated probe; the server installation and
