@@ -1,0 +1,167 @@
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+
+def catalogFile = layout.projectDirectory.file('gradle/furniture-catalog.json')
+def recipeDirectory = layout.projectDirectory.dir('src/main/resources/assets/ironagefurniture/recipes')
+def advancementDirectory = layout.projectDirectory.dir(
+        'src/main/resources/assets/ironagefurniture/advancements/recipes')
+
+def integrationForName = { String name ->
+    if (name.contains('_biomesoplenty_')) return 'biomesoplenty'
+    if (name.contains('_natura_')) return 'natura'
+    if (name.contains('_forestry_')) return 'forestry'
+    if (name.contains('_immersiveengineering_')) return 'immersiveengineering'
+    if (name.startsWith('cfm_')) return 'cfm'
+    return null
+}
+
+def orderedCondition = { String modId ->
+    [type: 'forge:mod_loaded', modid: modId] as LinkedHashMap
+}
+
+def normalizedRecipe = { File file ->
+    Map parsed = new JsonSlurper().parse(file) as Map
+    String modId = integrationForName(file.name)
+    Map reordered = new LinkedHashMap()
+    parsed.each { key, value ->
+        if (key != 'conditions') reordered[key] = value
+    }
+    if (modId != null) reordered.conditions = [orderedCondition(modId)]
+    return reordered
+}
+
+def collectItemPredicates
+collectItemPredicates = { Object value, List<Map> predicates ->
+    if (value instanceof Map) {
+        Map map = value as Map
+        if (map.item instanceof String) {
+            Map predicate = new LinkedHashMap()
+            predicate.item = map.item
+            if (map.containsKey('data')) predicate.data = map.data
+            predicates.add(predicate)
+        }
+        map.each { key, nested ->
+            if (key != 'result') collectItemPredicates(nested, predicates)
+        }
+    } else if (value instanceof List) {
+        (value as List).each { collectItemPredicates(it, predicates) }
+    }
+}
+
+def ingredientPredicate = { Map recipe, File source ->
+    List<Map> predicates = []
+    if (recipe.ingredients != null) collectItemPredicates(recipe.ingredients, predicates)
+    if (recipe.key != null) collectItemPredicates(recipe.key, predicates)
+    if (predicates.isEmpty()) {
+        throw new GradleException("Recipe has no exact item ingredient for its advancement: ${source}")
+    }
+    Map preferred = predicates.find { it.item.toString().startsWith('ironagefurniture:') }
+    return new LinkedHashMap(preferred ?: predicates.first())
+}
+
+def normalizedAdvancement = { File recipeFile ->
+    Map recipe = normalizedRecipe(recipeFile)
+    String recipeId = recipeFile.name.substring(0, recipeFile.name.length() - '.json'.length())
+    String modId = integrationForName(recipeFile.name)
+    Map advancement = new LinkedHashMap()
+    advancement.parent = 'minecraft:recipes/root'
+    advancement.rewards = [recipes: ["ironagefurniture:${recipeId}"]]
+    advancement.criteria = [
+            has_ingredient: [
+                    trigger: 'minecraft:inventory_changed',
+                    conditions: [items: [ingredientPredicate(recipe, recipeFile)]]
+            ],
+            has_the_recipe: [
+                    trigger: 'minecraft:recipe_unlocked',
+                    conditions: [recipe: "ironagefurniture:${recipeId}"]
+            ]
+    ]
+    advancement.requirements = [['has_ingredient', 'has_the_recipe']]
+    if (modId != null) advancement.conditions = [orderedCondition(modId)]
+    return advancement
+}
+
+def formattedJson = { Object value -> JsonOutput.prettyPrint(JsonOutput.toJson(value)) + '\n' }
+
+tasks.register('updateFurnitureCatalog') {
+    group = 'generation'
+    description = 'Deterministically rewrites catalog-governed 1.12 recipes and advancements.'
+    inputs.file catalogFile
+    inputs.files fileTree(recipeDirectory) { include '*.json' }
+    doLast {
+        List<File> recipes = fileTree(recipeDirectory) { include '*.json' }.files.sort { it.name }
+        recipes.each { file ->
+            file.setText(formattedJson(normalizedRecipe(file)), 'UTF-8')
+        }
+
+        File advancementRoot = advancementDirectory.asFile
+        project.delete(fileTree(advancementRoot) { include '*.json' })
+        advancementRoot.mkdirs()
+        recipes.each { recipe ->
+            File advancement = new File(advancementRoot, recipe.name)
+            advancement.setText(formattedJson(normalizedAdvancement(recipe)), 'UTF-8')
+        }
+    }
+}
+
+tasks.register('verifyFurnitureCatalog') {
+    group = 'verification'
+    description = 'Verifies catalog coverage, exact unlock criteria, optional conditions, and deterministic data.'
+    inputs.file catalogFile
+    inputs.files fileTree(recipeDirectory) { include '*.json' }
+    inputs.files fileTree(advancementDirectory) { include '*.json' }
+    doLast {
+        Map catalog = new JsonSlurper().parse(catalogFile.asFile) as Map
+        if (catalog.minecraft != project.minecraft_version.toString() || catalog.loader != project.loader_name) {
+            throw new GradleException('Furniture catalog targets the wrong Minecraft version or loader')
+        }
+
+        List<File> recipes = fileTree(recipeDirectory) { include '*.json' }.files.sort { it.name }
+        List<File> advancements = fileTree(advancementDirectory) { include '*.json' }.files.sort { it.name }
+        if (recipes.collect { it.name } != advancements.collect { it.name }) {
+            throw new GradleException('Every recipe must have one same-named advancement')
+        }
+
+        recipes.each { file ->
+            String expected = formattedJson(normalizedRecipe(file))
+            if (file.getText('UTF-8').replace('\r\n', '\n') != expected) {
+                throw new GradleException("Recipe is not catalog-normalized: ${project.relativePath(file)}")
+            }
+            String modId = integrationForName(file.name)
+            Map parsed = new JsonSlurper().parse(file) as Map
+            if (modId != null && parsed.conditions != [orderedCondition(modId)]) {
+                throw new GradleException("Optional recipe has incorrect conditions: ${project.relativePath(file)}")
+            }
+        }
+
+        advancements.each { file ->
+            File recipe = new File(recipeDirectory.asFile, file.name)
+            String expected = formattedJson(normalizedAdvancement(recipe))
+            if (file.getText('UTF-8').replace('\r\n', '\n') != expected) {
+                throw new GradleException("Advancement is not catalog-normalized: ${project.relativePath(file)}")
+            }
+        }
+
+        ['biomesoplenty', 'natura', 'forestry', 'immersiveengineering'].each { modId ->
+            int recipeCount = recipes.count { integrationForName(it.name) == modId }
+            int advancementCount = advancements.count { integrationForName(it.name) == modId }
+            if (recipeCount == 0 || advancementCount != recipeCount) {
+                throw new GradleException("Unexpected ${modId} catalog coverage: "
+                        + "${recipeCount} recipes, ${advancementCount} advancements")
+            }
+        }
+
+        File blockStates = file('src/main/resources/assets/ironagefurniture/blockstates')
+        File itemModels = file('src/main/resources/assets/ironagefurniture/models/item')
+        catalog.lighting.each { String id ->
+            if (!new File(blockStates, "${id}.json").isFile()
+                    || !new File(itemModels, "${id}.json").isFile()) {
+                throw new GradleException("Lighting catalog entry is missing assets: ${id}")
+            }
+        }
+    }
+}
+
+tasks.named('check') {
+    dependsOn tasks.named('verifyFurnitureCatalog')
+}
