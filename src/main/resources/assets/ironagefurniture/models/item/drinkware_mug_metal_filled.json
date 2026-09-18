@@ -1,1 +1,0 @@
-{ "parent": "ironagefurniture:item/template_drinkware_mug_filled", "textures": { "shell": "minecraft:blocks/iron_block", "fluid": "minecraft:blocks/snow" } }

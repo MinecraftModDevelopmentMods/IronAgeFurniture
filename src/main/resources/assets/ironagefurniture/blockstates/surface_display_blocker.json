@@ -1,6 +1,0 @@
-{
-  "variants": {
-    "standalone=false": { "model": "ironagefurniture:surface_display_blocker" },
-    "standalone=true": { "model": "ironagefurniture:surface_display_blocker" }
-  }
-}
