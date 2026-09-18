@@ -1,0 +1,13 @@
+{
+  "minecraft": "1.17.1",
+  "mods": [
+    {
+      "modId": "biomesoplenty",
+      "role": "integration",
+      "version": "1.17.1-14.0.0.43",
+      "file": "BiomesOPlenty-1.17.1-14.0.0.43-universal.jar",
+      "sha256": "12f142c44b38e189866288308aedf8e1d0079236616cdc0b65bdaf3bae6bcbd5",
+      "source": "https://modrinth.com/mod/biomes-o-plenty/version/pQdjbQ4V"
+    }
+  ]
+}
