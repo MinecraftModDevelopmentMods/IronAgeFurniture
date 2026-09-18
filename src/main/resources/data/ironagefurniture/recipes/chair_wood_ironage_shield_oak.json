@@ -1,14 +1,14 @@
 {
-  "type": "crafting_shapeless",
-  "ingredients": [
-    {
-      "item": "minecraft:shield"
-    },
-    {
-      "item": "ironagefurniture:chair_wood_ironage_classic_oak"
+    "type": "crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:shield"
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_classic_oak"
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_shield_oak"
     }
-  ],
-  "result": {
-    "item": "ironagefurniture:chair_wood_ironage_shield_oak"
-  }
 }
