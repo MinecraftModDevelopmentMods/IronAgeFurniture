@@ -1,0 +1,26 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "byg"
+        }
+    ],
+    "group": "furniture",
+    "pattern": [
+        "xx",
+        "yy"
+    ],
+    "key": {
+        "y": {
+            "tag": "forge:rods/wooden"
+        },
+        "x": {
+            "item": "byg:lament_planks"
+        }
+    },
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_bench_single_byg_lament",
+        "count": 1
+    }
+}

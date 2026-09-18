@@ -1,36 +1,73 @@
-# eclipse
-bin
+# Eclipse and Buildship
+bin/
 *.launch
-.settings
-.settings/*
-.metadata
+.settings/
+.metadata*/
+.eclipse/
 .classpath
 .project
+eclipse/
 
-# idea
-out
+# IntelliJ IDEA
+out/
 *.ipr
 *.iws
 *.iml
-.idea
+.idea/
 
-# gradle
-build
-.gradle
+# Gradle and dependency worktrees
+build/
+.gradle/
+.gradle-home/
+.ci-dependencies/
+classes/
 
-# other
-eclipse
-run
-classes
+# Machine-specific agent context
+AGENTS.md
+AGENT.md
+agent-notes/
+.agent/
+.agents/
+.codex/
+.claude/
+.gemini/
+CLAUDE.md
+GEMINI.md
+agent-*.md
+codex-*.md
+
+# Generated Minecraft, test, and evidence output
+run/
+run-data/
+run-*/
+benchmark/
+benchmark-*/
+regression/
+regression-*/
+evidence/
+evidence-*/
+*-evidence/
+test-output/
+test-results/
+reports/
+logs/
+crash-reports/
+mcmodsrepo/
+
+# Local runtime and diagnostic files
+local.properties
+*.log
+*.jfr
 *.hprof
-
-log
+hs_err_pid*.log
+replay_pid*.log
 /README.txt
 /forge-*-changelog.txt
-
 secret.json
+*.keystore
+*.jks
+*.p12
 libs/*
 !/libs/README.txt
-
 .DS_Store
-.okhttpcache/*
+.okhttpcache/

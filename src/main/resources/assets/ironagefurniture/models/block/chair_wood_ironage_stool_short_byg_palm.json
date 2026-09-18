@@ -1,0 +1,7 @@
+{
+  "parent": "ironagefurniture:block/template_chair_wood_ironage_stool_short",
+  "textures": {
+    "log": "byg:block/palm_log",
+    "planks": "byg:block/palm_planks"
+  }
+}
