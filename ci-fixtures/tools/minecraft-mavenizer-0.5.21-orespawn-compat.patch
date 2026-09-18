@@ -1,4 +1,4 @@
-From 10279f8ab1adadb87b56f36c85dbda3cf64e62b3 Mon Sep 17 00:00:00 2001
+From 89a912c5487156a26fc5812d4c15f697646f2f5b Mon Sep 17 00:00:00 2001
 From: OreSpawn Build Fixture <orespawn-fixture@invalid.local>
 Date: Fri, 28 Aug 2026 15:21:10 +0100
 Subject: [PATCH] Add target-aware source compatibility rules
@@ -7,10 +7,13 @@ Subject: [PATCH] Add target-aware source compatibility rules
  build.gradle                                  |   2 +-
  .../net/minecraftforge/mcmaven/cli/Main.java  |  18 +-
  .../minecraftforge/mcmaven/cli/MavenTask.java |   3 +
+ .../mcmaven/impl/MinecraftMaven.java          |   4 +-
+ .../mcmaven/impl/repo/forge/ForgeRepo.java    |  26 +-
+ .../mcmaven/impl/util/Constants.java          |   2 +
  .../mcmaven/impl/util/ProcessUtils.java       |   2 +
  .../impl/util/SourceCompatibilityPatcher.java | 241 ++++++++++++++++++
  .../minecraft-source-compatibility.json       |  58 +++++
- 6 files changed, 322 insertions(+), 2 deletions(-)
+ 9 files changed, 343 insertions(+), 13 deletions(-)
  create mode 100644 src/main/java/net/minecraftforge/mcmaven/impl/util/SourceCompatibilityPatcher.java
  create mode 100644 src/main/resources/META-INF/orespawn/minecraft-source-compatibility.json
 
@@ -96,6 +99,133 @@ index 825820e..39bb9b3 100644
          var mappings = getMappings(options, mappingsO, parchmentO);
  
          var foreignRepositories = new HashMap<String, String>();
+diff --git a/src/main/java/net/minecraftforge/mcmaven/impl/MinecraftMaven.java b/src/main/java/net/minecraftforge/mcmaven/impl/MinecraftMaven.java
+index c5435b1..ec9e281 100644
+--- a/src/main/java/net/minecraftforge/mcmaven/impl/MinecraftMaven.java
++++ b/src/main/java/net/minecraftforge/mcmaven/impl/MinecraftMaven.java
+@@ -114,8 +114,8 @@ public record MinecraftMaven(
+         }
+ 
+         var mcprepo = new MCPConfigRepo(this.cache, dependenciesOnly);
+-        if (Constants.FORGE_GROUP.equals(artifact.getGroup()) && Constants.FORGE_NAME.equals(artifact.getName())) {
+-            var repo = new ForgeRepo(this.cache, mcprepo);
++        if ((Constants.FORGE_ARTIFACT.equals(module) || Constants.NEOFORGE_LEGACY_ARTIFACT.equals(module))) {
++            var repo = new ForgeRepo(this.cache, mcprepo, artifact.getGroup(), artifact.getName());
+             createForge(artifact, mcprepo, repo, outputJson);
+         } else if (Constants.MC_GROUP.equals(artifact.getGroup())) {
+             createMinecraft(artifact, mcprepo, outputJson);
+diff --git a/src/main/java/net/minecraftforge/mcmaven/impl/repo/forge/ForgeRepo.java b/src/main/java/net/minecraftforge/mcmaven/impl/repo/forge/ForgeRepo.java
+index 559ec78..d712a52 100644
+--- a/src/main/java/net/minecraftforge/mcmaven/impl/repo/forge/ForgeRepo.java
++++ b/src/main/java/net/minecraftforge/mcmaven/impl/repo/forge/ForgeRepo.java
+@@ -73,6 +73,8 @@ public final class ForgeRepo extends Repo {
+ 
+     final MCPConfigRepo mcpconfig;
+     final File globalBuild;
++    final String forgeGroup;
++    final String forgeName;
+ 
+     /**
+      * Creates a new Forge repository.
+@@ -80,10 +82,12 @@ public final class ForgeRepo extends Repo {
+      * @param cache     The cache directory
+      * @param mcpconfig The MCPConfig repo
+      */
+-    public ForgeRepo(Cache cache, MCPConfigRepo mcpconfig) {
++    public ForgeRepo(Cache cache, MCPConfigRepo mcpconfig, String forgeGroup, String forgeName) {
+         super(cache);
+         this.mcpconfig = mcpconfig;
+         this.globalBuild = new File(cache.root(), "forge/.global");
++        this.forgeGroup = forgeGroup;
++        this.forgeName = forgeName;
+     }
+ 
+     public static boolean isSupported(String version) {
+@@ -110,7 +114,7 @@ public final class ForgeRepo extends Repo {
+     public List<PendingArtifact> process(Artifact artifact, Mappings mappings, Map<String, Supplier<String>> outputJson) {
+         var module = artifact.getGroup() + ':' + artifact.getName();
+         var version = artifact.getVersion();
+-        if (!Constants.FORGE_ARTIFACT.equals(module))
++        if (!(Constants.FORGE_ARTIFACT.equals(module) || Constants.NEOFORGE_LEGACY_ARTIFACT.equals(module)))
+             throw new IllegalArgumentException("Unknown or unsupported module: " + module);
+ 
+         var fg = FGVersion.fromForge(version);
+@@ -150,11 +154,15 @@ public final class ForgeRepo extends Repo {
+         }
+     }
+ 
+-    private static Artifact getUserdev(String forge) {
++    private Artifact getUserdev(String forge) {
++        return getUserdev(this.forgeGroup, this.forgeName, forge);
++    }
++
++    private static Artifact getUserdev(String forgeGroup, String forgeName, String forge) {
+         var forgever = new ComparableVersion(forge);
+         // userdev3, old attempt to make 1.12.2 FG3 compatible
+         var userdev3 = forgever.compareTo(USERDEV3_START) >= 0 && forgever.compareTo(USERDEV3_END) < 0;
+-        return Artifact.from(Constants.FORGE_GROUP, Constants.FORGE_NAME, forge, userdev3 ? "userdev3" : "userdev", "jar");
++        return Artifact.from(forgeGroup, forgeName, forge, userdev3 ? "userdev3" : "userdev", "jar");
+     }
+ 
+     /// This handles legacy FG2.0->2.3 artifacts
+@@ -171,7 +179,7 @@ public final class ForgeRepo extends Repo {
+     /// - `net.minecraft:mappings_{CHANNEL}:{MCP_VERSION}[-{VERSION}]@zip`
+     ///   - A zip file containing fields, methods, and params.csv files mapping SRG->MCP names.
+     private List<PendingArtifact> processV2(String version, Mappings baseMappings, Map<String, Supplier<String>> outputJson, FGVersion fgVersion) {
+-        var name = Artifact.from(Constants.FORGE_GROUP, Constants.FORGE_NAME, version);
++        var name = Artifact.from(this.forgeGroup, this.forgeName, version);
+         var userdev = getUserdev(version);
+ 
+         var build = new File(this.cache.root(), "forge/" + userdev.getFolder());
+@@ -248,7 +256,7 @@ public final class ForgeRepo extends Repo {
+     ///     - Standard maven pom file that contains all dependency information.
+     // Made this an MD comment to make it easier to read in IDE - Jonathan
+     private List<PendingArtifact> processV3(String version, Mappings baseMappings, Map<String, Supplier<String>> outputJson) {
+-        var name = Artifact.from(Constants.FORGE_GROUP, Constants.FORGE_NAME, version);
++        var name = Artifact.from(this.forgeGroup, this.forgeName, version);
+         var userdev = getUserdev(version);
+ 
+         var build = new File(this.cache.root(), "forge/" + userdev.getFolder());
+@@ -401,7 +409,7 @@ public final class ForgeRepo extends Repo {
+         });
+     }
+ 
+-    private static Task pom(File build, ForgeVersionCommon forge, String version, @Nullable Artifact clientExtra, @Nullable Artifact mappings) {
++    private Task pom(File build, ForgeVersionCommon forge, String version, @Nullable Artifact clientExtra, @Nullable Artifact mappings) {
+         return Task.named("pom[forge]", () -> {
+             var output = new File(build, "forge.pom");
+ 
+@@ -418,7 +426,7 @@ public final class ForgeRepo extends Repo {
+             if (Mavenizer.checkCache(output, cache))
+                 return output;
+ 
+-            var builder = new POMBuilder(Constants.FORGE_GROUP, Constants.FORGE_NAME, version).preferGradleModule().dependencies(dependencies -> {
++            var builder = new POMBuilder(this.forgeGroup, this.forgeName, version).preferGradleModule().dependencies(dependencies -> {
+                 if (clientExtra != null)
+                     dependencies.add(clientExtra);
+ 
+@@ -529,7 +537,7 @@ public final class ForgeRepo extends Repo {
+         }
+         @SuppressWarnings("unused")
+         private static List<PendingArtifact> gatherVariants(MavenCache cache, String version, @Nullable FGVersion fg) {
+-            var userdev = getUserdev(version);
++            var userdev = getUserdev(Constants.FORGE_GROUP, Constants.FORGE_NAME, version);
+             if  (fg == null)
+                 userdev = userdev.withClassifier("src").withExtension("zip");
+             var mappingsFiles = new ArrayList<String>();
+diff --git a/src/main/java/net/minecraftforge/mcmaven/impl/util/Constants.java b/src/main/java/net/minecraftforge/mcmaven/impl/util/Constants.java
+index 3b39894..8dfd653 100644
+--- a/src/main/java/net/minecraftforge/mcmaven/impl/util/Constants.java
++++ b/src/main/java/net/minecraftforge/mcmaven/impl/util/Constants.java
+@@ -13,6 +13,8 @@ public final class Constants {
+     public static final String FORGE_GROUP = "net.minecraftforge";
+     public static final String FORGE_NAME = "forge";
+     public static final String FORGE_ARTIFACT = FORGE_GROUP + ':' + FORGE_NAME;
++    public static final String NEOFORGE_LEGACY_GROUP = "net.neoforged";
++    public static final String NEOFORGE_LEGACY_ARTIFACT = NEOFORGE_LEGACY_GROUP + ':' + FORGE_NAME;
+     public static final String FORGE_MAVEN = "https://maven.minecraftforge.net/";
+     public static final String MCP_DOWNLOADS = FORGE_FILES + "mcp/";
+ 
 diff --git a/src/main/java/net/minecraftforge/mcmaven/impl/util/ProcessUtils.java b/src/main/java/net/minecraftforge/mcmaven/impl/util/ProcessUtils.java
 index 9fa2888..d8c14fd 100644
 --- a/src/main/java/net/minecraftforge/mcmaven/impl/util/ProcessUtils.java
@@ -358,60 +488,60 @@ index 0000000..2cb07e0
 +}
 diff --git a/src/main/resources/META-INF/orespawn/minecraft-source-compatibility.json b/src/main/resources/META-INF/orespawn/minecraft-source-compatibility.json
 new file mode 100644
-index 0000000..462d571
+index 0000000..ddf2eba
 --- /dev/null
 +++ b/src/main/resources/META-INF/orespawn/minecraft-source-compatibility.json
 @@ -0,0 +1,58 @@
 +{
 +  "schema": 1,
 +  "targets": {
-+    "net.minecraftforge:forge:1.19.4-45.4.0": {
++    "net.neoforged:forge:1.20.1-47.1.106": {
 +      "expectedApplications": 8,
 +      "rules": [
 +        {
-+          "id": "forge-1.19.4-holder-direct-value",
++          "id": "forge-1.20.1-holder-direct-value",
 +          "file": "net/minecraft/core/Holder.java",
 +          "recordDeclaration": "public static record Direct<T>(T value) implements Holder<T>",
 +          "accessor": "\n      public T value() {\n         return this.value;\n      }\n"
 +        },
 +        {
-+          "id": "forge-1.19.4-option-alt-enum-value-setter",
++          "id": "forge-1.20.1-option-alt-enum-value-setter",
 +          "file": "net/minecraft/client/OptionInstance.java",
 +          "recordDeclaration": "public static record AltEnum<T>(List<T> values, List<T> altValues, BooleanSupplier altCondition, OptionInstance.CycleableValueSet.ValueSetter<T> valueSetter, Codec<T> codec)",
 +          "accessor": "\n      public OptionInstance.CycleableValueSet.ValueSetter<T> valueSetter() {\n         return this.valueSetter;\n      }\n"
 +        },
 +        {
-+          "id": "forge-1.19.4-option-alt-enum-codec",
++          "id": "forge-1.20.1-option-alt-enum-codec",
 +          "file": "net/minecraft/client/OptionInstance.java",
 +          "recordDeclaration": "public static record AltEnum<T>(List<T> values, List<T> altValues, BooleanSupplier altCondition, OptionInstance.CycleableValueSet.ValueSetter<T> valueSetter, Codec<T> codec)",
 +          "accessor": "\n      public Codec<T> codec() {\n         return this.codec;\n      }\n"
 +        },
 +        {
-+          "id": "forge-1.19.4-option-enum-codec",
++          "id": "forge-1.20.1-option-enum-codec",
 +          "file": "net/minecraft/client/OptionInstance.java",
 +          "recordDeclaration": "public static record Enum<T>(List<T> values, Codec<T> codec)",
 +          "accessor": "\n      public Codec<T> codec() {\n         return this.codec;\n      }\n"
 +        },
 +        {
-+          "id": "forge-1.19.4-option-lazy-enum-codec",
++          "id": "forge-1.20.1-option-lazy-enum-codec",
 +          "file": "net/minecraft/client/OptionInstance.java",
 +          "recordDeclaration": "public static record LazyEnum<T>(Supplier<List<T>> values, Function<T, Optional<T>> validateValue, Codec<T> codec)",
 +          "accessor": "\n      public Codec<T> codec() {\n         return this.codec;\n      }\n"
 +        },
 +        {
-+          "id": "forge-1.19.4-memory-absent-memory",
++          "id": "forge-1.20.1-memory-absent-memory",
 +          "file": "net/minecraft/world/entity/ai/behavior/declarative/MemoryCondition.java",
 +          "recordDeclaration": "public static record Absent<Value>(MemoryModuleType<Value> memory)",
 +          "accessor": "\n      public MemoryModuleType<Value> memory() {\n         return this.memory;\n      }\n"
 +        },
 +        {
-+          "id": "forge-1.19.4-memory-present-memory",
++          "id": "forge-1.20.1-memory-present-memory",
 +          "file": "net/minecraft/world/entity/ai/behavior/declarative/MemoryCondition.java",
 +          "recordDeclaration": "public static record Present<Value>(MemoryModuleType<Value> memory)",
 +          "accessor": "\n      public MemoryModuleType<Value> memory() {\n         return this.memory;\n      }\n"
 +        },
 +        {
-+          "id": "forge-1.19.4-memory-registered-memory",
++          "id": "forge-1.20.1-memory-registered-memory",
 +          "file": "net/minecraft/world/entity/ai/behavior/declarative/MemoryCondition.java",
 +          "recordDeclaration": "public static record Registered<Value>(MemoryModuleType<Value> memory)",
 +          "accessor": "\n      public MemoryModuleType<Value> memory() {\n         return this.memory;\n      }\n"

@@ -1,6 +1,6 @@
 [![Discord](https://img.shields.io/badge/Discord-MMD-green.svg?style=flat&logo=Discord)](https://discord.moddev.zone)
 [![CurseForge](https://img.shields.io/badge/CurseForge-Iron%20Age%20Furniture-orange.svg)](https://www.curseforge.com/minecraft/mc-mods/iron-age-furniture)
-[![Build, test, and audit](https://github.com/MinecraftModDevelopmentMods/IronAgeFurniture/actions/workflows/ci.yml/badge.svg?branch=master-1.20.1)](https://github.com/MinecraftModDevelopmentMods/IronAgeFurniture/actions/workflows/ci.yml?query=branch%3Amaster-1.20.1)
+[![Build, test, and audit](https://github.com/MinecraftModDevelopmentMods/IronAgeFurniture/actions/workflows/ci.yml/badge.svg?branch=master-1.20.1-neo)](https://github.com/MinecraftModDevelopmentMods/IronAgeFurniture/actions/workflows/ci.yml?query=branch%3Amaster-1.20.1-neo)
 
 # IronAgeFurniture
 
@@ -9,9 +9,14 @@ olde-style furniture to Minecraft. Seating is functional, furniture supports
 the appropriate vanilla and optional-mod materials, and lighting includes
 falling and throwable lava lamps.
 
-This branch provides IronAgeFurniture `0.3.0.120011` for Minecraft 1.20.1 and
-Forge 47.4.10. It requires Java 17 and can be installed on both clients and
-dedicated servers.
+This branch provides IronAgeFurniture `0.3.0.120012` for Minecraft 1.20.1 and
+early NeoForge 47.1.99 or newer in the 47.x line. It is built against NeoForge
+47.1.106, requires Java 17, and can be installed on both clients and dedicated
+servers.
+
+NeoForge 1.20.1 retained the Forge-era Java API, `mods.toml`, `forge:*` data
+conditions, and ForgeGradle user-development contract. Those names are
+therefore intentional on this branch and do not indicate a Forge loader build.
 
 ## Optional integrations
 
@@ -25,11 +30,15 @@ installed:
 They are optional. Their recipes and recipe advancements are conditionally
 loaded, so a normal installation does not need any of them.
 
-Biomes O' Plenty 18 and 19 both receive furniture for their shared wood set.
-When BOP 19.0.0.96 or newer is detected, IronAgeFurniture additionally enables
-Empyreal, Maple, and Pine furniture. This does not impose a minimum BOP version.
-Back up a world before downgrading from BOP 19 to BOP 18: those three source
-woods, and furniture made from them, are not available in BOP 18.
+The positive-path compatibility set pins BWG 1.5.11, the newest published
+1.20.1 build explicitly marked for NeoForge. Later Forge-only BWG releases
+require Forge 47.4+ and are not compatible with this early NeoForge line.
+
+The tested Biomes O' Plenty target is 18.0.0.598, which receives furniture for
+its complete 1.20.1 wood set. BOP 19.0.0.96 was also inspected, but it and its
+GlitchCore dependency require Forge 47.3+ and cannot start on the early
+NeoForge 47.1 line. Its Empyreal, Maple, and Pine tier is therefore not
+advertised as supported by this branch.
 
 ## Compatibility
 
@@ -42,7 +51,7 @@ migration.
 
 The supported Java source namespace is
 `zone.moddev.mc.ironagefurniture`. The Maven coordinate is
-`zone.moddev.mc:iron-age-furniture:0.3.0.120011`.
+`zone.moddev.mc:iron-age-furniture:0.3.0.120012`.
 
 See [CHANGELOG.md](CHANGELOG.md) for the release notes and
 [docs/VERSIONS.md](docs/VERSIONS.md) for the versioning scheme. Bugs can be
@@ -60,7 +69,7 @@ gradlew.bat clean check build javadoc verifyReleaseArtifacts verifyReleaseChecks
 ```
 
 Before importing the nested project into its Eclipse workspace, generate the
-reproducible Buildship metadata and Forge launch profiles with:
+reproducible Buildship metadata and early-NeoForge launch profiles with:
 
 ```text
 gradlew.bat prepareEclipse verifyEclipseProductionClasspath

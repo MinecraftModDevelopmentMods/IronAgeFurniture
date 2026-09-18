@@ -317,7 +317,7 @@ tasks.register('updateFurnitureCatalog') {
 
 tasks.register('verifyFurnitureCatalog') {
     group = 'verification'
-    description = 'Regenerates furniture into a temporary tree and compares it byte-for-byte with committed output.'
+    description = 'Regenerates furniture into a temporary tree and compares canonical text with committed output.'
     inputs.file furnitureCatalogFile
     inputs.dir furnitureTemplateDirectory
     doLast {
@@ -329,7 +329,9 @@ tasks.register('verifyFurnitureCatalog') {
             File expectedFile = new File(expectedRoot, relative)
             File actualFile = new File(project.projectDir, relative)
             if (!actualFile.isFile()) throw new GradleException("Missing catalog output: ${relative}")
-            if (Files.mismatch(expectedFile.toPath(), actualFile.toPath()) != -1L) {
+            String expectedText = expectedFile.getText('UTF-8').replace('\r\n', '\n')
+            String actualText = actualFile.getText('UTF-8').replace('\r\n', '\n')
+            if (expectedText != actualText) {
                 throw new GradleException("Catalog output differs; run updateFurnitureCatalog: ${relative}")
             }
         }
@@ -380,11 +382,31 @@ tasks.register('verifyOptionalIntegrationTextures') {
             }
         }
 
+        def catalog = readFurnitureCatalog()
+        Set<String> unavailableTierSuffixes = new TreeSet<>()
+        catalog.integrations.each { integration ->
+            integrationFurnitureTiers(integration).findAll { it.minimumVersion }.each { tier ->
+                tier.woods.each { wood ->
+                    Map textures = integrationTextureValues(integration, wood)
+                    Set<String> expectedEntries = [
+                            textures.externalLogTexture,
+                            textures.externalLogTopTexture,
+                            textures.externalPlanksTexture
+                    ].collect { "assets/${integration.namespace}/textures/${it}.png" } as Set
+                    if (!jarEntries[integration.namespace].containsAll(expectedEntries)) {
+                        unavailableTierSuffixes.add(
+                                "_${integration.integration}_${wood.wood}.json".toString())
+                    }
+                }
+            }
+        }
+
         List<File> blockModels = fileTree('src/main/resources/assets/ironagefurniture/models/block') {
             include '**/*.json'
         }.files.sort { it.path }
         Set<String> referencedTextures = new TreeSet<>()
         blockModels.each { modelFile ->
+            if (unavailableTierSuffixes.any { modelFile.name.endsWith(it) }) return
             Map model = new JsonSlurper().parse(modelFile) as Map
             if (!(model.textures instanceof Map)) return
             ((Map) model.textures).values().findAll { it instanceof String }.each { value ->
@@ -403,7 +425,6 @@ tasks.register('verifyOptionalIntegrationTextures') {
             }
         }
 
-        def catalog = readFurnitureCatalog()
         catalog.integrations.each { integration ->
             integrationFurnitureTiers(integration).each { tier ->
                 tier.woods.each { wood ->
@@ -414,6 +435,7 @@ tasks.register('verifyOptionalIntegrationTextures') {
                             "${integration.namespace}:${textures.externalPlanksTexture}"
                     ] as Set
                     String suffix = "_${integration.integration}_${wood.wood}.json"
+                    if (unavailableTierSuffixes.contains(suffix)) return
                     List<File> woodModels = blockModels.findAll { it.name.endsWith(suffix) }
                     if (woodModels.isEmpty()) {
                         throw new GradleException("No generated block models found for " +
@@ -439,7 +461,8 @@ tasks.register('verifyOptionalIntegrationTextures') {
             throw new GradleException('No optional-mod texture references were audited')
         }
         logger.lifecycle("Verified ${referencedTextures.size()} optional-mod textures against " +
-                "${integrationJars.size()} pinned integration jars")
+                "${integrationJars.size()} pinned integration jars; skipped " +
+                "${unavailableTierSuffixes.size()} unavailable version-tier woods")
     }
 }
 

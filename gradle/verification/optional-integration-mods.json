@@ -4,26 +4,26 @@
     {
       "modId": "biomesoplenty",
       "role": "integration",
-      "version": "19.0.0.96",
-      "file": "BiomesOPlenty-forge-1.20.1-19.0.0.96.jar",
-      "sha256": "84bbfe8fa25a453dae3a8e6c46e8e129f48f7d9df58e33bb7f3d28b90f591b3f",
-      "source": "https://modrinth.com/mod/biomes-o-plenty/version/jxUqRzSD"
+      "version": "18.0.0.598",
+      "file": "BiomesOPlenty-1.20.1-18.0.0.598.jar",
+      "sha256": "71eb3ddb35c1c2db6c15f80f001a6655508435a5f3828c7e2f666eada616c19d",
+      "source": "https://modrinth.com/mod/biomes-o-plenty/version/peO5lWzX"
     },
     {
       "modId": "biomeswevegone",
       "role": "integration",
-      "version": "1.8.0-Forge",
-      "file": "Oh-The-Biomes-Weve-Gone-Forge-1.8.0.jar",
-      "sha256": "a6d21a08170dbfb6c3983b571bb2c1cd92aa93109f5b3a9b47101688dd81ea01",
-      "source": "https://modrinth.com/mod/oh-the-biomes-weve-gone/version/8L5cwpjz"
+      "version": "1.5.11-Forge",
+      "file": "Oh-The-Biomes-Weve-Gone-Forge-1.5.11.jar",
+      "sha256": "f672244dbe664119c8704199ced51ba5114ed7b49207669be2d405069c6b7e33",
+      "source": "https://modrinth.com/mod/oh-the-biomes-weve-gone/version/qj6FvHC7"
     },
     {
       "modId": "immersiveengineering",
       "role": "integration",
-      "version": "10.2.0-183",
-      "file": "ImmersiveEngineering-1.20.1-10.2.0-183.jar",
-      "sha256": "061dd0e8e066dc39277736d5607a47a18fee4aff428de3363882f96e5c405aaa",
-      "source": "https://modrinth.com/mod/immersiveengineering/version/WUzj4tgJ"
+      "version": "1.20.1-10.1.0-171",
+      "file": "ImmersiveEngineering-1.20.1-10.1.0-171.jar",
+      "sha256": "bbb04345b8263b1de026521500e28ceba207470e0dd78c9f022331d7fbca42d2",
+      "source": "https://modrinth.com/mod/immersiveengineering/version/MAqXk6P8"
     },
     {
       "modId": "terrablender",
@@ -56,14 +56,6 @@
       "file": "Oh-The-Trees-Youll-Grow-forge-1.20.1-1.7.0.jar",
       "sha256": "b3495f6b0ffa38bc5bf7189e29a27eef0c23b58540dc2f32033889c2943e5694",
       "source": "https://modrinth.com/mod/oh-the-trees-youll-grow/version/AAp1NdQX"
-    },
-    {
-      "modId": "glitchcore",
-      "role": "dependency",
-      "version": "0.0.1.1",
-      "file": "GlitchCore-forge-1.20.1-0.0.1.1.jar",
-      "sha256": "dedd857b1ee356f002471ec97a2174c7d193d6d1aede60782d0bbe2c241b2a7f",
-      "source": "https://modrinth.com/mod/glitchcore/version/pYPZ5MNI"
     }
   ]
 }

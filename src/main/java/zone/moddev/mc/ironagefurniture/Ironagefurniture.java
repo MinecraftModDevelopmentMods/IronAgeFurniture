@@ -4,10 +4,10 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import zone.moddev.mc.ironagefurniture.api.entity.Entities;
 import zone.moddev.mc.ironagefurniture.api.CreativeModeBreakTracker;
 import zone.moddev.mc.ironagefurniture.client.renderer.ClientHandler;
@@ -43,10 +43,9 @@ public class Ironagefurniture
     public static final CommonProxy PROXY = DistExecutor.runForDist(() -> zone.moddev.mc.ironagefurniture.proxy.ClientProxy::new, () -> CommonProxy::new);
     private static final Logger LOGGER = LogUtils.getLogger();
     
-	public Ironagefurniture(FMLJavaModLoadingContext context) {
+	public Ironagefurniture(IEventBus modEventBus) {
 		LOGGER.info("Iron Age Furniture Mod is loading...");
 		
-        IEventBus modEventBus = context.getModEventBus();
         
         ModVanillaChairs.REGISTER.register(modEventBus);
         ModVanillaShieldChairs.REGISTER.register(modEventBus);
@@ -92,7 +91,8 @@ public class Ironagefurniture
         	modEventBus.addListener(ClientHandler::onRegisterRenderers);
         });
         
-        context.registerConfig(ModConfig.Type.COMMON, IronAgeFurnitureConfiguration.SPEC);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON,
+                IronAgeFurnitureConfiguration.SPEC);
         
     }
     

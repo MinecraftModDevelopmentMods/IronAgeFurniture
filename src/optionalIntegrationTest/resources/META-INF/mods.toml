@@ -10,7 +10,7 @@ displayName="Iron Age Furniture Optional Integration Probe"
 [[dependencies.ironagefurnitureintegrationprobe]]
 modId="forge"
 mandatory=true
-versionRange="[47.4.10,48)"
+versionRange="[47.1.99,48)"
 ordering="NONE"
 side="SERVER"
 
@@ -24,7 +24,7 @@ side="SERVER"
 [[dependencies.ironagefurnitureintegrationprobe]]
 modId="ironagefurniture"
 mandatory=true
-versionRange="[0.3.0.120011]"
+versionRange="[0.3.0.120012]"
 ordering="AFTER"
 side="SERVER"
 
@@ -38,13 +38,13 @@ side="SERVER"
 [[dependencies.ironagefurnitureintegrationprobe]]
 modId="biomeswevegone"
 mandatory=true
-versionRange="[1.8.0]"
+versionRange="[1.5.11]"
 ordering="AFTER"
 side="SERVER"
 
 [[dependencies.ironagefurnitureintegrationprobe]]
 modId="immersiveengineering"
 mandatory=true
-versionRange="[1.20.1-10.2.0-183]"
+versionRange="[1.20.1-10.1.0-171]"
 ordering="AFTER"
 side="SERVER"

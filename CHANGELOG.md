@@ -1,15 +1,18 @@
-# IronAgeFurniture 0.3.0.120011
+# IronAgeFurniture 0.3.0.120012
 
-First IronAgeFurniture release for Minecraft 1.20.1 and Forge 47.4.10.
+First IronAgeFurniture release for Minecraft 1.20.1 and early NeoForge. It is
+built against NeoForge 47.1.106 and supports the 47.1.99+ 47.x line.
 
 ## Player-visible changes
 
 - Add furniture for the vanilla mangrove, cherry, and bamboo wood families.
-- Support the Biomes O' Plenty wood set shared by its compatible 1.20.1
-  releases, and conditionally add Empyreal, Maple, and Pine furniture when BOP
-  19.0.0.96 or newer is installed, without imposing a minimum BOP version.
+- Support the complete Biomes O' Plenty 18.0.0.598 wood set. BOP 19.0.0.96 and
+  its GlitchCore dependency require Forge 47.3+ and cannot start on early
+  NeoForge 47.1, so its extra Empyreal, Maple, and Pine tier is not advertised
+  for this branch.
 - Replace the retired Oh The Biomes You'll Go integration with Oh The Biomes
-  We've Gone furniture, while retaining Immersive Engineering treated-wood
+  We've Gone furniture using BWG 1.5.11, the newest 1.20.1 build explicitly
+  published for NeoForge, while retaining Immersive Engineering treated-wood
   furniture.
 - Remap IronAgeFurniture's former Biomes O' Plenty cherry furniture to vanilla
   cherry. On installations with BWG, remap supported BYG furniture names to
@@ -37,7 +40,7 @@ First IronAgeFurniture release for Minecraft 1.20.1 and Forge 47.4.10.
   resource, configuration, entity, NBT, and saved-world identities.
 - Keep the supported Java API namespace at
   `zone.moddev.mc.ironagefurniture`. The Maven coordinate is
-  `zone.moddev.mc:iron-age-furniture:0.3.0.120011`.
+  `zone.moddev.mc:iron-age-furniture:0.3.0.120012`.
 - Add a deterministic, checked-in furniture catalog covering registrations,
   blockstates, models, recipes, advancements, and translations.
 - Resolve each generated optional wood model to that wood's actual texture
@@ -45,7 +48,10 @@ First IronAgeFurniture release for Minecraft 1.20.1 and Forge 47.4.10.
   treated-wood paths.
 - Verify the supported optional integrations with pinned positive-path runtime
   probes while keeping their test fixtures out of release artifacts.
-- Build with ForgeGradle 7.0.34, Gradle 9.6.1, and pinned Java toolchains.
+- Build the early-NeoForge `net.neoforged:forge` artifact with ForgeGradle
+  7.0.34, Gradle 9.6.1, and pinned Java toolchains.
+- Preserve the loader's Forge-era Java API, `mods.toml`, and `forge:*`
+  conditional-data contracts while publishing this target as NeoForge.
 - Produce deterministic main, sources, and Javadoc jars with SHA-256 checksums.
 - Provide reproducible Eclipse/Buildship setup and guarded CI, validation, and
   release workflows.

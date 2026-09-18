@@ -1,9 +1,9 @@
-# ForgeGradle 7 Mavenizer compatibility fixture
+# Early NeoForge 1.20.1 ForgeGradle 7 Mavenizer compatibility fixture
 
 This directory contains a build-only derivative of MinecraftForge's
 MinecraftMavenizer `0.5.21`. It is used only while ForgeGradle prepares the
-exact Forge `1.20.1-47.4.10` development dependency and is excluded from every
-OreSpawn publication artifact.
+exact NeoForge `net.neoforged:forge:1.20.1-47.1.106` development dependency and
+is excluded from every IronAgeFurniture publication artifact.
 
 ## Provenance and licence
 
@@ -15,13 +15,17 @@ OreSpawn publication artifact.
 - Embedded/external rule manifest: `minecraft-source-compatibility.json`
 
 The patch adds a target-aware compatibility stage before Mavenizer recompiles
-decompiled sources. Rules run only for an exact Maven artifact listed in the
+decompiled sources. It also permits the early-NeoForge
+`net.neoforged:forge` group to use Mavenizer's existing Forge userdev pipeline
+while preserving that group in downloaded and generated Maven artifacts. The
+alias is limited to the `forge` artifact; ordinary Forge behavior is unchanged.
+Compatibility rules run only for an exact Maven artifact listed in the
 manifest. Each rule requires one exact source file, one exact record
 declaration and one accessor in that record. Missing, partial, duplicate or
 ambiguous states fail preparation. Targets without an explicit rule set are
 left unchanged.
 
-For Forge `1.20.1-47.4.10`, the manifest removes the eight explicit accessors
+For NeoForge `1.20.1-47.1.106`, the manifest removes the eight explicit accessors
 that duplicate compiler-generated record accessors in `Holder.Direct`,
 `OptionInstance` and `MemoryCondition`. The implicit record methods have the
 same public contract. A marker beside Mavenizer's output records the target,
@@ -29,8 +33,8 @@ manifest SHA-256 and applied rule IDs. Reprocessing already-patched sources is
 validated and idempotent.
 
 The derivative also propagates Gradle offline mode when the build sets
-`ORESPAWN_MAVENIZER_OFFLINE=true`. Mavenizer itself runs on Java 25; OreSpawn
-and Minecraft 1.20.1 continue to compile for Java 17.
+`ORESPAWN_MAVENIZER_OFFLINE=true`. Mavenizer itself runs on Java 25;
+IronAgeFurniture and Minecraft 1.20.1 continue to compile for Java 17.
 
 ## Rebuild
 
@@ -41,7 +45,7 @@ and Minecraft 1.20.1 continue to compile for Java 17.
 4. Run `./gradlew clean build --no-daemon` (or `gradlew.bat` on Windows).
 5. Copy `build/libs/minecraft-mavenizer-0.5.21.jar` to
    `minecraft-mavenizer-0.5.21-orespawn-compat.jar`.
-6. Run OreSpawn's `verifyMavenizerCompatibilityFixture` task. The build script
+6. Run IronAgeFurniture's `verifyMavenizerCompatibilityFixture` task. The build script
    contains the authoritative checksums and also verifies the embedded
    manifest, Java class version and licence/provenance files.
 
