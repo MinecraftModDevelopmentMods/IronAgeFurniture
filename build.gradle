@@ -172,12 +172,14 @@ def normalizeArchiveLineEndings = { details ->
 
 tasks.register('verifyBuildEnvironment') {
     group = 'verification'
-    description = 'Verifies the supported Gradle runtime and exact Java 17 compiler toolchain.'
+    description = 'Verifies the supported Gradle runtime and Temurin Java 17 compiler toolchain.'
     doLast {
         def metadata = java17Compiler.get().metadata
         String actual = metadata.javaRuntimeVersion.toString()
-        if (actual != project.java_toolchain_version.toString()) {
-            throw new GradleException("Java compiler toolchain must be ${project.java_toolchain_version}; " +
+        if (metadata.languageVersion.asInt() != project.java_version.toString().toInteger()
+                || !metadata.vendor.toString().toLowerCase(Locale.ROOT).contains('temurin')) {
+            throw new GradleException("Java compiler toolchain must be Temurin ${project.java_version} " +
+                    "(release baseline ${project.java_toolchain_version}); " +
                     "found ${metadata.vendor} ${actual} at ${metadata.installationPath}")
         }
     }
