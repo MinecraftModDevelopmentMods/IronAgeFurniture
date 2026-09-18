@@ -1,7 +1,7 @@
 # Optional integration runtime test
 
-This positive-path test starts Forge 1.20.1 with Iron Age Furniture and all three
-supported optional integrations. A test-only Forge mod then checks the live server
+This positive-path test starts early NeoForge 1.20.1 with Iron Age Furniture and
+all three supported optional integrations. A test-only early-NeoForge mod then checks the live server
 registries for every conditional recipe and recipe advancement and stops the server.
 
 The third-party mod jars are deliberately not committed or redistributed. Their
@@ -10,7 +10,7 @@ exact filenames, versions, SHA-256 checksums, roles, and source pages are pinned
 
 ## Setup
 
-1. Install the Forge `1.20.1-47.4.10` server into the ignored
+1. Install the NeoForge `1.20.1-47.1.106` server into the ignored
    `run-optional-integrations` directory and accept its EULA.
 2. Download every jar listed in the manifest into
    `run-optional-integrations/mods`. This directory may also contain the generated
@@ -18,7 +18,7 @@ exact filenames, versions, SHA-256 checksums, roles, and source pages are pinned
 3. Run `gradlew.bat runOptionalIntegrationServer` with the project's pinned Java
    installations available as described in `gradle.properties`.
 
-An existing disposable Forge server can be used without moving it by adding
+An existing disposable NeoForge server can be used without moving it by adding
 `-PoptionalIntegrationServerDir=<server-directory>` to the command. The manifest
 jars must be in that server's `mods` directory. The task stages only the current
 packaged Iron Age Furniture jar and generated probe; the server installation and
@@ -33,11 +33,27 @@ It then builds and stages
 `ironagefurniture-optional-integration-probe.jar`, removes any stale result, and
 accepts success only when the probe writes
 `optional-integration-pass.properties` in the selected server directory with all
-applicable conditional data present. The BOP 18 profile expects 1,380 recipes
-and 1,364 recipe advancements; the BOP 19 profile additionally enables the 117
-Empyreal, Maple, and Pine recipes and advancements, for totals of 1,497 and
-1,481. Version-tiered entries are selected by their public registry capability,
-using Forge's `forge:item_exists` condition.
+applicable conditional data present. The BOP 18.0.0.598 profile expects 1,380
+recipes and 1,364 recipe advancements. Version-tiered entries are selected by
+their public registry capability using the early loader's `forge:item_exists`
+condition.
+
+BOP 19.0.0.96 and its required GlitchCore 0.0.1.1 were inspected and exercised
+as a negative compatibility probe. Both require Forge 47.3+, so they are not a
+qualifying runtime combination for NeoForge 47.1.106 and are deliberately not
+present in the positive manifest. Core packaged server smokes are also run on
+the minimum supported NeoForge 47.1.99 loader.
+
+The profile uses BWG 1.5.11 because it is the newest 1.20.1 BWG publication
+whose loader metadata explicitly includes NeoForge. BWG 1.8.0 is Forge-only
+and requires Forge 47.4+, so it is deliberately not used on this target.
+
+BWG 1.5.11 emits an upstream, non-fatal `EatBlockGoalMixin` descriptor warning
+on NeoForge 47.1.106 (plus two CorgiLib/Oh The Trees overwrite-conflict
+warnings). The isolated BWG server still reaches `Done`, registers the BWG
+furniture, and passes all 936 BWG recipe and 936 recipe-advancement checks.
+Treat any additional error, missing texture/model, registry failure, or IAF
+recipe/advancement warning as a test failure.
 
 The probe also records the loaded versions and per-integration counts. It is built
 from `src/optionalIntegrationTest` and is explicitly excluded from all release

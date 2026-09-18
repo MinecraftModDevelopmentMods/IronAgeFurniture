@@ -40,15 +40,15 @@ def mavenizerLicense = mavenizerToolsDirectory.file('LICENSE-MAVENIZER.txt')
 def mavenizerReadme = mavenizerToolsDirectory.file('README.md')
 def mavenizerFixtureChecksums = [
         (mavenizerCompatibilityJar.asFile):
-                '416DCA4797BC55826F0DDCF03FDC405F1990FC15C2133FA27A1F143BF7976177',
+                'F4DB44F64C98F6401ED3A856ECEBCC5E1C2126E7C02BD1237FAB38793B4AF275',
         (mavenizerRuleManifest.asFile):
-                '8945511DFF53B8F1A91EE44B14AF9EC7DB34C373617EA37A608C6958BFEEB22E',
+                '351746200B44A4B9656C9AD5888DA3371E69AA601880FECA048C0131223DCCAC',
         (mavenizerSourcePatch.asFile):
-                'D856190DEF5574716C5E4F4379912C451B1F5952B0B111576651A98EECF58544',
+                '0AC522C64FEBA87C14792364D86FE1487E064681C54629F747E7DC80E8A83650',
         (mavenizerLicense.asFile):
                 '20C17D8B8C48A600800DFD14F95D5CB9FF47066A9641DDEAB48DC54AEC96E331',
         (mavenizerReadme.asFile):
-                '177C1DDEDEF9704B9FDC8EA24B8DCDF4DDCC826DD0E253E7872A00DB2EA34518'
+                '2F95F09D20EABE8A7010EA68FF04FB770FC5E2F4F6A3856D1495AF0B1AAB676B'
 ]
 
 [mavenizerCompatibilityJar.asFile, mavenizerRuleManifest.asFile].each { fixture ->
@@ -172,12 +172,14 @@ def normalizeArchiveLineEndings = { details ->
 
 tasks.register('verifyBuildEnvironment') {
     group = 'verification'
-    description = 'Verifies the supported Gradle runtime and exact Java 17 compiler toolchain.'
+    description = 'Verifies the supported Gradle runtime and Temurin Java 17 compiler toolchain.'
     doLast {
         def metadata = java17Compiler.get().metadata
         String actual = metadata.javaRuntimeVersion.toString()
-        if (actual != project.java_toolchain_version.toString()) {
-            throw new GradleException("Java compiler toolchain must be ${project.java_toolchain_version}; " +
+        if (metadata.languageVersion.asInt() != project.java_version.toString().toInteger()
+                || !metadata.vendor.toString().toLowerCase(Locale.ROOT).contains('temurin')) {
+            throw new GradleException("Java compiler toolchain must be Temurin ${project.java_version} " +
+                    "(release baseline ${project.java_toolchain_version}); " +
                     "found ${metadata.vendor} ${actual} at ${metadata.installationPath}")
         }
     }
@@ -239,7 +241,7 @@ sourceSets.main.resources.srcDir 'src/generated/resources'
 def developmentModOutput = layout.buildDirectory.dir('forge-run-mod-classes/main')
 def prepareDevelopmentMod = tasks.register('prepareDevelopmentMod', Sync) {
     group = 'ide'
-    description = 'Merges production classes and resources for Forge 47 development discovery.'
+    description = 'Merges production classes and resources for early NeoForge 47 development discovery.'
     dependsOn tasks.named('classes')
     from sourceSets.main.output.classesDirs
     from sourceSets.main.output.resourcesDir
@@ -261,6 +263,10 @@ tasks.withType(JavaExec).configureEach { JavaExec runTask ->
 
 repositories {
     minecraft.mavenizer(it)
+    maven {
+        name = 'NeoForge'
+        url = 'https://maven.neoforged.net/releases'
+    }
     maven fg.forgeMaven
     maven fg.minecraftLibsMaven
     mavenCentral()
@@ -268,7 +274,7 @@ repositories {
 
 dependencies {
     implementation minecraft.dependency(
-            "net.minecraftforge:forge:${project.minecraft_version}-${project.forge_version}")
+            "net.neoforged:forge:${project.minecraft_version}-${project.neo_version}")
 }
 
 renamer.mappings.from minecraft.dependency.toSrgFile
@@ -279,6 +285,7 @@ tasks.withType(Test).configureEach {
 
 def optionalIntegrationManifestFile = layout.projectDirectory.file(
         'gradle/verification/optional-integration-mods.json')
+def optionalIntegrationRuntimeTotals = [recipes: '1380', advancements: '1364']
 def optionalIntegrationRunDirectory = layout.projectDirectory.dir('run-optional-integrations')
 def optionalIntegrationServerDirectory = providers.gradleProperty('optionalIntegrationServerDir')
         .map { project.file(it) }
@@ -297,7 +304,7 @@ tasks.register('verifyOptionalIntegrationMods') {
     doLast {
         Map manifest = new JsonSlurper().parse(optionalIntegrationManifestFile.asFile) as Map
         if (manifest.minecraft != project.minecraft_version.toString()
-                || !(manifest.mods instanceof List) || manifest.mods.size() != 8) {
+                || !(manifest.mods instanceof List) || manifest.mods.size() != 7) {
             throw new GradleException('Optional-integration mod manifest is incomplete or targets the wrong game')
         }
         File modsDirectory = optionalIntegrationModsDirectory.get()
@@ -399,7 +406,7 @@ tasks.register('generateOptionalIntegrationFixtureData') {
 
 tasks.register('compileOptionalIntegrationFixture', JavaCompile) {
     group = 'verification'
-    description = 'Compiles the test-only Forge probe for positive optional-integration validation.'
+    description = 'Compiles the test-only early-NeoForge probe for positive optional-integration validation.'
     dependsOn tasks.named('classes')
     source fileTree('src/optionalIntegrationTest/java')
     classpath = files(sourceSets.main.output, sourceSets.main.compileClasspath)
@@ -452,7 +459,7 @@ tasks.register('stageOptionalIntegrationFixture', Copy) {
 
 tasks.register('runOptionalIntegrationServer', Exec) {
     group = 'verification'
-    description = 'Runs the packaged Forge server and proves all optional recipes are loaded.'
+    description = 'Runs the packaged NeoForge server and proves all optional recipes are loaded.'
     dependsOn tasks.named('stageOptionalIntegrationFixture')
     doFirst {
         File serverDirectory = optionalIntegrationServerDirectory.get()
@@ -463,11 +470,11 @@ tasks.register('runOptionalIntegrationServer', Exec) {
         String argumentFileName = System.getProperty('os.name').toLowerCase(Locale.ROOT)
                 .contains('windows') ? 'win_args.txt' : 'unix_args.txt'
         File argumentFile = new File(serverDirectory,
-                "libraries/net/minecraftforge/forge/${minecraft_version}-${forge_version}/" +
+                "libraries/net/neoforged/forge/${minecraft_version}-${neo_version}/" +
                         argumentFileName)
         File userArguments = new File(serverDirectory, 'user_jvm_args.txt')
         if (!argumentFile.isFile() || !userArguments.isFile()) {
-            throw new GradleException("Install the Forge ${minecraft_version}-${forge_version} " +
+            throw new GradleException("Install NeoForge ${minecraft_version}-${neo_version} " +
                     "server in ${serverDirectory} before running this test")
         }
         workingDir serverDirectory
@@ -483,8 +490,8 @@ tasks.register('runOptionalIntegrationServer', Exec) {
         Properties result = new Properties()
         marker.withInputStream { result.load(it) }
         if (result.getProperty('status') != 'PASS'
-                || result.getProperty('conditional_recipes_loaded') != '1497'
-                || result.getProperty('conditional_advancements_loaded') != '1481') {
+                || result.getProperty('conditional_recipes_loaded') != optionalIntegrationRuntimeTotals.recipes
+                || result.getProperty('conditional_advancements_loaded') != optionalIntegrationRuntimeTotals.advancements) {
             throw new GradleException("Unexpected optional-integration result ${result}")
         }
     }
@@ -495,8 +502,8 @@ tasks.named('processResources', ProcessResources) {
     def replaceProperties = [
             version                : project.version,
             minecraft_version      : project.minecraft_version,
-            forge_version          : project.forge_version,
-            forge_version_range    : project.forge_version_range,
+            neo_version            : project.neo_version,
+            neo_version_range      : project.neo_version_range,
             loader_version_range   : project.loader_version_range,
             mod_id                 : project.mod_id,
             mod_name               : project.mod_name,
@@ -532,7 +539,7 @@ def commonManifest = {
             'Implementation-Vendor'     : project.mod_authors,
             'Maven-Artifact'             : "${project.group}:${base.archivesName.get()}:${project.version}",
             'Built-On-Java'              : project.java_version,
-            'Built-On'                   : "${project.minecraft_version}-${project.forge_version}"
+            'Built-On'                   : "${project.minecraft_version}-${project.neo_version}"
     ])
 }
 
@@ -670,10 +677,10 @@ tasks.register('verifyMavenizerCompatibilityFixture') {
         }
         def parsed = new JsonSlurper().parse(mavenizerRuleManifest.asFile)
         if (parsed.schema != 1 || parsed.targets.keySet() !=
-                ['net.minecraftforge:forge:1.20.1-47.4.10'] as Set) {
+                ['net.neoforged:forge:1.20.1-47.1.106'] as Set) {
             throw new GradleException('Mavenizer target-rule manifest has unexpected targets or schema')
         }
-        def rules = parsed.targets['net.minecraftforge:forge:1.20.1-47.4.10']
+        def rules = parsed.targets['net.neoforged:forge:1.20.1-47.1.106']
         if (rules.expectedApplications != 8 || rules.rules.size() != 8
                 || rules.rules.collect { it.id }.toSet().size() != 8) {
             throw new GradleException('Mavenizer target-rule manifest must define eight unique Forge 47 rules')
@@ -703,6 +710,7 @@ tasks.register('verifyMavenizerCompatibilityFixture') {
         }
         if (!mavenizerReadme.asFile.getText('UTF-8').contains('Temurin `25.0.3+9`')
                 || !mavenizerSourcePatch.asFile.getText('UTF-8').contains('SourceCompatibilityPatcher.java')
+                || !mavenizerSourcePatch.asFile.getText('UTF-8').contains('NEOFORGE_LEGACY_ARTIFACT')
                 || !mavenizerLicense.asFile.getText('UTF-8').contains('GNU LESSER GENERAL PUBLIC LICENSE')) {
             throw new GradleException('Mavenizer provenance, patch, or license documentation is incomplete')
         }
@@ -715,15 +723,15 @@ tasks.register('verifyReleaseConfiguration') {
     dependsOn tasks.named('verifyMavenizerCompatibilityFixture')
     doLast {
         Map<String, String> expected = [
-                mod_version            : '0.3.0.120011',
+                mod_version            : '0.3.0.120012',
                 mod_group              : 'zone.moddev.mc',
                 mod_archive_name       : 'iron-age-furniture',
                 mod_id                 : 'ironagefurniture',
                 minecraft_version      : '1.20.1',
-                loader_name            : 'forge',
-                loader_code            : '1',
-                forge_version          : '47.4.10',
-                forge_version_range    : '[47.4.10,48)',
+                loader_name            : 'neoforge',
+                loader_code            : '2',
+                neo_version            : '47.1.106',
+                neo_version_range      : '[47.1.99,48)',
                 loader_version_range   : '[47,)',
                 mcp_mappings_channel   : 'official',
                 mcp_mappings_version   : '1.20.1',
@@ -1017,7 +1025,7 @@ tasks.register('verifyNamespace') {
 
 tasks.register('verifyVersionMetadata') {
     group = 'verification'
-    description = 'Checks authoritative version and generated Forge metadata.'
+    description = 'Checks authoritative version and generated early-NeoForge metadata.'
     dependsOn tasks.named('processResources')
     doLast {
         String source = file(
@@ -1036,7 +1044,7 @@ tasks.register('verifyVersionMetadata') {
                 'modId="ironagefurniture"',
                 "version=\"${project.version}\"",
                 'license="LGPL-2.1"',
-                'versionRange="[47.4.10,48)"',
+                'versionRange="[47.1.99,48)"',
                 'versionRange="[1.20.1]"'
         ].each { required ->
             if (!metadata.contains(required)) {
@@ -1045,6 +1053,51 @@ tasks.register('verifyVersionMetadata') {
         }
         if (metadata.contains('${')) {
             throw new GradleException('Generated mods.toml contains unresolved properties')
+        }
+    }
+}
+
+tasks.register('verifyEarlyNeoForgeContract') {
+    group = 'verification'
+    description = 'Guards the Forge-era API and data contracts used by early NeoForge 1.20.1.'
+    dependsOn tasks.named('processResources')
+    doLast {
+        List<File> productionSources = fileTree('src/main/java') { include '**/*.java' }.files as List<File>
+        List<String> laterApiSources = productionSources.findAll {
+            it.getText('UTF-8').contains('net.neoforged.')
+        }.collect { project.relativePath(it) }
+        if (!laterApiSources.isEmpty()) {
+            throw new GradleException("Later NeoForge Java APIs leaked into the early-loader branch: ${laterApiSources}")
+        }
+
+        if (file('src/main/resources/META-INF/neoforge.mods.toml').exists()) {
+            throw new GradleException('Early NeoForge 1.20.1 must use META-INF/mods.toml')
+        }
+        String sourceMetadata = file('src/main/resources/META-INF/mods.toml').getText('UTF-8')
+        if (!sourceMetadata.contains('modId="forge"')
+                || !sourceMetadata.contains('versionRange="${neo_version_range}"')) {
+            throw new GradleException('Early NeoForge metadata must retain the Forge loader identity')
+        }
+
+        List<File> runtimeJson = fileTree('src/main/resources') { include '**/*.json' }.files as List<File>
+        List<String> laterConditionFiles = runtimeJson.findAll {
+            it.getText('UTF-8').contains('"neoforge:')
+        }.collect { project.relativePath(it) }
+        if (!laterConditionFiles.isEmpty()) {
+            throw new GradleException("Later NeoForge data conditions leaked into the early-loader branch: " +
+                    laterConditionFiles.take(10))
+        }
+        int forgeConditionFiles = runtimeJson.count {
+            String text = it.getText('UTF-8')
+            text.contains('"forge:mod_loaded"') || text.contains('"forge:item_exists"')
+        }
+        if (forgeConditionFiles == 0) {
+            throw new GradleException('Expected Forge-era optional integration conditions')
+        }
+
+        String buildScript = file('build.gradle').getText('UTF-8')
+        if (!buildScript.contains('net.neoforged:forge:${project.minecraft_version}-${project.neo_version}')) {
+            throw new GradleException('Build does not declare the official early-NeoForge Maven coordinate')
         }
     }
 }
@@ -1100,6 +1153,7 @@ tasks.register('verifyReleaseArtifacts') {
     dependsOn tasks.named('verifyResourceJson')
     dependsOn tasks.named('verifyNamespace')
     dependsOn tasks.named('verifyVersionMetadata')
+    dependsOn tasks.named('verifyEarlyNeoForgeContract')
     doLast {
         File libs = layout.buildDirectory.dir('libs').get().asFile
         List<File> jars = (libs.listFiles() ?: [] as File[])
@@ -1275,7 +1329,7 @@ tasks.withType(PublishToMavenRepository).configureEach {
 
 tasks.register('syncForge47EclipseLaunches') {
     group = 'ide'
-    description = 'Synchronizes processed resources and hardens Forge 47 Eclipse launches.'
+    description = 'Synchronizes processed resources and hardens early NeoForge 47 Eclipse launches.'
     dependsOn tasks.named('processResources')
     dependsOn tasks.named('verifyBuildEnvironment')
     doLast {
@@ -1379,7 +1433,7 @@ tasks.register('syncForge47EclipseLaunches') {
 
 tasks.register('verifyEclipseProductionClasspath') {
     group = 'verification'
-    description = 'Verifies Buildship and production-only Forge 47 launch metadata.'
+    description = 'Verifies Buildship and production-only early NeoForge 47 launch metadata.'
     dependsOn tasks.named('syncForge47EclipseLaunches')
     doLast {
         File classpath = file('.classpath')
@@ -1461,7 +1515,7 @@ tasks.matching { it.name == 'eclipse' }.configureEach {
 
 tasks.register('prepareEclipse') {
     group = 'ide'
-    description = 'Creates the Buildship project model and ForgeGradle 7 launch profiles.'
+    description = 'Creates the Buildship project model and early-NeoForge ForgeGradle 7 launch profiles.'
     dependsOn tasks.named('eclipse')
     dependsOn tasks.named('isolateEclipseProductionRuns')
 }
@@ -1474,6 +1528,7 @@ tasks.named('check') {
     dependsOn tasks.named('verifyResourceJson')
     dependsOn tasks.named('verifyNamespace')
     dependsOn tasks.named('verifyVersionMetadata')
+    dependsOn tasks.named('verifyEarlyNeoForgeContract')
     dependsOn tasks.named('verifyWorkflowPins')
     dependsOn tasks.named('verifyDedicatedServerBoundaries')
 }
