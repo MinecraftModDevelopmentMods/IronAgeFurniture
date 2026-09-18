@@ -1,27 +1,20 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
-    {
-      "conditions": [
+    "type": "crafting_shapeless",
+    "conditions": [
         {
-          "modid": "byg",
-          "type": "forge:mod_loaded"
+            "type": "forge:mod_loaded",
+            "modid": "byg"
         }
-      ],
-      "recipe": {
-        "type": "crafting_shapeless",
-        "ingredients": [
-          {
+    ],
+    "ingredients": [
+        {
             "item": "minecraft:shield"
-          },
-          {
+        },
+        {
             "item": "ironagefurniture:chair_wood_ironage_classic_byg_fir"
-          }
-        ],
-        "result": {
-          "item": "ironagefurniture:chair_wood_ironage_shield_byg_fir"
         }
-      }
+    ],
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_shield_byg_fir"
     }
-  ]
 }
