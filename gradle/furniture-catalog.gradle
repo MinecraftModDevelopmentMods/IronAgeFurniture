@@ -106,12 +106,18 @@ tasks.register('verifyFurnitureCatalog') {
     group = 'verification'
     description = 'Verifies catalog coverage and that committed data is already deterministic.'
     inputs.file catalogFile
+    inputs.file file('src/main/java/zone/moddev/mc/ironagefurniture/api/enumerations/BenchType.java')
     inputs.files fileTree(recipeDirectory) { include '*.json' }
     inputs.files fileTree(advancementDirectory) { include '*.json' }
     doLast {
         Map catalog = new JsonSlurper().parse(catalogFile.asFile) as Map
         if (catalog.minecraft != project.minecraft_version.toString() || catalog.loader != project.loader_name) {
             throw new GradleException('Furniture catalog targets the wrong Minecraft version or loader')
+        }
+        String benchTypes = file(
+                'src/main/java/zone/moddev/mc/ironagefurniture/api/enumerations/BenchType.java').getText('UTF-8')
+        if (benchTypes.contains('END("end")')) {
+            throw new GradleException('Unused BenchType.END creates missing type=end model variants')
         }
 
         fileTree(recipeDirectory) { include '*.json' }.files.sort { it.name }.each { file ->
