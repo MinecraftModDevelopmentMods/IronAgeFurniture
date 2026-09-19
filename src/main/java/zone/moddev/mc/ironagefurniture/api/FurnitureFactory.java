@@ -257,7 +257,7 @@ public class FurnitureFactory {
     }
 
 	private static Block registerBlockWithoutItem(Block block, String name) {
-		return registerBlock(block, name, 16);
+		return registerBlock(block, name, 16, false);
 	}
 
 	private static Block registerBlock(Block block, String name, int maxStackSize) {

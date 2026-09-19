@@ -19,6 +19,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.minecraft.block.Block;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
@@ -64,7 +65,8 @@ public final class OptionalIntegrationRecipeProbe {
         Map<String, String> versions = verifyLoadedMods(selected);
         Map<String, Integer> blockCounts = verifyBlocks(selected);
         Map<String, Integer> recipeCounts = verifyRecipes(selected);
-        writeMarker(requested, versions, blockCounts, recipeCounts);
+        int hiddenLightingBlocks = verifyHiddenLightingItems();
+        writeMarker(requested, versions, blockCounts, recipeCounts, hiddenLightingBlocks);
         LOGGER.info("IRON AGE FURNITURE OPTIONAL INTEGRATION PROBE PASSED: {} blocks, {} recipes",
                 total(blockCounts), total(recipeCounts));
         server.initiateShutdown();
@@ -132,18 +134,43 @@ public final class OptionalIntegrationRecipeProbe {
         return counts;
     }
 
+    private static int verifyHiddenLightingItems() {
+        List<String> unexpectedItems = new ArrayList<>();
+        List<String> missingBlocks = new ArrayList<>();
+        List<String> expected = readResourceLines("expected-hidden-lighting-blocks.txt");
+        for (String value : expected) {
+            ResourceLocation id = new ResourceLocation(value);
+            if (!Block.REGISTRY.containsKey(id)) missingBlocks.add(value);
+            if (Item.REGISTRY.containsKey(id)) unexpectedItems.add(value);
+        }
+        require(missingBlocks.isEmpty(),
+                "Hidden lighting state blocks did not register: " + summarize(missingBlocks));
+        require(unexpectedItems.isEmpty(),
+                "Hidden lighting state blocks registered ItemBlocks: " + summarize(unexpectedItems));
+        return expected.size();
+    }
+
     private static List<ExpectedEntry> readExpectedEntries(String resourceName) {
+        List<String> lines = readResourceLines(resourceName);
+        List<ExpectedEntry> result = new ArrayList<>();
+        for (String line : lines) {
+            String[] parts = line.split("=", 2);
+            require(parts.length == 2, "Invalid probe entry: " + line);
+            result.add(new ExpectedEntry(parts[0], new ResourceLocation(parts[1])));
+        }
+        return result;
+    }
+
+    private static List<String> readResourceLines(String resourceName) {
         InputStream stream = OptionalIntegrationRecipeProbe.class.getClassLoader()
                 .getResourceAsStream(resourceName);
         require(stream != null, "Missing probe resource " + resourceName);
-        List<ExpectedEntry> result = new ArrayList<>();
+        List<String> result = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(
                 new InputStreamReader(stream, StandardCharsets.UTF_8))) {
             for (String line = reader.readLine(); line != null; line = reader.readLine()) {
                 if (line.trim().isEmpty()) continue;
-                String[] parts = line.split("=", 2);
-                require(parts.length == 2, "Invalid probe entry: " + line);
-                result.add(new ExpectedEntry(parts[0], new ResourceLocation(parts[1])));
+                result.add(line);
             }
         } catch (IOException exception) {
             throw new IllegalStateException("Could not read probe resource " + resourceName,
@@ -153,12 +180,15 @@ public final class OptionalIntegrationRecipeProbe {
     }
 
     private static void writeMarker(String profile, Map<String, String> versions,
-            Map<String, Integer> blocks, Map<String, Integer> recipes) {
+            Map<String, Integer> blocks, Map<String, Integer> recipes,
+            int hiddenLightingBlocks) {
         StringBuilder result = new StringBuilder()
                 .append("status=PASS\n")
                 .append("profile=").append(profile).append('\n')
                 .append("optional_blocks_loaded=").append(total(blocks)).append('\n')
-                .append("optional_recipe_outputs_loaded=").append(total(recipes)).append('\n');
+                .append("optional_recipe_outputs_loaded=").append(total(recipes)).append('\n')
+                .append("hidden_lighting_blocks_without_items=")
+                .append(hiddenLightingBlocks).append('\n');
         for (String name : PROFILES) {
             result.append("mod.").append(name).append('=')
                     .append(valueOrEmpty(versions, name)).append('\n')

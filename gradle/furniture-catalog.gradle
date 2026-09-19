@@ -65,6 +65,15 @@ tasks.register('verifyFurnitureCatalog') {
                 'src/main/java/zone/moddev/mc/ironagefurniture/init/RecipeInitialiser.java')
         String blockSource = blockInitializer.getText('UTF-8')
         String recipeSource = recipeInitializer.getText('UTF-8')
+        String factorySource = file(
+                'src/main/java/zone/moddev/mc/ironagefurniture/api/FurnitureFactory.java')
+                .getText('UTF-8')
+        if (!(factorySource ==~ /(?s).*private static Block registerBlockWithoutItem\(Block block, String name\)\s*\{\s*return registerBlock\(block, name, 16, false\);\s*\}.*/)) {
+            throw new GradleException('Hidden lighting state blocks must be registered without ItemBlocks')
+        }
+        if (!(factorySource ==~ /(?s).*CreateRedLampVariant\(String name, int lightLevel\)\s*\{\s*return createRedLamp\(name, lightLevel, false\);\s*\}.*/)) {
+            throw new GradleException('Hidden red-lamp light-level states must be registered without ItemBlocks')
+        }
         File benchTypeSource = file(
                 'src/main/java/zone/moddev/mc/ironagefurniture/api/Enumerations/BenchType.java')
         String benchTypes = benchTypeSource.getText('UTF-8')

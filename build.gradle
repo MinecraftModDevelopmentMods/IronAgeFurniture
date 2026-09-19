@@ -388,6 +388,29 @@ tasks.register('generateOptionalIntegrationFixtureData') {
                 recipes.collectMany { profile, ids ->
                     ids.collect { id -> "${profile}=ironagefurniture:${id}" }
                 }.sort().join('\n') + '\n', 'UTF-8')
+
+        Set<String> hiddenLightingFactories = [
+                'CreateIronWallSconce',
+                'CreateIronFloorTorchSconce', 'CreateIronFloorTorchSconceUnlit',
+                'CreateIronWallTorchSconce', 'CreateIronWallTorchSconceUnlit',
+                'CreateIronFloorRedTorchSconce', 'CreateIronFloorRedTorchSconceUnlit',
+                'CreateIronWallRedTorchSconce', 'CreateIronWallRedTorchSconceUnlit',
+                'CreateIronFloorGlowSconce', 'CreateIronWallGlowSconce',
+                'CreateIronFloorLavaSconce', 'CreateIronWallLavaSconce',
+                'CreateRedLampVariant', 'CreateIronFloorRedSconce', 'CreateIronWallRedSconce'
+        ] as Set<String>
+        Set<String> hiddenLightingIds = [] as TreeSet<String>
+        def lightingRegistrationMatcher = blockSource =~ /FurnitureFactory\.(Create\w+)\("([^"]+)"/
+        lightingRegistrationMatcher.each { match ->
+            if (hiddenLightingFactories.contains(match[1].toString())) {
+                hiddenLightingIds.add("ironagefurniture:${match[2]}")
+            }
+        }
+        if (hiddenLightingIds.size() != 60) {
+            throw new GradleException("Expected 60 hidden lighting state blocks, found ${hiddenLightingIds.size()}")
+        }
+        new File(output, 'expected-hidden-lighting-blocks.txt').setText(
+                hiddenLightingIds.join('\n') + '\n', 'UTF-8')
     }
 }
 
@@ -549,7 +572,8 @@ tasks.register('runOptionalIntegrationServer', Exec) {
         Properties result = new Properties()
         marker.withInputStream { result.load(it) }
         if (result.getProperty('status') != 'PASS'
-                || result.getProperty('profile') != optionalIntegrationProfile) {
+                || result.getProperty('profile') != optionalIntegrationProfile
+                || result.getProperty('hidden_lighting_blocks_without_items') != '60') {
             throw new GradleException("Unexpected optional-integration result ${result}")
         }
     }

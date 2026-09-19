@@ -14,6 +14,8 @@ Phase 3 lighting release for Minecraft 1.10.2 and Forge 12.18.3.2511.
   variants are intentionally unaffected.
 - Correct falling-lamp handling, survival and Creative drops, and redstone
   transitions.
+- Keep internal lamp and sconce state blocks out of the creative inventory;
+  only the player-placeable base items have item forms.
 - Give ordinary wooden furniture normal wood flammability.
 - Register Biomes O' Plenty, Natura, Forestry, and Immersive Engineering
   furniture and Java recipes only when the relevant optional mod is loaded.
