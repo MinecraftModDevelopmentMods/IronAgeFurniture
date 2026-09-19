@@ -20,7 +20,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "ironagefurniture:light_metal_ironage_block_floor_glow_clear"
+        "recipes": "ironagefurniture:light_metal_ironage_block_floor_glow_clear"
       }
     }
   },

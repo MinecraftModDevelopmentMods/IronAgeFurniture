@@ -258,7 +258,8 @@ public class LightSourceSconceRedWall extends LightSourceSconceTorchWall {
 	}
 
 	@Override
-	public boolean canConnectRedstone(BlockState state, BlockGetter world, BlockPos pos, Direction direction) {
+	protected boolean shouldRedstoneWireConnectTo(BlockState state, BlockGetter world, BlockPos pos,
+			@Nullable Direction direction) {
 		return true;
 	}
 }

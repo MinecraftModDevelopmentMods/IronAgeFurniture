@@ -28,10 +28,3 @@ ${mod_description}
     ordering="NONE"
     side="BOTH"
 
-[[dependencies.ironagefurniture]]
-    modId="biomesoplenty"
-    mandatory=false
-    versionRange="[0,)"
-    ordering="AFTER"
-    side="BOTH"
-

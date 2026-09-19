@@ -1,7 +1,7 @@
-From 96468d9931e7f1448d9fb00f13ec0a6559ee0054 Mon Sep 17 00:00:00 2001
-From: OreSpawn Build Fixture <orespawn-fixture@invalid.local>
-Date: Fri, 28 Aug 2026 15:21:10 +0100
-Subject: [PATCH] Add target-aware source compatibility rules
+From debd1358466af4d21ae25079ade85486fb267762 Mon Sep 17 00:00:00 2001
+From: JohnBraham <johnbraham1978@outlook.com>
+Date: Sat, 19 Sep 2026 16:12:24 +0100
+Subject: [PATCH] Qualify Mavenizer for Forge 26.3
 
 ---
  build.gradle                                  |   2 +-
@@ -364,14 +364,14 @@ index 0000000..4d72d34
 +}
 diff --git a/src/main/resources/META-INF/orespawn/minecraft-source-compatibility.json b/src/main/resources/META-INF/orespawn/minecraft-source-compatibility.json
 new file mode 100644
-index 0000000..702d759
+index 0000000..3451901
 --- /dev/null
 +++ b/src/main/resources/META-INF/orespawn/minecraft-source-compatibility.json
 @@ -0,0 +1,9 @@
 +{
 +  "schema": 1,
 +  "targets": {
-+    "net.minecraftforge:forge:26.2-65.1.0": {
++    "net.minecraftforge:forge:26.3-66.0.2": {
 +      "expectedApplications": 0,
 +      "rules": []
 +    }

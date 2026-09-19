@@ -2,7 +2,7 @@
 
 This directory contains a build-only derivative of MinecraftForge's
 MinecraftMavenizer `0.5.21`. It is used only while ForgeGradle prepares the
-exact Forge `26.2-65.1.0` development dependency and is excluded from every
+exact Forge `26.3-66.0.2` development dependency and is excluded from every
 OreSpawn publication artifact.
 
 ## Provenance and licence
@@ -21,13 +21,13 @@ declaration and one accessor in that record. Missing, partial, duplicate or
 ambiguous states fail preparation. Targets without an explicit rule set are
 left unchanged.
 
-Forge `26.2-65.1.0` compiles without source compatibility edits. Its explicit
+Forge `26.3-66.0.2` compiles without source compatibility edits. Its explicit
 zero-rule entry proves that result is intentional and target-qualified rather
 than an accidental fall-through. A marker beside Mavenizer's output records
 the target and manifest SHA-256. Reprocessing the same source is idempotent.
 
 The derivative also propagates Gradle offline mode when the build sets
-`ORESPAWN_MAVENIZER_OFFLINE=true`. Mavenizer, OreSpawn and Minecraft 26.2 all
+`ORESPAWN_MAVENIZER_OFFLINE=true`. Mavenizer, IronAgeFurniture and Minecraft 26.3 all
 run and compile with Java 25.
 
 ## Rebuild
@@ -39,7 +39,7 @@ run and compile with Java 25.
 4. Run `./gradlew clean build --no-daemon` (or `gradlew.bat` on Windows).
 5. Copy `build/libs/minecraft-mavenizer-0.5.21.jar` to
    `minecraft-mavenizer-0.5.21-orespawn-compat.jar`.
-6. Run OreSpawn's `verifyMavenizerCompatibilityFixture` task. The build script
+6. Run IronAgeFurniture's `verifyMavenizerCompatibilityFixture` task. The build script
    contains the authoritative checksums and also verifies the embedded
    manifest, Java class version and licence/provenance files.
 

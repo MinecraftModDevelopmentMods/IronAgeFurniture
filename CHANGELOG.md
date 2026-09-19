@@ -1,12 +1,9 @@
-# IronAgeFurniture 0.3.0.2602001
+# IronAgeFurniture 0.3.0.2603001
 
-- Port IronAgeFurniture to Minecraft 26.2 and Forge 65.1.0 on Java 25.
-- Retain Pale Oak and the complete contemporary Biomes O' Plenty furniture family, including Origin Oak.
-- Validate built-in texture paths and every optional wood model semantically against the exact pinned Biomes O' Plenty jar.
-- Omit Oh The Biomes We've Gone and Immersive Engineering because neither integration supports this target matrix.
-- Generate Forge 65 item definitions and target-native conditional recipe and advancement data.
-- Carry forward the deterministic checked-in furniture catalog, scoped BOP cherry remap, and positive BOP runtime probe.
-- Fix recipe advancements so furniture unlocks only when its actual ingredient is obtained, including conditional BOP recipes.
-- Restore normal wooden-furniture fire behaviour while keeping Crimson and Warped furniture non-flammable.
-- Restore throwable lava lamps, water shattering with the glass sound and obsidean-chunk drop, and safe creative-mode removal.
-- Preserve transparent glass and visible contents while glow, lava, and red lamps are falling.
+- Port IronAgeFurniture to Minecraft 26.3 and Forge 66.0.2 on Java 25.
+- Retain the complete vanilla wood catalog, including Pale Oak, plus the existing furniture, lighting, flammability, lava-lamp, and save-compatibility behavior.
+- Omit Biomes O' Plenty, Oh The Biomes We've Gone, and Immersive Engineering furniture because none currently provides a compatible Forge 26.3 release.
+- Generate Minecraft 26.3 item definitions and target-native recipe and advancement data from the deterministic checked-in furniture catalog.
+- Retain the scoped BOP-cherry registry mappings so retired IronAgeFurniture IDs continue to map to vanilla Cherry furniture.
+- Update redstone connectivity overrides and recipe-unlock criteria for the Minecraft 26.3 APIs and data schema.
+- Provide reproducible Eclipse/Buildship setup with the exact Temurin Java 25 toolchain, processed resources, and a production-only Forge classpath.
