@@ -28,8 +28,9 @@ Phase 3 lighting release for Minecraft 1.10.2 and Forge 12.18.3.2511.
   `feature/1.10-v1.0.0`; those features are not in this release.
 - Move the supported Java namespace to `zone.moddev.mc.ironagefurniture` and
   publish as `zone.moddev.mc:iron-age-furniture:0.3.0.110021`.
-- Modernize the build to ForgeGradle 7.0.34, Gradle 9.6.1, Java 17 for Gradle,
-  and a Temurin Java 8 compiler while allowing newer Java 8 patches in Eclipse.
+- Modernize the build to ForgeGradle 7.0.34 and Gradle 9.6.1, pin Java 17 for
+  Gradle in CI, and use a Temurin Java 8 compiler while allowing Eclipse to run
+  Buildship on newer JVMs and use newer Java 8 patches.
 - Add a deterministic furniture catalog, optional-integration audits,
   deterministic main/sources/Javadoc jars, checksums, and reproducible
   Eclipse/Buildship metadata.

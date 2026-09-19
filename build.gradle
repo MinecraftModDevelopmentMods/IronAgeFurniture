@@ -48,8 +48,8 @@ ext.release_tag = project.mod_version
 if (GradleVersion.current() != GradleVersion.version('9.6.1')) {
     throw new GradleException("This build requires Gradle 9.6.1, found ${GradleVersion.current()}")
 }
-if (JavaVersion.current() != JavaVersion.VERSION_17) {
-    throw new GradleException("Gradle must run on Java 17, found ${System.getProperty('java.version')}")
+if (!JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_17)) {
+    throw new GradleException("Gradle must run on Java 17 or newer, found ${System.getProperty('java.version')}")
 }
 
 def java8Compiler = javaToolchains.compilerFor {
@@ -802,7 +802,6 @@ tasks.register('configureEclipseBuildship') {
                 'connection.gradle.user.home'    : gradle.gradleUserHomeDir.canonicalPath,
                 'connection.project.dir'         : '',
                 'gradle.user.home'                : gradle.gradleUserHomeDir.canonicalPath,
-                'java.home'                       : new File(System.getProperty('java.home')).canonicalPath,
                 'override.workspace.settings'    : 'true'
         ].each { key, value -> preferences.setProperty(key, value) }
         preferencesFile.parentFile.mkdirs()
@@ -886,10 +885,14 @@ tasks.register('verifyEclipseProductionClasspath') {
         File buildshipPreferencesFile = file('.settings/org.eclipse.buildship.core.prefs')
         Properties buildshipPreferences = new Properties()
         buildshipPreferencesFile.withInputStream { buildshipPreferences.load(it) }
-        File configuredGradleJavaHome = new File(buildshipPreferences.getProperty('java.home', ''))
-        File currentGradleJavaHome = new File(System.getProperty('java.home'))
-        if (configuredGradleJavaHome.canonicalFile != currentGradleJavaHome.canonicalFile) {
-            throw new GradleException('Buildship must run Gradle with Java ' + project.gradle_java_version + '; found ' + configuredGradleJavaHome)
+        if (buildshipPreferences.getProperty('connection.gradle.distribution') != 'GRADLE_DISTRIBUTION(WRAPPER)'
+                || file(buildshipPreferences.getProperty('connection.gradle.user.home', '')).canonicalFile
+                != gradle.gradleUserHomeDir.canonicalFile
+                || buildshipPreferences.getProperty('override.workspace.settings') != 'true') {
+            throw new GradleException('Eclipse Buildship does not use this wrapper and shared Gradle home')
+        }
+        if (buildshipPreferences.getProperty('java.home', '').trim()) {
+            throw new GradleException('Eclipse Buildship preferences must not pin a machine-specific Gradle Java home')
         }
         if (classpathText.contains('<classpathentry kind="lib"')
                 || classpathText ==~ /(?s).*<classpathentry[^>]+path="[A-Za-z]:[\\\/].*/) {

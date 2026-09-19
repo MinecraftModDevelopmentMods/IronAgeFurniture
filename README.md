@@ -45,9 +45,10 @@ through the [MMD issue tracker](https://github.com/MinecraftModDevelopmentMods/I
 
 ## Building
 
-Use the checked-in Gradle wrapper with Java 17 for Gradle and a Temurin Java 8
-compiler toolchain. CI pins Java 8.0.502+7; Eclipse may use a newer Temurin
-Java 8 patch release.
+Use the checked-in Gradle wrapper with Java 17 or newer for Gradle and a
+Temurin Java 8 compiler toolchain. CI pins Java 17 for Gradle and Java
+8.0.502+7 for compilation; Eclipse may run Buildship on a newer JVM and may
+use a newer Temurin Java 8 patch release for the compiler toolchain.
 
 ```text
 gradlew.bat clean check build javadoc verifyReleaseArtifacts verifyReleaseChecksums
