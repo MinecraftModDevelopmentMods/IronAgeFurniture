@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "textures": {
     "0": "natura:blocks/logs/overworld/redwood_bark",
-    "1": "natura:blocks/logs/overworld/redwood_log_top",
+    "1": "natura:blocks/logs/overworld/redwood_heart",
     "particle": "natura:blocks/logs/overworld/redwood_bark"
   },
   "elements": [

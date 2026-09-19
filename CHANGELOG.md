@@ -1,16 +1,38 @@
-# Changelog
+# IronAgeFurniture 0.3.0.110021
 
-## 0.3.0.110021 - Unreleased
+Phase 3 lighting release for Minecraft 1.10.2 and Forge 12.18.3.2511.
 
-- Added the Phase 3 Iron Age Furniture gameplay line, including candle surface lighting and particle behavior.
-- Reworked hanging inn signs, support behavior, placement, drops, rendering, and compatibility details.
-- Added a fixed-size four-line hanging inn sign editor and made the text readable from both sides in the world.
-- Migrated the Minecraft 1.10.2 development build to ForgeGradle 7 and target-qualified MMD versioning.
-- Moved the Java API and implementation from `com.mcmoddev.ironagefurniture` to `zone.moddev.mc.ironagefurniture`, and changed the Maven group to `zone.moddev.mc`.
-- Fixed dedicated-server startup by isolating client-only item model and color registration.
-- Prefer the pinned public Power Advantage `FluidNetworkApi` for fluid-pipe integration, with a removable legacy adapter for the published Power Advantage 2.3.0 binary surface; Power Advantage remains optional at runtime.
-- Preserved compact resource generation while making release archives deterministic.
+## Player-visible changes
 
-## 0.2.0.5 - Published
+- Add the Phase 3 lighting set: empty, torch, unlit-torch, redstone-torch,
+  glow, lava, and redstone lamps and sconces, obsidian chunks, and hidden
+  redstone-light states.
+- Restore throwable lava lamps. Thrown and falling lamps shatter with a glass
+  sound, ignite dry landing positions, damage struck entities, and become an
+  obsidian chunk on contact with water.
+- Let placed lava lamps melt ordinary ice directly beneath them. Other ice
+  variants are intentionally unaffected.
+- Correct falling-lamp handling, survival and Creative drops, and redstone
+  transitions.
+- Give ordinary wooden furniture normal wood flammability.
+- Register Biomes O' Plenty, Natura, Forestry, and Immersive Engineering
+  furniture and Java recipes only when the relevant optional mod is loaded.
+  Minecraft 1.10.2 does not use recipe advancements.
 
-- Latest published Iron Age Furniture release for Minecraft 1.10.2.
+## Compatibility and tooling
+
+- Preserve all surviving `ironagefurniture` registry, resource,
+  configuration, entity, NBT, and saved-world identities from Phase 2.
+- Keep later 1.10-only candles, chandeliers, hanging signs, beds, tables,
+  shelves, cabinets, machinery, and other 1.0 work on
+  `feature/1.10-v1.0.0`; those features are not in this release.
+- Move the supported Java namespace to `zone.moddev.mc.ironagefurniture` and
+  publish as `zone.moddev.mc:iron-age-furniture:0.3.0.110021`.
+- Modernize the build to ForgeGradle 7.0.34, Gradle 9.6.1, Java 17 for Gradle,
+  and a Temurin Java 8 compiler while allowing newer Java 8 patches in Eclipse.
+- Add a deterministic furniture catalog, optional-integration audits,
+  deterministic main/sources/Javadoc jars, checksums, and reproducible
+  Eclipse/Buildship metadata.
+
+Publication remains gated by MMD's protected release workflow after manual
+acceptance and hosted CI.

@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "textures": {
     "0": "forestry:blocks/wood/bark.chestnut",
-    "1": "forestry:blocks/wood/chestnut_log_top",
+    "1": "forestry:blocks/wood/heart.chestnut",
     "particle": "forestry:blocks/wood/bark.chestnut"
   },
   "elements": [

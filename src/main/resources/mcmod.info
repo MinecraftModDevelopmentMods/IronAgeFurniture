@@ -2,13 +2,14 @@
 {
   "modid": "ironagefurniture",
   "name": "Iron Age Furniture",
-  "description": "A mod to add Iron Age Furniture to Minecraft",
+  "description": "Chairs, benches, sconces, glow lamps, lava lamps, and redstone lighting for Minecraft.",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "",
-  "updateUrl": "",
+  "url": "https://github.com/MinecraftModDevelopmentMods/IronAgeFurniture",
+  "updateUrl": "https://raw.githubusercontent.com/MinecraftModDevelopmentMods/IronAgeFurniture/master-1.10/update.json",
   "authorList": ["SkyBlade1978", "FoxNekitsune"],
-  "credits": "",
+  "credits": "Minecraft Mod Development community contributors",
+  "license": "LGPL-2.1",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []

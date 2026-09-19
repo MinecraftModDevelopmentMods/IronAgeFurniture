@@ -1,38 +1,61 @@
-[![Discord](https://img.shields.io/badge/Discord-MMD-green.svg?style=flat&logo=Discord)](https://discord.mcmoddev.com)
+[![Discord](https://img.shields.io/badge/Discord-MMD-green.svg?style=flat&logo=Discord)](https://discord.moddev.zone)
+[![CurseForge](https://img.shields.io/badge/CurseForge-Iron%20Age%20Furniture-orange.svg)](https://www.curseforge.com/minecraft/mc-mods/iron-age-furniture)
+[![Build, test, and audit](https://github.com/MinecraftModDevelopmentMods/IronAgeFurniture/actions/workflows/ci.yml/badge.svg?branch=master-1.10)](https://github.com/MinecraftModDevelopmentMods/IronAgeFurniture/actions/workflows/ci.yml?query=branch%3Amaster-1.10)
 
-# Iron Age Furniture
+# IronAgeFurniture
 
-Furniture from the iron age of men, for Minecraft 1.10.2 and Forge 12.18.3.2511.
+IronAgeFurniture adds functional chairs, stools, benches, lamps, and sconces
+to Minecraft. This branch provides the Phase 3 lighting release
+`0.3.0.110021` for Minecraft 1.10.2 and Forge 12.18.3.2511.
 
-The current development version is `0.3.0.110021`. This Phase 3 candidate is unreleased; the latest published Minecraft 1.10.2 build remains `0.2.0.5`.
+Phase 3 contains the established seating catalog plus empty, torch,
+redstone-torch, glow, lava, and redstone lighting, including throwable lava
+lamps and obsidian chunks. The separate `feature/1.10-v1.0.0` line contains
+later furniture development and is intentionally not part of this release.
 
-## Development
+## Optional integrations
 
-The project uses ForgeGradle 7.0.34 and Gradle 9.6.1. Run Gradle itself on Java 17; the build compiles Java 8 bytecode with a Java 8 toolchain.
+Matching furniture and Java-side recipes are registered when these mods are
+loaded:
 
-The maintained Java package is `zone.moddev.mc.ironagefurniture`, and the Maven coordinate for this candidate is `zone.moddev.mc:iron-age-furniture:0.3.0.110021`.
+- Biomes O' Plenty
+- Natura
+- Forestry
+- Immersive Engineering
 
-Power Advantage remains optional at runtime. Until its migrated Maven artifact can be published,
-the build compiles against the deobfuscated development jar produced from pinned Power Advantage
-commit `88e9818b4b7011a430436b40367fb1609073875b`. Build that sibling checkout with `deobfJar`, or pass
-its exact jar as `-PpowerAdvantageDeobfJar=<path>`; the build verifies the expected API and SHA-256.
-At runtime IAF selects that typed API only when it is present in the loaded Power Advantage source.
-The published Power Advantage 2.3.0 binary surface is supported by a small, isolated legacy adapter
-until the API release is available; its CurseMaven file is used only for verification and never enters
-IAF's compile, runtime, Maven, or release artifacts.
+All integrations are optional. A normal installation requires none of them,
+and furniture for an absent integration is not registered. Minecraft 1.10.2
+predates the recipe-book advancement format, so this target registers recipes
+in Java rather than packaging later-version recipe or advancement JSON.
 
-`prepareEclipse` generates isolated launch profiles. `runClient` and `runServer` use the real Gradle
-runtime classpath, so the compile-only Power Advantage jar is not discovered as a mod. The additional
-`runClientPowerAdvantage` and `runServerPowerAdvantage` profiles add the pinned Power Advantage and
-OreSpawn development jars for integration work. Build the pinned sibling checkouts with `deobfJar`,
-or pass their exact locations with `-PpowerAdvantageDeobfJar=<path>` and
-`-PoreSpawnDeobfJar=<path>`; both jars are verified by SHA-256 before the profiles are generated.
-Local builds prefer pinned checkouts under the ignored `.ci-dependencies` directory, then fall back
-to the sibling repositories, so an actively developed sibling cannot silently replace a pinned jar.
+## Compatibility
+
+The persistent mod ID, registry names, resource paths, configuration names,
+entities, and saved-world identity remain under `ironagefurniture`. Existing
+Phase 2 worlds therefore retain their surviving furniture identities.
+
+The supported Java namespace is `zone.moddev.mc.ironagefurniture`. Add-ons
+compiled against `com.mcmoddev.ironagefurniture` must update their imports.
+The Maven coordinate is
+`zone.moddev.mc:iron-age-furniture:0.3.0.110021`.
+
+See [CHANGELOG.md](CHANGELOG.md) for release notes and
+[docs/VERSIONS.md](docs/VERSIONS.md) for the versioning scheme. Report bugs
+through the [MMD issue tracker](https://github.com/MinecraftModDevelopmentMods/IronAgeFurniture/issues).
+
+## Building
+
+Use the checked-in Gradle wrapper with Java 17 for Gradle and a Temurin Java 8
+compiler toolchain. CI pins Java 8.0.502+7; Eclipse may use a newer Temurin
+Java 8 patch release.
 
 ```text
-./gradlew clean check build javadoc verifyReleaseArtifacts writeReleaseChecksums
-./gradlew prepareEclipse verifyEclipseProductionClasspath
+gradlew.bat clean check build javadoc verifyReleaseArtifacts verifyReleaseChecksums
+gradlew.bat prepareEclipse verifyEclipseProductionClasspath
 ```
 
-Release publication is manual and gated. A branch push or tag alone does not publish artifacts.
+Release publication is initiated manually from the protected default-branch
+dispatcher after the exact target commit passes hosted CI. Local builds do not
+tag or publish a release.
+
+IronAgeFurniture is licensed under LGPL-2.1.

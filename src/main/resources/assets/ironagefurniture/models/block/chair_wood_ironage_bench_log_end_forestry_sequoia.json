@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "textures": {
     "0": "forestry:blocks/wood/bark.sequoia",
-    "1": "forestry:blocks/wood/sequoia_log_top",
+    "1": "forestry:blocks/wood/heart.sequoia",
     "particle": "forestry:blocks/wood/bark.sequoia"
   },
   "elements": [
