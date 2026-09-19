@@ -74,6 +74,20 @@ tasks.register('verifyFurnitureCatalog') {
         if (!(factorySource ==~ /(?s).*CreateRedLampVariant\(String name, int lightLevel\)\s*\{\s*return createRedLamp\(name, lightLevel, false\);\s*\}.*/)) {
             throw new GradleException('Hidden red-lamp light-level states must be registered without ItemBlocks')
         }
+        String modSource = file(
+                'src/main/java/zone/moddev/mc/ironagefurniture/Ironagefurniture.java')
+                .getText('UTF-8')
+        String clientRenderSource = file(
+                'src/main/java/zone/moddev/mc/ironagefurniture/init/ClientRenderInitialiser.java')
+                .getText('UTF-8')
+        if (!modSource.contains('ClientRenderInitialiser.registerEntityRenderers();')
+                || !clientRenderSource.contains('@SideOnly(Side.CLIENT)')
+                || !clientRenderSource.contains('EntityThrownLavaLamp.class')
+                || !clientRenderSource.contains('new RenderSnowball<EntityThrownLavaLamp>')
+                || !clientRenderSource.contains(
+                        'BlockObjectHolder.light_metal_ironage_block_floor_lava_clear')) {
+            throw new GradleException('Thrown lava lamps must use the client-only lava-lamp item renderer')
+        }
         File benchTypeSource = file(
                 'src/main/java/zone/moddev/mc/ironagefurniture/api/Enumerations/BenchType.java')
         String benchTypes = benchTypeSource.getText('UTF-8')

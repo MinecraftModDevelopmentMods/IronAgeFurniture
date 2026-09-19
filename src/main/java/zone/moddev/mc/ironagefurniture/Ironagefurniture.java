@@ -8,6 +8,7 @@ import zone.moddev.mc.ironagefurniture.api.CreativeModeBreakTracker;
 import zone.moddev.mc.ironagefurniture.api.entity.EntityThrownLavaLamp;
 import zone.moddev.mc.ironagefurniture.init.BlockInitialiser;
 import zone.moddev.mc.ironagefurniture.init.ClientItemInitialiser;
+import zone.moddev.mc.ironagefurniture.init.ClientRenderInitialiser;
 import zone.moddev.mc.ironagefurniture.init.RecipeInitialiser;
 
 import net.minecraft.block.Block;
@@ -60,7 +61,10 @@ public class Ironagefurniture
     public void preInit(FMLPreInitializationEvent event) {
 	IronAgeFurnitureConfiguration.init(event);
 		MinecraftForge.EVENT_BUS.register(new CreativeModeBreakTracker());
-	BlockInitialiser.init();
+		BlockInitialiser.init();
+		if (event.getSide().isClient()) {
+			ClientRenderInitialiser.registerEntityRenderers();
+		}
 
     }
 }

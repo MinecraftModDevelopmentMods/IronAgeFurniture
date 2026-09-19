@@ -10,6 +10,8 @@ Phase 3 lighting release for Minecraft 1.10.2 and Forge 12.18.3.2511.
 - Restore throwable lava lamps. Thrown and falling lamps shatter with a glass
   sound, ignite dry landing positions, damage struck entities, and become an
   obsidian chunk on contact with water.
+- Render thrown lava lamps with their translucent lava-lamp item model instead
+  of the unbound grey projectile fallback.
 - Let placed lava lamps melt ordinary ice directly beneath them. Other ice
   variants are intentionally unaffected.
 - Correct falling-lamp handling, survival and Creative drops, and redstone
