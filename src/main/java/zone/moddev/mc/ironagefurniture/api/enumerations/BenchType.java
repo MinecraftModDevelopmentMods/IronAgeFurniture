@@ -5,7 +5,6 @@ import net.minecraft.util.StringRepresentable;
 public enum BenchType implements StringRepresentable {
 	 SINGLE("single"),
      MIDDLE("middle"),
-	 END("end"),
 	 LEFT("left"),
 	 RIGHT("right");
 
