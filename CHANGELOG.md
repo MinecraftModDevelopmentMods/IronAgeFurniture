@@ -11,6 +11,8 @@ Phase 3 lighting release for Minecraft 1.15.2 and Forge 31.2.57.
 - Restore lava-lamp throwing. Thrown and falling lamps shatter with a glass
   sound, ignite dry landing positions, damage struck entities, and become a
   waterlogged obsidian chunk on contact with water.
+- Fix waterlogging lava-filled floor and wall sconces so they become matching
+  waterlogged empty sconces, preserve their supports, and drop one obsidian chunk.
 - Let placed lava lamps melt ordinary ice directly beneath them. Packed ice
   and blue ice are intentionally unaffected.
 - Correct falling and underwater lamp placement, survival and Creative drops,
