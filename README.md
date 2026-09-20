@@ -13,6 +13,13 @@ redstone-torch, glow, lava, and redstone lighting, including throwable lava
 lamps and obsidian chunks. The separate `feature/1.10-v1.0.0` line contains
 later furniture development and is intentionally not part of this release.
 
+Padded benches and padded back benches support all sixteen vanilla carpet
+colours without consuming additional block or item IDs. Existing benches and
+damage-zero items remain red, while newly crafted colours persist through
+placement, drops, pick block, connected-shape changes, and chunk reloads.
+Mixed-colour bench runs may connect normally; colour does not participate in
+the established joining algorithm.
+
 ## Optional integrations
 
 Matching furniture and Java-side recipes are registered when these mods are

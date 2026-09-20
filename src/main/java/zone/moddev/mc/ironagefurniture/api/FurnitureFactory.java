@@ -24,7 +24,11 @@ import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceTorchFloorUnl
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceTorchWall;
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceTorchWallUnlit;
 import zone.moddev.mc.ironagefurniture.api.Blocks.ObsideanLump;
+import zone.moddev.mc.ironagefurniture.api.Blocks.PaddedBackBench;
+import zone.moddev.mc.ironagefurniture.api.Blocks.PaddedBench;
 import zone.moddev.mc.ironagefurniture.api.Blocks.Stool;
+import zone.moddev.mc.ironagefurniture.api.Enumerations.PaddedBenchColour;
+import zone.moddev.mc.ironagefurniture.api.Items.ItemBlockPaddedBench;
 import zone.moddev.mc.ironagefurniture.api.Items.ItemBlockThrowableLavaLamp;
 import zone.moddev.mc.ironagefurniture.init.ItemInitialiser;
 
@@ -63,22 +67,12 @@ public class FurnitureFactory {
 	}
 
 	public static void AddPaddedBenchRecipe(Block chairIn, Block chairOut) {
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(chairOut, 1), new ItemStack(chairIn,1), new ItemStack(Blocks.CARPET, 1, 0)));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(chairOut, 1), new ItemStack(chairIn,1), new ItemStack(Blocks.CARPET, 1, 1)));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(chairOut, 1), new ItemStack(chairIn,1), new ItemStack(Blocks.CARPET, 1, 2)));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(chairOut, 1), new ItemStack(chairIn,1), new ItemStack(Blocks.CARPET, 1, 3)));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(chairOut, 1), new ItemStack(chairIn,1), new ItemStack(Blocks.CARPET, 1, 4)));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(chairOut, 1), new ItemStack(chairIn,1), new ItemStack(Blocks.CARPET, 1, 5)));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(chairOut, 1), new ItemStack(chairIn,1), new ItemStack(Blocks.CARPET, 1, 6)));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(chairOut, 1), new ItemStack(chairIn,1), new ItemStack(Blocks.CARPET, 1, 7)));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(chairOut, 1), new ItemStack(chairIn,1), new ItemStack(Blocks.CARPET, 1, 8)));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(chairOut, 1), new ItemStack(chairIn,1), new ItemStack(Blocks.CARPET, 1, 9)));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(chairOut, 1), new ItemStack(chairIn,1), new ItemStack(Blocks.CARPET, 1, 10)));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(chairOut, 1), new ItemStack(chairIn,1), new ItemStack(Blocks.CARPET, 1, 11)));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(chairOut, 1), new ItemStack(chairIn,1), new ItemStack(Blocks.CARPET, 1, 12)));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(chairOut, 1), new ItemStack(chairIn,1), new ItemStack(Blocks.CARPET, 1, 13)));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(chairOut, 1), new ItemStack(chairIn,1), new ItemStack(Blocks.CARPET, 1, 14)));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(chairOut, 1), new ItemStack(chairIn,1), new ItemStack(Blocks.CARPET, 1, 15)));
+		for (PaddedBenchColour colour : PaddedBenchColour.values()) {
+			GameRegistry.addRecipe(new ShapelessOreRecipe(
+					new ItemStack(chairOut, 1, colour.getItemMetadata()),
+					new ItemStack(chairIn, 1),
+					new ItemStack(Blocks.CARPET, 1, colour.getCarpetMetadata())));
+		}
 	}
 
 	public static void AddTallStoolRecipe(ItemStack planks, Block stool) {
@@ -125,6 +119,16 @@ public class FurnitureFactory {
 		return registerBlock(new BackBench(Material.WOOD, name, resistance, false, 0.25, hardness), name);
 	}
 
+	public static Block CreateWoodPaddedBench(String name, float resistance, float hardness) {
+		return registerPaddedBlock(
+				new PaddedBench(Material.WOOD, name, resistance, false, 0.25, hardness), name);
+	}
+
+	public static Block CreateWoodPaddedBackBench(String name, float resistance, float hardness) {
+		return registerPaddedBlock(
+				new PaddedBackBench(Material.WOOD, name, resistance, false, 0.25, hardness), name);
+	}
+
 	public static Block CreateWoodShortStool(String name) {
 		return CreateWoodShortStool(name, 10, 1);
 	}
@@ -135,6 +139,14 @@ public class FurnitureFactory {
 
 	public static Block CreateWoodBackBench(String name) {
 		return CreateWoodBackBench(name, 10, 1);
+	}
+
+	public static Block CreateWoodPaddedBench(String name) {
+		return CreateWoodPaddedBench(name, 10, 1);
+	}
+
+	public static Block CreateWoodPaddedBackBench(String name) {
+		return CreateWoodPaddedBackBench(name, 10, 1);
 	}
 
 	public static Block CreateWoodChair(String name, float resistance, float hardness) {
@@ -255,6 +267,17 @@ public class FurnitureFactory {
 		Ironagefurniture.BlockRegistry.put(name, block);
 		return block;
     }
+
+	private static Block registerPaddedBlock(Block block, String name) {
+		GameRegistry.register(block.setRegistryName(Ironagefurniture.MODID, name));
+		block.setUnlocalizedName(Ironagefurniture.MODID + "." + name);
+		block.setCreativeTab(Ironagefurniture.ironagefurnitureTab);
+		ItemBlock itemBlock = new ItemBlockPaddedBench(block);
+		itemBlock.setMaxStackSize(16);
+		ItemInitialiser.RegisterItem(itemBlock, name);
+		Ironagefurniture.BlockRegistry.put(name, block);
+		return block;
+	}
 
 	private static Block registerBlockWithoutItem(Block block, String name) {
 		return registerBlock(block, name, 16, false);

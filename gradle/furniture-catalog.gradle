@@ -2,6 +2,32 @@ import groovy.json.JsonSlurper
 
 def furnitureCatalogFile = layout.projectDirectory.file('gradle/furniture-catalog.json')
 def furnitureCatalogSnapshot = layout.projectDirectory.file('gradle/furniture-catalog.snapshot')
+def paddedBlockModelRoot = layout.projectDirectory.dir(
+        'src/main/resources/assets/ironagefurniture/models/block')
+def paddedItemModelRoot = layout.projectDirectory.dir(
+        'src/main/resources/assets/ironagefurniture/models/item')
+def paddedBlockstateRoot = layout.projectDirectory.dir(
+        'src/main/resources/assets/ironagefurniture/blockstates')
+def paddedLocaleRoot = layout.projectDirectory.dir(
+        'src/main/resources/assets/ironagefurniture/lang')
+def paddedColours = [
+        [name: 'red', title: 'Red'],
+        [name: 'orange', title: 'Orange'],
+        [name: 'magenta', title: 'Magenta'],
+        [name: 'light_blue', title: 'Light Blue'],
+        [name: 'yellow', title: 'Yellow'],
+        [name: 'lime', title: 'Lime'],
+        [name: 'pink', title: 'Pink'],
+        [name: 'gray', title: 'Gray'],
+        [name: 'light_gray', title: 'Light Gray'],
+        [name: 'cyan', title: 'Cyan'],
+        [name: 'purple', title: 'Purple'],
+        [name: 'blue', title: 'Blue'],
+        [name: 'brown', title: 'Brown'],
+        [name: 'green', title: 'Green'],
+        [name: 'white', title: 'White'],
+        [name: 'black', title: 'Black']
+]
 
 def readFurnitureCatalog = {
     new JsonSlurper().parse(furnitureCatalogFile.asFile) as Map
@@ -22,11 +48,88 @@ def catalogSnapshotText = { Map catalog ->
     lines.join('\n') + '\n'
 }
 
+tasks.register('updatePaddedBenchColourAssets') {
+    group = 'generation'
+    description = 'Updates padded bench block/item models, blockstates, and locales for colour subtypes.'
+    outputs.upToDateWhen { false }
+    doLast {
+        fileTree(paddedBlockModelRoot) { include '*padded*.json' }.files.sort().each { File model ->
+            String text = model.getText('UTF-8').replace('\r\n', '\n')
+            def woolSlotMatcher = text =~ /"([^"]+)"\s*:\s*"minecraft:blocks\/wool_colored_red"/
+            if (woolSlotMatcher.count != 1) {
+                throw new GradleException("Expected exactly one red-wool upholstery slot in ${model}")
+            }
+            String slot = woolSlotMatcher[0][1]
+            text = text.replaceFirst(
+                    /"${java.util.regex.Pattern.quote(slot)}"\s*:\s*"minecraft:blocks\/wool_colored_red"/,
+                    '"upholstery": "minecraft:blocks/wool_colored_red"')
+            text = text.replaceAll(
+                    /"texture"\s*:\s*"#${java.util.regex.Pattern.quote(slot)}"/,
+                    '"texture": "#upholstery"')
+            model.setText(text, 'UTF-8')
+        }
+
+        fileTree(paddedBlockstateRoot) { include '*padded*.json' }.files.sort().each { File blockstate ->
+            String text = blockstate.getText('UTF-8').replace('\r\n', '\n')
+            text = text.replaceAll(
+                    /"model"\s*:\s*"ironagefurniture:(?!padded\/)([^"]*padded[^"]*)"/,
+                    '"model": "ironagefurniture:padded/$1"')
+            blockstate.setText(text, 'UTF-8')
+        }
+
+        fileTree(paddedItemModelRoot) { include '*padded*.json' }.files.sort().each { File itemModel ->
+            String text = itemModel.getText('UTF-8').replace('\r\n', '\n')
+            text = text.replaceAll(
+                    /"parent"\s*:\s*"ironagefurniture:padded\/([^\"]*padded[^\"]*)"/,
+                    '"parent": "ironagefurniture:block/$1"')
+            itemModel.setText(text, 'UTF-8')
+        }
+
+        Set<String> colourNames = paddedColours.collect { it.name } as Set<String>
+        fileTree(paddedLocaleRoot) { include '*.lang' }.files.sort().each { File locale ->
+            List<String> retained = locale.readLines('UTF-8').findAll { String line ->
+                def matcher = line =~ /^tile\.ironagefurniture\.chair_wood_ironage_bench(?:_back)?_padded_single_[^.]+\.([^.]+)\.name=.*$/
+                !matcher.matches() || !colourNames.contains(matcher[0][1])
+            }
+            List<String> generated = []
+            retained.each { String line ->
+                def matcher = line =~ /^(tile\.ironagefurniture\.(chair_wood_ironage_bench(?:_back)?_padded_single_[^.]+))\.name=(.+)$/
+                if (!matcher.matches()) {
+                    generated.add(line)
+                    return
+                }
+
+                String key = matcher[0][1]
+                String id = matcher[0][2]
+                String currentName = matcher[0][3]
+                boolean backBench = id.contains('_bench_back_')
+                String ordinarySuffix = backBench ? ' Padded Back Bench' : ' Padded Bench'
+                String redSuffix = backBench ? ' Red Padded Back Bench' : ' Red Padded Bench'
+                String woodName
+                if (currentName.endsWith(redSuffix)) {
+                    woodName = currentName.substring(0, currentName.length() - redSuffix.length())
+                } else if (currentName.endsWith(ordinarySuffix)) {
+                    woodName = currentName.substring(0, currentName.length() - ordinarySuffix.length())
+                } else {
+                    throw new GradleException("Cannot derive padded bench name from ${line}")
+                }
+
+                generated.add("${key}.name=${woodName}${redSuffix}")
+                paddedColours.findAll { it.name != 'red' }.each { colour ->
+                    generated.add("${key}.${colour.name}.name=${woodName} ${colour.title}${ordinarySuffix}")
+                }
+            }
+            locale.setText(generated.join('\n') + '\n', 'UTF-8')
+        }
+    }
+}
+
 tasks.register('updateFurnitureCatalog') {
     group = 'generation'
     description = 'Regenerates the deterministic Phase 3 catalog snapshot used to audit legacy Java registrations.'
     inputs.file furnitureCatalogFile
     outputs.file furnitureCatalogSnapshot
+    dependsOn tasks.named('updatePaddedBenchColourAssets')
     doLast {
         Map catalog = readFurnitureCatalog()
         File output = furnitureCatalogSnapshot.asFile
@@ -44,6 +147,7 @@ tasks.register('verifyFurnitureCatalog') {
     inputs.files fileTree('src/main/java') { include '**/*.java' }
     inputs.files fileTree('src/main/resources/assets/ironagefurniture') {
         include 'blockstates/*.json'
+        include 'models/block/*.json'
         include 'models/item/*.json'
         include 'lang/*.lang'
     }
@@ -134,6 +238,36 @@ tasks.register('verifyFurnitureCatalog') {
             throw new GradleException('No furniture registrations were discovered')
         }
 
+        List<String> catalogWoods = (catalog.woods as Map).values()
+                .collectMany { it as List<String> }
+        Set<String> expectedPaddedIds = [] as TreeSet<String>
+        catalogWoods.each { String wood ->
+            expectedPaddedIds.add("chair_wood_ironage_bench_padded_single_${wood}")
+            expectedPaddedIds.add("chair_wood_ironage_bench_back_padded_single_${wood}")
+        }
+        Set<String> registeredPaddedIds = registeredIds.findAll {
+            it ==~ /chair_wood_ironage_bench(?:_back)?_padded_single_.+/
+        } as TreeSet<String>
+        if (registeredIds.size() != 649 || registeredPaddedIds != expectedPaddedIds) {
+            throw new GradleException('Coloured padded benches must reuse the existing 649 block/item IDs '
+                    + 'and both existing padded forms for every catalog wood')
+        }
+        if ((blockSource =~ /FurnitureFactory\.CreateWoodPaddedBench\("/).count
+                != catalogWoods.size()
+                || (blockSource =~ /FurnitureFactory\.CreateWoodPaddedBackBench\("/).count
+                != catalogWoods.size()) {
+            throw new GradleException('Every padded registration must use its padded-specific subclass')
+        }
+        if ((recipeSource =~ /FurnitureFactory\.AddPaddedBenchRecipe\(/).count
+                != expectedPaddedIds.size()) {
+            throw new GradleException('Every padded block must have one sixteen-colour recipe family')
+        }
+        if (!factorySource.contains('for (PaddedBenchColour colour : PaddedBenchColour.values())')
+                || !factorySource.contains('colour.getItemMetadata()')
+                || !factorySource.contains('colour.getCarpetMetadata()')) {
+            throw new GradleException('Padded recipes must translate every carpet colour to stable item metadata')
+        }
+
         File blockstateRoot = file('src/main/resources/assets/ironagefurniture/blockstates')
         File itemModelRoot = file('src/main/resources/assets/ironagefurniture/models/item')
         registeredIds.each { String id ->
@@ -141,6 +275,42 @@ tasks.register('verifyFurnitureCatalog') {
             if (!new File(blockstateRoot, "${id}.json").isFile()
                     || (!hiddenRedstoneState && !new File(itemModelRoot, "${id}.json").isFile())) {
                 throw new GradleException("Registered furniture is missing blockstate or item model: ${id}")
+            }
+        }
+
+        File blockModelRoot = file('src/main/resources/assets/ironagefurniture/models/block')
+        registeredPaddedIds.each { String id ->
+            File blockstate = new File(blockstateRoot, "${id}.json")
+            Map blockstateJson = new JsonSlurper().parse(blockstate) as Map
+            List<String> modelReferences = (blockstateJson.variants as Map).values()
+                    .collectMany { value -> value instanceof List ? value : [value] }
+                    .collect { (it as Map).model?.toString() }
+            if (modelReferences.isEmpty() || modelReferences.any {
+                    it == null || !it.startsWith('ironagefurniture:padded/')
+                }) {
+                throw new GradleException("Padded blockstate bypasses the colour model loader: ${id}")
+            }
+            modelReferences.collect { it.substring('ironagefurniture:padded/'.length()) }
+                    .toSet().each { String modelId ->
+                File model = new File(blockModelRoot, "${modelId}.json")
+                if (!model.isFile()) {
+                    throw new GradleException("Padded model is missing: ${modelId}")
+                }
+                Map modelJson = new JsonSlurper().parse(model) as Map
+                Map textures = modelJson.textures as Map
+                String text = model.getText('UTF-8')
+                if (textures.upholstery != 'minecraft:blocks/wool_colored_red'
+                        || (text =~ /"texture"\s*:\s*"#upholstery"/).count == 0
+                        || textures.values().count {
+                            it == 'minecraft:blocks/wool_colored_red'
+                        } != 1) {
+                    throw new GradleException("Padded model has an invalid upholstery contract: ${modelId}")
+                }
+            }
+            File itemModel = new File(itemModelRoot, "${id}.json")
+            Map itemModelJson = new JsonSlurper().parse(itemModel) as Map
+            if (itemModelJson.parent != "ironagefurniture:block/${id}") {
+                throw new GradleException("Padded item model does not wrap its existing block model: ${id}")
             }
         }
         (catalog.lighting as List).each { String id ->
@@ -178,8 +348,66 @@ tasks.register('verifyFurnitureCatalog') {
             }
             locales[locale.name] = entries
         }
-        if (locales.size() != 3 || locales.values().collect { it.keySet() as Set }.toSet().size() != 1) {
-            throw new GradleException('The three English locale files must have identical key sets')
+        if (locales.size() != 3 || locales.values().toSet().size() != 1) {
+            throw new GradleException('The three English locale files must have identical keys and values')
+        }
+
+        Map<String, String> referenceLocale = locales.values().first()
+        registeredPaddedIds.each { String id ->
+            paddedColours.each { colour ->
+                String suffix = colour.name == 'red' ? '' : ".${colour.name}"
+                String key = "tile.ironagefurniture.${id}${suffix}.name"
+                String value = referenceLocale[key]
+                if (value == null || !value.contains(" ${colour.title} Padded ")) {
+                    throw new GradleException("Padded colour locale is missing or malformed: ${key}")
+                }
+            }
+        }
+
+        String colourSource = file(
+                'src/main/java/zone/moddev/mc/ironagefurniture/api/Enumerations/PaddedBenchColour.java')
+                .getText('UTF-8')
+        String tileSource = file(
+                'src/main/java/zone/moddev/mc/ironagefurniture/api/tile/TileEntityPaddedBench.java')
+                .getText('UTF-8')
+        String itemSource = file(
+                'src/main/java/zone/moddev/mc/ironagefurniture/api/Items/ItemBlockPaddedBench.java')
+                .getText('UTF-8')
+        String paddedBenchSource = file(
+                'src/main/java/zone/moddev/mc/ironagefurniture/api/Blocks/PaddedBench.java')
+                .getText('UTF-8')
+        String paddedBackBenchSource = file(
+                'src/main/java/zone/moddev/mc/ironagefurniture/api/Blocks/PaddedBackBench.java')
+                .getText('UTF-8')
+        String modelLoaderSource = file(
+                'src/main/java/zone/moddev/mc/ironagefurniture/client/model/PaddedBenchModelLoader.java')
+                .getText('UTF-8')
+        if (tileSource.contains('implements ITickable') || maintainedSource.contains('TileEntitySpecialRenderer')
+                || !tileSource.contains('private static final String COLOUR_TAG = "Color";')
+                || !tileSource.contains('oldState.getBlock() != newState.getBlock()')) {
+            throw new GradleException('Padded colour storage must be non-ticking, stable, and survive state changes')
+        }
+        if (!itemSource.contains('this.setHasSubtypes(true);')
+                || !itemSource.contains('PaddedBenchColour.creativeOrder()')
+                || !itemSource.contains('PaddedBenchColour.byItemMetadata(stack.getMetadata())')
+                || !paddedBenchSource.contains('PaddedBenchColourHelper.getDrops')
+                || !paddedBenchSource.contains('PaddedBenchColourHelper.getPickBlock')
+                || !paddedBackBenchSource.contains('PaddedBenchColourHelper.getDrops')
+                || !paddedBackBenchSource.contains('PaddedBenchColourHelper.getPickBlock')) {
+            throw new GradleException('Padded item colour must survive creative selection, placement, drops, and pick block')
+        }
+        if (!colourSource.contains('LIGHT_GRAY(8, 8, "light_gray", "silver")')
+                || !modelLoaderSource.contains('wool_colored_')
+                || !modelLoaderSource.contains('models/padded/')
+                || !modelLoaderSource.contains('models/block/padded/')
+                || !modelLoaderSource.contains('"block/" + delegatePath')
+                || !modelLoaderSource.contains('@SideOnly(Side.CLIENT)')) {
+            throw new GradleException('Padded model loader must use client-only legacy wool textures')
+        }
+        String buildSource = file('build.gradle').getText('UTF-8')
+        if (!buildSource.contains("modelPath.contains('_padded_')")
+                || !buildSource.contains("'ironagefurniture:padded/' + modelPath")) {
+            throw new GradleException('Processed padded item models must use the colour inventory model')
         }
         ['light_metal_ironage_sconce_floor_empty_iron',
          'light_metal_ironage_block_floor_glow_clear',

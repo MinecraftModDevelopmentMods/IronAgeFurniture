@@ -620,9 +620,11 @@ tasks.named('processResources', ProcessResources) {
                             def blockstate = parseJsonFile(blockstateFile)
                             if (blockstate instanceof Map && blockstate.variants instanceof Map
                                     && !blockstate.variants.containsKey('inventory')) {
+                                String modelPath = parent.substring(blockModelPrefix.length())
                                 blockstate.variants.inventory = [
-                                        model: 'ironagefurniture:'
-                                                + parent.substring(blockModelPrefix.length())
+                                        model: modelPath.contains('_padded_')
+                                                ? 'ironagefurniture:padded/' + modelPath
+                                                : 'ironagefurniture:' + modelPath
                                 ]
                                 blockstateFile.setText(JsonOutput.toJson(blockstate), 'UTF-8')
                                 collapsedItemModelBytes += itemModelFile.length()

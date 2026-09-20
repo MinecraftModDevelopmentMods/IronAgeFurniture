@@ -19,6 +19,12 @@ Phase 3 lighting release for Minecraft 1.10.2 and Forge 12.18.3.2511.
 - Keep internal lamp and sconce state blocks out of the creative inventory;
   only the player-placeable base items have item forms.
 - Give ordinary wooden furniture normal wood flammability.
+- Add all sixteen carpet colours to padded benches and padded back benches
+  without adding registry IDs. Existing benches remain red, every segment in
+  a connected mixed-colour run retains its own upholstery, and colours survive
+  placement, drops, pick block, shape changes, and reloads.
+- Render padded upholstery through resource-pack-overridable vanilla wool
+  textures using a non-ticking colour tile entity and custom baked model.
 - Register Biomes O' Plenty, Natura, Forestry, and Immersive Engineering
   furniture and Java recipes only when the relevant optional mod is loaded.
   Minecraft 1.10.2 does not use recipe advancements.

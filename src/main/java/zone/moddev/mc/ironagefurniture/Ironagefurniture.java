@@ -6,8 +6,10 @@ import java.util.Map;
 import zone.moddev.mc.ironagefurniture.api.entity.Seat;
 import zone.moddev.mc.ironagefurniture.api.CreativeModeBreakTracker;
 import zone.moddev.mc.ironagefurniture.api.entity.EntityThrownLavaLamp;
+import zone.moddev.mc.ironagefurniture.api.tile.TileEntityPaddedBench;
 import zone.moddev.mc.ironagefurniture.init.BlockInitialiser;
 import zone.moddev.mc.ironagefurniture.init.ClientItemInitialiser;
+import zone.moddev.mc.ironagefurniture.init.ClientModelInitialiser;
 import zone.moddev.mc.ironagefurniture.init.ClientRenderInitialiser;
 import zone.moddev.mc.ironagefurniture.init.RecipeInitialiser;
 
@@ -21,6 +23,7 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 @Mod(modid = Ironagefurniture.MODID, version = Ironagefurniture.VERSION)
 public class Ironagefurniture
@@ -61,6 +64,10 @@ public class Ironagefurniture
     public void preInit(FMLPreInitializationEvent event) {
 	IronAgeFurnitureConfiguration.init(event);
 		MinecraftForge.EVENT_BUS.register(new CreativeModeBreakTracker());
+		GameRegistry.registerTileEntity(TileEntityPaddedBench.class, MODID + ":padded_bench_colour");
+		if (event.getSide().isClient()) {
+			ClientModelInitialiser.registerPaddedBenchModels();
+		}
 		BlockInitialiser.init();
 		if (event.getSide().isClient()) {
 			ClientRenderInitialiser.registerEntityRenderers();
