@@ -8,7 +8,9 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
 import oshi.util.tuples.Pair;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -18,6 +20,8 @@ import net.minecraft.util.RandomSource;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.server.TickTask;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -82,6 +86,33 @@ public class LightSourceSconceLavaWall extends LightSourceSconceGlowWall {
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
+	}
+
+	@Override
+	public boolean placeLiquid(LevelAccessor world, BlockPos pos, BlockState blockState, FluidState fluidState) {
+		boolean success = super.placeLiquid(world, pos, blockState, fluidState);
+
+		if (!success || blockState.getValue(BlockStateProperties.WATERLOGGED)
+				|| fluidState.getType() != Fluids.WATER || world.isClientSide()) {
+			return success;
+		}
+
+		world.setBlock(pos, EmptyVariant().defaultBlockState()
+			.setValue(FurnitureBlock.DIRECTION, blockState.getValue(BlockStateProperties.HORIZONTAL_FACING))
+			.setValue(FurnitureBlock.WATERLOGGED, true), Block.UPDATE_ALL);
+
+		world.playSound(null, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, friction, explosionResistance);
+		world.playSound(null, pos, SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, friction, explosionResistance);
+
+		if (world instanceof ServerLevel serverLevel) {
+			serverLevel.getServer().schedule(new TickTask(serverLevel.getServer().getTickCount() + 1, () -> {
+				Block.popResource(serverLevel, pos, new ItemStack(ModVanillaLights.obsidian_chunk.get(), 1));
+			}));
+		}
+
+		world.scheduleTick(pos, fluidState.getType(), fluidState.getType().getTickDelay(world));
+
+		return success;
 	}
 
 	@Override
