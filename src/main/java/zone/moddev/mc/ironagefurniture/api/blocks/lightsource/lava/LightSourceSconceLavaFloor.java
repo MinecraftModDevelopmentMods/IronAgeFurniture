@@ -8,6 +8,8 @@ import net.minecraft.util.Direction;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.concurrent.TickDelayedTask;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -129,27 +131,26 @@ public class LightSourceSconceLavaFloor extends LightSourceSconceGlowFloor imple
 	public boolean receiveFluid(IWorld world, BlockPos pos, BlockState blockState, IFluidState fluidState) {
 		boolean success = super.receiveFluid(world, pos, blockState, fluidState);
 
-		if (!blockState .get(BlockStateProperties.WATERLOGGED) && fluidState.getFluid() == Fluids.WATER) {
-			if (!world.isRemote()) {
-
-				world.setBlockState(pos, EmptyVariant().getDefaultState()
-					 .with(FurnitureBlock.DIRECTION, blockState .get(BlockStateProperties.HORIZONTAL_FACING))
-					 .with(FurnitureBlock.WATERLOGGED, Boolean.valueOf(true)), 3);
-
-				world.playSound(null, pos, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
-				world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 0.5F, 2.6F);
-
-				Block.spawnDrops(blockState, (World) world, pos);
-				world.setBlockState(pos.down(), BlockObjectHolder.obsidian_chunk.getDefaultState(), 3);
-
-				world.getPendingFluidTicks().scheduleTick(pos, fluidState.getFluid(), fluidState.getFluid().getTickRate(world));
-			}
-		} else {
-			world.setBlockState(pos, EmptyVariant().getDefaultState()
-				 .with(FurnitureBlock.DIRECTION, blockState .get(BlockStateProperties.HORIZONTAL_FACING))
-				 .with(FurnitureBlock.WATERLOGGED, blockState .get(BlockStateProperties.WATERLOGGED)), 3);
-
+		if (!success || blockState.get(BlockStateProperties.WATERLOGGED)
+				|| fluidState.getFluid() != Fluids.WATER || world.isRemote()) {
+			return success;
 		}
+
+		world.setBlockState(pos, EmptyVariant().getDefaultState()
+			.with(FurnitureBlock.DIRECTION, blockState.get(BlockStateProperties.HORIZONTAL_FACING))
+			.with(FurnitureBlock.WATERLOGGED, true), 3);
+
+		world.playSound(null, pos, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
+		world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 0.5F, 2.6F);
+
+		if (world instanceof ServerWorld) {
+			ServerWorld serverWorld = (ServerWorld) world;
+			serverWorld.getServer().enqueue(new TickDelayedTask(serverWorld.getServer().getTickCounter() + 1, () -> {
+				Block.spawnAsEntity(serverWorld, pos, new ItemStack(BlockObjectHolder.obsidian_chunk, 1));
+			}));
+		}
+
+		world.getPendingFluidTicks().scheduleTick(pos, fluidState.getFluid(), fluidState.getFluid().getTickRate(world));
 
 		return success;
 	}
