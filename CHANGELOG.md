@@ -25,6 +25,8 @@ Phase 3 lighting release for Minecraft 1.10.2 and Forge 12.18.3.2511.
   placement, drops, pick block, shape changes, and reloads.
 - Render padded upholstery through resource-pack-overridable vanilla wool
   textures using a non-ticking colour tile entity and custom baked model.
+- Select padded bench inventory models from item metadata during model baking,
+  so every coloured subtype renders with its matching upholstery in GUIs.
 - Register Biomes O' Plenty, Natura, Forestry, and Immersive Engineering
   furniture and Java recipes only when the relevant optional mod is loaded.
   Minecraft 1.10.2 does not use recipe advancements.

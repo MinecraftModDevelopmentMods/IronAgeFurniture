@@ -70,6 +70,7 @@ public class Ironagefurniture
 		}
 		BlockInitialiser.init();
 		if (event.getSide().isClient()) {
+			ClientModelInitialiser.registerPaddedBenchItemModels();
 			ClientRenderInitialiser.registerEntityRenderers();
 		}
 

@@ -29,6 +29,7 @@ public enum PaddedBenchModelLoader implements ICustomModelLoader {
 	INSTANCE;
 
 	private static final String ITEM_PREFIX = "models/padded/";
+	private static final String COLOURED_ITEM_PREFIX = "models/item/padded/";
 	private static final String BLOCK_PREFIX = "models/block/padded/";
 
 	@Override
@@ -37,12 +38,31 @@ public enum PaddedBenchModelLoader implements ICustomModelLoader {
 			return false;
 		}
 		String path = modelLocation.getResourcePath();
-		return path.startsWith(ITEM_PREFIX) || path.startsWith(BLOCK_PREFIX);
+		return path.startsWith(ITEM_PREFIX) || path.startsWith(COLOURED_ITEM_PREFIX)
+				|| path.startsWith(BLOCK_PREFIX);
 	}
 
 	@Override
 	public IModel loadModel(ResourceLocation modelLocation) throws Exception {
 		String path = modelLocation.getResourcePath();
+		if (path.startsWith(COLOURED_ITEM_PREFIX)) {
+			String itemPath = path.substring(COLOURED_ITEM_PREFIX.length());
+			int separator = itemPath.indexOf('/');
+			if (separator <= 0 || separator == itemPath.length() - 1) {
+				throw new IllegalArgumentException("Invalid padded bench item model: " + modelLocation);
+			}
+
+			String colourName = itemPath.substring(0, separator);
+			PaddedBenchColour colour = PaddedBenchColour.byName(colourName);
+			if (!colour.getSerializedName().equals(colourName)) {
+				throw new IllegalArgumentException("Unknown padded bench item colour: " + colourName);
+			}
+
+			IModel delegate = ModelLoaderRegistry.getModel(new ResourceLocation(
+					modelLocation.getResourceDomain(), "block/" + itemPath.substring(separator + 1)));
+			return new ColouredItemModel(delegate, colour);
+		}
+
 		String delegatePath = path.substring(path.startsWith(BLOCK_PREFIX)
 				? BLOCK_PREFIX.length() : ITEM_PREFIX.length());
 		IModel delegate = ModelLoaderRegistry.getModel(
@@ -69,6 +89,17 @@ public enum PaddedBenchModelLoader implements ICustomModelLoader {
 			variants.put(colour, coloured.bake(state, format, textureGetter));
 		}
 		return new PaddedBenchBakedModel(variants);
+	}
+
+	private static IBakedModel bakeVariant(IModel delegate, PaddedBenchColour colour,
+			IModelState state, VertexFormat format,
+			Function<ResourceLocation, TextureAtlasSprite> textureGetter) {
+		if (!(delegate instanceof IRetexturableModel)) {
+			throw new IllegalStateException("Padded bench model is not retexturable: " + delegate);
+		}
+		IModel coloured = ((IRetexturableModel)delegate).retexture(ImmutableMap.of(
+				"upholstery", woolTexture(colour).toString()));
+		return coloured.bake(state, format, textureGetter);
 	}
 
 	public static ResourceLocation woolTexture(PaddedBenchColour colour) {
@@ -102,6 +133,40 @@ public enum PaddedBenchModelLoader implements ICustomModelLoader {
 		public IBakedModel bake(IModelState state, VertexFormat format,
 				Function<ResourceLocation, TextureAtlasSprite> textureGetter) {
 			return bakeVariants(this.delegate, state, format, textureGetter);
+		}
+
+		@Override
+		public IModelState getDefaultState() {
+			return this.delegate.getDefaultState();
+		}
+	}
+
+	private static final class ColouredItemModel implements IModel {
+		private final IModel delegate;
+		private final PaddedBenchColour colour;
+
+		private ColouredItemModel(IModel delegate, PaddedBenchColour colour) {
+			this.delegate = delegate;
+			this.colour = colour;
+		}
+
+		@Override
+		public Collection<ResourceLocation> getDependencies() {
+			return this.delegate.getDependencies();
+		}
+
+		@Override
+		public Collection<ResourceLocation> getTextures() {
+			LinkedHashSet<ResourceLocation> textures =
+					new LinkedHashSet<ResourceLocation>(this.delegate.getTextures());
+			textures.add(woolTexture(this.colour));
+			return textures;
+		}
+
+		@Override
+		public IBakedModel bake(IModelState state, VertexFormat format,
+				Function<ResourceLocation, TextureAtlasSprite> textureGetter) {
+			return bakeVariant(this.delegate, this.colour, state, format, textureGetter);
 		}
 
 		@Override

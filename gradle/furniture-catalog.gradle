@@ -382,6 +382,12 @@ tasks.register('verifyFurnitureCatalog') {
         String modelLoaderSource = file(
                 'src/main/java/zone/moddev/mc/ironagefurniture/client/model/PaddedBenchModelLoader.java')
                 .getText('UTF-8')
+        String clientModelSource = file(
+                'src/main/java/zone/moddev/mc/ironagefurniture/init/ClientModelInitialiser.java')
+                .getText('UTF-8')
+        String clientItemSource = file(
+                'src/main/java/zone/moddev/mc/ironagefurniture/init/ClientItemInitialiser.java')
+                .getText('UTF-8')
         if (tileSource.contains('implements ITickable') || maintainedSource.contains('TileEntitySpecialRenderer')
                 || !tileSource.contains('private static final String COLOUR_TAG = "Color";')
                 || !tileSource.contains('oldState.getBlock() != newState.getBlock()')) {
@@ -399,10 +405,18 @@ tasks.register('verifyFurnitureCatalog') {
         if (!colourSource.contains('LIGHT_GRAY(8, 8, "light_gray", "silver")')
                 || !modelLoaderSource.contains('wool_colored_')
                 || !modelLoaderSource.contains('models/padded/')
+                || !modelLoaderSource.contains('models/item/padded/')
                 || !modelLoaderSource.contains('models/block/padded/')
                 || !modelLoaderSource.contains('"block/" + delegatePath')
                 || !modelLoaderSource.contains('@SideOnly(Side.CLIENT)')) {
             throw new GradleException('Padded model loader must use client-only legacy wool textures')
+        }
+        if (!clientModelSource.contains('ModelLoader.setCustomModelResourceLocation')
+                || !clientModelSource.contains('colour.getItemMetadata()')
+                || !clientModelSource.contains('colour.getSerializedName()')
+                || !clientItemSource.contains('if (item instanceof ItemBlockPaddedBench)')
+                || !clientItemSource.contains('continue;')) {
+            throw new GradleException('Every padded item metadata must use its pre-baked colour model')
         }
         String buildSource = file('build.gradle').getText('UTF-8')
         if (!buildSource.contains("modelPath.contains('_padded_')")
