@@ -6,7 +6,9 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.block.material.Material;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.util.Direction;
@@ -20,6 +22,8 @@ import java.util.Random;
 import zone.moddev.mc.ironagefurniture.BlockObjectHolder;
 
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.concurrent.TickDelayedTask;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.enchantment.Enchantment;
@@ -83,6 +87,34 @@ public class LightSourceSconceLavaWall extends LightSourceSconceGlowWall {
 		this.registerDefaultState(this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
 		this.setRegistryName(name);
+	}
+
+	@Override
+	public boolean placeLiquid(IWorld world, BlockPos pos, BlockState blockState, FluidState fluidState) {
+		boolean success = super.placeLiquid(world, pos, blockState, fluidState);
+
+		if (!success || blockState.getValue(BlockStateProperties.WATERLOGGED)
+				|| fluidState.getType() != Fluids.WATER || world.isClientSide()) {
+			return success;
+		}
+
+		world.setBlock(pos, EmptyVariant().defaultBlockState()
+			.setValue(FurnitureBlock.DIRECTION, blockState.getValue(BlockStateProperties.HORIZONTAL_FACING))
+			.setValue(FurnitureBlock.WATERLOGGED, true), 3);
+
+		world.playSound(null, pos, SoundEvents.GLASS_BREAK, SoundCategory.BLOCKS, friction, explosionResistance);
+		world.playSound(null, pos, SoundEvents.LAVA_EXTINGUISH, SoundCategory.BLOCKS, friction, explosionResistance);
+
+		if (world instanceof ServerWorld) {
+			ServerWorld serverWorld = (ServerWorld) world;
+			serverWorld.getServer().tell(new TickDelayedTask(serverWorld.getServer().getTickCount() + 1, () -> {
+				Block.popResource(serverWorld, pos, new ItemStack(BlockObjectHolder.obsidian_chunk, 1));
+			}));
+		}
+
+		world.getLiquidTicks().scheduleTick(pos, fluidState.getType(), fluidState.getType().getTickDelay(world));
+
+		return success;
 	}
 
 	@Override
