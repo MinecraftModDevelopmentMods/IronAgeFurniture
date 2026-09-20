@@ -15,7 +15,7 @@
         },
         "has_the_recipe": {
             "conditions": {
-                "recipe": "ironagefurniture:chair_wood_ironage_classic_spruce"
+                "recipes": "ironagefurniture:chair_wood_ironage_classic_spruce"
             },
             "trigger": "minecraft:recipe_unlocked"
         }

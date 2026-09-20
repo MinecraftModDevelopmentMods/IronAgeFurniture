@@ -22,6 +22,7 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.TickTask;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlockContainer;
@@ -131,29 +132,25 @@ public class LightSourceSconceLavaFloor extends LightSourceSconceGlowFloor imple
 	public boolean placeLiquid(LevelAccessor world, BlockPos pos, BlockState blockState, FluidState fluidState) {
 		boolean success = super.placeLiquid(world, pos, blockState, fluidState);
 
-		if (!blockState.getValue(BlockStateProperties.WATERLOGGED) && fluidState.getType() == Fluids.WATER) {
-			if (!world.isClientSide()) {
-
-				world.setBlock(pos, EmptyVariant().defaultBlockState()
-					.setValue(FurnitureBlock.DIRECTION, blockState.getValue(BlockStateProperties.HORIZONTAL_FACING))
-					.setValue(FurnitureBlock.WATERLOGGED, Boolean.valueOf(true)), Block.UPDATE_ALL);
-
-				world.playSound(null, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, friction, explosionResistance);
-				world.playSound(null, pos, SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, friction, explosionResistance);
-
-				if (world instanceof ServerLevel serverLevel) {
-					Block.dropResources(blockState, serverLevel, pos);
-				}
-				world.setBlock(pos.below(), ModVanillaLights.obsidian_chunk.get().defaultBlockState(), Block.UPDATE_ALL_IMMEDIATE, Block.UPDATE_ALL);
-
-				world.scheduleTick(pos, fluidState.getType(), fluidState.getType().getTickDelay(world));
-			}
-		} else {
-			world.setBlock(pos, EmptyVariant().defaultBlockState()
-				.setValue(FurnitureBlock.DIRECTION, blockState.getValue(BlockStateProperties.HORIZONTAL_FACING))
-				.setValue(FurnitureBlock.WATERLOGGED, blockState.getValue(BlockStateProperties.WATERLOGGED)), Block.UPDATE_ALL);
-
+		if (!success || blockState.getValue(BlockStateProperties.WATERLOGGED)
+				|| fluidState.getType() != Fluids.WATER || world.isClientSide()) {
+			return success;
 		}
+
+		world.setBlock(pos, EmptyVariant().defaultBlockState()
+			.setValue(FurnitureBlock.DIRECTION, blockState.getValue(BlockStateProperties.HORIZONTAL_FACING))
+			.setValue(FurnitureBlock.WATERLOGGED, true), Block.UPDATE_ALL);
+
+		world.playSound(null, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, friction, explosionResistance);
+		world.playSound(null, pos, SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, friction, explosionResistance);
+
+		if (world instanceof ServerLevel serverLevel) {
+			serverLevel.getServer().schedule(new TickTask(serverLevel.getServer().getTickCount() + 1, () -> {
+				Block.popResource(serverLevel, pos, new ItemStack(ModVanillaLights.obsidian_chunk.get(), 1));
+			}));
+		}
+
+		world.scheduleTick(pos, fluidState.getType(), fluidState.getType().getTickDelay(world));
 
 		return success;
 	}

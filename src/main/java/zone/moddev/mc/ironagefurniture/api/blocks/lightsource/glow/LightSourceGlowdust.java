@@ -19,6 +19,7 @@ import net.minecraft.world.level.storage.loot.LootParams.Builder;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.Nullable;
 
 public class LightSourceGlowdust extends FallingFurnitureBlock {
 	@Override
@@ -74,7 +75,8 @@ public class LightSourceGlowdust extends FallingFurnitureBlock {
 
 
 	@Override
-	public boolean canConnectRedstone(BlockState state, BlockGetter world, BlockPos pos, Direction direction) {
+	protected boolean shouldRedstoneWireConnectTo(BlockState state, BlockGetter world, BlockPos pos,
+			@Nullable Direction direction) {
 		return false;
 	}
 }

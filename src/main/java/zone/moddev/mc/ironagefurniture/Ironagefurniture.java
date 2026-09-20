@@ -1,7 +1,6 @@
 package zone.moddev.mc.ironagefurniture;
 
 import net.minecraftforge.eventbus.api.bus.BusGroup;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -11,9 +10,7 @@ import zone.moddev.mc.ironagefurniture.api.entity.Entities;
 import zone.moddev.mc.ironagefurniture.api.CreativeModeBreakTracker;
 import zone.moddev.mc.ironagefurniture.client.renderer.ClientHandler;
 import zone.moddev.mc.ironagefurniture.client.renderer.LightRendering;
-import zone.moddev.mc.ironagefurniture.client.OptionalIntegrationResourcePacks;
 import zone.moddev.mc.ironagefurniture.compat.LegacyFurnitureMappings;
-import zone.moddev.mc.ironagefurniture.init.ModBOPBlocks;
 import zone.moddev.mc.ironagefurniture.init.ModCreativeTab;
 import zone.moddev.mc.ironagefurniture.init.ModVanillaBackBench;
 import zone.moddev.mc.ironagefurniture.init.ModVanillaBench;
@@ -53,11 +50,6 @@ public class Ironagefurniture
 		ModVanillaPaddedBench.REGISTER.register(modBusGroup);
 		ModVanillaPaddedBackBench.REGISTER.register(modBusGroup);
 		
-		if (ModList.isLoaded("biomesoplenty")) {
-			LOGGER.info("Iron Age Furniture Biomes O Plenty Integration is loading...");
-			ModBOPBlocks.REGISTER.register(modBusGroup);
-		}
-
         ModItems.REGISTER.register(modBusGroup);
         ModCreativeTab.REGISTER.register(modBusGroup);
         Entities.REGISTER.register(modBusGroup);
@@ -67,7 +59,6 @@ public class Ironagefurniture
         CreativeModeBreakTracker.registerRuntimeListener();
         
         if (FMLEnvironment.dist == Dist.CLIENT) {
-			OptionalIntegrationResourcePacks.register();
 			net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers.BUS
 					.addListener(ClientHandler::onRegisterRenderers);
 			FMLClientSetupEvent.getBus(modBusGroup).addListener(LightRendering::clientSetup);

@@ -27,6 +27,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ScheduledTickAccess;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.TickTask;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.material.Fluids;
 
 public class LightSourceSconceLavaWall extends LightSourceSconceGlowWall {
 	@Override
@@ -82,6 +86,33 @@ public class LightSourceSconceLavaWall extends LightSourceSconceGlowWall {
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
+	}
+
+	@Override
+	public boolean placeLiquid(LevelAccessor world, BlockPos pos, BlockState blockState, FluidState fluidState) {
+		boolean success = super.placeLiquid(world, pos, blockState, fluidState);
+
+		if (!success || blockState.getValue(BlockStateProperties.WATERLOGGED)
+				|| fluidState.getType() != Fluids.WATER || world.isClientSide()) {
+			return success;
+		}
+
+		world.setBlock(pos, EmptyVariant().defaultBlockState()
+			.setValue(FurnitureBlock.DIRECTION, blockState.getValue(BlockStateProperties.HORIZONTAL_FACING))
+			.setValue(FurnitureBlock.WATERLOGGED, true), Block.UPDATE_ALL);
+
+		world.playSound(null, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, friction, explosionResistance);
+		world.playSound(null, pos, SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, friction, explosionResistance);
+
+		if (world instanceof ServerLevel serverLevel) {
+			serverLevel.getServer().schedule(new TickTask(serverLevel.getServer().getTickCount() + 1, () -> {
+				Block.popResource(serverLevel, pos, new ItemStack(ModVanillaLights.obsidian_chunk.get(), 1));
+			}));
+		}
+
+		world.scheduleTick(pos, fluidState.getType(), fluidState.getType().getTickDelay(world));
+
+		return success;
 	}
 
 	@Override

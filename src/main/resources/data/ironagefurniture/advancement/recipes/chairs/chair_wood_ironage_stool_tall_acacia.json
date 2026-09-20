@@ -15,7 +15,7 @@
         },
         "has_the_recipe": {
             "conditions": {
-                "recipe": "ironagefurniture:chair_wood_ironage_stool_tall_acacia"
+                "recipes": "ironagefurniture:chair_wood_ironage_stool_tall_acacia"
             },
             "trigger": "minecraft:recipe_unlocked"
         }
