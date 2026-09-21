@@ -10,7 +10,9 @@
         }
     ],
     "result": {
-        "item": "ironagefurniture:chair_wood_ironage_bench_back_padded_single_forestry_willow"
+        "item": "ironagefurniture:chair_wood_ironage_bench_back_padded_single_forestry_willow",
+        "data": 13,
+        "nbt": "{Color:\"green\"}"
     },
     "group": "furniture",
     "conditions": [

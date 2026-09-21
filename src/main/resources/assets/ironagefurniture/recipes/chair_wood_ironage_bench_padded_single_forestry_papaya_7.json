@@ -10,7 +10,9 @@
         }
     ],
     "result": {
-        "item": "ironagefurniture:chair_wood_ironage_bench_padded_single_forestry_papaya"
+        "item": "ironagefurniture:chair_wood_ironage_bench_padded_single_forestry_papaya",
+        "data": 7,
+        "nbt": "{Color:\"gray\"}"
     },
     "group": "furniture",
     "conditions": [

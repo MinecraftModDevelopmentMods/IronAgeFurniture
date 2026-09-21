@@ -10,7 +10,9 @@
         }
     ],
     "result": {
-        "item": "ironagefurniture:chair_wood_ironage_bench_padded_single_forestry_kapok"
+        "item": "ironagefurniture:chair_wood_ironage_bench_padded_single_forestry_kapok",
+        "data": 6,
+        "nbt": "{Color:\"pink\"}"
     },
     "group": "furniture",
     "conditions": [

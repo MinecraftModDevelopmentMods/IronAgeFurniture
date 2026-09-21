@@ -10,7 +10,9 @@
         }
     ],
     "result": {
-        "item": "ironagefurniture:chair_wood_ironage_bench_back_padded_single_natura_hopseed"
+        "item": "ironagefurniture:chair_wood_ironage_bench_back_padded_single_natura_hopseed",
+        "data": 11,
+        "nbt": "{Color:\"blue\"}"
     },
     "group": "furniture",
     "conditions": [

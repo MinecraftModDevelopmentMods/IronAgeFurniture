@@ -24,7 +24,10 @@ import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceTorchFloorUnl
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceTorchWall;
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceTorchWallUnlit;
 import zone.moddev.mc.ironagefurniture.api.Blocks.ObsideanLump;
+import zone.moddev.mc.ironagefurniture.api.Blocks.PaddedBackBench;
+import zone.moddev.mc.ironagefurniture.api.Blocks.PaddedBench;
 import zone.moddev.mc.ironagefurniture.api.Blocks.Stool;
+import zone.moddev.mc.ironagefurniture.api.Items.ItemBlockPaddedBench;
 import zone.moddev.mc.ironagefurniture.api.Items.ItemBlockThrowableLavaLamp;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -72,12 +75,30 @@ public class FurnitureFactory {
 		return registerBlock(new BackBench(Material.WOOD, name, resistance, false, 0.25, hardness), name);
 	}
 
+	public static Block CreateWoodPaddedBench(String name, float resistance, float hardness) {
+		return registerPaddedBlock(
+				new PaddedBench(Material.WOOD, name, resistance, false, 0.25, hardness), name);
+	}
+
+	public static Block CreateWoodPaddedBackBench(String name, float resistance, float hardness) {
+		return registerPaddedBlock(
+				new PaddedBackBench(Material.WOOD, name, resistance, false, 0.25, hardness), name);
+	}
+
 	public static Block CreateWoodBench(String name) {
 		return CreateWoodBench(name, 10, 1);
 	}
 
 	public static Block CreateWoodBackBench(String name) {
 		return CreateWoodBackBench(name, 10, 1);
+	}
+
+	public static Block CreateWoodPaddedBench(String name) {
+		return CreateWoodPaddedBench(name, 10, 1);
+	}
+
+	public static Block CreateWoodPaddedBackBench(String name) {
+		return CreateWoodPaddedBackBench(name, 10, 1);
 	}
 
 	public static Block CreateIronWallSconce(String name) {
@@ -193,6 +214,16 @@ public class FurnitureFactory {
 
 	private static Block registerBlock(Block block, String name) {
 		return registerBlock(block, name, 16);
+	}
+
+	private static Block registerPaddedBlock(Block block, String name) {
+		block.setTranslationKey(Ironagefurniture.MODID + "." + name);
+		block.setRegistryName(name);
+		block.setCreativeTab(Ironagefurniture.ironagefurnitureTab);
+		ItemBlock itemBlock = new ItemBlockPaddedBench(block);
+		RegisterItem(itemBlock, name, 16);
+		Ironagefurniture.BlockRegistry.put(name, block);
+		return block;
 	}
 
 	public static Item RegisterItem(Item item, String name, int maxStackSize) {

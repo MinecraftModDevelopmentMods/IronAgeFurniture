@@ -13,6 +13,13 @@ This branch provides IronAgeFurniture `0.3.0.112021` for Minecraft 1.12.2 and
 Forge 14.23.5.2859. It requires Java 8 and can be installed on both clients and
 dedicated servers.
 
+Padded benches and padded back benches support all sixteen vanilla carpet
+colours without adding block or item IDs. Existing benches and data-zero items
+remain red. New stacks retain both their legacy metadata and a stable `Color`
+NBT string through crafting, Creative inventory, placement, drops, pick block,
+connected-shape changes and chunk reloads. Mixed-colour runs remain governed by
+the unchanged bench joining algorithm.
+
 ## Optional integrations
 
 IronAgeFurniture adds matching furniture and recipes when these mods are

@@ -10,7 +10,9 @@
         }
     ],
     "result": {
-        "item": "ironagefurniture:chair_wood_ironage_bench_padded_single_biomesoplenty_cherry"
+        "item": "ironagefurniture:chair_wood_ironage_bench_padded_single_biomesoplenty_cherry",
+        "data": 12,
+        "nbt": "{Color:\"brown\"}"
     },
     "group": "furniture",
     "conditions": [

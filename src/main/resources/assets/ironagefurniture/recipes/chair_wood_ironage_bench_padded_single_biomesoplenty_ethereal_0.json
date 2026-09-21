@@ -10,7 +10,9 @@
         }
     ],
     "result": {
-        "item": "ironagefurniture:chair_wood_ironage_bench_padded_single_biomesoplenty_ethereal"
+        "item": "ironagefurniture:chair_wood_ironage_bench_padded_single_biomesoplenty_ethereal",
+        "data": 14,
+        "nbt": "{Color:\"white\"}"
     },
     "group": "furniture",
     "conditions": [

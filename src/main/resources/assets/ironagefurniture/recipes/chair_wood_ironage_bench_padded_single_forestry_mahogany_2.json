@@ -10,7 +10,9 @@
         }
     ],
     "result": {
-        "item": "ironagefurniture:chair_wood_ironage_bench_padded_single_forestry_mahogany"
+        "item": "ironagefurniture:chair_wood_ironage_bench_padded_single_forestry_mahogany",
+        "data": 2,
+        "nbt": "{Color:\"magenta\"}"
     },
     "group": "furniture",
     "conditions": [

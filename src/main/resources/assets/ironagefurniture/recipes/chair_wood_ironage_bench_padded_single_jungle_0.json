@@ -10,7 +10,9 @@
         }
     ],
     "result": {
-        "item": "ironagefurniture:chair_wood_ironage_bench_padded_single_jungle"
+        "item": "ironagefurniture:chair_wood_ironage_bench_padded_single_jungle",
+        "data": 14,
+        "nbt": "{Color:\"white\"}"
     },
     "group": "furniture"
 }

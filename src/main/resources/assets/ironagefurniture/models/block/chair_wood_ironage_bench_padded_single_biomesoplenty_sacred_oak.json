@@ -3,7 +3,7 @@
   "textures": {
     "0": "biomesoplenty:blocks/sacred_oak_log",
     "1": "biomesoplenty:blocks/sacred_oak_planks",
-    "2": "minecraft:blocks/wool_colored_red",
+    "upholstery": "minecraft:blocks/wool_colored_red",
     "particle": "biomesoplenty:blocks/sacred_oak_log"
   },
   "elements": [
@@ -701,7 +701,7 @@
             14,
             1
           ],
-          "texture": "#2"
+          "texture": "#upholstery"
         },
         "east": {
           "uv": [
@@ -710,7 +710,7 @@
             12,
             1
           ],
-          "texture": "#2"
+          "texture": "#upholstery"
         },
         "south": {
           "uv": [
@@ -719,7 +719,7 @@
             14,
             1
           ],
-          "texture": "#2"
+          "texture": "#upholstery"
         },
         "west": {
           "uv": [
@@ -728,7 +728,7 @@
             12,
             1
           ],
-          "texture": "#2"
+          "texture": "#upholstery"
         },
         "up": {
           "uv": [
@@ -737,7 +737,7 @@
             14,
             12
           ],
-          "texture": "#2"
+          "texture": "#upholstery"
         },
         "down": {
           "uv": [
@@ -746,7 +746,7 @@
             14,
             12
           ],
-          "texture": "#2"
+          "texture": "#upholstery"
         }
       }
     },

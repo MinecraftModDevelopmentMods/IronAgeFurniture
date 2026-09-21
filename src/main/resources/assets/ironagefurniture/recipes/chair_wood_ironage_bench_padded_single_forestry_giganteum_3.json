@@ -10,7 +10,9 @@
         }
     ],
     "result": {
-        "item": "ironagefurniture:chair_wood_ironage_bench_padded_single_forestry_giganteum"
+        "item": "ironagefurniture:chair_wood_ironage_bench_padded_single_forestry_giganteum",
+        "data": 3,
+        "nbt": "{Color:\"light_blue\"}"
     },
     "group": "furniture",
     "conditions": [

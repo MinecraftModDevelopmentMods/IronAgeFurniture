@@ -10,7 +10,9 @@
         }
     ],
     "result": {
-        "item": "ironagefurniture:chair_wood_ironage_bench_back_padded_single_biomesoplenty_willow"
+        "item": "ironagefurniture:chair_wood_ironage_bench_back_padded_single_biomesoplenty_willow",
+        "data": 2,
+        "nbt": "{Color:\"magenta\"}"
     },
     "group": "furniture",
     "conditions": [

@@ -2,6 +2,15 @@
 
 Phase 3 lighting release for Minecraft 1.12.2 and Forge 14.23.5.2859.
 
+- Add all sixteen carpet colours to padded benches and padded back benches
+  across vanilla and every supported optional wood integration, without adding
+  registry IDs or changing bench joining behaviour.
+- Preserve upholstery through a non-ticking tile entity, the shared historical
+  `ironagefurniture:padded_bench_colour` ID, legacy item metadata and a stable
+  `Color` NBT string suitable for later flattening migration.
+- Render placed and inventory upholstery with resource-pack-overridable vanilla
+  wool textures through a client-only custom baked model.
+
 ## Player-visible changes
 
 - Add the complete Phase 3 lighting set: empty, torch, unlit-torch,

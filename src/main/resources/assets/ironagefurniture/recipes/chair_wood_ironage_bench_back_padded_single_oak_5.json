@@ -10,7 +10,9 @@
         }
     ],
     "result": {
-        "item": "ironagefurniture:chair_wood_ironage_bench_back_padded_single_oak"
+        "item": "ironagefurniture:chair_wood_ironage_bench_back_padded_single_oak",
+        "data": 5,
+        "nbt": "{Color:\"lime\"}"
     },
     "group": "furniture"
 }
