@@ -5,7 +5,6 @@ import java.util.Random;
 
 import com.google.common.collect.Lists;
 import zone.moddev.mc.ironagefurniture.BlockObjectHolder;
-import zone.moddev.mc.ironagefurniture.api.MetalVariantHelper;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
@@ -37,9 +36,7 @@ public class LightSourceSconceLavaWall extends LightSourceSconceGlowWall {
 
         if (!worldIn.getBlockState(behind).isSideSolid(worldIn, behind, facing)) {
             if (!worldIn.isRemote) {
-                spawnAsEntity(worldIn, pos,
-                    MetalVariantHelper.getDrop(BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron,
-                        worldIn, pos));
+                spawnAsEntity(worldIn, pos, new ItemStack(BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron, 1));
                 IBlockState lavaState = LightDrop().getDefaultState().withProperty(FACING, facing);
                 worldIn.setBlockState(pos, lavaState, 3);
                 worldIn.scheduleUpdate(pos, LightDrop(), LightDrop().tickRate(worldIn));
@@ -53,8 +50,7 @@ public class LightSourceSconceLavaWall extends LightSourceSconceGlowWall {
 
     @Override
     public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-        return Lists.newArrayList(MetalVariantHelper.getDrop(
-            BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron, world, pos));
+        return Lists.newArrayList(new ItemStack(BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron, 1));
     }
 
     @Override

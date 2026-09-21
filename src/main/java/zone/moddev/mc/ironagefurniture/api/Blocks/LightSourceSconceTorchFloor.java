@@ -5,8 +5,6 @@ import java.util.Random;
 
 import com.google.common.collect.Lists;
 import zone.moddev.mc.ironagefurniture.BlockObjectHolder;
-import zone.moddev.mc.ironagefurniture.api.MetalVariantHelper;
-import zone.moddev.mc.ironagefurniture.api.MineralogyCompat;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -34,7 +32,13 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
         6.0 / 16.0, 0.0,    6.0 / 16.0,
         10.0 / 16.0, 13.0 / 16.0, 10.0 / 16.0
     );
-    
+
+    private boolean shouldBeOff(World worldIn, BlockPos pos, IBlockState state) {
+        EnumFacing facing = state.getValue(FACING);
+        BlockPos backPos = pos.offset(facing.getOpposite());
+        return worldIn.isSidePowered(backPos, facing.getOpposite());
+    }
+
     @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
         return AABB;
@@ -48,7 +52,7 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
 
     @Override
     public boolean isFullCube(IBlockState bs)   { return false; }
-    
+
     @Override
     public boolean isOpaqueCube(IBlockState bs) { return false; }
 
@@ -58,20 +62,18 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
         return BlockRenderLayer.CUTOUT;
     }
 
-    
+
     public LightSourceSconceTorchFloor(Material materialIn, String name, float resistance, float hardness) {
         super(materialIn, name, resistance, hardness);
-        this.setDefaultState(this.blockState.getBaseState()
-            .withProperty(FACING, EnumFacing.NORTH)
-            .withProperty(MetalVariantHelper.METAL, MetalVariantHelper.MetalVariant.IRON));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
         this.setLightLevel(14.0F / 15.0F);
     }
 
-    
+
     @Override
     public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
         List<ItemStack> drops = Lists.newArrayList();
-        drops.add(MetalVariantHelper.getDrop(BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron, world, pos));
+        drops.add(new ItemStack(BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron, 1));
         drops.add(new ItemStack(LightDrop(), 1));
         return drops;
     }
@@ -79,7 +81,7 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
     @Override
     public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand) {
         boolean hasFlame = true; // TODO: HasFlame() logic
-        
+
         if (hasFlame) {
             double x = pos.getX() + 0.5D;
             double y = pos.getY() + 0.9D;
@@ -94,26 +96,21 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state,
                                     EntityPlayer playerIn, EnumHand hand, ItemStack heldItem,
                                     EnumFacing side, float hitX, float hitY, float hitZ) {
-        if (tryAddSecondTorch(worldIn, pos, state, playerIn, heldItem)) {
-            return true;
-        }
 
         if (tryTakeLightOut(worldIn, pos, state, playerIn, hand, heldItem)) {
             return true;
         }
 
-        
+
         if (heldItem.getItem() == Items.WATER_BUCKET) {
             if (!worldIn.isRemote) {
                 Block unlit = GetUnlitTorchVariant();
-                MetalVariantHelper.replaceBlockPreservingMetal(worldIn, pos,
-                    unlit.getDefaultState().withProperty(FACING, state.getValue(FACING)),
-                    3 /*UPDATE_ALL*/);
+                worldIn.setBlockState(pos, unlit.getDefaultState() .withProperty(FACING, state.getValue(FACING)), 3 /*UPDATE_ALL*/);
             }
-            
+
             return true;
         }
-        
+
 
         if (isBlockedFilledSconceItem(heldItem)) {
             return true;
@@ -122,36 +119,13 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
         return super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
     }
 
-    protected boolean tryAddSecondTorch(World worldIn, BlockPos pos, IBlockState state,
-                                        EntityPlayer playerIn, ItemStack heldItem) {
-        if (heldItem == null || heldItem.stackSize <= 0 || heldItem.getItem() != Item.getItemFromBlock(Blocks.TORCH)) {
-            return false;
-        }
-
-        Block twin = GetTwinTorchVariant();
-        if (twin == null) {
-            return false;
-        }
-
-        if (!worldIn.isRemote) {
-            MetalVariantHelper.replaceBlockPreservingMetal(worldIn, pos,
-                twin.getDefaultState().withProperty(FACING, state.getValue(FACING)), 3);
-
-            if (!playerIn.capabilities.isCreativeMode) {
-                heldItem.stackSize--;
-            }
-        }
-
-        return true;
-    }
-
     protected boolean tryTakeLightOut(World worldIn, BlockPos pos, IBlockState state,
                                       EntityPlayer playerIn, EnumHand hand, ItemStack heldItem) {
         Item lightItem = Item.getItemFromBlock(LightDrop());
 
         if (heldItem == null || heldItem.stackSize <= 0) {
             if (!worldIn.isRemote) {
-                MetalVariantHelper.replaceBlockPreservingMetal(worldIn, pos,
+                worldIn.setBlockState(pos,
                     DropVariant().getDefaultState().withProperty(FACING, state.getValue(FACING)),
                     3);
 
@@ -168,7 +142,7 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
         }
 
         if (!worldIn.isRemote) {
-            MetalVariantHelper.replaceBlockPreservingMetal(worldIn, pos,
+            worldIn.setBlockState(pos,
                 DropVariant().getDefaultState().withProperty(FACING, state.getValue(FACING)),
                 3);
 
@@ -192,11 +166,9 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
         Item item = heldItem.getItem();
         return item == Item.getItemFromBlock(Blocks.TORCH)
             || item == Item.getItemFromBlock(Blocks.REDSTONE_TORCH)
-            || isItemFromBlock(item, BlockObjectHolder.light_metal_ironage_candle_floor)
             || isItemFromBlock(item, BlockObjectHolder.light_metal_ironage_block_floor_glow_clear)
             || isItemFromBlock(item, BlockObjectHolder.light_metal_ironage_block_floor_lava_clear)
-            || isItemFromBlock(item, BlockObjectHolder.light_metal_ironage_block_floor_red_clear)
-            || MineralogyCompat.isRockSaltLampItem(heldItem);
+            || isItemFromBlock(item, BlockObjectHolder.light_metal_ironage_block_floor_red_clear);
     }
 
     protected boolean isBlockedFilledSconceItem(ItemStack heldItem) {
@@ -255,9 +227,6 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
         return BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron;
     }
 
-    protected Block GetTwinTorchVariant() {
-        return BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron_twin;
-    }
     @Override
     protected Block GetLavaVariant() {
         return BlockObjectHolder.light_metal_ironage_sconce_floor_lava_iron;
@@ -267,16 +236,8 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
         return BlockObjectHolder.light_metal_ironage_sconce_floor_redtorch_iron;
     }
     @Override
-    protected Block GetSoulTorchVariant() {
-        return BlockObjectHolder.light_metal_ironage_sconce_floor_soultorch_iron;
-    }
-    @Override
     protected Block GetRedVariant() {
         return BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron;
-    }
-    @Override
-    protected Block GetSoulVariant() {
-        return BlockObjectHolder.light_metal_ironage_sconce_floor_soultorch_iron;
     }
     @Override
     protected Block GetUnlitTorchVariant() {

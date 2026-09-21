@@ -6,10 +6,6 @@ import com.google.common.collect.Lists;
 import zone.moddev.mc.ironagefurniture.BlockObjectHolder;
 import zone.moddev.mc.ironagefurniture.Ironagefurniture;
 import zone.moddev.mc.ironagefurniture.api.Enumerations.Rotation;
-import zone.moddev.mc.ironagefurniture.api.MetalVariantHelper;
-import zone.moddev.mc.ironagefurniture.api.MetalVariantHelper.MetalVariant;
-import zone.moddev.mc.ironagefurniture.api.MineralogyCompat;
-import zone.moddev.mc.ironagefurniture.api.tile.TileEntityMetalVariant;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -22,7 +18,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -33,7 +28,7 @@ import net.minecraft.world.World;
 public class LightHolderSconceFloor extends BlockHBase {
 	// ---- the combined overall bounds of the sconce ----
 	private static final AxisAlignedBB BB = new AxisAlignedBB(
-	    5.5/16.0, 0.0,    5.5/16.0, 
+	    5.5/16.0, 0.0,    5.5/16.0,
 	    10.5/16.0, 9/16.0, 10.5/16.0
 	);
 
@@ -42,7 +37,7 @@ public class LightHolderSconceFloor extends BlockHBase {
 	    5.5/16.0, 8/16.0,  5.5/16.0,
 	    10.5/16.0, 9/16.0, 10.5/16.0
 	);
-	
+
 	// ---- the vertical stand piece, facing EAST by default ----
 	private static final AxisAlignedBB STAND_EAST = new AxisAlignedBB(
 	    7.5/16.0, 0.0,    5.5/16.0,
@@ -69,12 +64,11 @@ public class LightHolderSconceFloor extends BlockHBase {
         this.blockResistance = resistance;
         this.blockHardness   = hardness;
         this.setCreativeTab(Ironagefurniture.ironagefurnitureTab);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH)
-        	.withProperty(MetalVariantHelper.METAL, MetalVariant.IRON));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
 	}
 
 	@Override
-	public IBlockState getStateFromMeta(int meta) 
+	public IBlockState getStateFromMeta(int meta)
 	{
 		return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta));
 	}
@@ -88,29 +82,9 @@ public class LightHolderSconceFloor extends BlockHBase {
 	@Override
 	protected BlockStateContainer createBlockState()
 	{
-		return new BlockStateContainer(this, new IProperty[] { FACING, MetalVariantHelper.METAL });
+		return new BlockStateContainer(this, new IProperty[] { FACING });
 	}
 
-	@Override
-	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-		return MetalVariantHelper.withMetal(state, worldIn, pos);
-	}
-
-	@Override
-	public boolean hasTileEntity(IBlockState state) {
-		return true;
-	}
-
-	@Override
-	public TileEntity createTileEntity(World world, IBlockState state) {
-		return new TileEntityMetalVariant();
-	}
-
-	@Override
-	public float getBlockHardness(IBlockState blockState, World worldIn, BlockPos pos) {
-		return MetalVariantHelper.getHardness(worldIn, pos, this.blockHardness);
-	}
-	
 	private boolean canPlaceOn(World worldIn, BlockPos pos)
     {
         IBlockState state = worldIn.getBlockState(pos);
@@ -126,10 +100,6 @@ public class LightHolderSconceFloor extends BlockHBase {
 
     public boolean canPlaceBlockAt(World worldIn, BlockPos pos)
     {
-        if (this.canPlaceHanging(worldIn, pos)) {
-            return true;
-        }
-
         for (EnumFacing enumfacing : FACING.getAllowedValues())
         {
             if (this.canPlaceAt(worldIn, pos, enumfacing))
@@ -138,57 +108,32 @@ public class LightHolderSconceFloor extends BlockHBase {
             }
         }
 
-        if (this.canPlaceAt(worldIn, pos, EnumFacing.UP)) 
+        if (this.canPlaceAt(worldIn, pos, EnumFacing.UP))
         {
             return true;
         }
-        
+
         return false;
     }
 
-    @Override
-    public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, EnumFacing side) {
-        if (side == EnumFacing.DOWN && this.canPlaceHanging(worldIn, pos)) {
-            return true;
-        }
+	private boolean canPlaceAt(World worldIn, BlockPos pos, EnumFacing facing)
+	{
+		BlockPos supportPos = pos.offset(facing.getOpposite());
+		return facing.getAxis().isHorizontal()
+			? worldIn.isSideSolid(supportPos, facing, true)
+			: facing == EnumFacing.UP && this.canPlaceOn(worldIn, supportPos);
+	}
 
-        return super.canPlaceBlockOnSide(worldIn, pos, side);
-    }
-
-    private boolean canPlaceHanging(World worldIn, BlockPos pos) {
-        Block hanging = GetHangingVariant();
-        return hanging instanceof LightHolderSconceHanging
-            && hanging.canPlaceBlockOnSide(worldIn, pos, EnumFacing.DOWN);
-    }
-
-    private boolean canPlaceAt(World worldIn, BlockPos pos, EnumFacing facing)
-    {
-    	IBlockState stateAbove = worldIn.getBlockState(pos.up());
-    
-    	if(stateAbove.getBlock().isBlockSolid(worldIn, pos.up(), facing))
-    		return true;
-    
-        BlockPos blockpos = pos.offset(facing.getOpposite());
-        boolean flag = facing.getAxis().isHorizontal();
-      
-        return flag && worldIn.isSideSolid(blockpos, facing, true) || facing.equals(EnumFacing.UP) && this.canPlaceOn(worldIn, blockpos);
-    }
-	
 	@Override
 	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing side,
 	        float hitX, float hitY, float hitZ, int meta,
 	        EntityLivingBase placer, ItemStack stack) {
 
 
-	    if (side.getAxis().isHorizontal()) {
+	    if (side.getAxis().isHorizontal() && canPlaceAt(world, pos, side)) {
 	        Block wall = GetWallVariant();
-	        EnumFacing attachFace = side; 
+	        EnumFacing attachFace = side;
 	        return wall.getDefaultState().withProperty(FACING, attachFace);
-	    }
-
-	    if (side == EnumFacing.DOWN && this.canPlaceHanging(world, pos)) {
-	        EnumFacing playerFacing = placer.getHorizontalFacing();
-	        return GetHangingVariant().getDefaultState().withProperty(FACING, playerFacing);
 	    }
 
 	    if (this.canPlaceOn(world, pos.down())) {
@@ -212,11 +157,11 @@ public class LightHolderSconceFloor extends BlockHBase {
     }
 
 	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) 
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
 	{
 		return BB;
 	}
-	
+
 	@Override
 	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox,
 			List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
@@ -251,10 +196,9 @@ public class LightHolderSconceFloor extends BlockHBase {
 		return false;
 	}
 
-	
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
-	        EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem,
+                                    EnumFacing side, float hitX, float hitY, float hitZ) {
 
 	    if (heldItem == null || heldItem.stackSize <= 0) {
 	        return super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
@@ -278,49 +222,33 @@ public class LightHolderSconceFloor extends BlockHBase {
 	    else if (heldItem.getItem() == Item.getItemFromBlock(Blocks.REDSTONE_TORCH)) {
 	        newBlock = GetRedTorchVariant();
 	    }
-	    else if (heldItem.getItem() == Item.getItemFromBlock(BlockObjectHolder.light_metal_ironage_candle_floor)) {
-	        newBlock = GetCandleVariant();
-	    }
-//	    // Soul torch // leaving as a placeholder for now for the candle variant
-//	    else if (heldItem.getItem() == Item.getItemFromBlock(Blocks.SOUL_TORCH)) {
-//	        newBlock = GetSoulTorchVariant();
-//	    }
 	    else if (heldItem.getItem() == Item.getItemFromBlock(BlockObjectHolder.light_metal_ironage_block_floor_red_clear)) {
 	        newBlock = GetRedVariant(); // Redstone lamp
 	    }
-	    else if (MineralogyCompat.isRockSaltLampItem(heldItem)) {
-	        newBlock = GetRockSaltVariant();
-	    }
 
 	    if (newBlock != null) {
-	        MetalVariantHelper.replaceBlockPreservingMetal(worldIn, pos,
-	        	newBlock.getDefaultState().withProperty(FACING, state.getValue(FACING)), 3 /* UPDATE_ALL */);
+	        worldIn.setBlockState(pos, newBlock.getDefaultState().withProperty(FACING, state.getValue(FACING)), 3 /* UPDATE_ALL */);
 
 	        if (!playerIn.capabilities.isCreativeMode) {
 	            heldItem.stackSize--;
 	        }
-	        
+
 	        return true;
 	    }
 
 	    return super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
 	}
-	 
+
 	 @Override
 	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-		 return Lists.newArrayList(MetalVariantHelper.getDrop(this, world, pos));
+		 return Lists.newArrayList(new ItemStack(this));
 	}
- 
+
     protected Block GetWallVariant()		{ return BlockObjectHolder.light_metal_ironage_sconce_wall_empty_iron; }
-    protected Block GetHangingVariant()	{ return BlockObjectHolder.light_metal_ironage_sconce_hanging_iron; }
     protected Block GetGlowVariant()		{ return BlockObjectHolder.light_metal_ironage_sconce_floor_glow_iron; }
     protected Block GetTorchVariant()		{ return BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron; }
     protected Block GetLavaVariant()		{ return BlockObjectHolder.light_metal_ironage_sconce_floor_lava_iron; }
     protected Block GetRedTorchVariant()	{ return BlockObjectHolder.light_metal_ironage_sconce_floor_redtorch_iron; }
-    protected Block GetCandleVariant()	    { return BlockObjectHolder.light_metal_ironage_sconce_floor_candle_iron; }
-    protected Block GetSoulTorchVariant()	{ return BlockObjectHolder.light_metal_ironage_sconce_floor_soultorch_iron; }
     protected Block GetRedVariant()   		{ return BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron; }
-    protected Block GetRockSaltVariant()	{ return BlockObjectHolder.light_metal_ironage_sconce_floor_rocksalt_iron; }
-    protected Block GetSoulVariant()  		{ return BlockObjectHolder.light_metal_ironage_sconce_floor_soultorch_iron; }
     protected Block GetUnlitTorchVariant() 	{ return BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron_unlit; }
 }

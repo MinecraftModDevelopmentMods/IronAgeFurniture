@@ -15,10 +15,10 @@ import net.minecraft.world.World;
 public class Stool extends Chair {
 
 	boolean tall = false;
-	
+
 	private static final AxisAlignedBB BBSHORT = new AxisAlignedBB(0.2, 0.0, 0.2, 0.8, 0.45, 0.8);
 	private static final AxisAlignedBB BBTALL = new AxisAlignedBB(0.2, 0.0, 0.2, 0.8, 0.8, 0.8);
-	
+
 	public Stool(Material materialIn, String name, float resistance, boolean tall, double yOffset, float hardness) {
 		super(materialIn, name, resistance, yOffset, hardness);
 		this.tall = tall;
@@ -26,18 +26,18 @@ public class Stool extends Chair {
 	}
 
 	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) 
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
 	{
 		if (tall)
 			return BBTALL;
 		else
 			return BBSHORT;
 	}
-	
+
 	@Override
 	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox,
 			List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
-		
+
 		if (!(entityIn instanceof Seat)) {
 			if (tall)
 				super.addCollisionBoxToList(pos, entityBox, collidingBoxes, BBTALL);

@@ -85,7 +85,7 @@ public class LightSourceSconceTorchWall extends LightSourceSconceTorchFloor {
 
     @Override
     public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos,
-                                      AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
+            AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
         super.addCollisionBoxToList(pos, entityBox, collidingBoxes, getShape(state));
     }
 
@@ -166,11 +166,6 @@ public class LightSourceSconceTorchWall extends LightSourceSconceTorchFloor {
     @Override
     protected Block GetTorchVariant() {
         return BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron;
-    }
-
-    @Override
-    protected Block GetTwinTorchVariant() {
-        return BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron_twin;
     }
 
     @Override

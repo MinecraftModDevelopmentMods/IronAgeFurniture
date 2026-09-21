@@ -1,7 +1,6 @@
 package zone.moddev.mc.ironagefurniture.api.Blocks;
 
 import zone.moddev.mc.ironagefurniture.BlockObjectHolder;
-import zone.moddev.mc.ironagefurniture.api.MetalVariantHelper;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -34,7 +33,7 @@ public class LightSourceSconceTorchFloorUnlit extends LightSourceSconceTorchFloo
         if (heldItem != null && heldItem.stackSize > 0) {
             if (heldItem.getItem() == Items.FLINT_AND_STEEL) {
                 if (!worldIn.isRemote) {
-                    MetalVariantHelper.replaceBlockPreservingMetal(worldIn, pos,
+                    worldIn.setBlockState(pos,
                         GetLitVariant().getDefaultState().withProperty(FACING, state.getValue(FACING)), 3);
 
                     if (!playerIn.capabilities.isCreativeMode) {
@@ -45,10 +44,9 @@ public class LightSourceSconceTorchFloorUnlit extends LightSourceSconceTorchFloo
                 return true;
             }
 
-            if (heldItem.getItem() == Item.getItemFromBlock(Blocks.TORCH)
-                || isItemFromBlock(heldItem.getItem(), BlockObjectHolder.light_metal_ironage_candle_floor)) {
+            if (heldItem.getItem() == Item.getItemFromBlock(Blocks.TORCH)) {
                 if (!worldIn.isRemote) {
-                    MetalVariantHelper.replaceBlockPreservingMetal(worldIn, pos,
+                    worldIn.setBlockState(pos,
                         GetLitVariant().getDefaultState().withProperty(FACING, state.getValue(FACING)), 3);
                 }
 
@@ -78,7 +76,7 @@ public class LightSourceSconceTorchFloorUnlit extends LightSourceSconceTorchFloo
             return;
         }
 
-        MetalVariantHelper.replaceBlockPreservingMetal(worldIn, pos,
+        worldIn.setBlockState(pos,
             GetLitVariant().getDefaultState().withProperty(FACING, state.getValue(FACING)),
             3);
     }

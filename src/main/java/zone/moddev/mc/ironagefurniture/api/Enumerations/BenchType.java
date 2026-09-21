@@ -7,7 +7,7 @@ public enum BenchType implements IStringSerializable {
      MIDDLE("middle"),
 	 LEFT("left"),
 	 RIGHT("right");
-	
+
      private final String name;
 
      private BenchType(String name)

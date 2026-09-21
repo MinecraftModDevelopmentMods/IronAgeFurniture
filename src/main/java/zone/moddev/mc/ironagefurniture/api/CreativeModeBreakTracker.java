@@ -103,8 +103,7 @@ public class CreativeModeBreakTracker {
     private static boolean isLavaFallingLight(Block block) {
         return block == BlockObjectHolder.light_metal_ironage_block_floor_lava_clear
             || block == BlockObjectHolder.light_metal_ironage_sconce_floor_lava_iron
-            || block == BlockObjectHolder.light_metal_ironage_sconce_wall_lava_iron
-            || block == BlockObjectHolder.chandelier_lava;
+            || block == BlockObjectHolder.light_metal_ironage_sconce_wall_lava_iron;
     }
 
     private static class BreakRecord {

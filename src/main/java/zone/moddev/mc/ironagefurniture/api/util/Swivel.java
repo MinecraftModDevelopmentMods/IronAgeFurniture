@@ -11,59 +11,59 @@ public class Swivel {
 			switch (facing) {
 				case NORTH:
 					return EnumFacing.EAST;
-	
+
 				case SOUTH:
 					return EnumFacing.WEST;
-		
+
 				case EAST:
-					return EnumFacing.SOUTH;		
-	
+					return EnumFacing.SOUTH;
+
 				case WEST:
 					return EnumFacing.NORTH;
-	
+
 				default:
-					return facing;		
+					return facing;
 			}
-			
+
 		case OneEighty:
 			switch (facing) {
 				case NORTH:
 					return EnumFacing.SOUTH;
-	
+
 				case SOUTH:
 					return EnumFacing.NORTH;
-		
+
 				case EAST:
-					return EnumFacing.WEST;		
-	
+					return EnumFacing.WEST;
+
 				case WEST:
 					return EnumFacing.EAST;
-	
+
 				default:
-					return facing;		
+					return facing;
 			}
 		case TwoSeventy:
-	
+
 			switch (facing) {
 				case NORTH:
 					return EnumFacing.WEST;
-	
+
 				case SOUTH:
 					return EnumFacing.EAST;
-		
+
 				case EAST:
-					return EnumFacing.NORTH;		
-	
+					return EnumFacing.NORTH;
+
 				case WEST:
 					return EnumFacing.SOUTH;
-	
+
 				default:
-					return facing;		
+					return facing;
 			}
-	
+
 		default:
 			return facing;
-			
+
 		}
 	}
 }

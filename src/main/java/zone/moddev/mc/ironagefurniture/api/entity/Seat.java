@@ -10,21 +10,21 @@ import net.minecraft.world.World;
 public class Seat extends Entity
 {
 	public Coordinates SeatCoordinates = new Coordinates();
-	
+
 	public Seat(World worldIn) {
 		super(worldIn);
-		
+
 		this.height = 0.01F;
 		this.width = 0.01F;
-		
+
 		this.noClip = true;
 	}
 
 	public Seat(World world, double x, double y, double z, double y0ffset)
 	{
 		this(world);
-		
-		SeatCoordinates = new Coordinates(x, y, z);		
+
+		SeatCoordinates = new Coordinates(x, y, z);
 		setPosition(x + 0.5D, y + y0ffset, z + 0.5D);
 	}
 

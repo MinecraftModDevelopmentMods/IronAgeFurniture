@@ -317,22 +317,6 @@ jobs:
         with:
           ref: ${{ needs.preflight.outputs.release_sha }}
 
-      - name: Check out pinned OreSpawn for legacy targets
-        if: needs.preflight.outputs.minecraft_version == '1.10.2'
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-        with:
-          repository: MinecraftModDevelopmentMods/OreSpawn
-          ref: 5a50df1158e948c8db55814e819090b34c12d765
-          path: .ci-dependencies/OreSpawn
-
-      - name: Check out pinned Power Advantage for legacy targets
-        if: needs.preflight.outputs.minecraft_version == '1.10.2'
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-        with:
-          repository: MinecraftModDevelopmentMods/PowerAdvantage
-          ref: 88e9818b4b7011a430436b40367fb1609073875b
-          path: .ci-dependencies/PowerAdvantage
-
       - name: Install pinned Java 25 Mavenizer runtime
         uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
         with:
@@ -386,33 +370,9 @@ jobs:
           done
           echo "paths=$paths" >> "$GITHUB_OUTPUT"
 
-      - name: Build pinned legacy dependency chain
-        if: needs.preflight.outputs.minecraft_version == '1.10.2'
-        id: legacy-dependencies
-        shell: bash
-        run: |
-          set -euo pipefail
-          dependency_root="$GITHUB_WORKSPACE/.ci-dependencies"
-          orespawn="$dependency_root/OreSpawn"
-          poweradvantage="$dependency_root/PowerAdvantage"
-          chmod +x "$orespawn/gradlew" "$poweradvantage/gradlew"
-          (cd "$orespawn" && ./gradlew deobfJar --no-daemon --stacktrace)
-          orespawn_jar="$orespawn/build/libs-dev/OreSpawn-4.0.8.110021-deobf.jar"
-          test -f "$orespawn_jar"
-          (cd "$poweradvantage" && ./gradlew \
-            test --tests cyano.poweradvantage.api.fluid.FluidNetworkApiTest deobfJar \
-            -PoreSpawnDeobfJar="$orespawn_jar" --no-daemon --stacktrace)
-          poweradvantage_jar="$poweradvantage/build/libs-dev/PowerAdvantage-2.4.3.110021-deobf.jar"
-          test -f "$poweradvantage_jar"
-          echo "poweradvantage_jar=$poweradvantage_jar" >> "$GITHUB_OUTPUT"
-          echo "orespawn_jar=$orespawn_jar" >> "$GITHUB_OUTPUT"
-
       - name: Build, test, and audit once
         env:
           LOADER_NAME: ${{ needs.preflight.outputs.loader_name }}
-          MINECRAFT_VERSION: ${{ needs.preflight.outputs.minecraft_version }}
-          POWERADVANTAGE_JAR: ${{ steps.legacy-dependencies.outputs.poweradvantage_jar }}
-          ORESPAWN_JAR: ${{ steps.legacy-dependencies.outputs.orespawn_jar }}
         run: |
           set -euo pipefail
           chmod +x ./gradlew
@@ -421,26 +381,17 @@ jobs:
             -Dorg.gradle.java.installations.auto-detect=false
             -Dorg.gradle.java.installations.auto-download=false
           )
-          legacy_args=()
-          if [[ "$MINECRAFT_VERSION" == "1.10.2" ]]; then
-            test -f "$POWERADVANTAGE_JAR"
-            test -f "$ORESPAWN_JAR"
-            legacy_args+=(
-              "-PpowerAdvantageDeobfJar=$POWERADVANTAGE_JAR"
-              "-PoreSpawnDeobfJar=$ORESPAWN_JAR"
-            )
-          fi
           if [[ "$LOADER_NAME" == "neoforge" ]]; then
             # NeoGradle resolves model inputs during configuration under build/tmp.
             # Cleaning in the same invocation removes those inputs before setup runs.
             ./gradlew clean --no-daemon --stacktrace --max-workers=2 \
-              "${legacy_args[@]}" "${java_args[@]}"
+              "${java_args[@]}"
             ./gradlew check build javadoc verifyReleaseArtifacts verifyReleaseChecksums \
-              --no-daemon --stacktrace --max-workers=2 "${legacy_args[@]}" "${java_args[@]}"
+              --no-daemon --stacktrace --max-workers=2 "${java_args[@]}"
           else
             # Preserve the established Forge release lifecycle.
             ./gradlew clean check build javadoc verifyReleaseArtifacts verifyReleaseChecksums \
-              --no-daemon --stacktrace "${legacy_args[@]}" "${java_args[@]}"
+              --no-daemon --stacktrace "${java_args[@]}"
           fi
 
       - name: Stage the immutable release artifact

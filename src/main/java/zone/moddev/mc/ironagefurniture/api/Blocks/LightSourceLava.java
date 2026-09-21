@@ -67,6 +67,16 @@ public class LightSourceLava extends LightSourceGlowdust {
     }
 
     @Override
+    public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+        BlockPos below = pos.down();
+        if (worldIn.getBlockState(below).getBlock() == Blocks.ICE) {
+            worldIn.setBlockState(below, Blocks.WATER.getDefaultState(), 3);
+            worldIn.notifyNeighborsOfStateChange(below, Blocks.WATER);
+        }
+        super.updateTick(worldIn, pos, state, rand);
+    }
+
+    @Override
     public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing side,
             float hitX, float hitY, float hitZ, int meta,
             EntityLivingBase placer, ItemStack stack) {

@@ -20,7 +20,7 @@ public class BlockHBase extends BlockHorizontal {
 	}
 
 	public static AxisAlignedBB RotateBB(Rotation rotation, AxisAlignedBB bbIn)
-	{		
+	{
 		switch (rotation)
 		{
 			case Ninty:

@@ -1,5 +1,6 @@
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
+import groovy.xml.XmlSlurper
 import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
 import java.util.jar.Manifest
@@ -47,11 +48,15 @@ ext.release_tag = project.mod_version
 if (GradleVersion.current() != GradleVersion.version('9.6.1')) {
     throw new GradleException("This build requires Gradle 9.6.1, found ${GradleVersion.current()}")
 }
-if (JavaVersion.current() != JavaVersion.VERSION_17) {
-    throw new GradleException("Gradle must run on Java 17, found ${System.getProperty('java.version')}")
+if (!JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_17)) {
+    throw new GradleException("Gradle must run on Java 17 or newer, found ${System.getProperty('java.version')}")
 }
 
 def java8Compiler = javaToolchains.compilerFor {
+    languageVersion = JavaLanguageVersion.of(project.java_version as int)
+    vendor = JvmVendorSpec.ADOPTIUM
+}
+def java8Launcher = javaToolchains.launcherFor {
     languageVersion = JavaLanguageVersion.of(project.java_version as int)
     vendor = JvmVendorSpec.ADOPTIUM
 }
@@ -74,7 +79,7 @@ tasks.withType(JavaCompile).configureEach {
 
 tasks.register('verifyBuildEnvironment') {
     group = 'verification'
-    description = 'Verifies the pinned Gradle runtime and exact Java 8 compiler toolchain.'
+    description = 'Verifies the pinned Gradle runtime and compatible Temurin Java 8 compiler toolchain.'
     doLast {
         String configured = project.java_toolchain_version.toString()
         def expected = configured =~ /^8\.0\.(\d+)\+(\d+)$/
@@ -83,10 +88,17 @@ tasks.register('verifyBuildEnvironment') {
         }
         def metadata = java8Compiler.get().metadata
         def actual = metadata.javaRuntimeVersion.toString() =~ /^1\.8\.0_(\d+)-b0*(\d+)$/
-        if (!actual.matches()
-                || actual.group(1) != expected.group(1)
-                || actual.group(2) != expected.group(2)) {
-            throw new GradleException("Java compiler toolchain must be ${configured}; found "
+        boolean compatible = actual.matches()
+        if (compatible) {
+            int actualUpdate = actual.group(1) as int
+            int actualBuild = actual.group(2) as int
+            int minimumUpdate = expected.group(1) as int
+            int minimumBuild = expected.group(2) as int
+            compatible = actualUpdate > minimumUpdate
+                    || (actualUpdate == minimumUpdate && actualBuild >= minimumBuild)
+        }
+        if (!compatible) {
+            throw new GradleException("Java compiler toolchain must be ${configured} or newer Java 8; found "
                     + "${metadata.vendor} ${metadata.javaRuntimeVersion} at ${metadata.installationPath}")
         }
     }
@@ -190,226 +202,419 @@ repositories {
     }
 }
 
-// Power Advantage is optional at runtime. Until its migrated Maven coordinate is
-// publishable, compile against the reproducible deobf jar built from the pinned
-// GitHub source commit. The property override keeps CI and alternate workspaces
-// independent of this checkout's sibling-directory layout.
-def defaultPowerAdvantageDeobfJar = file("../../../PowerAdvantage/PA110/PowerAdvantage/build/libs-dev/" \
-        + project.poweradvantage_deobf_jar)
-def powerAdvantageDeobfJar = providers.gradleProperty('powerAdvantageDeobfJar')
-        .map { file(it) }
-        .getOrElse(defaultPowerAdvantageDeobfJar)
-
-configurations {
-    legacyPowerAdvantageVerification {
-        canBeConsumed = false
-        canBeResolved = true
-        transitive = false
-    }
-}
-
 dependencies {
     implementation minecraft.dependency(
             "net.minecraftforge:forge:${project.minecraft_version}-${project.forge_version}")
     compileOnly "mezz.jei:jei_1.10.2:${project.jei_version}:api"
     compileOnly 'org.lwjgl.lwjgl:lwjgl_util:2.9.4-nightly-20150209'
-    compileOnly files(powerAdvantageDeobfJar)
     testImplementation 'junit:junit:4.13.2'
-    legacyPowerAdvantageVerification project.poweradvantage_legacy_coordinate
 }
 
-def verifyLegacyPowerAdvantageArtifact = tasks.register('verifyLegacyPowerAdvantageArtifact') {
-    group = 'verification'
-    description = 'Verifies the published Power Advantage 2.3.0 legacy compatibility surface.'
+apply from: 'gradle/furniture-catalog.gradle'
 
+def legacyFixtureDirectory = file('src/test/resources/fixtures')
+def legacyFixtureVerificationDirectory = layout.buildDirectory.dir('verification/legacy-migration-fixtures')
+
+tasks.register('updateLegacyMigrationFixtures', JavaExec) {
+    group = 'generation'
+    description = 'Writes deterministic 1.10 migration fixtures with the target NBT implementation.'
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'zone.moddev.mc.ironagefurniture.fixture.LegacyMigrationFixtureGenerator'
+    args legacyFixtureDirectory.absolutePath
+}
+
+tasks.register('generateLegacyMigrationFixturesForVerification', JavaExec) {
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'zone.moddev.mc.ironagefurniture.fixture.LegacyMigrationFixtureGenerator'
+    args legacyFixtureVerificationDirectory.get().asFile.absolutePath
+    doFirst {
+        delete legacyFixtureVerificationDirectory
+    }
+}
+
+tasks.register('verifyLegacyMigrationFixtures') {
+    group = 'verification'
+    dependsOn tasks.named('generateLegacyMigrationFixturesForVerification')
     doLast {
-        File legacyJar = configurations.legacyPowerAdvantageVerification.singleFile
-        String actualHash = MessageDigest.getInstance('SHA-256')
-                .digest(legacyJar.bytes).encodeHex().toString().toUpperCase()
-        if (actualHash != project.poweradvantage_legacy_sha256) {
-            throw new GradleException("Published Power Advantage ${project.poweradvantage_legacy_version} "
-                    + "SHA-256 is ${actualHash}, expected ${project.poweradvantage_legacy_sha256}")
+        ['iaf-1.10-red-only.nbt', 'iaf-1.10-multicolour.nbt'].each { name ->
+            File committed = new File(legacyFixtureDirectory, name)
+            File generated = new File(legacyFixtureVerificationDirectory.get().asFile, name)
+            if (!committed.isFile() || !java.util.Arrays.equals(committed.bytes, generated.bytes)) {
+                throw new GradleException("Legacy migration fixture ${name} is missing or stale; run updateLegacyMigrationFixtures")
+            }
+        }
+    }
+}
+
+tasks.named('check') {
+    dependsOn tasks.named('verifyLegacyMigrationFixtures')
+}
+
+def optionalIntegrationManifestFile = layout.projectDirectory.file(
+        'gradle/verification/optional-integration-mods.json')
+def optionalIntegrationCatalogFile = layout.projectDirectory.file(
+        'gradle/furniture-catalog.json')
+def optionalIntegrationArtifactsDirectory = layout.projectDirectory.dir(
+        'run-optional-integrations/artifacts')
+
+def sha256Of = { File candidate ->
+    MessageDigest digest = MessageDigest.getInstance('SHA-256')
+    candidate.withInputStream { input ->
+        byte[] buffer = new byte[8192]
+        for (int read = input.read(buffer); read >= 0; read = input.read(buffer)) {
+            if (read > 0) digest.update(buffer, 0, read)
+        }
+    }
+    digest.digest().encodeHex().toString()
+}
+
+tasks.register('verifyOptionalIntegrationMods') {
+    group = 'verification'
+    description = 'Verifies pinned optional-mod jars, identities, and every external texture reference.'
+    inputs.file optionalIntegrationManifestFile
+    inputs.files fileTree('src/main/resources/assets/ironagefurniture/models') {
+        include '**/*.json'
+    }
+    doLast {
+        Map manifest = new JsonSlurper().parse(optionalIntegrationManifestFile.asFile) as Map
+        if (manifest.minecraft != project.minecraft_version.toString()
+                || !(manifest.mods instanceof List) || manifest.mods.isEmpty()) {
+            throw new GradleException(
+                    'Optional-integration mod manifest is incomplete or targets the wrong game')
         }
 
-        Map<String, List<String>> expectedClassSurface = [
-                'cyano/poweradvantage/conduitnetwork/ConduitRegistry.class': [
-                        'getInstance', 'getRequestsForPower',
-                        '(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;',
-                        'Lcyano/poweradvantage/api/ConduitType;'
-                ],
-                'cyano/poweradvantage/init/Fluids.class': [
-                        'fluidConduit_general', 'fluidToConduitType',
-                        'Lcyano/poweradvantage/api/ConduitType;',
-                        '(Lnet/minecraftforge/fluids/Fluid;)'
-                ],
-                'cyano/poweradvantage/api/PowerRequest.class': [
-                        'amount', 'priority', 'entity', 'LAST_PRIORITY',
-                        'Lcyano/poweradvantage/api/IPowerMachine;'
-                ],
-                'cyano/poweradvantage/api/IPowerMachine.class': [
-                        'addEnergy', '(FLcyano/poweradvantage/api/ConduitType;)F'
-                ],
-                'cyano/poweradvantage/api/fluid/FluidConduitBlock.class': [],
-                'cyano/poweradvantage/PowerAdvantage.class': [
-                        'poweradvantage', project.poweradvantage_legacy_version.toString(),
-                        'Lnet/minecraftforge/fml/common/Mod;'
-                ]
-        ]
-
-        new ZipFile(legacyJar).withCloseable { ZipFile zip ->
-            if (zip.getEntry('cyano/poweradvantage/api/fluid/FluidNetworkApi.class') != null) {
-                throw new GradleException('Published Power Advantage 2.3.0 unexpectedly contains FluidNetworkApi')
+        File artifactsDirectory = optionalIntegrationArtifactsDirectory.asFile
+        Map<String, Map> integrations = [:]
+        manifest.mods.each { mod ->
+            File candidate = new File(artifactsDirectory, mod.file.toString())
+            if (!candidate.isFile()) {
+                throw new GradleException("Missing optional-integration test mod ${candidate.name} in "
+                        + artifactsDirectory)
             }
-            expectedClassSurface.each { String className, List<String> constants ->
-                def entry = zip.getEntry(className)
-                if (entry == null) {
-                    throw new GradleException("Published Power Advantage 2.3.0 is missing ${className}")
+            String actual = sha256Of(candidate)
+            if (!actual.equalsIgnoreCase(mod.sha256.toString())) {
+                throw new GradleException("Checksum mismatch for optional-integration test mod "
+                        + "${candidate.name}: expected ${mod.sha256}, found ${actual}")
+            }
+            new ZipFile(candidate).withCloseable { ZipFile zip ->
+                def metadataEntry = zip.getEntry('mcmod.info')
+                if (metadataEntry == null) {
+                    throw new GradleException("${candidate.name} has no mcmod.info")
                 }
-                byte[] classBytes = zip.getInputStream(entry).withCloseable { it.bytes }
-                if (classBytes.length < 8
-                        || classBytes[0..3] != [(byte) 0xCA, (byte) 0xFE, (byte) 0xBA, (byte) 0xBE]) {
-                    throw new GradleException("Cannot inspect bytecode header for ${className}")
+                String metadata = zip.getInputStream(metadataEntry)
+                        .withCloseable { it.getText('UTF-8') }
+                def declaredMods = new JsonSlurper().parseText(metadata)
+                if (!(declaredMods instanceof List)
+                        || !declaredMods.any { it instanceof Map && it.modid == mod.modId }) {
+                    throw new GradleException(
+                            "${candidate.name} does not declare exact mod ID ${mod.modId}")
                 }
-                int major = ((classBytes[6] & 0xff) << 8) | (classBytes[7] & 0xff)
-                if (major != 52) {
-                    throw new GradleException("${className} uses class major ${major}, expected 52")
+            }
+            if (mod.role == 'integration') {
+                if (!mod.assetNamespace) {
+                    throw new GradleException("${candidate.name} has no assetNamespace")
                 }
-                String constantPool = new String(classBytes, StandardCharsets.ISO_8859_1)
-                constants.each { String required ->
-                    if (!constantPool.contains(required)) {
-                        throw new GradleException("${className} is missing binary surface ${required}")
+                integrations[mod.assetNamespace.toString()] = [entry: mod, jar: candidate]
+            }
+        }
+
+        Map<String, Set<String>> externalTextures = integrations.keySet().collectEntries {
+            [(it): new TreeSet<String>()]
+        }
+        fileTree('src/main/resources/assets/ironagefurniture/models') { include '**/*.json' }
+                .files.each { model ->
+            String text = model.getText('UTF-8')
+            integrations.keySet().each { namespace ->
+                def matcher = text =~ /["']${java.util.regex.Pattern.quote(namespace)}:([^"']+)["']/
+                matcher.each { match ->
+                    String path = match[1].toString()
+                    if (path.startsWith('blocks/') || path.startsWith('items/')) {
+                        externalTextures[namespace].add(
+                                "assets/${namespace}/textures/${path}.png")
                     }
                 }
             }
         }
-
-        Set<File> forbiddenClasspaths = [] as Set<File>
-        forbiddenClasspaths.addAll(configurations.compileClasspath.files.collect { it.canonicalFile })
-        forbiddenClasspaths.addAll(configurations.runtimeClasspath.files.collect { it.canonicalFile })
-        if (forbiddenClasspaths.contains(legacyJar.canonicalFile)) {
-            throw new GradleException('Legacy Power Advantage verification jar leaked onto a production classpath')
-        }
-    }
-}
-
-def verifyPowerAdvantageApiDependency = tasks.register('verifyPowerAdvantageApiDependency') {
-    group = 'verification'
-    description = 'Verifies the pinned Power Advantage compile-only fluid API input.'
-    inputs.file(powerAdvantageDeobfJar).withPropertyName('powerAdvantageDeobfJar').optional()
-
-    doLast {
-        if (!powerAdvantageDeobfJar.isFile()) {
-            throw new GradleException("Missing Power Advantage deobf jar: ${powerAdvantageDeobfJar}. "
-                    + "Build ${project.poweradvantage_source_repository}@${project.poweradvantage_source_commit} "
-                    + "with deobfJar, or pass -PpowerAdvantageDeobfJar=<path>.")
-        }
-
-        String actualHash = MessageDigest.getInstance('SHA-256')
-                .digest(powerAdvantageDeobfJar.bytes).encodeHex().toString().toUpperCase()
-        if (actualHash != project.poweradvantage_deobf_sha256) {
-            throw new GradleException("Power Advantage deobf jar SHA-256 is ${actualHash}, expected "
-                    + project.poweradvantage_deobf_sha256)
-        }
-
-        new ZipFile(powerAdvantageDeobfJar).withCloseable { ZipFile zip ->
-            if (zip.getEntry('cyano/poweradvantage/api/fluid/FluidNetworkApi.class') == null) {
-                throw new GradleException('Power Advantage deobf jar is missing FluidNetworkApi.class')
+        externalTextures.each { namespace, paths ->
+            File jar = integrations[namespace].jar as File
+            new ZipFile(jar).withCloseable { ZipFile zip ->
+                Collection<String> missing = paths.findAll { zip.getEntry(it) == null }
+                if (!missing.isEmpty()) {
+                    throw new GradleException("${jar.name} is missing referenced textures: ${missing}")
+                }
             }
-        }
-
-        Set<File> compileFiles = configurations.compileClasspath.files.collect { it.canonicalFile } as Set<File>
-        if (!compileFiles.contains(powerAdvantageDeobfJar.canonicalFile)) {
-            throw new GradleException('Power Advantage API jar is missing from compileClasspath')
-        }
-        Set<File> runtimeFiles = configurations.runtimeClasspath.files.collect { it.canonicalFile } as Set<File>
-        if (runtimeFiles.contains(powerAdvantageDeobfJar.canonicalFile)) {
-            throw new GradleException('Optional Power Advantage API leaked onto runtimeClasspath')
-        }
-
-        ['.github/workflows/ci.yml', '.github/workflows/codeql-analysis.yml',
-         '.github/workflows/publish-release.yml'].each { String workflowPath ->
-            String workflow = file(workflowPath).getText('UTF-8')
-            if (!workflow.contains('repository: ' + project.poweradvantage_source_repository)
-                    || !workflow.contains('ref: ' + project.poweradvantage_source_commit)
-                    || !workflow.contains('repository: ' + project.orespawn_source_repository)
-                    || !workflow.contains('ref: ' + project.orespawn_source_commit)) {
-                throw new GradleException("${workflowPath} does not build the pinned Power Advantage dependency chain")
+            if (paths.isEmpty()) {
+                throw new GradleException("No ${namespace} texture references were found")
             }
         }
     }
 }
 
-tasks.named('compileJava') {
-    dependsOn verifyPowerAdvantageApiDependency
+def optionalIntegrationRunDirectory = layout.projectDirectory.dir('run-optional-integrations')
+def optionalIntegrationForgeInstaller = optionalIntegrationRunDirectory.file(
+        "forge-${minecraft_version}-${forge_version}-installer.jar")
+def optionalIntegrationForgeInstallerSha256 =
+        '664393C5A924B8F06CFB953903ABCF9FE5E99ECBE6AF8C7EA217339C766E519C'
+def optionalIntegrationProfile = providers.gradleProperty('integrationProfile').getOrElse('all')
+def optionalIntegrationServerDirectory = providers.gradleProperty('optionalIntegrationServerDir')
+        .map { project.file(it) }
+        .orElse(optionalIntegrationRunDirectory.dir('server').asFile)
+def optionalIntegrationModsDirectory = optionalIntegrationServerDirectory
+        .map { new File(it, 'mods') }
+def optionalIntegrationFixtureClasses = layout.buildDirectory.dir(
+        'optional-integration-fixture/classes')
+def optionalIntegrationFixtureGeneratedResources = layout.buildDirectory.dir(
+        'optional-integration-fixture/generated-resources')
+def optionalIntegrationFixtureJarFile = layout.buildDirectory.file(
+        'optional-integration-fixture/ironagefurniture-optional-integration-probe.jar')
+def optionalIntegrationForgeServerJar = optionalIntegrationServerDirectory.map {
+    new File(it, "forge-${minecraft_version}-${forge_version}-universal.jar")
 }
 
-def verifyPowerAdvantageIntegration = tasks.register('verifyPowerAdvantageIntegration') {
+tasks.register('generateOptionalIntegrationFixtureData') {
     group = 'verification'
-    description = 'Audits Power Advantage capability selection and isolates the removable legacy bridge.'
-    dependsOn tasks.named('compileJava')
-
+    description = 'Generates the exact optional registrations and Java recipe outputs for the runtime probe.'
+    inputs.file optionalIntegrationCatalogFile
+    inputs.files fileTree('src/main/java/zone/moddev/mc/ironagefurniture/init') {
+        include 'BlockInitialiser.java'
+        include 'RecipeInitialiser.java'
+    }
+    outputs.dir optionalIntegrationFixtureGeneratedResources
     doLast {
-        File sourceFile = file(
-                'src/main/java/zone/moddev/mc/ironagefurniture/api/PowerAdvantageFluidCompat.java')
-        String source = sourceFile.getText('UTF-8')
-        ['getDeclaredMethod', 'com.mcmoddev.poweradvantage',
-         'zone.moddev.mc.poweradvantage'].each { String forbidden ->
-            if (source.contains(forbidden)) {
-                throw new GradleException("Power Advantage compatibility contains forbidden ${forbidden}")
+        Map catalog = new JsonSlurper().parse(optionalIntegrationCatalogFile.asFile) as Map
+        Map<String, List<String>> integrationWoods = (catalog.woods as Map)
+                .findAll { name, woods -> name != 'vanilla' }
+                .collectEntries { name, woods -> [(name.toString()): woods as List<String>] }
+        String blockSource = file(
+                'src/main/java/zone/moddev/mc/ironagefurniture/init/BlockInitialiser.java')
+                .getText('UTF-8')
+        String recipeSource = file(
+                'src/main/java/zone/moddev/mc/ironagefurniture/init/RecipeInitialiser.java')
+                .getText('UTF-8')
+
+        Map<String, Set<String>> blocks = integrationWoods.collectEntries {
+            [(it.key): new TreeSet<String>()]
+        }
+        def registrationMatcher = blockSource =~ /FurnitureFactory\.Create\w*\("([^"]+)"/
+        registrationMatcher.each { match ->
+            String id = match[1].toString()
+            integrationWoods.each { profile, woods ->
+                if (woods.any { wood -> id.endsWith("_${wood}") }) blocks[profile].add(id)
             }
         }
-        ['cyano.poweradvantage.api.fluid.FluidNetworkApi',
-         'FluidNetworkApi.offerFluid', 'Loader.isModLoaded',
-         'ModContainer', 'getSource()', 'private static final class FluidApiBridge',
-         'private static final class LegacyFluidBridge',
-         'cyano.poweradvantage.conduitnetwork.ConduitRegistry',
-         'cyano.poweradvantage.init.Fluids'].each { String required ->
-            if (!source.contains(required)) {
-                throw new GradleException("Power Advantage compatibility is missing ${required}")
-            }
-        }
-        if (source.indexOf('return Backend.API') > source.indexOf('return Backend.LEGACY')) {
-            throw new GradleException('Power Advantage API detection must take precedence over the legacy surface')
+        blocks.each { profile, ids ->
+            if (ids.isEmpty()) throw new GradleException("No ${profile} registrations were discovered")
         }
 
-        File classRoot = tasks.named('compileJava', JavaCompile).get().destinationDirectory.get().asFile
-        File packageRoot = new File(classRoot, 'zone/moddev/mc/ironagefurniture/api')
-        File apiBridgeClass = new File(packageRoot,
-                'PowerAdvantageFluidCompat$FluidApiBridge.class')
-        File legacyBridgeClass = new File(packageRoot,
-                'PowerAdvantageFluidCompat$LegacyFluidBridge.class')
-        List<File> compatibilityClasses = (packageRoot.listFiles() ?: [] as File[]).findAll {
-            it.name.startsWith('PowerAdvantageFluidCompat') && it.name.endsWith('.class')
+        Set<String> recipeReferences = [] as TreeSet<String>
+        def recipeMatcher = recipeSource =~ /BlockObjectHolder\.([A-Za-z0-9_]+)/
+        recipeMatcher.each { match -> recipeReferences.add(match[1].toString()) }
+        Map<String, Set<String>> recipes = blocks.collectEntries { profile, ids ->
+            [(profile): (ids.findAll { recipeReferences.contains(it) } as TreeSet<String>)]
         }
-        if (!new File(packageRoot, 'PowerAdvantageFluidCompat.class').isFile()
-                || !apiBridgeClass.isFile() || !legacyBridgeClass.isFile()) {
-            throw new GradleException('Compiled Power Advantage compatibility classes are missing')
+        recipes.each { profile, ids ->
+            if (ids.isEmpty()) throw new GradleException("No ${profile} recipe outputs were discovered")
         }
-        String apiClassName = 'cyano/poweradvantage/api/fluid/FluidNetworkApi'
-        String reflectionMethod = 'java/lang/reflect/Method'
-        String reflectionField = 'java/lang/reflect/Field'
-        compatibilityClasses.each { File classFile ->
-            String bytecode = new String(classFile.bytes, StandardCharsets.ISO_8859_1)
-            if (bytecode.contains(apiClassName) && classFile != apiBridgeClass) {
-                throw new GradleException("FluidNetworkApi leaked into ${classFile.name}")
+
+        File output = optionalIntegrationFixtureGeneratedResources.get().asFile
+        output.mkdirs()
+        new File(output, 'expected-optional-blocks.txt').setText(
+                blocks.collectMany { profile, ids ->
+                    ids.collect { id -> "${profile}=ironagefurniture:${id}" }
+                }.sort().join('\n') + '\n', 'UTF-8')
+        new File(output, 'expected-optional-recipes.txt').setText(
+                recipes.collectMany { profile, ids ->
+                    ids.collect { id -> "${profile}=ironagefurniture:${id}" }
+                }.sort().join('\n') + '\n', 'UTF-8')
+
+        Set<String> hiddenLightingFactories = [
+                'CreateIronWallSconce',
+                'CreateIronFloorTorchSconce', 'CreateIronFloorTorchSconceUnlit',
+                'CreateIronWallTorchSconce', 'CreateIronWallTorchSconceUnlit',
+                'CreateIronFloorRedTorchSconce', 'CreateIronFloorRedTorchSconceUnlit',
+                'CreateIronWallRedTorchSconce', 'CreateIronWallRedTorchSconceUnlit',
+                'CreateIronFloorGlowSconce', 'CreateIronWallGlowSconce',
+                'CreateIronFloorLavaSconce', 'CreateIronWallLavaSconce',
+                'CreateRedLampVariant', 'CreateIronFloorRedSconce', 'CreateIronWallRedSconce'
+        ] as Set<String>
+        Set<String> hiddenLightingIds = [] as TreeSet<String>
+        def lightingRegistrationMatcher = blockSource =~ /FurnitureFactory\.(Create\w+)\("([^"]+)"/
+        lightingRegistrationMatcher.each { match ->
+            if (hiddenLightingFactories.contains(match[1].toString())) {
+                hiddenLightingIds.add("ironagefurniture:${match[2]}")
             }
-            if ((bytecode.contains(reflectionMethod) || bytecode.contains(reflectionField))
-                    && classFile != legacyBridgeClass) {
-                throw new GradleException("Compatibility reflection leaked into ${classFile.name}")
-            }
         }
-        String apiBridgeBytecode = new String(apiBridgeClass.bytes, StandardCharsets.ISO_8859_1)
-        if (!apiBridgeBytecode.contains(apiClassName)
-                || apiBridgeBytecode.contains(reflectionMethod) || apiBridgeBytecode.contains(reflectionField)) {
-            throw new GradleException('Typed Power Advantage calls are not isolated in FluidApiBridge')
+        if (hiddenLightingIds.size() != 60) {
+            throw new GradleException("Expected 60 hidden lighting state blocks, found ${hiddenLightingIds.size()}")
         }
-        String legacyBridgeBytecode = new String(legacyBridgeClass.bytes, StandardCharsets.ISO_8859_1)
-        ['cyano.poweradvantage.conduitnetwork.ConduitRegistry',
-         'cyano.poweradvantage.init.Fluids', 'java/lang/Class',
-         reflectionMethod, reflectionField].each { String required ->
-            if (!legacyBridgeBytecode.contains(required)) {
-                throw new GradleException("LegacyFluidBridge is missing ${required}")
-            }
+        new File(output, 'expected-hidden-lighting-blocks.txt').setText(
+                hiddenLightingIds.join('\n') + '\n', 'UTF-8')
+    }
+}
+
+tasks.register('compileOptionalIntegrationFixture', JavaCompile) {
+    group = 'verification'
+    description = 'Compiles the local-only Forge 1.10 optional-integration probe.'
+    dependsOn tasks.named('classes')
+    source fileTree('src/optionalIntegrationTest/java')
+    classpath = files(sourceSets.main.output, sourceSets.main.compileClasspath)
+    destinationDirectory = optionalIntegrationFixtureClasses
+    javaCompiler = java8Compiler
+    options.encoding = 'UTF-8'
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+    options.compilerArgs.add('-proc:none')
+}
+
+def optionalIntegrationFixtureDeobfJar = tasks.register(
+        'optionalIntegrationFixtureDeobfJar', Jar) {
+    group = 'verification'
+    description = 'Builds the development-named optional-integration runtime probe.'
+    dependsOn tasks.named('compileOptionalIntegrationFixture')
+    dependsOn tasks.named('generateOptionalIntegrationFixtureData')
+    archiveFileName = 'ironagefurniture-optional-integration-probe-deobf.jar'
+    destinationDirectory = layout.buildDirectory.dir('optional-integration-fixture')
+    from optionalIntegrationFixtureClasses
+    from 'src/optionalIntegrationTest/resources'
+    from optionalIntegrationFixtureGeneratedResources
+    filesMatching(archiveTextPatterns, normalizeArchiveLineEndings)
+}
+
+def reobfOptionalIntegrationFixtureJar = renamer.classes(optionalIntegrationFixtureDeobfJar) {
+    map.from minecraft.dependency.toSrgFile
+    output = optionalIntegrationFixtureJarFile
+}
+
+tasks.register('optionalIntegrationFixtureJar') {
+    group = 'verification'
+    description = 'Builds the non-published packaged-server optional-integration probe.'
+    dependsOn reobfOptionalIntegrationFixtureJar
+    outputs.file optionalIntegrationFixtureJarFile
+}
+
+tasks.register('stageOptionalIntegrationFixture', Sync) {
+    group = 'verification'
+    description = 'Stages the packaged mod, runtime probe, and selected pinned optional mods.'
+    dependsOn tasks.named('verifyOptionalIntegrationMods')
+    dependsOn tasks.named('optionalIntegrationFixtureJar')
+    dependsOn tasks.named('assemble')
+    inputs.property('integrationProfile', optionalIntegrationProfile)
+    from(optionalIntegrationArtifactsDirectory) {
+        include { details ->
+            Map manifest = new JsonSlurper().parse(optionalIntegrationManifestFile.asFile) as Map
+            Map entry = manifest.mods.find { candidate -> candidate.file == details.file.name }
+            if (entry == null) return false
+            optionalIntegrationProfile == 'all'
+                    || (entry.role == 'integration'
+                            && entry.assetNamespace == optionalIntegrationProfile)
+                    || (entry.requiredBy instanceof List
+                            && entry.requiredBy.contains(optionalIntegrationProfile))
+        }
+    }
+    from optionalIntegrationFixtureJarFile
+    from layout.buildDirectory.file(
+            "libs/${base.archivesName.get()}-${project.version}.jar")
+    into optionalIntegrationModsDirectory
+}
+
+tasks.register('verifyOptionalIntegrationForgeInstaller') {
+    group = 'verification'
+    description = 'Verifies the locally supplied official Forge 1.10.2 server installer.'
+    inputs.file optionalIntegrationForgeInstaller
+    doLast {
+        File installer = optionalIntegrationForgeInstaller.asFile
+        if (!installer.isFile()) {
+            throw new GradleException("Download the official Forge ${minecraft_version}-${forge_version} "
+                    + "installer to ${installer}")
+        }
+        String actual = sha256Of(installer)
+        if (!actual.equalsIgnoreCase(optionalIntegrationForgeInstallerSha256)) {
+            throw new GradleException("Checksum mismatch for ${installer.name}: expected "
+                    + "${optionalIntegrationForgeInstallerSha256}, found ${actual}")
+        }
+    }
+}
+
+tasks.register('installOptionalIntegrationServer', Exec) {
+    group = 'verification'
+    description = 'Installs the pinned Forge 1.10.2 dedicated server for packaged probes.'
+    dependsOn tasks.named('verifyOptionalIntegrationForgeInstaller')
+    inputs.file optionalIntegrationForgeInstaller
+    outputs.file optionalIntegrationForgeServerJar
+    doFirst {
+        File serverDirectory = optionalIntegrationServerDirectory.get()
+        if (!serverDirectory.isDirectory() && !serverDirectory.mkdirs()) {
+            throw new GradleException(
+                    "Could not create optional-integration server directory ${serverDirectory}")
+        }
+        workingDir serverDirectory
+        executable java8Launcher.get().executablePath.asFile
+        args '-jar', optionalIntegrationForgeInstaller.asFile.absolutePath,
+                '--installServer', '.'
+    }
+}
+
+tasks.register('prepareOptionalIntegrationServer') {
+    group = 'verification'
+    description = 'Creates deterministic local server settings for packaged probes.'
+    dependsOn tasks.named('installOptionalIntegrationServer')
+    doLast {
+        File serverDirectory = optionalIntegrationServerDirectory.get()
+        new File(serverDirectory, 'eula.txt').setText('eula=true\n', 'UTF-8')
+        new File(serverDirectory, 'server.properties').setText([
+                'allow-flight=true', 'level-name=optional-world', 'max-tick-time=120000',
+                'online-mode=false', 'server-ip=127.0.0.1', 'server-port=0', ''
+        ].join('\n'), 'UTF-8')
+    }
+}
+
+tasks.register('runOptionalIntegrationServer', Exec) {
+    group = 'verification'
+    description = 'Runs the packaged server and proves optional registration and recipes.'
+    dependsOn tasks.named('stageOptionalIntegrationFixture')
+    dependsOn tasks.named('prepareOptionalIntegrationServer')
+    doFirst {
+        if (optionalIntegrationProfile != 'all'
+                && optionalIntegrationProfile != 'absent'
+                && !['biomesoplenty', 'natura', 'forestry', 'immersiveengineering']
+                        .contains(optionalIntegrationProfile)) {
+            throw new GradleException("Unknown integrationProfile ${optionalIntegrationProfile}")
+        }
+        File serverDirectory = optionalIntegrationServerDirectory.get()
+        File marker = new File(serverDirectory, 'optional-integration-pass.properties')
+        if (marker.exists() && !marker.delete()) {
+            throw new GradleException("Could not remove stale optional-integration marker ${marker}")
+        }
+        new File(serverDirectory, 'server.properties').setText([
+                'allow-flight=true', "level-name=optional-${optionalIntegrationProfile}-world",
+                'max-tick-time=120000', 'online-mode=false',
+                'server-ip=127.0.0.1', 'server-port=0', ''
+        ].join('\n'), 'UTF-8')
+        File forgeServerJar = optionalIntegrationForgeServerJar.get()
+        if (!forgeServerJar.isFile()) {
+            throw new GradleException("Forge ${minecraft_version}-${forge_version} server is missing: "
+                    + forgeServerJar)
+        }
+        workingDir serverDirectory
+        executable java8Launcher.get().executablePath.asFile
+        args "-Diaf.probe.mods=${optionalIntegrationProfile}", '-Dfml.queryResult=confirm',
+                '-jar', forgeServerJar.name, 'nogui'
+    }
+    doLast {
+        File marker = new File(optionalIntegrationServerDirectory.get(),
+                'optional-integration-pass.properties')
+        if (!marker.isFile()) {
+            throw new GradleException(
+                    'Optional-integration server exited without a passing probe marker')
+        }
+        Properties result = new Properties()
+        marker.withInputStream { result.load(it) }
+        if (result.getProperty('status') != 'PASS'
+                || result.getProperty('profile') != optionalIntegrationProfile
+                || result.getProperty('hidden_lighting_blocks_without_items') != '60') {
+            throw new GradleException("Unexpected optional-integration result ${result}")
         }
     }
 }
@@ -455,9 +660,11 @@ tasks.named('processResources', ProcessResources) {
                             def blockstate = parseJsonFile(blockstateFile)
                             if (blockstate instanceof Map && blockstate.variants instanceof Map
                                     && !blockstate.variants.containsKey('inventory')) {
+                                String modelPath = parent.substring(blockModelPrefix.length())
                                 blockstate.variants.inventory = [
-                                        model: 'ironagefurniture:'
-                                                + parent.substring(blockModelPrefix.length())
+                                        model: modelPath.contains('_padded_')
+                                                ? 'ironagefurniture:padded/' + modelPath
+                                                : 'ironagefurniture:' + modelPath
                                 ]
                                 blockstateFile.setText(JsonOutput.toJson(blockstate), 'UTF-8')
                                 collapsedItemModelBytes += itemModelFile.length()
@@ -584,6 +791,39 @@ def quoteSlimeLauncherPathArguments = { String contents ->
     contents
 }
 
+def eclipseXmlEscape = { String value ->
+    value.replace('&', '&amp;')
+            .replace('"', '&quot;')
+            .replace('<', '&lt;')
+            .replace('>', '&gt;')
+}
+
+def eclipseArchiveLaunchEntry = { File archive ->
+    String memento = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' \
+            + '<runtimeClasspathEntry externalArchive="' + archive.canonicalPath \
+            + '" type="2" path="5" />'
+    '    <listEntry value="' + eclipseXmlEscape(memento) + '"/>'
+}
+
+def replaceBuildshipLaunchClasspath = { String contents, Collection<File> archives ->
+    List<String> lines = contents.replace('\r\n', '\n').split('\n', -1) as List<String>
+    List<Integer> buildshipLines = (0..<lines.size()).findAll {
+        lines[it].contains('org.eclipse.buildship.core.gradleclasspathcontainer')
+    }
+    if (buildshipLines.size() != 1) {
+        throw new GradleException("Expected one Buildship launch classpath entry, found ${buildshipLines.size()}")
+    }
+    List<File> uniqueArchives = archives.collect { it.canonicalFile }
+            .unique { File archive -> archive.path.toLowerCase(Locale.ROOT) }
+            .sort { File left, File right -> left.path.compareToIgnoreCase(right.path) }
+    List<File> missingArchives = uniqueArchives.findAll { !it.isFile() }
+    if (!missingArchives.isEmpty()) {
+        throw new GradleException("Eclipse launch archives are missing: ${missingArchives}")
+    }
+    lines[buildshipLines[0]] = uniqueArchives.collect(eclipseArchiveLaunchEntry).join('\n')
+    lines.join('\n')
+}
+
 eclipse {
     project {
         buildCommand 'org.eclipse.buildship.core.gradleprojectbuilder'
@@ -628,7 +868,6 @@ tasks.register('configureEclipseBuildship') {
                 'connection.gradle.user.home'    : gradle.gradleUserHomeDir.canonicalPath,
                 'connection.project.dir'         : '',
                 'gradle.user.home'                : gradle.gradleUserHomeDir.canonicalPath,
-                'java.home'                       : new File(System.getProperty('java.home')).canonicalPath,
                 'override.workspace.settings'    : 'true'
         ].each { key, value -> preferences.setProperty(key, value) }
         preferencesFile.parentFile.mkdirs()
@@ -640,7 +879,7 @@ tasks.register('configureEclipseBuildship') {
 
 tasks.register('isolateEclipseProductionRuns') {
     group = 'ide'
-    description = 'Generates FG7 Eclipse runs, removes exact FG2 launches, and excludes tests.'
+    description = 'Generates runtime-isolated ForgeGradle 7 Eclipse client and server launches.'
     dependsOn tasks.named('genEclipseRuns')
     dependsOn tasks.named('configureEclipseBuildship')
 
@@ -675,6 +914,7 @@ tasks.register('isolateEclipseProductionRuns') {
         if (runLaunches.size() < 2) {
             throw new GradleException('ForgeGradle did not generate ordinary client/server Eclipse launches')
         }
+        List<File> runtimeArchives = configurations.runtimeClasspath.files as List<File>
         runLaunches.each { File launch ->
             String contents = launch.getText('UTF-8')
             if (!contents.contains('org.eclipse.jdt.launching.ATTR_EXCLUDE_TEST_CODE')) {
@@ -683,7 +923,8 @@ tasks.register('isolateEclipseProductionRuns') {
                         '  <booleanAttribute key="org.eclipse.jdt.launching.ATTR_EXCLUDE_TEST_CODE" value="true"/>'
                 contents = contents.replace(marker, attribute + '\n' + marker)
             }
-            launch.setText(contents.replace('\r\n', '\n'), 'UTF-8')
+            String isolatedContents = replaceBuildshipLaunchClasspath(contents, runtimeArchives)
+            launch.setText(isolatedContents.replace('\r\n', '\n'), 'UTF-8')
         }
     }
 }
@@ -710,10 +951,14 @@ tasks.register('verifyEclipseProductionClasspath') {
         File buildshipPreferencesFile = file('.settings/org.eclipse.buildship.core.prefs')
         Properties buildshipPreferences = new Properties()
         buildshipPreferencesFile.withInputStream { buildshipPreferences.load(it) }
-        File configuredGradleJavaHome = new File(buildshipPreferences.getProperty('java.home', ''))
-        File currentGradleJavaHome = new File(System.getProperty('java.home'))
-        if (configuredGradleJavaHome.canonicalFile != currentGradleJavaHome.canonicalFile) {
-            throw new GradleException('Buildship must run Gradle with Java ' + project.gradle_java_version + '; found ' + configuredGradleJavaHome)
+        if (buildshipPreferences.getProperty('connection.gradle.distribution') != 'GRADLE_DISTRIBUTION(WRAPPER)'
+                || file(buildshipPreferences.getProperty('connection.gradle.user.home', '')).canonicalFile
+                != gradle.gradleUserHomeDir.canonicalFile
+                || buildshipPreferences.getProperty('override.workspace.settings') != 'true') {
+            throw new GradleException('Eclipse Buildship does not use this wrapper and shared Gradle home')
+        }
+        if (buildshipPreferences.getProperty('java.home', '').trim()) {
+            throw new GradleException('Eclipse Buildship preferences must not pin a machine-specific Gradle Java home')
         }
         if (classpathText.contains('<classpathentry kind="lib"')
                 || classpathText ==~ /(?s).*<classpathentry[^>]+path="[A-Za-z]:[\\\/].*/) {
@@ -736,6 +981,12 @@ tasks.register('verifyEclipseProductionClasspath') {
                         || !text.contains('value="true"')
         }) {
             throw new GradleException('Generated Eclipse launches do not consistently exclude test code')
+        }
+        launchFiles.each { File launch ->
+            String text = launch.getText('UTF-8')
+            if (text.contains('org.eclipse.buildship.core.gradleclasspathcontainer')) {
+                throw new GradleException("${launch.name} still uses the Buildship classpath container")
+            }
         }
         List<File> allLaunchFiles = [
                 file('runClient.launch'), file('runServer.launch'),
@@ -774,6 +1025,26 @@ def expectedReleaseFiles = providers.provider {
     ]
 }
 def preparedReleaseDir = providers.gradleProperty('preparedReleaseDir')
+def expectedMavenGroup = 'zone.moddev.mc'
+def expectedMavenArtifact = 'iron-age-furniture'
+def expectedMavenCoordinate = "${expectedMavenGroup}:${expectedMavenArtifact}:${project.version}"
+
+tasks.register('verifyMavenCoordinates') {
+    group = 'verification'
+    description = 'Verifies the generated POM and manifest publication namespace.'
+    dependsOn tasks.named('generatePomFileForMavenJavaPublication')
+    doLast {
+        File pomFile = layout.buildDirectory.file(
+                'publications/mavenJava/pom-default.xml').get().asFile
+        def pom = new XmlSlurper(false, false).parse(pomFile)
+        def actual = [pom.groupId.text(), pom.artifactId.text(), pom.version.text()]
+        def expected = [expectedMavenGroup, expectedMavenArtifact, project.version.toString()]
+        if (project.group.toString() != expectedMavenGroup || actual != expected) {
+            throw new GradleException(
+                    "Expected Maven coordinate ${expected.join(':')}, found ${actual.join(':')}")
+        }
+    }
+}
 
 def parseUtf8Json = { File jsonFile ->
     String text = jsonFile.getText('UTF-8')
@@ -862,6 +1133,16 @@ tasks.register('verifyResourceJson') {
     }
 }
 
+tasks.register('verifyMavenizerCompatibilityFixture') {
+    group = 'verification'
+    description = 'Verifies that Forge 1.10.2 uses the ForgeGradle Mavenizer without a vendored override.'
+    doLast {
+        if (file('ci-fixtures/tools').exists()) {
+            throw new GradleException('Forge 1.10.2 must not carry a target-specific Mavenizer override')
+        }
+    }
+}
+
 tasks.register('verifyNamespace') {
     group = 'verification'
     description = 'Requires the maintained zone.moddev.mc namespace and rejects legacy IronAgeFurniture packages.'
@@ -914,31 +1195,6 @@ tasks.register('verifyVersionMetadata') {
                 java_version           : '8',
                 java_toolchain_version : '8.0.502+7',
                 gradle_java_version    : '17',
-                poweradvantage_version : '2.4.3.110021',
-                poweradvantage_source_repository:
-                        'MinecraftModDevelopmentMods/PowerAdvantage',
-                poweradvantage_source_commit:
-                        '88e9818b4b7011a430436b40367fb1609073875b',
-                poweradvantage_deobf_jar:
-                        'PowerAdvantage-2.4.3.110021-deobf.jar',
-                poweradvantage_deobf_sha256:
-                        '316262B51DDF4BD4258E19CC45221959E20133855B37E2367686F752A48C07C5',
-                poweradvantage_legacy_version:
-                        '2.3.0',
-                poweradvantage_legacy_curse_project_id:
-                        '240982',
-                poweradvantage_legacy_curse_file_id:
-                        '2323095',
-                poweradvantage_legacy_coordinate:
-                        'curse.maven:power-advantage-240982:2323095',
-                poweradvantage_legacy_sha256:
-                        '47CD509C1141095BFE1C8C7DD689C2ECD3F99C89195E34A88CC9E0B5FC12413E',
-                orespawn_version       : '4.0.8.110021',
-                orespawn_source_repository:
-                        'MinecraftModDevelopmentMods/OreSpawn',
-                orespawn_source_commit:
-                        '5a50df1158e948c8db55814e819090b34c12d765',
-                orespawn_deobf_jar     : 'OreSpawn-4.0.8.110021-deobf.jar',
                 mod_group              : 'zone.moddev.mc',
                 mod_archive_name       : 'iron-age-furniture',
                 curseforge_project_id  : '341834'
@@ -968,14 +1224,24 @@ tasks.register('verifyVersionMetadata') {
         def mcmod = parseUtf8Json(layout.buildDirectory.file('resources/main/mcmod.info').get().asFile)
         def mod = mcmod instanceof List ? mcmod.first() : mcmod
         if (mod.modid != project.mod_id || mod.version != project.version
-                || mod.mcversion != project.minecraft_version) {
+                || mod.mcversion != project.minecraft_version
+                || mod.license != project.mod_license
+                || mod.url != 'https://github.com/MinecraftModDevelopmentMods/IronAgeFurniture'
+                || mod.updateUrl != 'https://raw.githubusercontent.com/MinecraftModDevelopmentMods/IronAgeFurniture/master-1.10/update.json'
+                || !(mod.dependencies instanceof List) || !mod.dependencies.isEmpty()) {
             throw new GradleException('Generated mcmod.info identity, version, or target is incorrect')
         }
+        def pack = parseUtf8Json(layout.buildDirectory.file('resources/main/pack.mcmeta').get().asFile)
+        if (pack.pack?.pack_format != 2) {
+            throw new GradleException('Minecraft 1.10.2 resources require pack format 2')
+        }
         def update = parseUtf8Json(file('update.json'))
-        if (update.promos.'1.10.2-latest' != '0.2.0.5'
-                || update.promos.'1.10.2-recommended' != '0.2.0.5'
-                || update.'1.10.2'.containsKey(project.version.toString())) {
-            throw new GradleException('update.json must advertise published 0.2.0.5, not this candidate')
+        if (update.homepage != 'https://www.curseforge.com/minecraft/mc-mods/iron-age-furniture/files'
+                || update.promos.'1.10.2-latest' != project.version.toString()
+                || update.promos.'1.10.2-recommended' != project.version.toString()
+                || !update.'1.10.2'.containsKey('0.2.0.5')
+                || !update.'1.10.2'.containsKey(project.version.toString())) {
+            throw new GradleException('update.json must advertise this release while retaining the previous 1.10.2 release')
         }
     }
 }
@@ -1024,9 +1290,8 @@ tasks.register('verifyWorkflowPins') {
 
 tasks.named('check') {
     dependsOn tasks.named('verifyBuildEnvironment')
-    dependsOn verifyPowerAdvantageApiDependency
-    dependsOn verifyLegacyPowerAdvantageArtifact
-    dependsOn verifyPowerAdvantageIntegration
+    dependsOn tasks.named('verifyMavenizerCompatibilityFixture')
+    dependsOn tasks.named('verifyMavenCoordinates')
     dependsOn tasks.named('verifyRepositoryHygiene')
     dependsOn tasks.named('verifyResourceJson')
     dependsOn tasks.named('verifyNamespace')
@@ -1043,9 +1308,6 @@ tasks.register('verifyReleaseArtifacts') {
     dependsOn tasks.named('verifyResourceJson')
     dependsOn tasks.named('verifyNamespace')
     dependsOn tasks.named('verifyVersionMetadata')
-    dependsOn verifyPowerAdvantageApiDependency
-    dependsOn verifyLegacyPowerAdvantageArtifact
-    dependsOn verifyPowerAdvantageIntegration
 
     doLast {
         File libs = layout.buildDirectory.dir('libs').get().asFile
@@ -1203,40 +1465,46 @@ tasks.register('verifyReleaseChecksums') {
     }
 }
 
+tasks.register('prepareReleaseBundle', Sync) {
+    group = 'verification'
+    description = 'Copies the audited jars, checksum manifest, and release notes into one immutable bundle.'
+    dependsOn tasks.named('verifyReleaseChecksums')
+    into layout.buildDirectory.dir('prepared-release')
+    from(layout.buildDirectory.dir('libs')) {
+        include expectedReleaseFiles.get()
+    }
+    from(layout.buildDirectory.file('release/SHA256SUMS'))
+    from('CHANGELOG.md')
+}
+
 tasks.register('verifyPreparedReleaseArtifacts') {
     group = 'verification'
-    description = 'Audits a previously built immutable release bundle before Maven publication.'
+    description = 'Audits a previously built immutable release bundle before publication.'
     doLast {
         if (!preparedReleaseDir.isPresent()) {
             throw new GradleException('preparedReleaseDir is required')
         }
         File prepared = file(preparedReleaseDir.get())
-        List<File> jars = (prepared.listFiles() ?: [] as File[])
-                .findAll { it.name.endsWith('.jar') }.sort { it.name }
-        if (jars.collect { it.name } != expectedReleaseFiles.get().sort()
-                || jars.any { it.length() == 0L }) {
-            throw new GradleException('Prepared release does not contain exactly the three non-empty jars')
+        List<String> expectedBundle = (expectedReleaseFiles.get()
+                + ['SHA256SUMS', 'CHANGELOG.md']).sort()
+        List<String> actualBundle = (prepared.listFiles() ?: [] as File[])
+                .findAll { it.isFile() }.collect { it.name }.sort()
+        if (actualBundle != expectedBundle) {
+            throw new GradleException(
+                    "Expected prepared bundle ${expectedBundle}, found ${actualBundle}")
         }
-        File checksums = new File(prepared, 'SHA256SUMS')
-        File changelog = new File(prepared, 'CHANGELOG.md')
-        if (!checksums.isFile() || !changelog.isFile()) {
-            throw new GradleException('Prepared release is missing SHA256SUMS or CHANGELOG.md')
-        }
-        Map<String, String> declared = checksums.readLines('UTF-8').findAll { !it.trim().isEmpty() }
+        Map<String, String> declared = new File(prepared, 'SHA256SUMS')
+                .readLines('UTF-8').findAll { !it.trim().isEmpty() }
                 .collectEntries { String line ->
                     def parts = line.split(/\s+/, 2)
                     [(parts[1]): parts[0].toUpperCase()]
                 }
-        jars.each { File candidate ->
-            MessageDigest digest = MessageDigest.getInstance('SHA-256')
-            candidate.withInputStream { input ->
-                byte[] buffer = new byte[8192]
-                for (int read = input.read(buffer); read >= 0; read = input.read(buffer)) {
-                    if (read > 0) digest.update(buffer, 0, read)
-                }
-            }
-            if (declared[candidate.name] != digest.digest().encodeHex().toString().toUpperCase()) {
-                throw new GradleException("Prepared checksum mismatch for ${candidate.name}")
+        if (declared.keySet().sort() != expectedReleaseFiles.get().sort()) {
+            throw new GradleException('Prepared checksums do not list exactly the release jars')
+        }
+        declared.each { String name, String expected ->
+            if (!sha256Of(new File(prepared, name)).equalsIgnoreCase(expected)) {
+                throw new GradleException("Prepared checksum mismatch for ${name}")
             }
         }
     }
