@@ -1208,6 +1208,7 @@ tasks.register('verifyDedicatedServerBoundaries') {
             include '**/*.java'
             exclude '**/init/ItemInitialiser.java'
             exclude '**/init/ClientModelInitialiser.java'
+            exclude '**/init/ClientRenderInitialiser.java'
             exclude '**/client/**'
         }.each { source ->
             String text = source.getText('UTF-8')

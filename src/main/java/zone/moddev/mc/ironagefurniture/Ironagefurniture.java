@@ -9,6 +9,7 @@ import zone.moddev.mc.ironagefurniture.api.entity.EntityThrownLavaLamp;
 import zone.moddev.mc.ironagefurniture.api.tile.TileEntityPaddedBench;
 import zone.moddev.mc.ironagefurniture.init.BlockInitialiser;
 import zone.moddev.mc.ironagefurniture.init.ClientModelInitialiser;
+import zone.moddev.mc.ironagefurniture.init.ClientRenderInitialiser;
 import zone.moddev.mc.ironagefurniture.init.ItemInitialiser;
 import zone.moddev.mc.ironagefurniture.lib.util.MMDCreativeTab;
 
@@ -64,6 +65,7 @@ public class Ironagefurniture
     	BlockInitialiser.init();
 		if (event.getSide().isClient()) {
 			ClientModelInitialiser.registerPaddedBenchItemModels();
+			ClientRenderInitialiser.registerEntityRenderers();
 		}
     	
     }

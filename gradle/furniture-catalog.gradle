@@ -204,6 +204,23 @@ tasks.register('updatePaddedBenchColourAssets') {
     }
 }
 
+def verifyThrownLavaLampRenderer = {
+    String modSource = file(
+            'src/main/java/zone/moddev/mc/ironagefurniture/Ironagefurniture.java')
+            .getText('UTF-8')
+    String clientRenderSource = file(
+            'src/main/java/zone/moddev/mc/ironagefurniture/init/ClientRenderInitialiser.java')
+            .getText('UTF-8')
+    if (!modSource.contains('ClientRenderInitialiser.registerEntityRenderers();')
+            || !clientRenderSource.contains('@SideOnly(Side.CLIENT)')
+            || !clientRenderSource.contains('EntityThrownLavaLamp.class')
+            || !clientRenderSource.contains('new RenderSnowball<EntityThrownLavaLamp>')
+            || !clientRenderSource.contains(
+                    'BlockObjectHolder.light_metal_ironage_block_floor_lava_clear')) {
+        throw new GradleException('Thrown lava lamps must use the client-only lava-lamp item renderer')
+    }
+}
+
 tasks.register('updateFurnitureCatalog') {
     group = 'generation'
     description = 'Deterministically rewrites catalog-governed 1.12 recipes and advancements.'
@@ -243,6 +260,7 @@ tasks.register('verifyFurnitureCatalog') {
         if (benchTypes.contains('END("end")')) {
             throw new GradleException('Unused BenchType.END creates missing type=end model variants')
         }
+        verifyThrownLavaLampRenderer()
 
         List<File> recipes = fileTree(recipeDirectory) { include '*.json' }.files.sort { it.name }
         List<File> advancements = fileTree(advancementDirectory) { include '*.json' }.files.sort { it.name }
