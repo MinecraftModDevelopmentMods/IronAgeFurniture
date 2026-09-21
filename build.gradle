@@ -1078,13 +1078,20 @@ tasks.register('verifyResourceJson') {
                 !trimmed.isEmpty() && !trimmed.startsWith('#')
             }.collect { line -> line.substring(0, line.indexOf('=')) }
         }
-        List<File> locales = ['en_EN.lang', 'en_GB.lang', 'en_US.lang'].collect {
+        List<String> expectedLocaleNames = ['en_en.lang', 'en_gb.lang', 'en_us.lang']
+        List<String> actualLocaleNames = fileTree('src/main/resources/assets/ironagefurniture/lang') {
+            include '*.lang'
+        }.files.collect { it.name }.sort()
+        if (actualLocaleNames != expectedLocaleNames) {
+            throw new GradleException("English locale files must use Minecraft 1.12's lowercase names: ${expectedLocaleNames}")
+        }
+        List<File> locales = expectedLocaleNames.collect {
             file("src/main/resources/assets/ironagefurniture/lang/${it}")
         }
         List<String> englishKeys = localeKeys(locales.first())
         locales.tail().each { locale ->
             if (localeKeys(locale) != englishKeys) {
-                throw new GradleException("${locale.name} does not match en_EN.lang ordered keys")
+                throw new GradleException("${locale.name} does not match en_en.lang ordered keys")
             }
         }
 
@@ -1288,7 +1295,7 @@ tasks.register('verifyReleaseArtifacts') {
         new ZipFile(mainJar).withCloseable { ZipFile zip ->
             [
                     'mcmod.info',
-                    'assets/ironagefurniture/lang/en_US.lang',
+                    'assets/ironagefurniture/lang/en_us.lang',
                     'zone/moddev/mc/ironagefurniture/Ironagefurniture.class'
             ].each { required ->
                 if (zip.getEntry(required) == null) {

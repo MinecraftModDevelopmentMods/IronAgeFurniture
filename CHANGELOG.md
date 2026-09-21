@@ -10,6 +10,8 @@ Phase 3 lighting release for Minecraft 1.12.2 and Forge 14.23.5.2859.
   `Color` NBT string suitable for later flattening migration.
 - Render placed and inventory upholstery with resource-pack-overridable vanilla
   wool textures through a client-only custom baked model.
+- Package English locale files under Minecraft 1.12's lowercase resource
+  paths, restoring translated furniture names and the creative-tab title.
 
 ## Player-visible changes
 
