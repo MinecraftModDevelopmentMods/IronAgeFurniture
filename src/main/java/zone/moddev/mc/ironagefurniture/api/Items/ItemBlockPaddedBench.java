@@ -30,7 +30,7 @@ public class ItemBlockPaddedBench extends ItemBlock {
 
 	@Override
 	public String getUnlocalizedName(ItemStack stack) {
-		PaddedBenchColour colour = PaddedBenchColour.byItemMetadata(stack.getMetadata());
+		PaddedBenchColour colour = PaddedBenchColourHelper.getColour(stack);
 		String baseName = super.getUnlocalizedName(stack);
 		return colour == PaddedBenchColour.RED
 				? baseName : baseName + "." + colour.getSerializedName();
@@ -39,7 +39,8 @@ public class ItemBlockPaddedBench extends ItemBlock {
 	@Override
 	public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> subItems) {
 		for (PaddedBenchColour colour : PaddedBenchColour.creativeOrder()) {
-			subItems.add(new ItemStack(item, 1, colour.getItemMetadata()));
+			subItems.add(PaddedBenchColourHelper.setColour(
+					new ItemStack(item, 1, colour.getItemMetadata()), colour));
 		}
 	}
 
@@ -50,7 +51,7 @@ public class ItemBlockPaddedBench extends ItemBlock {
 			return false;
 		}
 		PaddedBenchColourHelper.setColour(world, pos,
-				PaddedBenchColour.byItemMetadata(stack.getMetadata()));
+				PaddedBenchColourHelper.getColour(stack));
 		return true;
 	}
 }

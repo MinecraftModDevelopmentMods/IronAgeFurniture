@@ -212,6 +212,46 @@ dependencies {
 
 apply from: 'gradle/furniture-catalog.gradle'
 
+def legacyFixtureDirectory = file('src/test/resources/fixtures')
+def legacyFixtureVerificationDirectory = layout.buildDirectory.dir('verification/legacy-migration-fixtures')
+
+tasks.register('updateLegacyMigrationFixtures', JavaExec) {
+    group = 'generation'
+    description = 'Writes deterministic 1.10 migration fixtures with the target NBT implementation.'
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'zone.moddev.mc.ironagefurniture.fixture.LegacyMigrationFixtureGenerator'
+    args legacyFixtureDirectory.absolutePath
+}
+
+tasks.register('generateLegacyMigrationFixturesForVerification', JavaExec) {
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'zone.moddev.mc.ironagefurniture.fixture.LegacyMigrationFixtureGenerator'
+    args legacyFixtureVerificationDirectory.get().asFile.absolutePath
+    doFirst {
+        delete legacyFixtureVerificationDirectory
+    }
+}
+
+tasks.register('verifyLegacyMigrationFixtures') {
+    group = 'verification'
+    dependsOn tasks.named('generateLegacyMigrationFixturesForVerification')
+    doLast {
+        ['iaf-1.10-red-only.nbt', 'iaf-1.10-multicolour.nbt'].each { name ->
+            File committed = new File(legacyFixtureDirectory, name)
+            File generated = new File(legacyFixtureVerificationDirectory.get().asFile, name)
+            if (!committed.isFile() || !java.util.Arrays.equals(committed.bytes, generated.bytes)) {
+                throw new GradleException("Legacy migration fixture ${name} is missing or stale; run updateLegacyMigrationFixtures")
+            }
+        }
+    }
+}
+
+tasks.named('check') {
+    dependsOn tasks.named('verifyLegacyMigrationFixtures')
+}
+
 def optionalIntegrationManifestFile = layout.projectDirectory.file(
         'gradle/verification/optional-integration-mods.json')
 def optionalIntegrationCatalogFile = layout.projectDirectory.file(

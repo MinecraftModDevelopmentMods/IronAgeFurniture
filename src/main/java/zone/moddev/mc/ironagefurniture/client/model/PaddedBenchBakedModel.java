@@ -10,6 +10,7 @@ import javax.vecmath.Matrix4f;
 import org.apache.commons.lang3.tuple.Pair;
 
 import zone.moddev.mc.ironagefurniture.api.Enumerations.PaddedBenchColour;
+import zone.moddev.mc.ironagefurniture.api.PaddedBenchColourHelper;
 import zone.moddev.mc.ironagefurniture.api.Properties.PaddedBenchColourProperty;
 
 import net.minecraft.block.state.IBlockState;
@@ -44,7 +45,7 @@ public final class PaddedBenchBakedModel implements IPerspectiveAwareModel {
 			public IBakedModel handleItemState(IBakedModel originalModel, ItemStack stack,
 					World world, EntityLivingBase entity) {
 				return PaddedBenchBakedModel.this.modelFor(
-						PaddedBenchColour.byItemMetadata(stack.getMetadata()));
+						PaddedBenchColourHelper.getColour(stack));
 			}
 		};
 	}

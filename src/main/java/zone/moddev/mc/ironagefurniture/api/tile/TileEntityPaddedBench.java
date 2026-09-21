@@ -1,6 +1,7 @@
 package zone.moddev.mc.ironagefurniture.api.tile;
 
 import zone.moddev.mc.ironagefurniture.api.Enumerations.PaddedBenchColour;
+import zone.moddev.mc.ironagefurniture.api.PaddedBenchColourHelper;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
@@ -11,8 +12,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class TileEntityPaddedBench extends TileEntity {
-	private static final String COLOUR_TAG = "Color";
-
 	private PaddedBenchColour colour = PaddedBenchColour.RED;
 
 	public PaddedBenchColour getColour() {
@@ -36,15 +35,16 @@ public class TileEntityPaddedBench extends TileEntity {
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
-		this.colour = compound.hasKey(COLOUR_TAG)
-				? PaddedBenchColour.byName(compound.getString(COLOUR_TAG))
+		this.colour = compound.hasKey(PaddedBenchColourHelper.COLOUR_TAG)
+				? PaddedBenchColour.byName(compound.getString(PaddedBenchColourHelper.COLOUR_TAG))
 				: PaddedBenchColour.RED;
 	}
 
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
-		compound.setString(COLOUR_TAG, this.getColour().getSerializedName());
+		compound.setString(PaddedBenchColourHelper.COLOUR_TAG,
+				this.getColour().getSerializedName());
 		return compound;
 	}
 

@@ -55,17 +55,19 @@ tasks.register('updatePaddedBenchColourAssets') {
     doLast {
         fileTree(paddedBlockModelRoot) { include '*padded*.json' }.files.sort().each { File model ->
             String text = model.getText('UTF-8').replace('\r\n', '\n')
-            def woolSlotMatcher = text =~ /"([^"]+)"\s*:\s*"minecraft:blocks\/wool_colored_red"/
-            if (woolSlotMatcher.count != 1) {
-                throw new GradleException("Expected exactly one red-wool upholstery slot in ${model}")
+            if (!text.contains('"upholstery": "minecraft:blocks/wool_colored_red"')) {
+                def woolSlotMatcher = text =~ /"([^"]+)"\s*:\s*"minecraft:blocks\/wool_colored_red"/
+                if (woolSlotMatcher.count != 1) {
+                    throw new GradleException("Expected exactly one red-wool upholstery slot in ${model}")
+                }
+                String slot = woolSlotMatcher[0][1]
+                text = text.replaceFirst(
+                        /"${java.util.regex.Pattern.quote(slot)}"\s*:\s*"minecraft:blocks\/wool_colored_red"/,
+                        '"upholstery": "minecraft:blocks/wool_colored_red"')
+                text = text.replaceAll(
+                        /"texture"\s*:\s*"#${java.util.regex.Pattern.quote(slot)}"/,
+                        '"texture": "#upholstery"')
             }
-            String slot = woolSlotMatcher[0][1]
-            text = text.replaceFirst(
-                    /"${java.util.regex.Pattern.quote(slot)}"\s*:\s*"minecraft:blocks\/wool_colored_red"/,
-                    '"upholstery": "minecraft:blocks/wool_colored_red"')
-            text = text.replaceAll(
-                    /"texture"\s*:\s*"#${java.util.regex.Pattern.quote(slot)}"/,
-                    '"texture": "#upholstery"')
             model.setText(text, 'UTF-8')
         }
 
@@ -87,7 +89,12 @@ tasks.register('updatePaddedBenchColourAssets') {
 
         Set<String> colourNames = paddedColours.collect { it.name } as Set<String>
         fileTree(paddedLocaleRoot) { include '*.lang' }.files.sort().each { File locale ->
+            Set<String> seenKeys = [] as LinkedHashSet<String>
             List<String> retained = locale.readLines('UTF-8').findAll { String line ->
+                int separator = line.indexOf('=')
+                if (separator > 0 && !seenKeys.add(line.substring(0, separator))) {
+                    return false
+                }
                 def matcher = line =~ /^tile\.ironagefurniture\.chair_wood_ironage_bench(?:_back)?_padded_single_[^.]+\.([^.]+)\.name=.*$/
                 !matcher.matches() || !colourNames.contains(matcher[0][1])
             }
@@ -263,9 +270,9 @@ tasks.register('verifyFurnitureCatalog') {
             throw new GradleException('Every padded block must have one sixteen-colour recipe family')
         }
         if (!factorySource.contains('for (PaddedBenchColour colour : PaddedBenchColour.values())')
-                || !factorySource.contains('colour.getItemMetadata()')
+                || !factorySource.contains('PaddedBenchColourHelper.createStack(chairOut, 1, colour)')
                 || !factorySource.contains('colour.getCarpetMetadata()')) {
-            throw new GradleException('Padded recipes must translate every carpet colour to stable item metadata')
+            throw new GradleException('Padded recipes must translate every carpet colour to stable item metadata and NBT')
         }
 
         File blockstateRoot = file('src/main/resources/assets/ironagefurniture/blockstates')
@@ -373,6 +380,9 @@ tasks.register('verifyFurnitureCatalog') {
         String itemSource = file(
                 'src/main/java/zone/moddev/mc/ironagefurniture/api/Items/ItemBlockPaddedBench.java')
                 .getText('UTF-8')
+        String colourHelperSource = file(
+                'src/main/java/zone/moddev/mc/ironagefurniture/api/PaddedBenchColourHelper.java')
+                .getText('UTF-8')
         String paddedBenchSource = file(
                 'src/main/java/zone/moddev/mc/ironagefurniture/api/Blocks/PaddedBench.java')
                 .getText('UTF-8')
@@ -389,18 +399,20 @@ tasks.register('verifyFurnitureCatalog') {
                 'src/main/java/zone/moddev/mc/ironagefurniture/init/ClientItemInitialiser.java')
                 .getText('UTF-8')
         if (tileSource.contains('implements ITickable') || maintainedSource.contains('TileEntitySpecialRenderer')
-                || !tileSource.contains('private static final String COLOUR_TAG = "Color";')
+                || !colourHelperSource.contains('public static final String COLOUR_TAG = "Color";')
                 || !tileSource.contains('oldState.getBlock() != newState.getBlock()')) {
             throw new GradleException('Padded colour storage must be non-ticking, stable, and survive state changes')
         }
         if (!itemSource.contains('this.setHasSubtypes(true);')
                 || !itemSource.contains('PaddedBenchColour.creativeOrder()')
-                || !itemSource.contains('PaddedBenchColour.byItemMetadata(stack.getMetadata())')
+                || !itemSource.contains('PaddedBenchColourHelper.getColour(stack)')
+                || !itemSource.contains('PaddedBenchColourHelper.setColour(')
+                || !colourHelperSource.contains('tag.setString(COLOUR_TAG')
                 || !paddedBenchSource.contains('PaddedBenchColourHelper.getDrops')
                 || !paddedBenchSource.contains('PaddedBenchColourHelper.getPickBlock')
                 || !paddedBackBenchSource.contains('PaddedBenchColourHelper.getDrops')
                 || !paddedBackBenchSource.contains('PaddedBenchColourHelper.getPickBlock')) {
-            throw new GradleException('Padded item colour must survive creative selection, placement, drops, and pick block')
+            throw new GradleException('Padded item colour metadata and NBT must survive recipes, creative selection, placement, drops, and pick block')
         }
         if (!colourSource.contains('LIGHT_GRAY(8, 8, "light_gray", "silver")')
                 || !modelLoaderSource.contains('wool_colored_')

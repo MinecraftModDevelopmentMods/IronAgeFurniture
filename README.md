@@ -16,7 +16,9 @@ later furniture development and is intentionally not part of this release.
 Padded benches and padded back benches support all sixteen vanilla carpet
 colours without consuming additional block or item IDs. Existing benches and
 damage-zero items remain red, while newly crafted colours persist through
-placement, drops, pick block, connected-shape changes, and chunk reloads.
+placement, drops, pick block, connected-shape changes, and chunk reloads. Each
+coloured item also carries the stable `Color` NBT string used by later-version
+migration; metadata remains present for native 1.10 rendering and compatibility.
 Mixed-colour bench runs may connect normally; colour does not participate in
 the established joining algorithm.
 

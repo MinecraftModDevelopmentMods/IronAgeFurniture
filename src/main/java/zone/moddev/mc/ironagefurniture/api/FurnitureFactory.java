@@ -69,7 +69,7 @@ public class FurnitureFactory {
 	public static void AddPaddedBenchRecipe(Block chairIn, Block chairOut) {
 		for (PaddedBenchColour colour : PaddedBenchColour.values()) {
 			GameRegistry.addRecipe(new ShapelessOreRecipe(
-					new ItemStack(chairOut, 1, colour.getItemMetadata()),
+					PaddedBenchColourHelper.createStack(chairOut, 1, colour),
 					new ItemStack(chairIn, 1),
 					new ItemStack(Blocks.CARPET, 1, colour.getCarpetMetadata())));
 		}
