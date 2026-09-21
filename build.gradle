@@ -1236,10 +1236,12 @@ tasks.register('verifyVersionMetadata') {
             throw new GradleException('Minecraft 1.10.2 resources require pack format 2')
         }
         def update = parseUtf8Json(file('update.json'))
-        if (update.promos.'1.10.2-latest' != '0.2.0.5'
-                || update.promos.'1.10.2-recommended' != '0.2.0.5'
-                || update.'1.10.2'.containsKey(project.version.toString())) {
-            throw new GradleException('update.json must advertise published 0.2.0.5, not this candidate')
+        if (update.homepage != 'https://www.curseforge.com/minecraft/mc-mods/iron-age-furniture/files'
+                || update.promos.'1.10.2-latest' != project.version.toString()
+                || update.promos.'1.10.2-recommended' != project.version.toString()
+                || !update.'1.10.2'.containsKey('0.2.0.5')
+                || !update.'1.10.2'.containsKey(project.version.toString())) {
+            throw new GradleException('update.json must advertise this release while retaining the previous 1.10.2 release')
         }
     }
 }

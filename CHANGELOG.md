@@ -23,32 +23,25 @@ Phase 3 lighting release for Minecraft 1.10.2 and Forge 12.18.3.2511.
   without adding registry IDs. Existing benches remain red, every segment in
   a connected mixed-colour run retains its own upholstery, and colours survive
   placement, drops, pick block, shape changes, and reloads.
-- Render padded upholstery through resource-pack-overridable vanilla wool
-  textures using a non-ticking colour tile entity and custom baked model.
+- Use the vanilla wool textures for padded upholstery, allowing compatible
+  resource packs to change the fabric used by benches.
 - Select padded bench inventory models from item metadata during model baking,
   so every coloured subtype renders with its matching upholstery in GUIs.
-- Store the stable `Color` string on crafted, Creative, dropped, picked and
-  copied padded-bench item stacks as well as their legacy metadata, preserving
-  all sixteen colours across future flattening migrations.
+- Preserve upholstery choices on crafted, Creative, dropped, picked, and
+  copied benches, including compatibility data for future Minecraft upgrades.
 - Register Biomes O' Plenty, Natura, Forestry, and Immersive Engineering
   furniture and Java recipes only when the relevant optional mod is loaded.
   Minecraft 1.10.2 does not use recipe advancements.
 
-## Compatibility and tooling
+## Compatibility and development
 
 - Preserve all surviving `ironagefurniture` registry, resource,
   configuration, entity, NBT, and saved-world identities from Phase 2.
-- Keep later 1.10-only candles, chandeliers, hanging signs, beds, tables,
-  shelves, cabinets, machinery, and other 1.0 work on
-  `feature/1.10-v1.0.0`; those features are not in this release.
 - Move the supported Java namespace to `zone.moddev.mc.ironagefurniture` and
   publish as `zone.moddev.mc:iron-age-furniture:0.3.0.110021`.
 - Modernize the build to ForgeGradle 7.0.34 and Gradle 9.6.1, pin Java 17 for
   Gradle in CI, and use a Temurin Java 8 compiler while allowing Eclipse to run
   Buildship on newer JVMs and use newer Java 8 patches.
-- Add a deterministic furniture catalog, optional-integration audits,
-  deterministic main/sources/Javadoc jars, checksums, and reproducible
-  Eclipse/Buildship metadata.
-
-Publication remains gated by MMD's protected release workflow after manual
-acceptance and hosted CI.
+- Add a deterministic furniture catalog and optional-integration checks.
+- Produce reproducible main, sources, and Javadoc jars with SHA-256 checksums.
+- Provide reproducible Eclipse/Buildship project metadata for contributors.
