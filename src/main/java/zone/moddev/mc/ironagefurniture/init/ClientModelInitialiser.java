@@ -5,10 +5,15 @@ import java.util.Map;
 import zone.moddev.mc.ironagefurniture.Ironagefurniture;
 import zone.moddev.mc.ironagefurniture.api.Enumerations.PaddedBenchColour;
 import zone.moddev.mc.ironagefurniture.api.Items.ItemBlockPaddedBench;
+import zone.moddev.mc.ironagefurniture.api.PaddedBenchColourHelper;
 import zone.moddev.mc.ironagefurniture.client.model.PaddedBenchModelLoader;
 
+import net.minecraft.client.renderer.ItemMeshDefinition;
+import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -35,12 +40,27 @@ public final class ClientModelInitialiser {
 			if (!(entry.getValue() instanceof ItemBlockPaddedBench)) {
 				continue;
 			}
+			final String itemName = entry.getKey();
+			final Item item = entry.getValue();
+			ResourceLocation[] variants = new ResourceLocation[PaddedBenchColour.values().length];
+			int index = 0;
 			for (PaddedBenchColour colour : PaddedBenchColour.values()) {
-				ModelLoader.setCustomModelResourceLocation(entry.getValue(), colour.getItemMetadata(),
-						new ModelResourceLocation(Ironagefurniture.MODID + ":padded/"
-								+ colour.getSerializedName() + "/" + entry.getKey(), "inventory"));
+				variants[index++] = itemModelLocation(itemName, colour);
 			}
+			ModelBakery.registerItemVariants(item, variants);
+			ModelLoader.setCustomMeshDefinition(item, new ItemMeshDefinition() {
+				@Override
+				public ModelResourceLocation getModelLocation(ItemStack stack) {
+					return itemModelLocation(itemName, PaddedBenchColourHelper.getColour(stack));
+				}
+			});
 		}
 	}
-}
 
+	public static ModelResourceLocation itemModelLocation(String itemName,
+			PaddedBenchColour colour) {
+		PaddedBenchColour safeColour = colour == null ? PaddedBenchColour.RED : colour;
+		return new ModelResourceLocation(Ironagefurniture.MODID + ":padded/"
+				+ safeColour.getSerializedName() + "/" + itemName, "inventory");
+	}
+}

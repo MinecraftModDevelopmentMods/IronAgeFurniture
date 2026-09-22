@@ -12,6 +12,9 @@ Phase 3 lighting release for Minecraft 1.12.2 and Forge 14.23.5.2859.
   wool textures through a client-only custom baked model.
 - Package English locale files under Minecraft 1.12's lowercase resource
   paths, restoring translated furniture names and the creative-tab title.
+- Register every padded-bench item variant during Forge 1.12's model-registry
+  event and select its inventory model from the stack's stable colour data,
+  fixing missing-model icons for padded back benches and later entries.
 
 ## Player-visible changes
 

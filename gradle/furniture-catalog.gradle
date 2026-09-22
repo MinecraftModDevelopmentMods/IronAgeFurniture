@@ -248,6 +248,8 @@ tasks.register('verifyFurnitureCatalog') {
     description = 'Verifies catalog coverage, exact unlock criteria, optional conditions, and deterministic data.'
     inputs.file catalogFile
     inputs.file file('src/main/java/zone/moddev/mc/ironagefurniture/api/Enumerations/BenchType.java')
+    inputs.file file('src/main/java/zone/moddev/mc/ironagefurniture/client/ClientRegistryEvents.java')
+    inputs.file file('src/main/java/zone/moddev/mc/ironagefurniture/init/ClientModelInitialiser.java')
     inputs.files fileTree(recipeDirectory) { include '*.json' }
     inputs.files fileTree(advancementDirectory) { include '*.json' }
     doLast {
@@ -403,6 +405,12 @@ tasks.register('verifyFurnitureCatalog') {
         String itemSource = file(
                 'src/main/java/zone/moddev/mc/ironagefurniture/api/Items/ItemBlockPaddedBench.java')
                 .getText('UTF-8')
+        String clientRegistrySource = file(
+                'src/main/java/zone/moddev/mc/ironagefurniture/client/ClientRegistryEvents.java')
+                .getText('UTF-8')
+        String clientModelSource = file(
+                'src/main/java/zone/moddev/mc/ironagefurniture/init/ClientModelInitialiser.java')
+                .getText('UTF-8')
         String tileSource = file(
                 'src/main/java/zone/moddev/mc/ironagefurniture/api/tile/TileEntityPaddedBench.java')
                 .getText('UTF-8')
@@ -414,6 +422,14 @@ tasks.register('verifyFurnitureCatalog') {
                 || !itemSource.contains('PaddedBenchColourHelper.setColour(')
                 || !tileSource.contains('oldState.getBlock() != newState.getBlock()')) {
             throw new GradleException('The stable non-ticking padded colour item/TE contract is incomplete')
+        }
+        if (!clientRegistrySource.contains('ModelRegistryEvent')
+                || !clientRegistrySource.contains('registerPaddedBenchItemModels()')
+                || !clientModelSource.contains('ModelBakery.registerItemVariants(item, variants)')
+                || !clientModelSource.contains('ModelLoader.setCustomMeshDefinition(item')
+                || !clientModelSource.contains('PaddedBenchColourHelper.getColour(stack)')) {
+            throw new GradleException('Forge 1.12 padded item variants must be registered during ' +
+                    'ModelRegistryEvent and selected from the complete ItemStack colour contract')
         }
     }
 }
