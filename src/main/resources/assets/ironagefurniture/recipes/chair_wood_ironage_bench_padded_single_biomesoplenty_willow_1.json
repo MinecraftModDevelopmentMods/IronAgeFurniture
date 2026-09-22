@@ -1,22 +1,24 @@
 {
-  "type": "forge:ore_shapeless",
-  "ingredients": [
-    {
-      "item": "minecraft:carpet",
-      "data": 1
+    "type": "forge:ore_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:carpet",
+            "data": 1
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_bench_single_biomesoplenty_willow"
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_bench_padded_single_biomesoplenty_willow",
+        "data": 1,
+        "nbt": "{Color:\"orange\"}"
     },
-    {
-      "item": "ironagefurniture:chair_wood_ironage_bench_single_biomesoplenty_willow"
-    }
-  ],
-  "result": {
-    "item": "ironagefurniture:chair_wood_ironage_bench_padded_single_biomesoplenty_willow"
-  },
-  "group": "furniture",
-  "conditions": [
-    {
-      "type": "forge:mod_loaded",
-      "modid": "biomesoplenty"
-    }
-  ]
+    "group": "furniture",
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        }
+    ]
 }

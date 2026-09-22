@@ -1,16 +1,18 @@
 {
-  "type": "forge:ore_shapeless",
-  "ingredients": [
-    {
-      "item": "minecraft:carpet",
-      "data": 2
+    "type": "forge:ore_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:carpet",
+            "data": 2
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_bench_single_acacia"
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_bench_padded_single_acacia",
+        "data": 2,
+        "nbt": "{Color:\"magenta\"}"
     },
-    {
-      "item": "ironagefurniture:chair_wood_ironage_bench_single_acacia"
-    }
-  ],
-  "result": {
-    "item": "ironagefurniture:chair_wood_ironage_bench_padded_single_acacia"
-  },
-  "group": "furniture"
+    "group": "furniture"
 }

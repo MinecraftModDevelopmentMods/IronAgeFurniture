@@ -1,16 +1,18 @@
 {
-  "type": "forge:ore_shapeless",
-  "ingredients": [
-    {
-      "item": "minecraft:carpet",
-      "data": 2
+    "type": "forge:ore_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:carpet",
+            "data": 2
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_bench_back_single_spruce"
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_bench_back_padded_single_spruce",
+        "data": 2,
+        "nbt": "{Color:\"magenta\"}"
     },
-    {
-      "item": "ironagefurniture:chair_wood_ironage_bench_back_single_spruce"
-    }
-  ],
-  "result": {
-    "item": "ironagefurniture:chair_wood_ironage_bench_back_padded_single_spruce"
-  },
-  "group": "furniture"
+    "group": "furniture"
 }

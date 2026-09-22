@@ -1,22 +1,24 @@
 {
-  "type": "forge:ore_shapeless",
-  "ingredients": [
-    {
-      "item": "minecraft:carpet",
-      "data": 13
+    "type": "forge:ore_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:carpet",
+            "data": 13
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_bench_single_natura_silverbell"
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_bench_padded_single_natura_silverbell",
+        "data": 13,
+        "nbt": "{Color:\"green\"}"
     },
-    {
-      "item": "ironagefurniture:chair_wood_ironage_bench_single_natura_silverbell"
-    }
-  ],
-  "result": {
-    "item": "ironagefurniture:chair_wood_ironage_bench_padded_single_natura_silverbell"
-  },
-  "group": "furniture",
-  "conditions": [
-    {
-      "type": "forge:mod_loaded",
-      "modid": "natura"
-    }
-  ]
+    "group": "furniture",
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "natura"
+        }
+    ]
 }

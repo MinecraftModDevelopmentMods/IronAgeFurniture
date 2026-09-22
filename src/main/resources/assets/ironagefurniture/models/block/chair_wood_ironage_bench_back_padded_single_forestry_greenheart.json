@@ -3,7 +3,7 @@
   "textures": {
     "0": "forestry:blocks/wood/bark.greenheart",
     "1": "forestry:blocks/wood/planks.greenheart",
-    "2": "minecraft:blocks/wool_colored_red",
+    "upholstery": "minecraft:blocks/wool_colored_red",
     "particle": "forestry:blocks/wood/bark.greenheart"
   },
   "elements": [
@@ -769,7 +769,7 @@
             14,
             1
           ],
-          "texture": "#2"
+          "texture": "#upholstery"
         },
         "east": {
           "uv": [
@@ -778,7 +778,7 @@
             12,
             1
           ],
-          "texture": "#2"
+          "texture": "#upholstery"
         },
         "south": {
           "uv": [
@@ -787,7 +787,7 @@
             14,
             1
           ],
-          "texture": "#2"
+          "texture": "#upholstery"
         },
         "west": {
           "uv": [
@@ -796,7 +796,7 @@
             12,
             1
           ],
-          "texture": "#2"
+          "texture": "#upholstery"
         },
         "up": {
           "uv": [
@@ -805,7 +805,7 @@
             14,
             12
           ],
-          "texture": "#2"
+          "texture": "#upholstery"
         },
         "down": {
           "uv": [
@@ -814,7 +814,7 @@
             14,
             12
           ],
-          "texture": "#2"
+          "texture": "#upholstery"
         }
       }
     },
@@ -837,7 +837,7 @@
             14,
             8
           ],
-          "texture": "#2"
+          "texture": "#upholstery"
         },
         "east": {
           "uv": [
@@ -846,7 +846,7 @@
             1,
             8
           ],
-          "texture": "#2"
+          "texture": "#upholstery"
         },
         "south": {
           "uv": [
@@ -855,7 +855,7 @@
             14,
             8
           ],
-          "texture": "#2"
+          "texture": "#upholstery"
         },
         "west": {
           "uv": [
@@ -864,7 +864,7 @@
             1,
             8
           ],
-          "texture": "#2"
+          "texture": "#upholstery"
         },
         "up": {
           "uv": [
@@ -873,7 +873,7 @@
             14,
             1
           ],
-          "texture": "#2"
+          "texture": "#upholstery"
         },
         "down": {
           "uv": [
@@ -882,7 +882,7 @@
             14,
             1
           ],
-          "texture": "#2"
+          "texture": "#upholstery"
         }
       }
     },
@@ -905,7 +905,7 @@
             2,
             1
           ],
-          "texture": "#2"
+          "texture": "#upholstery"
         },
         "east": {
           "uv": [
@@ -914,7 +914,7 @@
             13,
             1
           ],
-          "texture": "#2"
+          "texture": "#upholstery"
         },
         "south": {
           "uv": [
@@ -923,7 +923,7 @@
             2,
             1
           ],
-          "texture": "#2"
+          "texture": "#upholstery"
         },
         "west": {
           "uv": [
@@ -932,7 +932,7 @@
             13,
             1
           ],
-          "texture": "#2"
+          "texture": "#upholstery"
         },
         "up": {
           "uv": [
@@ -941,7 +941,7 @@
             2,
             13
           ],
-          "texture": "#2"
+          "texture": "#upholstery"
         },
         "down": {
           "uv": [
@@ -950,7 +950,7 @@
             2,
             13
           ],
-          "texture": "#2"
+          "texture": "#upholstery"
         }
       }
     },
@@ -973,7 +973,7 @@
             2,
             1
           ],
-          "texture": "#2"
+          "texture": "#upholstery"
         },
         "east": {
           "uv": [
@@ -982,7 +982,7 @@
             13,
             1
           ],
-          "texture": "#2"
+          "texture": "#upholstery"
         },
         "south": {
           "uv": [
@@ -991,7 +991,7 @@
             2,
             1
           ],
-          "texture": "#2"
+          "texture": "#upholstery"
         },
         "west": {
           "uv": [
@@ -1000,7 +1000,7 @@
             13,
             1
           ],
-          "texture": "#2"
+          "texture": "#upholstery"
         },
         "up": {
           "uv": [
@@ -1009,7 +1009,7 @@
             16,
             13
           ],
-          "texture": "#2"
+          "texture": "#upholstery"
         },
         "down": {
           "uv": [
@@ -1018,7 +1018,7 @@
             2,
             13
           ],
-          "texture": "#2"
+          "texture": "#upholstery"
         }
       }
     },

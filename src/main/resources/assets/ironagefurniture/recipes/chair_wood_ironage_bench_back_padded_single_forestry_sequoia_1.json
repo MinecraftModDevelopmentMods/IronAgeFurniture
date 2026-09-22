@@ -1,22 +1,24 @@
 {
-  "type": "forge:ore_shapeless",
-  "ingredients": [
-    {
-      "item": "minecraft:carpet",
-      "data": 1
+    "type": "forge:ore_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:carpet",
+            "data": 1
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_bench_back_single_forestry_sequoia"
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_bench_back_padded_single_forestry_sequoia",
+        "data": 1,
+        "nbt": "{Color:\"orange\"}"
     },
-    {
-      "item": "ironagefurniture:chair_wood_ironage_bench_back_single_forestry_sequoia"
-    }
-  ],
-  "result": {
-    "item": "ironagefurniture:chair_wood_ironage_bench_back_padded_single_forestry_sequoia"
-  },
-  "group": "furniture",
-  "conditions": [
-    {
-      "type": "forge:mod_loaded",
-      "modid": "forestry"
-    }
-  ]
+    "group": "furniture",
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "forestry"
+        }
+    ]
 }

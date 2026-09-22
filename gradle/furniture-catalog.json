@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "minecraft": "1.12.2",
+  "loader": "forge",
+  "colours": [
+    "black", "blue", "brown", "cyan", "gray", "green", "light_blue", "light_gray",
+    "lime", "magenta", "orange", "pink", "purple", "red", "white", "yellow"
+  ],
+  "woods": {
+    "vanilla": ["oak", "acacia", "dark_oak", "birch", "jungle", "spruce"],
+    "biomesoplenty": [
+      "biomesoplenty_cherry", "biomesoplenty_ebony", "biomesoplenty_ethereal",
+      "biomesoplenty_eucalyptus", "biomesoplenty_fir", "biomesoplenty_hellbark",
+      "biomesoplenty_jacaranda", "biomesoplenty_magic", "biomesoplenty_mahogany",
+      "biomesoplenty_mangrove", "biomesoplenty_palm", "biomesoplenty_pine",
+      "biomesoplenty_redwood", "biomesoplenty_sacred_oak", "biomesoplenty_umbran",
+      "biomesoplenty_willow"
+    ],
+    "natura": [
+      "natura_amaranth", "natura_bloodwood", "natura_darkwood", "natura_eucalyptus",
+      "natura_fusewood", "natura_ghostwood", "natura_hopseed", "natura_maple",
+      "natura_sakura", "natura_silverbell", "natura_tiger", "natura_willow"
+    ],
+    "forestry": [
+      "forestry_acacia", "forestry_balsa", "forestry_baobab", "forestry_cherry",
+      "forestry_chestnut", "forestry_citrus", "forestry_cocobolo", "forestry_ebony",
+      "forestry_giganteum", "forestry_greenheart", "forestry_ipe", "forestry_kapok",
+      "forestry_larch", "forestry_lime", "forestry_mahoe", "forestry_mahogany",
+      "forestry_maple", "forestry_padauk", "forestry_palm", "forestry_papaya",
+      "forestry_pine", "forestry_plum", "forestry_poplar", "forestry_sequoia",
+      "forestry_teak", "forestry_walnut", "forestry_wenge", "forestry_willow",
+      "forestry_zebrawood"
+    ],
+    "immersiveengineering": ["immersiveengineering_treated_wood"]
+  },
+  "fireproofWoods": [],
+  "lighting": [
+    "light_metal_ironage_sconce_floor_empty_iron",
+    "light_metal_ironage_sconce_wall_empty_iron",
+    "light_metal_ironage_sconce_floor_torch_iron",
+    "light_metal_ironage_sconce_floor_torch_iron_unlit",
+    "light_metal_ironage_sconce_wall_torch_iron",
+    "light_metal_ironage_sconce_wall_torch_iron_unlit",
+    "light_metal_ironage_sconce_floor_redtorch_iron",
+    "light_metal_ironage_sconce_floor_redtorch_iron_unlit",
+    "light_metal_ironage_sconce_wall_redtorch_iron",
+    "light_metal_ironage_sconce_wall_redtorch_iron_unlit",
+    "light_metal_ironage_block_floor_glow_clear",
+    "light_metal_ironage_sconce_floor_glow_iron",
+    "light_metal_ironage_sconce_wall_glow_iron",
+    "light_metal_ironage_block_floor_lava_clear",
+    "light_metal_ironage_sconce_floor_lava_iron",
+    "light_metal_ironage_sconce_wall_lava_iron",
+    "light_metal_ironage_block_floor_red_clear",
+    "light_metal_ironage_sconce_floor_red_iron",
+    "light_metal_ironage_sconce_wall_red_iron",
+    "obsidian_chunk"
+  ]
+}

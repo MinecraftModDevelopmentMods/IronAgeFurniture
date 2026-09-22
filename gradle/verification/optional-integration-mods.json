@@ -1,0 +1,46 @@
+{
+  "minecraft": "1.12.2",
+  "mods": [
+    {
+      "modId": "biomesoplenty",
+      "role": "integration",
+      "version": "7.0.1.2445",
+      "file": "BiomesOPlenty-1.12.2-7.0.1.2445-universal.jar",
+      "sha256": "1c53d3ee39f557162591f618c58b79dc6861d24522ef785794ee4a815f8a3908",
+      "source": "https://www.curseforge.com/minecraft/mc-mods/biomes-o-plenty/files/3558882"
+    },
+    {
+      "modId": "natura",
+      "role": "integration",
+      "version": "4.3.2.69",
+      "file": "natura-1.12.2-4.3.2.69.jar",
+      "sha256": "7663b57daf6ca0b36fbc8dd8ed06dc64447648237579b0c08910e15434ce36b2",
+      "source": "https://www.curseforge.com/minecraft/mc-mods/natura/files/2711439"
+    },
+    {
+      "modId": "mantle",
+      "role": "dependency",
+      "requiredBy": ["natura"],
+      "version": "1.3.3.55",
+      "file": "Mantle-1.12-1.3.3.55.jar",
+      "sha256": "0975ad3ef3b8b35fe43461feabe44d406b5521b0a2f3d1965c8d2f6a59ad2e65",
+      "source": "https://www.curseforge.com/minecraft/mc-mods/mantle/files/2713386"
+    },
+    {
+      "modId": "forestry",
+      "role": "integration",
+      "version": "5.8.2.427",
+      "file": "forestry_1.12.2-5.8.2.427.jar",
+      "sha256": "4ef79e7b554776522d88e405e4e76f9b2997ee46edf9a06b00bafd57988feed7",
+      "source": "https://www.curseforge.com/minecraft/mc-mods/forestry/files/7398359"
+    },
+    {
+      "modId": "immersiveengineering",
+      "role": "integration",
+      "version": "0.12-98",
+      "file": "ImmersiveEngineering-0.12-98.jar",
+      "sha256": "1dceb974d037dae7161f9a8e9f78cb33dfaad9e3adf02d14d52a3024eb961e58",
+      "source": "https://www.curseforge.com/minecraft/mc-mods/immersive-engineering/files/2974106"
+    }
+  ]
+}

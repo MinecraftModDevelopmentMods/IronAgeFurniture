@@ -1,0 +1,11 @@
+[
+  {
+    "modid": "ironagefurnitureintegrationprobe",
+    "name": "Iron Age Furniture Optional Integration Probe",
+    "description": "Local-only packaged server verification probe.",
+    "version": "1",
+    "mcversion": "1.12.2",
+    "authorList": ["Minecraft Mod Development"],
+    "dependencies": ["ironagefurniture"]
+  }
+]
