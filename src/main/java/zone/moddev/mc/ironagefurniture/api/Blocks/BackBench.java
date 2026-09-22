@@ -91,31 +91,37 @@ public class BackBench extends Chair {
 	}
 	
 
-	private Boolean isIAFBench(IBlockState blockstate) {
+	/**
+	 * Returns whether a block state participates in the connected-bench logic.
+	 *
+	 * <p>Use the shared bench implementation as the compatibility boundary rather
+	 * than a registry namespace. This lets add-ons provide IAF furniture under
+	 * their own namespace without changing the established joining algorithm.</p>
+	 *
+	 * @param blockstate state to inspect
+	 * @return {@code true} when the state uses the IAF back-bench implementation
+	 */
+	protected boolean isCompatibleBench(IBlockState blockstate) {
 		Block block = blockstate.getBlock();
 		
 		if (block==null)
 			return false;
 		
-		if (block.getRegistryName().getNamespace().contains("ironagefurniture") && block.getRegistryName().getPath().contains("bench")) {
-			return true;
-		}
-		
-		return false;
+		return block instanceof BackBench && blockstate.getProperties().containsKey(TYPE);
 	}
 	
 	private BenchType getBenchType(IBlockState blockstate) {
 		if (blockstate == null)
 			return null;
 		
-		if (isIAFBench(blockstate))
+		if (isCompatibleBench(blockstate))
 			return (BenchType)blockstate.getProperties().get(TYPE);
 		
 		return null;
 	}
 	
 	private EnumFacing getBenchDirection(IBlockState blockstate) {
-		if (isIAFBench(blockstate))
+		if (isCompatibleBench(blockstate))
 			return (EnumFacing)blockstate.getProperties().get(FACING);
 		
 		return null;

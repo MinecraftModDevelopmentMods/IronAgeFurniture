@@ -47,6 +47,10 @@ Phase 3 lighting release for Minecraft 1.12.2 and Forge 14.23.5.2859.
   `zone.moddev.mc:iron-age-furniture:0.3.0.112021`.
 - Preserve the `ironagefurniture` mod ID and all surviving registry, resource,
   configuration, entity, NBT, and saved-world identities.
+- Allow furniture add-ons to use their own registry namespace while retaining
+  the established connected-bench behaviour.
+- Expose client registration for add-on padded-bench namespaces and items so
+  their placed and inventory models can use the shared sixteen-colour renderer.
 - Modernize the build to ForgeGradle 7.0.34, Gradle 9.6.1, a pinned Temurin
   Java 8 compiler, and Java 17 for Gradle while allowing Eclipse to use a newer
   Temurin Java 8 patch.

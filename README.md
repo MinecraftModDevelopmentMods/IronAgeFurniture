@@ -45,6 +45,14 @@ The supported Java source namespace is now
 coordinate is
 `zone.moddev.mc:iron-age-furniture:0.3.0.112021`.
 
+Furniture add-ons can register subclasses of the public IAF furniture blocks
+under their own mod namespace and place their items in the IAF creative tab.
+Connected bench subclasses participate in the normal joining behaviour, and
+the client API can register an add-on namespace and item with the shared
+sixteen-colour padded-bench renderer. Add-ons should retain ownership of their
+own registry and resource IDs rather than registering new content as
+`ironagefurniture`.
+
 See [CHANGELOG.md](CHANGELOG.md) for the release notes and
 [docs/VERSIONS.md](docs/VERSIONS.md) for the versioning scheme. Bugs can be
 reported through the

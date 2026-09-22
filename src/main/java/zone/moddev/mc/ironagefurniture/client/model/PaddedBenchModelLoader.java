@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.EnumMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
 
 import zone.moddev.mc.ironagefurniture.Ironagefurniture;
 import zone.moddev.mc.ironagefurniture.api.Enumerations.PaddedBenchColour;
@@ -31,10 +32,24 @@ public enum PaddedBenchModelLoader implements ICustomModelLoader {
 	private static final String ITEM_PREFIX = "models/padded/";
 	private static final String COLOURED_ITEM_PREFIX = "models/item/padded/";
 	private static final String BLOCK_PREFIX = "models/block/padded/";
+	private static final Set<String> NAMESPACES = new LinkedHashSet<String>();
+
+	static {
+		NAMESPACES.add(Ironagefurniture.MODID);
+	}
+
+	/**
+	 * Adds an add-on resource namespace to the padded-bench model loader.
+	 *
+	 * @param namespace namespace containing the add-on's padded bench models
+	 */
+	public static void registerNamespace(String namespace) {
+		NAMESPACES.add(new ResourceLocation(namespace, "padded_bench").getNamespace());
+	}
 
 	@Override
 	public boolean accepts(ResourceLocation modelLocation) {
-		if (!Ironagefurniture.MODID.equals(modelLocation.getNamespace())) {
+		if (!NAMESPACES.contains(modelLocation.getNamespace())) {
 			return false;
 		}
 		String path = modelLocation.getPath();
