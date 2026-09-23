@@ -61,8 +61,7 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 
 	@Override
 	public boolean isValidPosition(BlockState state, IWorldReader levelReader, BlockPos pos) {
-		BlockPos supportPos = pos.down();
-		return Block.hasSolidSide(levelReader.getBlockState(supportPos), levelReader, supportPos, Direction.UP);
+		return Block.func_220055_a(levelReader, pos.down(), Direction.UP);
 	}
 
 	@Override
@@ -99,8 +98,7 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 			}
 		}
 
-	    BlockPos supportPos = clickedPos.down();
-	    if (Block.hasSolidSide(levelReader.getBlockState(supportPos), levelReader, supportPos, Direction.UP)) {
+	    if (Block.func_220055_a(levelReader, clickedPos.down(), Direction.UP)) {
 	        return super.getStateForPlacement(context);
 	    }
 

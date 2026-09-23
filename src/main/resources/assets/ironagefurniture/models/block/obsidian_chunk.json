@@ -1,7 +1,8 @@
 {
 	"credit": "Made by FoxNekitsune",
 	"textures": {
-		"0": "minecraft:block/obsidian"
+		"0": "minecraft:block/obsidian",
+		"particle": "minecraft:block/obsidian"
 	},
 	"elements": [
 		{
@@ -34,10 +35,12 @@
 			"translation": [0, 4, 0]
 		},
 		"gui": {
-			"translation": [-1, 13, 0],
+			"rotation": [35, 45, 0],
+			"translation": [0.5, 10.5, 0],
 			"scale": [2, 2, 2]
 		},
 		"fixed": {
+			"rotation": [0, 55, 0],
 			"translation": [0, 7, 0]
 		}
 	}

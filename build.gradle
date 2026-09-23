@@ -239,6 +239,7 @@ repositories {
 dependencies {
     implementation minecraft.dependency(
             "net.minecraftforge:forge:${project.minecraft_version}-${project.forge_version}")
+    testImplementation 'junit:junit:4.13.2'
 }
 
 renamer.mappings.from minecraft.dependency.toSrgFile
@@ -810,8 +811,8 @@ tasks.register('verifyResourceJson') {
             include '**/*.json'
             include 'pack.mcmeta'
         }.files.sort { it.path }
-        if (jsonFiles.size() != 5691) {
-            throw new GradleException("Expected 5691 runtime JSON documents, found ${jsonFiles.size()}")
+        if (jsonFiles.size() != 5716) {
+            throw new GradleException("Expected 5716 runtime JSON documents, found ${jsonFiles.size()}")
         }
         jsonFiles.each { candidate ->
             try {
@@ -873,9 +874,11 @@ tasks.register('verifyResourceJson') {
                                     "${advancementFile}:${criterionName}")
                         }
                         predicates.each { predicate ->
-                            if (!(predicate instanceof Map) || predicate.containsKey('item') || predicate.isEmpty()) {
+                            if (!(predicate instanceof Map)
+                                    || predicate.containsKey('items')
+                                    || (!predicate.containsKey('item') && !predicate.containsKey('tag'))) {
                                 throw new GradleException("Invalid item predicate at " +
-                                        "${advancementFile}:${criterionName}; use items or tag, not item")
+                                        "${advancementFile}:${criterionName}; Minecraft 1.14 uses item or tag")
                             }
                         }
                     }

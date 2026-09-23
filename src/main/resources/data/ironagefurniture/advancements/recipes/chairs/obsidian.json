@@ -11,9 +11,7 @@
             "conditions": {
                 "items": [
                     {
-                        "items": [
-                            "ironagefurniture:obsidian_chunk"
-                        ]
+                        "item": "ironagefurniture:obsidian_chunk"
                     }
                 ]
             }

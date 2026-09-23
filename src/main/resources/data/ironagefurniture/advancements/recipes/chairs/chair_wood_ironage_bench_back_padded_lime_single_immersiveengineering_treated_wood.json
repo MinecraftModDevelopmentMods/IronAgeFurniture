@@ -26,9 +26,7 @@
                         "conditions": {
                             "items": [
                                 {
-                                    "items": [
-                                        "immersiveengineering:treated_wood_packaged"
-                                    ]
+                                    "item": "immersiveengineering:treated_wood_packaged"
                                 }
                             ]
                         }

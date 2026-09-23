@@ -30,6 +30,20 @@ The persistent mod ID, registry names, resource paths, configuration names,
 entities, and saved-world identity remain under `ironagefurniture`. Existing
 1.14.4 worlds therefore retain the same runtime identities.
 
+This release can also upgrade supported IronAgeFurniture blocks and items from
+Forge 1.10.2 and 1.12.2 worlds across Minecraft's 1.13 flattening. Chairs,
+stools, connected benches, and Phase 3 lights retain their facing and block
+state. Padded benches from the original red-only releases become red, while
+the later 16-colour padded benches retain the colour stored in their item or
+block data. This includes player and Ender Chest inventories, nested containers,
+and dropped items. The old `big_oak` furniture names are migrated to the
+equivalent 1.14.4 `dark_oak` names.
+
+Make a backup before upgrading a world. Only furniture whose wood is supported
+by this 1.14.4 release can be migrated. Natura, Forestry, and retired Biomes
+O' Plenty woods have no matching 1.14.4 furniture and should be removed from
+the old world before upgrading.
+
 The supported Java source namespace is now
 `zone.moddev.mc.ironagefurniture`. Add-ons compiled against the former
 `com.mcmoddev.ironagefurniture` packages must update their imports. The Maven

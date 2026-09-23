@@ -20,13 +20,35 @@ Phase 3 lighting release for Minecraft 1.14.4 and Forge 28.2.26.
 - Give wooden chairs and benches normal wood flammability.
 - Correct every recipe advancement to use its own ingredient and matching
   recipe-unlocked criterion. Common oak planks no longer unlock unrelated
-  lighting or optional-mod recipes.
+  lighting or optional-mod recipes, and use the correct Minecraft 1.14 item
+  predicate format so ordinary inventory changes cannot unlock everything.
+- Keep each wood and furniture form as its own recipe-book entry instead of
+  cycling unrelated furniture through one shared recipe cell.
+- Synchronise and render thrown lava lamps visibly in flight, and show the
+  obsidian chunk at a useful angle in inventories.
+- Allow floor sconces to stand on narrow centre supports such as fences and
+  walls, and correct wall-sconce support-face checks.
 - Load Biomes O' Plenty and Immersive Engineering
   recipes and advancements only when their mod is installed. Missing optional
   mods no longer produce ignored-advancement or missing-recipe log spam.
 - Remove stale Immersive Engineering recipes and the unreachable log-bench
   advancement for furniture IDs that were never registered, and correct the
   retained IE texture paths against the published 1.14.4 jar.
+
+## Legacy world upgrades
+
+- Add a pre-flattening migration path for supported IronAgeFurniture blocks
+  and items from Forge 1.10.2 and 1.12.2 worlds.
+- Preserve chair, stool, connected-bench, and Phase 3 light facing and state
+  while Minecraft converts the world to 1.14.4.
+- Convert the original red-only padded benches to red and preserve all sixteen
+  colours used by the later 1.10.2 and 1.12.2 padded-bench format, including
+  items in player and Ender Chest inventories, nested containers, and dropped
+  item entities.
+- Rename legacy `big_oak` furniture to the matching `dark_oak` furniture.
+- Leave unsupported Natura, Forestry, and retired Biomes O' Plenty woods
+  unmapped because this release has no equivalent furniture for them.
+
 ## Compatibility and tooling
 
 - Move the supported Java API namespace to

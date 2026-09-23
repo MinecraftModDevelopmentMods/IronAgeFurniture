@@ -99,7 +99,6 @@ public class LightSourceSconceTorchWall extends LightSourceSconceTorchFloor {
 	{
 	      Direction direction = state .get(DIRECTION);
 	      BlockPos blockpos = pos .offset(direction.getOpposite());
-	      BlockState blockstate = levelReader.getBlockState(blockpos);
-	      return Block.hasSolidSide(blockstate, levelReader, blockpos, direction);
+	      return Block.func_220055_a(levelReader, blockpos, direction);
 	}
 }
