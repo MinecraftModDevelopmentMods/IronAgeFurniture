@@ -240,6 +240,7 @@ repositories {
 dependencies {
     implementation minecraft.dependency(
             "net.minecraftforge:forge:${project.minecraft_version}-${project.forge_version}")
+    testImplementation 'junit:junit:4.13.2'
 }
 
 renamer.mappings.from minecraft.dependency.toSrgFile
@@ -811,8 +812,8 @@ tasks.register('verifyResourceJson') {
             include '**/*.json'
             include 'pack.mcmeta'
         }.files.sort { it.path }
-        if (jsonFiles.size() != 11991) {
-            throw new GradleException("Expected 11991 runtime JSON documents, found ${jsonFiles.size()}")
+        if (jsonFiles.size() != 12058) {
+            throw new GradleException("Expected 12058 runtime JSON documents, found ${jsonFiles.size()}")
         }
         jsonFiles.each { candidate ->
             try {

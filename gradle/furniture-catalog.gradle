@@ -5,6 +5,8 @@ def catalogFile = layout.projectDirectory.file('gradle/furniture-catalog.json')
 def recipeDirectory = layout.projectDirectory.dir('src/main/resources/data/ironagefurniture/recipes')
 def advancementDirectory = layout.projectDirectory.dir(
         'src/main/resources/data/ironagefurniture/advancements/recipes/chairs')
+def blockStateDirectory = layout.projectDirectory.dir(
+        'src/main/resources/assets/ironagefurniture/blockstates')
 
 def integrationForName = { String name ->
     if (name.contains('_biomesoplenty_')) return 'biomesoplenty'
@@ -40,6 +42,11 @@ def normalizedRecipe = { File file ->
             throw new GradleException("Unsupported conditional recipe structure: ${file}")
         }
         parsed = new LinkedHashMap(entries[0].recipe as Map)
+    }
+    // Keep furniture from different woods as distinct recipe-book entries.
+    // A shared group makes an unlocked recipe cycle through every wood variant.
+    if (parsed.group == 'furniture') {
+        parsed.remove('group')
     }
     if (modId != null) {
         Map reordered = new LinkedHashMap()
@@ -86,6 +93,25 @@ def normalizedAdvancement = { File file ->
 }
 
 def formattedJson = { Object value -> JsonOutput.prettyPrint(JsonOutput.toJson(value)) + '\n' }
+def writeCatalogText = { File file, String text ->
+    file.setText(text.replace('\r\n', '\n').replace('\n', System.lineSeparator()), 'UTF-8')
+}
+
+def compatibilityBlockStates = { Map catalog ->
+    List<Map<String, String>> mappings = []
+    (catalog.woods as Map).values().flatten().each { String modernWood ->
+        String legacyWood = modernWood == 'dark_oak' ? 'big_oak' : modernWood
+        mappings.add([
+                source: "chair_wood_ironage_bench_padded_red_single_${modernWood}",
+                target: "chair_wood_ironage_bench_padded_single_${legacyWood}"
+        ])
+        mappings.add([
+                source: "chair_wood_ironage_bench_back_padded_red_single_${modernWood}",
+                target: "chair_wood_ironage_bench_back_padded_single_${legacyWood}"
+        ])
+    }
+    mappings
+}
 
 tasks.register('updateFurnitureCatalog') {
     group = 'generation'
@@ -93,12 +119,19 @@ tasks.register('updateFurnitureCatalog') {
     inputs.file catalogFile
     inputs.files fileTree(recipeDirectory) { include '*.json' }
     inputs.files fileTree(advancementDirectory) { include '*.json' }
+    inputs.files fileTree(blockStateDirectory) { include '*.json' }
     doLast {
+        Map catalog = new JsonSlurper().parse(catalogFile.asFile) as Map
         fileTree(recipeDirectory) { include '*.json' }.files.sort { it.name }.each { file ->
-            file.setText(formattedJson(normalizedRecipe(file)), 'UTF-8')
+            writeCatalogText(file, formattedJson(normalizedRecipe(file)))
         }
         fileTree(advancementDirectory) { include '*.json' }.files.sort { it.name }.each { file ->
-            file.setText(formattedJson(normalizedAdvancement(file)), 'UTF-8')
+            writeCatalogText(file, formattedJson(normalizedAdvancement(file)))
+        }
+        compatibilityBlockStates(catalog).each { mapping ->
+            File source = new File(blockStateDirectory.asFile, "${mapping.source}.json")
+            File target = new File(blockStateDirectory.asFile, "${mapping.target}.json")
+            writeCatalogText(target, source.getText('UTF-8'))
         }
     }
 }
@@ -126,11 +159,42 @@ tasks.register('verifyFurnitureCatalog') {
             if (file.getText('UTF-8').replace('\r\n', '\n') != expected) {
                 throw new GradleException("Recipe is not catalog-normalized: ${project.relativePath(file)}")
             }
+            Map recipe = new JsonSlurper().parseText(expected) as Map
+            if (recipe.group == 'furniture') {
+                throw new GradleException("Furniture recipe is incorrectly grouped across woods: " +
+                        project.relativePath(file))
+            }
         }
         fileTree(advancementDirectory) { include '*.json' }.files.sort { it.name }.each { file ->
             String expected = formattedJson(normalizedAdvancement(file))
             if (file.getText('UTF-8').replace('\r\n', '\n') != expected) {
                 throw new GradleException("Advancement is not catalog-normalized: ${project.relativePath(file)}")
+            }
+            Map parsed = new JsonSlurper().parseText(expected) as Map
+            Map advancement = parsed.advancements instanceof List
+                    ? parsed.advancements[0].advancement as Map
+                    : parsed
+            String recipeId = file.name.substring(0, file.name.length() - '.json'.length())
+            Map criteria = advancement.criteria as Map
+            if (criteria.has_the_recipe?.trigger != 'minecraft:recipe_unlocked'
+                    || criteria.has_the_recipe?.conditions?.recipe != "ironagefurniture:${recipeId}") {
+                throw new GradleException("Advancement unlocks the wrong recipe: ${project.relativePath(file)}")
+            }
+            List ingredientCriteria = criteria.findAll { key, value -> key != 'has_the_recipe' }.values() as List
+            if (ingredientCriteria.size() != 1
+                    || ingredientCriteria[0].trigger != 'minecraft:inventory_changed') {
+                throw new GradleException("Advancement needs one exact ingredient criterion: " +
+                        project.relativePath(file))
+            }
+            String criteriaJson = JsonOutput.toJson(ingredientCriteria[0])
+            List predicates = ingredientCriteria[0].conditions?.items as List
+            if (criteriaJson.contains('minecraft:crafting_table')
+                    || predicates == null || predicates.size() != 1
+                    || !(predicates[0] instanceof Map)
+                    || (!(predicates[0] as Map).items && !(predicates[0] as Map).tag)
+                    || (predicates[0] as Map).item != null) {
+                throw new GradleException("Advancement uses a generic or crafting-table criterion: " +
+                        project.relativePath(file))
             }
         }
 
@@ -158,6 +222,14 @@ tasks.register('verifyFurnitureCatalog') {
 
         File blockStates = file('src/main/resources/assets/ironagefurniture/blockstates')
         File itemModels = file('src/main/resources/assets/ironagefurniture/models/item')
+        compatibilityBlockStates(catalog).each { mapping ->
+            File source = new File(blockStates, "${mapping.source}.json")
+            File target = new File(blockStates, "${mapping.target}.json")
+            if (!target.isFile() || target.getText('UTF-8').replace('\r\n', '\n')
+                    != source.getText('UTF-8').replace('\r\n', '\n')) {
+                throw new GradleException("Legacy padded-bench blockstate is missing or stale: ${mapping.target}")
+            }
+        }
         catalog.lighting.each { String id ->
             if (!new File(blockStates, "${id}.json").isFile()
                     || !new File(itemModels, "${id}.json").isFile()) {

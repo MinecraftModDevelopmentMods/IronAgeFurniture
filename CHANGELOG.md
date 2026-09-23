@@ -21,6 +21,11 @@ Phase 3 lighting release for Minecraft 1.15.2 and Forge 31.2.57.
 - Correct every recipe advancement to use its own ingredient and matching
   recipe-unlocked criterion. Common oak planks no longer unlock unrelated
   lighting or optional-mod recipes.
+- Keep each wood and furniture form as its own recipe-book entry instead of
+  cycling unrelated furniture through one shared recipe cell.
+- Synchronise and render thrown lava lamps visibly in flight, show the
+  obsidian chunk at a useful angle in inventories, and allow wall sconces to
+  use narrow centre supports such as fences and walls.
 - Load Biomes O' Plenty, Immersive Engineering, and Oh The Biomes You'll Go
   recipes and advancements only when their mod is installed. Missing optional
   mods no longer produce ignored-advancement or missing-recipe log spam.
@@ -30,6 +35,19 @@ Phase 3 lighting release for Minecraft 1.15.2 and Forge 31.2.57.
 - Match the latest published BYG 1.15.2 registry by excluding the unregistered
   bulbis, embur, glacial-oak, and ironwood furniture families and by using its
   legacy `byg:blocks/...` texture paths.
+
+## Legacy world upgrades
+
+- Add a pre-flattening migration path for supported IronAgeFurniture content
+  from Forge 1.10.2 and 1.12.2 worlds.
+- Preserve furniture facing, connected-bench shape, separate light states,
+  and all sixteen padded-bench colours. The earlier colourless format becomes
+  red, including items in player storage, nested containers, and item entities.
+- Rename legacy `big_oak` furniture to `dark_oak`.
+- Import furniture from the 1.12.2 Iron Age Furniture Oh The Biomes Add-On.
+  Surviving woods keep their names; Frozen Oak maps to Aspen, Great Oak to
+  vanilla Oak, Hawthorn to Cherry, Ironwood to Ebony, Palm to Baobab, and Rowan
+  to Maple as visual fallbacks for woods retired before BYG 1.15.2.
 
 ## Compatibility and tooling
 
