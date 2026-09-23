@@ -1,0 +1,21 @@
+{
+  "minecraft": "1.14.4",
+  "mods": [
+    {
+      "modId": "biomesoplenty",
+      "role": "integration",
+      "version": "1.14.4-9.0.0.262",
+      "file": "BiomesOPlenty-1.14.4-9.0.0.262-universal.jar",
+      "sha256": "65b32aaf4d34b1ffbac6452041a4411f64357970de6a736e4d9500346fabca1b",
+      "source": "https://www.curseforge.com/minecraft/mc-mods/biomes-o-plenty/files/2846238"
+    },
+    {
+      "modId": "immersiveengineering",
+      "role": "integration",
+      "version": "0.14-102",
+      "file": "ImmersiveEngineering-0.14-102.jar",
+      "sha256": "79309e18a70bd21a3882b5a2b97848cc38520f548699bfac645fb8048f13663f",
+      "source": "https://www.curseforge.com/minecraft/mc-mods/immersive-engineering/files/2980313"
+    }
+  ]
+}

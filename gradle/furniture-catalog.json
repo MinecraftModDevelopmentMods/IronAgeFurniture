@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "minecraft": "1.14.4",
+  "loader": "forge",
+  "colours": [
+    "black", "blue", "brown", "cyan", "gray", "green", "light_blue", "light_gray",
+    "lime", "magenta", "orange", "pink", "purple", "red", "white", "yellow"
+  ],
+  "woods": {
+    "vanilla": ["oak", "acacia", "dark_oak", "birch", "jungle", "spruce"],
+    "biomesoplenty": [
+      "biomesoplenty_cherry", "biomesoplenty_dead", "biomesoplenty_fir",
+      "biomesoplenty_hellbark", "biomesoplenty_jacaranda", "biomesoplenty_magic",
+      "biomesoplenty_mahogany", "biomesoplenty_palm", "biomesoplenty_redwood",
+      "biomesoplenty_umbran", "biomesoplenty_willow"
+    ],
+    "immersiveengineering": ["immersiveengineering_treated_wood"]
+  },
+  "fireproofWoods": [],
+  "lighting": [
+    "light_metal_ironage_sconce_floor_empty_iron",
+    "light_metal_ironage_sconce_wall_empty_iron",
+    "light_metal_ironage_sconce_floor_torch_iron",
+    "light_metal_ironage_sconce_floor_torch_iron_unlit",
+    "light_metal_ironage_sconce_wall_torch_iron",
+    "light_metal_ironage_sconce_wall_torch_iron_unlit",
+    "light_metal_ironage_sconce_floor_redtorch_iron",
+    "light_metal_ironage_sconce_floor_redtorch_iron_unlit",
+    "light_metal_ironage_sconce_wall_redtorch_iron",
+    "light_metal_ironage_sconce_wall_redtorch_iron_unlit",
+    "light_metal_ironage_block_floor_glow_clear",
+    "light_metal_ironage_sconce_floor_glow_iron",
+    "light_metal_ironage_sconce_wall_glow_iron",
+    "light_metal_ironage_block_floor_lava_clear",
+    "light_metal_ironage_sconce_floor_lava_iron",
+    "light_metal_ironage_sconce_wall_lava_iron",
+    "light_metal_ironage_block_floor_red_clear",
+    "light_metal_ironage_sconce_floor_red_iron",
+    "light_metal_ironage_sconce_wall_red_iron",
+    "obsidian_chunk"
+  ]
+}
