@@ -23,9 +23,13 @@ def normalizeItemPredicates
 normalizeItemPredicates = { Object value ->
     if (value instanceof Map) {
         Map map = value as Map
-        if (map.containsKey('item')) {
-            Object item = map.remove('item')
-            map.items = [item]
+        // Minecraft 1.15 uses "item" inside each ItemPredicate. The outer
+        // inventory-changed condition still uses an "items" array.
+        if (map.items instanceof List
+                && (map.items as List).size() == 1
+                && (map.items as List)[0] instanceof String) {
+            Object item = (map.remove('items') as List)[0]
+            map.item = item
         }
         map.values().each { normalizeItemPredicates(it) }
     } else if (value instanceof List) {
@@ -191,8 +195,8 @@ tasks.register('verifyFurnitureCatalog') {
             if (criteriaJson.contains('minecraft:crafting_table')
                     || predicates == null || predicates.size() != 1
                     || !(predicates[0] instanceof Map)
-                    || (!(predicates[0] as Map).items && !(predicates[0] as Map).tag)
-                    || (predicates[0] as Map).item != null) {
+                    || (!(predicates[0] as Map).item && !(predicates[0] as Map).tag)
+                    || (predicates[0] as Map).items != null) {
                 throw new GradleException("Advancement uses a generic or crafting-table criterion: " +
                         project.relativePath(file))
             }

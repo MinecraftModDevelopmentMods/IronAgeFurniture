@@ -26,9 +26,7 @@
                         "conditions": {
                             "items": [
                                 {
-                                    "items": [
-                                        "byg:zelkova_planks"
-                                    ]
+                                    "item": "byg:zelkova_planks"
                                 }
                             ]
                         }

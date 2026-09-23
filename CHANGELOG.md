@@ -18,9 +18,10 @@ Phase 3 lighting release for Minecraft 1.15.2 and Forge 31.2.57.
 - Correct falling and underwater lamp placement, survival and Creative drops,
   and redstone-light transitions.
 - Give wooden chairs and benches normal wood flammability.
-- Correct every recipe advancement to use its own ingredient and matching
-  recipe-unlocked criterion. Common oak planks no longer unlock unrelated
-  lighting or optional-mod recipes.
+- Correct every recipe advancement to use Minecraft 1.15's native ingredient
+  predicate and its matching recipe-unlocked criterion. Obtaining a crafting
+  table or common oak planks no longer unlocks the entire furniture catalog or
+  unrelated lighting and optional-mod recipes.
 - Keep each wood and furniture form as its own recipe-book entry instead of
   cycling unrelated furniture through one shared recipe cell.
 - Synchronise and render thrown lava lamps visibly in flight, show the

@@ -26,9 +26,7 @@
                         "conditions": {
                             "items": [
                                 {
-                                    "items": [
-                                        "byg:redwood_planks"
-                                    ]
+                                    "item": "byg:redwood_planks"
                                 }
                             ]
                         }

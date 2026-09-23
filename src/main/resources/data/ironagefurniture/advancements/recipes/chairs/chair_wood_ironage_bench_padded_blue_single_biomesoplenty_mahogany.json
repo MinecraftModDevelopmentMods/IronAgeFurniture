@@ -26,9 +26,7 @@
                         "conditions": {
                             "items": [
                                 {
-                                    "items": [
-                                        "biomesoplenty:mahogany_planks"
-                                    ]
+                                    "item": "biomesoplenty:mahogany_planks"
                                 }
                             ]
                         }

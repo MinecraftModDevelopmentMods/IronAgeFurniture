@@ -26,9 +26,7 @@
                         "conditions": {
                             "items": [
                                 {
-                                    "items": [
-                                        "byg:rainbow_eucalyptus_planks"
-                                    ]
+                                    "item": "byg:rainbow_eucalyptus_planks"
                                 }
                             ]
                         }

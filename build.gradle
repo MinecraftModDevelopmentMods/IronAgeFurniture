@@ -875,9 +875,12 @@ tasks.register('verifyResourceJson') {
                                     "${advancementFile}:${criterionName}")
                         }
                         predicates.each { predicate ->
-                            if (!(predicate instanceof Map) || predicate.containsKey('item') || predicate.isEmpty()) {
+                            if (!(predicate instanceof Map)
+                                    || predicate.isEmpty()
+                                    || predicate.containsKey('items')
+                                    || (!predicate.containsKey('item') && !predicate.containsKey('tag'))) {
                                 throw new GradleException("Invalid item predicate at " +
-                                        "${advancementFile}:${criterionName}; use items or tag, not item")
+                                        "${advancementFile}:${criterionName}; use item or tag, not items")
                             }
                         }
                     }
