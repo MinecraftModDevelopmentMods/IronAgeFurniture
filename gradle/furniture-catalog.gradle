@@ -21,10 +21,9 @@ def normalizeItemPredicates
 normalizeItemPredicates = { Object value ->
     if (value instanceof Map) {
         Map map = value as Map
-        if (map.items instanceof List && (map.items as List).size() == 1
-                && (map.items as List)[0] instanceof String) {
-            Object item = (map.remove('items') as List)[0]
-            map.item = item
+        if (map.item instanceof String) {
+            Object item = map.remove('item')
+            map.items = [item]
         }
         map.values().each { normalizeItemPredicates(it) }
     } else if (value instanceof List) {
@@ -181,11 +180,16 @@ tasks.register('verifyFurnitureCatalog') {
             }
             String criteriaJson = JsonOutput.toJson(ingredientCriteria[0])
             List predicates = ingredientCriteria[0].conditions?.items as List
+            Map predicate = predicates != null && predicates.size() == 1
+                    && predicates[0] instanceof Map ? predicates[0] as Map : null
+            List exactItems = predicate?.items instanceof List ? predicate.items as List : null
+            boolean hasExactItem = exactItems != null && exactItems.size() == 1
+                    && exactItems[0] instanceof String
+            boolean hasExactTag = predicate?.tag instanceof String
             if (criteriaJson.contains('minecraft:crafting_table')
                     || predicates == null || predicates.size() != 1
-                    || !(predicates[0] instanceof Map)
-                    || (!(predicates[0] as Map).item && !(predicates[0] as Map).tag)
-                    || (predicates[0] as Map).items != null) {
+                    || predicate == null || (!hasExactItem && !hasExactTag)
+                    || predicate.item != null) {
                 throw new GradleException("Advancement uses a generic or crafting-table criterion: " +
                         project.relativePath(file))
             }

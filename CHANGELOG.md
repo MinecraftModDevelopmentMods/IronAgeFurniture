@@ -18,9 +18,9 @@ Phase 3 lighting release for Minecraft 1.17.1 and Forge 37.1.1.
   and redstone-light transitions.
 - Give ordinary wooden chairs and benches normal wood flammability while
   keeping crimson and warped furniture fireproof.
-- Correct every recipe advancement to use its own ingredient and matching
-  recipe-unlocked criterion. Common oak planks no longer unlock unrelated
-  lighting or optional-mod recipes.
+- Correct every recipe advancement to use its own ingredient with the native
+  1.17 item-list predicate and a matching recipe-unlocked criterion. Inventory
+  changes such as obtaining a crafting table no longer unlock the whole catalog.
 - Keep each wood and furniture form as its own recipe-book entry instead of
   cycling unrelated furniture through one shared recipe cell.
 - Synchronise and render thrown lava lamps visibly in flight, show the

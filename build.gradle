@@ -851,12 +851,16 @@ tasks.register('verifyResourceJson') {
                                     "${advancementFile}:${criterionName}")
                         }
                         predicates.each { predicate ->
-                            if (!(predicate instanceof Map)
-                                    || (!(predicate.item instanceof String)
-                                            && !(predicate.tag instanceof String))
-                                    || predicate.containsKey('items')) {
+                            List exactItems = predicate instanceof Map && predicate.items instanceof List
+                                    ? predicate.items as List : null
+                            boolean hasExactItem = exactItems != null && exactItems.size() == 1
+                                    && exactItems[0] instanceof String
+                            boolean hasExactTag = predicate instanceof Map
+                                    && predicate.tag instanceof String
+                            if (!(predicate instanceof Map) || (!hasExactItem && !hasExactTag)
+                                    || predicate.containsKey('item')) {
                                 throw new GradleException("Invalid item predicate at " +
-                                        "${advancementFile}:${criterionName}; use the 1.17 item or tag schema")
+                                        "${advancementFile}:${criterionName}; use the 1.17 items or tag schema")
                             }
                         }
                     }
