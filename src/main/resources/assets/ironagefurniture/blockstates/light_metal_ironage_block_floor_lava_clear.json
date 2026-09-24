@@ -1,0 +1,36 @@
+{
+  "variants": {
+    "facing=north,waterlogged=true": {
+      "model": "ironagefurniture:block/light_metal_ironage_block_floor_lava_clear",
+      "y": 180
+    },
+    "facing=east,waterlogged=true": {
+      "model": "ironagefurniture:block/light_metal_ironage_block_floor_lava_clear",
+      "y": 270
+    },
+    "facing=south,waterlogged=true": {
+      "model": "ironagefurniture:block/light_metal_ironage_block_floor_lava_clear",
+      "y": 0
+    },
+    "facing=west,waterlogged=true": {
+      "model": "ironagefurniture:block/light_metal_ironage_block_floor_lava_clear",
+      "y": 90
+    },
+    "facing=north,waterlogged=false": {
+      "model": "ironagefurniture:block/light_metal_ironage_block_floor_lava_clear",
+      "y": 180
+    },
+    "facing=east,waterlogged=false": {
+      "model": "ironagefurniture:block/light_metal_ironage_block_floor_lava_clear",
+      "y": 270
+    },
+    "facing=south,waterlogged=false": {
+      "model": "ironagefurniture:block/light_metal_ironage_block_floor_lava_clear",
+      "y": 0
+    },
+    "facing=west,waterlogged=false": {
+      "model": "ironagefurniture:block/light_metal_ironage_block_floor_lava_clear",
+      "y": 90
+    }
+  }
+}

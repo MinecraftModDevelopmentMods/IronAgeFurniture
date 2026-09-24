@@ -1,0 +1,7 @@
+{
+  "parent": "ironagefurniture:block/template_chair_wood_ironage_classic",
+  "textures": {
+    "log": "byg:block/ether_log",
+    "planks": "byg:block/ether_planks"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "minecraft": "1.16.5",
+  "loader": "forge",
+  "colours": [
+    "black", "blue", "brown", "cyan", "gray", "green", "light_blue", "light_gray",
+    "lime", "magenta", "orange", "pink", "purple", "red", "white", "yellow"
+  ],
+  "woods": {
+    "vanilla": ["oak", "acacia", "dark_oak", "birch", "jungle", "spruce", "warped", "crimson"],
+    "biomesoplenty": [
+      "biomesoplenty_cherry", "biomesoplenty_dead", "biomesoplenty_fir",
+      "biomesoplenty_hellbark", "biomesoplenty_jacaranda", "biomesoplenty_magic",
+      "biomesoplenty_mahogany", "biomesoplenty_palm", "biomesoplenty_redwood",
+      "biomesoplenty_umbran", "biomesoplenty_willow"
+    ],
+    "byg": [
+      "byg_aspen", "byg_baobab", "byg_blue_enchanted", "byg_bulbis", "byg_cherry",
+      "byg_cika", "byg_cypress", "byg_ebony", "byg_embur", "byg_ether", "byg_fir",
+      "byg_green_enchanted", "byg_holly",
+      "byg_jacaranda", "byg_lament", "byg_mahogany", "byg_mangrove", "byg_maple",
+      "byg_nightshade", "byg_palm", "byg_pine", "byg_rainbow_eucalyptus",
+      "byg_redwood", "byg_skyris", "byg_willow", "byg_witch_hazel", "byg_zelkova"
+    ],
+    "immersiveengineering": ["immersiveengineering_treated_wood"]
+  },
+  "fireproofWoods": ["warped", "crimson"],
+  "lighting": [
+    "light_metal_ironage_sconce_floor_empty_iron",
+    "light_metal_ironage_sconce_wall_empty_iron",
+    "light_metal_ironage_sconce_floor_torch_iron",
+    "light_metal_ironage_sconce_floor_torch_iron_unlit",
+    "light_metal_ironage_sconce_wall_torch_iron",
+    "light_metal_ironage_sconce_wall_torch_iron_unlit",
+    "light_metal_ironage_sconce_floor_redtorch_iron",
+    "light_metal_ironage_sconce_floor_redtorch_iron_unlit",
+    "light_metal_ironage_sconce_wall_redtorch_iron",
+    "light_metal_ironage_sconce_wall_redtorch_iron_unlit",
+    "light_metal_ironage_sconce_floor_soultorch_iron",
+    "light_metal_ironage_sconce_wall_soultorch_iron",
+    "light_metal_ironage_block_floor_glow_clear",
+    "light_metal_ironage_sconce_floor_glow_iron",
+    "light_metal_ironage_sconce_wall_glow_iron",
+    "light_metal_ironage_block_floor_lava_clear",
+    "light_metal_ironage_sconce_floor_lava_iron",
+    "light_metal_ironage_sconce_wall_lava_iron",
+    "light_metal_ironage_block_floor_red_clear",
+    "light_metal_ironage_sconce_floor_red_iron",
+    "light_metal_ironage_sconce_wall_red_iron",
+    "obsidian_chunk"
+  ]
+}

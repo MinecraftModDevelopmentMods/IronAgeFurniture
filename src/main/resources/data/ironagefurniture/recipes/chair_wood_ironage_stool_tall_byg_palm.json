@@ -1,0 +1,26 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "byg"
+        }
+    ],
+    "pattern": [
+        " x ",
+        "yyy",
+        "yyy"
+    ],
+    "key": {
+        "y": {
+            "tag": "forge:rods/wooden"
+        },
+        "x": {
+            "item": "byg:palm_planks"
+        }
+    },
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_stool_tall_byg_palm",
+        "count": 1
+    }
+}
