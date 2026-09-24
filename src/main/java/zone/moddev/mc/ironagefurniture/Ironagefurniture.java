@@ -12,6 +12,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import zone.moddev.mc.ironagefurniture.proxy.CommonProxy;
 import zone.moddev.mc.ironagefurniture.registers.entities;
 import zone.moddev.mc.ironagefurniture.api.CreativeModeBreakTracker;
+import zone.moddev.mc.ironagefurniture.migration.LegacyWorldDataHook;
 import net.minecraftforge.fml.config.ModConfig;
 
 @Mod(Ironagefurniture.MODID)
@@ -39,6 +40,7 @@ public class Ironagefurniture
 		
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new CreativeModeBreakTracker());
+        MinecraftForge.EVENT_BUS.addListener(LegacyWorldDataHook::onServerAboutToStart);
     }
 
 	 private void onCommonSetup(FMLCommonSetupEvent event) {

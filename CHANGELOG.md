@@ -21,11 +21,27 @@ Phase 3 lighting release for Minecraft 1.17.1 and Forge 37.1.1.
 - Correct every recipe advancement to use its own ingredient and matching
   recipe-unlocked criterion. Common oak planks no longer unlock unrelated
   lighting or optional-mod recipes.
+- Keep each wood and furniture form as its own recipe-book entry instead of
+  cycling unrelated furniture through one shared recipe cell.
+- Synchronise and render thrown lava lamps visibly in flight, show the
+  obsidian chunk at a useful angle in inventories, and allow wall sconces to
+  use narrow centre supports such as fences and walls.
 - Load Biomes O' Plenty recipes and advancements only when the mod is
   installed. Its absence no longer produces ignored-advancement or
   missing-recipe log spam.
 - Omit Immersive Engineering integration because its 1.17.1 port never had a
   publicly released build that can be pinned and tested.
+
+## Legacy world upgrades
+
+- Add a pre-flattening migration path for supported IronAgeFurniture content
+  from Forge 1.10.2 and 1.12.2 worlds.
+- Preserve furniture facing, connected-bench shape, separate light states,
+  and all sixteen padded-bench colours. The earlier colourless format becomes
+  red, including items in player storage, nested containers, and item entities.
+- Rename legacy `big_oak` furniture to `dark_oak`.
+- Leave furniture from the separate 1.12.2 Oh The Biomes Add-On untouched;
+  this branch has no matching 1.17.1 BYG furniture catalog to receive it.
 
 ## Compatibility and tooling
 
@@ -38,6 +54,9 @@ Phase 3 lighting release for Minecraft 1.17.1 and Forge 37.1.1.
   toolchains while allowing Eclipse to use a newer Temurin 16 patch.
 - Add a deterministic furniture catalog, conditional-data validation, exact
   optional-mod SHA-256 manifests, and positive packaged-server probes.
+- Resolve optional furniture from the registered catalog instead of declaring
+  absent integration blocks as object holders, reducing harmless startup-log
+  noise when Biomes O' Plenty is not installed.
 - Produce deterministic main, sources, and Javadoc jars with SHA-256 checksums
   and reproducible Eclipse/Buildship metadata.
 

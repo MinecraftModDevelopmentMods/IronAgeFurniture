@@ -12,12 +12,14 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
+import net.minecraft.network.protocol.Packet;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseFireBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.minecraftforge.fmllegacy.network.NetworkHooks;
 import zone.moddev.mc.ironagefurniture.BlockObjectHolder;
 import zone.moddev.mc.ironagefurniture.registers.entities;
 
@@ -35,6 +37,11 @@ public class ThrownLavaLamp extends ThrowableItemProjectile {
     @Override
     protected Item getDefaultItem() {
         return BlockObjectHolder.light_metal_ironage_block_floor_lava_clear.asItem();
+    }
+
+    @Override
+    public Packet<?> getAddEntityPacket() {
+        return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     @Override

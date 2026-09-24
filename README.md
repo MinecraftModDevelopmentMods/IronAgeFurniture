@@ -29,6 +29,20 @@ The persistent mod ID, registry names, resource paths, configuration names,
 entities, and saved-world identity remain under `ironagefurniture`. Existing
 1.17.1 worlds therefore retain the same runtime identities.
 
+This release can also upgrade supported IronAgeFurniture furniture and Phase 3
+lights saved by the Forge 1.10.2 and 1.12.2 editions across Minecraft's
+flattening. Facing, connected-bench shape, lighting state, and padded-bench
+colour are preserved. The original red-only padded benches become red, while
+the later sixteen-colour format keeps its saved `Color` value in placed blocks,
+inventories, containers, and dropped items.
+
+Only furniture with a matching 1.17.1 implementation can be carried forward.
+In particular, the separate 1.12.2 Oh The Biomes Add-On does not have a 1.17.1
+target catalog and is not imported by this branch.
+
+Always back up a world before moving it to a newer Minecraft version. Once the
+world has been saved by 1.17.1 it cannot safely be reopened in an older version.
+
 The supported Java source namespace is now
 `zone.moddev.mc.ironagefurniture`. Add-ons compiled against the former
 `com.mcmoddev.ironagefurniture` packages must update their imports. The Maven
@@ -44,7 +58,8 @@ reported through the
 
 Use the checked-in Gradle wrapper with a Java 17 runtime and a Temurin Java 16
 compiler toolchain. CI pins Temurin 16.0.2+7; Eclipse may use a newer Temurin
-16 patch release for compilation while Buildship runs Gradle on Java 17.
+16 patch release for compilation while Buildship runs Gradle on Java 17. The
+sealed ForgeGradle preparation step uses Java 25.0.3+9.0.LTS.
 
 ```text
 gradlew.bat clean check build javadoc verifyReleaseArtifacts verifyReleaseChecksums

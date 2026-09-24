@@ -7,10 +7,12 @@ import zone.moddev.mc.ironagefurniture.api.items.ThrowableLavaLampBlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import static zone.moddev.mc.ironagefurniture.init.resources.bop.BOP_WOOD_TYPES;
 import static zone.moddev.mc.ironagefurniture.init.resources.bop.BOP_NETHER_WOOD_TYPES;
@@ -21,12 +23,13 @@ import static zone.moddev.mc.ironagefurniture.init.resources.vanilla.VANILLA_NET
 @Mod.EventBusSubscriber(modid = Ironagefurniture.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ItemInitialiser {
 
-	public static Block getProperty(String property) {
-		try {
-			return (Block) BlockObjectHolder.class.getDeclaredField(property).get(null);
-		} catch (Exception e) {
-			return null;
+	private static Block getRegisteredBlock(String path) {
+		ResourceLocation id = new ResourceLocation(Ironagefurniture.MODID, path);
+		Block block = ForgeRegistries.BLOCKS.getValue(id);
+		if (block == null || !id.equals(block.getRegistryName())) {
+			throw new IllegalStateException("Furniture block was not registered: " + id);
 		}
+		return block;
 	}
 
 	private static void registerChairs(RegistryEvent.Register<Item> event, String[] woodTypes, boolean log, String[] netherWoodTypes) {
@@ -41,28 +44,28 @@ public class ItemInitialiser {
 
 	private static void registerChairItems(RegistryEvent.Register<Item> event, boolean log, String wood) {
 		if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_CLASSIC_CHAIRS.get())
-			registerItem(event, getProperty("chair_wood_ironage_classic_" + wood));
+			registerItem(event, getRegisteredBlock("chair_wood_ironage_classic_" + wood));
 
 		if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHIELD_CHAIRS.get())
-			registerItem(event, getProperty("chair_wood_ironage_shield_" + wood));
+			registerItem(event, getRegisteredBlock("chair_wood_ironage_shield_" + wood));
 
 		if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_SHORT_STOOLS.get())
-			registerItem(event, getProperty("chair_wood_ironage_stool_short_" + wood));
+			registerItem(event, getRegisteredBlock("chair_wood_ironage_stool_short_" + wood));
 
 		if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_TALL_STOOLS.get())
-			registerItem(event, getProperty("chair_wood_ironage_stool_tall_" + wood));
+			registerItem(event, getRegisteredBlock("chair_wood_ironage_stool_tall_" + wood));
 
 		if (IronAgeFurnitureConfiguration.CLIENT.GENERATE_BENCHES.get()) {
-			registerItem(event, getProperty("chair_wood_ironage_bench_single_" + wood));
-			registerItem(event, getProperty("chair_wood_ironage_bench_back_single_" + wood));
+			registerItem(event, getRegisteredBlock("chair_wood_ironage_bench_single_" + wood));
+			registerItem(event, getRegisteredBlock("chair_wood_ironage_bench_back_single_" + wood));
 
 			for (String colour : COLOURS) {
-				registerItem(event, getProperty("chair_wood_ironage_bench_padded_" + colour + "_single_" + wood));
-				registerItem(event, getProperty("chair_wood_ironage_bench_back_padded_" + colour + "_single_" + wood));
+				registerItem(event, getRegisteredBlock("chair_wood_ironage_bench_padded_" + colour + "_single_" + wood));
+				registerItem(event, getRegisteredBlock("chair_wood_ironage_bench_back_padded_" + colour + "_single_" + wood));
 			}
 
 			if (log)
-				registerItem(event, getProperty("chair_wood_ironage_bench_log_single_" + wood));
+				registerItem(event, getRegisteredBlock("chair_wood_ironage_bench_log_single_" + wood));
 		}
 	}
 
