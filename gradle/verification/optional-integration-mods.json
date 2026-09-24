@@ -1,0 +1,29 @@
+{
+  "minecraft": "1.15.2",
+  "mods": [
+    {
+      "modId": "biomesoplenty",
+      "role": "integration",
+      "version": "1.15.2-10.0.0.366",
+      "file": "BiomesOPlenty-1.15.2-10.0.0.366-universal.jar",
+      "sha256": "fa450eb93cce9cf16f88bcb0dd48ff8abbd163981ea54dabd27cc0b6e110f99c",
+      "source": "https://modrinth.com/mod/biomes-o-plenty/version/992NeLHs"
+    },
+    {
+      "modId": "byg",
+      "role": "integration",
+      "version": "1.0.11",
+      "file": "byg-1.0.11.jar",
+      "sha256": "1053dc995b721cd4afcca55e148fe6629f5e8ea401d060f8f0cf70b1b9e338af",
+      "source": "https://www.curseforge.com/minecraft/mc-mods/oh-the-biomes-youll-go/files/3022165"
+    },
+    {
+      "modId": "immersiveengineering",
+      "role": "integration",
+      "version": "1.15.2-4.1.1-125",
+      "file": "ImmersiveEngineering-1.15.2-4.1.1-125.jar",
+      "sha256": "305f972968e4abc471fd34781bea0225961d2e46d37bc78c58fa4cbe9b208220",
+      "source": "https://www.curseforge.com/minecraft/mc-mods/immersive-engineering/files/3099023"
+    }
+  ]
+}

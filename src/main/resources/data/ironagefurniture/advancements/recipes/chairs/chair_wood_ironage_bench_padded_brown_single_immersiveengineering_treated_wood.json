@@ -1,0 +1,44 @@
+{
+    "advancements": [
+        {
+            "conditions": [
+                {
+                    "type": "forge:mod_loaded",
+                    "modid": "immersiveengineering"
+                }
+            ],
+            "advancement": {
+                "parent": "minecraft:recipes/root",
+                "rewards": {
+                    "recipes": [
+                        "ironagefurniture:chair_wood_ironage_bench_padded_brown_single_immersiveengineering_treated_wood"
+                    ]
+                },
+                "criteria": {
+                    "has_the_recipe": {
+                        "trigger": "minecraft:recipe_unlocked",
+                        "conditions": {
+                            "recipe": "ironagefurniture:chair_wood_ironage_bench_padded_brown_single_immersiveengineering_treated_wood"
+                        }
+                    },
+                    "has_rock": {
+                        "trigger": "minecraft:inventory_changed",
+                        "conditions": {
+                            "items": [
+                                {
+                                    "item": "immersiveengineering:treated_wood_packaged"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "requirements": [
+                    [
+                        "has_rock",
+                        "has_the_recipe"
+                    ]
+                ]
+            }
+        }
+    ]
+}
