@@ -26,9 +26,7 @@
                         "conditions": {
                             "items": [
                                 {
-                                    "items": [
-                                        "byg:holly_planks"
-                                    ]
+                                    "item": "byg:holly_planks"
                                 }
                             ]
                         }

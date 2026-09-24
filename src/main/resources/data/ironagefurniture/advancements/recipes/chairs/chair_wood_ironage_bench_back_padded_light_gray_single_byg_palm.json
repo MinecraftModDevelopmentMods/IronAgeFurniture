@@ -26,9 +26,7 @@
                         "conditions": {
                             "items": [
                                 {
-                                    "items": [
-                                        "byg:palm_planks"
-                                    ]
+                                    "item": "byg:palm_planks"
                                 }
                             ]
                         }

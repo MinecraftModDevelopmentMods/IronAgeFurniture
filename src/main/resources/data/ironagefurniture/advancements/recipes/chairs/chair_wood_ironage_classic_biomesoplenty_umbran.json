@@ -26,9 +26,7 @@
                         "conditions": {
                             "items": [
                                 {
-                                    "items": [
-                                        "biomesoplenty:umbran_planks"
-                                    ]
+                                    "item": "biomesoplenty:umbran_planks"
                                 }
                             ]
                         }

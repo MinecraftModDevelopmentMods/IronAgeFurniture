@@ -26,9 +26,7 @@
                         "conditions": {
                             "items": [
                                 {
-                                    "items": [
-                                        "byg:cypress_planks"
-                                    ]
+                                    "item": "byg:cypress_planks"
                                 }
                             ]
                         }

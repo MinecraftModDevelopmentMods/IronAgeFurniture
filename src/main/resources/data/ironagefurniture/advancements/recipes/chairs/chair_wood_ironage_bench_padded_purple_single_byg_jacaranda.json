@@ -26,9 +26,7 @@
                         "conditions": {
                             "items": [
                                 {
-                                    "items": [
-                                        "byg:jacaranda_planks"
-                                    ]
+                                    "item": "byg:jacaranda_planks"
                                 }
                             ]
                         }

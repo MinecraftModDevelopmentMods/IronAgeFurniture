@@ -26,9 +26,7 @@
                         "conditions": {
                             "items": [
                                 {
-                                    "items": [
-                                        "byg:bulbis_planks"
-                                    ]
+                                    "item": "byg:bulbis_planks"
                                 }
                             ]
                         }

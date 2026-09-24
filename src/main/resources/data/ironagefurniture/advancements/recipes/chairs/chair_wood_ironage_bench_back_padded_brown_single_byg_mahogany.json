@@ -26,9 +26,7 @@
                         "conditions": {
                             "items": [
                                 {
-                                    "items": [
-                                        "byg:mahogany_planks"
-                                    ]
+                                    "item": "byg:mahogany_planks"
                                 }
                             ]
                         }

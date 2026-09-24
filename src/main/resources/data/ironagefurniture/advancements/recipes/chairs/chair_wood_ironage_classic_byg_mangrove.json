@@ -26,9 +26,7 @@
                         "conditions": {
                             "items": [
                                 {
-                                    "items": [
-                                        "byg:mangrove_planks"
-                                    ]
+                                    "item": "byg:mangrove_planks"
                                 }
                             ]
                         }

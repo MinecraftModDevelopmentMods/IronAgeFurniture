@@ -26,9 +26,7 @@
                         "conditions": {
                             "items": [
                                 {
-                                    "items": [
-                                        "byg:embur_planks"
-                                    ]
+                                    "item": "byg:embur_planks"
                                 }
                             ]
                         }

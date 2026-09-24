@@ -240,6 +240,7 @@ repositories {
 dependencies {
     implementation minecraft.dependency(
             "net.minecraftforge:forge:${project.minecraft_version}-${project.forge_version}")
+    testImplementation 'junit:junit:4.13.2'
 }
 
 renamer.mappings.from minecraft.dependency.toSrgFile
@@ -494,6 +495,10 @@ tasks.register('prepareOptionalIntegrationServer') {
     dependsOn tasks.named('installOptionalIntegrationServer')
     doLast {
         File serverDirectory = optionalIntegrationServerDirectory.get()
+        File probeWorld = new File(serverDirectory, 'world')
+        if (probeWorld.exists() && !project.delete(probeWorld)) {
+            throw new GradleException("Could not reset optional-integration probe world ${probeWorld}")
+        }
         new File(serverDirectory, 'eula.txt').setText('eula=true\n', 'UTF-8')
         new File(serverDirectory, 'server.properties').setText([
                 'allow-flight=true',
@@ -803,6 +808,33 @@ tasks.register('verifyRepositoryHygiene') {
     }
 }
 
+tasks.register('verifyObjectHolderContract') {
+    group = 'verification'
+    description = 'Ensures optional furniture cannot create missing ObjectHolder lookup noise.'
+    doLast {
+        File holderFile = file('src/main/java/zone/moddev/mc/ironagefurniture/BlockObjectHolder.java')
+        String holder = holderFile.getText('UTF-8')
+        List<String> furnitureHolders = (holder =~ /public static final Block\s+(chair_wood_[A-Za-z0-9_]+)/)
+                .collect { it[1] }
+        if (furnitureHolders != ['chair_wood_ironage_classic_dark_oak']) {
+            throw new GradleException('Furniture ObjectHolders create missing-registry startup noise: ' +
+                    furnitureHolders)
+        }
+        List<String> obsoleteStates = (holder =~ /public static final Block\s+([A-Za-z0-9_]*(?:_left_|_middle_|_right_)[A-Za-z0-9_]*)/)
+                .collect { it[1] }
+        if (!obsoleteStates.isEmpty()) {
+            throw new GradleException('Obsolete connected-bench ObjectHolders remain: ' + obsoleteStates)
+        }
+
+        String itemInitialiser = file(
+                'src/main/java/zone/moddev/mc/ironagefurniture/init/ItemInitialiser.java').getText('UTF-8')
+        if (itemInitialiser.contains('BlockObjectHolder.class.getDeclaredField')
+                || !itemInitialiser.contains('ForgeRegistries.BLOCKS.getValue')) {
+            throw new GradleException('Furniture items must resolve registered blocks without reflective ObjectHolder lookup')
+        }
+    }
+}
+
 tasks.register('verifyResourceJson') {
     group = 'verification'
     description = 'Parses resources and validates recipe advancements, locale parity, and optional conditions.'
@@ -811,8 +843,8 @@ tasks.register('verifyResourceJson') {
             include '**/*.json'
             include 'pack.mcmeta'
         }.files.sort { it.path }
-        if (jsonFiles.size() != 14850) {
-            throw new GradleException("Expected 14850 runtime JSON documents, found ${jsonFiles.size()}")
+        if (jsonFiles.size() != 14933) {
+            throw new GradleException("Expected 14933 runtime JSON documents, found ${jsonFiles.size()}")
         }
         jsonFiles.each { candidate ->
             try {
@@ -874,9 +906,12 @@ tasks.register('verifyResourceJson') {
                                     "${advancementFile}:${criterionName}")
                         }
                         predicates.each { predicate ->
-                            if (!(predicate instanceof Map) || predicate.containsKey('item') || predicate.isEmpty()) {
+                            if (!(predicate instanceof Map)
+                                    || predicate.isEmpty()
+                                    || predicate.containsKey('items')
+                                    || (!predicate.containsKey('item') && !predicate.containsKey('tag'))) {
                                 throw new GradleException("Invalid item predicate at " +
-                                        "${advancementFile}:${criterionName}; use items or tag, not item")
+                                        "${advancementFile}:${criterionName}; use item or tag, not items")
                             }
                         }
                     }
@@ -1443,6 +1478,7 @@ tasks.register('prepareEclipse') {
 
 tasks.named('check') {
     dependsOn tasks.named('verifyBuildEnvironment')
+    dependsOn tasks.named('verifyObjectHolderContract')
     dependsOn tasks.named('verifyReleaseConfiguration')
     dependsOn tasks.named('verifyMavenCoordinates')
     dependsOn tasks.named('verifyRepositoryHygiene')

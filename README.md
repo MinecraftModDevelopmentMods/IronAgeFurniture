@@ -31,6 +31,22 @@ The persistent mod ID, registry names, resource paths, configuration names,
 entities, and saved-world identity remain under `ironagefurniture`. Existing
 1.16.5 worlds therefore retain the same runtime identities.
 
+This release can also upgrade supported IronAgeFurniture furniture and Phase 3
+lights saved by the Forge 1.10.2 and 1.12.2 editions across Minecraft's
+flattening. Facing, connected-bench shape, lighting state, and padded-bench
+colour are preserved. The original red-only padded benches become red, while
+the later sixteen-colour format keeps its saved `Color` value in placed blocks,
+inventories, containers, and dropped items.
+
+Worlds using the Iron Age Furniture Oh The Biomes Add-On for 1.12.2 are also
+supported. The twenty-two woods still present in BYG 1.16.5 keep their matching
+furniture. Retired woods use documented visual substitutes: Frozen Oak becomes
+Aspen, Great Oak becomes vanilla Oak, Hawthorn becomes Cherry, Ironwood becomes
+Ebony, and Rowan becomes Maple. Palm remains Palm in this version.
+
+Always back up a world before moving it to a newer Minecraft version. Once the
+world has been saved by 1.16.5 it cannot safely be reopened in an older version.
+
 The supported Java source namespace is now
 `zone.moddev.mc.ironagefurniture`. Add-ons compiled against the former
 `com.mcmoddev.ironagefurniture` packages must update their imports. The Maven
@@ -47,8 +63,9 @@ reported through the
 Use the checked-in Gradle wrapper with a Java 17 runtime and a Temurin Java 8
 compiler toolchain. CI pins the compiler to 8.0.502+7; Eclipse may use a newer
 Temurin Java 8 patch release for the project JRE while Buildship runs Gradle on
-Java 17. ForgeGradle prepares the Forge 36 dependency from the checked-in
-wrapper configuration without downloading a separate build tool.
+Java 17. The sealed ForgeGradle preparation fixture uses Java 25.0.3+9.0.LTS.
+ForgeGradle prepares the Forge 36 dependency from the checked-in wrapper
+configuration without downloading a separate build tool.
 
 ```text
 gradlew.bat clean check build javadoc verifyReleaseArtifacts verifyReleaseChecksums

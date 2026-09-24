@@ -26,9 +26,7 @@
                         "conditions": {
                             "items": [
                                 {
-                                    "items": [
-                                        "biomesoplenty:jacaranda_planks"
-                                    ]
+                                    "item": "biomesoplenty:jacaranda_planks"
                                 }
                             ]
                         }

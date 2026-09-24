@@ -26,9 +26,7 @@
                         "conditions": {
                             "items": [
                                 {
-                                    "items": [
-                                        "byg:ether_planks"
-                                    ]
+                                    "item": "byg:ether_planks"
                                 }
                             ]
                         }

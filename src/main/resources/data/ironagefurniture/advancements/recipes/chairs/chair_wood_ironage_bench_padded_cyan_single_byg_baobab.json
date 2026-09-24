@@ -26,9 +26,7 @@
                         "conditions": {
                             "items": [
                                 {
-                                    "items": [
-                                        "byg:baobab_planks"
-                                    ]
+                                    "item": "byg:baobab_planks"
                                 }
                             ]
                         }

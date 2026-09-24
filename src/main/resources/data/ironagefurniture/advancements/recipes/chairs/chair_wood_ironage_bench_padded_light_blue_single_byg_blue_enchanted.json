@@ -26,9 +26,7 @@
                         "conditions": {
                             "items": [
                                 {
-                                    "items": [
-                                        "byg:blue_enchanted_planks"
-                                    ]
+                                    "item": "byg:blue_enchanted_planks"
                                 }
                             ]
                         }

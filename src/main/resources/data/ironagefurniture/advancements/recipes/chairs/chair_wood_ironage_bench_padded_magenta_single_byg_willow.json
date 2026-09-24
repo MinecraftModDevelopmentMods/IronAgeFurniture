@@ -26,9 +26,7 @@
                         "conditions": {
                             "items": [
                                 {
-                                    "items": [
-                                        "byg:willow_planks"
-                                    ]
+                                    "item": "byg:willow_planks"
                                 }
                             ]
                         }

@@ -17,9 +17,7 @@
             "conditions": {
                 "items": [
                     {
-                        "items": [
-                            "minecraft:acacia_planks"
-                        ]
+                        "item": "minecraft:acacia_planks"
                     }
                 ]
             }

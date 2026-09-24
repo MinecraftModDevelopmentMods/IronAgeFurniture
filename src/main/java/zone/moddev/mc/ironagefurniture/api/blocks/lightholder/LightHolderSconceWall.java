@@ -41,11 +41,7 @@ public class LightHolderSconceWall extends LightHolderSconceFloor {
 	public boolean canSurvive(BlockState state, IWorldReader levelReader, BlockPos pos) {
 	    Direction direction = state.getValue(DIRECTION);
 	    BlockPos adjacentPos = pos.relative(direction.getOpposite());
-	    BlockState adjacentState = levelReader.getBlockState(adjacentPos);
-
-	    boolean isSturdy = adjacentState.isFaceSturdy(levelReader, adjacentPos, direction.getOpposite());
-
-	    return isSturdy;
+	    return Block.canSupportCenter(levelReader, adjacentPos, direction);
 	}
 
 	@Override

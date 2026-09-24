@@ -26,9 +26,7 @@
                         "conditions": {
                             "items": [
                                 {
-                                    "items": [
-                                        "byg:maple_planks"
-                                    ]
+                                    "item": "byg:maple_planks"
                                 }
                             ]
                         }
