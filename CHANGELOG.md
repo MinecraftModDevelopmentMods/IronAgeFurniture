@@ -30,6 +30,10 @@ Phase 3 lighting release for Minecraft 1.15.2 and Forge 31.2.57.
 - Load Biomes O' Plenty, Immersive Engineering, and Oh The Biomes You'll Go
   recipes and advancements only when their mod is installed. Missing optional
   mods no longer produce ignored-advancement or missing-recipe log spam.
+- Stop Forge from attempting to inject thousands of optional and obsolete
+  connected-bench object holders at startup. Optional furniture is resolved
+  only after its blocks have actually been registered, keeping clean installs
+  quiet without changing any block or item IDs.
 - Remove stale Immersive Engineering recipes and the unreachable log-bench
   advancement for furniture IDs that were never registered, and correct the
   retained IE texture paths against the published 1.15.2 jar.

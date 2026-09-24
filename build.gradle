@@ -804,6 +804,33 @@ tasks.register('verifyRepositoryHygiene') {
     }
 }
 
+tasks.register('verifyObjectHolderContract') {
+    group = 'verification'
+    description = 'Ensures optional furniture cannot create missing ObjectHolder lookup noise.'
+    doLast {
+        File holderFile = file('src/main/java/zone/moddev/mc/ironagefurniture/BlockObjectHolder.java')
+        String holder = holderFile.getText('UTF-8')
+        List<String> furnitureHolders = (holder =~ /public static final Block\s+(chair_wood_[A-Za-z0-9_]+)/)
+                .collect { it[1] }
+        if (furnitureHolders != ['chair_wood_ironage_classic_dark_oak']) {
+            throw new GradleException('Furniture ObjectHolders create missing-registry startup noise: ' +
+                    furnitureHolders)
+        }
+        List<String> obsoleteStates = (holder =~ /public static final Block\s+([A-Za-z0-9_]*(?:_left_|_middle_|_right_)[A-Za-z0-9_]*)/)
+                .collect { it[1] }
+        if (!obsoleteStates.isEmpty()) {
+            throw new GradleException('Obsolete connected-bench ObjectHolders remain: ' + obsoleteStates)
+        }
+
+        String itemInitialiser = file(
+                'src/main/java/zone/moddev/mc/ironagefurniture/init/ItemInitialiser.java').getText('UTF-8')
+        if (itemInitialiser.contains('BlockObjectHolder.class.getDeclaredField')
+                || !itemInitialiser.contains('ForgeRegistries.BLOCKS.getValue')) {
+            throw new GradleException('Furniture items must resolve registered blocks without reflective ObjectHolder lookup')
+        }
+    }
+}
+
 tasks.register('verifyResourceJson') {
     group = 'verification'
     description = 'Parses resources and validates recipe advancements, locale parity, and optional conditions.'
@@ -1449,6 +1476,7 @@ tasks.register('prepareEclipse') {
 
 tasks.named('check') {
     dependsOn tasks.named('verifyBuildEnvironment')
+    dependsOn tasks.named('verifyObjectHolderContract')
     dependsOn tasks.named('verifyReleaseConfiguration')
     dependsOn tasks.named('verifyMavenCoordinates')
     dependsOn tasks.named('verifyRepositoryHygiene')
