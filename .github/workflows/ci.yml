@@ -29,6 +29,11 @@ jobs:
         with:
           distribution: temurin
           java-version: '25.0.3+9.0.LTS'
+      - name: Install pinned Java 8 Renamer runtime
+        uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
+        with:
+          distribution: temurin
+          java-version: '8.0.502+7'
       - name: Install pinned Java 16 toolchain
         uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
         with:
@@ -50,7 +55,7 @@ jobs:
           mkdir -p "$GRADLE_USER_HOME"
           chmod +x ./gradlew
           ./gradlew classes --no-daemon --no-build-cache --stacktrace --max-workers=2 \
-            -Dorg.gradle.java.installations.paths="$JAVA_HOME,$JAVA_HOME_16_X64,$JAVA_HOME_25_X64" \
+            -Dorg.gradle.java.installations.paths="$JAVA_HOME,$JAVA_HOME_8_X64,$JAVA_HOME_16_X64,$JAVA_HOME_25_X64" \
             -Dorg.gradle.java.installations.auto-detect=false \
             -Dorg.gradle.java.installations.auto-download=false
       - name: Verify same-cache bootstrap is idempotent
@@ -60,7 +65,7 @@ jobs:
         run: |
           set -euo pipefail
           ./gradlew classes --no-daemon --no-build-cache --stacktrace --max-workers=2 \
-            -Dorg.gradle.java.installations.paths="$JAVA_HOME,$JAVA_HOME_16_X64,$JAVA_HOME_25_X64" \
+            -Dorg.gradle.java.installations.paths="$JAVA_HOME,$JAVA_HOME_8_X64,$JAVA_HOME_16_X64,$JAVA_HOME_25_X64" \
             -Dorg.gradle.java.installations.auto-detect=false \
             -Dorg.gradle.java.installations.auto-download=false
 
@@ -76,6 +81,11 @@ jobs:
         with:
           distribution: temurin
           java-version: '25.0.3+9.0.LTS'
+      - name: Install pinned Java 8 Renamer runtime
+        uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
+        with:
+          distribution: temurin
+          java-version: '8.0.502+7'
       - name: Install pinned Java 16 toolchain
         uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
         with:
@@ -93,14 +103,14 @@ jobs:
           chmod +x ./gradlew
           ./gradlew clean check build javadoc verifyReleaseArtifacts verifyReleaseChecksums \
             --no-daemon --stacktrace \
-            -Dorg.gradle.java.installations.paths="$JAVA_HOME,$JAVA_HOME_16_X64,$JAVA_HOME_25_X64" \
+            -Dorg.gradle.java.installations.paths="$JAVA_HOME,$JAVA_HOME_8_X64,$JAVA_HOME_16_X64,$JAVA_HOME_25_X64" \
             -Dorg.gradle.java.installations.auto-detect=false \
             -Dorg.gradle.java.installations.auto-download=false
       - name: Generate and audit Eclipse production launches
         run: >-
           ./gradlew genEclipseRuns eclipse isolateEclipseProductionRuns verifyEclipseProductionClasspath
           --no-daemon --stacktrace
-          -Dorg.gradle.java.installations.paths="$JAVA_HOME,$JAVA_HOME_16_X64,$JAVA_HOME_25_X64"
+          -Dorg.gradle.java.installations.paths="$JAVA_HOME,$JAVA_HOME_8_X64,$JAVA_HOME_16_X64,$JAVA_HOME_25_X64"
           -Dorg.gradle.java.installations.auto-detect=false
           -Dorg.gradle.java.installations.auto-download=false
       - name: Upload audited release candidate
