@@ -60,14 +60,11 @@ jobs:
             -Dorg.gradle.java.installations.auto-detect=false \
             -Dorg.gradle.java.installations.auto-download=false \
             | tee "$RUNNER_TEMP/cold-forge-bootstrap.log"
-          grep -F "OreSpawn Mavenizer compatibility runtime: Java 25.0.3" \
+          grep -F "Applied Minecraft 1.18.2 Holder.Direct javac compatibility patch" \
             "$RUNNER_TEMP/cold-forge-bootstrap.log"
-          grep -F "OreSpawn Mavenizer compatibility: applied 8 rule(s) for net.minecraftforge:forge:1.18.2-40.3.0" \
-            "$RUNNER_TEMP/cold-forge-bootstrap.log"
-          find "$GRADLE_USER_HOME" .gradle/mavenizer \
-            -name '*.orespawn-compatibility' -type f -print0 \
-            | sort -z | xargs -0 -r sha256sum > "$RUNNER_TEMP/markers-before.sha256"
-          test -s "$RUNNER_TEMP/markers-before.sha256"
+          prepared_jar="$GRADLE_USER_HOME/caches/minecraftforge/forgegradle/mavenizer/caches/forge/net/minecraftforge/forge/1.18.2-40.3.0/official/1.18.2/recompiled.jar"
+          test -s "$prepared_jar"
+          sha256sum "$prepared_jar" > "$RUNNER_TEMP/prepared-before.sha256"
 
       - name: Verify same-cache preparation is idempotent
         shell: bash
@@ -80,10 +77,10 @@ jobs:
             -Dorg.gradle.java.installations.paths="$JAVA_HOME,$JAVA_HOME_8_X64,$JAVA_HOME_25_X64" \
             -Dorg.gradle.java.installations.auto-detect=false \
             -Dorg.gradle.java.installations.auto-download=false
-          find "$GRADLE_USER_HOME" .gradle/mavenizer \
-            -name '*.orespawn-compatibility' -type f -print0 \
-            | sort -z | xargs -0 -r sha256sum > "$RUNNER_TEMP/markers-after.sha256"
-          diff -u "$RUNNER_TEMP/markers-before.sha256" "$RUNNER_TEMP/markers-after.sha256"
+          prepared_jar="$GRADLE_USER_HOME/caches/minecraftforge/forgegradle/mavenizer/caches/forge/net/minecraftforge/forge/1.18.2-40.3.0/official/1.18.2/recompiled.jar"
+          test -s "$prepared_jar"
+          sha256sum "$prepared_jar" > "$RUNNER_TEMP/prepared-after.sha256"
+          diff -u "$RUNNER_TEMP/prepared-before.sha256" "$RUNNER_TEMP/prepared-after.sha256"
 
   build:
     name: Build, test, and audit
