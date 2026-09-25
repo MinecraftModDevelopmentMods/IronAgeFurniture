@@ -46,7 +46,7 @@ def mavenizerFixtureChecksums = [
         (mavenizerLicense.asFile):
                 '7FFE1954587C77DFBA1CF8EB9B2EA743671FA6E63F9E7A2F258119D42E14EEFE',
         (mavenizerReadme.asFile):
-                '6198A366153729A2ACC8DBCCB231A1CCDD2DDDB3C291D8EC7110030DD944CD9F'
+                '264112A68051E50042EC9F72DE2F406758344A4CB5BB9AC69BC3284C3D9C4917'
 ]
 
 [mavenizerCompatibilityJar.asFile, mavenizerSourcePatch.asFile].each { fixture ->
