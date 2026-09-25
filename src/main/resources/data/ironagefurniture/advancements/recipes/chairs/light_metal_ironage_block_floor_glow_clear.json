@@ -1,24 +1,34 @@
 {
-  "rewards": {
-    "recipes": [
-      "ironagefurniture:light_metal_ironage_block_floor_glow_clear"
-    ]
-  },
-  "criteria": {
-    "has_nugget": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "minecraft:glowstone_dust"
-          }
+    "parent": "minecraft:recipes/root",
+    "rewards": {
+        "recipes": [
+            "ironagefurniture:light_metal_ironage_block_floor_glow_clear"
         ]
-      }
-    }
-  },
-  "requirements": [
-    [
-      "has_nugget"
+    },
+    "criteria": {
+        "has_nugget": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": [
+                            "minecraft:glowstone_dust"
+                        ]
+                    }
+                ]
+            }
+        },
+        "has_the_recipe": {
+            "trigger": "minecraft:recipe_unlocked",
+            "conditions": {
+                "recipe": "ironagefurniture:light_metal_ironage_block_floor_glow_clear"
+            }
+        }
+    },
+    "requirements": [
+        [
+            "has_nugget",
+            "has_the_recipe"
+        ]
     ]
-  ]
 }

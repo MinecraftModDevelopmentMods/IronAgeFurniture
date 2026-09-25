@@ -1,27 +1,20 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
-    {
-      "conditions": [
+    "type": "crafting_shapeless",
+    "conditions": [
         {
-          "modid": "biomesoplenty",
-          "type": "forge:mod_loaded"
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
         }
-      ],
-      "recipe": {
-        "type": "crafting_shapeless",
-        "ingredients": [
-          {
+    ],
+    "ingredients": [
+        {
             "item": "minecraft:cyan_carpet"
-          },
-          {
+        },
+        {
             "item": "ironagefurniture:chair_wood_ironage_bench_single_biomesoplenty_cherry"
-          }
-        ],
-        "result": {
-          "item": "ironagefurniture:chair_wood_ironage_bench_padded_cyan_single_biomesoplenty_cherry"
         }
-      }
+    ],
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_bench_padded_cyan_single_biomesoplenty_cherry"
     }
-  ]
 }

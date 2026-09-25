@@ -1,0 +1,37 @@
+{
+  "minecraft": "1.18.2",
+  "mods": [
+    {
+      "modId": "biomesoplenty",
+      "role": "integration",
+      "version": "16.0.0.134",
+      "file": "BiomesOPlenty-1.18.2-16.0.0.134.jar",
+      "sha256": "1d2a95bc7f32944ac5b8332dfd14b6b4168ff47ed1d72dde64604f27550c4bdb",
+      "source": "https://modrinth.com/mod/biomes-o-plenty/version/rPn6qGL9"
+    },
+    {
+      "modId": "byg",
+      "role": "integration",
+      "version": "1.5.1",
+      "file": "Oh_The_Biomes_You'll_Go-forge-1.18.2-1.5.1.jar",
+      "sha256": "09530bba0cce33b6b22b0aa3662af954e04f4332d5c80f867e43831623637012",
+      "source": "https://modrinth.com/mod/biomesyougo/version/4Bo5c6or"
+    },
+    {
+      "modId": "immersiveengineering",
+      "role": "integration",
+      "version": "1.18.2-8.4.0-161",
+      "file": "ImmersiveEngineering-1.18.2-8.4.0-161.jar",
+      "sha256": "6e9b1ad1fc29d10863465bb48c65ad4d5df74042a5b0ee50c6289b687cd38a74",
+      "source": "https://modrinth.com/mod/immersiveengineering/version/g7u3ovfs"
+    },
+    {
+      "modId": "terrablender",
+      "role": "dependency",
+      "version": "1.2.0.126",
+      "file": "TerraBlender-forge-1.18.2-1.2.0.126.jar",
+      "sha256": "77efe21003e4968460652dda1454f4777ca0a5c77fe84d698259cf4472dafa04",
+      "source": "https://modrinth.com/mod/terrablender/version/dH8dFULh"
+    }
+  ]
+}

@@ -1,33 +1,25 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
-    {
-      "conditions": [
+    "type": "minecraft:crafting_shaped",
+    "conditions": [
         {
-          "modid": "byg",
-          "type": "forge:mod_loaded"
+            "type": "forge:mod_loaded",
+            "modid": "byg"
         }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shaped",
-        "group": "furniture",
-        "pattern": [
-          "xx",
-          "yy"
-        ],
-        "key": {
-          "y": {
+    ],
+    "pattern": [
+        "xx",
+        "yy"
+    ],
+    "key": {
+        "y": {
             "tag": "forge:rods/wooden"
-          },
-          "x": {
-            "item": "byg:ether_planks"
-          }
         },
-        "result": {
-          "item": "ironagefurniture:chair_wood_ironage_bench_single_byg_ether",
-          "count": 1
+        "x": {
+            "item": "byg:ether_planks"
         }
-      }
+    },
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_bench_single_byg_ether",
+        "count": 1
     }
-  ]
 }
