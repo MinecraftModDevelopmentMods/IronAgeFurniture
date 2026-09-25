@@ -1,0 +1,15 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "xxx"
+    ],
+    "key": {
+        "x": {
+            "item": "minecraft:crimson_stem"
+        }
+    },
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_bench_log_single_crimson",
+        "count": 3
+    }
+}

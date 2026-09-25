@@ -1,29 +1,21 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
-    {
-      "conditions": [
+    "type": "minecraft:crafting_shaped",
+    "conditions": [
         {
-          "modid": "biomesoplenty",
-          "type": "forge:mod_loaded"
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
         }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shaped",
-        "group": "furniture",
-        "pattern": [
-          "xxx"
-        ],
-        "key": {
-          "x": {
+    ],
+    "pattern": [
+        "xxx"
+    ],
+    "key": {
+        "x": {
             "item": "biomesoplenty:umbran_log"
-          }
-        },
-        "result": {
-          "item": "ironagefurniture:chair_wood_ironage_bench_log_single_biomesoplenty_umbran",
-          "count": 3
         }
-      }
+    },
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_bench_log_single_biomesoplenty_umbran",
+        "count": 3
     }
-  ]
 }
