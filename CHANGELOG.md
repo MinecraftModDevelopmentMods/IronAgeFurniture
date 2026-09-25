@@ -21,6 +21,11 @@ Phase 3 lighting release for Minecraft 1.18.2 and Forge 40.3.0.
 - Correct every recipe advancement to use its own ingredient and matching
   recipe-unlocked criterion. Common oak planks no longer unlock unrelated
   lighting or optional-mod recipes.
+- Keep each wood and furniture form as its own recipe-book entry instead of
+  cycling unrelated furniture through one shared recipe cell.
+- Synchronise and render thrown lava lamps visibly in flight, show the
+  obsidian chunk at a useful angle in inventories, and allow wall sconces to
+  use narrow centre supports such as fences and walls.
 - Load Biomes O' Plenty, Immersive Engineering, and Oh The Biomes You'll Go
   recipes and advancements only when their mod is installed. Missing optional
   mods no longer produce ignored-advancement or missing-recipe log spam.
@@ -29,6 +34,18 @@ Phase 3 lighting release for Minecraft 1.18.2 and Forge 40.3.0.
   retained IE texture paths against the published 1.18.2 jar.
 - Match the published BYG registry by excluding its retired glacial-oak and
   ironwood families, and use its actual bulbis-stem and embur-pedu tags.
+
+## Legacy world upgrades
+
+- Add a pre-flattening migration path for supported IronAgeFurniture content
+  from Forge 1.10.2 and 1.12.2 worlds.
+- Preserve furniture facing, connected-bench shape, separate light states,
+  and all sixteen padded-bench colours. The earlier colourless format becomes
+  red, including items in player storage, nested containers, and item entities.
+- Rename legacy `big_oak` furniture to `dark_oak`.
+- Import the 1.12.2 Oh The Biomes Add-On namespace into the embedded BYG
+  catalog, retaining surviving woods and applying documented visual fallbacks
+  for Frozen Oak, Great Oak, Hawthorn, Ironwood, Palm, and Rowan.
 
 ## Compatibility and tooling
 
@@ -41,6 +58,9 @@ Phase 3 lighting release for Minecraft 1.18.2 and Forge 40.3.0.
   toolchains while allowing Eclipse to use a newer Temurin 17 patch.
 - Add a deterministic furniture catalog, conditional-data validation, exact
   optional-mod SHA-256 manifests, and positive packaged-server probes.
+- Resolve optional furniture from the registered catalog instead of declaring
+  absent integration blocks as object holders, reducing harmless startup-log
+  noise when optional mods are not installed.
 - Produce deterministic main, sources, and Javadoc jars with SHA-256 checksums
   and reproducible Eclipse/Buildship metadata.
 

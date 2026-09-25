@@ -31,6 +31,22 @@ The persistent mod ID, registry names, resource paths, configuration names,
 entities, and saved-world identity remain under `ironagefurniture`. Existing
 1.18.2 worlds therefore retain the same runtime identities.
 
+This release can also upgrade supported IronAgeFurniture furniture and Phase 3
+lights saved by the Forge 1.10.2 and 1.12.2 editions across Minecraft's
+flattening. Facing, connected-bench shape, lighting state, and padded-bench
+colour are preserved. The original red-only padded benches become red, while
+the later sixteen-colour format keeps its saved `Color` value in placed blocks,
+inventories, containers, and dropped items.
+
+Furniture from the 1.12.2 Iron Age Furniture Oh The Biomes Add-On is imported
+into the matching embedded BYG catalog. Woods no longer present in BYG 1.18.2
+use the closest documented visual replacement: Frozen Oak becomes Aspen,
+Great Oak becomes vanilla Oak, Hawthorn becomes Cherry, Ironwood becomes
+Ebony, Palm becomes Baobab, and Rowan becomes Maple.
+
+Always back up a world before moving it to a newer Minecraft version. Once the
+world has been saved by 1.18.2 it cannot safely be reopened in an older version.
+
 The supported Java source namespace is now
 `zone.moddev.mc.ironagefurniture`. Add-ons compiled against the former
 `com.mcmoddev.ironagefurniture` packages must update their imports. The Maven

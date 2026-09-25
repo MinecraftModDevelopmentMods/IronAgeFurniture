@@ -16,7 +16,7 @@ to the subprocess; it does not alter normal online builds.
 change.
 
 The fixture is used only while ForgeGradle prepares the development dependency.
-It is checksum-verified by the build and excluded from every Mineralogy artifact.
+It is checksum-verified by the build and excluded from every IronAgeFurniture release artifact.
 MinecraftMavenizer remains licensed LGPL-2.1-only; see `LICENSE-MAVENIZER.txt`.
 
 SHA-256:
