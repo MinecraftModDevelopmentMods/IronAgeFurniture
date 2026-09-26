@@ -2,9 +2,14 @@ package zone.moddev.mc.ironagefurniture.api;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.UUID;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 import zone.moddev.mc.ironagefurniture.IronAgeFurnitureConfiguration;
 import zone.moddev.mc.ironagefurniture.Ironagefurniture;
@@ -12,21 +17,25 @@ import zone.moddev.mc.ironagefurniture.Ironagefurniture;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ClassInheritanceMultiMap;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.ChunkDataEvent;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.FMLLog;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.event.FMLMissingMappingsEvent;
@@ -38,7 +47,9 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 /** The six CFM 4.1.2 wooden chairs have like-for-like classic-chair replacements. */
 public final class CfmChairMigration {
     private static final String CFM = "cfm";
+    private static final String CHUNK_MIGRATED = "IAFCfmChairMigrated";
     private static final Map<String, String> CHAIRS;
+    private static volatile Map<Integer, String> missingChairBlockIds = Collections.emptyMap();
 
     static {
         Map<String, String> chairs = new LinkedHashMap<String, String>();
@@ -58,7 +69,11 @@ public final class CfmChairMigration {
     }
 
     public static void remapMissingMappings(FMLMissingMappingsEvent event) {
-        // Missing CFM mappings are always repaired, independent of the opt-in conversion.
+        // Forge 1.10 cannot remap a missing ID to a target which was already in the
+        // same world snapshot: it registers the target twice and falls back to
+        // level.dat_old, mixing up unrelated block IDs. Keep the old numeric IDs
+        // for a raw chunk migration instead of calling MissingMapping.remap().
+        Map<Integer, String> blockIds = new HashMap<Integer, String>();
         for (FMLMissingMappingsEvent.MissingMapping mapping : event.getAll()) {
             String targetPath = CHAIRS.get(mapping.resourceLocation.toString());
             if (targetPath == null) {
@@ -73,18 +88,20 @@ public final class CfmChairMigration {
             }
 
             if (mapping.type == GameRegistry.Type.BLOCK) {
-                mapping.remap(target);
-                FMLLog.info("[%s] Remapped missing CFM chair block %s to %s",
-                    Ironagefurniture.MODID, mapping.resourceLocation, target.getRegistryName());
+                mapping.ignore();
+                blockIds.put(mapping.id, targetPath);
+                FMLLog.info("[%s] Will migrate missing CFM chair block %s from numeric ID %d to %s",
+                    Ironagefurniture.MODID, mapping.resourceLocation, mapping.id, target.getRegistryName());
             } else if (mapping.type == GameRegistry.Type.ITEM) {
                 Item item = Item.getItemFromBlock(target);
                 if (item != null) {
-                    mapping.remap(item);
-                    FMLLog.info("[%s] Remapped missing CFM chair item %s to %s",
+                    mapping.ignore();
+                    FMLLog.info("[%s] Will migrate missing CFM chair item %s to %s from saved NBT",
                         Ironagefurniture.MODID, mapping.resourceLocation, item.getRegistryName());
                 }
             }
         }
+        missingChairBlockIds = Collections.unmodifiableMap(blockIds);
     }
 
     @SubscribeEvent
@@ -95,6 +112,17 @@ public final class CfmChairMigration {
         }
 
         Chunk chunk = event.getChunk();
+        if (!Loader.isModLoaded(CFM)) {
+            Map<Integer, Block> targets = missingBlockTargets(world);
+            int blocks = event.getData().getCompoundTag("Level").getBoolean(CHUNK_MIGRATED)
+                    ? 0 : migrateMissingChairBlocks(chunk, event.getData(), targets);
+            int items = restoreMissingChunkItems(chunk, event.getData(), registeredItemIds());
+            if (blocks + items > 0) {
+                chunk.setModified(true);
+                FMLLog.info("[%s] Migrated %d missing CFM chair blocks and %d chair stacks in chunk %d,%d",
+                    Ironagefurniture.MODID, blocks, items, chunk.xPosition, chunk.zPosition);
+            }
+        }
         if (!shouldForceConversion(Loader.isModLoaded(CFM),
                 IronAgeFurnitureConfiguration.FORCE_CFM_CHAIR_CONVERSION)) {
             return;
@@ -114,6 +142,176 @@ public final class CfmChairMigration {
             FMLLog.info("[%s] Converted %d CFM chairs and %d chair stacks in chunk %d,%d",
                 Ironagefurniture.MODID, blocks, items, chunk.xPosition, chunk.zPosition);
         }
+    }
+
+    @SubscribeEvent
+    public void saveChunk(ChunkDataEvent.Save event) {
+        if (!event.getWorld().isRemote && !Loader.isModLoaded(CFM)
+                && !migrationData(event.getWorld()).getBlockIds().isEmpty()) {
+            event.getData().getCompoundTag("Level").setBoolean(CHUNK_MIGRATED, true);
+        }
+    }
+
+    @SubscribeEvent
+    public void unloadWorld(WorldEvent.Unload event) {
+        if (!event.getWorld().isRemote && event.getWorld().provider.getDimension() == 0) {
+            missingChairBlockIds = Collections.emptyMap();
+        }
+    }
+
+    private static CfmChairMigrationData migrationData(World world) {
+        CfmChairMigrationData data = (CfmChairMigrationData)world.getMapStorage()
+                .getOrLoadData(CfmChairMigrationData.class, CfmChairMigrationData.NAME);
+        if (data == null) {
+            data = new CfmChairMigrationData(CfmChairMigrationData.NAME);
+            world.getMapStorage().setData(CfmChairMigrationData.NAME, data);
+        }
+        if (data.getBlockIds().isEmpty() && !missingChairBlockIds.isEmpty()) {
+            data.setBlockIds(missingChairBlockIds);
+            // Persist the numeric mapping before any converted chunk can be saved.
+            world.getMapStorage().saveAllData();
+        }
+        return data;
+    }
+
+    private static Map<Integer, Block> missingBlockTargets(World world) {
+        Map<Integer, Block> targets = new HashMap<Integer, Block>();
+        for (Map.Entry<Integer, String> entry : migrationData(world).getBlockIds().entrySet()) {
+            Block target = registeredTarget(entry.getValue());
+            if (target != null) targets.put(entry.getKey(), target);
+        }
+        return targets;
+    }
+
+    static int migrateMissingChairBlocks(Chunk chunk, NBTTagCompound rawChunk, Map<Integer, Block> targets) {
+        if (targets.isEmpty()) return 0;
+        NBTTagList sections = rawChunk.getCompoundTag("Level").getTagList("Sections", 10);
+        ExtendedBlockStorage[] storage = chunk.getBlockStorageArray();
+        int converted = 0;
+        for (int s = 0; s < sections.tagCount(); ++s) {
+            NBTTagCompound rawSection = sections.getCompoundTagAt(s);
+            int sectionY = rawSection.getByte("Y") & 255;
+            if (sectionY >= storage.length || storage[sectionY] == null) continue;
+            byte[] blocks = rawSection.getByteArray("Blocks");
+            byte[] metadata = rawSection.getByteArray("Data");
+            byte[] add = rawSection.getByteArray("Add");
+            if (blocks.length != 4096 || metadata.length != 2048
+                    || (add.length != 0 && add.length != 2048)) continue;
+            ExtendedBlockStorage section = storage[sectionY];
+            for (int index = 0; index < 4096; ++index) {
+                int id = (blocks[index] & 255) | (nibble(add, index) << 8);
+                Block target = targets.get(id);
+                if (target == null) continue;
+                int meta = nibble(metadata, index);
+                section.set(index & 15, index >> 8 & 15, index >> 4 & 15,
+                        target.getStateFromMeta(meta));
+                ++converted;
+            }
+        }
+        return converted;
+    }
+
+    private static int nibble(byte[] values, int index) {
+        return values.length == 0 ? 0 : (values[index >> 1] >> ((index & 1) << 2)) & 15;
+    }
+
+    private static int restoreMissingChunkItems(Chunk chunk, NBTTagCompound rawChunk,
+            Map<String, String> ids) {
+        NBTTagCompound level = rawChunk.getCompoundTag("Level");
+        int converted = 0;
+        NBTTagList tiles = level.getTagList("TileEntities", 10);
+        for (int i = 0; i < tiles.tagCount(); ++i) {
+            NBTTagCompound data = tiles.getCompoundTagAt(i).copy();
+            int count = rewriteItemStacks(data, ids);
+            if (count == 0) continue;
+            TileEntity tile = chunk.getTileEntityMap().get(new BlockPos(
+                    data.getInteger("x"), data.getInteger("y"), data.getInteger("z")));
+            if (tile == null) continue;
+            tile.readFromNBT(data);
+            // The chunk is not yet installed in the world. markDirty() would
+            // ask the world to load this same chunk recursively here.
+            converted += count;
+        }
+        NBTTagList entities = level.getTagList("Entities", 10);
+        for (int i = 0; i < entities.tagCount(); ++i) {
+            NBTTagCompound data = entities.getCompoundTagAt(i).copy();
+            int count = rewriteItemStacks(data, ids);
+            if (count == 0) continue;
+            UUID uuid = new UUID(data.getLong("UUIDMost"), data.getLong("UUIDLeast"));
+            Entity oldEntity = null;
+            for (ClassInheritanceMultiMap<Entity> group : chunk.getEntityLists()) {
+                for (Entity entity : group) {
+                    if (uuid.equals(entity.getUniqueID())) {
+                        oldEntity = entity;
+                        break;
+                    }
+                }
+                if (oldEntity != null) break;
+            }
+            Entity replacement = EntityList.createEntityFromNBT(data, chunk.getWorld());
+            if (replacement != null && !replacement.isDead) {
+                if (oldEntity != null) chunk.removeEntity(oldEntity);
+                chunk.addEntity(replacement);
+                converted += count;
+            }
+        }
+        return converted;
+    }
+
+    @SubscribeEvent
+    public void recoverPlayerFile(net.minecraftforge.event.entity.player.PlayerEvent.LoadFromFile event) {
+        if (Loader.isModLoaded(CFM) || event.getEntityPlayer().world.isRemote) return;
+        File file = new File(event.getPlayerDirectory(), event.getPlayerUUID() + ".dat");
+        if (!file.isFile()) return;
+        try (FileInputStream input = new FileInputStream(file)) {
+            NBTTagCompound data = CompressedStreamTools.readCompressed(input);
+            Map<String, String> ids = registeredItemIds();
+            int main = recoverPlayerInventory(data.getTagList("Inventory", 10), event.getEntityPlayer(), ids);
+            int ender = recoverEnderInventory(data.getTagList("EnderItems", 10), event.getEntityPlayer(), ids);
+            if (main + ender > 0) {
+                FMLLog.info("[%s] Recovered %d missing CFM chair stacks for player %s",
+                    Ironagefurniture.MODID, main + ender, event.getPlayerUUID());
+            }
+        } catch (IOException exception) {
+            FMLLog.warning("[%s] Could not inspect CFM chair items for player %s: %s",
+                Ironagefurniture.MODID, event.getPlayerUUID(), exception.getMessage());
+        }
+    }
+
+    private static int recoverPlayerInventory(NBTTagList saved, EntityPlayer player,
+            Map<String, String> ids) {
+        int count = 0;
+        for (int i = 0; i < saved.tagCount(); ++i) {
+            NBTTagCompound stack = saved.getCompoundTagAt(i).copy();
+            if (rewriteItemStacks(stack, ids) == 0) continue;
+            ItemStack replacement = ItemStack.loadItemStackFromNBT(stack);
+            if (replacement == null) continue;
+            int slot = stack.getByte("Slot") & 255;
+            if (slot < 36) player.inventory.mainInventory[slot] = replacement;
+            else if (slot >= 100 && slot < 104) player.inventory.armorInventory[slot - 100] = replacement;
+            else if (slot == 150) player.inventory.offHandInventory[0] = replacement;
+            else continue;
+            ++count;
+        }
+        return count;
+    }
+
+    private static int recoverEnderInventory(NBTTagList saved, EntityPlayer player,
+            Map<String, String> ids) {
+        int count = 0;
+        IInventory ender = player.getInventoryEnderChest();
+        for (int i = 0; i < saved.tagCount(); ++i) {
+            NBTTagCompound stack = saved.getCompoundTagAt(i).copy();
+            if (rewriteItemStacks(stack, ids) == 0) continue;
+            int slot = stack.getByte("Slot") & 255;
+            if (slot >= ender.getSizeInventory()) continue;
+            ItemStack replacement = ItemStack.loadItemStackFromNBT(stack);
+            if (replacement != null) {
+                ender.setInventorySlotContents(slot, replacement);
+                ++count;
+            }
+        }
+        return count;
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)

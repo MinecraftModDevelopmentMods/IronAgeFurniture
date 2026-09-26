@@ -58,8 +58,10 @@ entities, and saved-world identity remain under `ironagefurniture`. Existing
 Phase 2 and Phase 3 worlds therefore retain their surviving furniture
 identities. Untagged older furniture uses red upholstery or a plain shield;
 older sconces with no metal data remain iron. When CFM is absent, its six
-wooden chair block/item IDs are remapped to classic chairs; forced conversion
-while CFM remains installed is a separate, default-off option.
+wooden chair block and saved item identities are recovered as classic chairs;
+IAF records the old numeric IDs in the world so unopened chunks still migrate
+after a restart. Forced conversion while CFM remains installed is a separate,
+default-off option. Back up older worlds before first opening them in Phase 4.
 
 The supported Java namespace is `zone.moddev.mc.ironagefurniture`. Add-ons
 compiled against the former `com.mcmoddev.ironagefurniture` packages must

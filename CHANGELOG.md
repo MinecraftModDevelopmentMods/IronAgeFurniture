@@ -16,7 +16,9 @@ feed continues to advertise the published `0.3.0.110021` release.
 - Expand to 17 locale choices, preserving Phase 3 labels and using English
   fallback where the older 1.0 translations lack newer padded-bench names.
 - Add six CFM wooden-chair conversion recipes, a default-off forced-conversion
-  option, and missing block/item remaps even when CFM is absent.
+  option, and missing block/item recovery even when CFM is absent. The latter
+  retains old numeric chair IDs for unopened chunks across restarts without
+  remapping them onto already-registered IAF IDs in Forge 1.10.
 - Keep CFM, Mineralogy, and Base Metals optional at runtime.
 
 # IronAgeFurniture 0.3.0.110021
