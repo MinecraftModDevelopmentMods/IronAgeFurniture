@@ -1,5 +1,5 @@
 {
-  "schema": 1,
+  "schema": 2,
   "minecraft": "1.10.2",
   "loader": "forge",
   "colours": [
@@ -55,5 +55,47 @@
     "light_metal_ironage_sconce_floor_red_iron",
     "light_metal_ironage_sconce_wall_red_iron",
     "obsidian_chunk"
-  ]
+  ],
+  "phaseFour": {
+    "woodPrefixes": [
+      "bed_canopy_foot_lower_", "bed_canopy_foot_left_lower_", "bed_canopy_foot_right_lower_",
+      "bed_wood_foot_", "bed_wood_foot_left_",
+      "chair_wood_ironage_wingback_", "chair_wood_ironage_throne_"
+    ],
+    "lighting": [
+      "light_metal_ironage_sconce_floor_torch_iron_twin",
+      "light_metal_ironage_sconce_floor_torch_iron_twin_unlit",
+      "light_metal_ironage_sconce_wall_torch_iron_twin",
+      "light_metal_ironage_sconce_wall_torch_iron_twin_unlit",
+      "light_metal_ironage_candle_floor", "light_metal_ironage_candle_floor_unlit",
+      "light_metal_ironage_candle_wall", "light_metal_ironage_candle_wall_unlit",
+      "light_metal_ironage_sconce_floor_rocksalt_iron",
+      "light_metal_ironage_sconce_wall_rocksalt_iron",
+      "light_metal_ironage_sconce_floor_candle_iron",
+      "light_metal_ironage_sconce_floor_candle_iron_two",
+      "light_metal_ironage_sconce_floor_candle_iron_three",
+      "light_metal_ironage_sconce_floor_candle_iron_four",
+      "light_metal_ironage_sconce_floor_candle_iron_unlit",
+      "light_metal_ironage_sconce_floor_candle_iron_two_unlit",
+      "light_metal_ironage_sconce_floor_candle_iron_three_unlit",
+      "light_metal_ironage_sconce_floor_candle_iron_four_unlit",
+      "light_metal_ironage_sconce_wall_candle_iron",
+      "light_metal_ironage_sconce_wall_candle_iron_two",
+      "light_metal_ironage_sconce_wall_candle_iron_three",
+      "light_metal_ironage_sconce_wall_candle_iron_four",
+      "light_metal_ironage_sconce_wall_candle_iron_unlit",
+      "light_metal_ironage_sconce_wall_candle_iron_two_unlit",
+      "light_metal_ironage_sconce_wall_candle_iron_three_unlit",
+      "light_metal_ironage_sconce_wall_candle_iron_four_unlit"
+    ],
+    "locales": [
+      "de_AU", "de_DE", "en_CA", "en_EN", "en_GB", "en_PT", "en_US",
+      "es_ES", "es_MX", "fr_CA", "fr_FR", "ja_JP", "ko_KR",
+      "pt_BR", "pt_PT", "ru_RU", "zh_CN"
+    ],
+    "cfmChairs": [
+      "chair_oak", "chair_spruce", "chair_birch", "chair_jungle",
+      "chair_acacia", "chair_dark_oak"
+    ]
+  }
 }

@@ -36,7 +36,7 @@ import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
         name = "Iron Age Furniture Optional Integration Probe",
         version = "1",
         acceptableRemoteVersions = "*",
-        dependencies = "required-after:ironagefurniture@[0.3.0.110021]")
+        dependencies = "required-after:ironagefurniture@[0.4.0.110021]")
 public final class OptionalIntegrationRecipeProbe {
     public static final String MOD_ID = "ironagefurnitureintegrationprobe";
 

@@ -446,8 +446,15 @@ tasks.register('generateOptionalIntegrationFixtureData') {
                 hiddenLightingIds.add("ironagefurniture:${match[2]}")
             }
         }
-        if (hiddenLightingIds.size() != 60) {
-            throw new GradleException("Expected 60 hidden lighting state blocks, found ${hiddenLightingIds.size()}")
+        Map furnitureCatalog = new JsonSlurper().parse(file('gradle/furniture-catalog.json')) as Map
+        (furnitureCatalog.phaseFour.lighting as List<String>).each { String id ->
+            // Rock-salt states require Mineralogy; only the standalone floor candle has an ItemBlock.
+            if (!id.contains('rocksalt') && id != 'light_metal_ironage_candle_floor') {
+                hiddenLightingIds.add("ironagefurniture:${id}")
+            }
+        }
+        if (hiddenLightingIds.size() != 83) {
+            throw new GradleException("Expected 83 hidden lighting state blocks, found ${hiddenLightingIds.size()}")
         }
         new File(output, 'expected-hidden-lighting-blocks.txt').setText(
                 hiddenLightingIds.join('\n') + '\n', 'UTF-8')
@@ -613,7 +620,7 @@ tasks.register('runOptionalIntegrationServer', Exec) {
         marker.withInputStream { result.load(it) }
         if (result.getProperty('status') != 'PASS'
                 || result.getProperty('profile') != optionalIntegrationProfile
-                || result.getProperty('hidden_lighting_blocks_without_items') != '60') {
+                || result.getProperty('hidden_lighting_blocks_without_items') != '83') {
             throw new GradleException("Unexpected optional-integration result ${result}")
         }
     }
@@ -1185,7 +1192,7 @@ tasks.register('verifyVersionMetadata') {
     dependsOn tasks.named('processResources')
     doLast {
         Map<String, String> expected = [
-                mod_version            : '0.3.0.110021',
+                mod_version            : '0.4.0.110021',
                 minecraft_version      : '1.10.2',
                 forge_version          : '12.18.3.2511',
                 mapping_channel        : 'stable',
@@ -1237,11 +1244,12 @@ tasks.register('verifyVersionMetadata') {
         }
         def update = parseUtf8Json(file('update.json'))
         if (update.homepage != 'https://www.curseforge.com/minecraft/mc-mods/iron-age-furniture/files'
-                || update.promos.'1.10.2-latest' != project.version.toString()
-                || update.promos.'1.10.2-recommended' != project.version.toString()
+                || update.promos.'1.10.2-latest' != '0.3.0.110021'
+                || update.promos.'1.10.2-recommended' != '0.3.0.110021'
                 || !update.'1.10.2'.containsKey('0.2.0.5')
-                || !update.'1.10.2'.containsKey(project.version.toString())) {
-            throw new GradleException('update.json must advertise this release while retaining the previous 1.10.2 release')
+                || !update.'1.10.2'.containsKey('0.3.0.110021')
+                || update.'1.10.2'.containsKey(project.version.toString())) {
+            throw new GradleException('update.json must advertise published Phase 3, not the unreleased Phase 4 candidate')
         }
     }
 }
