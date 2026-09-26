@@ -5,6 +5,9 @@ import java.util.Random;
 
 import com.google.common.collect.Lists;
 import zone.moddev.mc.ironagefurniture.BlockObjectHolder;
+import zone.moddev.mc.ironagefurniture.api.MetalVariantHelper;
+import zone.moddev.mc.ironagefurniture.api.MetalVariantHelper.MetalVariant;
+import zone.moddev.mc.ironagefurniture.api.entity.EntityReleasedLavaLamp;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
@@ -29,6 +32,12 @@ public class LightSourceSconceLavaWall extends LightSourceSconceGlowWall {
         super(materialIn, name, resistance, hardness);
     }
 
+	@Override
+	public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
+		super.onBlockAdded(worldIn, pos, state);
+		scheduleRelease(worldIn, pos);
+	}
+
     @Override
     public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
         EnumFacing facing = state.getValue(FACING);
@@ -36,7 +45,8 @@ public class LightSourceSconceLavaWall extends LightSourceSconceGlowWall {
 
         if (!worldIn.getBlockState(behind).isSideSolid(worldIn, behind, facing)) {
             if (!worldIn.isRemote) {
-                spawnAsEntity(worldIn, pos, new ItemStack(BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron, 1));
+				spawnAsEntity(worldIn, pos, MetalVariantHelper.getDrop(
+					BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron, worldIn, pos));
                 IBlockState lavaState = LightDrop().getDefaultState().withProperty(FACING, facing);
                 worldIn.setBlockState(pos, lavaState, 3);
                 worldIn.scheduleUpdate(pos, LightDrop(), LightDrop().tickRate(worldIn));
@@ -46,11 +56,64 @@ public class LightSourceSconceLavaWall extends LightSourceSconceGlowWall {
         }
 
         super.neighborChanged(state, worldIn, pos, blockIn);
+		scheduleRelease(worldIn, pos);
     }
+
+	private void scheduleRelease(World world, BlockPos pos) {
+		if (!world.isRemote && world.getBlockState(pos).getBlock() == this
+				&& canRelease(world.isBlockPowered(pos), world.isAirBlock(pos.down()))
+				&& !world.isUpdateScheduled(pos, this)) {
+			world.scheduleUpdate(pos, this, tickRate(world));
+		}
+	}
+
+	static boolean canRelease(boolean powered, boolean airBelow) {
+		return powered && airBelow;
+	}
+
+	@Override
+	public int tickRate(World worldIn) {
+		return 2;
+	}
+
+	@Override
+	public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
+		if (world.isRemote || world.getBlockState(pos).getBlock() != this) return;
+		EnumFacing facing = state.getValue(FACING);
+		BlockPos behind = pos.offset(facing.getOpposite());
+		if (!world.getBlockState(behind).isSideSolid(world, behind, facing)) {
+			neighborChanged(state, world, pos, world.getBlockState(behind).getBlock());
+			return;
+		}
+		if (!canRelease(world.isBlockPowered(pos), world.isAirBlock(pos.down()))) return;
+
+		MetalVariant metal = MetalVariantHelper.getMetal(world, pos);
+		IBlockState emptyState = BlockObjectHolder.light_metal_ironage_sconce_wall_empty_iron
+			.getDefaultState().withProperty(FACING, facing);
+		if (!MetalVariantHelper.replaceBlockPreservingMetal(world, pos, emptyState)) return;
+
+		EnumFacing outwards = facing.getOpposite();
+		Block lamp = LightDrop();
+		EntityPlayer nearest = world.getClosestPlayer(pos.getX() + 0.5D, pos.getY() + 0.5D,
+			pos.getZ() + 0.5D, -1.0D, false);
+		boolean preserveOnLanding = nearest != null && nearest.capabilities.isCreativeMode;
+		EntityReleasedLavaLamp falling = new EntityReleasedLavaLamp(world,
+			pos.getX() + 0.5D + 0.27D * outwards.getFrontOffsetX(),
+			pos.getY() + 5.0D / 16.0D,
+			pos.getZ() + 0.5D + 0.27D * outwards.getFrontOffsetZ(),
+			lamp.getDefaultState().withProperty(FACING, facing), pos.getY(), preserveOnLanding);
+		if (world.spawnEntity(falling)) {
+			((LightSourceLava)lamp).onStartFalling(falling);
+		} else if (world.getBlockState(pos).getBlock() == emptyState.getBlock()) {
+			world.setBlockState(pos, MetalVariantHelper.withMetal(state, metal), 3);
+			MetalVariantHelper.setMetal(world, pos, metal);
+		}
+	}
 
     @Override
     public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-        return Lists.newArrayList(new ItemStack(BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron, 1));
+		return Lists.newArrayList(MetalVariantHelper.getDrop(
+			BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron, world, pos));
     }
 
     @Override

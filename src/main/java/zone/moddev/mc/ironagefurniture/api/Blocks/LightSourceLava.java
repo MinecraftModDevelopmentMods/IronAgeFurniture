@@ -10,6 +10,7 @@ import java.util.WeakHashMap;
 import com.google.common.collect.Lists;
 import zone.moddev.mc.ironagefurniture.BlockObjectHolder;
 import zone.moddev.mc.ironagefurniture.api.CreativeModeBreakTracker;
+import zone.moddev.mc.ironagefurniture.api.entity.EntityReleasedLavaLamp;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
@@ -53,7 +54,10 @@ public class LightSourceLava extends LightSourceGlowdust {
     @Override
     public void onEndFalling(World worldIn, BlockPos pos) {
         if (!worldIn.isRemote) {
-            if (CreativeModeBreakTracker.shouldSuppressFallingLavaBreak(worldIn, pos)) {
+			Boolean preserveRelease = EntityReleasedLavaLamp.preserveCurrentLanding(worldIn, pos);
+			boolean ordinaryCreativeBreak = preserveRelease == null
+				&& CreativeModeBreakTracker.shouldSuppressFallingLavaBreak(worldIn, pos);
+			if (shouldPreserveLanding(preserveRelease, ordinaryCreativeBreak)) {
                 consumeWaterLanding(worldIn, pos);
                 return;
             }
@@ -65,6 +69,10 @@ public class LightSourceLava extends LightSourceGlowdust {
             }
         }
     }
+
+	static boolean shouldPreserveLanding(Boolean releasedCreativeMode, boolean ordinaryCreativeBreak) {
+		return releasedCreativeMode != null ? releasedCreativeMode.booleanValue() : ordinaryCreativeBreak;
+	}
 
     @Override
     public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {

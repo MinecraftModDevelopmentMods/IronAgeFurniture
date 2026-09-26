@@ -3,6 +3,8 @@ package zone.moddev.mc.ironagefurniture.init;
 import zone.moddev.mc.ironagefurniture.BlockObjectHolder;
 import zone.moddev.mc.ironagefurniture.IronAgeFurnitureConfiguration;
 import zone.moddev.mc.ironagefurniture.api.FurnitureFactory;
+import zone.moddev.mc.ironagefurniture.api.MineralogyCompat;
+import net.minecraft.block.Block;
 
 import net.minecraftforge.fml.common.Loader;
 
@@ -738,6 +740,9 @@ public class BlockInitialiser {
 		if (IronAgeFurnitureConfiguration.GENERATE_REDSTONE_LAMPS) {
 			generateRedstoneLamps();
 		}
+		if (IronAgeFurnitureConfiguration.GENERATE_CANDLES) {
+			generateCandles();
+		}
 	}
 
 	private static void generateSconces() {
@@ -745,12 +750,67 @@ public class BlockInitialiser {
 		BlockObjectHolder.light_metal_ironage_sconce_wall_empty_iron = FurnitureFactory.CreateIronWallSconce("light_metal_ironage_sconce_wall_empty_iron");
 		BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron = FurnitureFactory.CreateIronFloorTorchSconce("light_metal_ironage_sconce_floor_torch_iron");
 		BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron_unlit = FurnitureFactory.CreateIronFloorTorchSconceUnlit("light_metal_ironage_sconce_floor_torch_iron_unlit");
+		BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron_twin = FurnitureFactory.CreateIronFloorTorchSconceTwin("light_metal_ironage_sconce_floor_torch_iron_twin");
+		BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron_twin_unlit = FurnitureFactory.CreateIronFloorTorchSconceTwinUnlit("light_metal_ironage_sconce_floor_torch_iron_twin_unlit");
 		BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron = FurnitureFactory.CreateIronWallTorchSconce("light_metal_ironage_sconce_wall_torch_iron");
 		BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron_unlit = FurnitureFactory.CreateIronWallTorchSconceUnlit("light_metal_ironage_sconce_wall_torch_iron_unlit");
+		BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron_twin = FurnitureFactory.CreateIronWallTorchSconceTwin("light_metal_ironage_sconce_wall_torch_iron_twin");
+		BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron_twin_unlit = FurnitureFactory.CreateIronWallTorchSconceTwinUnlit("light_metal_ironage_sconce_wall_torch_iron_twin_unlit");
 		BlockObjectHolder.light_metal_ironage_sconce_floor_redtorch_iron = FurnitureFactory.CreateIronFloorRedTorchSconce("light_metal_ironage_sconce_floor_redtorch_iron");
 		BlockObjectHolder.light_metal_ironage_sconce_floor_redtorch_iron_unlit = FurnitureFactory.CreateIronFloorRedTorchSconceUnlit("light_metal_ironage_sconce_floor_redtorch_iron_unlit");
 		BlockObjectHolder.light_metal_ironage_sconce_wall_redtorch_iron = FurnitureFactory.CreateIronWallRedTorchSconce("light_metal_ironage_sconce_wall_redtorch_iron");
 		BlockObjectHolder.light_metal_ironage_sconce_wall_redtorch_iron_unlit = FurnitureFactory.CreateIronWallRedTorchSconceUnlit("light_metal_ironage_sconce_wall_redtorch_iron_unlit");
+		if (MineralogyCompat.isEnabled()) {
+			BlockObjectHolder.light_metal_ironage_sconce_floor_rocksalt_iron = FurnitureFactory.CreateIronFloorRockSaltSconce("light_metal_ironage_sconce_floor_rocksalt_iron");
+			BlockObjectHolder.light_metal_ironage_sconce_wall_rocksalt_iron = FurnitureFactory.CreateIronWallRockSaltSconce("light_metal_ironage_sconce_wall_rocksalt_iron");
+		}
+	}
+
+	private static void generateCandles() {
+		BlockObjectHolder.light_metal_ironage_candle_floor = FurnitureFactory.CreateCandleFloor("light_metal_ironage_candle_floor");
+		BlockObjectHolder.light_metal_ironage_candle_wall = FurnitureFactory.CreateCandleWall("light_metal_ironage_candle_wall");
+		BlockObjectHolder.light_metal_ironage_candle_floor_unlit = FurnitureFactory.CreateCandleFloorUnlit("light_metal_ironage_candle_floor_unlit");
+		BlockObjectHolder.light_metal_ironage_candle_wall_unlit = FurnitureFactory.CreateCandleWallUnlit("light_metal_ironage_candle_wall_unlit");
+		if (!IronAgeFurnitureConfiguration.GENERATE_SCONCES) return;
+		String[] names = { "", "_two", "_three", "_four" };
+		for (int i = 0; i < names.length; i++) {
+			int count = i + 1;
+			String floorName = "light_metal_ironage_sconce_floor_candle_iron" + names[i];
+			String wallName = "light_metal_ironage_sconce_wall_candle_iron" + names[i];
+			Block floor = FurnitureFactory.CreateIronFloorCandleSconce(floorName, count);
+			Block wall = FurnitureFactory.CreateIronWallCandleSconce(wallName, count);
+			Block floorUnlit = FurnitureFactory.CreateIronFloorCandleSconceUnlit(floorName + "_unlit", count);
+			Block wallUnlit = FurnitureFactory.CreateIronWallCandleSconceUnlit(wallName + "_unlit", count);
+			setCandleHolders(i, floor, wall, floorUnlit, wallUnlit);
+		}
+	}
+
+	private static void setCandleHolders(int index, Block floor, Block wall, Block floorUnlit, Block wallUnlit) {
+		switch (index) {
+		case 0:
+			BlockObjectHolder.light_metal_ironage_sconce_floor_candle_iron = floor;
+			BlockObjectHolder.light_metal_ironage_sconce_wall_candle_iron = wall;
+			BlockObjectHolder.light_metal_ironage_sconce_floor_candle_iron_unlit = floorUnlit;
+			BlockObjectHolder.light_metal_ironage_sconce_wall_candle_iron_unlit = wallUnlit;
+			break;
+		case 1:
+			BlockObjectHolder.light_metal_ironage_sconce_floor_candle_iron_two = floor;
+			BlockObjectHolder.light_metal_ironage_sconce_wall_candle_iron_two = wall;
+			BlockObjectHolder.light_metal_ironage_sconce_floor_candle_iron_two_unlit = floorUnlit;
+			BlockObjectHolder.light_metal_ironage_sconce_wall_candle_iron_two_unlit = wallUnlit;
+			break;
+		case 2:
+			BlockObjectHolder.light_metal_ironage_sconce_floor_candle_iron_three = floor;
+			BlockObjectHolder.light_metal_ironage_sconce_wall_candle_iron_three = wall;
+			BlockObjectHolder.light_metal_ironage_sconce_floor_candle_iron_three_unlit = floorUnlit;
+			BlockObjectHolder.light_metal_ironage_sconce_wall_candle_iron_three_unlit = wallUnlit;
+			break;
+		default:
+			BlockObjectHolder.light_metal_ironage_sconce_floor_candle_iron_four = floor;
+			BlockObjectHolder.light_metal_ironage_sconce_wall_candle_iron_four = wall;
+			BlockObjectHolder.light_metal_ironage_sconce_floor_candle_iron_four_unlit = floorUnlit;
+			BlockObjectHolder.light_metal_ironage_sconce_wall_candle_iron_four_unlit = wallUnlit;
+		}
 	}
 
 	private static void generateRedstoneLamps() {
