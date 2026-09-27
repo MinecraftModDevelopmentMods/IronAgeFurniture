@@ -17,6 +17,8 @@ feed continues to advertise the published `0.3.0.110021` release.
   Released lamps land intact in Creative, but shatter and ignite in other modes.
 - Expand to 17 locale choices, preserving Phase 3 labels and using English
   fallback where the older 1.0 translations lack newer padded-bench names.
+  Include the colour labels used by upholstered furniture item names in every
+  locale so crafted variants do not display raw translation keys.
 - Add six CFM wooden-chair conversion recipes, a default-off forced-conversion
   option, and missing block/item recovery even when CFM is absent. The latter
   retains old numeric chair IDs for unopened chunks across restarts without

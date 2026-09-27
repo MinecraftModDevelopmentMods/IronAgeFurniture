@@ -15,6 +15,8 @@ import java.util.regex.Pattern;
 
 import org.junit.Test;
 
+import zone.moddev.mc.ironagefurniture.api.Enumerations.UpholsteryColour;
+
 /** Every supported 1.10 locale must cover the same identifiers and format args. */
 public class LanguageParityTest {
     private static final String[] LOCALES = {
@@ -57,6 +59,19 @@ public class LanguageParityTest {
         assertEquals(read("pt_BR"), read("pt_PT"));
         assertEquals(read("en_US"), read("en_CA"));
         assertEquals(read("en_US"), read("en_PT"));
+    }
+
+    @Test public void everyDisplayedUpholsteryColourHasATranslation() throws Exception {
+        for (String locale : LOCALES) {
+            Map<String, String> names = read(locale);
+            for (UpholsteryColour colour : UpholsteryColour.values()) {
+                if (colour == UpholsteryColour.RED) continue; // Legacy red items use their base name.
+                String key = "item.ironagefurniture.upholstery." + colour.getSerializedName();
+                assertTrue(locale + " missing " + key, names.containsKey(key));
+                assertFalse(locale + " empty " + key, names.get(key).trim().isEmpty());
+            }
+        }
+        assertEquals("Purple", read("en_US").get("item.ironagefurniture.upholstery.purple"));
     }
 
     private Map<String, String> read(String locale) throws Exception {
