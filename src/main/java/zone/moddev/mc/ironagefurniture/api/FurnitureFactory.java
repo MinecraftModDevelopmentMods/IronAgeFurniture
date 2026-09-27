@@ -76,15 +76,6 @@ public class FurnitureFactory {
 
 	public static void AddClassicChairRecipe(ItemStack planks, Block chair) {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(chair, 1), "x  ", "xxx", "y y", 'x', planks, 'y', "stickWood"));
-		if (chair.getRegistryName() != null && chair.getRegistryName().getResourcePath().startsWith("chair_wood_ironage_classic_")) {
-			String suffix = chair.getRegistryName().getResourcePath().substring("chair_wood_ironage_classic_".length());
-			Block wingback = BlockObjectHolder.chair_wood_ironage_wingback.get(suffix);
-			if (wingback != null) {
-				AddWingbackChairRecipe(planks, chair, wingback);
-				Block throne = BlockObjectHolder.chair_wood_ironage_throne.get(suffix);
-				if (throne != null) AddThroneChairRecipe(planks, wingback, throne);
-			}
-		}
 	}
 
 	public static void AddWingbackChairRecipe(ItemStack planks, Block chairIn, Block chairOut) {

@@ -5,6 +5,8 @@ feed continues to advertise the published `0.3.0.110021` release.
 
 - Add colour-preserving multiblock wooden and canopy beds, wingback chairs,
   and thrones. Untagged old items and placed furniture retain red upholstery.
+  Register the wingback and throne upgrade recipes explicitly for each
+  available wood, and validate their crafting results for all carpet colours.
 - Make shield chairs removable and reattachable while preserving the complete
   vanilla shield item, including damage, banner design, enchantments, and name.
   Existing untagged chairs still contain a plain shield.

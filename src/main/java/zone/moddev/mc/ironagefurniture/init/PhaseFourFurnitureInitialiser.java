@@ -43,6 +43,20 @@ public final class PhaseFourFurnitureInitialiser {
 		WoodVariantHelper.forEachEnabledPlankVariant(new WoodVariantHelper.ItemStackVariantConsumer() {
 			@Override
 			public void accept(String suffix, ItemStack planks) {
+				// Register upgrades with their Phase 4 blocks, not as a side effect of
+				// the older classic-chair recipe path.
+				if (IronAgeFurnitureConfiguration.GENERATE_CLASSIC_CHAIRS
+						&& IronAgeFurnitureConfiguration.GENERATE_WINGBACK_CHAIRS) {
+					Block classic = Ironagefurniture.BlockRegistry.get("chair_wood_ironage_classic_" + suffix);
+					Block wingback = BlockObjectHolder.chair_wood_ironage_wingback.get(suffix);
+					if (classic != null && wingback != null) {
+						FurnitureFactory.AddWingbackChairRecipe(planks, classic, wingback);
+						Block throne = BlockObjectHolder.chair_wood_ironage_throne.get(suffix);
+						if (IronAgeFurnitureConfiguration.GENERATE_THRONES && throne != null) {
+							FurnitureFactory.AddThroneChairRecipe(planks, wingback, throne);
+						}
+					}
+				}
 				Block wood = BlockObjectHolder.bed_wood_single.get(suffix);
 				if (wood != null) {
 					FurnitureFactory.AddSingleWoodBedRecipe(planks, wood);

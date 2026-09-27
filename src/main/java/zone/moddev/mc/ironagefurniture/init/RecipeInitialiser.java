@@ -15,6 +15,7 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
+import net.minecraftforge.oredict.RecipeSorter;
 
 public class RecipeInitialiser {
 	protected RecipeInitialiser() {
@@ -25,8 +26,21 @@ public class RecipeInitialiser {
 	 *
 	 */
 	public static void init() {
+		registerCustomRecipeTypes();
 		generateChairRecipes();
 		generateLightRecipes();
+	}
+
+	private static void registerCustomRecipeTypes() {
+		RecipeSorter.register("ironagefurniture:shield_chair",
+			zone.moddev.mc.ironagefurniture.api.recipes.ShieldChairRecipe.class,
+			RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
+		RecipeSorter.register("ironagefurniture:matching_upholstery",
+			zone.moddev.mc.ironagefurniture.api.recipes.MatchingUpholsteryRecipe.class,
+			RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
+		RecipeSorter.register("ironagefurniture:bed_recolour",
+			zone.moddev.mc.ironagefurniture.api.recipes.BedRecolourRecipe.class,
+			RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
 	}
 
 	private static void generateLightRecipes() {

@@ -473,6 +473,8 @@ tasks.register('verifyFurnitureCatalog') {
                 || !modSource.contains('PhaseFourFurnitureInitialiser.registerRecipes();')
                 || !modSource.contains('CfmChairMigration.remapMissingMappings(event);')
                 || !phaseFourSource.contains('WoodVariantHelper.getEnabledWoodSuffixes()')
+                || !phaseFourSource.contains('FurnitureFactory.AddWingbackChairRecipe')
+                || !phaseFourSource.contains('FurnitureFactory.AddThroneChairRecipe')
                 || !phaseFourSource.contains('FurnitureFactory.AddBedRecolourRecipe')
                 || !factorySource.contains('new ShieldChair(Material.WOOD')
                 || !factorySource.contains('new ShieldChairRecipe(chairIn, chairOut)')) {
