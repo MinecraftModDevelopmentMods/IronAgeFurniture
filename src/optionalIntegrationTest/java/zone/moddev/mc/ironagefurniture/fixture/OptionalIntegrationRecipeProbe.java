@@ -18,13 +18,30 @@ import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import zone.moddev.mc.ironagefurniture.BlockObjectHolder;
+import zone.moddev.mc.ironagefurniture.api.Items.ItemBlockMetalVariant;
+import zone.moddev.mc.ironagefurniture.api.MetalVariantHelper;
+import zone.moddev.mc.ironagefurniture.api.MetalVariantHelper.MetalVariant;
+import zone.moddev.mc.ironagefurniture.api.tile.TileEntityMetalVariant;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.common.util.FakePlayerFactory;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
@@ -66,6 +83,9 @@ public final class OptionalIntegrationRecipeProbe {
         Map<String, Integer> blockCounts = verifyBlocks(selected);
         Map<String, Integer> recipeCounts = verifyRecipes(selected);
         int hiddenLightingBlocks = verifyHiddenLightingItems();
+        if (Boolean.getBoolean("iaf.probe.metalSconce")) {
+            verifyMetalSconce(server);
+        }
         writeMarker(requested, versions, blockCounts, recipeCounts, hiddenLightingBlocks);
         LOGGER.info("IRON AGE FURNITURE OPTIONAL INTEGRATION PROBE PASSED: {} blocks, {} recipes",
                 total(blockCounts), total(recipeCounts));
@@ -148,6 +168,71 @@ public final class OptionalIntegrationRecipeProbe {
         require(unexpectedItems.isEmpty(),
                 "Hidden lighting state blocks registered ItemBlocks: " + summarize(unexpectedItems));
         return expected.size();
+    }
+
+    private static void verifyMetalSconce(MinecraftServer server) {
+        require(MetalVariant.ADAMANTINE.isAvailable(),
+                "Adamantine is unavailable in the installed Base Metals jar");
+        WorldServer world = (WorldServer) server.getEntityWorld();
+        BlockPos pos = world.getSpawnPoint().add(8, 48, 8);
+        Block block = BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron;
+        ItemBlock item = (ItemBlock) Item.getItemFromBlock(block);
+        require(item instanceof ItemBlockMetalVariant, "Sconce item has no metal subtypes");
+        FakePlayer player = FakePlayerFactory.getMinecraft(world);
+        player.setHeldItem(EnumHand.MAIN_HAND,
+                new ItemStack(net.minecraft.init.Items.IRON_PICKAXE));
+        ItemStack sconce = new ItemStack(item, 1, MetalVariant.ADAMANTINE.getMeta());
+        IBlockState placedState = block.getDefaultState();
+        world.setBlockState(pos.down(), Blocks.STONE.getDefaultState(), 3);
+        try {
+            require(item.placeBlockAt(sconce, player, world, pos, EnumFacing.UP,
+                    0.5F, 0.5F, 0.5F, placedState), "Adamantine sconce placement failed");
+            require(MetalVariantHelper.getMetal(world, pos) == MetalVariant.ADAMANTINE,
+                    "Placed Adamantine sconce lost its metal");
+            TileEntity tile = world.getTileEntity(pos);
+            require(tile instanceof TileEntityMetalVariant, "Placed sconce has no metal tile entity");
+            require("adamantine".equals(tile.writeToNBT(new net.minecraft.nbt.NBTTagCompound())
+                    .getString("Metal")), "Placed sconce saved the wrong metal");
+            float hardness = block.getBlockHardness(world.getBlockState(pos), world, pos);
+            ItemStack picked = block.getItem(world, pos, world.getBlockState(pos));
+            IBlockState state = world.getBlockState(pos);
+            require(block.canHarvestBlock(world, pos, player),
+                    "Iron pickaxe cannot harvest the Adamantine sconce");
+            float miningProgress = state.getPlayerRelativeBlockHardness(player, world, pos);
+            require(block.removedByPlayer(state, world, pos, player, true),
+                    "Adamantine sconce could not be harvested");
+            List<ItemStack> drops = block.getDrops(world, pos, state, 0);
+            require(drops.size() == 1 && drops.get(0).getMetadata() == MetalVariant.ADAMANTINE.getMeta(),
+                    "Harvested Adamantine sconce dropped the wrong metal: " + drops);
+            require(picked != null && picked.getMetadata() == MetalVariant.ADAMANTINE.getMeta(),
+                    "Pick-block lost the Adamantine metal");
+            require(hardness >= 4.0F,
+                    "Adamantine sconce mines too quickly with an iron pickaxe: " + hardness);
+            require(miningProgress > 0.0F && miningProgress <= 0.05F,
+                    "Iron pickaxe mines the Adamantine sconce in under one second: " + miningProgress);
+            AxisAlignedBB dropArea = new AxisAlignedBB(pos).expand(1.0D, 1.0D, 1.0D);
+            Set<Integer> existingItems = new HashSet<>();
+            for (EntityItem entity : world.getEntitiesWithinAABB(EntityItem.class, dropArea)) {
+                existingItems.add(entity.getEntityId());
+            }
+            block.harvestBlock(world, player, pos, state, tile,
+                    new ItemStack(net.minecraft.init.Items.IRON_PICKAXE));
+            int actualDrops = 0;
+            for (EntityItem entity : world.getEntitiesWithinAABB(EntityItem.class, dropArea)) {
+                if (existingItems.contains(entity.getEntityId())) continue;
+                ItemStack dropped = entity.getEntityItem();
+                require(dropped.getItem() == item
+                        && dropped.getMetadata() == MetalVariant.ADAMANTINE.getMeta(),
+                        "Harvest spawned a non-Adamantine sconce item: " + dropped);
+                actualDrops++;
+            }
+            require(actualDrops == 1, "Harvest spawned " + actualDrops + " Adamantine sconces");
+            LOGGER.info("Metal sconce probe passed: Adamantine hardness {}, iron-pick progress {} per tick",
+                    hardness, miningProgress);
+        } finally {
+            world.setBlockToAir(pos);
+            world.setBlockToAir(pos.down());
+        }
     }
 
     private static List<ExpectedEntry> readExpectedEntries(String resourceName) {

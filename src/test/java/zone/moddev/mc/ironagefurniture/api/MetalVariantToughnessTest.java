@@ -9,11 +9,11 @@ import zone.moddev.mc.ironagefurniture.api.MetalVariantHelper.MetalVariant;
 
 public class MetalVariantToughnessTest {
 	@Test
-	public void metalChangesMiningHardnessWithoutChangingIron() {
-		float iron = MetalVariant.IRON.scaleHardness(1.0F);
-		assertEquals(1.0F, iron, 0.001F);
-		assertTrue(MetalVariant.GOLD.scaleHardness(1.0F) < iron);
-		assertTrue(MetalVariant.ADAMANTINE.scaleHardness(1.0F) > iron);
+	public void metalChangesMiningHardnessFromIronSconceBaseline() {
+		float iron = MetalVariant.IRON.scaleHardness(4.0F);
+		assertEquals(4.0F, iron, 0.001F);
+		assertEquals(0.5F, MetalVariant.GOLD.scaleHardness(4.0F), 0.001F);
+		assertEquals(6.0F, MetalVariant.ADAMANTINE.scaleHardness(4.0F), 0.001F);
 	}
 
 	@Test
