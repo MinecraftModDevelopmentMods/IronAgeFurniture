@@ -137,7 +137,8 @@ minecraft {
 
     runs {
         configureEach {
-            workingDir.convention layout.projectDirectory.dir('run')
+            workingDir.convention layout.projectDirectory.dir(
+                    providers.gradleProperty('runDirectory').getOrElse('run'))
             systemProperty 'forge.logging.console.level', 'info'
         }
         register('client')

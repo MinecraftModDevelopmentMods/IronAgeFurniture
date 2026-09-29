@@ -13,6 +13,9 @@ feed continues to advertise the published `0.3.0.110021` release.
 - Add twin-torch sconces, standalone and sconce-mounted candles, optional
   Mineralogy rock-salt sconces, and gold/Base Metals sconce materials. Existing
   iron IDs and facing metadata remain stable; missing metal data means iron.
+- Give a carried candle a small animated flame and occasional smoke. The effect
+  is visual only and does not need OptiFine; OptiFine's Dynamic Lights can also
+  illuminate the surroundings while the candle is held.
 - Release wall-sconce lava lamps on a redstone signal when air lies below.
   Released lamps land intact in Creative, but shatter and ignite in other modes.
 - Expand to 17 locale choices, preserving Phase 3 labels and using English

@@ -12,6 +12,7 @@ import zone.moddev.mc.ironagefurniture.api.tile.TileEntityMetalVariant;
 import zone.moddev.mc.ironagefurniture.api.tile.TileEntityShieldChair;
 import zone.moddev.mc.ironagefurniture.api.tile.TileEntityUpholstery;
 import zone.moddev.mc.ironagefurniture.client.resources.GeneratedModelResourcePack;
+import zone.moddev.mc.ironagefurniture.client.particle.HeldCandleSmoke;
 import zone.moddev.mc.ironagefurniture.api.tile.TileEntityPaddedBench;
 import zone.moddev.mc.ironagefurniture.init.BlockInitialiser;
 import zone.moddev.mc.ironagefurniture.init.ClientItemInitialiser;
@@ -94,6 +95,7 @@ public class Ironagefurniture
 		PhaseFourFurnitureInitialiser.registerBlocks();
 		if (event.getSide().isClient()) {
 			GeneratedModelResourcePack.install();
+			FMLCommonHandler.instance().bus().register(new HeldCandleSmoke());
 			ClientModelInitialiser.registerPaddedBenchItemModels();
 			ClientModelInitialiser.registerUpholsteryItemModels();
 			ClientItemInitialiser.registerPhaseFourItemModels();
