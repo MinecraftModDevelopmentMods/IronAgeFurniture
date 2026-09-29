@@ -32,6 +32,8 @@ feed continues to advertise the published `0.3.0.110021` release.
 - Show Base Metals sconce variants only when the installed Base Metals build
   supplies their block textures. Older 1.10 builds do not include Antimony,
   Bismuth, or Pewter, so those variants no longer appear untextured.
+- Make each sconce's blast resistance follow its metal, as its mining hardness
+  already does. Iron sconces retain their previous toughness.
 
 # IronAgeFurniture 0.3.0.110021
 

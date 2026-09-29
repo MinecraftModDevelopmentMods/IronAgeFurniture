@@ -149,7 +149,7 @@ public final class MetalVariantHelper {
 	}
 
 	public static float getHardness(MetalVariant metal, float ironHardness) {
-		return Math.max(0.1F, ironHardness * metal.getHardnessWeight() / (float)IRON_HARDNESS_BASELINE);
+		return metal.scaleHardness(ironHardness);
 	}
 
 	public static float getResistance(IBlockAccess world, BlockPos pos, float ironResistance) {
@@ -157,7 +157,7 @@ public final class MetalVariantHelper {
 	}
 
 	public static float getResistance(MetalVariant metal, float ironResistance) {
-		return Math.max(1.0F, ironResistance * metal.getStrengthWeight() / (float)IRON_HARDNESS_BASELINE);
+		return metal.scaleResistance(ironResistance);
 	}
 
 	public static float getExplosionResistance(Block block, World world, BlockPos pos, Entity exploder,
@@ -255,6 +255,14 @@ public final class MetalVariantHelper {
 
 		public int getStrengthWeight() {
 			return this.strengthWeight;
+		}
+
+		public float scaleHardness(float ironHardness) {
+			return Math.max(0.1F, ironHardness * this.hardnessWeight / (float)IRON_HARDNESS_BASELINE);
+		}
+
+		public float scaleResistance(float ironResistance) {
+			return Math.max(1.0F, ironResistance * this.strengthWeight / (float)IRON_HARDNESS_BASELINE);
 		}
 
 		public int getChainPowerLoss() {
