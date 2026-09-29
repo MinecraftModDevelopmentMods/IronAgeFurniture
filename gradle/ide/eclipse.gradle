@@ -1,4 +1,5 @@
-// Keep Buildship's production launches separate from test and probe output.
+// ForgeGradle generates Eclipse launches with a broad Buildship classpath.
+// The normal client/server launches need only runtime jars, not test probes.
 
 def obsoleteForgeGradle2EclipseLaunches = [
         'IronAgeFurniture_Client.launch': 'GradleStart',
@@ -46,6 +47,8 @@ def eclipseArchiveLaunchEntry = { File archive ->
 }
 
 def replaceBuildshipLaunchClasspath = { String contents, Collection<File> archives ->
+    // One generated Buildship entry is replaced with the actual runtime jars;
+    // duplicate entries can hide missing dependencies and break Eclipse sync.
     List<String> lines = contents.replace('\r\n', '\n').split('\n', -1) as List<String>
     List<Integer> buildshipLines = (0..<lines.size()).findAll {
         lines[it].contains('org.eclipse.buildship.core.gradleclasspathcontainer')
@@ -124,6 +127,8 @@ tasks.register('isolateEclipseProductionRuns') {
     dependsOn tasks.named('configureEclipseBuildship')
 
     doLast {
+        // An old ForgeGradle 2 launch can survive an Eclipse re-import and run
+        // GradleStart instead of the current ForgeGradle 7 entry point.
         obsoleteForgeGradle2EclipseLaunches.each { String name, String mainClass ->
             File launch = file(name)
             if (launch.isFile()) {

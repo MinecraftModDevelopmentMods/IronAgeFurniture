@@ -1,4 +1,5 @@
-// Keep checked-in old-world fixtures reproducible without changing normal builds.
+// These NBT files capture how older 1.10 worlds stored furniture. Recreating
+// them with the actual 1.10 classes catches accidental changes to migration data.
 
 def legacyFixtureDirectory = file('src/test/resources/fixtures')
 def legacyFixtureVerificationDirectory = layout.buildDirectory.dir('verification/legacy-migration-fixtures')

@@ -22,9 +22,6 @@ public class RecipeInitialiser {
 		throw new IllegalAccessError("This class cannot be instansiated");
 	}
 
-	/**
-	 *
-	 */
 	public static void init() {
 		registerCustomRecipeTypes();
 		generateChairRecipes();

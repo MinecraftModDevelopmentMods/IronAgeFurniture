@@ -382,14 +382,13 @@ jobs:
             -Dorg.gradle.java.installations.auto-download=false
           )
           if [[ "$LOADER_NAME" == "neoforge" ]]; then
-            # NeoGradle resolves model inputs during configuration under build/tmp.
-            # Cleaning in the same invocation removes those inputs before setup runs.
+            # NeoGradle creates model inputs under build/tmp during configuration.
+            # A separate clean avoids deleting them during the build itself.
             ./gradlew clean --no-daemon --stacktrace --max-workers=2 \
               "${java_args[@]}"
             ./gradlew check build javadoc verifyReleaseArtifacts verifyReleaseChecksums \
               --no-daemon --stacktrace --max-workers=2 "${java_args[@]}"
           else
-            # Preserve the established Forge release lifecycle.
             ./gradlew clean check build javadoc verifyReleaseArtifacts verifyReleaseChecksums \
               --no-daemon --stacktrace "${java_args[@]}"
           fi

@@ -17,6 +17,8 @@ group = project.mod_group
 version = project.mod_version
 base.archivesName = project.mod_archive_name
 
+// The last version component identifies Minecraft 1.10.2 and Forge. A wrong
+// suffix would produce a correctly built jar with the wrong release label.
 def versionParts = project.mod_version.toString().tokenize('.')
 if (versionParts.size() != 4 || !versionParts.every { it ==~ /\d+/ }) {
     throw new GradleException("mod_version must use Major.Minor.Bug.Target numeric form: ${project.mod_version}")
@@ -41,6 +43,7 @@ ext.functional_version = versionParts[0..2].join('.')
 ext.display_version = project.mod_version
 ext.release_tag = project.mod_version
 
+// Gradle 9 runs on Java 17+, while Minecraft 1.10 still needs Java 8 bytecode.
 if (GradleVersion.current() != GradleVersion.version('9.6.1')) {
     throw new GradleException("This build requires Gradle 9.6.1, found ${GradleVersion.current()}")
 }
@@ -116,6 +119,8 @@ tasks.withType(AbstractArchiveTask).configureEach {
     reproducibleFileOrder = true
 }
 
+// Normalize bundled text as well as zip order so Windows and Linux produce
+// the same three release jars from the same source.
 def archiveTextSuffixes = [
         '.cfg', '.css', '.html', '.info', '.java', '.js', '.json', '.lang',
         '.mcmeta', '.md', '.properties', '.txt', '.xml'
@@ -144,8 +149,8 @@ minecraft {
     }
 }
 
-// Forge 1.10 expects classes and resources for a development mod to share one
-// classpath root. ForgeGradle 7 separates them, so merge only the launch output.
+// Forge 1.10 looks for mod classes and resources under one classpath root.
+// ForgeGradle 7 writes them separately, so development runs use a merged copy.
 def forge10DevelopmentOutput = layout.buildDirectory.dir('forge10-development/main')
 def syncForge10DevelopmentResources = tasks.register('syncForge10DevelopmentResources', Sync) {
     group = 'ide'
@@ -179,6 +184,8 @@ repositories {
         name = 'MinecraftLibraries'
         url = 'https://libraries.minecraft.net/'
     }
+    // Restrict these legacy mod repositories to their own dependency groups;
+    // ordinary libraries continue to resolve from the standard repositories.
     exclusiveContent {
         forRepository {
             maven {
@@ -207,8 +214,8 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
 }
 
-// Keep player resources and ordinary jars in the main build. The longer
-// verification, release, and Eclipse tasks live beside their own inputs.
+// mcmod.info needs the selected version, and the generated output can shed
+// simple item wrappers that repeat an equivalent blockstate inventory model.
 tasks.named('processResources', ProcessResources) {
     filteringCharset = 'UTF-8'
     inputs.property('version', project.version)
@@ -236,6 +243,7 @@ tasks.named('processResources', ProcessResources) {
         int collapsedItemModels = 0
         long collapsedItemModelBytes = 0
 
+        // Work only in build/resources: source models stay readable and intact.
         if (blockstateDir.exists() && itemModelDir.exists()) {
             fileTree(dir: itemModelDir, include: '**/*.json').each { File itemModelFile ->
                 File blockstateFile = new File(blockstateDir, itemModelFile.name)
@@ -282,6 +290,8 @@ tasks.named('processResources', ProcessResources) {
     }
 }
 
+// The development jar retains readable names. Renamer creates the separate
+// obfuscated jar that players and the Maven publication receive.
 def commonManifest = {
     attributes([
             'Specification-Title'       : project.mod_name,
@@ -350,8 +360,8 @@ tasks.named('assemble') {
     dependsOn tasks.named('javadocJar')
 }
 
-// Applied scripts have their own local variables. Share only the values they
-// need to keep task names, artifact identities, and release checks stable.
+// Applied Gradle scripts have separate Groovy scopes. This small shared map
+// gives them the same toolchains, archive rules and release identity.
 def sha256Of = { File candidate ->
     MessageDigest digest = MessageDigest.getInstance('SHA-256')
     candidate.withInputStream { input ->
@@ -389,7 +399,8 @@ ext.iafBuild = [
         mavenArtifact: expectedMavenArtifact
 ].asImmutable()
 
-// Apply in dependency order: catalog and fixtures, audits, release, and IDE.
+// The release scripts refer to catalog and audit tasks by name, so those
+// tasks are registered first.
 apply from: 'gradle/furniture-catalog.gradle'
 apply from: 'gradle/verification/legacy-fixtures.gradle'
 apply from: 'gradle/verification/optional-integrations.gradle'

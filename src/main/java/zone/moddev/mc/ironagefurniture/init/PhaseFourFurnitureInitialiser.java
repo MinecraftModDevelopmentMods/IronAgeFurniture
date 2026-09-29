@@ -43,8 +43,8 @@ public final class PhaseFourFurnitureInitialiser {
 		WoodVariantHelper.forEachEnabledPlankVariant(new WoodVariantHelper.ItemStackVariantConsumer() {
 			@Override
 			public void accept(String suffix, ItemStack planks) {
-				// Register upgrades with their Phase 4 blocks, not as a side effect of
-				// the older classic-chair recipe path.
+				// Chair upgrades depend on both the original chair and its new form;
+				// keeping them here respects either furniture family's config switch.
 				if (IronAgeFurnitureConfiguration.GENERATE_CLASSIC_CHAIRS
 						&& IronAgeFurnitureConfiguration.GENERATE_WINGBACK_CHAIRS) {
 					Block classic = Ironagefurniture.BlockRegistry.get("chair_wood_ironage_classic_" + suffix);

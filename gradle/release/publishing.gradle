@@ -1,4 +1,5 @@
-// Publish only an audited bundle, and require explicit remote Maven credentials.
+// Maven receives the same audited jars as the release bundle. The credential
+// gate rejects unset values and local file URLs before an upload can start.
 def expectedReleaseFiles = project.iafBuild.releaseFiles
 def preparedReleaseDir = project.iafBuild.preparedReleaseDir
 def releaseJar = project.iafBuild.releaseJar

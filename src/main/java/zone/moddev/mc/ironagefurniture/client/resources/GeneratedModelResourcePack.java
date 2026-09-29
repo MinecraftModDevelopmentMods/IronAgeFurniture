@@ -112,8 +112,8 @@ public final class GeneratedModelResourcePack implements IResourcePack {
 				}
 
 				for (Map.Entry<String, JsonElement> model : models.entrySet()) {
-					// The carried candle has its own animated flame model. Let the normal
-					// resource-pack lookup find that item model instead of the generated parent.
+					// The physical item model adds the candle flame. The generated
+					// parent-only model would hide it if both resources had this key.
 					if ("models/item/light_metal_ironage_candle_floor.json".equals(model.getKey())) {
 						continue;
 					}

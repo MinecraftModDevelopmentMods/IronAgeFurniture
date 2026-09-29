@@ -32,7 +32,8 @@ public final class ClientItemInitialiser {
         for (String name : Ironagefurniture.ItemRegistry.keySet()) {
             Item item = Ironagefurniture.ItemRegistry.get(name);
             if (item instanceof ItemBlockPaddedBench) {
-                // Registered before model baking by ClientModelInitialiser, once per colour metadata.
+                // The colour-aware loader supplies these models. A generic
+                // registration here would replace every colour with one item model.
                 continue;
             }
 			if (item instanceof ItemBlockUpholsteredFurniture) {

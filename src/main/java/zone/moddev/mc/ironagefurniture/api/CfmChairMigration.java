@@ -71,8 +71,8 @@ public final class CfmChairMigration {
     public static void remapMissingMappings(FMLMissingMappingsEvent event) {
         // Forge 1.10 cannot remap a missing ID to a target which was already in the
         // same world snapshot: it registers the target twice and falls back to
-        // level.dat_old, mixing up unrelated block IDs. Keep the old numeric IDs
-        // for a raw chunk migration instead of calling MissingMapping.remap().
+        // level.dat_old, mixing up unrelated block IDs. The old numeric IDs
+        // are retained for raw chunk migration rather than remapped here.
         Map<Integer, String> blockIds = new HashMap<Integer, String>();
         for (FMLMissingMappingsEvent.MissingMapping mapping : event.getAll()) {
             String targetPath = CHAIRS.get(mapping.resourceLocation.toString());

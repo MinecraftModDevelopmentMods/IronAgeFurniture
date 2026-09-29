@@ -83,15 +83,11 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
 
     @Override
     public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand) {
-        boolean hasFlame = true; // TODO: HasFlame() logic
-
-        if (hasFlame) {
-            double x = pos.getX() + 0.5D;
-            double y = pos.getY() + 0.9D;
-            double z = pos.getZ() + 0.5D;
-            world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x, y, z, 0.0D, 0.0D, 0.0D);
-            world.spawnParticle(EnumParticleTypes.FLAME,       x, y, z, 0.0D, 0.0D, 0.0D);
-        }
+        double x = pos.getX() + 0.5D;
+        double y = pos.getY() + 0.9D;
+        double z = pos.getZ() + 0.5D;
+        world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x, y, z, 0.0D, 0.0D, 0.0D);
+        world.spawnParticle(EnumParticleTypes.FLAME,       x, y, z, 0.0D, 0.0D, 0.0D);
     }
 
 

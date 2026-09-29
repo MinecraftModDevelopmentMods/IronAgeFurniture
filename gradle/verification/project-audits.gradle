@@ -2,7 +2,8 @@ import groovy.json.JsonSlurper
 import groovy.xml.XmlSlurper
 import java.nio.charset.StandardCharsets
 
-// Run these source, metadata, and workflow checks before packaging a release.
+// These checks catch mislabeled versions, missing resources and tracked build
+// output before any jar is treated as a release artifact.
 def archiveTextSuffixes = project.iafBuild.archiveTextSuffixes
 def expectedMavenGroup = project.iafBuild.mavenGroup
 def expectedMavenArtifact = project.iafBuild.mavenArtifact

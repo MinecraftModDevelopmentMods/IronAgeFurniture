@@ -1,7 +1,8 @@
 import groovy.json.JsonSlurper
 import java.util.zip.ZipFile
 
-// These opt-in probes use exact optional-mod jars and a disposable Forge server.
+// The optional wood catalogs refer to assets owned by other mods. Verify their
+// published jars, then use a packaged Forge server to check real registrations.
 def java8Compiler = project.iafBuild.java8Compiler
 def java8Launcher = project.iafBuild.java8Launcher
 def archiveTextPatterns = project.iafBuild.archiveTextPatterns
@@ -192,7 +193,8 @@ tasks.register('generateOptionalIntegrationFixtureData') {
         }
         Map furnitureCatalog = new JsonSlurper().parse(file('gradle/furniture-catalog.json')) as Map
         (furnitureCatalog.phaseFour.lighting as List<String>).each { String id ->
-            // Rock-salt states require Mineralogy; only the standalone floor candle has an ItemBlock.
+            // The baseline probe runs without Mineralogy. Of the other new
+            // lights, only the standalone candle has an item registration.
             if (!id.contains('rocksalt') && id != 'light_metal_ironage_candle_floor') {
                 hiddenLightingIds.add("ironagefurniture:${id}")
             }

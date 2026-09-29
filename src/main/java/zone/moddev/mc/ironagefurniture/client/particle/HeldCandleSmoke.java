@@ -48,8 +48,8 @@ public final class HeldCandleSmoke {
         boolean rightHand = (hand == EnumHand.MAIN_HAND)
                 == (player.getPrimaryHand() == EnumHandSide.RIGHT);
         boolean firstPerson = player == minecraft.player && minecraft.gameSettings.thirdPersonView == 0;
-        // In first person, keep the puff by the held candle rather than in front
-        // of the camera. Other players retain the third-person hand position.
+        // The first-person hand sits farther from the player's eye than the
+        // world-space hand; separate offsets put smoke above each flame.
         double lateral = (rightHand ? -1.0D : 1.0D) * (firstPerson ? 0.70D : 0.27D);
         double forward = firstPerson ? 0.75D : 0.32D;
         double yaw = Math.toRadians(firstPerson ? player.rotationYaw : player.renderYawOffset);

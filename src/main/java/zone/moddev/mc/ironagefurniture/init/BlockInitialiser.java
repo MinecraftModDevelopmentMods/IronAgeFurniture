@@ -9,10 +9,9 @@ import net.minecraft.block.Block;
 import net.minecraftforge.fml.common.Loader;
 
 /**
- * This class initialises all blocks in ironagefurniture.
+ * Registers the configured Phase 3 furniture and lighting blocks.
  *
  * @author SkyBlade1978
- *
  */
 public class BlockInitialiser {
 
@@ -21,9 +20,6 @@ public class BlockInitialiser {
 		throw new IllegalAccessError("This class cannot be instansiated");
 	}
 
-	/**
-	 *
-	 */
 	public static void init() {
 		generateChairs();
 		generateLights();

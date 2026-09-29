@@ -16,8 +16,9 @@ part of this repository; they are not separate Gradle plugins.
 | `ide/eclipse.gradle` | Prepare Buildship and keep normal Eclipse launches free of test/probe output. |
 
 The root build applies these scripts in dependency order and shares only the
-few values they need. Keep existing task names stable: CI, Eclipse setup and
-the release workflow call them directly.
+few values they need. CI, Eclipse setup and the release workflow call the
+existing task names directly, so renaming a task would also require updating
+those callers.
 
 For a routine local check, run `gradlew.bat clean check build javadoc
 verifyReleaseArtifacts verifyReleaseChecksums`. Run `gradlew.bat prepareEclipse

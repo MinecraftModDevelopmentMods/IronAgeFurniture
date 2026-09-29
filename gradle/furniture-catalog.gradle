@@ -1,5 +1,8 @@
 import groovy.json.JsonSlurper
 
+// The catalog records the supported woods, colours and lighting IDs. Normal
+// builds verify the checked-in Java and assets; update tasks rewrite them only
+// when the catalog is intentionally changed.
 def furnitureCatalogFile = layout.projectDirectory.file('gradle/furniture-catalog.json')
 def furnitureCatalogSnapshot = layout.projectDirectory.file('gradle/furniture-catalog.snapshot')
 def paddedBlockModelRoot = layout.projectDirectory.dir(

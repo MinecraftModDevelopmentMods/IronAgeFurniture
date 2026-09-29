@@ -34,7 +34,6 @@ public class BackBench extends Chair {
 	public BackBench(Material materialIn, String name, float resistance, boolean tall, double yOffset, float hardness) {
 		super(materialIn, name, resistance, yOffset, hardness);
 
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -286,7 +285,8 @@ public class BackBench extends Chair {
 	}
 
 	private EnumFacing getBenchToJoinTo(EnumFacing playerFacing, World world, BlockPos pos) {
-		// again, favour player facing
+		// When several benches are nearby, try the player's chosen direction
+		// first so the new segment joins the intended run.
 		if (isBenchEnd(playerFacing, world, pos) || isBenchSingle(playerFacing, world, pos)) {
 			if (isBenchSingle(playerFacing, world, pos))
 				return playerFacing;

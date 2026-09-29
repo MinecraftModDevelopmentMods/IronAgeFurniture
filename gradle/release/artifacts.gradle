@@ -4,7 +4,8 @@ import java.security.MessageDigest
 import java.util.jar.Manifest
 import java.util.zip.ZipFile
 
-// Audit the three installable/source/documentation jars before bundling them.
+// A release consists of exactly one Java 8 mod jar, one sources jar and one
+// Javadoc jar. The audits below check their contents before calculating hashes.
 def expectedReleaseFiles = project.iafBuild.releaseFiles
 def preparedReleaseDir = project.iafBuild.preparedReleaseDir
 def archiveTextSuffixes = project.iafBuild.archiveTextSuffixes
