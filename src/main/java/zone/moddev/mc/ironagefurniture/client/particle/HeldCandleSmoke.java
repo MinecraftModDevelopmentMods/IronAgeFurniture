@@ -39,19 +39,24 @@ public final class HeldCandleSmoke {
                 if (stack == null || stack.getItem() != candle) {
                     continue;
                 }
-                spawnSmoke(player, hand);
+                spawnSmoke(minecraft, player, hand);
             }
         }
     }
 
-    private static void spawnSmoke(EntityPlayer player, EnumHand hand) {
+    private static void spawnSmoke(Minecraft minecraft, EntityPlayer player, EnumHand hand) {
         boolean rightHand = (hand == EnumHand.MAIN_HAND)
                 == (player.getPrimaryHand() == EnumHandSide.RIGHT);
-        double lateral = rightHand ? -0.27D : 0.27D;
-        double yaw = Math.toRadians(player.renderYawOffset);
-        double x = player.posX + Math.cos(yaw) * lateral - Math.sin(yaw) * 0.32D;
-        double y = player.posY + player.getEyeHeight() - 0.36D - (player.isSneaking() ? 0.16D : 0.0D);
-        double z = player.posZ + Math.sin(yaw) * lateral + Math.cos(yaw) * 0.32D;
+        boolean firstPerson = player == minecraft.player && minecraft.gameSettings.thirdPersonView == 0;
+        // In first person, keep the puff by the held candle rather than in front
+        // of the camera. Other players retain the third-person hand position.
+        double lateral = (rightHand ? -1.0D : 1.0D) * (firstPerson ? 0.70D : 0.27D);
+        double forward = firstPerson ? 0.75D : 0.32D;
+        double yaw = Math.toRadians(firstPerson ? player.rotationYaw : player.renderYawOffset);
+        double x = player.posX + Math.cos(yaw) * lateral - Math.sin(yaw) * forward;
+        double y = player.posY + player.getEyeHeight()
+                - (firstPerson ? 0.82D : 0.36D) - (player.isSneaking() ? 0.16D : 0.0D);
+        double z = player.posZ + Math.sin(yaw) * lateral + Math.cos(yaw) * forward;
         player.world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL,
                 x, y, z, 0.0D, 0.015D, 0.0D);
     }

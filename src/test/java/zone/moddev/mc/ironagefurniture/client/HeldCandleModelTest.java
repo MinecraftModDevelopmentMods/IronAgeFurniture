@@ -38,7 +38,24 @@ public class HeldCandleModelTest {
         for (int index = 0; index < baseElements.size(); index++) {
             assertEquals(baseElements.get(index), itemElements.get(index));
         }
-        assertEquals(block.getAsJsonObject("display"), item.getAsJsonObject("display"));
+        JsonObject blockDisplay = block.getAsJsonObject("display");
+        JsonObject itemDisplay = item.getAsJsonObject("display");
+        for (java.util.Map.Entry<String, com.google.gson.JsonElement> transform
+                : blockDisplay.entrySet()) {
+            if (!"gui".equals(transform.getKey())) {
+                assertEquals(transform.getValue(), itemDisplay.get(transform.getKey()));
+            }
+        }
+        JsonObject blockGui = blockDisplay.getAsJsonObject("gui");
+        JsonObject itemGui = itemDisplay.getAsJsonObject("gui");
+        assertEquals(blockGui.get("rotation"), itemGui.get("rotation"));
+        assertEquals(blockGui.get("translation"), itemGui.get("translation"));
+        JsonArray blockScale = blockGui.getAsJsonArray("scale");
+        JsonArray itemScale = itemGui.getAsJsonArray("scale");
+        for (int axis = 0; axis < 3; axis++) {
+            assertEquals(blockScale.get(axis).getAsDouble() * 0.8D,
+                    itemScale.get(axis).getAsDouble(), 0.0001D);
+        }
         assertEquals("minecraft:blocks/fire_layer_0",
                 item.getAsJsonObject("textures").get("flame").getAsString());
         assertFalse(block.getAsJsonObject("textures").has("flame"));
