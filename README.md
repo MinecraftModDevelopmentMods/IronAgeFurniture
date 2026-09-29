@@ -19,6 +19,11 @@ release their lamp on redstone, landing intact in Creative but shattering and
 igniting the landing area in other modes. Seventeen locale choices and CFM
 wooden-chair migration support are included.
 
+Carried candles show a small animated flame and a little smoke without any
+extra mod. With OptiFine's Dynamic Lights enabled, a held candle can also light
+the area around you; that illumination is an OptiFine visual effect, not a
+placed light block.
+
 ## Requirements
 
 - Minecraft 1.10.2
