@@ -415,7 +415,9 @@ public final class CfmChairMigration {
             int changed = rewriteItemStacks(data, ids);
             if (changed > 0) {
                 tile.readFromNBT(data);
-                tile.markDirty();
+                // ChunkDataEvent.Load fires before this chunk is installed in the world.
+                // markDirty() would ask the world for this same chunk and recurse.
+                // loadChunk marks the containing chunk modified after conversion.
                 converted += changed;
             }
         }
@@ -432,28 +434,28 @@ public final class CfmChairMigration {
         return converted;
     }
 
-    private static void migrateInventory(IInventory inventory, Map<String, String> ids) {
-        boolean changed = false;
+    static int migrateInventory(IInventory inventory, Map<String, String> ids) {
+        int changed = 0;
         for (int slot = 0; slot < inventory.getSizeInventory(); ++slot) {
             ItemStack oldStack = inventory.getStackInSlot(slot);
-            if (oldStack == null || oldStack.getItem().getRegistryName() == null) {
+            if (oldStack == null) {
                 continue;
             }
-            String targetId = ids.get(oldStack.getItem().getRegistryName().toString());
-            if (targetId == null) {
+            NBTTagCompound data = oldStack.writeToNBT(new NBTTagCompound());
+            int converted = rewriteItemStacks(data, ids);
+            if (converted == 0) {
                 continue;
             }
-            Item target = Item.REGISTRY.getObject(new ResourceLocation(targetId));
-            ItemStack replacement = new ItemStack(target, oldStack.stackSize, 0);
-            if (oldStack.hasTagCompound()) {
-                replacement.setTagCompound(oldStack.getTagCompound().copy());
+            ItemStack replacement = ItemStack.loadItemStackFromNBT(data);
+            if (replacement != null) {
+                inventory.setInventorySlotContents(slot, replacement);
+                changed += converted;
             }
-            inventory.setInventorySlotContents(slot, replacement);
-            changed = true;
         }
-        if (changed) {
+        if (changed > 0) {
             inventory.markDirty();
         }
+        return changed;
     }
 
     static int rewriteItemStacks(NBTBase tag, Map<String, String> ids) {

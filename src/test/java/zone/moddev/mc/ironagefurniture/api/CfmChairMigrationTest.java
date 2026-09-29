@@ -14,6 +14,10 @@ import org.junit.Test;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Bootstrap;
+import net.minecraft.init.Blocks;
+import net.minecraft.inventory.InventoryBasic;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.chunk.Chunk;
@@ -136,5 +140,46 @@ public class CfmChairMigrationTest {
         assertEquals(0, chair.getShort("Damage"));
         assertEquals("keep me", chair.getCompoundTag("tag").getString("display"));
         assertEquals(0, CfmChairMigration.rewriteItemStacks(root, ids));
+    }
+
+    @Test
+    public void forcedPlayerInventoryConversionFindsNestedChairsAndIsIdempotent() {
+        ItemStack chest = new ItemStack(Item.getItemFromBlock(Blocks.CHEST));
+        NBTTagCompound chair = new NBTTagCompound();
+        chair.setString("id", "cfm:chair_oak");
+        chair.setByte("Count", (byte) 2);
+        chair.setShort("Damage", (short) 3);
+        NBTTagList contents = new NBTTagList();
+        contents.appendTag(chair);
+        NBTTagCompound blockEntity = new NBTTagCompound();
+        blockEntity.setTag("Items", contents);
+        NBTTagCompound tag = new NBTTagCompound();
+        tag.setTag("BlockEntityTag", blockEntity);
+        chest.setTagCompound(tag);
+        InventoryBasic inventory = new InventoryBasic("test", false, 2);
+        inventory.setInventorySlotContents(0, chest);
+        ItemStack looseChair = new ItemStack(Blocks.DIRT, 3, 2);
+        NBTTagCompound looseTag = new NBTTagCompound();
+        looseTag.setString("Owner", "keep me");
+        looseChair.setTagCompound(looseTag);
+        inventory.setInventorySlotContents(1, looseChair);
+        Map<String, String> ids = new HashMap<String, String>();
+        ids.put("cfm:chair_oak", "minecraft:stone");
+        ids.put("minecraft:dirt", "minecraft:stone");
+
+        assertEquals(2, CfmChairMigration.migrateInventory(inventory, ids));
+        ItemStack migrated = inventory.getStackInSlot(0);
+        assertEquals(chest.getItem(), migrated.getItem());
+        NBTTagCompound converted = migrated.getTagCompound().getCompoundTag("BlockEntityTag")
+                .getTagList("Items", 10).getCompoundTagAt(0);
+        assertEquals("minecraft:stone", converted.getString("id"));
+        assertEquals(2, converted.getByte("Count"));
+        assertEquals(0, converted.getShort("Damage"));
+        ItemStack migratedLoose = inventory.getStackInSlot(1);
+        assertEquals(Item.getItemFromBlock(Blocks.STONE), migratedLoose.getItem());
+        assertEquals(3, migratedLoose.stackSize);
+        assertEquals(0, migratedLoose.getItemDamage());
+        assertEquals("keep me", migratedLoose.getTagCompound().getString("Owner"));
+        assertEquals(0, CfmChairMigration.migrateInventory(inventory, ids));
     }
 }

@@ -23,6 +23,8 @@ feed continues to advertise the published `0.3.0.110021` release.
   option, and missing block/item recovery even when CFM is absent. The latter
   retains old numeric chair IDs for unopened chunks across restarts without
   remapping them onto already-registered IAF IDs in Forge 1.10.
+- Fix forced CFM conversion for chairs stored in chests and other block
+  inventories, and include chairs inside carried containers when a player joins.
 - Keep CFM, Mineralogy, and Base Metals optional at runtime.
 
 # IronAgeFurniture 0.3.0.110021
