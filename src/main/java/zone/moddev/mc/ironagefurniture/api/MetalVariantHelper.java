@@ -178,7 +178,7 @@ public final class MetalVariantHelper {
 		BISMUTH("bismuth", "Bismuth", 5, "basemetals:blocks/bismuth_block", "ingotBismuth", "nuggetBismuth", "barsBismuth", 1, 1, 1),
 		BRASS("brass", "Brass", 6, "basemetals:blocks/brass_block", "ingotBrass", "nuggetBrass", "barsBrass", 4, 4, 1),
 		BRONZE("bronze", "Bronze", 7, "basemetals:blocks/bronze_block", "ingotBronze", "nuggetBronze", "barsBronze", 8, 8, 1),
-		COLDIRON("coldiron", "Cold-Iron", 8, "basemetals:blocks/coldiron_block", "ingotColdIron", "nuggetColdIron", "barsColdIron", 7, 7, 1),
+		COLDIRON("coldiron", "Cold-Iron", 8, "basemetals:blocks/coldiron_block", "ingotColdiron", "nuggetColdiron", "barsColdiron", 7, 7, 1),
 		COPPER("copper", "Copper", 9, "basemetals:blocks/copper_block", "ingotCopper", "nuggetCopper", "barsCopper", 4, 4, 1),
 		CUPRONICKEL("cupronickel", "Cupronickel", 10, "basemetals:blocks/cupronickel_block", "ingotCupronickel", "nuggetCupronickel", "barsCupronickel", 6, 6, 1),
 		ELECTRUM("electrum", "Electrum", 11, "basemetals:blocks/electrum_block", "ingotElectrum", "nuggetElectrum", "barsElectrum", 5, 5, 1),
@@ -189,7 +189,7 @@ public final class MetalVariantHelper {
 		PEWTER("pewter", "Pewter", 16, "basemetals:blocks/pewter_block", "ingotPewter", "nuggetPewter", "barsPewter", 1, 1, 1),
 		PLATINUM("platinum", "Platinum", 17, "basemetals:blocks/platinum_block", "ingotPlatinum", "nuggetPlatinum", "barsPlatinum", 3, 3, 1),
 		SILVER("silver", "Silver", 18, "basemetals:blocks/silver_block", "ingotSilver", "nuggetSilver", "barsSilver", 5, 5, 1),
-		STARSTEEL("starsteel", "Star-Steel", 19, "basemetals:blocks/starsteel_block", "ingotStarSteel", "nuggetStarSteel", "barsStarSteel", 10, 25, 1),
+		STARSTEEL("starsteel", "Star-Steel", 19, "basemetals:blocks/starsteel_block", "ingotStarsteel", "nuggetStarsteel", "barsStarsteel", 10, 25, 1),
 		STEEL("steel", "Steel", 20, "basemetals:blocks/steel_block", "ingotSteel", "nuggetSteel", "barsSteel", 8, 8, 1),
 		TIN("tin", "Tin", 21, "basemetals:blocks/tin_block", "ingotTin", "nuggetTin", "barsTin", 3, 3, 1),
 		ZINC("zinc", "Zinc", 22, "basemetals:blocks/zinc_block", "ingotZinc", "nuggetZinc", "barsZinc", 1, 1, 1);

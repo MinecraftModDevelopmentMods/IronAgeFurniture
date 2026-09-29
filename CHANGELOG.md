@@ -35,6 +35,8 @@ feed continues to advertise the published `0.3.0.110021` release.
 - Give metal sconces a sturdier mining hardness and make their blast resistance
   follow the metal. Fix mined and picked sconces reverting to iron rather than
   retaining the metal they were made from.
+- Restore Cold-Iron and Star-Steel sconce recipes by using the nugget names
+  registered by Base Metals.
 
 # IronAgeFurniture 0.3.0.110021
 

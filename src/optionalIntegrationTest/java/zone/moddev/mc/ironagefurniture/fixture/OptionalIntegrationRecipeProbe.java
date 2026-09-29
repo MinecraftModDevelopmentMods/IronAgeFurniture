@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -47,6 +48,7 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
+import net.minecraftforge.oredict.OreDictionary;
 
 /** Exact-loader probe for legacy Java-side optional registration and recipes. */
 @Mod(modid = OptionalIntegrationRecipeProbe.MOD_ID,
@@ -85,6 +87,9 @@ public final class OptionalIntegrationRecipeProbe {
         int hiddenLightingBlocks = verifyHiddenLightingItems();
         if (Boolean.getBoolean("iaf.probe.metalSconce")) {
             verifyMetalSconce(server);
+        }
+        if (Boolean.getBoolean("iaf.probe.metalRecipes")) {
+            verifyMetalRecipes();
         }
         writeMarker(requested, versions, blockCounts, recipeCounts, hiddenLightingBlocks);
         LOGGER.info("IRON AGE FURNITURE OPTIONAL INTEGRATION PROBE PASSED: {} blocks, {} recipes",
@@ -233,6 +238,37 @@ public final class OptionalIntegrationRecipeProbe {
             world.setBlockToAir(pos);
             world.setBlockToAir(pos.down());
         }
+    }
+
+    private static void verifyMetalRecipes() {
+        Item sconce = Item.getItemFromBlock(
+                BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron);
+        int checked = 0;
+        for (MetalVariant metal : MetalVariantHelper.getAvailableVariants()) {
+            if (metal == MetalVariant.IRON) continue;
+            List<String> matchingTags = new ArrayList<>();
+            if (metal != MetalVariant.GOLD) {
+                for (String tag : OreDictionary.getOreNames()) {
+                    if (tag.equalsIgnoreCase("nugget" + metal.name().toLowerCase(Locale.ENGLISH))
+                            && !OreDictionary.getOres(tag).isEmpty()) {
+                        matchingTags.add(tag);
+                    }
+                }
+                require(matchingTags.contains(metal.getNuggetOreName()),
+                        "No matching nugget tag for " + metal.name() + ": requested "
+                                + metal.getNuggetOreName() + ", found " + matchingTags);
+            }
+            int recipes = 0;
+            for (IRecipe recipe : CraftingManager.getInstance().getRecipeList()) {
+                ItemStack output = recipe.getRecipeOutput();
+                if (output != null && output.getItem() == sconce
+                        && output.getMetadata() == metal.getMeta()) recipes++;
+            }
+            require(recipes == 1, "Expected one sconce recipe for " + metal.name()
+                    + ", found " + recipes);
+            checked++;
+        }
+        LOGGER.info("Metal sconce recipe probe passed: {} available metals each have one recipe", checked);
     }
 
     private static List<ExpectedEntry> readExpectedEntries(String resourceName) {
