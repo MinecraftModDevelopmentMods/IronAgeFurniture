@@ -22,6 +22,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.Explosion;
 import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.oredict.OreDictionary;
 
 public final class MetalVariantHelper {
@@ -203,6 +204,7 @@ public final class MetalVariantHelper {
 		private final int hardnessWeight;
 		private final int strengthWeight;
 		private final int chainPowerLoss;
+		private volatile Boolean bundledTexturePresent;
 
 		private MetalVariant(String name, String displayName, int meta, String blockTexture, String ingotOreName,
 				String nuggetOreName, String barsOreName, int hardnessWeight, int strengthWeight, int chainPowerLoss) {
@@ -260,8 +262,24 @@ public final class MetalVariantHelper {
 		}
 
 		public boolean isAvailable() {
-			return this == IRON || this == GOLD
-				|| (IronAgeFurnitureConfiguration.INTEGRATION_BASEMETALS && Loader.isModLoaded("basemetals"));
+			if (this == IRON || this == GOLD) {
+				return true;
+			}
+			if (!IronAgeFurnitureConfiguration.INTEGRATION_BASEMETALS || !Loader.isModLoaded("basemetals")) {
+				return false;
+			}
+
+			ModContainer baseMetals = Loader.instance().getIndexedModList().get("basemetals");
+			if (baseMetals == null) {
+				return false;
+			}
+			Boolean present = this.bundledTexturePresent;
+			if (present == null) {
+				present = Boolean.valueOf(MetalTextureSupport.hasBundledTexture(
+					baseMetals.getSource(), this.blockTexture));
+				this.bundledTexturePresent = present;
+			}
+			return present.booleanValue();
 		}
 
 		public static MetalVariant byMeta(int meta) {

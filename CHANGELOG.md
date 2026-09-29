@@ -29,6 +29,9 @@ feed continues to advertise the published `0.3.0.110021` release.
 - Fix forced CFM conversion for chairs stored in chests and other block
   inventories, and include chairs inside carried containers when a player joins.
 - Keep CFM, Mineralogy, and Base Metals optional at runtime.
+- Show Base Metals sconce variants only when the installed Base Metals build
+  supplies their block textures. Older 1.10 builds do not include Antimony,
+  Bismuth, or Pewter, so those variants no longer appear untextured.
 
 # IronAgeFurniture 0.3.0.110021
 
