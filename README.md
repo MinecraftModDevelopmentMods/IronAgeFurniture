@@ -89,6 +89,8 @@ gradlew.bat clean check build javadoc verifyReleaseArtifacts verifyReleaseChecks
 gradlew.bat prepareEclipse verifyEclipseProductionClasspath
 ```
 
+The build tasks and their scripts are described in [gradle/README.md](gradle/README.md).
+
 The release process only publishes commits that have passed the hosted build,
 test, artifact, and security checks. Running the Gradle commands above creates
 local artifacts only.

@@ -18,7 +18,7 @@ public class TileEntityShieldChair extends TileEntity {
 
 	public boolean hasShield() { return shield != null; }
 	public ItemStack getShield() { return shield == null ? null : shield.copy(); }
-	/** Read-only rendering access; callers must never mutate the returned stack. */
+	/** Avoids copying a shield every frame; the renderer treats this stack as immutable. */
 	public ItemStack getShieldForRender() { return shield; }
 
 	public void setShield(ItemStack next) {

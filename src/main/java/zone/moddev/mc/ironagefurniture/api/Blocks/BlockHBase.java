@@ -7,16 +7,14 @@ import net.minecraft.block.material.Material;
 import net.minecraft.util.math.AxisAlignedBB;
 
 /**
- * This class forms the base for horizontal blocks in ironagefurniture.
+ * Shared horizontal-facing block base with bounding-box rotation helpers.
  *
  * @author SkyBlade1978
- *
  */
 public class BlockHBase extends BlockHorizontal {
 
 	public BlockHBase(Material materialIn) {
 		super(materialIn);
-		// TODO Auto-generated constructor stub
 	}
 
 	public static AxisAlignedBB RotateBB(Rotation rotation, AxisAlignedBB bbIn)

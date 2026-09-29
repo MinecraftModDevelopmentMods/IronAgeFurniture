@@ -22,7 +22,6 @@ public class Stool extends Chair {
 	public Stool(Material materialIn, String name, float resistance, boolean tall, double yOffset, float hardness) {
 		super(materialIn, name, resistance, yOffset, hardness);
 		this.tall = tall;
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

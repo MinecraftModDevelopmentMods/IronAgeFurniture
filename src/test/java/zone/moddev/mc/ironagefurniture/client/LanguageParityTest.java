@@ -41,8 +41,8 @@ public class LanguageParityTest {
                 if (!entry.getValue().equals(value)) changed++;
             }
             if (!locale.startsWith("en_")) {
-                // Newer Phase 3 padded-bench colour names fall back to English where
-                // the 1.0 donor has no translation; the other catalogued entries remain translated.
+                // Some padded-bench colours still use English labels. Require
+                // over 40% translated entries so a copied English file cannot pass.
                 assertTrue(locale + " should translate furniture and UI, not only copy English",
                         changed * 5 > source.size() * 2);
                 assertNotEquals(locale + " must translate the Phase 4 bed", source.get(

@@ -1,0 +1,281 @@
+import groovy.json.JsonSlurper
+import groovy.xml.XmlSlurper
+import java.nio.charset.StandardCharsets
+
+// These checks catch mislabeled versions, missing resources and tracked build
+// output before any jar is treated as a release artifact.
+def archiveTextSuffixes = project.iafBuild.archiveTextSuffixes
+def expectedMavenGroup = project.iafBuild.mavenGroup
+def expectedMavenArtifact = project.iafBuild.mavenArtifact
+
+tasks.register('verifyMavenCoordinates') {
+    group = 'verification'
+    description = 'Verifies the generated POM and manifest publication namespace.'
+    dependsOn tasks.named('generatePomFileForMavenJavaPublication')
+    doLast {
+        File pomFile = layout.buildDirectory.file(
+                'publications/mavenJava/pom-default.xml').get().asFile
+        def pom = new XmlSlurper(false, false).parse(pomFile)
+        def actual = [pom.groupId.text(), pom.artifactId.text(), pom.version.text()]
+        def expected = [expectedMavenGroup, expectedMavenArtifact, project.version.toString()]
+        if (project.group.toString() != expectedMavenGroup || actual != expected) {
+            throw new GradleException(
+                    "Expected Maven coordinate ${expected.join(':')}, found ${actual.join(':')}")
+        }
+    }
+}
+
+def parseUtf8Json = { File jsonFile ->
+    String text = jsonFile.getText('UTF-8')
+    if (text.startsWith('\uFEFF')) {
+        text = text.substring(1)
+    }
+    new JsonSlurper().parseText(text)
+}
+
+tasks.register('verifyRepositoryHygiene') {
+    group = 'verification'
+    description = 'Rejects tracked agent context, generated output, IDE state, secrets, and machine paths.'
+    doLast {
+        byte[] trackedBytes = providers.exec {
+            commandLine 'git', 'ls-files', '-z'
+        }.standardOutput.asBytes.get()
+        List<String> tracked = new String(trackedBytes, StandardCharsets.UTF_8)
+                .split('\u0000').findAll { !it.isEmpty() }
+        Set<String> forbiddenDirectories = [
+                '.agent', '.agents', '.ci-dependencies', '.claude', '.codex', '.eclipse', '.gemini', '.gradle',
+                '.gradle-home', '.idea', '.okhttpcache', '.settings', 'agent-notes', 'benchmark',
+                'bin', 'build', 'classes', 'crash-reports', 'eclipse', 'evidence', 'logs',
+                'mcmodsrepo', 'out', 'regression', 'reports', 'run', 'run-data', 'test-output',
+                'test-results'
+        ] as Set<String>
+        Set<String> forbiddenFiles = [
+                '.classpath', '.project', 'agent.md', 'agents.md', 'claude.md', 'gemini.md',
+                'local.properties', 'secret.json', 'forgegradle-2.2.2.jar'
+        ] as Set<String>
+        List<String> forbidden = tracked.findAll { String path ->
+            List<String> segments = path.tokenize('/')
+            String fileName = segments.last().toLowerCase(Locale.ROOT)
+            List<String> parentSegments = segments.size() > 1 ? segments[0..-2] : []
+            boolean forbiddenParent = parentSegments.any { String segment ->
+                String name = segment.toLowerCase(Locale.ROOT)
+                forbiddenDirectories.contains(name) || name.startsWith('.metadata')
+                        || name.startsWith('run-') || name.startsWith('benchmark-')
+                        || name.startsWith('regression-') || name.startsWith('evidence-')
+                        || name.endsWith('-evidence')
+            }
+            forbiddenParent || forbiddenFiles.contains(fileName)
+                    || fileName ==~ /(?:agent|codex)-.*\.md/
+                    || ['.launch', '.keystore', '.jks', '.p12', '.jfr', '.hprof', '.log']
+                            .any { fileName.endsWith(it) }
+        }
+        if (!forbidden.isEmpty()) {
+            throw new GradleException("Tracked agent, generated, IDE, obsolete, or secret files: ${forbidden}")
+        }
+
+        Set<String> repositoryTextSuffixes = (archiveTextSuffixes + [
+                '.bat', '.gradle', '.sh', '.toml', '.yaml', '.yml'
+        ]) as Set<String>
+        tracked.findAll { String path ->
+            String fileName = new File(path).name
+            repositoryTextSuffixes.any { fileName.endsWith(it) }
+                    || ['.gitattributes', '.gitignore', 'gradlew'].contains(fileName)
+        }
+                .each { String path ->
+                    String contents = file(path).getText('UTF-8')
+                    if (contents ==~ /(?s).*(?:[A-Za-z]:[\\\/](?:Users|Program Files)[\\\/]|\/home\/[^\/]+\/).*/) {
+                        throw new GradleException("Tracked text file contains an absolute machine path: ${path}")
+                    }
+                }
+    }
+}
+
+tasks.register('verifyResourceJson') {
+    group = 'verification'
+    description = 'Parses every source resource JSON document and mcmod.info as UTF-8 JSON.'
+    doLast {
+        List<File> jsonFiles = fileTree('src/main/resources') {
+            include '**/*.json'
+            include 'mcmod.info'
+        }.files.sort { it.path }
+        if (jsonFiles.isEmpty()) {
+            throw new GradleException('No resource JSON files were found')
+        }
+        jsonFiles.each { File candidate ->
+            try {
+                parseUtf8Json(candidate)
+            } catch (Exception ex) {
+                throw new GradleException("Invalid resource JSON: ${candidate}", ex)
+            }
+        }
+        logger.lifecycle('Validated {} resource JSON documents.', jsonFiles.size())
+    }
+}
+
+tasks.register('verifyMavenizerCompatibilityFixture') {
+    group = 'verification'
+    description = 'Verifies that Forge 1.10.2 uses the ForgeGradle Mavenizer without a vendored override.'
+    doLast {
+        if (file('ci-fixtures/tools').exists()) {
+            throw new GradleException('Forge 1.10.2 must not carry a target-specific Mavenizer override')
+        }
+    }
+}
+
+tasks.register('verifyNamespace') {
+    group = 'verification'
+    description = 'Requires the maintained zone.moddev.mc namespace and rejects legacy IronAgeFurniture packages.'
+    doLast {
+        String legacyPackage = 'com.mcmoddev.ironagefurniture'
+        String maintainedPackage = 'zone.moddev.mc.ironagefurniture'
+        String legacyPath = "src/main/java/${legacyPackage.replace('.', '/')}/"
+        String maintainedPath = "src/main/java/${maintainedPackage.replace('.', '/')}/"
+        List<File> sources = fileTree('src/main/java') { include '**/*.java' }.files.sort { it.path }
+        if (sources.isEmpty()) {
+            throw new GradleException('No Java sources were found for namespace validation')
+        }
+
+        sources.each { File sourceFile ->
+            String relativePath = project.relativePath(sourceFile).replace('\\', '/')
+            String contents = sourceFile.getText('UTF-8')
+            if (!relativePath.startsWith(maintainedPath)) {
+                throw new GradleException("Java source is outside the maintained namespace: ${relativePath}")
+            }
+            if (relativePath.startsWith(legacyPath) || contents.contains(legacyPackage)) {
+                throw new GradleException("Legacy IronAgeFurniture namespace remains in ${relativePath}")
+            }
+
+            def packageMatch = contents =~ /(?m)^package\s+([^;]+);/
+            if (!packageMatch.find()) {
+                throw new GradleException("Java source has no package declaration: ${relativePath}")
+            }
+            String expectedPackage = relativePath.substring('src/main/java/'.length(), relativePath.lastIndexOf('/'))
+                    .replace('/', '.')
+            if (packageMatch.group(1) != expectedPackage) {
+                throw new GradleException("Package/path mismatch in ${relativePath}: ${packageMatch.group(1)}")
+            }
+        }
+    }
+}
+
+tasks.register('verifyVersionMetadata') {
+    group = 'verification'
+    description = 'Checks the authoritative version, target metadata, update feed, and generated mcmod.info.'
+    dependsOn tasks.named('processResources')
+    doLast {
+        Map<String, String> expected = [
+                mod_version            : '0.4.0.110021',
+                minecraft_version      : '1.10.2',
+                forge_version          : '12.18.3.2511',
+                mapping_channel        : 'stable',
+                mapping_version        : '29-1.10.2',
+                loader_name            : 'forge',
+                loader_code            : '1',
+                java_version           : '8',
+                java_toolchain_version : '8.0.502+7',
+                gradle_java_version    : '17',
+                mod_group              : 'zone.moddev.mc',
+                mod_archive_name       : 'iron-age-furniture',
+                curseforge_project_id  : '341834'
+        ]
+        expected.each { String key, String value ->
+            if (!project.hasProperty(key) || project.property(key).toString() != value) {
+                throw new GradleException("Unexpected ${key}: ${project.findProperty(key)}")
+            }
+        }
+        if (project.group.toString() != expected.mod_group
+                || base.archivesName.get() != expected.mod_archive_name
+                || project.version.toString() != expected.mod_version) {
+            throw new GradleException('Resolved Maven coordinates do not match gradle.properties')
+        }
+
+        String source = file('src/main/java/zone/moddev/mc/ironagefurniture/Ironagefurniture.java')
+                .getText('UTF-8')
+        if (!source.contains("VERSION = \"${project.version}\"")) {
+            throw new GradleException('Java VERSION constant is not synchronized')
+        }
+        ['README.md', 'CHANGELOG.md', 'docs/VERSIONS.md'].each { String path ->
+            if (!file(path).getText('UTF-8').contains(project.version.toString())) {
+                throw new GradleException("Version is missing from ${path}")
+            }
+        }
+
+        def mcmod = parseUtf8Json(layout.buildDirectory.file('resources/main/mcmod.info').get().asFile)
+        def mod = mcmod instanceof List ? mcmod.first() : mcmod
+        if (mod.modid != project.mod_id || mod.version != project.version
+                || mod.mcversion != project.minecraft_version
+                || mod.license != project.mod_license
+                || mod.url != 'https://github.com/MinecraftModDevelopmentMods/IronAgeFurniture'
+                || mod.updateUrl != 'https://raw.githubusercontent.com/MinecraftModDevelopmentMods/IronAgeFurniture/master-1.10/update.json'
+                || !(mod.dependencies instanceof List) || !mod.dependencies.isEmpty()) {
+            throw new GradleException('Generated mcmod.info identity, version, or target is incorrect')
+        }
+        def pack = parseUtf8Json(layout.buildDirectory.file('resources/main/pack.mcmeta').get().asFile)
+        if (pack.pack?.pack_format != 2) {
+            throw new GradleException('Minecraft 1.10.2 resources require pack format 2')
+        }
+        def update = parseUtf8Json(file('update.json'))
+        if (update.homepage != 'https://www.curseforge.com/minecraft/mc-mods/iron-age-furniture/files'
+                || update.promos.'1.10.2-latest' != '0.3.0.110021'
+                || update.promos.'1.10.2-recommended' != '0.3.0.110021'
+                || !update.'1.10.2'.containsKey('0.2.0.5')
+                || !update.'1.10.2'.containsKey('0.3.0.110021')
+                || update.'1.10.2'.containsKey(project.version.toString())) {
+            throw new GradleException('update.json must advertise published Phase 3, not the unreleased Phase 4 candidate')
+        }
+    }
+}
+
+tasks.register('verifyDedicatedServerBoundaries') {
+    group = 'verification'
+    description = 'Keeps common item registration free of client-only Minecraft and Forge types.'
+    doLast {
+        String commonInitializer = file(
+                'src/main/java/zone/moddev/mc/ironagefurniture/init/ItemInitialiser.java').getText('UTF-8')
+        ['net.minecraft.client.', 'net.minecraftforge.client.', 'ItemMeshDefinition', 'ModelLoader']
+                .each { String forbidden ->
+                    if (commonInitializer.contains(forbidden)) {
+                        throw new GradleException("Common ItemInitialiser contains client-only reference ${forbidden}")
+                    }
+                }
+        String clientInitializer = file(
+                'src/main/java/zone/moddev/mc/ironagefurniture/init/ClientItemInitialiser.java').getText('UTF-8')
+        if (!clientInitializer.contains('@SideOnly(Side.CLIENT)')) {
+            throw new GradleException('ClientItemInitialiser must remain explicitly client-only')
+        }
+    }
+}
+
+tasks.register('verifyWorkflowPins') {
+    group = 'verification'
+    description = 'Requires third-party GitHub Actions to be pinned to full commit SHAs.'
+    doLast {
+        File workflows = file('.github/workflows')
+        if (!workflows.isDirectory()) {
+            throw new GradleException('Missing GitHub Actions workflows')
+        }
+        fileTree(workflows) { include '*.yml'; include '*.yaml' }.each { File workflow ->
+            workflow.readLines('UTF-8').eachWithIndex { String line, int index ->
+                def match = line =~ /^\s*uses:\s*([^#\s]+).*/
+                if (match.matches()) {
+                    String action = match.group(1)
+                    if (!action.startsWith('./') && !(action ==~ /[^@]+@[0-9a-f]{40}/)) {
+                        throw new GradleException("Unpinned action ${action} at ${workflow}:${index + 1}")
+                    }
+                }
+            }
+        }
+    }
+}
+
+tasks.named('check') {
+    dependsOn tasks.named('verifyBuildEnvironment')
+    dependsOn tasks.named('verifyMavenizerCompatibilityFixture')
+    dependsOn tasks.named('verifyMavenCoordinates')
+    dependsOn tasks.named('verifyRepositoryHygiene')
+    dependsOn tasks.named('verifyResourceJson')
+    dependsOn tasks.named('verifyNamespace')
+    dependsOn tasks.named('verifyVersionMetadata')
+    dependsOn tasks.named('verifyWorkflowPins')
+    dependsOn tasks.named('verifyDedicatedServerBoundaries')
+}
