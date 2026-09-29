@@ -23,6 +23,10 @@ import zone.moddev.mc.ironagefurniture.BlockObjectHolder;
 import zone.moddev.mc.ironagefurniture.api.Items.ItemBlockMetalVariant;
 import zone.moddev.mc.ironagefurniture.api.MetalVariantHelper;
 import zone.moddev.mc.ironagefurniture.api.MetalVariantHelper.MetalVariant;
+import zone.moddev.mc.ironagefurniture.api.PaddedBenchColourHelper;
+import zone.moddev.mc.ironagefurniture.api.Enumerations.PaddedBenchColour;
+import zone.moddev.mc.ironagefurniture.api.Enumerations.UpholsteryColour;
+import zone.moddev.mc.ironagefurniture.api.UpholsteryColourHelper;
 import zone.moddev.mc.ironagefurniture.api.tile.TileEntityMetalVariant;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -90,6 +94,10 @@ public final class OptionalIntegrationRecipeProbe {
         }
         if (Boolean.getBoolean("iaf.probe.metalRecipes")) {
             verifyMetalRecipes();
+        }
+        if (Boolean.getBoolean("iaf.probe.upholstery")) {
+            verifyPaddedBenchHarvest(server);
+            verifyUpholsteredFurnitureHarvest(server);
         }
         writeMarker(requested, versions, blockCounts, recipeCounts, hiddenLightingBlocks);
         LOGGER.info("IRON AGE FURNITURE OPTIONAL INTEGRATION PROBE PASSED: {} blocks, {} recipes",
@@ -269,6 +277,163 @@ public final class OptionalIntegrationRecipeProbe {
             checked++;
         }
         LOGGER.info("Metal sconce recipe probe passed: {} available metals each have one recipe", checked);
+    }
+
+    private static void verifyPaddedBenchHarvest(MinecraftServer server) {
+        WorldServer world = (WorldServer) server.getEntityWorld();
+        FakePlayer player = FakePlayerFactory.getMinecraft(world);
+        player.setHeldItem(EnumHand.MAIN_HAND,
+                new ItemStack(net.minecraft.init.Items.IRON_AXE));
+        Block[] benches = {
+                BlockObjectHolder.chair_wood_ironage_bench_padded_single_oak,
+                BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_oak
+        };
+        for (int index = 0; index < benches.length; index++) {
+            Block block = benches[index];
+            BlockPos pos = world.getSpawnPoint().add(16 + index * 4, 48, 8);
+            for (PaddedBenchColour colour : PaddedBenchColour.values()) {
+                IBlockState state = block.getDefaultState();
+                try {
+                    world.setBlockState(pos, state, 3);
+                    PaddedBenchColourHelper.setColour(world, pos, colour);
+                    require(PaddedBenchColourHelper.getColour(world, pos) == colour,
+                            "Placed padded bench lost its upholstery: " + block.getRegistryName());
+                    TileEntity tile = world.getTileEntity(pos);
+                    require(block.removedByPlayer(state, world, pos, player, true),
+                            "Could not harvest padded bench: " + block.getRegistryName());
+                    List<ItemStack> drops = block.getDrops(world, pos, state, 0);
+                    require(drops.size() == 1
+                            && PaddedBenchColourHelper.getColour(drops.get(0)) == colour,
+                            "Padded bench lost its colour after removal: " + block.getRegistryName()
+                                    + " / " + colour + " -> " + drops);
+                    AxisAlignedBB dropArea = new AxisAlignedBB(pos).expand(1.0D, 1.0D, 1.0D);
+                    Set<Integer> existingItems = new HashSet<>();
+                    for (EntityItem entity : world.getEntitiesWithinAABB(EntityItem.class, dropArea)) {
+                        existingItems.add(entity.getEntityId());
+                    }
+                    block.harvestBlock(world, player, pos, state, tile,
+                            new ItemStack(net.minecraft.init.Items.IRON_AXE));
+                    int actualDrops = 0;
+                    for (EntityItem entity : world.getEntitiesWithinAABB(EntityItem.class, dropArea)) {
+                        if (existingItems.contains(entity.getEntityId())) continue;
+                        ItemStack dropped = entity.getEntityItem();
+                        require(dropped.getItem() == Item.getItemFromBlock(block)
+                                && dropped.getMetadata() == colour.getItemMetadata()
+                                && dropped.hasTagCompound()
+                                && colour.getSerializedName().equals(dropped.getTagCompound()
+                                        .getString(PaddedBenchColourHelper.COLOUR_TAG))
+                                && PaddedBenchColourHelper.getColour(dropped) == colour,
+                                "Padded bench spawned a drop with the wrong colour: " + dropped);
+                        actualDrops++;
+                    }
+                    require(actualDrops == 1, "Padded bench spawned " + actualDrops + " drops");
+                    require(world.isAirBlock(pos), "Harvested padded bench remained in the world");
+                } finally {
+                    world.setBlockToAir(pos);
+                }
+            }
+            LOGGER.info("Padded bench harvest preserved all 16 colours: {}",
+                    block.getRegistryName());
+        }
+    }
+
+    private static void verifyUpholsteredFurnitureHarvest(MinecraftServer server) {
+        WorldServer world = (WorldServer) server.getEntityWorld();
+        FakePlayer player = FakePlayerFactory.getMinecraft(world);
+        player.setHeldItem(EnumHand.MAIN_HAND,
+                new ItemStack(net.minecraft.init.Items.IRON_AXE));
+        String[] paths = {
+                "bed_wood_foot_oak", "bed_wood_foot_left_oak",
+                "bed_canopy_foot_lower_oak", "bed_canopy_foot_left_lower_oak",
+                "chair_wood_ironage_wingback_oak", "chair_wood_ironage_throne_oak"
+        };
+        for (int index = 0; index < paths.length; index++) {
+            Block block = Block.REGISTRY.getObject(new ResourceLocation("ironagefurniture", paths[index]));
+            require(block != null && block != Blocks.AIR, "Missing upholstered furniture " + paths[index]);
+            for (int part = 0; part < 2; part++) {
+                BlockPos basePos = world.getSpawnPoint().add(64 + index * 8, 100, 8 + part * 8);
+                ItemStack placedItem = UpholsteryColourHelper.createStack(block, 1,
+                        UpholsteryColour.PURPLE);
+                try {
+                    world.setBlockState(basePos, block.getDefaultState(), 3);
+                    block.onBlockPlacedBy(world, basePos, world.getBlockState(basePos),
+                            player, placedItem);
+                    BlockPos harvestPos = part == 0 ? basePos
+                            : findUpholsteredPart(world, basePos, block);
+                    require(harvestPos != null, "No other part of " + paths[index] + " was placed");
+                    require(UpholsteryColourHelper.getColour(world, harvestPos)
+                            == UpholsteryColour.PURPLE,
+                            "Placed " + paths[index] + " part did not retain purple upholstery");
+                    IBlockState state = world.getBlockState(harvestPos);
+                    Block harvestedBlock = state.getBlock();
+                    TileEntity tile = world.getTileEntity(harvestPos);
+                    require(harvestedBlock.removedByPlayer(state, world, harvestPos, player, true),
+                            "Could not harvest " + paths[index] + " part " + part);
+                    List<ItemStack> drops = harvestedBlock.getDrops(world, harvestPos, state, 0);
+                    require(drops.size() == 1 && drops.get(0).getItem()
+                            == Item.getItemFromBlock(block)
+                            && UpholsteryColourHelper.getColour(drops.get(0))
+                            == UpholsteryColour.PURPLE,
+                            "Upholstered furniture lost its colour after removal: "
+                                    + paths[index] + " part " + part + " -> " + drops);
+                    AxisAlignedBB dropArea = new AxisAlignedBB(harvestPos)
+                            .expand(2.0D, 2.0D, 2.0D);
+                    Set<Integer> existingItems = new HashSet<>();
+                    for (EntityItem entity : world.getEntitiesWithinAABB(EntityItem.class, dropArea)) {
+                        existingItems.add(entity.getEntityId());
+                    }
+                    harvestedBlock.harvestBlock(world, player, harvestPos, state, tile,
+                            new ItemStack(net.minecraft.init.Items.IRON_AXE));
+                    int actualDrops = 0;
+                    for (EntityItem entity : world.getEntitiesWithinAABB(EntityItem.class, dropArea)) {
+                        if (existingItems.contains(entity.getEntityId())) continue;
+                        ItemStack dropped = entity.getEntityItem();
+                        require(dropped.getItem() == Item.getItemFromBlock(block)
+                                && dropped.hasTagCompound()
+                                && UpholsteryColour.PURPLE.getSerializedName().equals(
+                                        dropped.getTagCompound().getString(
+                                                UpholsteryColourHelper.COLOUR_TAG))
+                                && UpholsteryColourHelper.getColour(dropped)
+                                == UpholsteryColour.PURPLE,
+                                "Upholstered furniture spawned a drop with the wrong colour: "
+                                        + paths[index] + " -> " + dropped);
+                        actualDrops++;
+                    }
+                    require(actualDrops == 1,
+                            paths[index] + " spawned " + actualDrops + " drops");
+                    require(world.isAirBlock(harvestPos),
+                            "Harvested upholstered furniture remained in the world");
+                } finally {
+                    for (int x = -2; x <= 2; x++) {
+                        for (int z = -2; z <= 2; z++) {
+                            for (int y = 0; y <= 2; y++) {
+                                BlockPos partPos = basePos.add(x, y, z);
+                                if (block.getClass().isInstance(world.getBlockState(partPos).getBlock())) {
+                                    world.setBlockToAir(partPos);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            LOGGER.info("Upholstered furniture harvest preserved purple from base and another part: {}",
+                    paths[index]);
+        }
+    }
+
+    private static BlockPos findUpholsteredPart(WorldServer world, BlockPos basePos, Block block) {
+        for (int y = 0; y <= 2; y++) {
+            for (int x = -2; x <= 2; x++) {
+                for (int z = -2; z <= 2; z++) {
+                    BlockPos candidate = basePos.add(x, y, z);
+                    if (!candidate.equals(basePos) && block.getClass().isInstance(
+                            world.getBlockState(candidate).getBlock())) {
+                        return candidate;
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     private static List<ExpectedEntry> readExpectedEntries(String resourceName) {
