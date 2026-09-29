@@ -55,7 +55,7 @@ public final class HeldCandleSmoke {
         double yaw = Math.toRadians(firstPerson ? player.rotationYaw : player.renderYawOffset);
         double x = player.posX + Math.cos(yaw) * lateral - Math.sin(yaw) * forward;
         double y = player.posY + player.getEyeHeight()
-                - (firstPerson ? 0.82D : 0.36D) - (player.isSneaking() ? 0.16D : 0.0D);
+                - (firstPerson ? 0.50D : 0.36D) - (player.isSneaking() ? 0.16D : 0.0D);
         double z = player.posZ + Math.sin(yaw) * lateral + Math.cos(yaw) * forward;
         player.world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL,
                 x, y, z, 0.0D, 0.015D, 0.0D);
