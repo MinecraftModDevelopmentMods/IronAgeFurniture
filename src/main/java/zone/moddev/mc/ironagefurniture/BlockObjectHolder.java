@@ -1,8 +1,17 @@
 package zone.moddev.mc.ironagefurniture;
 
 import net.minecraft.block.Block;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class BlockObjectHolder {
+	public static final Map<String, Block> chair_wood_ironage_wingback = new LinkedHashMap<String, Block>();
+	public static final Map<String, Block> chair_wood_ironage_throne = new LinkedHashMap<String, Block>();
+	public static final Map<String, Block> bed_canopy_single = new LinkedHashMap<String, Block>();
+	public static final Map<String, Block> bed_canopy_double_left = new LinkedHashMap<String, Block>();
+	public static final Map<String, Block> bed_canopy_double_right = new LinkedHashMap<String, Block>();
+	public static final Map<String, Block> bed_wood_single = new LinkedHashMap<String, Block>();
+	public static final Map<String, Block> bed_wood_double = new LinkedHashMap<String, Block>();
 	public static Block chair_wood_ironage_classic_oak;
 	public static Block chair_wood_ironage_classic_acacia;
 	public static Block chair_wood_ironage_classic_big_oak;
@@ -639,8 +648,12 @@ public class BlockObjectHolder {
 	public static Block light_metal_ironage_sconce_wall_empty_iron;
 	public static Block light_metal_ironage_sconce_floor_torch_iron;
 	public static Block light_metal_ironage_sconce_floor_torch_iron_unlit;
+	public static Block light_metal_ironage_sconce_floor_torch_iron_twin;
+	public static Block light_metal_ironage_sconce_floor_torch_iron_twin_unlit;
 	public static Block light_metal_ironage_sconce_wall_torch_iron;
 	public static Block light_metal_ironage_sconce_wall_torch_iron_unlit;
+	public static Block light_metal_ironage_sconce_wall_torch_iron_twin;
+	public static Block light_metal_ironage_sconce_wall_torch_iron_twin_unlit;
 	public static Block light_metal_ironage_sconce_floor_redtorch_iron;
 	public static Block light_metal_ironage_sconce_floor_redtorch_iron_unlit;
 	public static Block light_metal_ironage_sconce_wall_redtorch_iron;
@@ -648,6 +661,28 @@ public class BlockObjectHolder {
 	public static Block light_metal_ironage_block_floor_glow_clear;
 	public static Block light_metal_ironage_sconce_floor_glow_iron;
 	public static Block light_metal_ironage_sconce_wall_glow_iron;
+	public static Block light_metal_ironage_sconce_floor_rocksalt_iron;
+	public static Block light_metal_ironage_sconce_wall_rocksalt_iron;
+	public static Block light_metal_ironage_candle_floor;
+	public static Block light_metal_ironage_candle_wall;
+	public static Block light_metal_ironage_candle_floor_unlit;
+	public static Block light_metal_ironage_candle_wall_unlit;
+	public static Block light_metal_ironage_sconce_floor_candle_iron;
+	public static Block light_metal_ironage_sconce_floor_candle_iron_two;
+	public static Block light_metal_ironage_sconce_floor_candle_iron_three;
+	public static Block light_metal_ironage_sconce_floor_candle_iron_four;
+	public static Block light_metal_ironage_sconce_floor_candle_iron_unlit;
+	public static Block light_metal_ironage_sconce_floor_candle_iron_two_unlit;
+	public static Block light_metal_ironage_sconce_floor_candle_iron_three_unlit;
+	public static Block light_metal_ironage_sconce_floor_candle_iron_four_unlit;
+	public static Block light_metal_ironage_sconce_wall_candle_iron;
+	public static Block light_metal_ironage_sconce_wall_candle_iron_two;
+	public static Block light_metal_ironage_sconce_wall_candle_iron_three;
+	public static Block light_metal_ironage_sconce_wall_candle_iron_four;
+	public static Block light_metal_ironage_sconce_wall_candle_iron_unlit;
+	public static Block light_metal_ironage_sconce_wall_candle_iron_two_unlit;
+	public static Block light_metal_ironage_sconce_wall_candle_iron_three_unlit;
+	public static Block light_metal_ironage_sconce_wall_candle_iron_four_unlit;
 	public static Block light_metal_ironage_block_floor_lava_clear;
 	public static Block light_metal_ironage_sconce_floor_lava_iron;
 	public static Block light_metal_ironage_sconce_wall_lava_iron;

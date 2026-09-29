@@ -168,6 +168,11 @@ public class LightSourceSconceTorchWall extends LightSourceSconceTorchFloor {
         return BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron;
     }
 
+	@Override
+	protected Block GetTwinTorchVariant() {
+		return BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron_twin;
+	}
+
     @Override
     protected Block GetLavaVariant() {
         return BlockObjectHolder.light_metal_ironage_sconce_wall_lava_iron;

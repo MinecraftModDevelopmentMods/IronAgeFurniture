@@ -1,3 +1,35 @@
+# IronAgeFurniture 0.4.0.110021 (unreleased)
+
+Phase 4 candidate for Minecraft 1.10.2 and Forge 12.18.3.2511. The update
+feed continues to advertise the published `0.3.0.110021` release.
+
+- Add colour-preserving multiblock wooden and canopy beds, wingback chairs,
+  and thrones. Untagged old items and placed furniture retain red upholstery.
+  Register the wingback and throne upgrade recipes explicitly for each
+  available wood, and validate their crafting results for all carpet colours.
+- Make shield chairs removable and reattachable while preserving the complete
+  vanilla shield item, including damage, banner design, enchantments, and name.
+  Existing untagged chairs still contain a plain shield.
+- Add twin-torch sconces, standalone and sconce-mounted candles, optional
+  Mineralogy rock-salt sconces, and gold/Base Metals sconce materials. Existing
+  iron IDs and facing metadata remain stable; missing metal data means iron.
+- Give a carried candle a small animated flame and occasional smoke. The effect
+  is visual only and does not need OptiFine; OptiFine's Dynamic Lights can also
+  illuminate the surroundings while the candle is held.
+- Release wall-sconce lava lamps on a redstone signal when air lies below.
+  Released lamps land intact in Creative, but shatter and ignite in other modes.
+- Expand to 17 locale choices, preserving Phase 3 labels and using English
+  fallback where the older 1.0 translations lack newer padded-bench names.
+  Include the colour labels used by upholstered furniture item names in every
+  locale so crafted variants do not display raw translation keys.
+- Add six CFM wooden-chair conversion recipes, a default-off forced-conversion
+  option, and missing block/item recovery even when CFM is absent. The latter
+  retains old numeric chair IDs for unopened chunks across restarts without
+  remapping them onto already-registered IAF IDs in Forge 1.10.
+- Fix forced CFM conversion for chairs stored in chests and other block
+  inventories, and include chairs inside carried containers when a player joins.
+- Keep CFM, Mineralogy, and Base Metals optional at runtime.
+
 # IronAgeFurniture 0.3.0.110021
 
 Phase 3 lighting release for Minecraft 1.10.2 and Forge 12.18.3.2511.

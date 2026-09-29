@@ -2,7 +2,10 @@ package zone.moddev.mc.ironagefurniture.init;
 
 import zone.moddev.mc.ironagefurniture.BlockObjectHolder;
 import zone.moddev.mc.ironagefurniture.IronAgeFurnitureConfiguration;
+import zone.moddev.mc.ironagefurniture.Ironagefurniture;
 import zone.moddev.mc.ironagefurniture.api.FurnitureFactory;
+import zone.moddev.mc.ironagefurniture.api.CfmChairMigration;
+import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -12,18 +15,29 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
+import net.minecraftforge.oredict.RecipeSorter;
 
 public class RecipeInitialiser {
 	protected RecipeInitialiser() {
 		throw new IllegalAccessError("This class cannot be instansiated");
 	}
 
-	/**
-	 *
-	 */
 	public static void init() {
+		registerCustomRecipeTypes();
 		generateChairRecipes();
 		generateLightRecipes();
+	}
+
+	private static void registerCustomRecipeTypes() {
+		RecipeSorter.register("ironagefurniture:shield_chair",
+			zone.moddev.mc.ironagefurniture.api.recipes.ShieldChairRecipe.class,
+			RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
+		RecipeSorter.register("ironagefurniture:matching_upholstery",
+			zone.moddev.mc.ironagefurniture.api.recipes.MatchingUpholsteryRecipe.class,
+			RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
+		RecipeSorter.register("ironagefurniture:bed_recolour",
+			zone.moddev.mc.ironagefurniture.api.recipes.BedRecolourRecipe.class,
+			RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
 	}
 
 	private static void generateLightRecipes() {
@@ -57,12 +71,13 @@ public class RecipeInitialiser {
 	private static void generateChairRecipes() {
 
 		if (IronAgeFurnitureConfiguration.CFM_CONVERSION_RECIPES && Loader.isModLoaded("cfm")) {
-			FurnitureFactory.AddChairConversionRecipe(Block.getBlockFromName("cfm:chair_oak"), BlockObjectHolder.chair_wood_ironage_classic_oak);
-			FurnitureFactory.AddChairConversionRecipe(Block.getBlockFromName("cfm:chair_spruce"), BlockObjectHolder.chair_wood_ironage_classic_spruce);
-			FurnitureFactory.AddChairConversionRecipe(Block.getBlockFromName("cfm:chair_birch"), BlockObjectHolder.chair_wood_ironage_classic_birch);
-			FurnitureFactory.AddChairConversionRecipe(Block.getBlockFromName("cfm:chair_jungle"), BlockObjectHolder.chair_wood_ironage_classic_jungle);
-			FurnitureFactory.AddChairConversionRecipe(Block.getBlockFromName("cfm:chair_acacia"), BlockObjectHolder.chair_wood_ironage_classic_acacia);
-			FurnitureFactory.AddChairConversionRecipe(Block.getBlockFromName("cfm:chair_big_oak"), BlockObjectHolder.chair_wood_ironage_classic_big_oak);
+			for (Map.Entry<String, String> chair : CfmChairMigration.chairMappings().entrySet()) {
+				Block oldChair = Block.getBlockFromName(chair.getKey());
+				Block newChair = Ironagefurniture.BlockRegistry.get(chair.getValue());
+				if (oldChair != null && newChair != null) {
+					FurnitureFactory.AddChairConversionRecipe(oldChair, newChair);
+				}
+			}
 		}
 
 

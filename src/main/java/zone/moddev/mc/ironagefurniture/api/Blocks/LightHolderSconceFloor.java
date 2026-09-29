@@ -6,6 +6,10 @@ import com.google.common.collect.Lists;
 import zone.moddev.mc.ironagefurniture.BlockObjectHolder;
 import zone.moddev.mc.ironagefurniture.Ironagefurniture;
 import zone.moddev.mc.ironagefurniture.api.Enumerations.Rotation;
+import zone.moddev.mc.ironagefurniture.api.MetalVariantHelper;
+import zone.moddev.mc.ironagefurniture.api.MetalVariantHelper.MetalVariant;
+import zone.moddev.mc.ironagefurniture.api.MineralogyCompat;
+import zone.moddev.mc.ironagefurniture.api.tile.TileEntityMetalVariant;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -18,6 +22,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -64,7 +69,8 @@ public class LightHolderSconceFloor extends BlockHBase {
         this.blockResistance = resistance;
         this.blockHardness   = hardness;
         this.setCreativeTab(Ironagefurniture.ironagefurnitureTab);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH)
+			.withProperty(MetalVariantHelper.METAL, MetalVariant.IRON));
 	}
 
 	@Override
@@ -82,7 +88,27 @@ public class LightHolderSconceFloor extends BlockHBase {
 	@Override
 	protected BlockStateContainer createBlockState()
 	{
-		return new BlockStateContainer(this, new IProperty[] { FACING });
+		return new BlockStateContainer(this, new IProperty[] { FACING, MetalVariantHelper.METAL });
+	}
+
+	@Override
+	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+		return MetalVariantHelper.withMetal(state, worldIn, pos);
+	}
+
+	@Override
+	public boolean hasTileEntity(IBlockState state) {
+		return true;
+	}
+
+	@Override
+	public TileEntity createTileEntity(World world, IBlockState state) {
+		return new TileEntityMetalVariant();
+	}
+
+	@Override
+	public float getBlockHardness(IBlockState blockState, World worldIn, BlockPos pos) {
+		return MetalVariantHelper.getHardness(worldIn, pos, this.blockHardness);
 	}
 
 	private boolean canPlaceOn(World worldIn, BlockPos pos)
@@ -222,12 +248,19 @@ public class LightHolderSconceFloor extends BlockHBase {
 	    else if (heldItem.getItem() == Item.getItemFromBlock(Blocks.REDSTONE_TORCH)) {
 	        newBlock = GetRedTorchVariant();
 	    }
+	    else if (heldItem.getItem() == Item.getItemFromBlock(BlockObjectHolder.light_metal_ironage_candle_floor)) {
+	        newBlock = GetCandleVariant();
+	    }
 	    else if (heldItem.getItem() == Item.getItemFromBlock(BlockObjectHolder.light_metal_ironage_block_floor_red_clear)) {
 	        newBlock = GetRedVariant(); // Redstone lamp
 	    }
+	    else if (MineralogyCompat.isRockSaltLampItem(heldItem)) {
+	        newBlock = GetRockSaltVariant();
+	    }
 
 	    if (newBlock != null) {
-	        worldIn.setBlockState(pos, newBlock.getDefaultState().withProperty(FACING, state.getValue(FACING)), 3 /* UPDATE_ALL */);
+	        MetalVariantHelper.replaceBlockPreservingMetal(worldIn, pos,
+				newBlock.getDefaultState().withProperty(FACING, state.getValue(FACING)), 3 /* UPDATE_ALL */);
 
 	        if (!playerIn.capabilities.isCreativeMode) {
 	            heldItem.stackSize--;
@@ -241,7 +274,7 @@ public class LightHolderSconceFloor extends BlockHBase {
 
 	 @Override
 	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-		 return Lists.newArrayList(new ItemStack(this));
+		 return Lists.newArrayList(MetalVariantHelper.getDrop(this, world, pos));
 	}
 
     protected Block GetWallVariant()		{ return BlockObjectHolder.light_metal_ironage_sconce_wall_empty_iron; }
@@ -250,5 +283,8 @@ public class LightHolderSconceFloor extends BlockHBase {
     protected Block GetLavaVariant()		{ return BlockObjectHolder.light_metal_ironage_sconce_floor_lava_iron; }
     protected Block GetRedTorchVariant()	{ return BlockObjectHolder.light_metal_ironage_sconce_floor_redtorch_iron; }
     protected Block GetRedVariant()   		{ return BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron; }
+	protected Block GetCandleVariant()		{ return BlockObjectHolder.light_metal_ironage_sconce_floor_candle_iron; }
+	protected Block GetRockSaltVariant()	{ return BlockObjectHolder.light_metal_ironage_sconce_floor_rocksalt_iron; }
+	protected Block GetTwinTorchVariant()	{ return BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron_twin; }
     protected Block GetUnlitTorchVariant() 	{ return BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron_unlit; }
 }

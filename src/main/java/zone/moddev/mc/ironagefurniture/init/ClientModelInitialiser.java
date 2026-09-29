@@ -6,6 +6,9 @@ import zone.moddev.mc.ironagefurniture.Ironagefurniture;
 import zone.moddev.mc.ironagefurniture.api.Enumerations.PaddedBenchColour;
 import zone.moddev.mc.ironagefurniture.api.Items.ItemBlockPaddedBench;
 import zone.moddev.mc.ironagefurniture.client.model.PaddedBenchModelLoader;
+import zone.moddev.mc.ironagefurniture.client.model.UpholsteryModelLoader;
+import zone.moddev.mc.ironagefurniture.api.Enumerations.UpholsteryColour;
+import zone.moddev.mc.ironagefurniture.api.Items.ItemBlockUpholsteredFurniture;
 
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
@@ -28,6 +31,7 @@ public final class ClientModelInitialiser {
 		}
 		registered = true;
 		ModelLoaderRegistry.registerLoader(PaddedBenchModelLoader.INSTANCE);
+		ModelLoaderRegistry.registerLoader(UpholsteryModelLoader.INSTANCE);
 	}
 
 	public static void registerPaddedBenchItemModels() {
@@ -39,6 +43,17 @@ public final class ClientModelInitialiser {
 				ModelLoader.setCustomModelResourceLocation(entry.getValue(), colour.getItemMetadata(),
 						new ModelResourceLocation(Ironagefurniture.MODID + ":padded/"
 								+ colour.getSerializedName() + "/" + entry.getKey(), "inventory"));
+			}
+		}
+	}
+
+	public static void registerUpholsteryItemModels() {
+		for (Map.Entry<String, Item> entry : Ironagefurniture.ItemRegistry.entrySet()) {
+			if (!(entry.getValue() instanceof ItemBlockUpholsteredFurniture)) continue;
+			for (UpholsteryColour colour : UpholsteryColour.values()) {
+				ModelLoader.setCustomModelResourceLocation(entry.getValue(), colour.getItemMetadata(),
+					new ModelResourceLocation(Ironagefurniture.MODID + ":upholstered/"
+						+ colour.getSerializedName() + "/" + entry.getKey(), "inventory"));
 			}
 		}
 	}

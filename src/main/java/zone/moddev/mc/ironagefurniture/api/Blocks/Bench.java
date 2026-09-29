@@ -24,7 +24,6 @@ import net.minecraft.world.World;
 public class Bench extends BackBench {
 	public Bench(Material materialIn, String name, float resistance, boolean tall, double yOffset, float hardness) {
 		super(materialIn, name, resistance, tall, yOffset, hardness);
-		// TODO Auto-generated constructor stub
 	}
 
 	private static final AxisAlignedBB BBSHORT = new AxisAlignedBB(0.2, 0.0, 0.2, 0.9, 0.45, 0.9);

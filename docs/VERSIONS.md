@@ -12,12 +12,12 @@ Iron Age Furniture uses the MMD four-component version form:
   zero-padded patch (`pp`), then loader code (`L`).
 - Loader code `1` means Forge.
 
-For Minecraft 1.10.2 on Forge, the target is `110021`, so this release is
-`0.3.0.110021`.
+For Minecraft 1.10.2 on Forge, the target is `110021`. The published Phase 3
+release is `0.3.0.110021`; the unreleased Phase 4 candidate is `0.4.0.110021`.
 
 The maintained Java package is `zone.moddev.mc.ironagefurniture`. Maven
-publications use group `zone.moddev.mc`, giving this release the coordinate
-`zone.moddev.mc:iron-age-furniture:0.3.0.110021`. The persistent mod and
+publications use group `zone.moddev.mc`, giving the candidate the coordinate
+`zone.moddev.mc:iron-age-furniture:0.4.0.110021`. The persistent mod and
 resource namespace remains `ironagefurniture`.
 
 The build checks that the fourth component agrees with the selected Minecraft

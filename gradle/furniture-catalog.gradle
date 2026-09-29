@@ -1,5 +1,8 @@
 import groovy.json.JsonSlurper
 
+// The catalog records the supported woods, colours and lighting IDs. Normal
+// builds verify the checked-in Java and assets; update tasks rewrite them only
+// when the catalog is intentionally changed.
 def furnitureCatalogFile = layout.projectDirectory.file('gradle/furniture-catalog.json')
 def furnitureCatalogSnapshot = layout.projectDirectory.file('gradle/furniture-catalog.snapshot')
 def paddedBlockModelRoot = layout.projectDirectory.dir(
@@ -45,6 +48,11 @@ def catalogSnapshotText = { Map catalog ->
     }
     lines.add("fireproofWoods=${(catalog.fireproofWoods as List).join(',')}")
     lines.add("lighting=${(catalog.lighting as List).join(',')}")
+    Map phaseFour = catalog.phaseFour as Map
+    lines.add("phaseFour.woodPrefixes=${(phaseFour.woodPrefixes as List).join(',')}")
+    lines.add("phaseFour.lighting=${(phaseFour.lighting as List).join(',')}")
+    lines.add("phaseFour.locales=${(phaseFour.locales as List).join(',')}")
+    lines.add("phaseFour.cfmChairs=${(phaseFour.cfmChairs as List).join(',')}")
     lines.join('\n') + '\n'
 }
 
@@ -89,6 +97,7 @@ tasks.register('updatePaddedBenchColourAssets') {
 
         Set<String> colourNames = paddedColours.collect { it.name } as Set<String>
         fileTree(paddedLocaleRoot) { include '*.lang' }.files.sort().each { File locale ->
+            if (!locale.name.startsWith('en_')) return
             Set<String> seenKeys = [] as LinkedHashSet<String>
             List<String> retained = locale.readLines('UTF-8').findAll { String line ->
                 int separator = line.indexOf('=')
@@ -133,7 +142,7 @@ tasks.register('updatePaddedBenchColourAssets') {
 
 tasks.register('updateFurnitureCatalog') {
     group = 'generation'
-    description = 'Regenerates the deterministic Phase 3 catalog snapshot used to audit legacy Java registrations.'
+    description = 'Regenerates the deterministic Phase 3 and Phase 4 furniture catalog snapshot.'
     inputs.file furnitureCatalogFile
     outputs.file furnitureCatalogSnapshot
     dependsOn tasks.named('updatePaddedBenchColourAssets')
@@ -160,7 +169,7 @@ tasks.register('verifyFurnitureCatalog') {
     }
     doLast {
         Map catalog = readFurnitureCatalog()
-        if (catalog.schema != 1 || catalog.minecraft != project.minecraft_version.toString()
+        if (catalog.schema != 2 || catalog.minecraft != project.minecraft_version.toString()
                 || catalog.loader != project.loader_name.toString()) {
             throw new GradleException('Furniture catalog targets the wrong schema, Minecraft version, or loader')
         }
@@ -218,15 +227,14 @@ tasks.register('verifyFurnitureCatalog') {
             }
         }
 
-        List<String> forbiddenPhaseFourContent = [
-                'candle', 'chandelier', 'hanging_inn_sign', 'wingback', 'throne',
-                'chair_wood_ironage_bed', 'table_wood_', 'shelf_wood_', 'cabinet_wood_',
+        List<String> forbiddenUnrelatedContent = [
+                'chandelier', 'hanging_inn_sign', 'table_wood_', 'shelf_wood_', 'cabinet_wood_',
                 'PowerAdvantage', 'poweradvantage'
         ]
         String maintainedSource = blockSource + '\n' + recipeSource
-        forbiddenPhaseFourContent.each { value ->
+        forbiddenUnrelatedContent.each { value ->
             if (maintainedSource.contains(value)) {
-                throw new GradleException("Phase 4/1.0-only content leaked into the Phase 3 catalog: ${value}")
+                throw new GradleException("Unselected 1.0 content leaked into the Phase 4 catalog: ${value}")
             }
         }
 
@@ -244,6 +252,8 @@ tasks.register('verifyFurnitureCatalog') {
         if (registeredIds.isEmpty()) {
             throw new GradleException('No furniture registrations were discovered')
         }
+        Set<String> phaseFourLighting = (catalog.phaseFour.lighting as List) as TreeSet<String>
+        Set<String> phaseThreeIds = registeredIds.findAll { !phaseFourLighting.contains(it) } as TreeSet<String>
 
         List<String> catalogWoods = (catalog.woods as Map).values()
                 .collectMany { it as List<String> }
@@ -252,10 +262,10 @@ tasks.register('verifyFurnitureCatalog') {
             expectedPaddedIds.add("chair_wood_ironage_bench_padded_single_${wood}")
             expectedPaddedIds.add("chair_wood_ironage_bench_back_padded_single_${wood}")
         }
-        Set<String> registeredPaddedIds = registeredIds.findAll {
+        Set<String> registeredPaddedIds = phaseThreeIds.findAll {
             it ==~ /chair_wood_ironage_bench(?:_back)?_padded_single_.+/
         } as TreeSet<String>
-        if (registeredIds.size() != 649 || registeredPaddedIds != expectedPaddedIds) {
+        if (phaseThreeIds.size() != 649 || registeredPaddedIds != expectedPaddedIds) {
             throw new GradleException('Coloured padded benches must reuse the existing 649 block/item IDs '
                     + 'and both existing padded forms for every catalog wood')
         }
@@ -277,7 +287,7 @@ tasks.register('verifyFurnitureCatalog') {
 
         File blockstateRoot = file('src/main/resources/assets/ironagefurniture/blockstates')
         File itemModelRoot = file('src/main/resources/assets/ironagefurniture/models/item')
-        registeredIds.each { String id ->
+        phaseThreeIds.each { String id ->
             boolean hiddenRedstoneState = id ==~ /light_metal_ironage_(?:block|sconce)_(?:floor|wall)_red_(?:clear|iron)_.+/
             if (!new File(blockstateRoot, "${id}.json").isFile()
                     || (!hiddenRedstoneState && !new File(itemModelRoot, "${id}.json").isFile())) {
@@ -355,11 +365,22 @@ tasks.register('verifyFurnitureCatalog') {
             }
             locales[locale.name] = entries
         }
-        if (locales.size() != 3 || locales.values().toSet().size() != 1) {
-            throw new GradleException('The three English locale files must have identical keys and values')
+        Set<String> expectedLocaleFiles = (catalog.phaseFour.locales as List)
+                .collect { "${it}.lang" } as TreeSet<String>
+        if (locales.keySet() as TreeSet<String> != expectedLocaleFiles) {
+            throw new GradleException('Phase 4 must provide exactly the 17 supported locales')
         }
-
-        Map<String, String> referenceLocale = locales.values().first()
+        Map<String, String> referenceLocale = locales['en_US.lang']
+        locales.each { name, entries ->
+            if (entries.keySet() != referenceLocale.keySet() || entries.values().any { !it?.trim() }) {
+                throw new GradleException("Locale keys or values differ from the parity contract: ${name}")
+            }
+        }
+        ['en_EN.lang', 'en_GB.lang'].each { name ->
+            if (locales[name] != referenceLocale) {
+                throw new GradleException("English Phase 3 aliases differ: ${name}")
+            }
+        }
         registeredPaddedIds.each { String id ->
             paddedColours.each { colour ->
                 String suffix = colour.name == 'red' ? '' : ".${colour.name}"
@@ -442,6 +463,84 @@ tasks.register('verifyFurnitureCatalog') {
             String key = "tile.ironagefurniture.${id}.name"
             if (!locales.values().every { it.containsKey(key) }) {
                 throw new GradleException("Phase 3 locale key is missing: ${key}")
+            }
+        }
+
+        String phaseFourSource = file(
+                'src/main/java/zone/moddev/mc/ironagefurniture/init/PhaseFourFurnitureInitialiser.java')
+                .getText('UTF-8')
+        String cfmSource = file(
+                'src/main/java/zone/moddev/mc/ironagefurniture/api/CfmChairMigration.java')
+                .getText('UTF-8')
+        if (!modSource.contains('PhaseFourFurnitureInitialiser.registerBlocks();')
+                || !modSource.contains('PhaseFourFurnitureInitialiser.registerRecipes();')
+                || !modSource.contains('CfmChairMigration.remapMissingMappings(event);')
+                || !phaseFourSource.contains('WoodVariantHelper.getEnabledWoodSuffixes()')
+                || !phaseFourSource.contains('FurnitureFactory.AddWingbackChairRecipe')
+                || !phaseFourSource.contains('FurnitureFactory.AddThroneChairRecipe')
+                || !phaseFourSource.contains('FurnitureFactory.AddBedRecolourRecipe')
+                || !factorySource.contains('new ShieldChair(Material.WOOD')
+                || !factorySource.contains('new ShieldChairRecipe(chairIn, chairOut)')) {
+            throw new GradleException('Phase 4 furniture, shield, and migration registration is incomplete')
+        }
+        (catalog.phaseFour.cfmChairs as List).each { String id ->
+            if (!cfmSource.contains("cfm:${id}")) {
+                throw new GradleException("Missing CFM chair remap: ${id}")
+            }
+        }
+        if (!cfmSource.contains('if (mapping.type == GameRegistry.Type.BLOCK)')
+                || !cfmSource.contains('mapping.type == GameRegistry.Type.ITEM')
+                || !cfmSource.contains('FORCE_CFM_CHAIR_CONVERSION')) {
+            throw new GradleException('CFM block/item remaps must remain active independently of forced conversion')
+        }
+
+        File generatedModelsFile = file(
+                'src/main/resources/assets/ironagefurniture/generated/simple_model_resources.json')
+        Map generatedModels = (new JsonSlurper().parse(generatedModelsFile) as Map).generatedModels as Map
+        Closure verifyPhaseFourState = { String id ->
+            File stateFile = new File(blockstateRoot, "${id}.json")
+            if (!stateFile.isFile()) {
+                throw new GradleException("Phase 4 blockstate is missing: ${id}")
+            }
+            Map state = new JsonSlurper().parse(stateFile) as Map
+            Map variants = state.variants as Map
+            if (variants == null || variants.isEmpty()) {
+                throw new GradleException("Phase 4 blockstate has no variants: ${id}")
+            }
+            variants.values().collectMany { it instanceof List ? it : [it] }.each { value ->
+                String modelName = (value as Map).model?.toString()
+                if (modelName == null || !modelName.startsWith('ironagefurniture:')) {
+                    throw new GradleException("Phase 4 model reference is invalid: ${id}")
+                }
+                String path = modelName.substring('ironagefurniture:'.length())
+                if (path.startsWith('upholstered/')) {
+                    path = path.substring('upholstered/'.length())
+                }
+                if (!generatedModels.containsKey("models/block/${path}.json".toString())
+                        && !new File(blockModelRoot, "${path}.json").isFile()) {
+                    throw new GradleException("Phase 4 model is missing: ${id} -> ${path}")
+                }
+            }
+        }
+        (catalog.phaseFour.woodPrefixes as List).each { String prefix ->
+            catalogWoods.each { String wood ->
+                verifyPhaseFourState("${prefix}${wood}")
+            }
+        }
+        phaseFourLighting.each { String id -> verifyPhaseFourState(id) }
+        if (!generatedModels.containsKey('models/item/tallow.json')
+                || !generatedModels.containsKey('models/item/shield_chair_filled/chair_wood_ironage_shield_oak.json')
+                || generatedModels.keySet().any { String path ->
+                    path.contains('chandelier') || path.contains('chain_top') || path.contains('foudre')
+                }) {
+            throw new GradleException('Phase 4 generated model manifest is missing selected assets or contains 1.0-only assets')
+        }
+        ['bed_canopy_foot_lower_oak', 'bed_wood_foot_oak',
+         'chair_wood_ironage_wingback_oak', 'chair_wood_ironage_throne_oak',
+         'light_metal_ironage_candle_floor', 'light_metal_ironage_sconce_floor_empty_iron.gold'].each { id ->
+            String key = "tile.ironagefurniture.${id}.name"
+            if (!locales.values().every { it.containsKey(key) }) {
+                throw new GradleException("Phase 4 locale key is missing: ${key}")
             }
         }
     }

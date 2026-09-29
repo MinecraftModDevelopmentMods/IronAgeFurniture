@@ -4,13 +4,25 @@
 
 # IronAgeFurniture
 
-IronAgeFurniture adds functional chairs, stools, benches, lamps, and sconces
-to Minecraft. Version `0.3.0.110021` brings the Phase 3 lighting release to
-Minecraft 1.10.2 with Forge 12.18.3.2511.
+IronAgeFurniture adds functional chairs, stools, benches, beds, lamps, and
+sconces to Minecraft. The unreleased `0.4.0.110021` candidate adds Phase 4
+furniture and lighting for Minecraft 1.10.2 with Forge 12.18.3.2511.
 
 Phase 3 contains the established seating collection plus empty, torch,
 redstone-torch, glow, lava, and redstone lighting, including throwable lava
 lamps and obsidian chunks.
+
+Phase 4 adds multiblock wooden and canopy beds, wingback and throne chairs,
+removable shield chairs, twin-torch sconces, candles, Mineralogy rock-salt
+sconces, and gold/Base Metals sconce materials. Wall lava-lamp sconces can
+release their lamp on redstone, landing intact in Creative but shattering and
+igniting the landing area in other modes. Seventeen locale choices and CFM
+wooden-chair migration support are included.
+
+Carried candles show a small animated flame and a little smoke without any
+extra mod. With OptiFine's Dynamic Lights enabled, a held candle can also light
+the area around you; that illumination is an OptiFine visual effect, not a
+placed light block.
 
 ## Requirements
 
@@ -35,6 +47,9 @@ loaded:
 - Natura
 - Forestry
 - Immersive Engineering
+- Base Metals (extra sconce materials)
+- Mineralogy (rock-salt lamps)
+- MrCrayfish's Furniture Mod (chair conversion recipes)
 
 All integrations are optional. A normal installation requires none of them,
 and furniture for an absent integration is not registered. Minecraft 1.10.2
@@ -45,12 +60,18 @@ in Java rather than packaging later-version recipe or advancement JSON.
 
 The persistent mod ID, registry names, resource paths, configuration names,
 entities, and saved-world identity remain under `ironagefurniture`. Existing
-Phase 2 worlds therefore retain their surviving furniture identities.
+Phase 2 and Phase 3 worlds therefore retain their surviving furniture
+identities. Untagged older furniture uses red upholstery or a plain shield;
+older sconces with no metal data remain iron. When CFM is absent, its six
+wooden chair block and saved item identities are recovered as classic chairs;
+IAF records the old numeric IDs in the world so unopened chunks still migrate
+after a restart. Forced conversion while CFM remains installed is a separate,
+default-off option. Back up older worlds before first opening them in Phase 4.
 
 The supported Java namespace is `zone.moddev.mc.ironagefurniture`. Add-ons
 compiled against the former `com.mcmoddev.ironagefurniture` packages must
 update their imports. The Maven coordinate is
-`zone.moddev.mc:iron-age-furniture:0.3.0.110021`.
+`zone.moddev.mc:iron-age-furniture:0.4.0.110021`.
 
 See [CHANGELOG.md](CHANGELOG.md) for release notes and
 [docs/VERSIONS.md](docs/VERSIONS.md) for the versioning scheme. Report bugs
@@ -67,6 +88,8 @@ use a newer Temurin Java 8 patch release for the compiler toolchain.
 gradlew.bat clean check build javadoc verifyReleaseArtifacts verifyReleaseChecksums
 gradlew.bat prepareEclipse verifyEclipseProductionClasspath
 ```
+
+The build tasks and their scripts are described in [gradle/README.md](gradle/README.md).
 
 The release process only publishes commits that have passed the hosted build,
 test, artifact, and security checks. Running the Gradle commands above creates
