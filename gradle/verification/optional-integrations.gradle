@@ -1,0 +1,371 @@
+import groovy.json.JsonSlurper
+import java.util.zip.ZipFile
+
+// These opt-in probes use exact optional-mod jars and a disposable Forge server.
+def java8Compiler = project.iafBuild.java8Compiler
+def java8Launcher = project.iafBuild.java8Launcher
+def archiveTextPatterns = project.iafBuild.archiveTextPatterns
+def normalizeArchiveLineEndings = project.iafBuild.normalizeArchiveLineEndings
+def sha256Of = project.iafBuild.sha256Of
+
+def optionalIntegrationManifestFile = layout.projectDirectory.file(
+        'gradle/verification/optional-integration-mods.json')
+def optionalIntegrationCatalogFile = layout.projectDirectory.file(
+        'gradle/furniture-catalog.json')
+def optionalIntegrationArtifactsDirectory = layout.projectDirectory.dir(
+        'run-optional-integrations/artifacts')
+tasks.register('verifyOptionalIntegrationMods') {
+    group = 'verification'
+    description = 'Verifies pinned optional-mod jars, identities, and every external texture reference.'
+    inputs.file optionalIntegrationManifestFile
+    inputs.files fileTree('src/main/resources/assets/ironagefurniture/models') {
+        include '**/*.json'
+    }
+    doLast {
+        Map manifest = new JsonSlurper().parse(optionalIntegrationManifestFile.asFile) as Map
+        if (manifest.minecraft != project.minecraft_version.toString()
+                || !(manifest.mods instanceof List) || manifest.mods.isEmpty()) {
+            throw new GradleException(
+                    'Optional-integration mod manifest is incomplete or targets the wrong game')
+        }
+
+        File artifactsDirectory = optionalIntegrationArtifactsDirectory.asFile
+        Map<String, Map> integrations = [:]
+        manifest.mods.each { mod ->
+            File candidate = new File(artifactsDirectory, mod.file.toString())
+            if (!candidate.isFile()) {
+                throw new GradleException("Missing optional-integration test mod ${candidate.name} in "
+                        + artifactsDirectory)
+            }
+            String actual = sha256Of(candidate)
+            if (!actual.equalsIgnoreCase(mod.sha256.toString())) {
+                throw new GradleException("Checksum mismatch for optional-integration test mod "
+                        + "${candidate.name}: expected ${mod.sha256}, found ${actual}")
+            }
+            new ZipFile(candidate).withCloseable { ZipFile zip ->
+                def metadataEntry = zip.getEntry('mcmod.info')
+                if (metadataEntry == null) {
+                    throw new GradleException("${candidate.name} has no mcmod.info")
+                }
+                String metadata = zip.getInputStream(metadataEntry)
+                        .withCloseable { it.getText('UTF-8') }
+                def declaredMods = new JsonSlurper().parseText(metadata)
+                if (!(declaredMods instanceof List)
+                        || !declaredMods.any { it instanceof Map && it.modid == mod.modId }) {
+                    throw new GradleException(
+                            "${candidate.name} does not declare exact mod ID ${mod.modId}")
+                }
+            }
+            if (mod.role == 'integration') {
+                if (!mod.assetNamespace) {
+                    throw new GradleException("${candidate.name} has no assetNamespace")
+                }
+                integrations[mod.assetNamespace.toString()] = [entry: mod, jar: candidate]
+            }
+        }
+
+        Map<String, Set<String>> externalTextures = integrations.keySet().collectEntries {
+            [(it): new TreeSet<String>()]
+        }
+        fileTree('src/main/resources/assets/ironagefurniture/models') { include '**/*.json' }
+                .files.each { model ->
+            String text = model.getText('UTF-8')
+            integrations.keySet().each { namespace ->
+                def matcher = text =~ /["']${java.util.regex.Pattern.quote(namespace)}:([^"']+)["']/
+                matcher.each { match ->
+                    String path = match[1].toString()
+                    if (path.startsWith('blocks/') || path.startsWith('items/')) {
+                        externalTextures[namespace].add(
+                                "assets/${namespace}/textures/${path}.png")
+                    }
+                }
+            }
+        }
+        externalTextures.each { namespace, paths ->
+            File jar = integrations[namespace].jar as File
+            new ZipFile(jar).withCloseable { ZipFile zip ->
+                Collection<String> missing = paths.findAll { zip.getEntry(it) == null }
+                if (!missing.isEmpty()) {
+                    throw new GradleException("${jar.name} is missing referenced textures: ${missing}")
+                }
+            }
+            if (paths.isEmpty()) {
+                throw new GradleException("No ${namespace} texture references were found")
+            }
+        }
+    }
+}
+
+def optionalIntegrationRunDirectory = layout.projectDirectory.dir('run-optional-integrations')
+def optionalIntegrationForgeInstaller = optionalIntegrationRunDirectory.file(
+        "forge-${minecraft_version}-${forge_version}-installer.jar")
+def optionalIntegrationForgeInstallerSha256 =
+        '664393C5A924B8F06CFB953903ABCF9FE5E99ECBE6AF8C7EA217339C766E519C'
+def optionalIntegrationProfile = providers.gradleProperty('integrationProfile').getOrElse('all')
+def optionalIntegrationServerDirectory = providers.gradleProperty('optionalIntegrationServerDir')
+        .map { project.file(it) }
+        .orElse(optionalIntegrationRunDirectory.dir('server').asFile)
+def optionalIntegrationModsDirectory = optionalIntegrationServerDirectory
+        .map { new File(it, 'mods') }
+def optionalIntegrationFixtureClasses = layout.buildDirectory.dir(
+        'optional-integration-fixture/classes')
+def optionalIntegrationFixtureGeneratedResources = layout.buildDirectory.dir(
+        'optional-integration-fixture/generated-resources')
+def optionalIntegrationFixtureJarFile = layout.buildDirectory.file(
+        'optional-integration-fixture/ironagefurniture-optional-integration-probe.jar')
+def optionalIntegrationForgeServerJar = optionalIntegrationServerDirectory.map {
+    new File(it, "forge-${minecraft_version}-${forge_version}-universal.jar")
+}
+
+tasks.register('generateOptionalIntegrationFixtureData') {
+    group = 'verification'
+    description = 'Generates the exact optional registrations and Java recipe outputs for the runtime probe.'
+    inputs.file optionalIntegrationCatalogFile
+    inputs.files fileTree('src/main/java/zone/moddev/mc/ironagefurniture/init') {
+        include 'BlockInitialiser.java'
+        include 'RecipeInitialiser.java'
+    }
+    outputs.dir optionalIntegrationFixtureGeneratedResources
+    doLast {
+        Map catalog = new JsonSlurper().parse(optionalIntegrationCatalogFile.asFile) as Map
+        Map<String, List<String>> integrationWoods = (catalog.woods as Map)
+                .findAll { name, woods -> name != 'vanilla' }
+                .collectEntries { name, woods -> [(name.toString()): woods as List<String>] }
+        String blockSource = file(
+                'src/main/java/zone/moddev/mc/ironagefurniture/init/BlockInitialiser.java')
+                .getText('UTF-8')
+        String recipeSource = file(
+                'src/main/java/zone/moddev/mc/ironagefurniture/init/RecipeInitialiser.java')
+                .getText('UTF-8')
+
+        Map<String, Set<String>> blocks = integrationWoods.collectEntries {
+            [(it.key): new TreeSet<String>()]
+        }
+        def registrationMatcher = blockSource =~ /FurnitureFactory\.Create\w*\("([^"]+)"/
+        registrationMatcher.each { match ->
+            String id = match[1].toString()
+            integrationWoods.each { profile, woods ->
+                if (woods.any { wood -> id.endsWith("_${wood}") }) blocks[profile].add(id)
+            }
+        }
+        blocks.each { profile, ids ->
+            if (ids.isEmpty()) throw new GradleException("No ${profile} registrations were discovered")
+        }
+
+        Set<String> recipeReferences = [] as TreeSet<String>
+        def recipeMatcher = recipeSource =~ /BlockObjectHolder\.([A-Za-z0-9_]+)/
+        recipeMatcher.each { match -> recipeReferences.add(match[1].toString()) }
+        Map<String, Set<String>> recipes = blocks.collectEntries { profile, ids ->
+            [(profile): (ids.findAll { recipeReferences.contains(it) } as TreeSet<String>)]
+        }
+        recipes.each { profile, ids ->
+            if (ids.isEmpty()) throw new GradleException("No ${profile} recipe outputs were discovered")
+        }
+
+        File output = optionalIntegrationFixtureGeneratedResources.get().asFile
+        output.mkdirs()
+        new File(output, 'expected-optional-blocks.txt').setText(
+                blocks.collectMany { profile, ids ->
+                    ids.collect { id -> "${profile}=ironagefurniture:${id}" }
+                }.sort().join('\n') + '\n', 'UTF-8')
+        new File(output, 'expected-optional-recipes.txt').setText(
+                recipes.collectMany { profile, ids ->
+                    ids.collect { id -> "${profile}=ironagefurniture:${id}" }
+                }.sort().join('\n') + '\n', 'UTF-8')
+
+        Set<String> hiddenLightingFactories = [
+                'CreateIronWallSconce',
+                'CreateIronFloorTorchSconce', 'CreateIronFloorTorchSconceUnlit',
+                'CreateIronWallTorchSconce', 'CreateIronWallTorchSconceUnlit',
+                'CreateIronFloorRedTorchSconce', 'CreateIronFloorRedTorchSconceUnlit',
+                'CreateIronWallRedTorchSconce', 'CreateIronWallRedTorchSconceUnlit',
+                'CreateIronFloorGlowSconce', 'CreateIronWallGlowSconce',
+                'CreateIronFloorLavaSconce', 'CreateIronWallLavaSconce',
+                'CreateRedLampVariant', 'CreateIronFloorRedSconce', 'CreateIronWallRedSconce'
+        ] as Set<String>
+        Set<String> hiddenLightingIds = [] as TreeSet<String>
+        def lightingRegistrationMatcher = blockSource =~ /FurnitureFactory\.(Create\w+)\("([^"]+)"/
+        lightingRegistrationMatcher.each { match ->
+            if (hiddenLightingFactories.contains(match[1].toString())) {
+                hiddenLightingIds.add("ironagefurniture:${match[2]}")
+            }
+        }
+        Map furnitureCatalog = new JsonSlurper().parse(file('gradle/furniture-catalog.json')) as Map
+        (furnitureCatalog.phaseFour.lighting as List<String>).each { String id ->
+            // Rock-salt states require Mineralogy; only the standalone floor candle has an ItemBlock.
+            if (!id.contains('rocksalt') && id != 'light_metal_ironage_candle_floor') {
+                hiddenLightingIds.add("ironagefurniture:${id}")
+            }
+        }
+        if (hiddenLightingIds.size() != 83) {
+            throw new GradleException("Expected 83 hidden lighting state blocks, found ${hiddenLightingIds.size()}")
+        }
+        new File(output, 'expected-hidden-lighting-blocks.txt').setText(
+                hiddenLightingIds.join('\n') + '\n', 'UTF-8')
+    }
+}
+
+tasks.register('compileOptionalIntegrationFixture', JavaCompile) {
+    group = 'verification'
+    description = 'Compiles the local-only Forge 1.10 optional-integration probe.'
+    dependsOn tasks.named('classes')
+    source fileTree('src/optionalIntegrationTest/java')
+    classpath = files(sourceSets.main.output, sourceSets.main.compileClasspath)
+    destinationDirectory = optionalIntegrationFixtureClasses
+    javaCompiler = java8Compiler
+    options.encoding = 'UTF-8'
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+    options.compilerArgs.add('-proc:none')
+}
+
+def optionalIntegrationFixtureDeobfJar = tasks.register(
+        'optionalIntegrationFixtureDeobfJar', Jar) {
+    group = 'verification'
+    description = 'Builds the development-named optional-integration runtime probe.'
+    dependsOn tasks.named('compileOptionalIntegrationFixture')
+    dependsOn tasks.named('generateOptionalIntegrationFixtureData')
+    archiveFileName = 'ironagefurniture-optional-integration-probe-deobf.jar'
+    destinationDirectory = layout.buildDirectory.dir('optional-integration-fixture')
+    from optionalIntegrationFixtureClasses
+    from 'src/optionalIntegrationTest/resources'
+    from optionalIntegrationFixtureGeneratedResources
+    filesMatching(archiveTextPatterns, normalizeArchiveLineEndings)
+}
+
+def reobfOptionalIntegrationFixtureJar = renamer.classes(optionalIntegrationFixtureDeobfJar) {
+    map.from minecraft.dependency.toSrgFile
+    output = optionalIntegrationFixtureJarFile
+}
+
+tasks.register('optionalIntegrationFixtureJar') {
+    group = 'verification'
+    description = 'Builds the non-published packaged-server optional-integration probe.'
+    dependsOn reobfOptionalIntegrationFixtureJar
+    outputs.file optionalIntegrationFixtureJarFile
+}
+
+tasks.register('stageOptionalIntegrationFixture', Sync) {
+    group = 'verification'
+    description = 'Stages the packaged mod, runtime probe, and selected pinned optional mods.'
+    dependsOn tasks.named('verifyOptionalIntegrationMods')
+    dependsOn tasks.named('optionalIntegrationFixtureJar')
+    dependsOn tasks.named('assemble')
+    inputs.property('integrationProfile', optionalIntegrationProfile)
+    from(optionalIntegrationArtifactsDirectory) {
+        include { details ->
+            Map manifest = new JsonSlurper().parse(optionalIntegrationManifestFile.asFile) as Map
+            Map entry = manifest.mods.find { candidate -> candidate.file == details.file.name }
+            if (entry == null) return false
+            optionalIntegrationProfile == 'all'
+                    || (entry.role == 'integration'
+                            && entry.assetNamespace == optionalIntegrationProfile)
+                    || (entry.requiredBy instanceof List
+                            && entry.requiredBy.contains(optionalIntegrationProfile))
+        }
+    }
+    from optionalIntegrationFixtureJarFile
+    from layout.buildDirectory.file(
+            "libs/${base.archivesName.get()}-${project.version}.jar")
+    into optionalIntegrationModsDirectory
+}
+
+tasks.register('verifyOptionalIntegrationForgeInstaller') {
+    group = 'verification'
+    description = 'Verifies the locally supplied official Forge 1.10.2 server installer.'
+    inputs.file optionalIntegrationForgeInstaller
+    doLast {
+        File installer = optionalIntegrationForgeInstaller.asFile
+        if (!installer.isFile()) {
+            throw new GradleException("Download the official Forge ${minecraft_version}-${forge_version} "
+                    + "installer to ${installer}")
+        }
+        String actual = sha256Of(installer)
+        if (!actual.equalsIgnoreCase(optionalIntegrationForgeInstallerSha256)) {
+            throw new GradleException("Checksum mismatch for ${installer.name}: expected "
+                    + "${optionalIntegrationForgeInstallerSha256}, found ${actual}")
+        }
+    }
+}
+
+tasks.register('installOptionalIntegrationServer', Exec) {
+    group = 'verification'
+    description = 'Installs the pinned Forge 1.10.2 dedicated server for packaged probes.'
+    dependsOn tasks.named('verifyOptionalIntegrationForgeInstaller')
+    inputs.file optionalIntegrationForgeInstaller
+    outputs.file optionalIntegrationForgeServerJar
+    doFirst {
+        File serverDirectory = optionalIntegrationServerDirectory.get()
+        if (!serverDirectory.isDirectory() && !serverDirectory.mkdirs()) {
+            throw new GradleException(
+                    "Could not create optional-integration server directory ${serverDirectory}")
+        }
+        workingDir serverDirectory
+        executable java8Launcher.get().executablePath.asFile
+        args '-jar', optionalIntegrationForgeInstaller.asFile.absolutePath,
+                '--installServer', '.'
+    }
+}
+
+tasks.register('prepareOptionalIntegrationServer') {
+    group = 'verification'
+    description = 'Creates deterministic local server settings for packaged probes.'
+    dependsOn tasks.named('installOptionalIntegrationServer')
+    doLast {
+        File serverDirectory = optionalIntegrationServerDirectory.get()
+        new File(serverDirectory, 'eula.txt').setText('eula=true\n', 'UTF-8')
+        new File(serverDirectory, 'server.properties').setText([
+                'allow-flight=true', 'level-name=optional-world', 'max-tick-time=120000',
+                'online-mode=false', 'server-ip=127.0.0.1', 'server-port=0', ''
+        ].join('\n'), 'UTF-8')
+    }
+}
+
+tasks.register('runOptionalIntegrationServer', Exec) {
+    group = 'verification'
+    description = 'Runs the packaged server and proves optional registration and recipes.'
+    dependsOn tasks.named('stageOptionalIntegrationFixture')
+    dependsOn tasks.named('prepareOptionalIntegrationServer')
+    doFirst {
+        if (optionalIntegrationProfile != 'all'
+                && optionalIntegrationProfile != 'absent'
+                && !['biomesoplenty', 'natura', 'forestry', 'immersiveengineering']
+                        .contains(optionalIntegrationProfile)) {
+            throw new GradleException("Unknown integrationProfile ${optionalIntegrationProfile}")
+        }
+        File serverDirectory = optionalIntegrationServerDirectory.get()
+        File marker = new File(serverDirectory, 'optional-integration-pass.properties')
+        if (marker.exists() && !marker.delete()) {
+            throw new GradleException("Could not remove stale optional-integration marker ${marker}")
+        }
+        new File(serverDirectory, 'server.properties').setText([
+                'allow-flight=true', "level-name=optional-${optionalIntegrationProfile}-world",
+                'max-tick-time=120000', 'online-mode=false',
+                'server-ip=127.0.0.1', 'server-port=0', ''
+        ].join('\n'), 'UTF-8')
+        File forgeServerJar = optionalIntegrationForgeServerJar.get()
+        if (!forgeServerJar.isFile()) {
+            throw new GradleException("Forge ${minecraft_version}-${forge_version} server is missing: "
+                    + forgeServerJar)
+        }
+        workingDir serverDirectory
+        executable java8Launcher.get().executablePath.asFile
+        args "-Diaf.probe.mods=${optionalIntegrationProfile}", '-Dfml.queryResult=confirm',
+                '-jar', forgeServerJar.name, 'nogui'
+    }
+    doLast {
+        File marker = new File(optionalIntegrationServerDirectory.get(),
+                'optional-integration-pass.properties')
+        if (!marker.isFile()) {
+            throw new GradleException(
+                    'Optional-integration server exited without a passing probe marker')
+        }
+        Properties result = new Properties()
+        marker.withInputStream { result.load(it) }
+        if (result.getProperty('status') != 'PASS'
+                || result.getProperty('profile') != optionalIntegrationProfile
+                || result.getProperty('hidden_lighting_blocks_without_items') != '83') {
+            throw new GradleException("Unexpected optional-integration result ${result}")
+        }
+    }
+}
