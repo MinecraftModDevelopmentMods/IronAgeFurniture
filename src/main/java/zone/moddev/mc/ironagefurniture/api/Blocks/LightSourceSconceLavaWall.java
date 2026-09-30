@@ -6,6 +6,8 @@ import java.util.Random;
 import com.google.common.collect.Lists;
 import zone.moddev.mc.ironagefurniture.BlockObjectHolder;
 import zone.moddev.mc.ironagefurniture.api.MetalVariantHelper;
+import zone.moddev.mc.ironagefurniture.api.MetalVariantHelper.MetalVariant;
+import zone.moddev.mc.ironagefurniture.api.entity.EntityReleasedLavaLamp;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
@@ -31,6 +33,12 @@ public class LightSourceSconceLavaWall extends LightSourceSconceGlowWall {
     }
 
     @Override
+    public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
+        super.onBlockAdded(worldIn, pos, state);
+        scheduleRelease(worldIn, pos);
+    }
+
+    @Override
     public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
         EnumFacing facing = state.getValue(FACING);
         BlockPos behind = pos.offset(facing.getOpposite());
@@ -48,6 +56,58 @@ public class LightSourceSconceLavaWall extends LightSourceSconceGlowWall {
         }
 
         super.neighborChanged(state, worldIn, pos, blockIn, fromPos);
+        scheduleRelease(worldIn, pos);
+    }
+
+    private void scheduleRelease(World world, BlockPos pos) {
+        if (!world.isRemote && world.getBlockState(pos).getBlock() == this
+                && canRelease(world.isBlockPowered(pos), world.isAirBlock(pos.down()))
+                && !world.isUpdateScheduled(pos, this)) {
+            world.scheduleUpdate(pos, this, tickRate(world));
+        }
+    }
+
+    static boolean canRelease(boolean powered, boolean airBelow) {
+        return powered && airBelow;
+    }
+
+    @Override
+    public int tickRate(World worldIn) {
+        return 2;
+    }
+
+    @Override
+    public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
+        if (world.isRemote || world.getBlockState(pos).getBlock() != this) return;
+        EnumFacing facing = state.getValue(FACING);
+        BlockPos behind = pos.offset(facing.getOpposite());
+        if (!world.getBlockState(behind).isSideSolid(world, behind, facing)) {
+            neighborChanged(state, world, pos, world.getBlockState(behind).getBlock(), behind);
+            return;
+        }
+        if (!canRelease(world.isBlockPowered(pos), world.isAirBlock(pos.down()))) return;
+
+        MetalVariant metal = MetalVariantHelper.getMetal(world, pos);
+        IBlockState emptyState = BlockObjectHolder.light_metal_ironage_sconce_wall_empty_iron
+                .getDefaultState().withProperty(FACING, facing);
+        if (!MetalVariantHelper.replaceBlockPreservingMetal(world, pos, emptyState)) return;
+
+        EnumFacing outwards = facing.getOpposite();
+        Block lamp = LightDrop();
+        EntityPlayer nearest = world.getClosestPlayer(pos.getX() + 0.5D, pos.getY() + 0.5D,
+                pos.getZ() + 0.5D, -1.0D, false);
+        boolean preserveOnLanding = nearest != null && nearest.capabilities.isCreativeMode;
+        EntityReleasedLavaLamp falling = new EntityReleasedLavaLamp(world,
+                pos.getX() + 0.5D + 0.27D * outwards.getXOffset(),
+                pos.getY() + 5.0D / 16.0D,
+                pos.getZ() + 0.5D + 0.27D * outwards.getZOffset(),
+                lamp.getDefaultState().withProperty(FACING, facing), pos.getY(), preserveOnLanding);
+        if (world.spawnEntity(falling)) {
+            ((LightSourceLava)lamp).onStartFalling(falling);
+        } else if (world.getBlockState(pos).getBlock() == emptyState.getBlock()) {
+            world.setBlockState(pos, MetalVariantHelper.withMetal(state, metal), 3);
+            MetalVariantHelper.setMetal(world, pos, metal);
+        }
     }
 
     @Override

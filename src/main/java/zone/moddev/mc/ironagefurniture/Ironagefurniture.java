@@ -7,6 +7,7 @@ import zone.moddev.mc.ironagefurniture.api.entity.Seat;
 import zone.moddev.mc.ironagefurniture.api.CreativeModeBreakTracker;
 import zone.moddev.mc.ironagefurniture.api.CfmChairMigration;
 import zone.moddev.mc.ironagefurniture.api.entity.EntityThrownLavaLamp;
+import zone.moddev.mc.ironagefurniture.api.entity.EntityReleasedLavaLamp;
 import zone.moddev.mc.ironagefurniture.api.tile.TileEntityPaddedBench;
 import zone.moddev.mc.ironagefurniture.api.tile.TileEntityShieldChair;
 import zone.moddev.mc.ironagefurniture.api.tile.TileEntityUpholstery;
@@ -66,6 +67,8 @@ public class Ironagefurniture
     	EntityRegistry.registerModEntity(new ResourceLocation(MODID + ":seat"), Seat.class , MODID + ":seat", 0, this, 80, 1, false);
         EntityRegistry.registerModEntity(new ResourceLocation(MODID + ":thrown_lava_lamp"),
                 EntityThrownLavaLamp.class, MODID + ":thrown_lava_lamp", 1, this, 64, 10, true);
+        EntityRegistry.registerModEntity(new ResourceLocation(MODID + ":released_lava_lamp"),
+                EntityReleasedLavaLamp.class, MODID + ":released_lava_lamp", 2, this, 64, 10, true);
     	
     	ironagefurnitureTab.setIconItem(Blocks.BOOKSHELF);
     }

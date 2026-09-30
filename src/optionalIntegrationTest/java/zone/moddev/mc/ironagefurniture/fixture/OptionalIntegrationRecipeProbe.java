@@ -18,6 +18,7 @@ import org.apache.logging.log4j.Logger;
 
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -33,8 +34,13 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import zone.moddev.mc.ironagefurniture.BlockObjectHolder;
 import zone.moddev.mc.ironagefurniture.api.MetalVariantHelper;
+import zone.moddev.mc.ironagefurniture.api.entity.EntityReleasedLavaLamp;
 
 /** Exact-loader probe for optional recipes and recipe advancements. */
 @Mod(modid = OptionalIntegrationRecipeProbe.MOD_ID,
@@ -46,6 +52,20 @@ public final class OptionalIntegrationRecipeProbe {
     public static final String MOD_ID = "ironagefurnitureintegrationprobe";
 
     private static final Logger LOGGER = LogManager.getLogger();
+    private BlockPos lavaTrapPos;
+    private boolean lavaTrapActive;
+    private boolean sawReleasedLamp;
+    private boolean sawLavaTrapFire;
+    private double lastReleasedLampY;
+    private double lastReleasedLampZ;
+    private int lavaTrapTicks;
+
+    @Mod.EventHandler
+    public void preInit(FMLPreInitializationEvent event) {
+        if (Boolean.getBoolean("iaf.probe.verifyLavaTrap")) {
+            FMLCommonHandler.instance().bus().register(this);
+        }
+    }
     private static final List<String> REQUIRED_MODS = Arrays.asList(
             "biomesoplenty", "natura", "forestry", "immersiveengineering", "mineralogy",
             "basemetals", "cfm");
@@ -64,6 +84,10 @@ public final class OptionalIntegrationRecipeProbe {
             verifyAdvancementsAbsent(server, "expected-conditional-advancements.txt");
             if (Files.isRegularFile(Paths.get("cfm-migration-fixture.properties"))) {
                 verifyCfmMigrationFixture(server);
+            }
+            if (Boolean.getBoolean("iaf.probe.verifyLavaTrap")) {
+                beginLavaTrapProbe(server);
+                return;
             }
             writeAbsentMarker();
             LOGGER.info("IRON AGE FURNITURE CORE ABSENCE PROBE PASSED");
@@ -104,6 +128,70 @@ public final class OptionalIntegrationRecipeProbe {
         writeMarker(versions, recipes, advancements, recipeCount, advancementCount);
         LOGGER.info("IRON AGE FURNITURE OPTIONAL INTEGRATION PROBE PASSED: "
                 + "{} recipes and {} advancements", recipeCount, advancementCount);
+        server.initiateShutdown();
+    }
+
+    private void beginLavaTrapProbe(MinecraftServer server) {
+        WorldServer world = server.getWorld(0);
+        BlockPos spawn = world.getSpawnPoint();
+        lavaTrapPos = new BlockPos(spawn.getX(), 100, spawn.getZ());
+        Block lavaSconce = BlockObjectHolder.light_metal_ironage_sconce_wall_lava_iron;
+        require(lavaSconce != null, "Wall lava sconce is not registered");
+        world.setBlockToAir(lavaTrapPos.up());
+        for (int x = lavaTrapPos.getX() - 1; x <= lavaTrapPos.getX() + 1; ++x) {
+            for (int z = lavaTrapPos.getZ() - 1; z <= lavaTrapPos.getZ() + 1; ++z) {
+                for (int y = 97; y <= 100; ++y) {
+                    world.setBlockToAir(new BlockPos(x, y, z));
+                }
+                world.setBlockState(new BlockPos(x, 96, z), Blocks.STONE.getDefaultState(), 3);
+            }
+        }
+        // The registered default faces north, so its wall support is south.
+        world.setBlockState(lavaTrapPos.south(), Blocks.STONE.getDefaultState(), 3);
+        world.setBlockState(lavaTrapPos, lavaSconce.getDefaultState(), 3);
+        require(world.getBlockState(lavaTrapPos).getBlock() == lavaSconce,
+                "Could not place wall lava sconce for trap probe");
+        world.setBlockState(lavaTrapPos.up(), Blocks.REDSTONE_BLOCK.getDefaultState(), 3);
+        require(world.isBlockPowered(lavaTrapPos), "Trap sconce is not powered");
+        require(world.isAirBlock(lavaTrapPos.down()), "Trap lamp has no falling clearance");
+        lavaTrapActive = true;
+    }
+
+    @SubscribeEvent
+    public void serverTick(TickEvent.ServerTickEvent event) {
+        if (!lavaTrapActive || event.phase != TickEvent.Phase.END) return;
+        MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
+        WorldServer world = server.getWorld(0);
+        ++lavaTrapTicks;
+        for (Entity entity : world.loadedEntityList) {
+            if (entity instanceof EntityReleasedLavaLamp) {
+                sawReleasedLamp = true;
+                lastReleasedLampY = entity.posY;
+                lastReleasedLampZ = entity.posZ;
+            }
+        }
+        for (int x = lavaTrapPos.getX() - 1; x <= lavaTrapPos.getX() + 1; ++x) {
+            for (int z = lavaTrapPos.getZ() - 1; z <= lavaTrapPos.getZ() + 1; ++z) {
+                for (int y = 97; y <= 100; ++y) {
+                    sawLavaTrapFire |= world.getBlockState(new BlockPos(x, y, z)).getBlock() == Blocks.FIRE;
+                }
+            }
+        }
+        if (lavaTrapTicks < 60) return;
+
+        Block holder = world.getBlockState(lavaTrapPos).getBlock();
+        require(holder == BlockObjectHolder.light_metal_ironage_sconce_wall_empty_iron,
+                "Powered lava sconce did not become an empty holder: " + holder.getRegistryName()
+                        + ", powered=" + world.isBlockPowered(lavaTrapPos)
+                        + ", airBelow=" + world.isAirBlock(lavaTrapPos.down())
+                        + ", sawFalling=" + sawReleasedLamp);
+        require(sawReleasedLamp, "Released lava lamp never entered the world as a falling entity");
+        require(sawLavaTrapFire, "Released lava lamp did not shatter into fire below its holder"
+                + "; lastY=" + lastReleasedLampY + ", lastZ=" + lastReleasedLampZ
+                + ", landingBlock=" + world.getBlockState(lavaTrapPos.down(3)).getBlock().getRegistryName());
+        writeAbsentMarker();
+        LOGGER.info("IRON AGE FURNITURE LAVA SCONCE TRAP PROBE PASSED");
+        lavaTrapActive = false;
         server.initiateShutdown();
     }
 
