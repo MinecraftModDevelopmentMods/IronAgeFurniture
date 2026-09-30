@@ -708,6 +708,10 @@ public class BlockInitialiser {
 		if (!IronAgeFurnitureConfiguration.GENERATE_LIGHTS) {
 			return;
 		}
+		BlockObjectHolder.light_metal_ironage_candle_floor = FurnitureFactory.CreateCandleFloor("light_metal_ironage_candle_floor");
+		BlockObjectHolder.light_metal_ironage_candle_floor_unlit = FurnitureFactory.CreateCandleFloorUnlit("light_metal_ironage_candle_floor_unlit");
+		BlockObjectHolder.light_metal_ironage_candle_wall = FurnitureFactory.CreateCandleWall("light_metal_ironage_candle_wall");
+		BlockObjectHolder.light_metal_ironage_candle_wall_unlit = FurnitureFactory.CreateCandleWallUnlit("light_metal_ironage_candle_wall_unlit");
 		if (IronAgeFurnitureConfiguration.GENERATE_SCONCES) {
 			generateSconces();
 		}

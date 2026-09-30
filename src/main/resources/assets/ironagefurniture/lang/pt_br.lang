@@ -3320,3 +3320,5 @@ tile.ironagefurniture.light_metal_ironage_block_floor_glow_clear.name=Lâmpada d
 tile.ironagefurniture.light_metal_ironage_block_floor_red_clear.name=Lâmpada vermelha
 tile.ironagefurniture.light_metal_ironage_block_floor_lava_clear.name=Lâmpada de lava
 tile.ironagefurniture.obsidian_chunk.name=Pedaço de obsidiana
+tile.ironagefurniture.light_metal_ironage_candle_floor.name=Vela
+item.ironagefurniture.tallow.name=Sebo

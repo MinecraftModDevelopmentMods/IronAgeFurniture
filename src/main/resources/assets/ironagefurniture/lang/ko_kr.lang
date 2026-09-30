@@ -3320,3 +3320,5 @@ tile.ironagefurniture.light_metal_ironage_block_floor_glow_clear.name=발광 가
 tile.ironagefurniture.light_metal_ironage_block_floor_red_clear.name=붉은 램프
 tile.ironagefurniture.light_metal_ironage_block_floor_lava_clear.name=용암 램프
 tile.ironagefurniture.obsidian_chunk.name=흑요석 덩어리
+tile.ironagefurniture.light_metal_ironage_candle_floor.name=양초
+item.ironagefurniture.tallow.name=동물성 기름

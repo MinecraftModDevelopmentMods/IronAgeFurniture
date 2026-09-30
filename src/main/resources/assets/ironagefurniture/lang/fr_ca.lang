@@ -3320,3 +3320,5 @@ tile.ironagefurniture.light_metal_ironage_block_floor_glow_clear.name=Lampe à p
 tile.ironagefurniture.light_metal_ironage_block_floor_red_clear.name=Lampe rouge
 tile.ironagefurniture.light_metal_ironage_block_floor_lava_clear.name=Lampe à lave
 tile.ironagefurniture.obsidian_chunk.name=Morceau d'obsidienne
+tile.ironagefurniture.light_metal_ironage_candle_floor.name=Bougie
+item.ironagefurniture.tallow.name=Suif

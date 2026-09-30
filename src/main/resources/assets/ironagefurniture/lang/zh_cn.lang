@@ -3320,3 +3320,5 @@ tile.ironagefurniture.light_metal_ironage_block_floor_glow_clear.name=荧光粉�
 tile.ironagefurniture.light_metal_ironage_block_floor_red_clear.name=红灯
 tile.ironagefurniture.light_metal_ironage_block_floor_lava_clear.name=熔岩灯
 tile.ironagefurniture.obsidian_chunk.name=黑曜石块
+tile.ironagefurniture.light_metal_ironage_candle_floor.name=蜡烛
+item.ironagefurniture.tallow.name=牛脂

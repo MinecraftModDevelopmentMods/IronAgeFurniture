@@ -16,6 +16,8 @@ import zone.moddev.mc.ironagefurniture.lib.util.MMDCreativeTab;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.init.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -41,6 +43,14 @@ public class Ironagefurniture
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
+		if (ItemObjectHolder.tallow != null) {
+			GameRegistry.addSmelting(Items.COOKED_PORKCHOP, new ItemStack(ItemObjectHolder.tallow, 3), 0.1F);
+			GameRegistry.addSmelting(Items.COOKED_BEEF, new ItemStack(ItemObjectHolder.tallow, 2), 0.1F);
+			GameRegistry.addSmelting(Items.COOKED_MUTTON, new ItemStack(ItemObjectHolder.tallow, 2), 0.1F);
+			GameRegistry.addSmelting(Items.COOKED_RABBIT, new ItemStack(ItemObjectHolder.tallow), 0.1F);
+			GameRegistry.addSmelting(Items.COOKED_CHICKEN, new ItemStack(ItemObjectHolder.tallow), 0.1F);
+			GameRegistry.addSmelting(Items.ROTTEN_FLESH, new ItemStack(ItemObjectHolder.tallow), 0.1F);
+		}
     	// register renderers
     	if(event.getSide().isClient()) {
     		ItemInitialiser.RegisterItemRenders();
@@ -62,7 +72,9 @@ public class Ironagefurniture
 		if (event.getSide().isClient()) {
 			ClientModelInitialiser.registerPaddedBenchModels();
 		}
-    	BlockInitialiser.init();
+		ItemObjectHolder.tallow = zone.moddev.mc.ironagefurniture.api.FurnitureFactory.RegisterItem(
+				new Item().setCreativeTab(ironagefurnitureTab), "tallow", 64);
+		BlockInitialiser.init();
 		if (event.getSide().isClient()) {
 			ClientRenderInitialiser.registerEntityRenderers();
 		}

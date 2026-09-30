@@ -4,6 +4,10 @@ import zone.moddev.mc.ironagefurniture.Ironagefurniture;
 import zone.moddev.mc.ironagefurniture.api.Blocks.BackBench;
 import zone.moddev.mc.ironagefurniture.api.Blocks.Bench;
 import zone.moddev.mc.ironagefurniture.api.Blocks.Chair;
+import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceCandleFloor;
+import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceCandleFloorUnlit;
+import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceCandleWall;
+import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceCandleWallUnlit;
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightHolderSconceFloor;
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightHolderSconceWall;
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceGlowdust;
@@ -107,6 +111,22 @@ public class FurnitureFactory {
 
 	public static Block CreateIronWallSconce(String name) {
 		return registerBlockWithoutItem(new LightHolderSconceWall(Material.IRON, name, 10, 1), name);
+	}
+
+	public static Block CreateCandleFloor(String name) {
+		return registerBlock(new LightSourceCandleFloor(Material.CLOTH, name, 1, 0.1F), name);
+	}
+
+	public static Block CreateCandleFloorUnlit(String name) {
+		return registerBlockWithoutItem(new LightSourceCandleFloorUnlit(Material.CLOTH, name, 1, 0.1F), name);
+	}
+
+	public static Block CreateCandleWall(String name) {
+		return registerBlockWithoutItem(new LightSourceCandleWall(Material.CLOTH, name, 1, 0.1F), name);
+	}
+
+	public static Block CreateCandleWallUnlit(String name) {
+		return registerBlockWithoutItem(new LightSourceCandleWallUnlit(Material.CLOTH, name, 1, 0.1F), name);
 	}
 
 	public static Block CreateIronFloorSconce(String name) {

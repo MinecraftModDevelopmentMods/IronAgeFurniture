@@ -162,6 +162,9 @@ tasks.register('updatePaddedBenchColourAssets') {
 
         Set<String> colourNames = paddedColours.collect { it.name } as Set<String>
         fileTree(paddedLocaleRoot) { include '*.lang' }.files.sort().each { File locale ->
+            // The translated colour names are maintained by translators; the
+            // English bench-name generator cannot safely reconstruct them.
+            if (!locale.name.startsWith('en_')) return
             Set<String> seenKeys = [] as LinkedHashSet<String>
             List<String> retained = locale.readLines('UTF-8').findAll { String line ->
                 int separator = line.indexOf('=')

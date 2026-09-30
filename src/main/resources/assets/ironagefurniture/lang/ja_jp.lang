@@ -3320,3 +3320,5 @@ tile.ironagefurniture.light_metal_ironage_block_floor_glow_clear.name=グロウ�
 tile.ironagefurniture.light_metal_ironage_block_floor_red_clear.name=赤いランプ
 tile.ironagefurniture.light_metal_ironage_block_floor_lava_clear.name=溶岩ランプ
 tile.ironagefurniture.obsidian_chunk.name=黒曜石の塊
+tile.ironagefurniture.light_metal_ironage_candle_floor.name=ろうそく
+item.ironagefurniture.tallow.name=獣脂

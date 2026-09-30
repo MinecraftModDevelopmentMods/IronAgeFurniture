@@ -3320,3 +3320,5 @@ tile.ironagefurniture.light_metal_ironage_block_floor_glow_clear.name=Лампа
 tile.ironagefurniture.light_metal_ironage_block_floor_red_clear.name=Красная лампа
 tile.ironagefurniture.light_metal_ironage_block_floor_lava_clear.name=Лавовая лампа
 tile.ironagefurniture.obsidian_chunk.name=Кусок обсидиана
+tile.ironagefurniture.light_metal_ironage_candle_floor.name=Свеча
+item.ironagefurniture.tallow.name=Сало

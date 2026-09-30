@@ -35,6 +35,10 @@
   },
   "fireproofWoods": [],
   "lighting": [
+    "light_metal_ironage_candle_floor",
+    "light_metal_ironage_candle_floor_unlit",
+    "light_metal_ironage_candle_wall",
+    "light_metal_ironage_candle_wall_unlit",
     "light_metal_ironage_sconce_floor_empty_iron",
     "light_metal_ironage_sconce_wall_empty_iron",
     "light_metal_ironage_sconce_floor_torch_iron",

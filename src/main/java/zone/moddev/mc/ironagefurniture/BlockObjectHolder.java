@@ -636,6 +636,10 @@ public class BlockObjectHolder {
 	public static Block chair_wood_ironage_bench_back_padded_single_forestry_zebrawood;
 
 	public static Block light_metal_ironage_sconce_floor_empty_iron;
+	public static Block light_metal_ironage_candle_floor;
+	public static Block light_metal_ironage_candle_floor_unlit;
+	public static Block light_metal_ironage_candle_wall;
+	public static Block light_metal_ironage_candle_wall_unlit;
 	public static Block light_metal_ironage_sconce_wall_empty_iron;
 	public static Block light_metal_ironage_sconce_floor_torch_iron;
 	public static Block light_metal_ironage_sconce_floor_torch_iron_unlit;

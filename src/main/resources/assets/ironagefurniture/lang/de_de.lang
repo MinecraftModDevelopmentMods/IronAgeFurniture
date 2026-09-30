@@ -3320,3 +3320,5 @@ tile.ironagefurniture.light_metal_ironage_block_floor_glow_clear.name=Leuchtstau
 tile.ironagefurniture.light_metal_ironage_block_floor_red_clear.name=Rotlichtlampe
 tile.ironagefurniture.light_metal_ironage_block_floor_lava_clear.name=Lavalampe
 tile.ironagefurniture.obsidian_chunk.name=Obsidianbrocken
+tile.ironagefurniture.light_metal_ironage_candle_floor.name=Kerze
+item.ironagefurniture.tallow.name=Talg
