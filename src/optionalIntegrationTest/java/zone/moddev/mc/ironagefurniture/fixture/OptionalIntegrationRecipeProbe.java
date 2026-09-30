@@ -47,7 +47,7 @@ import zone.moddev.mc.ironagefurniture.api.entity.EntityReleasedLavaLamp;
         name = "Iron Age Furniture Optional Integration Probe",
         version = "1",
         acceptableRemoteVersions = "*",
-        dependencies = "required-after:ironagefurniture@[0.3.0.112021]")
+        dependencies = "required-after:ironagefurniture@[0.4.0.112021]")
 public final class OptionalIntegrationRecipeProbe {
     public static final String MOD_ID = "ironagefurnitureintegrationprobe";
 

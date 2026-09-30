@@ -1,3 +1,30 @@
+# IronAgeFurniture 0.4.0.112021 (unreleased)
+
+Phase 4 candidate for Minecraft 1.12.2 and Forge 14.23.5.2859. The published
+Phase 3 release remains `0.3.0.112021` until this update is accepted.
+
+- Add multiblock wooden and canopy beds, wingback chairs, and thrones, with
+  sixteen upholstery colours preserved through placement, drops, and reloads.
+- Let shield chairs release and reattach their shields without losing the
+  shield's damage, banner design, enchantments, name, or other item data.
+- Add twin-torch sconces, standalone and mounted candles, Mineralogy rock-salt
+  sconces, and gold and Base Metals sconce materials. Older iron sconces remain
+  iron; metal choices survive mining and pick block.
+- Show a small flame and smoke when a candle is held. OptiFine Dynamic Lights
+  may also illuminate the area around a held candle.
+- Release a wall-sconce lava lamp on a redstone signal when air is available
+  below it. Falling lamps shatter and can start a fire outside Creative mode.
+- Add the seventeen locale choices used across the Phase 4 furniture set.
+- Add conditional conversion recipes for six MrCrayfish's Furniture Mod
+  wooden chairs. Recover their old placed and stored identities when that mod
+  is absent; conversion while it remains installed is optional and off by
+  default.
+- Preserve the Phase 3 registry identities and existing padded-bench colours.
+  Older furniture with no `Color` value remains red, and sconces with no
+  `Metal` value remain iron.
+- Organize the build checks, Eclipse setup, and release tasks into smaller
+  Gradle files without changing the Forge 1.12 toolchain or publication gate.
+
 # IronAgeFurniture 0.3.0.112021
 
 Phase 3 lighting release for Minecraft 1.12.2 and Forge 14.23.5.2859.

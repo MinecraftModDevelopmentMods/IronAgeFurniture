@@ -4,14 +4,20 @@
 
 # IronAgeFurniture
 
-IronAgeFurniture adds chairs, stools, benches, lamps, sconces, and other ye
-olde-style furniture to Minecraft. Seating is functional, furniture supports
-the appropriate vanilla and optional-mod materials, and lighting includes
-falling and throwable lava lamps.
+IronAgeFurniture adds functional chairs, stools, benches, beds, lamps, and
+sconces in an old-fashioned style. Furniture uses vanilla woods and, when
+installed, matching materials from supported mods.
 
-This branch provides IronAgeFurniture `0.3.0.112021` for Minecraft 1.12.2 and
-Forge 14.23.5.2859. It requires Java 8 and can be installed on both clients and
-dedicated servers.
+This branch is the unreleased `0.4.0.112021` Phase 4 candidate for Minecraft
+1.12.2 and Forge 14.23.5.2859. The game requires Java 8; the mod runs on
+clients and dedicated servers.
+
+Phase 4 adds multiblock wooden and canopy beds, wingback and throne chairs,
+removable shields on shield chairs, twin-torch sconces, candles, rock-salt
+sconces, and metal sconce choices. A carried candle shows a small flame and
+smoke. With OptiFine Dynamic Lights enabled, it may also light the surrounding
+area while held. A powered wall lava-lamp sconce releases its lamp when there
+is room below; it can fall, shatter, and start a fire.
 
 Padded benches and padded back benches support all sixteen vanilla carpet
 colours without adding block or item IDs. Existing benches and data-zero items
@@ -29,21 +35,34 @@ installed:
 - Natura
 - Forestry
 - Immersive Engineering
+- Mineralogy (rock-salt lighting)
+- Base Metals (extra sconce materials)
+- MrCrayfish's Furniture Mod (chair conversion recipes)
 
-They are optional. Their recipes and recipe advancements are conditionally
-loaded, so a normal installation does not need any of them.
+They are optional. Their recipes and advancements load only when the relevant
+mod is installed. The available Base Metals sconce variants follow the
+installed Base Metals build.
 
 ## Compatibility
 
-The persistent mod ID, registry names, resource paths, configuration names,
-entities, and saved-world identity remain under `ironagefurniture`. Existing
-1.12.2 worlds therefore retain the same runtime identities.
+The persistent mod ID, surviving registry names, resource paths,
+configuration names, and saved-world identity remain under
+`ironagefurniture`. Older padded benches without colour data stay red; older
+sconces without metal data stay iron. Beds and other upholstered furniture
+keep their colour when placed, moved, broken, and reloaded. Shield chairs
+retain the complete attached shield item, including its wear, design, name,
+and enchantments.
+
+If MrCrayfish's Furniture Mod is removed from an older world, this build can
+recover its six wooden chair types as IAF classic chairs. Conversion while
+both mods remain installed is a separate option, off by default. Back up any
+world before opening it with a new mod version.
 
 The supported Java source namespace is now
 `zone.moddev.mc.ironagefurniture`. Add-ons compiled against the former
 `com.mcmoddev.ironagefurniture` packages must update their imports. The Maven
 coordinate is
-`zone.moddev.mc:iron-age-furniture:0.3.0.112021`.
+`zone.moddev.mc:iron-age-furniture:0.4.0.112021`.
 
 Furniture add-ons can register subclasses of the public IAF furniture blocks
 under their own mod namespace and place their items in the IAF creative tab.
@@ -75,6 +94,8 @@ Generate reproducible Eclipse/Buildship metadata with:
 ```text
 gradlew.bat prepareEclipse verifyEclipseProductionClasspath
 ```
+
+The build tasks are described in [gradle/README.md](gradle/README.md).
 
 Release publication is initiated manually from the protected default-branch
 dispatcher after the exact target commit has passed hosted CI. Building

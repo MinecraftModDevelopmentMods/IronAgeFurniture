@@ -38,7 +38,7 @@ import net.minecraftforge.common.MinecraftForge;
 public class Ironagefurniture
 {
     public static final String MODID = "ironagefurniture";
-    public static final String VERSION = "0.3.0.112021";
+    public static final String VERSION = "0.4.0.112021";
     
 	public static final Map<String,Block> BlockRegistry = new HashMap<String, Block>();
 	public static final Map<String,Item> ItemRegistry = new HashMap<String, Item>();

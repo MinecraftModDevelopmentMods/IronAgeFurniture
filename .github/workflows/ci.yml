@@ -135,9 +135,9 @@ jobs:
           if-no-files-found: error
           retention-days: 30
           path: |
-            build/libs/iron-age-furniture-0.3.0.112021.jar
-            build/libs/iron-age-furniture-0.3.0.112021-sources.jar
-            build/libs/iron-age-furniture-0.3.0.112021-javadoc.jar
+            build/libs/iron-age-furniture-0.4.0.112021.jar
+            build/libs/iron-age-furniture-0.4.0.112021-sources.jar
+            build/libs/iron-age-furniture-0.4.0.112021-javadoc.jar
             build/release/SHA256SUMS
             CHANGELOG.md
 

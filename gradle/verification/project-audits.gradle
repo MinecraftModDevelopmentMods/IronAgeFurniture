@@ -1,0 +1,305 @@
+import groovy.json.JsonSlurper
+import java.nio.charset.StandardCharsets
+
+def archiveTextSuffixes = iafBuild.archiveTextSuffixes
+def expectedMavenGroup = iafBuild.expectedMavenGroup
+def expectedMavenArtifact = iafBuild.expectedMavenArtifact
+
+// Keep release identity, resources and repository contents honest on every check.
+tasks.register('verifyMavenizerCompatibilityFixture') {
+    group = 'verification'
+    description = 'Verifies that Forge 1.12.2 uses ForgeGradle Mavenizer without a vendored override.'
+    doLast {
+        if (file('ci-fixtures/tools').exists()) {
+            throw new GradleException('Forge 1.12.2 must not carry a target-specific Mavenizer override')
+        }
+    }
+}
+
+tasks.register('verifyReleaseConfiguration') {
+    group = 'verification'
+    description = 'Verifies the exact IronAgeFurniture 1.12.2 release identity.'
+    dependsOn tasks.named('verifyMavenizerCompatibilityFixture')
+    doLast {
+        Map<String, String> expected = [
+                mod_version            : '0.4.0.112021',
+                mod_group              : 'zone.moddev.mc',
+                mod_archive_name       : 'iron-age-furniture',
+                mod_id                 : 'ironagefurniture',
+                minecraft_version      : '1.12.2',
+                loader_name            : 'forge',
+                loader_code            : '1',
+                forge_version          : '14.23.5.2859',
+                forge_version_range    : '[14.23.5.2859,15)',
+                loader_version_range   : '[14,)',
+                mcp_mappings_channel   : 'stable',
+                mcp_mappings_version   : '39-1.12',
+                java_version           : '8',
+                java_toolchain_version : '8.0.502+7',
+                gradle_java_version    : '17',
+                curseforge_project_id  : '341834',
+                mod_license            : 'LGPL-2.1'
+        ]
+        expected.each { key, value ->
+            if (!project.hasProperty(key) || project.property(key).toString() != value) {
+                throw new GradleException("Unexpected ${key}: ${project.findProperty(key)}")
+            }
+        }
+    }
+}
+
+tasks.register('verifyRepositoryHygiene') {
+    group = 'verification'
+    description = 'Rejects tracked generated output, IDE state, secrets, legacy CI, and machine paths.'
+    doLast {
+        byte[] trackedBytes = providers.exec {
+            commandLine 'git', 'ls-files', '-z'
+        }.standardOutput.asBytes.get()
+        List<String> tracked = new String(trackedBytes, StandardCharsets.UTF_8)
+                .split('\u0000').findAll { !it.isEmpty() }
+        Set<String> forbiddenDirectories = [
+                '.agent', '.agents', '.ci-dependencies', '.claude', '.codex', '.eclipse',
+                '.gradle', '.gradle-home', '.idea', '.metadata', '.settings', 'agent-notes',
+                'bin', 'build', 'classes', 'crash-reports', 'eclipse', 'evidence', 'logs',
+                'mcmodsrepo', 'out', 'reports', 'run', 'run-data', 'test-output', 'test-results'
+        ] as Set<String>
+        Set<String> forbiddenFiles = [
+                '.classpath', '.project', '.travis.yml', 'agent.md', 'agents.md',
+                'local.properties', 'secret.json'
+        ] as Set<String>
+        List<String> forbidden = tracked.findAll { path ->
+            if (!file(path).exists()) return false
+            List<String> segments = path.tokenize('/')
+            String fileName = segments.last().toLowerCase(Locale.ROOT)
+            List<String> parents = segments.size() > 1 ? segments[0..-2] : []
+            parents.any { forbiddenDirectories.contains(it.toLowerCase(Locale.ROOT)) }
+                    || forbiddenFiles.contains(fileName)
+                    || fileName ==~ /(?:agent|codex)-.*\.md/
+                    || ['.launch', '.keystore', '.jks', '.p12', '.jfr', '.hprof', '.log']
+                            .any { fileName.endsWith(it) }
+        }
+        if (!forbidden.isEmpty()) {
+            throw new GradleException("Tracked generated, IDE, legacy CI, or secret files: ${forbidden}")
+        }
+        tracked.findAll { path ->
+            String fileName = new File(path).name
+            file(path).isFile() && (archiveTextSuffixes.any { fileName.endsWith(it) }
+                    || ['.gitattributes', '.gitignore', 'gradlew'].contains(fileName))
+        }.each { path ->
+            String contents = file(path).getText('UTF-8')
+            if (contents ==~ /(?s).*(?:[A-Za-z]:[\\\/]Users[\\\/]|\/home\/[^\/]+\/).*/) {
+                throw new GradleException("Tracked text file contains an absolute machine path: ${path}")
+            }
+        }
+    }
+}
+
+tasks.register('verifyResourceJson') {
+    group = 'verification'
+    description = 'Validates legacy 1.12 JSON, locale parity, exact recipe unlocks, and optional conditions.'
+    dependsOn tasks.named('verifyFurnitureCatalog')
+    doLast {
+        List<File> jsonFiles = fileTree('src/main/resources') {
+            include '**/*.json'
+            include 'pack.mcmeta'
+        }.files.sort { it.path }
+        jsonFiles.each { candidate ->
+            try {
+                new JsonSlurper().parseText(candidate.getText('UTF-8').replaceFirst(/^\uFEFF/, ''))
+            } catch (Exception ex) {
+                throw new GradleException("Invalid resource JSON: ${candidate}", ex)
+            }
+        }
+
+        def localeKeys = { File locale ->
+            locale.readLines('UTF-8').findAll { line ->
+                String trimmed = line.trim()
+                !trimmed.isEmpty() && !trimmed.startsWith('#')
+            }.collect { line -> line.substring(0, line.indexOf('=')) }
+        }
+        List<String> expectedLocaleNames = [
+                'de_au.lang', 'de_de.lang', 'en_ca.lang', 'en_en.lang', 'en_gb.lang',
+                'en_pt.lang', 'en_us.lang', 'es_es.lang', 'es_mx.lang', 'fr_ca.lang',
+                'fr_fr.lang', 'ja_jp.lang', 'ko_kr.lang', 'pt_br.lang', 'pt_pt.lang',
+                'ru_ru.lang', 'zh_cn.lang'
+        ]
+        List<String> actualLocaleNames = fileTree('src/main/resources/assets/ironagefurniture/lang') {
+            include '*.lang'
+        }.files.collect { it.name }.sort()
+        if (actualLocaleNames != expectedLocaleNames) {
+            throw new GradleException("Locale files must use the supported lowercase names: ${expectedLocaleNames}")
+        }
+        List<File> locales = expectedLocaleNames.collect {
+            file("src/main/resources/assets/ironagefurniture/lang/${it}")
+        }
+        List<String> englishKeys = localeKeys(file('src/main/resources/assets/ironagefurniture/lang/en_us.lang'))
+        locales.each { locale ->
+            if (localeKeys(locale) != englishKeys) {
+                throw new GradleException("${locale.name} does not match en_us.lang ordered keys")
+            }
+        }
+
+        File recipeRoot = file('src/main/resources/assets/ironagefurniture/recipes')
+        File advancementRoot = file('src/main/resources/assets/ironagefurniture/advancements/recipes')
+        List<File> recipes = fileTree(recipeRoot) { include '*.json'; exclude '_factories.json' }.files.sort { it.name }
+        List<File> advancements = fileTree(advancementRoot) { include '*.json' }.files.sort { it.name }
+        if (recipes.collect { it.name } != advancements.collect { it.name }) {
+            throw new GradleException('Recipe and advancement inventories differ')
+        }
+        Map<String, Map> recipeByName = recipes.collectEntries {
+            [(it.name): new JsonSlurper().parse(it) as Map]
+        }
+        advancements.each { advancementFile ->
+            Map advancement = new JsonSlurper().parse(advancementFile) as Map
+            String id = advancementFile.name.replaceFirst(/\.json$/, '')
+            Map criteria = advancement.criteria as Map
+            Map ingredient = criteria?.has_ingredient as Map
+            Map unlocked = criteria?.has_the_recipe as Map
+            if (!(ingredient?.conditions?.items instanceof List)
+                    || ingredient.conditions.items.size() != 1
+                    || !(ingredient.conditions.items[0].item instanceof String)
+                    || unlocked?.conditions?.recipe != "ironagefurniture:${id}"
+                    || advancement.rewards?.recipes != ["ironagefurniture:${id}"]
+                    || advancement.requirements != [['has_ingredient', 'has_the_recipe']]) {
+                throw new GradleException("Invalid exact recipe advancement ${advancementFile}")
+            }
+            Map recipe = recipeByName[advancementFile.name]
+            String optionalMod = advancement.conditions instanceof List
+                    ? advancement.conditions.find { it.type == 'forge:mod_loaded' }?.modid : null
+            String recipeOptionalMod = recipe.conditions instanceof List
+                    ? recipe.conditions.find { it.type == 'forge:mod_loaded' }?.modid : null
+            if (optionalMod != recipeOptionalMod) {
+                throw new GradleException("Recipe/advancement condition mismatch for ${id}")
+            }
+        }
+        logger.lifecycle('Validated {} JSON documents, {} locale keys, and {} exact recipe advancements.',
+                jsonFiles.size(), englishKeys.size(), advancements.size())
+    }
+}
+
+tasks.register('verifyNamespace') {
+    group = 'verification'
+    description = 'Requires the maintained Java namespace while preserving the runtime mod namespace.'
+    doLast {
+        String legacyPackage = 'com.mcmoddev.ironagefurniture'
+        String maintainedPackage = 'zone.moddev.mc.ironagefurniture'
+        String maintainedPath = "src/main/java/${maintainedPackage.replace('.', '/')}/"
+        List<File> sources = fileTree('src/main/java') { include '**/*.java' }.files.sort { it.path }
+        if (sources.size() < 42) {
+            throw new GradleException("Expected at least 42 production Java sources, found ${sources.size()}")
+        }
+        sources.each { sourceFile ->
+            String relativePath = project.relativePath(sourceFile).replace('\\', '/')
+            String contents = sourceFile.getText('UTF-8').replaceFirst(/^\uFEFF/, '')
+            if (!relativePath.startsWith(maintainedPath) || contents.contains(legacyPackage)) {
+                throw new GradleException("Legacy or misplaced IronAgeFurniture source: ${relativePath}")
+            }
+            def packageMatch = contents =~ /(?m)^package\s+([^;]+);/
+            if (!packageMatch.find()) {
+                throw new GradleException("Java source has no package declaration: ${relativePath}")
+            }
+            String expectedPackage = relativePath.substring('src/main/java/'.length(),
+                    relativePath.lastIndexOf('/')).replace('/', '.')
+            if (packageMatch.group(1) != expectedPackage) {
+                throw new GradleException("Package/path mismatch in ${relativePath}: ${packageMatch.group(1)}")
+            }
+        }
+        ['assets/ironagefurniture'].each { path ->
+            if (!file("src/main/resources/${path}").isDirectory()) {
+                throw new GradleException("Persistent resource namespace is missing: ${path}")
+            }
+        }
+    }
+}
+
+tasks.register('verifyVersionMetadata') {
+    group = 'verification'
+    description = 'Checks authoritative version and generated Forge metadata.'
+    dependsOn tasks.named('processResources')
+    doLast {
+        String source = file(
+                'src/main/java/zone/moddev/mc/ironagefurniture/Ironagefurniture.java').getText('UTF-8')
+        if (!source.contains("VERSION = \"${project.version}\"")) {
+            throw new GradleException('Java VERSION constant is not synchronized')
+        }
+        ['README.md', 'CHANGELOG.md', 'docs/VERSIONS.md'].each { path ->
+            if (!file(path).getText('UTF-8').contains(project.version.toString())) {
+                throw new GradleException("Version is missing from ${path}")
+            }
+        }
+        File generated = layout.buildDirectory.file('resources/main/mcmod.info').get().asFile
+        String metadata = generated.getText('UTF-8')
+        [
+                '"modid": "ironagefurniture"',
+                "\"version\": \"${project.version}\"",
+                '"license": "LGPL-2.1"',
+                "\"mcversion\": \"${project.minecraft_version}\""
+        ].each { required ->
+            if (!metadata.contains(required)) {
+                throw new GradleException("Generated mcmod.info is missing ${required}")
+            }
+        }
+        if (metadata.contains('${')) {
+            throw new GradleException('Generated mcmod.info contains unresolved properties')
+        }
+    }
+}
+
+tasks.register('verifyDedicatedServerBoundaries') {
+    group = 'verification'
+    description = 'Keeps common 1.12 code free of unguarded client-only references.'
+    doLast {
+        String entrypoint = file(
+                'src/main/java/zone/moddev/mc/ironagefurniture/Ironagefurniture.java').getText('UTF-8')
+        if (!entrypoint.contains('event.getSide().isClient()')
+                || !entrypoint.contains('ItemInitialiser.RegisterItemRenders()')) {
+            throw new GradleException('Client item rendering is not guarded by the FML client side')
+        }
+        fileTree('src/main/java') {
+            include '**/*.java'
+            exclude '**/init/ItemInitialiser.java'
+            exclude '**/init/ClientModelInitialiser.java'
+            exclude '**/init/ClientRenderInitialiser.java'
+            exclude '**/client/**'
+        }.each { source ->
+            String text = source.getText('UTF-8')
+            if (text.contains('net.minecraft.client.') || text.contains('net.minecraftforge.client.')) {
+                throw new GradleException("Common production source has client-only import: ${source}")
+            }
+        }
+    }
+}
+
+tasks.register('verifyWorkflowPins') {
+    group = 'verification'
+    description = 'Requires third-party GitHub Actions to be pinned to full commit SHAs.'
+    doLast {
+        File workflows = file('.github/workflows')
+        if (!workflows.isDirectory()) {
+            throw new GradleException('Missing GitHub Actions workflows')
+        }
+        fileTree(workflows) { include '*.yml'; include '*.yaml' }.each { workflow ->
+            workflow.readLines('UTF-8').eachWithIndex { line, index ->
+                def match = line =~ /^\s*uses:\s*([^#\s]+).*/
+                if (match.matches()) {
+                    String action = match.group(1)
+                    if (!action.startsWith('./') && !(action ==~ /[^@]+@[0-9a-f]{40}/)) {
+                        throw new GradleException("Unpinned action ${action} at ${workflow}:${index + 1}")
+                    }
+                }
+            }
+        }
+    }
+}
+
+tasks.named('check') {
+    dependsOn tasks.named('verifyBuildEnvironment')
+    dependsOn tasks.named('verifyReleaseConfiguration')
+    dependsOn tasks.named('verifyMavenCoordinates')
+    dependsOn tasks.named('verifyRepositoryHygiene')
+    dependsOn tasks.named('verifyResourceJson')
+    dependsOn tasks.named('verifyNamespace')
+    dependsOn tasks.named('verifyVersionMetadata')
+    dependsOn tasks.named('verifyWorkflowPins')
+    dependsOn tasks.named('verifyDedicatedServerBoundaries')
+}
