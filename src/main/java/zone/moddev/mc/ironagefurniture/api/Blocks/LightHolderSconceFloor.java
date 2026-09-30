@@ -27,10 +27,12 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class LightHolderSconceFloor extends BlockHBase {
+	private static final float IRON_SCONCE_HARDNESS = 4.0F;
 	// ---- the combined overall bounds of the sconce ----
 	private static final AxisAlignedBB BB = new AxisAlignedBB(
 	    5.5/16.0, 0.0,    5.5/16.0,
@@ -67,7 +69,7 @@ public class LightHolderSconceFloor extends BlockHBase {
 		this.setSoundType(SoundType.METAL);
         this.setHarvestLevel("pickaxe", 1);
         this.blockResistance = resistance;
-        this.blockHardness   = hardness;
+        this.blockHardness   = Math.max(IRON_SCONCE_HARDNESS, hardness);
         this.setCreativeTab(Ironagefurniture.ironagefurnitureTab);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH)
 			.withProperty(MetalVariantHelper.METAL, MetalVariant.IRON));
@@ -109,6 +111,40 @@ public class LightHolderSconceFloor extends BlockHBase {
 	@Override
 	public float getBlockHardness(IBlockState blockState, World worldIn, BlockPos pos) {
 		return MetalVariantHelper.getHardness(worldIn, pos, this.blockHardness);
+	}
+
+	@Override
+	public float getExplosionResistance(World worldIn, BlockPos pos, Entity exploder, Explosion explosion) {
+		return MetalVariantHelper.getResistance(worldIn, pos, super.getExplosionResistance(exploder));
+	}
+
+	@Override
+	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos,
+			EntityPlayer player, boolean willHarvest) {
+		if (!willHarvest || world.isRemote || player.capabilities.isCreativeMode) {
+			return super.removedByPlayer(state, world, pos, player, willHarvest);
+		}
+		// Forge reads the metal tile after this call to choose the dropped item.
+		onBlockHarvested(world, pos, state, player);
+		return true;
+	}
+
+	@Override
+	public void harvestBlock(World world, EntityPlayer player, BlockPos pos,
+			IBlockState state, TileEntity tile, ItemStack tool) {
+		try {
+			super.harvestBlock(world, player, pos, state, tile, tool);
+		} finally {
+			if (world.getBlockState(pos).getBlock() == this) {
+				world.setBlockToAir(pos);
+			}
+		}
+	}
+
+	@Override
+	public ItemStack getItem(World world, BlockPos pos, IBlockState state) {
+		return MetalVariantHelper.getDrop(
+			BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron, world, pos);
 	}
 
 	private boolean canPlaceOn(World worldIn, BlockPos pos)

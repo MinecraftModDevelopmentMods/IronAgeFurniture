@@ -29,6 +29,16 @@ feed continues to advertise the published `0.3.0.110021` release.
 - Fix forced CFM conversion for chairs stored in chests and other block
   inventories, and include chairs inside carried containers when a player joins.
 - Keep CFM, Mineralogy, and Base Metals optional at runtime.
+- Show Base Metals sconce variants only when the installed Base Metals build
+  supplies their block textures. Older 1.10 builds do not include Antimony,
+  Bismuth, or Pewter, so those variants no longer appear untextured.
+- Give metal sconces a sturdier mining hardness and make their blast resistance
+  follow the metal. Fix mined and picked sconces reverting to iron rather than
+  retaining the metal they were made from.
+- Keep the chosen upholstery colour when either padded bench type is mined,
+  including benches joined to differently coloured neighbours.
+- Restore Cold-Iron and Star-Steel sconce recipes by using the nugget names
+  registered by Base Metals.
 
 # IronAgeFurniture 0.3.0.110021
 

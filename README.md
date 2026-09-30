@@ -55,6 +55,9 @@ All integrations are optional. A normal installation requires none of them,
 and furniture for an absent integration is not registered. Minecraft 1.10.2
 predates the recipe-book advancement format, so this target registers recipes
 in Java rather than packaging later-version recipe or advancement JSON.
+The available Base Metals sconce materials follow the installed Base Metals
+build; older 1.10 builds do not provide Antimony, Bismuth, or Pewter. Sconce
+mining hardness and blast resistance also vary with the chosen metal.
 
 ## Compatibility
 
