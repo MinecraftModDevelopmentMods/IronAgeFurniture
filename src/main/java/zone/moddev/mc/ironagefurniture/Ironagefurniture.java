@@ -7,6 +7,7 @@ import zone.moddev.mc.ironagefurniture.api.entity.Seat;
 import zone.moddev.mc.ironagefurniture.api.CreativeModeBreakTracker;
 import zone.moddev.mc.ironagefurniture.api.entity.EntityThrownLavaLamp;
 import zone.moddev.mc.ironagefurniture.api.tile.TileEntityPaddedBench;
+import zone.moddev.mc.ironagefurniture.client.particle.HeldCandleSmoke;
 import zone.moddev.mc.ironagefurniture.init.BlockInitialiser;
 import zone.moddev.mc.ironagefurniture.init.ClientModelInitialiser;
 import zone.moddev.mc.ironagefurniture.init.ClientRenderInitialiser;
@@ -25,6 +26,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.common.MinecraftForge;
 
 @Mod(modid = Ironagefurniture.MODID, version = Ironagefurniture.VERSION)
@@ -71,6 +73,7 @@ public class Ironagefurniture
 				new ResourceLocation(MODID, "padded_bench_colour"));
 		if (event.getSide().isClient()) {
 			ClientModelInitialiser.registerPaddedBenchModels();
+			FMLCommonHandler.instance().bus().register(new HeldCandleSmoke());
 		}
 		ItemObjectHolder.tallow = zone.moddev.mc.ironagefurniture.api.FurnitureFactory.RegisterItem(
 				new Item().setCreativeTab(ironagefurnitureTab), "tallow", 64);
