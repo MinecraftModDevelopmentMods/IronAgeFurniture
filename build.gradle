@@ -253,6 +253,9 @@ tasks.named('processResources', ProcessResources) {
     from('docs/VERSIONS.md') {
         into 'META-INF/ironagefurniture/docs'
     }
+    from('docs/UPGRADING.md') {
+        into 'META-INF/ironagefurniture/docs'
+    }
 }
 
 def commonManifest = {

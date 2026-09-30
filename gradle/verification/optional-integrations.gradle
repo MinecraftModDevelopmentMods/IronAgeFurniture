@@ -376,6 +376,7 @@ tasks.register('runCorePackagedServer', Exec) {
         workingDir serverDirectory
         executable java8Launcher.get().executablePath.asFile
         args '-Diaf.probe.profile=absent', '-Dfml.queryResult=confirm',
+                "-Diaf.probe.legacySource=${providers.gradleProperty('legacyWorldSource').getOrElse('')}",
                 "-Diaf.probe.verifyLavaTrap=${providers.gradleProperty('verifyLavaTrap').getOrElse('false')}",
                 '-jar', forgeServerJar.name, 'nogui'
     }

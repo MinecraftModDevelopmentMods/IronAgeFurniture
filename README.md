@@ -72,7 +72,8 @@ sixteen-colour padded-bench renderer. Add-ons should retain ownership of their
 own registry and resource IDs rather than registering new content as
 `ironagefurniture`.
 
-See [CHANGELOG.md](CHANGELOG.md) for the release notes and
+See [CHANGELOG.md](CHANGELOG.md) for the release notes,
+[docs/UPGRADING.md](docs/UPGRADING.md) for tested old-world upgrades, and
 [docs/VERSIONS.md](docs/VERSIONS.md) for the versioning scheme. Bugs can be
 reported through the
 [MMD issue tracker](https://github.com/MinecraftModDevelopmentMods/IronAgeFurniture/issues).

@@ -82,6 +82,10 @@ public final class OptionalIntegrationRecipeProbe {
             verifyRockSaltSconces(false);
             verifyRecipesAbsent("expected-conditional-recipes.txt");
             verifyAdvancementsAbsent(server, "expected-conditional-advancements.txt");
+            String legacySource = System.getProperty("iaf.probe.legacySource");
+            if (legacySource != null && !legacySource.isEmpty()) {
+                LegacyWorldUpgradeProbe.verify(server, legacySource);
+            }
             if (Files.isRegularFile(Paths.get("cfm-migration-fixture.properties"))) {
                 verifyCfmMigrationFixture(server);
             }
