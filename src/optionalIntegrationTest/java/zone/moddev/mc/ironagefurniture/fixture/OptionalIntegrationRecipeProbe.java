@@ -17,8 +17,17 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
@@ -39,7 +48,7 @@ public final class OptionalIntegrationRecipeProbe {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final List<String> REQUIRED_MODS = Arrays.asList(
             "biomesoplenty", "natura", "forestry", "immersiveengineering", "mineralogy",
-            "basemetals");
+            "basemetals", "cfm");
 
     @Mod.EventHandler
     public void serverStarted(FMLServerStartedEvent event) {
@@ -53,6 +62,9 @@ public final class OptionalIntegrationRecipeProbe {
             verifyRockSaltSconces(false);
             verifyRecipesAbsent("expected-conditional-recipes.txt");
             verifyAdvancementsAbsent(server, "expected-conditional-advancements.txt");
+            if (Files.isRegularFile(Paths.get("cfm-migration-fixture.properties"))) {
+                verifyCfmMigrationFixture(server);
+            }
             writeAbsentMarker();
             LOGGER.info("IRON AGE FURNITURE CORE ABSENCE PROBE PASSED");
             server.initiateShutdown();
@@ -76,6 +88,19 @@ public final class OptionalIntegrationRecipeProbe {
                 "Expected " + expectedCount
                         + " conditional advancements, found " + advancementCount);
 
+        if (selectedMods.contains("cfm")
+                && Boolean.getBoolean("iaf.probe.createCfmMigrationFixture")) {
+            createCfmMigrationFixture(server);
+        }
+        if (selectedMods.contains("cfm")
+                && Boolean.getBoolean("iaf.probe.verifyCfmSourceFixture")) {
+            verifyCfmSourceFixture(server);
+        }
+        if (selectedMods.contains("cfm")
+                && Boolean.getBoolean("iaf.probe.verifyCfmMigrationFixture")) {
+            verifyCfmMigrationFixture(server);
+        }
+
         writeMarker(versions, recipes, advancements, recipeCount, advancementCount);
         LOGGER.info("IRON AGE FURNITURE OPTIONAL INTEGRATION PROBE PASSED: "
                 + "{} recipes and {} advancements", recipeCount, advancementCount);
@@ -97,6 +122,105 @@ public final class OptionalIntegrationRecipeProbe {
             require(present == expected,
                     "Rock-salt sconce registration does not match Mineralogy presence: " + id);
         }
+    }
+
+    private static final String[] CFM_WOODS = {
+            "oak", "spruce", "birch", "jungle", "acacia", "dark_oak"};
+
+    private static void createCfmMigrationFixture(MinecraftServer server) {
+        WorldServer world = server.getWorld(0);
+        for (int i = 0; i < CFM_WOODS.length; i++) {
+            BlockPos pos = new BlockPos(32 + i, 100, 32);
+            Block chair = ForgeRegistries.BLOCKS.getValue(
+                    new ResourceLocation("cfm", "chair_" + CFM_WOODS[i]));
+            require(chair != null, "Published CFM chair is missing: " + CFM_WOODS[i]);
+            world.setBlockState(pos.down(), Blocks.STONE.getDefaultState(), 3);
+            world.setBlockState(pos, chair.getStateFromMeta(i % 4), 3);
+            require(world.getBlockState(pos).getBlock() == chair,
+                    "Could not place CFM fixture chair " + CFM_WOODS[i]);
+        }
+
+        BlockPos chestPos = new BlockPos(40, 100, 32);
+        world.setBlockState(chestPos.down(), Blocks.STONE.getDefaultState(), 3);
+        world.setBlockState(chestPos, Blocks.CHEST.getDefaultState(), 3);
+        TileEntityChest chest = (TileEntityChest) world.getTileEntity(chestPos);
+        Item chairItem = ForgeRegistries.ITEMS.getValue(new ResourceLocation("cfm", "chair_oak"));
+        require(chairItem != null, "Published CFM chair item is missing");
+        chest.setInventorySlotContents(0, new ItemStack(chairItem, 3));
+
+        NBTTagCompound nestedChair = new ItemStack(chairItem, 2).writeToNBT(new NBTTagCompound());
+        nestedChair.setByte("Slot", (byte) 0);
+        NBTTagList nestedItems = new NBTTagList();
+        nestedItems.appendTag(nestedChair);
+        NBTTagCompound nestedBlockEntity = new NBTTagCompound();
+        nestedBlockEntity.setTag("Items", nestedItems);
+        NBTTagCompound nestedTag = new NBTTagCompound();
+        nestedTag.setTag("BlockEntityTag", nestedBlockEntity);
+        ItemStack container = new ItemStack(Blocks.CHEST);
+        container.setTagCompound(nestedTag);
+        chest.setInventorySlotContents(1, container);
+        chest.markDirty();
+        try {
+            Files.write(Paths.get("cfm-migration-fixture.properties"),
+                    Arrays.asList("source=cfm-6.3.2", "chairs=6", "stored_items=2"),
+                    StandardCharsets.UTF_8);
+        } catch (IOException error) {
+            throw new IllegalStateException("Could not mark disposable CFM fixture", error);
+        }
+    }
+
+    private static void verifyCfmMigrationFixture(MinecraftServer server) {
+        WorldServer world = server.getWorld(0);
+        for (int i = 0; i < CFM_WOODS.length; i++) {
+            BlockPos pos = new BlockPos(32 + i, 100, 32);
+            String wood = "dark_oak".equals(CFM_WOODS[i]) ? "big_oak" : CFM_WOODS[i];
+            ResourceLocation expected = new ResourceLocation("ironagefurniture",
+                    "chair_wood_ironage_classic_" + wood);
+            Block block = world.getBlockState(pos).getBlock();
+            require(expected.equals(block.getRegistryName()),
+                    "CFM chair was not migrated at " + pos + ": " + block.getRegistryName());
+            require(block.getMetaFromState(world.getBlockState(pos)) == i % 4,
+                    "CFM chair facing changed at " + pos);
+        }
+        TileEntityChest chest = (TileEntityChest) world.getTileEntity(new BlockPos(40, 100, 32));
+        require(chest != null, "CFM migration fixture chest is missing");
+        ItemStack direct = chest.getStackInSlot(0);
+        ResourceLocation oak = new ResourceLocation("ironagefurniture", "chair_wood_ironage_classic_oak");
+        require(!direct.isEmpty() && oak.equals(direct.getItem().getRegistryName())
+                        && direct.getCount() == 3,
+                "Stored CFM chair was not migrated");
+        ItemStack container = chest.getStackInSlot(1);
+        require(!container.isEmpty() && container.hasTagCompound(), "Nested CFM fixture is missing");
+        NBTTagCompound nested = container.getTagCompound().getCompoundTag("BlockEntityTag")
+                .getTagList("Items", 10).getCompoundTagAt(0);
+        require(oak.toString().equals(nested.getString("id")) && nested.getByte("Count") == 2,
+                "Nested CFM chair was not migrated");
+    }
+
+    private static void verifyCfmSourceFixture(MinecraftServer server) {
+        WorldServer world = server.getWorld(0);
+        for (int i = 0; i < CFM_WOODS.length; i++) {
+            BlockPos pos = new BlockPos(32 + i, 100, 32);
+            ResourceLocation expected = new ResourceLocation("cfm", "chair_" + CFM_WOODS[i]);
+            Block block = world.getBlockState(pos).getBlock();
+            require(expected.equals(block.getRegistryName()),
+                    "CFM chair converted without opt-in at " + pos);
+            require(block.getMetaFromState(world.getBlockState(pos)) == i % 4,
+                    "CFM chair facing changed at " + pos);
+        }
+        TileEntityChest chest = (TileEntityChest) world.getTileEntity(new BlockPos(40, 100, 32));
+        require(chest != null, "CFM source fixture chest is missing");
+        ItemStack direct = chest.getStackInSlot(0);
+        ResourceLocation oak = new ResourceLocation("cfm", "chair_oak");
+        require(!direct.isEmpty() && oak.equals(direct.getItem().getRegistryName())
+                        && direct.getCount() == 3,
+                "CFM chair stack converted without opt-in");
+        ItemStack container = chest.getStackInSlot(1);
+        require(!container.isEmpty() && container.hasTagCompound(), "Nested CFM source fixture is missing");
+        NBTTagCompound nested = container.getTagCompound().getCompoundTag("BlockEntityTag")
+                .getTagList("Items", 10).getCompoundTagAt(0);
+        require(oak.toString().equals(nested.getString("id")) && nested.getByte("Count") == 2,
+                "Nested CFM chair converted without opt-in");
     }
 
     private static void verifyMetalVariants(boolean baseMetalsExpected) {
@@ -218,6 +342,7 @@ public final class OptionalIntegrationRecipeProbe {
             else if ("forestry".equals(modId)) count += 2726;
             else if ("immersiveengineering".equals(modId)) count += 103;
             else if ("basemetals".equals(modId)) count += 21;
+            else if ("cfm".equals(modId)) count += 6;
         }
         return count;
     }

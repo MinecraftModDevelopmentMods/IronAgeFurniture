@@ -164,7 +164,8 @@ def optionalIntegrationExpectedCounts = [
         forestry             : [recipes: 2726, advancements: 2726],
         immersiveengineering: [recipes: 103, advancements: 103],
         mineralogy          : [recipes: 0, advancements: 0],
-        basemetals          : [recipes: 21, advancements: 21]
+        basemetals          : [recipes: 21, advancements: 21],
+        cfm                 : [recipes: 6, advancements: 6]
 ]
 def optionalIntegrationProfile = providers.gradleProperty('integrationProfile').getOrElse('all')
 def normalizeArchiveLineEndings = { details ->
@@ -579,6 +580,9 @@ tasks.register('runOptionalIntegrationServer', Exec) {
         executable java8Launcher.get().executablePath.asFile
         args '-Diaf.probe.profile=integrations',
                 "-Diaf.probe.mods=${optionalIntegrationProfile}", '-Dfml.queryResult=confirm',
+                "-Diaf.probe.createCfmMigrationFixture=${providers.gradleProperty('createCfmMigrationFixture').getOrElse('false')}",
+                "-Diaf.probe.verifyCfmSourceFixture=${providers.gradleProperty('verifyCfmSourceFixture').getOrElse('false')}",
+                "-Diaf.probe.verifyCfmMigrationFixture=${providers.gradleProperty('verifyCfmMigrationFixture').getOrElse('false')}",
                 '-jar', forgeServerJar.name, 'nogui'
     }
     doLast {

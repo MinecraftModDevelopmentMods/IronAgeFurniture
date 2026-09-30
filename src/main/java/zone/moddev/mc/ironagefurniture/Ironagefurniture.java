@@ -5,6 +5,7 @@ import java.util.Map;
 
 import zone.moddev.mc.ironagefurniture.api.entity.Seat;
 import zone.moddev.mc.ironagefurniture.api.CreativeModeBreakTracker;
+import zone.moddev.mc.ironagefurniture.api.CfmChairMigration;
 import zone.moddev.mc.ironagefurniture.api.entity.EntityThrownLavaLamp;
 import zone.moddev.mc.ironagefurniture.api.tile.TileEntityPaddedBench;
 import zone.moddev.mc.ironagefurniture.api.tile.TileEntityShieldChair;
@@ -42,6 +43,7 @@ public class Ironagefurniture
 	public static final Map<String,Item> ItemRegistry = new HashMap<String, Item>();
     
     public static MMDCreativeTab ironagefurnitureTab = new MMDCreativeTab("IronAgeFurniture", true);
+	private final CfmChairMigration cfmChairMigration = new CfmChairMigration();
 	
     
     
@@ -72,6 +74,8 @@ public class Ironagefurniture
     public void preInit(FMLPreInitializationEvent event) {
     	IronAgeFurnitureConfiguration.init(event);
         MinecraftForge.EVENT_BUS.register(new CreativeModeBreakTracker());
+		MinecraftForge.EVENT_BUS.register(cfmChairMigration);
+		FMLCommonHandler.instance().bus().register(cfmChairMigration);
 		GameRegistry.registerTileEntity(TileEntityPaddedBench.class,
 				new ResourceLocation(MODID, "padded_bench_colour"));
 		GameRegistry.registerTileEntity(TileEntityShieldChair.class,

@@ -66,6 +66,14 @@
       "file": "MMDLib-1.12-1.0.0-rc2.36.jar",
       "sha256": "fe2229e6755a5fd306c33cc22dccf055378d371339133e4912c5dc9213e360af",
       "source": "https://www.curseforge.com/minecraft/mc-mods/mmdlib/files/2712947"
+    },
+    {
+      "modId": "cfm",
+      "role": "integration",
+      "version": "6.3.2",
+      "file": "furniture-6.3.2-1.12.2.jar",
+      "sha256": "f412373512e14b431736ec54f465bf196b81c07939fa484202f457e1c0fbf144",
+      "source": "https://www.curseforge.com/minecraft/mc-mods/mrcrayfish-furniture-mod/files/3865259"
     }
   ]
 }

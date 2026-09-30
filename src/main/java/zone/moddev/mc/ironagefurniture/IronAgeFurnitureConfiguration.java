@@ -18,7 +18,7 @@ public class IronAgeFurnitureConfiguration {
 	public static boolean GENERATE_GLOW_LAMPS = true;
 	public static boolean GENERATE_LAVA_LAMPS = true;
 	public static boolean GENERATE_REDSTONE_LAMPS = true;
-	public static boolean CFM_CONVERSION_RECIPES = true;
+	public static boolean FORCE_CFM_CHAIR_CONVERSION = false;
 	public static boolean INTEGRATION_BIOMESOPLENTY = true;
 	public static boolean INTEGRATION_NATURA = true;
 	public static boolean INTEGRATION_FORESTRY = true;
@@ -53,7 +53,9 @@ public class IronAgeFurnitureConfiguration {
 		GENERATE_LAVA_LAMPS = config.getBoolean("GENERATE_LAVA_LAMPS", "options", GENERATE_LAVA_LAMPS, "If true, then lava lamps will be generated");
 		GENERATE_REDSTONE_LAMPS = config.getBoolean("GENERATE_REDSTONE_LAMPS", "options", GENERATE_REDSTONE_LAMPS, "If true, then redstone lamps will be generated");
 		
-		CFM_CONVERSION_RECIPES = config.getBoolean("CFM_CONVERSION_RECIPES", "options", CFM_CONVERSION_RECIPES, "If true, recipes for converting chairs from Crayfish Furniture Mod will be added");
+		FORCE_CFM_CHAIR_CONVERSION = config.getBoolean("FORCE_CFM_CHAIR_CONVERSION", "options",
+				FORCE_CFM_CHAIR_CONVERSION,
+				"Convert CFM wooden chairs to Iron Age Furniture chairs even while CFM remains installed");
 		config.save();
 	}
 }
