@@ -96,7 +96,10 @@ def ingredientPredicate = { Map recipe, File source ->
     Map preferred = predicates.find { it.item.toString().startsWith('ironagefurniture:') }
     // A wildcard subtype is valid in crafting but cannot serve as an exact
     // inventory criterion. Use the recipe's colour-specific carpet instead.
-    if (preferred?.data == 32767) preferred = predicates.find { it.item == 'minecraft:carpet' }
+    if (preferred?.data == 32767) {
+        Map carpet = predicates.find { it.item == 'minecraft:carpet' && it.data != 32767 }
+        preferred = carpet ?: [item: preferred.item]
+    }
     return new LinkedHashMap(preferred ?: predicates.first())
 }
 

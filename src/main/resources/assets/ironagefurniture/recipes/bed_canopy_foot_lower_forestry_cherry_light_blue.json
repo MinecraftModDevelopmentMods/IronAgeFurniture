@@ -1,0 +1,28 @@
+{
+    "type": "forge:ore_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:bed",
+            "data": 32767
+        },
+        {
+            "item": "forestry:planks.0",
+            "data": 15
+        },
+        {
+            "item": "minecraft:carpet",
+            "data": 3
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_canopy_foot_lower_forestry_cherry",
+        "data": 3,
+        "nbt": "{Color:\"light_blue\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "forestry"
+        }
+    ]
+}

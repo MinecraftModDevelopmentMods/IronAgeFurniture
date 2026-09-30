@@ -1,0 +1,22 @@
+{
+    "type": "ironagefurniture:matching_upholstery",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_canopy_foot_lower_forestry_papaya",
+            "data": 32767
+        },
+        {
+            "item": "ironagefurniture:bed_canopy_foot_lower_forestry_papaya",
+            "data": 32767
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_canopy_foot_left_lower_forestry_papaya"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "forestry"
+        }
+    ]
+}

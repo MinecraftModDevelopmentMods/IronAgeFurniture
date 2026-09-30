@@ -1,0 +1,172 @@
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+
+// Bed shapes and upholstery are fixed, but the planks and bark come from the
+// corresponding 1.12 classic chair. The oak blockstates define the shared geometry.
+def bedAssetRoot = file('src/main/resources/assets/ironagefurniture')
+def bedCatalogFile = file('gradle/furniture-catalog.json')
+def bedStateTemplates = file('gradle/phase-four-bed-blockstates')
+def bedJson = { Object value -> JsonOutput.prettyPrint(JsonOutput.toJson(value)) + '\n' }
+def bedColours = [
+        [name: 'red', item: 0, carpet: 14], [name: 'orange', item: 1, carpet: 1],
+        [name: 'magenta', item: 2, carpet: 2], [name: 'light_blue', item: 3, carpet: 3],
+        [name: 'yellow', item: 4, carpet: 4], [name: 'lime', item: 5, carpet: 5],
+        [name: 'pink', item: 6, carpet: 6], [name: 'gray', item: 7, carpet: 7],
+        [name: 'light_gray', item: 8, carpet: 8], [name: 'cyan', item: 9, carpet: 9],
+        [name: 'purple', item: 10, carpet: 10], [name: 'blue', item: 11, carpet: 11],
+        [name: 'brown', item: 12, carpet: 12], [name: 'green', item: 13, carpet: 13],
+        [name: 'white', item: 14, carpet: 0], [name: 'black', item: 15, carpet: 15]
+]
+def bedModelStems = [
+        'bed_canopy_double_inventory', 'bed_canopy_foot_left_lower', 'bed_canopy_foot_left_upper',
+        'bed_canopy_foot_lower', 'bed_canopy_foot_right_lower', 'bed_canopy_foot_right_upper',
+        'bed_canopy_foot_upper', 'bed_canopy_head_left_lower', 'bed_canopy_head_left_upper',
+        'bed_canopy_head_lower', 'bed_canopy_head_right_lower', 'bed_canopy_head_right_upper',
+        'bed_canopy_head_upper', 'bed_canopy_single_inventory', 'bed_wood_double_inventory',
+        'bed_wood_foot_left', 'bed_wood_foot', 'bed_wood_foot_right', 'bed_wood_head_left',
+        'bed_wood_head', 'bed_wood_head_right', 'bed_wood_single_inventory'
+]
+def bedItemModelStems = [
+        'bed_canopy_foot_lower': 'bed_canopy_single_inventory',
+        'bed_canopy_foot_left_lower': 'bed_canopy_double_inventory',
+        'bed_wood_foot': 'bed_wood_single_inventory',
+        'bed_wood_foot_left': 'bed_wood_double_inventory'
+]
+
+def expectedBedAssets = {
+    Map catalog = new JsonSlurper().parse(bedCatalogFile) as Map
+    List<String> woods = (catalog.woods as Map).values().collectMany { it as List<String> }
+            .collect { it == 'dark_oak' ? 'big_oak' : it }.sort()
+    Map<String, String> expected = [:]
+    woods.each { String wood ->
+        String classic = "chair_wood_ironage_classic_${wood}"
+        Map textures = (new JsonSlurper().parse(
+                new File(bedAssetRoot, "models/block/${classic}.json")) as Map).textures as Map
+        Map planks = ((new JsonSlurper().parse(
+                new File(bedAssetRoot, "recipes/${classic}.json")) as Map).key as Map).x as Map
+        if (!textures['0'] || !textures['1'] || !planks?.item)
+            throw new GradleException("Cannot derive bed materials for ${wood}")
+        bedModelStems.each { String stem ->
+            expected["models/block/${stem}_${wood}.json"] = bedJson([
+                    credit: 'By FoxNekitsune', parent: "ironagefurniture:block/template_${stem}",
+                    textures: [cloth: 'minecraft:blocks/wool_colored_red',
+                            log: textures['0'], particle: textures['0'], planks: textures['1'],
+                            sheet: 'minecraft:blocks/wool_colored_white']
+            ])
+        }
+        bedItemModelStems.each { String stem, String inventory ->
+            expected["models/item/${stem}_${wood}.json"] = bedJson([
+                    credit: 'By FoxNekitsune', parent: "ironagefurniture:block/${inventory}_${wood}"
+            ])
+            String templateName = "${stem}_oak.json"
+            expected["blockstates/${stem}_${wood}.json"] = new File(bedStateTemplates, templateName)
+                    .getText('UTF-8').replace('\r\n', '\n').replace('_oak', "_${wood}")
+        }
+        // The right-hand canopy block is a hidden partner with no item.
+        String right = 'bed_canopy_foot_right_lower'
+        expected["blockstates/${right}_${wood}.json"] = new File(bedStateTemplates, "${right}_oak.json")
+                .getText('UTF-8').replace('\r\n', '\n').replace('_oak', "_${wood}")
+
+        String woodSingle = "bed_wood_foot_${wood}"
+        String woodDouble = "bed_wood_foot_left_${wood}"
+        String canopySingle = "bed_canopy_foot_lower_${wood}"
+        String canopyDouble = "bed_canopy_foot_left_lower_${wood}"
+        expected["recipes/${woodSingle}.json"] = bedJson([
+                type: 'forge:ore_shapeless',
+                ingredients: [[item: 'minecraft:bed', data: 32767], planks],
+                result: [item: "ironagefurniture:${woodSingle}", data: 0, nbt: '{Color:"red"}']
+        ])
+        bedColours.each { colour ->
+            expected["recipes/${canopySingle}_${colour.name}.json"] = bedJson([
+                    type: 'forge:ore_shapeless',
+                    ingredients: [[item: 'minecraft:bed', data: 32767], planks,
+                            [item: 'minecraft:carpet', data: colour.carpet]],
+                    result: [item: "ironagefurniture:${canopySingle}", data: colour.item,
+                            nbt: "{Color:\"${colour.name}\"}"]
+            ])
+        }
+        [[woodSingle, woodDouble], [canopySingle, canopyDouble]].each { pair ->
+            String source = pair[0]
+            String result = pair[1]
+            expected["recipes/${result}.json"] = bedJson([
+                    type: 'ironagefurniture:matching_upholstery',
+                    ingredients: [[item: "ironagefurniture:${source}", data: 32767],
+                            [item: "ironagefurniture:${source}", data: 32767]],
+                    result: [item: "ironagefurniture:${result}"]
+            ])
+        }
+        [woodSingle, woodDouble, canopySingle, canopyDouble].each { String bed ->
+            expected["recipes/${bed}_recolour.json"] = bedJson([
+                    type: 'ironagefurniture:bed_recolour',
+                    ingredients: [[item: "ironagefurniture:${bed}", data: 32767],
+                            [item: 'minecraft:carpet', data: 32767]],
+                    result: [item: "ironagefurniture:${bed}"]
+            ])
+        }
+    }
+    return expected
+}
+
+tasks.register('updatePhaseFourBedCatalog') {
+    group = 'generation'
+    description = 'Regenerates the 1.12 bed models, states, recipes, and names.'
+    inputs.file bedCatalogFile
+    inputs.files fileTree(bedStateTemplates) { include '*.json' }
+    outputs.upToDateWhen { false }
+    doLast {
+        expectedBedAssets().each { String path, String contents ->
+            File target = new File(bedAssetRoot, path)
+            target.parentFile.mkdirs()
+            target.setText(contents, 'UTF-8')
+        }
+        Map catalog = new JsonSlurper().parse(bedCatalogFile) as Map
+        List<String> woods = (catalog.woods as Map).values().collectMany { it as List<String> }
+                .collect { it == 'dark_oak' ? 'big_oak' : it }.sort()
+        Map<String, String> classicNames = [:]
+        new File(bedAssetRoot, 'lang/en_us.lang').readLines('UTF-8').each { String line ->
+            int separator = line.indexOf('=')
+            if (separator > 0) classicNames[line.substring(0, separator)] = line.substring(separator + 1)
+        }
+        Map<String, String> additions = [:]
+        woods.each { String wood ->
+            String classic = classicNames["tile.ironagefurniture.chair_wood_ironage_classic_${wood}.name"]
+            if (!classic?.endsWith(' Classic Chair')) throw new GradleException("Cannot name beds for ${wood}")
+            String title = classic.substring(0, classic.length() - ' Classic Chair'.length())
+            additions["tile.ironagefurniture.bed_wood_foot_${wood}.name"] = "${title} Wooden Bed"
+            additions["tile.ironagefurniture.bed_wood_foot_left_${wood}.name"] = "${title} Double Wooden Bed"
+            additions["tile.ironagefurniture.bed_canopy_foot_lower_${wood}.name"] = "${title} Canopy Bed"
+            additions["tile.ironagefurniture.bed_canopy_foot_left_lower_${wood}.name"] = "${title} Double Canopy Bed"
+        }
+        fileTree(new File(bedAssetRoot, 'lang')) { include '*.lang' }.files.sort().each { File locale ->
+            List<String> lines = locale.readLines('UTF-8')
+            Set<String> keys = lines.collect { it.contains('=') ? it.substring(0, it.indexOf('=')) : '' } as Set<String>
+            additions.each { String key, String value -> if (!keys.contains(key)) lines.add("${key}=${value}") }
+            locale.setText(lines.join('\n') + '\n', 'UTF-8')
+        }
+    }
+}
+
+tasks.register('verifyPhaseFourBedCatalog') {
+    group = 'verification'
+    description = 'Checks generated bed assets against the supported 1.12 woods.'
+    inputs.file bedCatalogFile
+    doLast {
+        expectedBedAssets().each { String path, String contents ->
+            File target = new File(bedAssetRoot, path)
+            if (!target.isFile()) throw new GradleException("Missing Phase 4 bed resource: ${path}")
+            if (path.startsWith('recipes/')) {
+                Map actual = new JsonSlurper().parse(target) as Map
+                Map proposed = new JsonSlurper().parseText(contents) as Map
+                if (actual.type != proposed.type || actual.ingredients != proposed.ingredients
+                        || actual.result != proposed.result)
+                    throw new GradleException("Phase 4 bed recipe differs from catalog: ${path}")
+            } else if (target.getText('UTF-8').replace('\r\n', '\n') != contents) {
+                throw new GradleException("Phase 4 bed resource differs from catalog: ${path}")
+            }
+        }
+    }
+}
+
+tasks.named('updateFurnitureCatalog') { dependsOn tasks.named('updatePhaseFourBedCatalog') }
+tasks.named('updatePhaseFourBedCatalog') { mustRunAfter tasks.named('updatePhaseFourChairCatalog') }
+tasks.named('check') { dependsOn tasks.named('verifyPhaseFourBedCatalog') }

@@ -32,6 +32,8 @@ import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceTorchWall;
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceTorchWallUnlit;
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceTorchWallTwin;
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceTorchWallTwinUnlit;
+import zone.moddev.mc.ironagefurniture.api.Blocks.MultiBlockBed;
+import zone.moddev.mc.ironagefurniture.api.Blocks.MultiBlockWoodBed;
 import zone.moddev.mc.ironagefurniture.api.Blocks.ObsideanLump;
 import zone.moddev.mc.ironagefurniture.api.Blocks.PaddedBackBench;
 import zone.moddev.mc.ironagefurniture.api.Blocks.PaddedBench;
@@ -77,6 +79,36 @@ public class FurnitureFactory {
 
 	public static Block CreateWoodThroneChair(String name) {
 		return registerUpholsteredBlock(new ThroneChair(Material.WOOD, name, 10, 1), name);
+	}
+
+	public static Block CreateSingleCanopyBed(String wood) {
+		String name = "bed_canopy_foot_lower_" + wood;
+		MultiBlockBed bed = new MultiBlockBed(Material.WOOD, name, 10, 3, MultiBlockBed.SINGLE_SIDE);
+		Block registered = registerUpholsteredBlock(bed, name, 1);
+		bed.setSingleBlock(registered);
+		return registered;
+	}
+
+	public static Block[] CreateDoubleCanopyBed(String wood) {
+		String leftName = "bed_canopy_foot_left_lower_" + wood;
+		String rightName = "bed_canopy_foot_right_lower_" + wood;
+		MultiBlockBed left = new MultiBlockBed(Material.WOOD, leftName, 10, 6, MultiBlockBed.LEFT_SIDE);
+		MultiBlockBed right = new MultiBlockBed(Material.WOOD, rightName, 10, 6, MultiBlockBed.RIGHT_SIDE);
+		Block leftBlock = registerUpholsteredBlock(left, leftName, 1);
+		Block rightBlock = registerBlockWithoutItem(right, rightName);
+		left.setDoubleBlocks(leftBlock, rightBlock);
+		right.setDoubleBlocks(leftBlock, rightBlock);
+		return new Block[] {leftBlock, rightBlock};
+	}
+
+	public static Block CreateSingleWoodBed(String wood) {
+		String name = "bed_wood_foot_" + wood;
+		return registerUpholsteredBlock(new MultiBlockWoodBed(Material.WOOD, name, 10, 3, false), name, 1);
+	}
+
+	public static Block CreateDoubleWoodBed(String wood) {
+		String name = "bed_wood_foot_left_" + wood;
+		return registerUpholsteredBlock(new MultiBlockWoodBed(Material.WOOD, name, 10, 6, true), name, 1);
 	}
 
 	public static Block CreateWoodTallStool(String name, float resistance, float hardness) {
@@ -279,10 +311,14 @@ public class FurnitureFactory {
 	}
 
 	private static Block registerUpholsteredBlock(Block block, String name) {
+		return registerUpholsteredBlock(block, name, 16);
+	}
+
+	private static Block registerUpholsteredBlock(Block block, String name, int maxStackSize) {
 		block.setTranslationKey(Ironagefurniture.MODID + "." + name);
 		block.setRegistryName(name);
 		block.setCreativeTab(Ironagefurniture.ironagefurnitureTab);
-		RegisterItem(new ItemBlockUpholsteredFurniture(block), name, 16);
+		RegisterItem(new ItemBlockUpholsteredFurniture(block), name, maxStackSize);
 		Ironagefurniture.BlockRegistry.put(name, block);
 		return block;
 	}

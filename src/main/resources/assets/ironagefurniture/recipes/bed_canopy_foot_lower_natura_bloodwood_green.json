@@ -1,0 +1,28 @@
+{
+    "type": "forge:ore_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:bed",
+            "data": 32767
+        },
+        {
+            "item": "natura:nether_planks",
+            "data": 1
+        },
+        {
+            "item": "minecraft:carpet",
+            "data": 13
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_canopy_foot_lower_natura_bloodwood",
+        "data": 13,
+        "nbt": "{Color:\"green\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "natura"
+        }
+    ]
+}

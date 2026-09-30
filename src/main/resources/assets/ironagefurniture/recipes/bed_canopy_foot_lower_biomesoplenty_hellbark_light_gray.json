@@ -1,0 +1,28 @@
+{
+    "type": "forge:ore_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:bed",
+            "data": 32767
+        },
+        {
+            "item": "biomesoplenty:planks_0",
+            "data": 11
+        },
+        {
+            "item": "minecraft:carpet",
+            "data": 8
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_hellbark",
+        "data": 8,
+        "nbt": "{Color:\"light_gray\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        }
+    ]
+}

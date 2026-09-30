@@ -1,0 +1,28 @@
+{
+    "type": "forge:ore_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:bed",
+            "data": 32767
+        },
+        {
+            "item": "natura:overworld_planks",
+            "data": 7
+        },
+        {
+            "item": "minecraft:carpet",
+            "data": 0
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_canopy_foot_lower_natura_sakura",
+        "data": 14,
+        "nbt": "{Color:\"white\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "natura"
+        }
+    ]
+}

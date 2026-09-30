@@ -1,5 +1,7 @@
 {
   "recipes": {
-    "shield_chair": "zone.moddev.mc.ironagefurniture.api.recipes.ShieldChairRecipe$Factory"
+    "shield_chair": "zone.moddev.mc.ironagefurniture.api.recipes.ShieldChairRecipe$Factory",
+    "matching_upholstery": "zone.moddev.mc.ironagefurniture.api.recipes.MatchingUpholsteryRecipe$Factory",
+    "bed_recolour": "zone.moddev.mc.ironagefurniture.api.recipes.BedRecolourRecipe$Factory"
   }
 }

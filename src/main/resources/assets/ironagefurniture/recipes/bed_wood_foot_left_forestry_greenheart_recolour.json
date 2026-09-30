@@ -1,0 +1,22 @@
+{
+    "type": "ironagefurniture:bed_recolour",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_left_forestry_greenheart",
+            "data": 32767
+        },
+        {
+            "item": "minecraft:carpet",
+            "data": 32767
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_wood_foot_left_forestry_greenheart"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "forestry"
+        }
+    ]
+}

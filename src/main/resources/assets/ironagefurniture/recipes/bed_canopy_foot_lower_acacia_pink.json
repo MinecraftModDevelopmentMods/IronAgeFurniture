@@ -1,0 +1,22 @@
+{
+    "type": "forge:ore_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:bed",
+            "data": 32767
+        },
+        {
+            "item": "minecraft:planks",
+            "data": 4
+        },
+        {
+            "item": "minecraft:carpet",
+            "data": 6
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_canopy_foot_lower_acacia",
+        "data": 6,
+        "nbt": "{Color:\"pink\"}"
+    }
+}

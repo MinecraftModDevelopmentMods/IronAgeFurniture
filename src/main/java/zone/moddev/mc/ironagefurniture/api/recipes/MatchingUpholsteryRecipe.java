@@ -1,13 +1,18 @@
 package zone.moddev.mc.ironagefurniture.api.recipes;
 
+import com.google.gson.JsonObject;
 import zone.moddev.mc.ironagefurniture.api.Enumerations.UpholsteryColour;
 import zone.moddev.mc.ironagefurniture.api.UpholsteryColourHelper;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.common.crafting.IRecipeFactory;
+import net.minecraftforge.common.crafting.JsonContext;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
@@ -29,7 +34,7 @@ public final class MatchingUpholsteryRecipe extends ShapelessOreRecipe {
 		UpholsteryColour first = null;
 		for (int slot = 0; slot < inventory.getSizeInventory(); slot++) {
 			ItemStack stack = inventory.getStackInSlot(slot);
-			if (stack == null || stack.getItem() != source) continue;
+			if (stack.isEmpty() || stack.getItem() != source) continue;
 			UpholsteryColour colour = UpholsteryColourHelper.getColour(stack);
 			if (first != null && first != colour) return false;
 			first = colour;
@@ -40,9 +45,22 @@ public final class MatchingUpholsteryRecipe extends ShapelessOreRecipe {
 	@Override public ItemStack getCraftingResult(InventoryCrafting inventory) {
 		for (int slot = 0; slot < inventory.getSizeInventory(); slot++) {
 			ItemStack stack = inventory.getStackInSlot(slot);
-			if (stack != null && stack.getItem() == source)
+			if (!stack.isEmpty() && stack.getItem() == source)
 				return UpholsteryColourHelper.createStack(result, 1, UpholsteryColourHelper.getColour(stack));
 		}
-		return null;
+		return ItemStack.EMPTY;
+	}
+
+	public static final class Factory implements IRecipeFactory {
+		@Override public IRecipe parse(JsonContext context, JsonObject json) {
+			String sourceName = json.getAsJsonArray("ingredients").get(0)
+					.getAsJsonObject().get("item").getAsString();
+			String resultName = json.getAsJsonObject("result").get("item").getAsString();
+			Block source = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(sourceName));
+			Block result = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(resultName));
+			if (source == null || result == null)
+				throw new IllegalArgumentException("Unknown bed recipe block: " + sourceName + " or " + resultName);
+			return new MatchingUpholsteryRecipe(source, result);
+		}
 	}
 }

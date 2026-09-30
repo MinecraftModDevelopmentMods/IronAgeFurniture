@@ -7,6 +7,8 @@ public class IronAgeFurnitureConfiguration {
 	public static boolean GENERATE_CLASSIC_CHAIRS = true;
 	public static boolean GENERATE_WINGBACK_CHAIRS = true;
 	public static boolean GENERATE_THRONES = true;
+	public static boolean GENERATE_CANOPY_BEDS = true;
+	public static boolean GENERATE_WOOD_BEDS = true;
 	public static boolean GENERATE_SHIELD_CHAIRS = true;
 	public static boolean GENERATE_SHORT_STOOLS = true;
 	public static boolean GENERATE_TALL_STOOLS = true;
@@ -35,6 +37,8 @@ public class IronAgeFurnitureConfiguration {
 		GENERATE_CLASSIC_CHAIRS = config.getBoolean("GENERATE_CLASSIC_CHAIRS", "options", GENERATE_CLASSIC_CHAIRS, "If true, then classic chairs will be generated");
 		GENERATE_WINGBACK_CHAIRS = config.getBoolean("GENERATE_WINGBACK_CHAIRS", "options", GENERATE_WINGBACK_CHAIRS, "If true, wingback chairs will be generated for available classic-chair woods");
 		GENERATE_THRONES = config.getBoolean("GENERATE_THRONES", "options", GENERATE_THRONES, "If true, thrones will be generated for available wingback-chair woods");
+		GENERATE_CANOPY_BEDS = config.getBoolean("GENERATE_CANOPY_BEDS", "options", GENERATE_CANOPY_BEDS, "If true, canopy beds will be generated for available woods");
+		GENERATE_WOOD_BEDS = config.getBoolean("GENERATE_WOOD_BEDS", "options", GENERATE_WOOD_BEDS, "If true, wooden beds will be generated for available woods");
 	
 		GENERATE_SHORT_STOOLS = config.getBoolean("GENERATE_SHORT_STOOLS", "options", GENERATE_SHORT_STOOLS, "If true, then short stools will be generated");
 		GENERATE_TALL_STOOLS = config.getBoolean("GENERATE_TALL_STOOLS", "options", GENERATE_TALL_STOOLS, "If true, then tall stools will be generated");

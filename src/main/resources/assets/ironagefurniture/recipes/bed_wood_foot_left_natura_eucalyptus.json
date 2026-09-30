@@ -1,0 +1,22 @@
+{
+    "type": "ironagefurniture:matching_upholstery",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_natura_eucalyptus",
+            "data": 32767
+        },
+        {
+            "item": "ironagefurniture:bed_wood_foot_natura_eucalyptus",
+            "data": 32767
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_wood_foot_left_natura_eucalyptus"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "natura"
+        }
+    ]
+}

@@ -20,6 +20,7 @@ plugins {
 
 apply from: 'gradle/furniture-catalog.gradle'
 apply from: 'gradle/phase-four-chairs.gradle'
+apply from: 'gradle/phase-four-beds.gradle'
 
 def legacyFixtureDirectory = file('src/test/resources/fixtures')
 def legacyFixtureVerificationDirectory = layout.buildDirectory.dir('verification/legacy-migration-fixtures')
@@ -156,10 +157,10 @@ def archiveTextSuffixes = [
 def archiveTextPatterns = archiveTextSuffixes.collect { "**/*${it}".toString() }
 archiveTextPatterns.addAll(['**/element-list', '**/package-list'])
 def optionalIntegrationExpectedCounts = [
-        biomesoplenty        : [recipes: 1136, advancements: 1136],
-        natura               : [recipes: 852, advancements: 852],
-        forestry             : [recipes: 2059, advancements: 2059],
-        immersiveengineering: [recipes: 80, advancements: 80]
+        biomesoplenty        : [recipes: 1504, advancements: 1504],
+        natura               : [recipes: 1128, advancements: 1128],
+        forestry             : [recipes: 2726, advancements: 2726],
+        immersiveengineering: [recipes: 103, advancements: 103]
 ]
 def optionalIntegrationProfile = providers.gradleProperty('integrationProfile').getOrElse('all')
 def normalizeArchiveLineEndings = { details ->

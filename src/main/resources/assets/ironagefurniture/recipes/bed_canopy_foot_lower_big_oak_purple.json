@@ -1,0 +1,22 @@
+{
+    "type": "forge:ore_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:bed",
+            "data": 32767
+        },
+        {
+            "item": "minecraft:planks",
+            "data": 5
+        },
+        {
+            "item": "minecraft:carpet",
+            "data": 10
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_canopy_foot_lower_big_oak",
+        "data": 10,
+        "nbt": "{Color:\"purple\"}"
+    }
+}

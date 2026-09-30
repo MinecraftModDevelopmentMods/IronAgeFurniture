@@ -1,0 +1,22 @@
+{
+    "type": "ironagefurniture:bed_recolour",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_canopy_foot_lower_forestry_poplar",
+            "data": 32767
+        },
+        {
+            "item": "minecraft:carpet",
+            "data": 32767
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_canopy_foot_lower_forestry_poplar"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "forestry"
+        }
+    ]
+}

@@ -170,10 +170,10 @@ public final class OptionalIntegrationRecipeProbe {
     private static int expectedCount(List<String> selectedMods) {
         int count = 0;
         for (String modId : selectedMods) {
-            if ("biomesoplenty".equals(modId)) count += 1136;
-            else if ("natura".equals(modId)) count += 852;
-            else if ("forestry".equals(modId)) count += 2059;
-            else if ("immersiveengineering".equals(modId)) count += 80;
+            if ("biomesoplenty".equals(modId)) count += 1504;
+            else if ("natura".equals(modId)) count += 1128;
+            else if ("forestry".equals(modId)) count += 2726;
+            else if ("immersiveengineering".equals(modId)) count += 103;
         }
         return count;
     }

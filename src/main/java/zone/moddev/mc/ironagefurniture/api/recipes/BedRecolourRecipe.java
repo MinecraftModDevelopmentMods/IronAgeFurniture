@@ -1,5 +1,6 @@
 package zone.moddev.mc.ironagefurniture.api.recipes;
 
+import com.google.gson.JsonObject;
 import zone.moddev.mc.ironagefurniture.api.Enumerations.UpholsteryColour;
 import zone.moddev.mc.ironagefurniture.api.UpholsteryColourHelper;
 import net.minecraft.block.Block;
@@ -7,8 +8,12 @@ import net.minecraft.init.Blocks;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.common.crafting.IRecipeFactory;
+import net.minecraftforge.common.crafting.JsonContext;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
@@ -30,18 +35,27 @@ public final class BedRecolourRecipe extends ShapelessOreRecipe {
 
 	@Override public ItemStack getCraftingResult(InventoryCrafting inventory) {
 		UpholsteryColour colour = carpetColour(inventory);
-		return colour == null ? null : UpholsteryColourHelper.createStack(bed, 1, colour);
+		return colour == null ? ItemStack.EMPTY : UpholsteryColourHelper.createStack(bed, 1, colour);
 	}
 
 	private UpholsteryColour carpetColour(InventoryCrafting inventory) {
 		for (int slot = 0; slot < inventory.getSizeInventory(); slot++) {
 			ItemStack stack = inventory.getStackInSlot(slot);
-			if (stack != null && stack.getItem() == carpet) {
+			if (!stack.isEmpty() && stack.getItem() == carpet) {
 				int metadata = stack.getMetadata();
 				return metadata >= 0 && metadata < 16
 						? UpholsteryColour.byCarpetMetadata(metadata) : null;
 			}
 		}
 		return null;
+	}
+
+	public static final class Factory implements IRecipeFactory {
+		@Override public IRecipe parse(JsonContext context, JsonObject json) {
+			String name = json.getAsJsonObject("result").get("item").getAsString();
+			Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(name));
+			if (block == null) throw new IllegalArgumentException("Unknown bed to recolour: " + name);
+			return new BedRecolourRecipe(block);
+		}
 	}
 }
