@@ -48,6 +48,29 @@ public class PaddedBackBench extends BackBench {
 	}
 
 	@Override
+	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos,
+			EntityPlayer player, boolean willHarvest) {
+		if (!willHarvest || world.isRemote) {
+			return super.removedByPlayer(state, world, pos, player, willHarvest);
+		}
+		// Keep the colour tile entity until Forge has collected the drop.
+		onBlockHarvested(world, pos, state, player);
+		return true;
+	}
+
+	@Override
+	public void harvestBlock(World world, EntityPlayer player, BlockPos pos, IBlockState state,
+			TileEntity tile, ItemStack tool) {
+		try {
+			super.harvestBlock(world, player, pos, state, tile, tool);
+		} finally {
+			if (world.getBlockState(pos).getBlock() == this) {
+				world.setBlockToAir(pos);
+			}
+		}
+	}
+
+	@Override
 	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
 		return PaddedBenchColourHelper.getDrops(this, world, pos);
 	}
@@ -58,4 +81,3 @@ public class PaddedBackBench extends BackBench {
 		return PaddedBenchColourHelper.getPickBlock(this, world, pos, state, target, player);
 	}
 }
-

@@ -22,6 +22,8 @@ Phase 3 release remains `0.3.0.112021` until this update is accepted.
 - Preserve the Phase 3 registry identities and existing padded-bench colours.
   Older furniture with no `Color` value remains red, and sconces with no
   `Metal` value remain iron.
+- Keep all sixteen padded-bench colours when either bench style is mined;
+  previously a coloured bench could drop as red.
 - Restore Natura redwood furniture under its historical registry names, so
   worlds that used that wood can retain their chairs and benches.
 - Organize the build checks, Eclipse setup, and release tasks into smaller

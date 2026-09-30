@@ -379,6 +379,7 @@ tasks.register('runCorePackagedServer', Exec) {
         args '-Diaf.probe.profile=absent', '-Dfml.queryResult=confirm',
                 "-Diaf.probe.legacySource=${providers.gradleProperty('legacyWorldSource').getOrElse('')}",
                 "-Diaf.probe.verifyLavaTrap=${providers.gradleProperty('verifyLavaTrap').getOrElse('false')}",
+                "-Diaf.probe.verifyColourDrops=${providers.gradleProperty('verifyColourDrops').getOrElse('true')}",
                 '-jar', forgeServerJar.name, 'nogui'
     }
     doLast {

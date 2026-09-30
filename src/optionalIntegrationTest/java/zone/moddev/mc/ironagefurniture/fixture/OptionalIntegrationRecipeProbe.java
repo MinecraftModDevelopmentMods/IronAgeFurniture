@@ -19,6 +19,8 @@ import org.apache.logging.log4j.Logger;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -28,7 +30,9 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.util.FakePlayerFactory;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
@@ -39,7 +43,11 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import zone.moddev.mc.ironagefurniture.BlockObjectHolder;
+import zone.moddev.mc.ironagefurniture.api.Enumerations.PaddedBenchColour;
+import zone.moddev.mc.ironagefurniture.api.Enumerations.UpholsteryColour;
 import zone.moddev.mc.ironagefurniture.api.MetalVariantHelper;
+import zone.moddev.mc.ironagefurniture.api.PaddedBenchColourHelper;
+import zone.moddev.mc.ironagefurniture.api.UpholsteryColourHelper;
 import zone.moddev.mc.ironagefurniture.api.entity.EntityReleasedLavaLamp;
 
 /** Exact-loader probe for optional recipes and recipe advancements. */
@@ -74,6 +82,10 @@ public final class OptionalIntegrationRecipeProbe {
     public void serverStarted(FMLServerStartedEvent event) {
         MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
         verifyCandleSconces();
+        if (Boolean.getBoolean("iaf.probe.verifyColourDrops")) {
+            verifyPaddedBenchDrops(server);
+            verifyOtherUpholsteryDrops(server);
+        }
         verifyMetalVariants(!"absent".equals(System.getProperty("iaf.probe.profile"))
                 && ("basemetals".equals(System.getProperty("iaf.probe.mods"))
                         || "all".equals(System.getProperty("iaf.probe.mods"))));
@@ -164,6 +176,90 @@ public final class OptionalIntegrationRecipeProbe {
         require(world.isBlockPowered(lavaTrapPos), "Trap sconce is not powered");
         require(world.isAirBlock(lavaTrapPos.down()), "Trap lamp has no falling clearance");
         lavaTrapActive = true;
+    }
+
+    private static void verifyPaddedBenchDrops(MinecraftServer server) {
+        WorldServer world = server.getWorld(0);
+        EntityPlayer player = FakePlayerFactory.getMinecraft(world);
+        Block[] benches = {
+                BlockObjectHolder.chair_wood_ironage_bench_padded_single_oak,
+                BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_oak
+        };
+        BlockPos origin = world.getSpawnPoint().add(0, 110, 0);
+        for (int form = 0; form < benches.length; ++form) {
+            Block bench = benches[form];
+            require(bench != null, "Padded bench form is not registered: " + form);
+            for (PaddedBenchColour colour : PaddedBenchColour.values()) {
+                BlockPos pos = origin.add(form * 3, 0, colour.getItemMetadata() * 3);
+                world.setBlockState(pos, bench.getDefaultState(), 3);
+                PaddedBenchColourHelper.setColour(world, pos, colour);
+                require(PaddedBenchColourHelper.getColour(world, pos) == colour,
+                        "Could not set placed bench colour: " + colour);
+
+                require(bench.removedByPlayer(world.getBlockState(pos), world, pos, player, true),
+                        "Could not harvest " + bench.getRegistryName());
+                require(world.getBlockState(pos).getBlock() == bench,
+                        "Bench disappeared before its colour could be collected: " + colour);
+                require(PaddedBenchColourHelper.getColour(world, pos) == colour,
+                        "Bench colour disappeared before harvest: " + colour);
+                bench.harvestBlock(world, player, pos, bench.getDefaultState(),
+                        world.getTileEntity(pos), ItemStack.EMPTY);
+                require(world.isAirBlock(pos), "Harvest left the bench behind: " + colour);
+
+                List<EntityItem> drops = world.getEntitiesWithinAABB(EntityItem.class,
+                        new AxisAlignedBB(pos).grow(1.0D));
+                require(drops.size() == 1, "Expected one padded bench drop, found " + drops.size());
+                ItemStack dropped = drops.get(0).getItem();
+                require(dropped.getItem() == Item.getItemFromBlock(bench)
+                                && PaddedBenchColourHelper.getColour(dropped) == colour,
+                        "Padded bench drop lost its form or colour: " + colour);
+                drops.get(0).setDead();
+            }
+        }
+        LOGGER.info("IRON AGE FURNITURE PADDED BENCH DROP PROBE PASSED: 2 forms, 16 colours");
+    }
+
+    private static void verifyOtherUpholsteryDrops(MinecraftServer server) {
+        WorldServer world = server.getWorld(0);
+        EntityPlayer player = FakePlayerFactory.getMinecraft(world);
+        String[] names = {
+                "chair_wood_ironage_wingback_oak",
+                "chair_wood_ironage_throne_oak",
+                "bed_wood_foot_oak",
+                "bed_wood_foot_left_oak"
+        };
+        BlockPos origin = world.getSpawnPoint().add(12, 110, 0);
+        for (int form = 0; form < names.length; ++form) {
+            Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation("ironagefurniture", names[form]));
+            require(block != null, "Upholstered furniture is not registered: " + names[form]);
+            for (UpholsteryColour colour : UpholsteryColour.values()) {
+                BlockPos pos = origin.add(form * 3, 0, colour.getItemMetadata() * 3);
+                world.setBlockState(pos, block.getDefaultState(), 3);
+                UpholsteryColourHelper.setColour(world, pos, colour);
+                require(UpholsteryColourHelper.getColour(world, pos) == colour,
+                        "Could not set upholstery colour: " + names[form] + " " + colour);
+
+                require(block.removedByPlayer(world.getBlockState(pos), world, pos, player, true),
+                        "Could not harvest " + names[form]);
+                require(world.getBlockState(pos).getBlock() == block
+                                && UpholsteryColourHelper.getColour(world, pos) == colour,
+                        "Upholstery disappeared before harvest: " + names[form] + " " + colour);
+                block.harvestBlock(world, player, pos, block.getDefaultState(),
+                        world.getTileEntity(pos), ItemStack.EMPTY);
+                require(world.isAirBlock(pos), "Harvest left furniture behind: " + names[form]);
+
+                List<EntityItem> drops = world.getEntitiesWithinAABB(EntityItem.class,
+                        new AxisAlignedBB(pos).grow(1.0D));
+                require(drops.size() == 1, "Expected one furniture drop for " + names[form]
+                        + ", found " + drops.size());
+                ItemStack dropped = drops.get(0).getItem();
+                require(dropped.getItem() == Item.getItemFromBlock(block)
+                                && UpholsteryColourHelper.getColour(dropped) == colour,
+                        "Upholstered furniture drop lost its form or colour: " + names[form] + " " + colour);
+                drops.get(0).setDead();
+            }
+        }
+        LOGGER.info("IRON AGE FURNITURE UPHOLSTERY DROP PROBE PASSED: 4 forms, 16 colours");
     }
 
     @SubscribeEvent
