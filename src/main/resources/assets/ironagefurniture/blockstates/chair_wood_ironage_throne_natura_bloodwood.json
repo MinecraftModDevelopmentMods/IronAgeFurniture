@@ -1,0 +1,49 @@
+{
+    "variants": {
+        "facing=north,part=lower": {
+            "model": "ironagefurniture:upholstered/chair_wood_ironage_throne_natura_bloodwood",
+            "y": 180
+        },
+        "facing=north,part=middle": {
+            "model": "ironagefurniture:upholstered/chair_wood_ironage_throne_natura_bloodwood_middle",
+            "y": 180
+        },
+        "facing=north,part=upper": {
+            "model": "ironagefurniture:upholstered/chair_wood_ironage_throne_natura_bloodwood_upper",
+            "y": 180
+        },
+        "facing=east,part=lower": {
+            "model": "ironagefurniture:upholstered/chair_wood_ironage_throne_natura_bloodwood",
+            "y": 270
+        },
+        "facing=east,part=middle": {
+            "model": "ironagefurniture:upholstered/chair_wood_ironage_throne_natura_bloodwood_middle",
+            "y": 270
+        },
+        "facing=east,part=upper": {
+            "model": "ironagefurniture:upholstered/chair_wood_ironage_throne_natura_bloodwood_upper",
+            "y": 270
+        },
+        "facing=south,part=lower": {
+            "model": "ironagefurniture:upholstered/chair_wood_ironage_throne_natura_bloodwood"
+        },
+        "facing=south,part=middle": {
+            "model": "ironagefurniture:upholstered/chair_wood_ironage_throne_natura_bloodwood_middle"
+        },
+        "facing=south,part=upper": {
+            "model": "ironagefurniture:upholstered/chair_wood_ironage_throne_natura_bloodwood_upper"
+        },
+        "facing=west,part=lower": {
+            "model": "ironagefurniture:upholstered/chair_wood_ironage_throne_natura_bloodwood",
+            "y": 90
+        },
+        "facing=west,part=middle": {
+            "model": "ironagefurniture:upholstered/chair_wood_ironage_throne_natura_bloodwood_middle",
+            "y": 90
+        },
+        "facing=west,part=upper": {
+            "model": "ironagefurniture:upholstered/chair_wood_ironage_throne_natura_bloodwood_upper",
+            "y": 90
+        }
+    }
+}

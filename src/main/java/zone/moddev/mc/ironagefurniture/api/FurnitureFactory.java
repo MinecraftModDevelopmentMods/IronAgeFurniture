@@ -36,7 +36,10 @@ import zone.moddev.mc.ironagefurniture.api.Blocks.ObsideanLump;
 import zone.moddev.mc.ironagefurniture.api.Blocks.PaddedBackBench;
 import zone.moddev.mc.ironagefurniture.api.Blocks.PaddedBench;
 import zone.moddev.mc.ironagefurniture.api.Blocks.Stool;
+import zone.moddev.mc.ironagefurniture.api.Blocks.ThroneChair;
+import zone.moddev.mc.ironagefurniture.api.Blocks.WingbackChair;
 import zone.moddev.mc.ironagefurniture.api.Items.ItemBlockPaddedBench;
+import zone.moddev.mc.ironagefurniture.api.Items.ItemBlockUpholsteredFurniture;
 import zone.moddev.mc.ironagefurniture.api.Items.ItemBlockThrowableLavaLamp;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -66,6 +69,14 @@ public class FurnitureFactory {
 
 	public static Block CreateWoodChair(String name) {
 		return CreateWoodChair(name, 10, 1);
+	}
+
+	public static Block CreateWoodWingbackChair(String name) {
+		return registerUpholsteredBlock(new WingbackChair(Material.WOOD, name, 10, 1), name);
+	}
+
+	public static Block CreateWoodThroneChair(String name) {
+		return registerUpholsteredBlock(new ThroneChair(Material.WOOD, name, 10, 1), name);
 	}
 
 	public static Block CreateWoodTallStool(String name, float resistance, float hardness) {
@@ -263,6 +274,15 @@ public class FurnitureFactory {
 		block.setCreativeTab(Ironagefurniture.ironagefurnitureTab);
 		ItemBlock itemBlock = new ItemBlockPaddedBench(block);
 		RegisterItem(itemBlock, name, 16);
+		Ironagefurniture.BlockRegistry.put(name, block);
+		return block;
+	}
+
+	private static Block registerUpholsteredBlock(Block block, String name) {
+		block.setTranslationKey(Ironagefurniture.MODID + "." + name);
+		block.setRegistryName(name);
+		block.setCreativeTab(Ironagefurniture.ironagefurnitureTab);
+		RegisterItem(new ItemBlockUpholsteredFurniture(block), name, 16);
 		Ironagefurniture.BlockRegistry.put(name, block);
 		return block;
 	}

@@ -1,0 +1,27 @@
+{
+    "type": "forge:ore_shaped",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_throne_spruce",
+        "data": 7,
+        "nbt": "{Color:\"gray\"}"
+    },
+    "pattern": [
+        "z",
+        "x",
+        "y"
+    ],
+    "key": {
+        "z": {
+            "item": "minecraft:carpet",
+            "data": 7
+        },
+        "x": {
+            "item": "minecraft:planks",
+            "data": 1
+        },
+        "y": {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_spruce",
+            "data": 32767
+        }
+    }
+}

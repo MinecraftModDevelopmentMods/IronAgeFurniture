@@ -1,0 +1,33 @@
+{
+    "type": "forge:ore_shaped",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_throne_natura_sakura",
+        "data": 5,
+        "nbt": "{Color:\"lime\"}"
+    },
+    "pattern": [
+        "z",
+        "x",
+        "y"
+    ],
+    "key": {
+        "z": {
+            "item": "minecraft:carpet",
+            "data": 5
+        },
+        "x": {
+            "item": "natura:overworld_planks",
+            "data": 7
+        },
+        "y": {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_natura_sakura",
+            "data": 32767
+        }
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "natura"
+        }
+    ]
+}

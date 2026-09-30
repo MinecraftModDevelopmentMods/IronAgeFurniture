@@ -1,0 +1,157 @@
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+
+// New chairs use the wood textures already chosen for each 1.12 classic chair.
+// Only the explicit update task writes generated resources; ordinary builds verify them.
+def chairAssets = file('src/main/resources/assets/ironagefurniture')
+def chairCatalog = file('gradle/furniture-catalog.json')
+def chairColourData = [
+        [name: 'red', carpet: 14], [name: 'orange', carpet: 1],
+        [name: 'magenta', carpet: 2], [name: 'light_blue', carpet: 3],
+        [name: 'yellow', carpet: 4], [name: 'lime', carpet: 5],
+        [name: 'pink', carpet: 6], [name: 'gray', carpet: 7],
+        [name: 'light_gray', carpet: 8], [name: 'cyan', carpet: 9],
+        [name: 'purple', carpet: 10], [name: 'blue', carpet: 11],
+        [name: 'brown', carpet: 12], [name: 'green', carpet: 13],
+        [name: 'white', carpet: 0], [name: 'black', carpet: 15]
+]
+def chairJson = { Object value -> JsonOutput.prettyPrint(JsonOutput.toJson(value)) + '\n' }
+
+def chairExpectedAssets = {
+    Map catalog = new JsonSlurper().parse(chairCatalog) as Map
+    List<String> woods = (catalog.woods as Map).values().collectMany { it as List<String> }
+            .collect { it == 'dark_oak' ? 'big_oak' : it }.sort()
+    Map<String, String> expected = [:]
+    woods.each { String wood ->
+        String classic = "chair_wood_ironage_classic_${wood}"
+        File classicModel = new File(chairAssets, "models/block/${classic}.json")
+        File classicRecipe = new File(chairAssets, "recipes/${classic}.json")
+        Map textures = (new JsonSlurper().parse(classicModel) as Map).textures as Map
+        Map planks = ((new JsonSlurper().parse(classicRecipe) as Map).key as Map).x as Map
+        if (!textures['0'] || !textures['1'] || !planks?.item)
+            throw new GradleException("Classic chair cannot supply Phase 4 textures or planks: ${classic}")
+        ['wingback', 'throne'].each { String form ->
+            String id = "chair_wood_ironage_${form}_${wood}"
+            List<String> parts = form == 'wingback' ? ['lower', 'upper'] : ['lower', 'middle', 'upper']
+            (parts + ['inventory']).each { String part ->
+                String model = id + (part == 'lower' ? '' : "_${part}")
+                expected["models/block/${model}.json"] = chairJson([
+                        credit: 'By FoxNekitsune',
+                        parent: "ironagefurniture:block/template_chair_${form}_${part}",
+                        textures: [cloth: 'minecraft:blocks/wool_colored_red',
+                                log: textures['0'], particle: textures['0'], planks: textures['1']]
+                ])
+            }
+            expected["models/item/${id}.json"] = chairJson([
+                    credit: 'By FoxNekitsune', parent: "ironagefurniture:block/${id}_inventory"
+            ])
+            Map variants = new LinkedHashMap()
+            ['north': 180, 'east': 270, 'south': 0, 'west': 90].each { facing, rotation ->
+                ['lower', 'middle', 'upper'].each { part ->
+                    String visiblePart = part == 'lower' ? '' : (form == 'wingback' ? '_upper' : "_${part}")
+                    Map variant = [model: "ironagefurniture:upholstered/${id}${visiblePart}"]
+                    if (rotation != 0) variant.y = rotation
+                    variants["facing=${facing},part=${part}"] = variant
+                }
+            }
+            expected["blockstates/${id}.json"] = chairJson([variants: variants])
+            String input = form == 'wingback' ? classic : "chair_wood_ironage_wingback_${wood}"
+            chairColourData.eachWithIndex { colour, int metadata ->
+                String recipeId = "${id}_${colour.name}"
+                expected["recipes/${recipeId}.json"] = chairJson([
+                        type: 'forge:ore_shaped',
+                        result: [item: "ironagefurniture:${id}", data: metadata,
+                                nbt: "{Color:\"${colour.name}\"}"],
+                        pattern: ['z', 'x', 'y'],
+                        key: [z: [item: 'minecraft:carpet', data: colour.carpet],
+                                x: planks, y: form == 'throne'
+                                        ? [item: "ironagefurniture:${input}", data: 32767]
+                                        : [item: "ironagefurniture:${input}"]]
+                ])
+            }
+        }
+    }
+    return expected
+}
+
+tasks.register('updatePhaseFourChairCatalog') {
+    group = 'generation'
+    description = 'Regenerates Phase 4 chair models, states, recipes, and locale entries.'
+    inputs.file chairCatalog
+    outputs.upToDateWhen { false }
+    doLast {
+        chairExpectedAssets().each { String path, String contents ->
+            File target = new File(chairAssets, path)
+            target.parentFile.mkdirs()
+            target.setText(contents, 'UTF-8')
+        }
+        Map catalog = new JsonSlurper().parse(chairCatalog) as Map
+        List<String> woods = (catalog.woods as Map).values().collectMany { it as List<String> }
+                .collect { it == 'dark_oak' ? 'big_oak' : it }.sort()
+        File english = new File(chairAssets, 'lang/en_us.lang')
+        Map<String, String> classicNames = [:]
+        english.readLines('UTF-8').each { String line ->
+            int separator = line.indexOf('=')
+            if (separator > 0) classicNames[line.substring(0, separator)] = line.substring(separator + 1)
+        }
+        Map<String, String> additions = [:]
+        chairColourData.findAll { it.name != 'red' }.each { colour ->
+            String label = colour.name.split('_').collect { it.capitalize() }.join(' ')
+            additions["item.ironagefurniture.upholstery.${colour.name}"] = label
+        }
+        woods.each { String wood ->
+            String classicName = classicNames["tile.ironagefurniture.chair_wood_ironage_classic_${wood}.name"]
+            if (!classicName?.endsWith(' Classic Chair'))
+                throw new GradleException("Cannot name the new chairs for ${wood}")
+            String woodName = classicName.substring(0, classicName.length() - ' Classic Chair'.length())
+            additions["tile.ironagefurniture.chair_wood_ironage_wingback_${wood}.name"] = "${woodName} Wingback Chair"
+            additions["tile.ironagefurniture.chair_wood_ironage_throne_${wood}.name"] = "${woodName} Throne"
+        }
+        fileTree(new File(chairAssets, 'lang')) { include '*.lang' }.files.sort().each { File locale ->
+            List<String> lines = locale.readLines('UTF-8')
+            Set<String> keys = lines.collect { it.contains('=') ? it.substring(0, it.indexOf('=')) : '' } as Set<String>
+            additions.each { String key, String value ->
+                if (!keys.contains(key)) lines.add("${key}=${value}")
+            }
+            locale.setText(lines.join('\n') + '\n', 'UTF-8')
+        }
+    }
+}
+
+tasks.register('verifyPhaseFourChairCatalog') {
+    group = 'verification'
+    description = 'Verifies every new chair model, state, recipe, and colour label.'
+    inputs.file chairCatalog
+    doLast {
+        chairExpectedAssets().each { String path, String contents ->
+            File target = new File(chairAssets, path)
+            if (!target.isFile()) throw new GradleException("Missing Phase 4 chair resource: ${path}")
+            if (path.startsWith('recipes/')) {
+                Map recipe = new JsonSlurper().parse(target) as Map
+                Map proposed = new JsonSlurper().parseText(contents) as Map
+                if (recipe.type != proposed.type || recipe.key != proposed.key
+                        || recipe.result != proposed.result || recipe.pattern != proposed.pattern)
+                    throw new GradleException("Phase 4 chair recipe differs from catalog: ${path}")
+            } else if (target.getText('UTF-8').replace('\r\n', '\n') != contents) {
+                throw new GradleException("Phase 4 chair resource differs from catalog: ${path}")
+            }
+        }
+        Map<String, Set<String>> localeKeys = [:]
+        fileTree(new File(chairAssets, 'lang')) { include '*.lang' }.files.each { File locale ->
+            localeKeys[locale.name] = locale.readLines('UTF-8').findAll { it.contains('=') }
+                    .collect { it.substring(0, it.indexOf('=')) } as Set<String>
+        }
+        if (localeKeys.values().any { it != localeKeys['en_us.lang'] })
+            throw new GradleException('Phase 4 chair keys must exist in every supported language')
+    }
+}
+
+tasks.named('updateFurnitureCatalog') {
+    dependsOn tasks.named('updatePhaseFourChairCatalog')
+}
+tasks.named('updatePhaseFourChairCatalog') {
+    mustRunAfter tasks.named('updatePaddedBenchColourAssets')
+}
+tasks.named('check') {
+    dependsOn tasks.named('verifyPhaseFourChairCatalog')
+}

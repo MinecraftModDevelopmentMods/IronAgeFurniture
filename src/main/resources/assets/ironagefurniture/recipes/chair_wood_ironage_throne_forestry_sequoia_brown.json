@@ -1,0 +1,33 @@
+{
+    "type": "forge:ore_shaped",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_throne_forestry_sequoia",
+        "data": 12,
+        "nbt": "{Color:\"brown\"}"
+    },
+    "pattern": [
+        "z",
+        "x",
+        "y"
+    ],
+    "key": {
+        "z": {
+            "item": "minecraft:carpet",
+            "data": 12
+        },
+        "x": {
+            "item": "forestry:planks.0",
+            "data": 7
+        },
+        "y": {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_forestry_sequoia",
+            "data": 32767
+        }
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "forestry"
+        }
+    ]
+}

@@ -1,0 +1,33 @@
+{
+    "type": "forge:ore_shaped",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_mahogany",
+        "data": 7,
+        "nbt": "{Color:\"gray\"}"
+    },
+    "pattern": [
+        "z",
+        "x",
+        "y"
+    ],
+    "key": {
+        "z": {
+            "item": "minecraft:carpet",
+            "data": 7
+        },
+        "x": {
+            "item": "biomesoplenty:planks_0",
+            "data": 13
+        },
+        "y": {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_mahogany",
+            "data": 32767
+        }
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        }
+    ]
+}

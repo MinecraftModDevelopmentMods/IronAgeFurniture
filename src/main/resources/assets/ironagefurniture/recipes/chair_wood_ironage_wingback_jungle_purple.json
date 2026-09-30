@@ -1,0 +1,26 @@
+{
+    "type": "forge:ore_shaped",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_wingback_jungle",
+        "data": 10,
+        "nbt": "{Color:\"purple\"}"
+    },
+    "pattern": [
+        "z",
+        "x",
+        "y"
+    ],
+    "key": {
+        "z": {
+            "item": "minecraft:carpet",
+            "data": 10
+        },
+        "x": {
+            "item": "minecraft:planks",
+            "data": 3
+        },
+        "y": {
+            "item": "ironagefurniture:chair_wood_ironage_classic_jungle"
+        }
+    }
+}

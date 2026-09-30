@@ -24,6 +24,7 @@ public class BlockInitialiser {
 	 */
 	public static void init() {
 		generateChairs();
+		PhaseFourFurnitureInitialiser.registerChairs();
 		generateLights();
 	}
 	
