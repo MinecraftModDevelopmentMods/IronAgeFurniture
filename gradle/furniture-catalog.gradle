@@ -383,10 +383,12 @@ tasks.register('verifyFurnitureCatalog') {
             }
             locales[locale.name] = entries
         }
-        if (locales.size() != 3 || locales.values().toSet().size() != 1) {
-            throw new GradleException('The three English locale files must have identical keys and values')
+        Map<String, String> referenceLocale = locales['en_us.lang']
+        if (locales.size() != 17 || referenceLocale == null
+                || locales.values().any { it.keySet() != referenceLocale.keySet() }
+                || ['en_en.lang', 'en_gb.lang'].any { locales[it] != referenceLocale }) {
+            throw new GradleException('All supported locales need the same keys; English variants must match')
         }
-        Map<String, String> referenceLocale = locales.values().first()
         registeredPaddedIds.each { String id ->
             paddedColours.each { colour ->
                 String suffix = colour.name == 'red' ? '' : ".${colour.name}"
