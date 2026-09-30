@@ -8,6 +8,7 @@ import zone.moddev.mc.ironagefurniture.api.CreativeModeBreakTracker;
 import zone.moddev.mc.ironagefurniture.api.entity.EntityThrownLavaLamp;
 import zone.moddev.mc.ironagefurniture.api.tile.TileEntityPaddedBench;
 import zone.moddev.mc.ironagefurniture.api.tile.TileEntityShieldChair;
+import zone.moddev.mc.ironagefurniture.api.tile.TileEntityUpholstery;
 import zone.moddev.mc.ironagefurniture.client.particle.HeldCandleSmoke;
 import zone.moddev.mc.ironagefurniture.init.BlockInitialiser;
 import zone.moddev.mc.ironagefurniture.init.ClientModelInitialiser;
@@ -74,6 +75,8 @@ public class Ironagefurniture
 				new ResourceLocation(MODID, "padded_bench_colour"));
 		GameRegistry.registerTileEntity(TileEntityShieldChair.class,
 				new ResourceLocation(MODID, "shield_chair"));
+		GameRegistry.registerTileEntity(TileEntityUpholstery.class,
+				new ResourceLocation(MODID, "upholstery_colour"));
 		if (event.getSide().isClient()) {
 			ClientModelInitialiser.registerPaddedBenchModels();
 			FMLCommonHandler.instance().bus().register(new HeldCandleSmoke());
