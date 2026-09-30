@@ -27,6 +27,8 @@ public final class MatchingUpholsteryRecipe extends ShapelessOreRecipe {
 				new ItemStack(source, 1, OreDictionary.WILDCARD_VALUE));
 		this.source = Item.getItemFromBlock(source);
 		this.result = result;
+		// The source beds may carry Color NBT, which the fast ingredient matcher skips.
+		this.isSimple = false;
 	}
 
 	@Override public boolean matches(InventoryCrafting inventory, World world) {

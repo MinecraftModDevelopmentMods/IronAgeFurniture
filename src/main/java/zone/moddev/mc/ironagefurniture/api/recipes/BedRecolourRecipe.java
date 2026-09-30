@@ -27,6 +27,8 @@ public final class BedRecolourRecipe extends ShapelessOreRecipe {
 				new ItemStack(bed, 1, OreDictionary.WILDCARD_VALUE),
 				new ItemStack(Blocks.CARPET, 1, OreDictionary.WILDCARD_VALUE));
 		this.bed = bed;
+		// The bed may carry Color NBT, which the fast ingredient matcher skips.
+		this.isSimple = false;
 	}
 
 	@Override public boolean matches(InventoryCrafting inventory, World world) {
