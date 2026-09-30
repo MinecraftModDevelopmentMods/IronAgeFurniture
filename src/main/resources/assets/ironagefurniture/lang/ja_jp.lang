@@ -3313,7 +3313,6 @@ tile.ironagefurniture.chair_wood_ironage_stool_tall_natura_tiger.name=高いス�
 tile.ironagefurniture.chair_wood_ironage_stool_tall_natura_willow.name=高いスツール (ヤナギ)
 tile.ironagefurniture.chair_wood_ironage_stool_tall_oak.name=高いスツール (オーク)
 tile.ironagefurniture.chair_wood_ironage_stool_tall_spruce.name=高いスツール (トウヒ)
-
 itemGroup.IronAgeFurniture=Iron Age Furniture
 tile.ironagefurniture.light_metal_ironage_sconce_floor_empty_iron.name=燭台
 tile.ironagefurniture.light_metal_ironage_sconce_floor_empty_iron.gold.name=燭台 (金)
@@ -3743,3 +3742,9 @@ tile.ironagefurniture.bed_wood_foot_spruce.name=Spruce Wooden Bed
 tile.ironagefurniture.bed_wood_foot_left_spruce.name=Spruce Double Wooden Bed
 tile.ironagefurniture.bed_canopy_foot_lower_spruce.name=Spruce Canopy Bed
 tile.ironagefurniture.bed_canopy_foot_left_lower_spruce.name=Spruce Double Canopy Bed
+tile.ironagefurniture.chair_wood_ironage_wingback_natura_redwood.name=Redwood Wingback Chair
+tile.ironagefurniture.chair_wood_ironage_throne_natura_redwood.name=Redwood Throne
+tile.ironagefurniture.bed_wood_foot_natura_redwood.name=Redwood Wooden Bed
+tile.ironagefurniture.bed_wood_foot_left_natura_redwood.name=Redwood Double Wooden Bed
+tile.ironagefurniture.bed_canopy_foot_lower_natura_redwood.name=Redwood Canopy Bed
+tile.ironagefurniture.bed_canopy_foot_left_lower_natura_redwood.name=Redwood Double Canopy Bed

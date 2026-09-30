@@ -21,7 +21,7 @@ public final class PhaseFourFurnitureInitialiser {
 	};
 	private static final String[] NATURA_WOODS = {
 		"amaranth", "bloodwood", "darkwood", "eucalyptus", "fusewood", "ghostwood",
-		"hopseed", "maple", "sakura", "silverbell", "tiger", "willow"
+		"hopseed", "maple", "redwood", "sakura", "silverbell", "tiger", "willow"
 	};
 	private static final String[] FORESTRY_WOODS = {
 		"acacia", "balsa", "baobab", "cherry", "chestnut", "citrus", "cocobolo", "ebony",

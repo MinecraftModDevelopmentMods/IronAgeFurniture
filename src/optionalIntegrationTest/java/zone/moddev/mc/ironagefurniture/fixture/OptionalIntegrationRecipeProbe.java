@@ -106,6 +106,11 @@ public final class OptionalIntegrationRecipeProbe {
         Map<String, Integer> advancements = verifyAdvancements(server,
                 "expected-conditional-advancements.txt", selectedMods);
 
+        String legacySource = System.getProperty("iaf.probe.legacySource");
+        if (legacySource != null && !legacySource.isEmpty()) {
+            LegacyWorldUpgradeProbe.verify(server, legacySource);
+        }
+
         int recipeCount = total(recipes);
         int advancementCount = total(advancements);
         int expectedCount = expectedCount(selectedMods);
@@ -430,7 +435,7 @@ public final class OptionalIntegrationRecipeProbe {
         int count = 0;
         for (String modId : selectedMods) {
             if ("biomesoplenty".equals(modId)) count += 1504;
-            else if ("natura".equals(modId)) count += 1128;
+            else if ("natura".equals(modId)) count += 1222;
             else if ("forestry".equals(modId)) count += 2726;
             else if ("immersiveengineering".equals(modId)) count += 103;
             else if ("basemetals".equals(modId)) count += 21;

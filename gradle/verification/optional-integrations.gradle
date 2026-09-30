@@ -10,7 +10,7 @@ def normalizeArchiveLineEndings = iafBuild.normalizeArchiveLineEndings
 // The optional jars are supplied locally and verified before packaged runtime tests.
 def optionalIntegrationExpectedCounts = [
         biomesoplenty        : [recipes: 1504, advancements: 1504],
-        natura               : [recipes: 1128, advancements: 1128],
+        natura               : [recipes: 1222, advancements: 1222],
         forestry             : [recipes: 2726, advancements: 2726],
         immersiveengineering: [recipes: 103, advancements: 103],
         mineralogy          : [recipes: 0, advancements: 0],
@@ -319,6 +319,7 @@ tasks.register('runOptionalIntegrationServer', Exec) {
         executable java8Launcher.get().executablePath.asFile
         args '-Diaf.probe.profile=integrations',
                 "-Diaf.probe.mods=${optionalIntegrationProfile}", '-Dfml.queryResult=confirm',
+                "-Diaf.probe.legacySource=${providers.gradleProperty('legacyWorldSource').getOrElse('')}",
                 "-Diaf.probe.createCfmMigrationFixture=${providers.gradleProperty('createCfmMigrationFixture').getOrElse('false')}",
                 "-Diaf.probe.verifyCfmSourceFixture=${providers.gradleProperty('verifyCfmSourceFixture').getOrElse('false')}",
                 "-Diaf.probe.verifyCfmMigrationFixture=${providers.gradleProperty('verifyCfmMigrationFixture').getOrElse('false')}",

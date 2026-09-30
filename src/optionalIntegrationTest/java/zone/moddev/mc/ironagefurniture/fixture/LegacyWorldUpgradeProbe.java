@@ -19,6 +19,10 @@ final class LegacyWorldUpgradeProbe {
     };
 
     static void verify(MinecraftServer server, String source) {
+        if ("sylvester-phase2".equals(source)) {
+            verifySylvester(server);
+            return;
+        }
         if ("1.10-phase2".equals(source) || "1.12-phase2".equals(source)) {
             verifyRedOnly(server, source);
             return;
@@ -65,6 +69,36 @@ final class LegacyWorldUpgradeProbe {
         verifyChest(world, new BlockPos(startX + 2, 62, chestZ), back);
         System.out.println("IRON AGE FURNITURE LEGACY WORLD PROBE PASSED: " + source
                 + ", 32 placed coloured benches and 32 stored stacks");
+    }
+
+    private static void verifySylvester(MinecraftServer server) {
+        WorldServer world = server.getWorld(0);
+        String[] naturaRedwoodForms = {
+                "classic", "shield", "stool_short", "stool_tall", "bench_single",
+                "bench_padded_single", "bench_log_single", "bench_back_single",
+                "bench_back_padded_single"
+        };
+        for (String form : naturaRedwoodForms) {
+            registered("chair_wood_ironage_" + form + "_natura_redwood");
+        }
+        verifyBlock(world, new BlockPos(55, 65, 145),
+                "chair_wood_ironage_classic_birch");
+        verifyBlock(world, new BlockPos(57, 65, 145),
+                "chair_wood_ironage_bench_back_single_birch");
+        verifyBlock(world, new BlockPos(358, 63, 102),
+                "chair_wood_ironage_bench_log_single_birch");
+        BlockPos padded = new BlockPos(218, 65, 123);
+        verifyBlock(world, padded, "chair_wood_ironage_bench_back_padded_single_oak");
+        require(PaddedBenchColourHelper.getColour(world, padded) == PaddedBenchColour.RED,
+                "Sylvester's Phase 2 padded bench is no longer red at " + padded);
+        System.out.println("IRON AGE FURNITURE LEGACY WORLD PROBE PASSED: "
+                + "Sylvester Phase 2, classic chair, three bench forms and nine Natura redwood IDs");
+    }
+
+    private static void verifyBlock(WorldServer world, BlockPos pos, String path) {
+        Block actual = world.getBlockState(pos).getBlock();
+        require(actual == registered(path), "Sylvester furniture changed at " + pos
+                + ": expected " + path + ", found " + actual.getRegistryName());
     }
 
     private static void verifyRedOnly(MinecraftServer server, String source) {

@@ -10,6 +10,13 @@ multicolour builds, and a 1.10.2 Phase 4 build. These worlds loaded directly
 without an intermediate Minecraft version and passed a second load after
 saving. The original source worlds were not launched or modified.
 
+The Sylvester Phase 2 world was also checked on a disposable copy. Its sampled
+birch seating and red padded bench survived, and its historical Natura redwood
+registry names are available again when Natura is installed. No redwood
+furniture was placed in that particular source world, so the test checks the
+registry contract rather than a placed redwood block. Other mods from the
+original server were not carried into this focused furniture test.
+
 In the multicolour fixtures, both padded bench forms kept all sixteen placed
 upholstery colours and all sixteen stored item variants. The older red-only
 fixtures kept their red benches and ordinary seating. The 1.10.2 Phase 2

@@ -1,0 +1,21 @@
+{
+    "type": "ironagefurniture:shield_chair",
+    "ingredients": [
+        {
+            "item": "minecraft:shield"
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_classic_natura_redwood"
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_shield_natura_redwood"
+    },
+    "group": "furniture",
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "natura"
+        }
+    ]
+}

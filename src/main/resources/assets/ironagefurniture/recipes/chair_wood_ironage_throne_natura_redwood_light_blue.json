@@ -1,0 +1,33 @@
+{
+    "type": "forge:ore_shaped",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_throne_natura_redwood",
+        "data": 3,
+        "nbt": "{Color:\"light_blue\"}"
+    },
+    "pattern": [
+        "z",
+        "x",
+        "y"
+    ],
+    "key": {
+        "z": {
+            "item": "minecraft:carpet",
+            "data": 3
+        },
+        "x": {
+            "item": "natura:overworld_planks",
+            "data": 8
+        },
+        "y": {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_natura_redwood",
+            "data": 32767
+        }
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "natura"
+        }
+    ]
+}
