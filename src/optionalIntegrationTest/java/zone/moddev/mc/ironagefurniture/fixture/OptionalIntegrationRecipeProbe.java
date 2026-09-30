@@ -42,6 +42,7 @@ public final class OptionalIntegrationRecipeProbe {
     @Mod.EventHandler
     public void serverStarted(FMLServerStartedEvent event) {
         MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
+        verifyCandleSconces();
         if ("absent".equals(System.getProperty("iaf.probe.profile"))) {
             verifyOptionalModsAbsent();
             verifyRockSaltSconces(false);
@@ -90,6 +91,21 @@ public final class OptionalIntegrationRecipeProbe {
             boolean present = ForgeRegistries.BLOCKS.containsKey(id);
             require(present == expected,
                     "Rock-salt sconce registration does not match Mineralogy presence: " + id);
+        }
+    }
+
+    private static void verifyCandleSconces() {
+        for (String form : Arrays.asList("floor", "wall")) {
+            for (String count : Arrays.asList("", "_two", "_three", "_four")) {
+                for (String state : Arrays.asList("", "_unlit")) {
+                    ResourceLocation id = new ResourceLocation("ironagefurniture",
+                            "light_metal_ironage_sconce_" + form + "_candle_iron" + count + state);
+                    require(ForgeRegistries.BLOCKS.containsKey(id),
+                            "Candle sconce state is missing: " + id);
+                    require(!ForgeRegistries.ITEMS.containsKey(id),
+                            "Hidden candle sconce has an item registration: " + id);
+                }
+            }
         }
     }
 

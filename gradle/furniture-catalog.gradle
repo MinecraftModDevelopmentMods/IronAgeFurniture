@@ -364,8 +364,26 @@ tasks.register('verifyFurnitureCatalog') {
                 throw new GradleException("Rock-salt sconce must reference Mineralogy's published texture: ${id}")
             }
         }
-        if (registeredIds.size() != 620 + catalog.lighting.size() + rockSaltIds.size()
+        Set<String> candleIds = [] as TreeSet<String>
+        ['floor', 'wall'].each { String form ->
+            ['', '_two', '_three', '_four'].each { String count ->
+                String model = "light_metal_ironage_sconce_${form}_candle_iron${count}"
+                candleIds.add(model)
+                candleIds.add("${model}_unlit".toString())
+                if (!file("src/main/resources/assets/ironagefurniture/models/block/${model}.json").isFile()) {
+                    throw new GradleException("Candle sconce model is missing: ${model}")
+                }
+                ['', '_unlit'].each { String state ->
+                    File stateFile = new File(blockStates, "${model}${state}.json")
+                    if (!stateFile.isFile()) {
+                        throw new GradleException("Candle sconce blockstate is missing: ${stateFile}")
+                    }
+                }
+            }
+        }
+        if (registeredIds.size() != 620 + catalog.lighting.size() + rockSaltIds.size() + candleIds.size()
                 || !registeredIds.containsAll(rockSaltIds)
+                || !registeredIds.containsAll(candleIds)
                 || registeredPaddedIds != expectedPaddedIds) {
             throw new GradleException('Furniture registrations do not match the supported woods and lights')
         }

@@ -18,6 +18,10 @@ import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceGlowFloor;
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceGlowWall;
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceRockSaltFloor;
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceRockSaltWall;
+import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceCandleFloor;
+import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceCandleFloorUnlit;
+import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceCandleWall;
+import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceCandleWallUnlit;
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceLavaFloor;
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceLavaWall;
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceRedFloor;
@@ -245,6 +249,22 @@ public class FurnitureFactory {
 
 	public static Block CreateIronWallRockSaltSconce(String name) {
 		return registerBlockWithoutItem(new LightSourceSconceRockSaltWall(Material.IRON, name, 10, 1), name);
+	}
+
+	public static Block CreateIronFloorCandleSconce(String name, int candleCount) {
+		return registerBlockWithoutItem(new LightSourceSconceCandleFloor(Material.IRON, name, 10, 1, candleCount), name);
+	}
+
+	public static Block CreateIronWallCandleSconce(String name, int candleCount) {
+		return registerBlockWithoutItem(new LightSourceSconceCandleWall(Material.IRON, name, 10, 1, candleCount), name);
+	}
+
+	public static Block CreateIronFloorCandleSconceUnlit(String name, int candleCount) {
+		return registerBlockWithoutItem(new LightSourceSconceCandleFloorUnlit(Material.IRON, name, 10, 1, candleCount), name);
+	}
+
+	public static Block CreateIronWallCandleSconceUnlit(String name, int candleCount) {
+		return registerBlockWithoutItem(new LightSourceSconceCandleWallUnlit(Material.IRON, name, 10, 1, candleCount), name);
 	}
 
 	public static Block CreateLavaLamp(String name) {

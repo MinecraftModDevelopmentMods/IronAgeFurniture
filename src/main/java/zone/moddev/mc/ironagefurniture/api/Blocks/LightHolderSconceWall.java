@@ -164,6 +164,11 @@ public class LightHolderSconceWall extends LightHolderSconceFloor {
     }
 
     @Override
+    protected Block GetCandleVariant() {
+        return BlockObjectHolder.light_metal_ironage_sconce_wall_candle_iron;
+    }
+
+    @Override
     protected Block GetTorchVariant() {
         return BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron;
     }

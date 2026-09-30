@@ -194,6 +194,7 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
             || isItemFromBlock(item, BlockObjectHolder.light_metal_ironage_block_floor_glow_clear)
             || isItemFromBlock(item, BlockObjectHolder.light_metal_ironage_block_floor_lava_clear)
             || isItemFromBlock(item, BlockObjectHolder.light_metal_ironage_block_floor_red_clear)
+            || isItemFromBlock(item, BlockObjectHolder.light_metal_ironage_candle_floor)
             || MineralogyCompat.isRockSaltLampItem(heldItem);
     }
 
