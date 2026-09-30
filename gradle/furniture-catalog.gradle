@@ -37,12 +37,21 @@ def integrationForName = { String name ->
     if (name.contains('_natura_')) return 'natura'
     if (name.contains('_forestry_')) return 'forestry'
     if (name.contains('_immersiveengineering_')) return 'immersiveengineering'
+    if (name.contains('_basemetals_')) return 'basemetals'
     if (name.startsWith('cfm_')) return 'cfm'
     return null
 }
 
 def orderedCondition = { String modId ->
     [type: 'forge:mod_loaded', modid: modId] as LinkedHashMap
+}
+
+def recipeConditions = { String modId, Map recipe ->
+    List<Map> conditions = [orderedCondition(modId)]
+    if (modId == 'basemetals') {
+        conditions.add([type: 'minecraft:item_exists', item: recipe.key.x.item])
+    }
+    conditions
 }
 
 def normalizedRecipe = { File file ->
@@ -64,7 +73,7 @@ def normalizedRecipe = { File file ->
     parsed.each { key, value ->
         if (key != 'conditions') reordered[key] = value
     }
-    if (modId != null) reordered.conditions = [orderedCondition(modId)]
+    if (modId != null) reordered.conditions = recipeConditions(modId, reordered)
     return reordered
 }
 
@@ -121,7 +130,7 @@ def normalizedAdvancement = { File recipeFile ->
             ]
     ]
     advancement.requirements = [['has_ingredient', 'has_the_recipe']]
-    if (modId != null) advancement.conditions = [orderedCondition(modId)]
+    if (modId != null) advancement.conditions = recipeConditions(modId, recipe)
     return advancement
 }
 
@@ -286,7 +295,7 @@ tasks.register('verifyFurnitureCatalog') {
             }
             String modId = integrationForName(file.name)
             Map parsed = new JsonSlurper().parse(file) as Map
-            if (modId != null && parsed.conditions != [orderedCondition(modId)]) {
+            if (modId != null && parsed.conditions != recipeConditions(modId, parsed)) {
                 throw new GradleException("Optional recipe has incorrect conditions: ${project.relativePath(file)}")
             }
         }
@@ -324,9 +333,11 @@ tasks.register('verifyFurnitureCatalog') {
             ['', '_unlit'].each { String suffix ->
                 File stateFile = new File(blockStates, "${model}${suffix}.json")
                 Map variants = (new JsonSlurper().parse(stateFile) as Map).variants as Map
-                if (variants.keySet() != ['facing=north', 'facing=east',
-                        'facing=south', 'facing=west'] as Set
-                        || variants.values().any { it.model != "ironagefurniture:${model}" }) {
+                Set<String> ironFacings = ['north', 'east', 'south', 'west']
+                        .collect { "facing=${it},metal=iron".toString() } as Set<String>
+                if (variants.size() != 92
+                        || !variants.keySet().containsAll(ironFacings)
+                        || ironFacings.any { variants[it].model != "ironagefurniture:${model}${suffix}" }) {
                     throw new GradleException("Twin-torch blockstate has an unexpected model: ${stateFile}")
                 }
             }

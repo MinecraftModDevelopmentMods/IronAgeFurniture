@@ -47,6 +47,7 @@ import zone.moddev.mc.ironagefurniture.api.Blocks.Stool;
 import zone.moddev.mc.ironagefurniture.api.Blocks.ThroneChair;
 import zone.moddev.mc.ironagefurniture.api.Blocks.WingbackChair;
 import zone.moddev.mc.ironagefurniture.api.Items.ItemBlockPaddedBench;
+import zone.moddev.mc.ironagefurniture.api.Items.ItemBlockMetalVariant;
 import zone.moddev.mc.ironagefurniture.api.Items.ItemBlockUpholsteredFurniture;
 import zone.moddev.mc.ironagefurniture.api.Items.ItemBlockThrowableLavaLamp;
 import net.minecraft.block.Block;
@@ -310,7 +311,9 @@ public class FurnitureFactory {
 		block.setCreativeTab(Ironagefurniture.ironagefurnitureTab);
 		if (registerItem) {
 			ItemBlock itemBlock = block instanceof LightSourceLava
-					? new ItemBlockThrowableLavaLamp(block) : new ItemBlock(block);
+					? new ItemBlockThrowableLavaLamp(block)
+					: MetalVariantHelper.isMetalVariantBlock(block)
+						? new ItemBlockMetalVariant(block) : new ItemBlock(block);
 			RegisterItem(itemBlock, name, maxStackSize);
 		}
 		Ironagefurniture.BlockRegistry.put(name, block);

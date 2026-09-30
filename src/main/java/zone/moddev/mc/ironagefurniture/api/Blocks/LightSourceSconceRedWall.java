@@ -1,4 +1,5 @@
 package zone.moddev.mc.ironagefurniture.api.Blocks;
+import zone.moddev.mc.ironagefurniture.api.MetalVariantHelper;
 
 import java.util.List;
 import java.util.Map;
@@ -71,7 +72,7 @@ public class LightSourceSconceRedWall extends LightSourceSconceGlowWall {
 
         if (signal != GetLightLevel()) {
             Block newBlock = getBlockBySignalLevel(signal);
-            worldIn.setBlockState(pos,
+            MetalVariantHelper.replaceBlockPreservingMetal(worldIn, pos,
                 newBlock.getDefaultState().withProperty(FACING, state.getValue(FACING)),
                 3);
 

@@ -25,6 +25,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import zone.moddev.mc.ironagefurniture.api.MetalVariantHelper;
 
 /** Exact-loader probe for optional recipes and recipe advancements. */
 @Mod(modid = OptionalIntegrationRecipeProbe.MOD_ID,
@@ -37,12 +38,16 @@ public final class OptionalIntegrationRecipeProbe {
 
     private static final Logger LOGGER = LogManager.getLogger();
     private static final List<String> REQUIRED_MODS = Arrays.asList(
-            "biomesoplenty", "natura", "forestry", "immersiveengineering", "mineralogy");
+            "biomesoplenty", "natura", "forestry", "immersiveengineering", "mineralogy",
+            "basemetals");
 
     @Mod.EventHandler
     public void serverStarted(FMLServerStartedEvent event) {
         MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
         verifyCandleSconces();
+        verifyMetalVariants(!"absent".equals(System.getProperty("iaf.probe.profile"))
+                && ("basemetals".equals(System.getProperty("iaf.probe.mods"))
+                        || "all".equals(System.getProperty("iaf.probe.mods"))));
         if ("absent".equals(System.getProperty("iaf.probe.profile"))) {
             verifyOptionalModsAbsent();
             verifyRockSaltSconces(false);
@@ -92,6 +97,15 @@ public final class OptionalIntegrationRecipeProbe {
             require(present == expected,
                     "Rock-salt sconce registration does not match Mineralogy presence: " + id);
         }
+    }
+
+    private static void verifyMetalVariants(boolean baseMetalsExpected) {
+        int expected = baseMetalsExpected ? 23 : 2;
+        require(MetalVariantHelper.getAvailableVariants().size() == expected,
+                "Unexpected sconce metal catalog with Base Metals "
+                        + (baseMetalsExpected ? "installed" : "absent"));
+        require(MetalVariantHelper.METAL.getAllowedValues().size() == expected,
+                "Sconce blockstates were initialized before the metal catalog was ready");
     }
 
     private static void verifyCandleSconces() {
@@ -203,6 +217,7 @@ public final class OptionalIntegrationRecipeProbe {
             else if ("natura".equals(modId)) count += 1128;
             else if ("forestry".equals(modId)) count += 2726;
             else if ("immersiveengineering".equals(modId)) count += 103;
+            else if ("basemetals".equals(modId)) count += 21;
         }
         return count;
     }

@@ -85,7 +85,8 @@ public final class MetalVariantHelper {
 
 	public static IBlockState withMetal(IBlockState state, IBlockAccess world, BlockPos pos) {
 		if (state != null && state.getProperties().containsKey(METAL)) {
-			return state.withProperty(METAL, getMetal(world, pos));
+			MetalVariant stored = getMetal(world, pos);
+			return state.withProperty(METAL, stored.isAvailable() ? stored : MetalVariant.IRON);
 		}
 
 		return state;

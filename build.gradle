@@ -21,6 +21,8 @@ plugins {
 apply from: 'gradle/furniture-catalog.gradle'
 apply from: 'gradle/phase-four-chairs.gradle'
 apply from: 'gradle/phase-four-beds.gradle'
+apply from: 'gradle/phase-four-metal-models.gradle'
+apply from: 'gradle/phase-four-metal-recipes.gradle'
 
 def legacyFixtureDirectory = file('src/test/resources/fixtures')
 def legacyFixtureVerificationDirectory = layout.buildDirectory.dir('verification/legacy-migration-fixtures')
@@ -161,7 +163,8 @@ def optionalIntegrationExpectedCounts = [
         natura               : [recipes: 1128, advancements: 1128],
         forestry             : [recipes: 2726, advancements: 2726],
         immersiveengineering: [recipes: 103, advancements: 103],
-        mineralogy          : [recipes: 0, advancements: 0]
+        mineralogy          : [recipes: 0, advancements: 0],
+        basemetals          : [recipes: 21, advancements: 21]
 ]
 def optionalIntegrationProfile = providers.gradleProperty('integrationProfile').getOrElse('all')
 def normalizeArchiveLineEndings = { details ->
