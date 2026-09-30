@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 import zone.moddev.mc.ironagefurniture.BlockObjectHolder;
 import zone.moddev.mc.ironagefurniture.Ironagefurniture;
+import zone.moddev.mc.ironagefurniture.api.MineralogyCompat;
 import zone.moddev.mc.ironagefurniture.api.Enumerations.Rotation;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -226,6 +227,9 @@ public class LightHolderSconceFloor extends BlockHBase {
 	    else if (heldItem.getItem() == Item.getItemFromBlock(BlockObjectHolder.light_metal_ironage_block_floor_red_clear)) {
 	        newBlock = GetRedVariant(); // Redstone lamp
 	    }
+	    else if (MineralogyCompat.isRockSaltLampItem(heldItem)) {
+	        newBlock = GetRockSaltVariant();
+	    }
 
 	    if (newBlock != null) {
 	        worldIn.setBlockState(pos, newBlock.getDefaultState().withProperty(FACING, state.getValue(FACING)), 3 /* UPDATE_ALL */);
@@ -247,6 +251,7 @@ public class LightHolderSconceFloor extends BlockHBase {
 
     protected Block GetWallVariant()		{ return BlockObjectHolder.light_metal_ironage_sconce_wall_empty_iron; }
     protected Block GetGlowVariant()		{ return BlockObjectHolder.light_metal_ironage_sconce_floor_glow_iron; }
+    protected Block GetRockSaltVariant()	{ return BlockObjectHolder.light_metal_ironage_sconce_floor_rocksalt_iron; }
     protected Block GetTorchVariant()		{ return BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron; }
     protected Block GetLavaVariant()		{ return BlockObjectHolder.light_metal_ironage_sconce_floor_lava_iron; }
     protected Block GetRedTorchVariant()	{ return BlockObjectHolder.light_metal_ironage_sconce_floor_redtorch_iron; }

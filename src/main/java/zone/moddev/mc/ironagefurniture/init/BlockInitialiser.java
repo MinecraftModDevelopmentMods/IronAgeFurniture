@@ -3,6 +3,7 @@ package zone.moddev.mc.ironagefurniture.init;
 import zone.moddev.mc.ironagefurniture.BlockObjectHolder;
 import zone.moddev.mc.ironagefurniture.IronAgeFurnitureConfiguration;
 import zone.moddev.mc.ironagefurniture.api.FurnitureFactory;
+import zone.moddev.mc.ironagefurniture.api.MineralogyCompat;
 
 import net.minecraftforge.fml.common.Loader;
 
@@ -738,6 +739,10 @@ public class BlockInitialiser {
 	}
 
 	private static void generateSconces() {
+		if (MineralogyCompat.isEnabled()) {
+			BlockObjectHolder.light_metal_ironage_sconce_floor_rocksalt_iron = FurnitureFactory.CreateIronFloorRockSaltSconce("light_metal_ironage_sconce_floor_rocksalt_iron");
+			BlockObjectHolder.light_metal_ironage_sconce_wall_rocksalt_iron = FurnitureFactory.CreateIronWallRockSaltSconce("light_metal_ironage_sconce_wall_rocksalt_iron");
+		}
 		BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron = FurnitureFactory.CreateIronFloorSconce("light_metal_ironage_sconce_floor_empty_iron");
 		BlockObjectHolder.light_metal_ironage_sconce_wall_empty_iron = FurnitureFactory.CreateIronWallSconce("light_metal_ironage_sconce_wall_empty_iron");
 		BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron = FurnitureFactory.CreateIronFloorTorchSconce("light_metal_ironage_sconce_floor_torch_iron");

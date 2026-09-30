@@ -24,6 +24,7 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 /** Exact-loader probe for optional recipes and recipe advancements. */
 @Mod(modid = OptionalIntegrationRecipeProbe.MOD_ID,
@@ -36,13 +37,14 @@ public final class OptionalIntegrationRecipeProbe {
 
     private static final Logger LOGGER = LogManager.getLogger();
     private static final List<String> REQUIRED_MODS = Arrays.asList(
-            "biomesoplenty", "natura", "forestry", "immersiveengineering");
+            "biomesoplenty", "natura", "forestry", "immersiveengineering", "mineralogy");
 
     @Mod.EventHandler
     public void serverStarted(FMLServerStartedEvent event) {
         MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
         if ("absent".equals(System.getProperty("iaf.probe.profile"))) {
             verifyOptionalModsAbsent();
+            verifyRockSaltSconces(false);
             verifyRecipesAbsent("expected-conditional-recipes.txt");
             verifyAdvancementsAbsent(server, "expected-conditional-advancements.txt");
             writeAbsentMarker();
@@ -52,6 +54,7 @@ public final class OptionalIntegrationRecipeProbe {
         }
         List<String> selectedMods = selectedMods();
         Map<String, String> versions = requireMods(selectedMods);
+        verifyRockSaltSconces(selectedMods.contains("mineralogy"));
         Map<String, Integer> recipes = verifyRecipes(
                 "expected-conditional-recipes.txt", selectedMods);
         Map<String, Integer> advancements = verifyAdvancements(server,
@@ -77,6 +80,16 @@ public final class OptionalIntegrationRecipeProbe {
         for (String modId : REQUIRED_MODS) {
             require(!Loader.isModLoaded(modId),
                     "Optional mod unexpectedly loaded during absence probe: " + modId);
+        }
+    }
+
+    private static void verifyRockSaltSconces(boolean expected) {
+        for (String form : Arrays.asList("floor", "wall")) {
+            ResourceLocation id = new ResourceLocation("ironagefurniture",
+                    "light_metal_ironage_sconce_" + form + "_rocksalt_iron");
+            boolean present = ForgeRegistries.BLOCKS.containsKey(id);
+            require(present == expected,
+                    "Rock-salt sconce registration does not match Mineralogy presence: " + id);
         }
     }
 

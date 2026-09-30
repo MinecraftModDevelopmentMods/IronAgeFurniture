@@ -16,6 +16,8 @@ import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceLava;
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceRed;
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceGlowFloor;
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceGlowWall;
+import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceRockSaltFloor;
+import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceRockSaltWall;
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceLavaFloor;
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceLavaWall;
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceRedFloor;
@@ -235,6 +237,14 @@ public class FurnitureFactory {
 
 	public static Block CreateIronWallGlowSconce(String name) {
 		return registerBlockWithoutItem(new LightSourceSconceGlowWall(Material.IRON, name, 10, 1), name);
+	}
+
+	public static Block CreateIronFloorRockSaltSconce(String name) {
+		return registerBlockWithoutItem(new LightSourceSconceRockSaltFloor(Material.IRON, name, 10, 1), name);
+	}
+
+	public static Block CreateIronWallRockSaltSconce(String name) {
+		return registerBlockWithoutItem(new LightSourceSconceRockSaltWall(Material.IRON, name, 10, 1), name);
 	}
 
 	public static Block CreateLavaLamp(String name) {

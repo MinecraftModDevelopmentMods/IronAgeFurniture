@@ -349,7 +349,23 @@ tasks.register('verifyFurnitureCatalog') {
         Set<String> registeredPaddedIds = registeredIds.findAll {
             it ==~ /chair_wood_ironage_bench(?:_back)?_padded_single_.+/
         } as TreeSet<String>
-        if (registeredIds.size() != 620 + catalog.lighting.size()
+        Set<String> rockSaltIds = [
+                'light_metal_ironage_sconce_floor_rocksalt_iron',
+                'light_metal_ironage_sconce_wall_rocksalt_iron'
+        ] as Set<String>
+        rockSaltIds.each { String id ->
+            File stateFile = new File(blockStates, "${id}.json")
+            File modelFile = file("src/main/resources/assets/ironagefurniture/models/block/${id}.json")
+            if (!stateFile.isFile() || !modelFile.isFile()) {
+                throw new GradleException("Rock-salt sconce is missing its model or blockstate: ${id}")
+            }
+            Map model = new JsonSlurper().parse(modelFile) as Map
+            if ((model.textures as Map).contents != 'mineralogy:blocks/rocksalt_lamp') {
+                throw new GradleException("Rock-salt sconce must reference Mineralogy's published texture: ${id}")
+            }
+        }
+        if (registeredIds.size() != 620 + catalog.lighting.size() + rockSaltIds.size()
+                || !registeredIds.containsAll(rockSaltIds)
                 || registeredPaddedIds != expectedPaddedIds) {
             throw new GradleException('Furniture registrations do not match the supported woods and lights')
         }

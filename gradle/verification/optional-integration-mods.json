@@ -41,6 +41,14 @@
       "file": "ImmersiveEngineering-0.12-98.jar",
       "sha256": "1dceb974d037dae7161f9a8e9f78cb33dfaad9e3adf02d14d52a3024eb961e58",
       "source": "https://www.curseforge.com/minecraft/mc-mods/immersive-engineering/files/2974106"
+    },
+    {
+      "modId": "mineralogy",
+      "role": "integration",
+      "version": "3.8.0.53",
+      "file": "Mineralogy-1.12.2-3.8.0.53.jar",
+      "sha256": "c42e608e5662a94138bd2461019d33283f96e3fb66e28db91c00a49e9a8005cd",
+      "source": "https://www.curseforge.com/minecraft/mc-mods/minecraft-mineralogy/files"
     }
   ]
 }

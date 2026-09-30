@@ -160,7 +160,8 @@ def optionalIntegrationExpectedCounts = [
         biomesoplenty        : [recipes: 1504, advancements: 1504],
         natura               : [recipes: 1128, advancements: 1128],
         forestry             : [recipes: 2726, advancements: 2726],
-        immersiveengineering: [recipes: 103, advancements: 103]
+        immersiveengineering: [recipes: 103, advancements: 103],
+        mineralogy          : [recipes: 0, advancements: 0]
 ]
 def optionalIntegrationProfile = providers.gradleProperty('integrationProfile').getOrElse('all')
 def normalizeArchiveLineEndings = { details ->
