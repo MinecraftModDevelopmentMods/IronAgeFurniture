@@ -20,5 +20,6 @@ public final class ClientRegistryEvents {
 	@SubscribeEvent
 	public static void registerModels(ModelRegistryEvent event) {
 		ClientModelInitialiser.registerPaddedBenchItemModels();
+		ClientModelInitialiser.registerUpholsteryItemModels();
 	}
 }
