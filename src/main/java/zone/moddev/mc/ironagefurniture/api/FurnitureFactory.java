@@ -4,6 +4,7 @@ import zone.moddev.mc.ironagefurniture.Ironagefurniture;
 import zone.moddev.mc.ironagefurniture.api.Blocks.BackBench;
 import zone.moddev.mc.ironagefurniture.api.Blocks.Bench;
 import zone.moddev.mc.ironagefurniture.api.Blocks.Chair;
+import zone.moddev.mc.ironagefurniture.api.Blocks.ShieldChair;
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceCandleFloor;
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceCandleFloorUnlit;
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceCandleWall;
@@ -44,7 +45,7 @@ import net.minecraft.item.ItemBlock;
 
 public class FurnitureFactory {
 	public static Block CreateWoodShieldChair(String name, float resistance, float hardness) {
-		return registerBlock(new Chair(Material.WOOD, name, resistance, hardness), name);
+		return registerBlock(new ShieldChair(Material.WOOD, name, resistance, hardness), name);
 	}
 
 	public static Block CreateWoodShieldChair(String name) {

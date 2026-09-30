@@ -1,0 +1,5 @@
+{
+  "recipes": {
+    "shield_chair": "zone.moddev.mc.ironagefurniture.api.recipes.ShieldChairRecipe$Factory"
+  }
+}

@@ -950,7 +950,7 @@ tasks.register('verifyResourceJson') {
 
         File recipeRoot = file('src/main/resources/assets/ironagefurniture/recipes')
         File advancementRoot = file('src/main/resources/assets/ironagefurniture/advancements/recipes')
-        List<File> recipes = fileTree(recipeRoot) { include '*.json' }.files.sort { it.name }
+        List<File> recipes = fileTree(recipeRoot) { include '*.json'; exclude '_factories.json' }.files.sort { it.name }
         List<File> advancements = fileTree(advancementRoot) { include '*.json' }.files.sort { it.name }
         if (recipes.collect { it.name } != advancements.collect { it.name }) {
             throw new GradleException('Recipe and advancement inventories differ')

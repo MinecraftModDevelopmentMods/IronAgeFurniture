@@ -2,6 +2,8 @@ package zone.moddev.mc.ironagefurniture.init;
 
 import zone.moddev.mc.ironagefurniture.BlockObjectHolder;
 import zone.moddev.mc.ironagefurniture.api.entity.EntityThrownLavaLamp;
+import zone.moddev.mc.ironagefurniture.api.tile.TileEntityShieldChair;
+import zone.moddev.mc.ironagefurniture.client.render.TileEntityShieldChairRenderer;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.Render;
@@ -10,6 +12,7 @@ import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -19,6 +22,11 @@ public final class ClientRenderInitialiser {
 
 	private ClientRenderInitialiser() {
 		throw new IllegalAccessError("This class cannot be instantiated");
+	}
+
+	public static void registerShieldChairRenderer() {
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityShieldChair.class,
+				new TileEntityShieldChairRenderer());
 	}
 
 	public static void registerEntityRenderers() {

@@ -228,10 +228,10 @@ tasks.register('updateFurnitureCatalog') {
     group = 'generation'
     description = 'Deterministically rewrites catalog-governed 1.12 recipes and advancements.'
     inputs.file catalogFile
-    inputs.files fileTree(recipeDirectory) { include '*.json' }
+    inputs.files fileTree(recipeDirectory) { include '*.json'; exclude '_factories.json' }
     dependsOn tasks.named('updatePaddedBenchColourAssets')
     doLast {
-        List<File> recipes = fileTree(recipeDirectory) { include '*.json' }.files.sort { it.name }
+        List<File> recipes = fileTree(recipeDirectory) { include '*.json'; exclude '_factories.json' }.files.sort { it.name }
         recipes.each { file ->
             file.setText(formattedJson(normalizedRecipe(file)), 'UTF-8')
         }
@@ -253,7 +253,7 @@ tasks.register('verifyFurnitureCatalog') {
     inputs.file file('src/main/java/zone/moddev/mc/ironagefurniture/api/Enumerations/BenchType.java')
     inputs.file file('src/main/java/zone/moddev/mc/ironagefurniture/client/ClientRegistryEvents.java')
     inputs.file file('src/main/java/zone/moddev/mc/ironagefurniture/init/ClientModelInitialiser.java')
-    inputs.files fileTree(recipeDirectory) { include '*.json' }
+    inputs.files fileTree(recipeDirectory) { include '*.json'; exclude '_factories.json' }
     inputs.files fileTree(advancementDirectory) { include '*.json' }
     doLast {
         Map catalog = new JsonSlurper().parse(catalogFile.asFile) as Map
@@ -267,7 +267,7 @@ tasks.register('verifyFurnitureCatalog') {
         }
         verifyThrownLavaLampRenderer()
 
-        List<File> recipes = fileTree(recipeDirectory) { include '*.json' }.files.sort { it.name }
+        List<File> recipes = fileTree(recipeDirectory) { include '*.json'; exclude '_factories.json' }.files.sort { it.name }
         List<File> advancements = fileTree(advancementDirectory) { include '*.json' }.files.sort { it.name }
         if (recipes.collect { it.name } != advancements.collect { it.name }) {
             throw new GradleException('Every recipe must have one same-named advancement')
