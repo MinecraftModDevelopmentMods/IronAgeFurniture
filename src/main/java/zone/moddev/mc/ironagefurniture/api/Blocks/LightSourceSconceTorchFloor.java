@@ -99,6 +99,10 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
                                     EnumFacing side, float hitX, float hitY, float hitZ) {
         ItemStack heldItem = playerIn.getHeldItem(hand);
 
+        if (tryAddSecondTorch(worldIn, pos, state, playerIn, hand, heldItem)) {
+            return true;
+        }
+
         if (tryTakeLightOut(worldIn, pos, state, playerIn, hand, heldItem)) {
             return true;
         }
@@ -119,6 +123,24 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
         }
 
         return super.onBlockActivated(worldIn, pos, state, playerIn, hand, side, hitX, hitY, hitZ);
+    }
+
+    protected boolean tryAddSecondTorch(World world, BlockPos pos, IBlockState state,
+            EntityPlayer player, EnumHand hand, ItemStack heldItem) {
+        if ((getClass() != LightSourceSconceTorchFloor.class
+                && getClass() != LightSourceSconceTorchWall.class)
+                || heldItem.isEmpty()
+                || heldItem.getItem() != Item.getItemFromBlock(Blocks.TORCH)) {
+            return false;
+        }
+        if (!world.isRemote) {
+            world.setBlockState(pos, GetTwinTorchVariant().getDefaultState()
+                    .withProperty(FACING, state.getValue(FACING)), 3);
+            if (!player.capabilities.isCreativeMode) {
+                heldItem.shrink(1);
+            }
+        }
+        return true;
     }
 
     protected boolean tryTakeLightOut(World worldIn, BlockPos pos, IBlockState state,
@@ -244,5 +266,9 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
     @Override
     protected Block GetUnlitTorchVariant() {
         return BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron_unlit;
+    }
+
+    protected Block GetTwinTorchVariant() {
+        return BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron_twin;
     }
 }

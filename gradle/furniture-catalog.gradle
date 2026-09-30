@@ -307,6 +307,21 @@ tasks.register('verifyFurnitureCatalog') {
                 throw new GradleException("Lighting catalog entry is missing assets: ${id}")
             }
         }
+        ['floor', 'wall'].each { String form ->
+            String model = "light_metal_ironage_sconce_${form}_torch_iron_twin"
+            if (!file("src/main/resources/assets/ironagefurniture/models/block/${model}.json").isFile()) {
+                throw new GradleException("Twin-torch model is missing: ${model}")
+            }
+            ['', '_unlit'].each { String suffix ->
+                File stateFile = new File(blockStates, "${model}${suffix}.json")
+                Map variants = (new JsonSlurper().parse(stateFile) as Map).variants as Map
+                if (variants.keySet() != ['facing=north', 'facing=east',
+                        'facing=south', 'facing=west'] as Set
+                        || variants.values().any { it.model != "ironagefurniture:${model}" }) {
+                    throw new GradleException("Twin-torch blockstate has an unexpected model: ${stateFile}")
+                }
+            }
+        }
 
         String blockSource = file(
                 'src/main/java/zone/moddev/mc/ironagefurniture/init/BlockInitialiser.java')
@@ -325,9 +340,9 @@ tasks.register('verifyFurnitureCatalog') {
         Set<String> registeredPaddedIds = registeredIds.findAll {
             it ==~ /chair_wood_ironage_bench(?:_back)?_padded_single_.+/
         } as TreeSet<String>
-        if (registeredIds.size() != 640 || registeredPaddedIds != expectedPaddedIds) {
-            throw new GradleException('Coloured padded benches must reuse the existing 640 block/item IDs '
-                    + 'and both existing padded forms for every catalog wood')
+        if (registeredIds.size() != 620 + catalog.lighting.size()
+                || registeredPaddedIds != expectedPaddedIds) {
+            throw new GradleException('Furniture registrations do not match the supported woods and lights')
         }
         if ((blockSource =~ /FurnitureFactory\.CreateWoodPaddedBench\("/).count
                 != catalogWoods.size()

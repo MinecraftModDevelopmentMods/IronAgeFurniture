@@ -21,8 +21,12 @@ import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceRedTorchWallU
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceRedWall;
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceTorchFloor;
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceTorchFloorUnlit;
+import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceTorchFloorTwin;
+import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceTorchFloorTwinUnlit;
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceTorchWall;
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceTorchWallUnlit;
+import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceTorchWallTwin;
+import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceTorchWallTwinUnlit;
 import zone.moddev.mc.ironagefurniture.api.Blocks.ObsideanLump;
 import zone.moddev.mc.ironagefurniture.api.Blocks.PaddedBackBench;
 import zone.moddev.mc.ironagefurniture.api.Blocks.PaddedBench;
@@ -117,12 +121,28 @@ public class FurnitureFactory {
 		return registerBlockWithoutItem(new LightSourceSconceTorchFloorUnlit(Material.IRON, name, 10, 1), name);
 	}
 
+	public static Block CreateIronFloorTwinTorchSconce(String name) {
+		return registerBlockWithoutItem(new LightSourceSconceTorchFloorTwin(Material.IRON, name, 10, 1), name);
+	}
+
+	public static Block CreateIronFloorTwinTorchSconceUnlit(String name) {
+		return registerBlockWithoutItem(new LightSourceSconceTorchFloorTwinUnlit(Material.IRON, name, 10, 1), name);
+	}
+
 	public static Block CreateIronWallTorchSconce(String name) {
 		return registerBlockWithoutItem(new LightSourceSconceTorchWall(Material.IRON, name, 10, 1), name);
 	}
 
 	public static Block CreateIronWallTorchSconceUnlit(String name) {
 		return registerBlockWithoutItem(new LightSourceSconceTorchWallUnlit(Material.IRON, name, 10, 1), name);
+	}
+
+	public static Block CreateIronWallTwinTorchSconce(String name) {
+		return registerBlockWithoutItem(new LightSourceSconceTorchWallTwin(Material.IRON, name, 10, 1), name);
+	}
+
+	public static Block CreateIronWallTwinTorchSconceUnlit(String name) {
+		return registerBlockWithoutItem(new LightSourceSconceTorchWallTwinUnlit(Material.IRON, name, 10, 1), name);
 	}
 
 	public static Block CreateIronFloorRedTorchSconce(String name) {
