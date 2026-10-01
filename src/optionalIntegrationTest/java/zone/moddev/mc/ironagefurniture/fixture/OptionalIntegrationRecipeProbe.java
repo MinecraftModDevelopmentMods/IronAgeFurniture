@@ -98,6 +98,7 @@ public final class OptionalIntegrationRecipeProbe {
         MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
         verifyRecipeBookGroups();
         BedCraftingProbe.verify(server);
+        BedFireProbe.verify(server);
         verifyCandleSconces();
         if (Boolean.getBoolean("iaf.probe.verifyColourDrops")) {
             verifyPaddedBenchDrops(server);

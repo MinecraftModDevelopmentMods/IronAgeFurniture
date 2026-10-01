@@ -40,6 +40,9 @@ make a canopy bed. Combine two single beds of the same wood, style and colour
 to make a double bed. To change any IAF bed's colour deliberately, craft it
 with a carpet in the colour you want.
 
+Wooden and canopy beds are flammable like chairs. If fire consumes any part,
+the whole bed burns away.
+
 ## Optional integrations
 
 IronAgeFurniture adds matching furniture and recipes when these mods are

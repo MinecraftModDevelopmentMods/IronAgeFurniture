@@ -38,6 +38,20 @@ import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 
 public class MultiBlockWoodBed extends BlockHBase {
+	// Every part of a wooden bed burns at the same rate as our chairs.
+	private static final int FIRE_SPREAD_SPEED = 5;
+	private static final int FLAMMABILITY = 20;
+
+	@Override
+	public int getFlammability(IBlockAccess world, BlockPos pos, EnumFacing face) {
+		return FLAMMABILITY;
+	}
+
+	@Override
+	public int getFireSpreadSpeed(IBlockAccess world, BlockPos pos, EnumFacing face) {
+		return FIRE_SPREAD_SPEED;
+	}
+
 	public static final PropertyEnum<WoodBedPart> PART = PropertyEnum.<WoodBedPart>create("part", WoodBedPart.class);
 	public static final PropertyEnum<WoodBedSide> SIDE = PropertyEnum.<WoodBedSide>create("side", WoodBedSide.class);
 

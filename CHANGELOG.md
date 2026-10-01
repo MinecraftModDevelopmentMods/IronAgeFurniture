@@ -5,6 +5,8 @@ Phase 3 release remains `0.3.0.112021` until this update is accepted.
 
 - Add multiblock wooden and canopy beds, wingback chairs, and thrones, with
   sixteen upholstery colours preserved through placement, drops, and reloads.
+- Let wooden and canopy beds burn like chairs. Fire consuming any bed part
+  removes the whole bed, without leaving stray parts or dropping an intact bed.
 - Let shield chairs release and reattach their shields without losing the
   shield's damage, banner design, enchantments, name, or other item data.
 - Add twin-torch sconces, standalone and mounted candles, Mineralogy rock-salt
