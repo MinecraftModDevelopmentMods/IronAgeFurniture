@@ -60,27 +60,42 @@ They are optional. Their recipes and advancements load only when the relevant
 mod is installed. The available Base Metals sconce variants follow the
 installed Base Metals build.
 
-## Carried-candle lighting
+## Carried-light setup
 
 IAF supplies the candle's flame and smoke, but does not include a dynamic
 lighting engine. Without a separate lighting mod, a candle lights its
 surroundings only when placed.
 
 With OptiFine, enable **Dynamic Lights** in Video Settings (Fast or Fancy).
-OptiFine recognises the candle's existing block light level of 12 automatically;
-no extra IAF configuration is needed. This also applies to the Forge 1.10 candle.
+OptiFine recognises the existing block light levels of IAF candles and lamps
+automatically; no extra IAF configuration is needed. This also applies to the
+Forge 1.10 candle.
 
 If you use [AtomicStryker's Dynamic Lights for Minecraft 1.12.2](https://www.curseforge.com/minecraft/mc-mods/dynamic-lights/files/2563244)
 instead, start the game once to create its configuration, then close it. In
-`config/dynamiclights_theplayer.cfg`, append this entry to the comma-separated
+`config/dynamiclights_theplayer.cfg`, append these entries to the comma-separated
 `S:LightItems` list, keeping the existing entries:
 
 ```text
-ironagefurniture:light_metal_ironage_candle_floor=12
+ironagefurniture:light_metal_ironage_candle_floor=12,ironagefurniture:light_metal_ironage_block_floor_glow_clear=15,ironagefurniture:light_metal_ironage_block_floor_lava_clear=15,ironagefurniture:light_metal_ironage_block_floor_red_clear=0
 ```
 
-Restart the game after saving the file. To light candles carried by other
-players or dropped on the ground as well, add the same entry to `S:LightItems`
+| Carried item | Light level |
+| --- | --- |
+| Candle | 12 |
+| Glow dust lamp | 15 |
+| Lava lamp | 15 |
+| Red lamp | 0 until placed and powered |
+
+Red lamps need a redstone signal, so carrying one must not make it glow.
+Empty sconces and obsidian chunks give off no light. Filled sconces, wall
+lights, and powered or unlit variants are placed-block states, not separate
+inventory items; their normal block lighting needs no item-list entry.
+Rock-salt sconces hold Mineralogy's own lamp item rather than a separate IAF
+rock-salt item.
+
+Restart the game after saving the file. To light items carried by other
+players or dropped on the ground as well, add the same entries to `S:LightItems`
 in `dynamiclights_otherplayers.cfg` and `dynamiclights_dropitems.cfg`.
 
 These lights are a client-side visual effect, not a replacement for placed
