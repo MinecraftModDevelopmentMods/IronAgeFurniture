@@ -24,6 +24,9 @@ Phase 3 release remains `0.3.0.112021` until this update is accepted.
   `Metal` value remain iron.
 - Keep all sixteen padded-bench colours when either bench style is mined;
   previously a coloured bench could drop as red.
+- Keep the original sconce metal when mining a lava-lamp sconce. Silk Touch
+  returns the empty sconce and intact lamp; ordinary mining drops the empty
+  sconce and shatters the lamp into fire.
 - Restore Natura redwood furniture under its historical registry names, so
   worlds that used that wood can retain their chairs and benches.
 - Organize the build checks, Eclipse setup, and release tasks into smaller

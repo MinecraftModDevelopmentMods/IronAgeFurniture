@@ -55,7 +55,8 @@ public class LightSourceSconceLavaFloor extends LightSourceSconceGlowFloor {
 
     @Override
     public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
-        if (player != null && player.capabilities.isCreativeMode) {
+        if (willHarvest || (player != null && player.capabilities.isCreativeMode)) {
+            // Keep the metal-bearing tile entity until Forge has collected the holder drop.
             return super.removedByPlayer(state, world, pos, player, willHarvest);
         }
 
@@ -78,12 +79,16 @@ public class LightSourceSconceLavaFloor extends LightSourceSconceGlowFloor {
     public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state,
             TileEntity te, ItemStack stack) {
         boolean silkTouch = hasSilkTouch(stack);
-
-        if (silkTouch && !player.capabilities.isCreativeMode && !worldIn.isRemote) {
-            spawnAsEntity(worldIn, pos, new ItemStack(LightDrop(), 1));
-        }
-
         super.harvestBlock(worldIn, player, pos, state, te, stack);
+
+        if (!player.capabilities.isCreativeMode && !worldIn.isRemote) {
+            if (silkTouch) {
+                spawnAsEntity(worldIn, pos, new ItemStack(LightDrop(), 1));
+            } else {
+                // Shatter after removing the holder, so its cleanup cannot erase the fire.
+                breakIntoFire(worldIn, pos, player);
+            }
+        }
     }
 
     @Override

@@ -19,6 +19,10 @@ smoke. With OptiFine Dynamic Lights enabled, it may also light the surrounding
 area while held. A powered wall lava-lamp sconce releases its lamp when there
 is room below; it can fall, shatter, and start a fire.
 
+Mining a lava-lamp sconce with a suitable Silk Touch pickaxe returns the empty
+sconce and intact lamp separately. Without Silk Touch, the sconce still drops
+in its original metal, but the lamp shatters and starts a fire.
+
 Padded benches and padded back benches support all sixteen vanilla carpet
 colours without adding block or item IDs. Existing benches and data-zero items
 remain red. New stacks retain both their legacy metadata and a stable `Color`

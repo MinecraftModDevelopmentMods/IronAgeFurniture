@@ -18,20 +18,31 @@ import org.apache.logging.log4j.Logger;
 
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockHorizontal;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Enchantments;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.EnumPacketDirection;
+import net.minecraft.network.NetHandlerPlayServer;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.WorldServer;
+import net.minecraft.world.GameType;
 import net.minecraftforge.common.util.FakePlayerFactory;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Loader;
@@ -46,6 +57,7 @@ import zone.moddev.mc.ironagefurniture.BlockObjectHolder;
 import zone.moddev.mc.ironagefurniture.api.Enumerations.PaddedBenchColour;
 import zone.moddev.mc.ironagefurniture.api.Enumerations.UpholsteryColour;
 import zone.moddev.mc.ironagefurniture.api.MetalVariantHelper;
+import zone.moddev.mc.ironagefurniture.api.MetalVariantHelper.MetalVariant;
 import zone.moddev.mc.ironagefurniture.api.PaddedBenchColourHelper;
 import zone.moddev.mc.ironagefurniture.api.UpholsteryColourHelper;
 import zone.moddev.mc.ironagefurniture.api.entity.EntityReleasedLavaLamp;
@@ -89,6 +101,9 @@ public final class OptionalIntegrationRecipeProbe {
         verifyMetalVariants(!"absent".equals(System.getProperty("iaf.probe.profile"))
                 && ("basemetals".equals(System.getProperty("iaf.probe.mods"))
                         || "all".equals(System.getProperty("iaf.probe.mods"))));
+        if (Boolean.getBoolean("iaf.probe.verifySconceDrops")) {
+            verifySconceDrops(server);
+        }
         if ("absent".equals(System.getProperty("iaf.probe.profile"))) {
             verifyOptionalModsAbsent();
             verifyRockSaltSconces(false);
@@ -260,6 +275,101 @@ public final class OptionalIntegrationRecipeProbe {
             }
         }
         LOGGER.info("IRON AGE FURNITURE UPHOLSTERY DROP PROBE PASSED: 4 forms, 16 colours");
+    }
+
+    private static void verifySconceDrops(MinecraftServer server) {
+        WorldServer world = server.getWorld(0);
+        EntityPlayerMP player = FakePlayerFactory.getMinecraft(world);
+        NetHandlerPlayServer previousConnection = player.connection;
+        // Creative mining sends a block-update packet even for a server-only fake player.
+        player.connection = new NetHandlerPlayServer(server,
+                new NetworkManager(EnumPacketDirection.SERVERBOUND), player) {
+            @Override
+            public void sendPacket(Packet<?> packet) {
+                // There is no client connection in this packaged-server probe.
+            }
+        };
+        Block[] forms = {
+                BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron,
+                BlockObjectHolder.light_metal_ironage_sconce_wall_empty_iron,
+                BlockObjectHolder.light_metal_ironage_sconce_floor_lava_iron,
+                BlockObjectHolder.light_metal_ironage_sconce_wall_lava_iron
+        };
+        BlockPos origin = new BlockPos(128, 100, 128);
+        int cases = 0;
+        try {
+            for (MetalVariant metal : MetalVariantHelper.getAvailableVariants()) {
+                for (int form = 0; form < forms.length; ++form) {
+                    for (EnumFacing facing : EnumFacing.HORIZONTALS) {
+                        for (int mode = 0; mode < 3; ++mode) {
+                            boolean silkTouch = mode == 1;
+                            boolean creative = mode == 2;
+                            boolean lava = form >= 2;
+                            Block block = forms[form];
+                            BlockPos pos = origin.add((cases % 32) * 4, 0, (cases / 32) * 4);
+                            ++cases;
+                            // A failed prior run can leave dropped items in this disposable test area.
+                            for (EntityItem previousDrop : world.getEntitiesWithinAABB(EntityItem.class,
+                                    new AxisAlignedBB(pos).grow(1.0D))) {
+                                previousDrop.setDead();
+                            }
+                            world.setBlockState(pos.down(), Blocks.STONE.getDefaultState(), 3);
+                            world.setBlockState(pos.offset(facing.getOpposite()), Blocks.STONE.getDefaultState(), 3);
+                            world.setBlockState(pos, block.getDefaultState()
+                                    .withProperty(BlockHorizontal.FACING, facing), 3);
+                            MetalVariantHelper.setMetal(world, pos, metal);
+                            require(MetalVariantHelper.getMetal(world, pos) == metal,
+                                    "Could not set sconce metal: " + metal);
+
+                            ItemStack pickaxe = new ItemStack(Items.IRON_PICKAXE);
+                            if (silkTouch) pickaxe.addEnchantment(Enchantments.SILK_TOUCH, 1);
+                            player.interactionManager.setGameType(creative ? GameType.CREATIVE : GameType.SURVIVAL);
+                            player.setHeldItem(EnumHand.MAIN_HAND, pickaxe);
+                            String context = block.getRegistryName() + " " + metal + " " + facing + " mode=" + mode;
+                            require(player.interactionManager.tryHarvestBlock(pos),
+                                    "Could not mine sconce: " + context);
+
+                            List<EntityItem> drops = world.getEntitiesWithinAABB(EntityItem.class,
+                                    new AxisAlignedBB(pos).grow(1.0D));
+                            int holders = 0;
+                            int lamps = 0;
+                            for (EntityItem entity : drops) {
+                                if (entity.isDead) continue;
+                                ItemStack drop = entity.getItem();
+                                if (drop.getItem() == Item.getItemFromBlock(forms[0])) {
+                                    require(drop.getMetadata() == metal.getMeta(),
+                                            "Sconce drop lost its metal: " + context + " got=" + drop.getMetadata());
+                                    holders += drop.getCount();
+                                } else if (drop.getItem() == Item.getItemFromBlock(
+                                        BlockObjectHolder.light_metal_ironage_block_floor_lava_clear)) {
+                                    lamps += drop.getCount();
+                                } else {
+                                    throw new IllegalStateException("Unexpected sconce drop: " + context + " " + drop);
+                                }
+                                entity.setDead();
+                            }
+                            require(holders == (creative ? 0 : 1),
+                                    "Incorrect empty-sconce drop count: " + context + " got=" + holders);
+                            require(lamps == (lava && silkTouch && !creative ? 1 : 0),
+                                    "Incorrect intact-lamp drop count: " + context + " got=" + lamps);
+                            if (lava && !silkTouch && !creative) {
+                                require(world.getBlockState(pos).getBlock() == Blocks.FIRE,
+                                        "Ordinary mining did not leave shattered-lamp fire: " + context);
+                            } else {
+                                require(world.isAirBlock(pos), "Mining left a block or fire behind: " + context);
+                            }
+                            world.setBlockToAir(pos);
+                        }
+                    }
+                }
+            }
+        } finally {
+            player.setHeldItem(EnumHand.MAIN_HAND, ItemStack.EMPTY);
+            player.interactionManager.setGameType(GameType.SURVIVAL);
+            player.connection = previousConnection;
+        }
+        LOGGER.info("IRON AGE FURNITURE SCONCE DROP PROBE PASSED: {} metals, 4 forms, 4 facings, "
+                + "ordinary/Silk Touch/Creative; {} mining cases", MetalVariantHelper.getAvailableVariants().size(), cases);
     }
 
     @SubscribeEvent

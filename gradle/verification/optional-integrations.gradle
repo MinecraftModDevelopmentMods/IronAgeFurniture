@@ -319,6 +319,7 @@ tasks.register('runOptionalIntegrationServer', Exec) {
         executable java8Launcher.get().executablePath.asFile
         args '-Diaf.probe.profile=integrations',
                 "-Diaf.probe.mods=${optionalIntegrationProfile}", '-Dfml.queryResult=confirm',
+                "-Diaf.probe.verifySconceDrops=${providers.gradleProperty('verifySconceDrops').getOrElse('true')}",
                 "-Diaf.probe.legacySource=${providers.gradleProperty('legacyWorldSource').getOrElse('')}",
                 "-Diaf.probe.createCfmMigrationFixture=${providers.gradleProperty('createCfmMigrationFixture').getOrElse('false')}",
                 "-Diaf.probe.verifyCfmSourceFixture=${providers.gradleProperty('verifyCfmSourceFixture').getOrElse('false')}",
@@ -380,6 +381,7 @@ tasks.register('runCorePackagedServer', Exec) {
                 "-Diaf.probe.legacySource=${providers.gradleProperty('legacyWorldSource').getOrElse('')}",
                 "-Diaf.probe.verifyLavaTrap=${providers.gradleProperty('verifyLavaTrap').getOrElse('false')}",
                 "-Diaf.probe.verifyColourDrops=${providers.gradleProperty('verifyColourDrops').getOrElse('true')}",
+                "-Diaf.probe.verifySconceDrops=${providers.gradleProperty('verifySconceDrops').getOrElse('true')}",
                 '-jar', forgeServerJar.name, 'nogui'
     }
     doLast {
