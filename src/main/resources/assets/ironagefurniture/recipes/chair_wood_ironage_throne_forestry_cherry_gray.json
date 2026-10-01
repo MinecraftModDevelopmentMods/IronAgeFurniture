@@ -5,6 +5,7 @@
         "data": 7,
         "nbt": "{Color:\"gray\"}"
     },
+    "group": "ironagefurniture:chair_wood_ironage_throne_forestry_cherry/meta_7",
     "pattern": [
         "z",
         "x",

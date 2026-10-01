@@ -23,7 +23,7 @@ public final class BedRecolourRecipe extends ShapelessOreRecipe {
 	private final Item carpet = Item.getItemFromBlock(Blocks.CARPET);
 
 	public BedRecolourRecipe(Block bed) {
-		super(new ResourceLocation("ironagefurniture", "bed_recolour"), new ItemStack(bed),
+		super(new ResourceLocation(bed.getRegistryName() + "/bed_recolour"), new ItemStack(bed),
 				new ItemStack(bed, 1, OreDictionary.WILDCARD_VALUE),
 				new ItemStack(Blocks.CARPET, 1, OreDictionary.WILDCARD_VALUE));
 		this.bed = bed;

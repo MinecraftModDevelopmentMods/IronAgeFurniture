@@ -14,7 +14,7 @@
             "data": 5
         }
     },
-    "group": "furniture",
+    "group": "ironagefurniture:chair_wood_ironage_bench_log_single_biomesoplenty_magic/meta_0",
     "conditions": [
         {
             "type": "forge:mod_loaded",

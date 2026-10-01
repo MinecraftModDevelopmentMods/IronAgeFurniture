@@ -5,6 +5,7 @@
         "data": 12,
         "nbt": "{Color:\"brown\"}"
     },
+    "group": "ironagefurniture:chair_wood_ironage_throne_forestry_kapok/meta_12",
     "pattern": [
         "z",
         "x",

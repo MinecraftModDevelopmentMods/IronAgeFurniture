@@ -5,6 +5,7 @@
         "data": 15,
         "nbt": "{Color:\"black\"}"
     },
+    "group": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_ebony/meta_15",
     "pattern": [
         "z",
         "x",

@@ -24,6 +24,10 @@ Phase 3 release remains `0.3.0.112021` until this update is accepted.
   `Metal` value remain iron.
 - Keep all sixteen padded-bench colours when either bench style is mined;
   previously a coloured bench could drop as red.
+- Give each furniture design, wood and upholstery colour its own recipe-book
+  entry instead of cycling all seating through one cell. Alternate recipes
+  for the same chair remain together; bed combining and recolouring recipes
+  also stay separate for each wood and bed style.
 - Keep the original sconce metal when mining a lava-lamp sconce. Silk Touch
   returns the empty sconce and intact lamp; ordinary mining drops the empty
   sconce and shatters the lamp into fire.
@@ -31,6 +35,7 @@ Phase 3 release remains `0.3.0.112021` until this update is accepted.
   worlds that used that wood can retain their chairs and benches.
 - Organize the build checks, Eclipse setup, and release tasks into smaller
   Gradle files without changing the Forge 1.12 toolchain or publication gate.
+- Refresh artifact checksums when jars change during an incremental build.
 
 # IronAgeFurniture 0.3.0.112021
 

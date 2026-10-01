@@ -14,7 +14,7 @@
         "data": 0,
         "nbt": "{Color:\"red\"}"
     },
-    "group": "furniture",
+    "group": "ironagefurniture:chair_wood_ironage_bench_padded_single_forestry_cherry/meta_0",
     "conditions": [
         {
             "type": "forge:mod_loaded",

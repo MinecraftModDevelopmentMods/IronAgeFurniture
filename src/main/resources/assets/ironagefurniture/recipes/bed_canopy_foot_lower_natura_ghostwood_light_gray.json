@@ -1,5 +1,6 @@
 {
     "type": "forge:ore_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_lower_natura_ghostwood/meta_8",
     "ingredients": [
         {
             "item": "minecraft:bed",

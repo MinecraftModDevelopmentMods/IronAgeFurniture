@@ -1,5 +1,6 @@
 {
     "type": "ironagefurniture:bed_recolour",
+    "group": "ironagefurniture:bed_wood_foot_forestry_greenheart/bed_recolour",
     "ingredients": [
         {
             "item": "ironagefurniture:bed_wood_foot_forestry_greenheart",

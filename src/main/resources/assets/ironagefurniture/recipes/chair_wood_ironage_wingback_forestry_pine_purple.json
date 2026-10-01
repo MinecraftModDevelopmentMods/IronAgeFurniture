@@ -5,6 +5,7 @@
         "data": 10,
         "nbt": "{Color:\"purple\"}"
     },
+    "group": "ironagefurniture:chair_wood_ironage_wingback_forestry_pine/meta_10",
     "pattern": [
         "z",
         "x",

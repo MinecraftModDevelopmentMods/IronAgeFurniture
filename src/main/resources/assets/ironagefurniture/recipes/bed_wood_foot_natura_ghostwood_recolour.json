@@ -1,5 +1,6 @@
 {
     "type": "ironagefurniture:bed_recolour",
+    "group": "ironagefurniture:bed_wood_foot_natura_ghostwood/bed_recolour",
     "ingredients": [
         {
             "item": "ironagefurniture:bed_wood_foot_natura_ghostwood",

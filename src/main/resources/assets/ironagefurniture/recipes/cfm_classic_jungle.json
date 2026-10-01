@@ -8,7 +8,7 @@
     "result": {
         "item": "ironagefurniture:chair_wood_ironage_classic_jungle"
     },
-    "group": "furniture",
+    "group": "ironagefurniture:chair_wood_ironage_classic_jungle/meta_0",
     "conditions": [
         {
             "type": "forge:mod_loaded",

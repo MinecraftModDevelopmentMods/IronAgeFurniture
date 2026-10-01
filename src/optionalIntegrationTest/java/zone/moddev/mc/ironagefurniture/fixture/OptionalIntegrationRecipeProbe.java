@@ -17,6 +17,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.entity.Entity;
@@ -60,6 +61,8 @@ import zone.moddev.mc.ironagefurniture.api.MetalVariantHelper;
 import zone.moddev.mc.ironagefurniture.api.MetalVariantHelper.MetalVariant;
 import zone.moddev.mc.ironagefurniture.api.PaddedBenchColourHelper;
 import zone.moddev.mc.ironagefurniture.api.UpholsteryColourHelper;
+import zone.moddev.mc.ironagefurniture.api.recipes.BedRecolourRecipe;
+import zone.moddev.mc.ironagefurniture.api.recipes.MatchingUpholsteryRecipe;
 import zone.moddev.mc.ironagefurniture.api.entity.EntityReleasedLavaLamp;
 
 /** Exact-loader probe for optional recipes and recipe advancements. */
@@ -93,6 +96,7 @@ public final class OptionalIntegrationRecipeProbe {
     @Mod.EventHandler
     public void serverStarted(FMLServerStartedEvent event) {
         MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
+        verifyRecipeBookGroups();
         verifyCandleSconces();
         if (Boolean.getBoolean("iaf.probe.verifyColourDrops")) {
             verifyPaddedBenchDrops(server);
@@ -165,6 +169,33 @@ public final class OptionalIntegrationRecipeProbe {
         LOGGER.info("IRON AGE FURNITURE OPTIONAL INTEGRATION PROBE PASSED: "
                 + "{} recipes and {} advancements", recipeCount, advancementCount);
         server.initiateShutdown();
+    }
+
+    private static void verifyRecipeBookGroups() {
+        int checked = 0;
+        Map<String, String> groupedOutputs = new LinkedHashMap<>();
+        for (IRecipe recipe : CraftingManager.REGISTRY) {
+            ResourceLocation recipeId = recipe.getRegistryName();
+            ItemStack result = recipe.getRecipeOutput();
+            if (recipeId == null || !recipeId.toString().startsWith("ironagefurniture:")
+                    || result.isEmpty()) continue;
+            String item = result.getItem().getRegistryName().toString();
+            if (!item.startsWith("ironagefurniture:chair_wood_")
+                    && !item.startsWith("ironagefurniture:bed_")) continue;
+            String suffix = recipe instanceof MatchingUpholsteryRecipe ? "matching_upholstery"
+                    : recipe instanceof BedRecolourRecipe ? "bed_recolour" : "meta_" + result.getMetadata();
+            String expected = item + "/" + suffix;
+            require(expected.equals(recipe.getGroup()), "Recipe-book group differs for " + recipeId
+                    + ": expected " + expected + ", got " + recipe.getGroup());
+            String output = item + ":" + result.getMetadata() + ":" + result.getTagCompound();
+            String previous = groupedOutputs.put(recipe.getGroup(), output);
+            require(previous == null || previous.equals(output),
+                    "Different furniture outputs share recipe-book group " + recipe.getGroup());
+            ++checked;
+        }
+        require(checked > 250, "The vanilla furniture recipes were not loaded for the grouping probe");
+        LOGGER.info("IRON AGE FURNITURE RECIPE BOOK GROUPING PROBE PASSED: {} recipes, {} entries",
+                checked, groupedOutputs.size());
     }
 
     private void beginLavaTrapProbe(MinecraftServer server) {

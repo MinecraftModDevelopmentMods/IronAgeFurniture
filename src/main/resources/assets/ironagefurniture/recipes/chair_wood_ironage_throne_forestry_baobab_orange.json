@@ -5,6 +5,7 @@
         "data": 1,
         "nbt": "{Color:\"orange\"}"
     },
+    "group": "ironagefurniture:chair_wood_ironage_throne_forestry_baobab/meta_1",
     "pattern": [
         "z",
         "x",

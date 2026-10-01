@@ -106,6 +106,9 @@ tasks.register('writeReleaseChecksums') {
     group = 'verification'
     description = 'Writes SHA-256 checksums for the audited release jars.'
     dependsOn tasks.named('verifyReleaseArtifacts')
+    inputs.files(expectedReleaseFiles.map { names -> names.collect { name ->
+        layout.buildDirectory.file("libs/${name}")
+    } })
     outputs.file(layout.buildDirectory.file('release/SHA256SUMS'))
     doLast {
         File output = layout.buildDirectory.file('release/SHA256SUMS').get().asFile

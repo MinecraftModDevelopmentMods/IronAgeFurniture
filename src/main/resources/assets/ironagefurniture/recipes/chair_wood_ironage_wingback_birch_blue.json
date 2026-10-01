@@ -5,6 +5,7 @@
         "data": 11,
         "nbt": "{Color:\"blue\"}"
     },
+    "group": "ironagefurniture:chair_wood_ironage_wingback_birch/meta_11",
     "pattern": [
         "z",
         "x",

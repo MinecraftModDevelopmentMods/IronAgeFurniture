@@ -1,5 +1,6 @@
 {
     "type": "ironagefurniture:bed_recolour",
+    "group": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_palm/bed_recolour",
     "ingredients": [
         {
             "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_palm",

@@ -1,5 +1,6 @@
 {
     "type": "forge:ore_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_magic/meta_2",
     "ingredients": [
         {
             "item": "minecraft:bed",

@@ -62,6 +62,7 @@ def chairExpectedAssets = {
                         type: 'forge:ore_shaped',
                         result: [item: "ironagefurniture:${id}", data: metadata,
                                 nbt: "{Color:\"${colour.name}\"}"],
+                        group: "ironagefurniture:${id}/meta_${metadata}",
                         pattern: ['z', 'x', 'y'],
                         key: [z: [item: 'minecraft:carpet', data: colour.carpet],
                                 x: planks, y: form == 'throne'
@@ -129,7 +130,7 @@ tasks.register('verifyPhaseFourChairCatalog') {
             if (path.startsWith('recipes/')) {
                 Map recipe = new JsonSlurper().parse(target) as Map
                 Map proposed = new JsonSlurper().parseText(contents) as Map
-                if (recipe.type != proposed.type || recipe.key != proposed.key
+                if (recipe.type != proposed.type || recipe.group != proposed.group || recipe.key != proposed.key
                         || recipe.result != proposed.result || recipe.pattern != proposed.pattern)
                     throw new GradleException("Phase 4 chair recipe differs from catalog: ${path}")
             } else if (target.getText('UTF-8').replace('\r\n', '\n') != contents) {

@@ -5,6 +5,7 @@
         "data": 3,
         "nbt": "{Color:\"light_blue\"}"
     },
+    "group": "ironagefurniture:chair_wood_ironage_wingback_forestry_walnut/meta_3",
     "pattern": [
         "z",
         "x",

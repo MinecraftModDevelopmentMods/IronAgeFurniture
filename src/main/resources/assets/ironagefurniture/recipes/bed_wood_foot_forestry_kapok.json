@@ -1,5 +1,6 @@
 {
     "type": "forge:ore_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_forestry_kapok/meta_0",
     "ingredients": [
         {
             "item": "minecraft:bed",

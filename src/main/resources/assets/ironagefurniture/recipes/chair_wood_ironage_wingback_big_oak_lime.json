@@ -5,6 +5,7 @@
         "data": 5,
         "nbt": "{Color:\"lime\"}"
     },
+    "group": "ironagefurniture:chair_wood_ironage_wingback_big_oak/meta_5",
     "pattern": [
         "z",
         "x",

@@ -68,6 +68,15 @@ def normalizedRecipe = { File file ->
         result.nbt = "{Color:\"${colour.name}\"}"
         parsed.result = result
     }
+    String resultItem = parsed.result.item
+    if (resultItem.startsWith('ironagefurniture:chair_wood_')
+            || resultItem.startsWith('ironagefurniture:bed_')) {
+        // The book combines recipes with the same group, even across woods and colours.
+        String variant = parsed.type == 'ironagefurniture:matching_upholstery'
+                ? 'matching_upholstery' : parsed.type == 'ironagefurniture:bed_recolour'
+                ? 'bed_recolour' : "meta_${parsed.result.data ?: 0}"
+        parsed.group = "${resultItem}/${variant}".toString()
+    }
     String modId = integrationForName(file.name)
     Map reordered = new LinkedHashMap()
     parsed.each { key, value ->

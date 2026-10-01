@@ -73,12 +73,14 @@ def expectedBedAssets = {
         String canopyDouble = "bed_canopy_foot_left_lower_${wood}"
         expected["recipes/${woodSingle}.json"] = bedJson([
                 type: 'forge:ore_shapeless',
+                group: "ironagefurniture:${woodSingle}/meta_0",
                 ingredients: [[item: 'minecraft:bed', data: 32767], planks],
                 result: [item: "ironagefurniture:${woodSingle}", data: 0, nbt: '{Color:"red"}']
         ])
         bedColours.each { colour ->
             expected["recipes/${canopySingle}_${colour.name}.json"] = bedJson([
                     type: 'forge:ore_shapeless',
+                    group: "ironagefurniture:${canopySingle}/meta_${colour.item}",
                     ingredients: [[item: 'minecraft:bed', data: 32767], planks,
                             [item: 'minecraft:carpet', data: colour.carpet]],
                     result: [item: "ironagefurniture:${canopySingle}", data: colour.item,
@@ -90,6 +92,7 @@ def expectedBedAssets = {
             String result = pair[1]
             expected["recipes/${result}.json"] = bedJson([
                     type: 'ironagefurniture:matching_upholstery',
+                    group: "ironagefurniture:${result}/matching_upholstery",
                     ingredients: [[item: "ironagefurniture:${source}", data: 32767],
                             [item: "ironagefurniture:${source}", data: 32767]],
                     result: [item: "ironagefurniture:${result}"]
@@ -98,6 +101,7 @@ def expectedBedAssets = {
         [woodSingle, woodDouble, canopySingle, canopyDouble].each { String bed ->
             expected["recipes/${bed}_recolour.json"] = bedJson([
                     type: 'ironagefurniture:bed_recolour',
+                    group: "ironagefurniture:${bed}/bed_recolour",
                     ingredients: [[item: "ironagefurniture:${bed}", data: 32767],
                             [item: 'minecraft:carpet', data: 32767]],
                     result: [item: "ironagefurniture:${bed}"]
@@ -157,7 +161,7 @@ tasks.register('verifyPhaseFourBedCatalog') {
             if (path.startsWith('recipes/')) {
                 Map actual = new JsonSlurper().parse(target) as Map
                 Map proposed = new JsonSlurper().parseText(contents) as Map
-                if (actual.type != proposed.type || actual.ingredients != proposed.ingredients
+                if (actual.type != proposed.type || actual.group != proposed.group || actual.ingredients != proposed.ingredients
                         || actual.result != proposed.result)
                     throw new GradleException("Phase 4 bed recipe differs from catalog: ${path}")
             } else if (target.getText('UTF-8').replace('\r\n', '\n') != contents) {

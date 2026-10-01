@@ -5,6 +5,7 @@
         "data": 5,
         "nbt": "{Color:\"lime\"}"
     },
+    "group": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_eucalyptus/meta_5",
     "pattern": [
         "z",
         "x",

@@ -1,5 +1,6 @@
 {
     "type": "forge:ore_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_lower_forestry_mahoe/meta_7",
     "ingredients": [
         {
             "item": "minecraft:bed",

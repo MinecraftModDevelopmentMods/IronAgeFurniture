@@ -30,6 +30,10 @@ NBT string through crafting, Creative inventory, placement, drops, pick block,
 connected-shape changes and chunk reloads. Mixed-colour runs remain governed by
 the unchanged bench joining algorithm.
 
+The recipe book lists furniture designs, woods and upholstery colours
+separately, so you can find the piece you want without cycling through the
+whole seating collection. Alternate recipes for the same chair share an entry.
+
 ## Optional integrations
 
 IronAgeFurniture adds matching furniture and recipes when these mods are

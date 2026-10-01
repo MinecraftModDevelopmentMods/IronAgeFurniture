@@ -1,5 +1,6 @@
 {
     "type": "ironagefurniture:matching_upholstery",
+    "group": "ironagefurniture:bed_wood_foot_left_natura_silverbell/matching_upholstery",
     "ingredients": [
         {
             "item": "ironagefurniture:bed_wood_foot_natura_silverbell",

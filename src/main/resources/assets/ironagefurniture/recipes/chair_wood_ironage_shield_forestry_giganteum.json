@@ -11,7 +11,7 @@
     "result": {
         "item": "ironagefurniture:chair_wood_ironage_shield_forestry_giganteum"
     },
-    "group": "furniture",
+    "group": "ironagefurniture:chair_wood_ironage_shield_forestry_giganteum/meta_0",
     "conditions": [
         {
             "type": "forge:mod_loaded",

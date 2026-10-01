@@ -22,7 +22,7 @@ public final class MatchingUpholsteryRecipe extends ShapelessOreRecipe {
 	private final Block result;
 
 	public MatchingUpholsteryRecipe(Block source, Block result) {
-		super(new ResourceLocation("ironagefurniture", "matching_upholstery"), new ItemStack(result),
+		super(new ResourceLocation(result.getRegistryName() + "/matching_upholstery"), new ItemStack(result),
 				new ItemStack(source, 1, OreDictionary.WILDCARD_VALUE),
 				new ItemStack(source, 1, OreDictionary.WILDCARD_VALUE));
 		this.source = Item.getItemFromBlock(source);

@@ -20,7 +20,7 @@ public final class ShieldChairRecipe extends ShapelessRecipes {
     private final Block chair;
 
     private ShieldChairRecipe(Block original, Block chair) {
-        super("", new ItemStack(chair), NonNullList.from(Ingredient.EMPTY,
+        super(chair.getRegistryName() + "/meta_0", new ItemStack(chair), NonNullList.from(Ingredient.EMPTY,
                 Ingredient.fromItems(Items.SHIELD),
                 Ingredient.fromStacks(new ItemStack(original))));
         this.chair = chair;
