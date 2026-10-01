@@ -15,9 +15,9 @@ clients and dedicated servers.
 Phase 4 adds multiblock wooden and canopy beds, wingback and throne chairs,
 removable shields on shield chairs, twin-torch sconces, candles, rock-salt
 sconces, and metal sconce choices. A carried candle shows a small flame and
-smoke. With OptiFine Dynamic Lights enabled, it may also light the surrounding
-area while held. A powered wall lava-lamp sconce releases its lamp when there
-is room below; it can fall, shatter, and start a fire.
+smoke. Optional dynamic lighting can also light the area around it while held;
+see the setup instructions below. A powered wall lava-lamp sconce releases its
+lamp when there is room below; it can fall, shatter, and start a fire.
 
 Mining a lava-lamp sconce with a suitable Silk Touch pickaxe returns the empty
 sconce and intact lamp separately. Without Silk Touch, the sconce still drops
@@ -59,6 +59,33 @@ installed:
 They are optional. Their recipes and advancements load only when the relevant
 mod is installed. The available Base Metals sconce variants follow the
 installed Base Metals build.
+
+## Carried-candle lighting
+
+IAF supplies the candle's flame and smoke, but does not include a dynamic
+lighting engine. Without a separate lighting mod, a candle lights its
+surroundings only when placed.
+
+With OptiFine, enable **Dynamic Lights** in Video Settings (Fast or Fancy).
+OptiFine recognises the candle's existing block light level of 12 automatically;
+no extra IAF configuration is needed. This also applies to the Forge 1.10 candle.
+
+If you use [AtomicStryker's Dynamic Lights for Minecraft 1.12.2](https://www.curseforge.com/minecraft/mc-mods/dynamic-lights/files/2563244)
+instead, start the game once to create its configuration, then close it. In
+`config/dynamiclights_theplayer.cfg`, append this entry to the comma-separated
+`S:LightItems` list, keeping the existing entries:
+
+```text
+ironagefurniture:light_metal_ironage_candle_floor=12
+```
+
+Restart the game after saving the file. To light candles carried by other
+players or dropped on the ground as well, add the same entry to `S:LightItems`
+in `dynamiclights_otherplayers.cfg` and `dynamiclights_dropitems.cfg`.
+
+These lights are a client-side visual effect, not a replacement for placed
+lighting that prevents mobs from spawning. Use one dynamic-lighting solution
+at a time.
 
 ## Compatibility
 

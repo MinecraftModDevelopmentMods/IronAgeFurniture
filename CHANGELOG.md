@@ -13,7 +13,8 @@ Phase 3 release remains `0.3.0.112021` until this update is accepted.
   sconces, and gold and Base Metals sconce materials. Older iron sconces remain
   iron; metal choices survive mining and pick block.
 - Show a small flame and smoke when a candle is held. OptiFine Dynamic Lights
-  may also illuminate the area around a held candle.
+  recognises its light level automatically; document the item-list entry needed
+  for AtomicStryker's Dynamic Lights 1.12.2. IAF adds no dynamic-lighting engine.
 - Raise first-person candle smoke above the flame and keep it beside the candle
   when looking up or down, rather than letting it start near the holder.
 - Release a wall-sconce lava lamp on a redstone signal when air is available
