@@ -1,18 +1,15 @@
 {
-    "type": "forge:ore_shapeless",
+    "type": "ironagefurniture:canopy_bed_upgrade",
     "group": "ironagefurniture:bed_canopy_foot_lower_forestry_cocobolo/meta_5",
     "ingredients": [
         {
-            "item": "minecraft:bed",
-            "data": 32767
+            "item": "ironagefurniture:bed_wood_foot_forestry_cocobolo",
+            "data": 5,
+            "nbt": "{Color:\"lime\"}"
         },
         {
             "item": "forestry:planks.1",
             "data": 11
-        },
-        {
-            "item": "minecraft:carpet",
-            "data": 5
         }
     ],
     "result": {

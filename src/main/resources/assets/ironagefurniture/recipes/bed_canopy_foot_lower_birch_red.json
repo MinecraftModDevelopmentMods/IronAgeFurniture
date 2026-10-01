@@ -1,18 +1,15 @@
 {
-    "type": "forge:ore_shapeless",
+    "type": "ironagefurniture:canopy_bed_upgrade",
     "group": "ironagefurniture:bed_canopy_foot_lower_birch/meta_0",
     "ingredients": [
         {
-            "item": "minecraft:bed",
-            "data": 32767
+            "item": "ironagefurniture:bed_wood_foot_birch",
+            "data": 0,
+            "nbt": "{Color:\"red\"}"
         },
         {
             "item": "minecraft:planks",
             "data": 2
-        },
-        {
-            "item": "minecraft:carpet",
-            "data": 14
         }
     ],
     "result": {

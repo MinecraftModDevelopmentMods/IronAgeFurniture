@@ -11,8 +11,8 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "minecraft:bed",
-                        "data": 32767
+                        "item": "ironagefurniture:bed_wood_foot_forestry_pine",
+                        "nbt": "{Color:\"green\"}"
                     }
                 ]
             }

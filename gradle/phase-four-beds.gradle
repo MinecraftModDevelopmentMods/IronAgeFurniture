@@ -71,18 +71,22 @@ def expectedBedAssets = {
         String woodDouble = "bed_wood_foot_left_${wood}"
         String canopySingle = "bed_canopy_foot_lower_${wood}"
         String canopyDouble = "bed_canopy_foot_left_lower_${wood}"
-        expected["recipes/${woodSingle}.json"] = bedJson([
-                type: 'forge:ore_shapeless',
-                group: "ironagefurniture:${woodSingle}/meta_0",
-                ingredients: [[item: 'minecraft:bed', data: 32767], planks],
-                result: [item: "ironagefurniture:${woodSingle}", data: 0, nbt: '{Color:"red"}']
-        ])
         bedColours.each { colour ->
-            expected["recipes/${canopySingle}_${colour.name}.json"] = bedJson([
+            // Vanilla beds use dye metadata: red is 14 and white is 0. IAF keeps
+            // red at 0 so old furniture items retain their original colour.
+            String woodenRecipe = colour.name == 'red' ? woodSingle : "${woodSingle}_${colour.name}"
+            expected["recipes/${woodenRecipe}.json"] = bedJson([
                     type: 'forge:ore_shapeless',
+                    group: "ironagefurniture:${woodSingle}/meta_${colour.item}",
+                    ingredients: [[item: 'minecraft:bed', data: colour.carpet], planks],
+                    result: [item: "ironagefurniture:${woodSingle}", data: colour.item,
+                            nbt: "{Color:\"${colour.name}\"}"]
+            ])
+            expected["recipes/${canopySingle}_${colour.name}.json"] = bedJson([
+                    type: 'ironagefurniture:canopy_bed_upgrade',
                     group: "ironagefurniture:${canopySingle}/meta_${colour.item}",
-                    ingredients: [[item: 'minecraft:bed', data: 32767], planks,
-                            [item: 'minecraft:carpet', data: colour.carpet]],
+                    ingredients: [[item: "ironagefurniture:${woodSingle}", data: colour.item,
+                            nbt: "{Color:\"${colour.name}\"}"], planks],
                     result: [item: "ironagefurniture:${canopySingle}", data: colour.item,
                             nbt: "{Color:\"${colour.name}\"}"]
             ])
@@ -123,6 +127,12 @@ tasks.register('updatePhaseFourBedCatalog') {
             target.parentFile.mkdirs()
             target.setText(contents, 'UTF-8')
         }
+        Set<String> expectedRecipes = expectedBedAssets().keySet()
+                .findAll { it.startsWith('recipes/') } as Set<String>
+        fileTree(new File(bedAssetRoot, 'recipes')) { include 'bed_*.json' }.each { File recipe ->
+            if (!expectedRecipes.contains("recipes/${recipe.name}".toString()))
+                throw new GradleException("Stale bed recipe outside the catalog: ${recipe.name}")
+        }
         Map catalog = new JsonSlurper().parse(bedCatalogFile) as Map
         List<String> woods = (catalog.woods as Map).values().collectMany { it as List<String> }
                 .collect { it == 'dark_oak' ? 'big_oak' : it }.sort()
@@ -155,6 +165,12 @@ tasks.register('verifyPhaseFourBedCatalog') {
     description = 'Checks generated bed assets against the supported 1.12 woods.'
     inputs.file bedCatalogFile
     doLast {
+        Set<String> expectedRecipes = expectedBedAssets().keySet()
+                .findAll { it.startsWith('recipes/') } as Set<String>
+        fileTree(new File(bedAssetRoot, 'recipes')) { include 'bed_*.json' }.each { File recipe ->
+            if (!expectedRecipes.contains("recipes/${recipe.name}".toString()))
+                throw new GradleException("Stale bed recipe outside the catalog: ${recipe.name}")
+        }
         expectedBedAssets().each { String path, String contents ->
             File target = new File(bedAssetRoot, path)
             if (!target.isFile()) throw new GradleException("Missing Phase 4 bed resource: ${path}")

@@ -34,6 +34,12 @@ The recipe book lists furniture designs, woods and upholstery colours
 separately, so you can find the piece you want without cycling through the
 whole seating collection. Alternate recipes for the same chair share an entry.
 
+Beds keep their colour as you build them up. Craft a vanilla bed with one plank
+of your chosen wood to make a wooden bed, then add another matching plank to
+make a canopy bed. Combine two single beds of the same wood, style and colour
+to make a double bed. To change any IAF bed's colour deliberately, craft it
+with a carpet in the colour you want.
+
 ## Optional integrations
 
 IronAgeFurniture adds matching furniture and recipes when these mods are

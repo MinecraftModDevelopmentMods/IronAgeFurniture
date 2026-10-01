@@ -97,6 +97,7 @@ public final class OptionalIntegrationRecipeProbe {
     public void serverStarted(FMLServerStartedEvent event) {
         MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
         verifyRecipeBookGroups();
+        BedCraftingProbe.verify(server);
         verifyCandleSconces();
         if (Boolean.getBoolean("iaf.probe.verifyColourDrops")) {
             verifyPaddedBenchDrops(server);
@@ -671,10 +672,10 @@ public final class OptionalIntegrationRecipeProbe {
     private static int expectedCount(List<String> selectedMods) {
         int count = 0;
         for (String modId : selectedMods) {
-            if ("biomesoplenty".equals(modId)) count += 1504;
-            else if ("natura".equals(modId)) count += 1222;
-            else if ("forestry".equals(modId)) count += 2726;
-            else if ("immersiveengineering".equals(modId)) count += 103;
+            if ("biomesoplenty".equals(modId)) count += 1744;
+            else if ("natura".equals(modId)) count += 1417;
+            else if ("forestry".equals(modId)) count += 3161;
+            else if ("immersiveengineering".equals(modId)) count += 118;
             else if ("basemetals".equals(modId)) count += 21;
             else if ("cfm".equals(modId)) count += 6;
         }

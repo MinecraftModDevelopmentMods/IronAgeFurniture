@@ -1,18 +1,15 @@
 {
-    "type": "forge:ore_shapeless",
+    "type": "ironagefurniture:canopy_bed_upgrade",
     "group": "ironagefurniture:bed_canopy_foot_lower_forestry_plum/meta_6",
     "ingredients": [
         {
-            "item": "minecraft:bed",
-            "data": 32767
+            "item": "ironagefurniture:bed_wood_foot_forestry_plum",
+            "data": 6,
+            "nbt": "{Color:\"pink\"}"
         },
         {
             "item": "forestry:planks.1",
             "data": 5
-        },
-        {
-            "item": "minecraft:carpet",
-            "data": 6
         }
     ],
     "result": {

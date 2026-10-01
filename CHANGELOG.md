@@ -36,6 +36,9 @@ Phase 3 release remains `0.3.0.112021` until this update is accepted.
 - Organize the build checks, Eclipse setup, and release tasks into smaller
   Gradle files without changing the Forge 1.12 toolchain or publication gate.
 - Refresh artifact checksums when jars change during an incremental build.
+- Preserve all sixteen vanilla bed colours when crafting wooden beds. Adding
+  another matching plank upgrades a wooden bed to a canopy bed without changing
+  its colour; carpet is now used only for deliberate bed recolouring.
 
 # IronAgeFurniture 0.3.0.112021
 

@@ -1,0 +1,25 @@
+{
+    "type": "forge:ore_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_forestry_zebrawood/meta_1",
+    "ingredients": [
+        {
+            "item": "minecraft:bed",
+            "data": 1
+        },
+        {
+            "item": "forestry:planks.1",
+            "data": 12
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_wood_foot_forestry_zebrawood",
+        "data": 1,
+        "nbt": "{Color:\"orange\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "forestry"
+        }
+    ]
+}

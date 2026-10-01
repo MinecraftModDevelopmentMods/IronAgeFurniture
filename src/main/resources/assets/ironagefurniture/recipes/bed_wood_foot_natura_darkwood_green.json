@@ -1,0 +1,25 @@
+{
+    "type": "forge:ore_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_natura_darkwood/meta_13",
+    "ingredients": [
+        {
+            "item": "minecraft:bed",
+            "data": 13
+        },
+        {
+            "item": "natura:nether_planks",
+            "data": 2
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_wood_foot_natura_darkwood",
+        "data": 13,
+        "nbt": "{Color:\"green\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "natura"
+        }
+    ]
+}

@@ -1,18 +1,15 @@
 {
-    "type": "forge:ore_shapeless",
+    "type": "ironagefurniture:canopy_bed_upgrade",
     "group": "ironagefurniture:bed_canopy_foot_lower_forestry_padauk/meta_6",
     "ingredients": [
         {
-            "item": "minecraft:bed",
-            "data": 32767
+            "item": "ironagefurniture:bed_wood_foot_forestry_padauk",
+            "data": 6,
+            "nbt": "{Color:\"pink\"}"
         },
         {
             "item": "forestry:planks.1",
             "data": 10
-        },
-        {
-            "item": "minecraft:carpet",
-            "data": 6
         }
     ],
     "result": {

@@ -9,10 +9,10 @@ def normalizeArchiveLineEndings = iafBuild.normalizeArchiveLineEndings
 
 // The optional jars are supplied locally and verified before packaged runtime tests.
 def optionalIntegrationExpectedCounts = [
-        biomesoplenty        : [recipes: 1504, advancements: 1504],
-        natura               : [recipes: 1222, advancements: 1222],
-        forestry             : [recipes: 2726, advancements: 2726],
-        immersiveengineering: [recipes: 103, advancements: 103],
+        biomesoplenty        : [recipes: 1744, advancements: 1744],
+        natura               : [recipes: 1417, advancements: 1417],
+        forestry             : [recipes: 3161, advancements: 3161],
+        immersiveengineering: [recipes: 118, advancements: 118],
         mineralogy          : [recipes: 0, advancements: 0],
         basemetals          : [recipes: 21, advancements: 21],
         cfm                 : [recipes: 6, advancements: 6]

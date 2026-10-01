@@ -1,0 +1,25 @@
+{
+    "type": "forge:ore_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_biomesoplenty_jacaranda/meta_7",
+    "ingredients": [
+        {
+            "item": "minecraft:bed",
+            "data": 7
+        },
+        {
+            "item": "biomesoplenty:planks_0",
+            "data": 12
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_wood_foot_biomesoplenty_jacaranda",
+        "data": 7,
+        "nbt": "{Color:\"gray\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        }
+    ]
+}

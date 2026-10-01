@@ -4,7 +4,7 @@
     "ingredients": [
         {
             "item": "minecraft:bed",
-            "data": 32767
+            "data": 14
         },
         {
             "item": "forestry:planks.1",

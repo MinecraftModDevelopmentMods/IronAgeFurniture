@@ -1,18 +1,15 @@
 {
-    "type": "forge:ore_shapeless",
+    "type": "ironagefurniture:canopy_bed_upgrade",
     "group": "ironagefurniture:bed_canopy_foot_lower_natura_fusewood/meta_11",
     "ingredients": [
         {
-            "item": "minecraft:bed",
-            "data": 32767
+            "item": "ironagefurniture:bed_wood_foot_natura_fusewood",
+            "data": 11,
+            "nbt": "{Color:\"blue\"}"
         },
         {
             "item": "natura:nether_planks",
             "data": 3
-        },
-        {
-            "item": "minecraft:carpet",
-            "data": 11
         }
     ],
     "result": {

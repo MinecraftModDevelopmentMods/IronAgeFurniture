@@ -105,6 +105,12 @@ collectItemPredicates = { Object value, List<Map> predicates ->
 }
 
 def ingredientPredicate = { Map recipe, File source ->
+    if (recipe.type == 'ironagefurniture:canopy_bed_upgrade') {
+        // Stored colour wins over old item damage in canopy crafting as well as
+        // placement. The book should unlock from that same colour, not the planks.
+        Map bed = recipe.ingredients[0] as Map
+        return [item: bed.item, nbt: bed.nbt]
+    }
     List<Map> predicates = []
     if (recipe.ingredients != null) collectItemPredicates(recipe.ingredients, predicates)
     if (recipe.key != null) collectItemPredicates(recipe.key, predicates)

@@ -1,18 +1,15 @@
 {
-    "type": "forge:ore_shapeless",
+    "type": "ironagefurniture:canopy_bed_upgrade",
     "group": "ironagefurniture:bed_canopy_foot_lower_acacia/meta_14",
     "ingredients": [
         {
-            "item": "minecraft:bed",
-            "data": 32767
+            "item": "ironagefurniture:bed_wood_foot_acacia",
+            "data": 14,
+            "nbt": "{Color:\"white\"}"
         },
         {
             "item": "minecraft:planks",
             "data": 4
-        },
-        {
-            "item": "minecraft:carpet",
-            "data": 0
         }
     ],
     "result": {
