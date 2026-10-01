@@ -14,6 +14,8 @@ Phase 3 release remains `0.3.0.112021` until this update is accepted.
   iron; metal choices survive mining and pick block.
 - Show a small flame and smoke when a candle is held. OptiFine Dynamic Lights
   may also illuminate the area around a held candle.
+- Raise first-person candle smoke above the flame and keep it beside the candle
+  when looking up or down, rather than letting it start near the holder.
 - Release a wall-sconce lava lamp on a redstone signal when air is available
   below it. Falling lamps shatter and can start a fire outside Creative mode.
 - Add the seventeen locale choices used across the Phase 4 furniture set.
