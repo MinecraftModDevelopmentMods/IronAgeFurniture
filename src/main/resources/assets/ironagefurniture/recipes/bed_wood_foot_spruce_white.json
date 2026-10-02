@@ -1,0 +1,19 @@
+{
+    "type": "forge:ore_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_spruce/meta_14",
+    "ingredients": [
+        {
+            "item": "minecraft:bed",
+            "data": 0
+        },
+        {
+            "item": "minecraft:planks",
+            "data": 1
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_wood_foot_spruce",
+        "data": 14,
+        "nbt": "{Color:\"white\"}"
+    }
+}

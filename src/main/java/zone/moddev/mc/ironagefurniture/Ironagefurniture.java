@@ -5,8 +5,14 @@ import java.util.Map;
 
 import zone.moddev.mc.ironagefurniture.api.entity.Seat;
 import zone.moddev.mc.ironagefurniture.api.CreativeModeBreakTracker;
+import zone.moddev.mc.ironagefurniture.api.CfmChairMigration;
 import zone.moddev.mc.ironagefurniture.api.entity.EntityThrownLavaLamp;
+import zone.moddev.mc.ironagefurniture.api.entity.EntityReleasedLavaLamp;
 import zone.moddev.mc.ironagefurniture.api.tile.TileEntityPaddedBench;
+import zone.moddev.mc.ironagefurniture.api.tile.TileEntityShieldChair;
+import zone.moddev.mc.ironagefurniture.api.tile.TileEntityUpholstery;
+import zone.moddev.mc.ironagefurniture.api.tile.TileEntityMetalVariant;
+import zone.moddev.mc.ironagefurniture.client.particle.HeldCandleSmoke;
 import zone.moddev.mc.ironagefurniture.init.BlockInitialiser;
 import zone.moddev.mc.ironagefurniture.init.ClientModelInitialiser;
 import zone.moddev.mc.ironagefurniture.init.ClientRenderInitialiser;
@@ -16,6 +22,8 @@ import zone.moddev.mc.ironagefurniture.lib.util.MMDCreativeTab;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.init.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -23,24 +31,34 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.common.MinecraftForge;
 
 @Mod(modid = Ironagefurniture.MODID, version = Ironagefurniture.VERSION)
 public class Ironagefurniture
 {
     public static final String MODID = "ironagefurniture";
-    public static final String VERSION = "0.3.0.112021";
+    public static final String VERSION = "0.4.0.112021";
     
 	public static final Map<String,Block> BlockRegistry = new HashMap<String, Block>();
 	public static final Map<String,Item> ItemRegistry = new HashMap<String, Item>();
     
     public static MMDCreativeTab ironagefurnitureTab = new MMDCreativeTab("IronAgeFurniture", true);
+	private final CfmChairMigration cfmChairMigration = new CfmChairMigration();
 	
     
     
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
+		if (ItemObjectHolder.tallow != null) {
+			GameRegistry.addSmelting(Items.COOKED_PORKCHOP, new ItemStack(ItemObjectHolder.tallow, 3), 0.1F);
+			GameRegistry.addSmelting(Items.COOKED_BEEF, new ItemStack(ItemObjectHolder.tallow, 2), 0.1F);
+			GameRegistry.addSmelting(Items.COOKED_MUTTON, new ItemStack(ItemObjectHolder.tallow, 2), 0.1F);
+			GameRegistry.addSmelting(Items.COOKED_RABBIT, new ItemStack(ItemObjectHolder.tallow), 0.1F);
+			GameRegistry.addSmelting(Items.COOKED_CHICKEN, new ItemStack(ItemObjectHolder.tallow), 0.1F);
+			GameRegistry.addSmelting(Items.ROTTEN_FLESH, new ItemStack(ItemObjectHolder.tallow), 0.1F);
+		}
     	// register renderers
     	if(event.getSide().isClient()) {
     		ItemInitialiser.RegisterItemRenders();
@@ -49,6 +67,8 @@ public class Ironagefurniture
     	EntityRegistry.registerModEntity(new ResourceLocation(MODID + ":seat"), Seat.class , MODID + ":seat", 0, this, 80, 1, false);
         EntityRegistry.registerModEntity(new ResourceLocation(MODID + ":thrown_lava_lamp"),
                 EntityThrownLavaLamp.class, MODID + ":thrown_lava_lamp", 1, this, 64, 10, true);
+        EntityRegistry.registerModEntity(new ResourceLocation(MODID + ":released_lava_lamp"),
+                EntityReleasedLavaLamp.class, MODID + ":released_lava_lamp", 2, this, 64, 10, true);
     	
     	ironagefurnitureTab.setIconItem(Blocks.BOOKSHELF);
     }
@@ -57,13 +77,25 @@ public class Ironagefurniture
     public void preInit(FMLPreInitializationEvent event) {
     	IronAgeFurnitureConfiguration.init(event);
         MinecraftForge.EVENT_BUS.register(new CreativeModeBreakTracker());
+		MinecraftForge.EVENT_BUS.register(cfmChairMigration);
+		FMLCommonHandler.instance().bus().register(cfmChairMigration);
 		GameRegistry.registerTileEntity(TileEntityPaddedBench.class,
 				new ResourceLocation(MODID, "padded_bench_colour"));
+		GameRegistry.registerTileEntity(TileEntityShieldChair.class,
+				new ResourceLocation(MODID, "shield_chair"));
+		GameRegistry.registerTileEntity(TileEntityUpholstery.class,
+				new ResourceLocation(MODID, "upholstery_colour"));
+		GameRegistry.registerTileEntity(TileEntityMetalVariant.class,
+				new ResourceLocation(MODID, "sconce_metal"));
 		if (event.getSide().isClient()) {
 			ClientModelInitialiser.registerPaddedBenchModels();
+			FMLCommonHandler.instance().bus().register(new HeldCandleSmoke());
 		}
-    	BlockInitialiser.init();
+		ItemObjectHolder.tallow = zone.moddev.mc.ironagefurniture.api.FurnitureFactory.RegisterItem(
+				new Item().setCreativeTab(ironagefurnitureTab), "tallow", 64);
+		BlockInitialiser.init();
 		if (event.getSide().isClient()) {
+			ClientRenderInitialiser.registerShieldChairRenderer();
 			ClientRenderInitialiser.registerEntityRenderers();
 		}
     	

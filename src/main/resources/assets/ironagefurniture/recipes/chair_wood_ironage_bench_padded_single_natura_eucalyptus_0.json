@@ -14,7 +14,7 @@
         "data": 14,
         "nbt": "{Color:\"white\"}"
     },
-    "group": "furniture",
+    "group": "ironagefurniture:chair_wood_ironage_bench_padded_single_natura_eucalyptus/meta_14",
     "conditions": [
         {
             "type": "forge:mod_loaded",

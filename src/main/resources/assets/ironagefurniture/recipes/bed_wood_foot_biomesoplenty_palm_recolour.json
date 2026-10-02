@@ -1,0 +1,23 @@
+{
+    "type": "ironagefurniture:bed_recolour",
+    "group": "ironagefurniture:bed_wood_foot_biomesoplenty_palm/bed_recolour",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_palm",
+            "data": 32767
+        },
+        {
+            "item": "minecraft:carpet",
+            "data": 32767
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_wood_foot_biomesoplenty_palm"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        }
+    ]
+}

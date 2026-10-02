@@ -1,0 +1,25 @@
+{
+    "type": "forge:ore_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_natura_eucalyptus/meta_3",
+    "ingredients": [
+        {
+            "item": "minecraft:bed",
+            "data": 3
+        },
+        {
+            "item": "natura:overworld_planks",
+            "data": 5
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_wood_foot_natura_eucalyptus",
+        "data": 3,
+        "nbt": "{Color:\"light_blue\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "natura"
+        }
+    ]
+}

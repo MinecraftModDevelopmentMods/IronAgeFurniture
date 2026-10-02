@@ -1,0 +1,33 @@
+{
+    "type": "forge:ore_shaped",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_wingback_forestry_papaya",
+        "data": 12,
+        "nbt": "{Color:\"brown\"}"
+    },
+    "group": "ironagefurniture:chair_wood_ironage_wingback_forestry_papaya/meta_12",
+    "pattern": [
+        "z",
+        "x",
+        "y"
+    ],
+    "key": {
+        "z": {
+            "item": "minecraft:carpet",
+            "data": 12
+        },
+        "x": {
+            "item": "forestry:planks.1",
+            "data": 3
+        },
+        "y": {
+            "item": "ironagefurniture:chair_wood_ironage_classic_forestry_papaya"
+        }
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "forestry"
+        }
+    ]
+}

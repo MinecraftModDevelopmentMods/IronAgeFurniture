@@ -1,0 +1,33 @@
+{
+    "type": "forge:ore_shaped",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_wingback_forestry_palm",
+        "data": 15,
+        "nbt": "{Color:\"black\"}"
+    },
+    "group": "ironagefurniture:chair_wood_ironage_wingback_forestry_palm/meta_15",
+    "pattern": [
+        "z",
+        "x",
+        "y"
+    ],
+    "key": {
+        "z": {
+            "item": "minecraft:carpet",
+            "data": 15
+        },
+        "x": {
+            "item": "forestry:planks.1",
+            "data": 2
+        },
+        "y": {
+            "item": "ironagefurniture:chair_wood_ironage_classic_forestry_palm"
+        }
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "forestry"
+        }
+    ]
+}

@@ -18,7 +18,7 @@
             "data": 0
         }
     },
-    "group": "furniture",
+    "group": "ironagefurniture:chair_wood_ironage_bench_single_biomesoplenty_mahogany/meta_0",
     "conditions": [
         {
             "type": "forge:mod_loaded",

@@ -1,0 +1,27 @@
+{
+    "type": "forge:ore_shaped",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_wingback_acacia",
+        "data": 6,
+        "nbt": "{Color:\"pink\"}"
+    },
+    "group": "ironagefurniture:chair_wood_ironage_wingback_acacia/meta_6",
+    "pattern": [
+        "z",
+        "x",
+        "y"
+    ],
+    "key": {
+        "z": {
+            "item": "minecraft:carpet",
+            "data": 6
+        },
+        "x": {
+            "item": "minecraft:planks",
+            "data": 4
+        },
+        "y": {
+            "item": "ironagefurniture:chair_wood_ironage_classic_acacia"
+        }
+    }
+}

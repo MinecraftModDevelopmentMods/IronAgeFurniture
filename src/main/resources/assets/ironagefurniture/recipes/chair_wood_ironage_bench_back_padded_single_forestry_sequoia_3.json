@@ -14,7 +14,7 @@
         "data": 3,
         "nbt": "{Color:\"light_blue\"}"
     },
-    "group": "furniture",
+    "group": "ironagefurniture:chair_wood_ironage_bench_back_padded_single_forestry_sequoia/meta_3",
     "conditions": [
         {
             "type": "forge:mod_loaded",

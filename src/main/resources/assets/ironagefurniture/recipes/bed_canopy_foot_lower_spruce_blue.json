@@ -1,0 +1,20 @@
+{
+    "type": "ironagefurniture:canopy_bed_upgrade",
+    "group": "ironagefurniture:bed_canopy_foot_lower_spruce/meta_11",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_spruce",
+            "data": 11,
+            "nbt": "{Color:\"blue\"}"
+        },
+        {
+            "item": "minecraft:planks",
+            "data": 1
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_canopy_foot_lower_spruce",
+        "data": 11,
+        "nbt": "{Color:\"blue\"}"
+    }
+}

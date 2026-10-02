@@ -1,0 +1,11 @@
+{
+    "credit": "By FoxNekitsune",
+    "parent": "ironagefurniture:block/template_bed_canopy_foot_upper",
+    "textures": {
+        "cloth": "minecraft:blocks/wool_colored_red",
+        "log": "natura:blocks/logs/nether/fusewood_log",
+        "particle": "natura:blocks/logs/nether/fusewood_log",
+        "planks": "natura:blocks/planks/nether/fusewood_planks",
+        "sheet": "minecraft:blocks/wool_colored_white"
+    }
+}

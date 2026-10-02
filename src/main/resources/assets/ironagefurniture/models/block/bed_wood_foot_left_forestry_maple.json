@@ -1,0 +1,11 @@
+{
+    "credit": "By FoxNekitsune",
+    "parent": "ironagefurniture:block/template_bed_wood_foot_left",
+    "textures": {
+        "cloth": "minecraft:blocks/wool_colored_red",
+        "log": "forestry:blocks/wood/bark.maple",
+        "particle": "forestry:blocks/wood/bark.maple",
+        "planks": "forestry:blocks/wood/planks.maple",
+        "sheet": "minecraft:blocks/wool_colored_white"
+    }
+}

@@ -1,0 +1,25 @@
+{
+    "type": "forge:ore_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_biomesoplenty_fir/meta_8",
+    "ingredients": [
+        {
+            "item": "minecraft:bed",
+            "data": 8
+        },
+        {
+            "item": "biomesoplenty:planks_0",
+            "data": 3
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_wood_foot_biomesoplenty_fir",
+        "data": 8,
+        "nbt": "{Color:\"light_gray\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        }
+    ]
+}

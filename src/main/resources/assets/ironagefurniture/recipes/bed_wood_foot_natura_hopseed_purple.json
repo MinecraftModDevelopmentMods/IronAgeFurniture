@@ -1,0 +1,25 @@
+{
+    "type": "forge:ore_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_natura_hopseed/meta_10",
+    "ingredients": [
+        {
+            "item": "minecraft:bed",
+            "data": 10
+        },
+        {
+            "item": "natura:overworld_planks",
+            "data": 6
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_wood_foot_natura_hopseed",
+        "data": 10,
+        "nbt": "{Color:\"purple\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "natura"
+        }
+    ]
+}

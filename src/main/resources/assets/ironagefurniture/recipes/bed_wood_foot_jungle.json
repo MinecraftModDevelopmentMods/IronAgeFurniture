@@ -1,0 +1,19 @@
+{
+    "type": "forge:ore_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_jungle/meta_0",
+    "ingredients": [
+        {
+            "item": "minecraft:bed",
+            "data": 14
+        },
+        {
+            "item": "minecraft:planks",
+            "data": 3
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_wood_foot_jungle",
+        "data": 0,
+        "nbt": "{Color:\"red\"}"
+    }
+}

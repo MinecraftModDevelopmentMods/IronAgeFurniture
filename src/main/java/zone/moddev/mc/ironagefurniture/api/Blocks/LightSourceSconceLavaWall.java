@@ -5,6 +5,9 @@ import java.util.Random;
 
 import com.google.common.collect.Lists;
 import zone.moddev.mc.ironagefurniture.BlockObjectHolder;
+import zone.moddev.mc.ironagefurniture.api.MetalVariantHelper;
+import zone.moddev.mc.ironagefurniture.api.MetalVariantHelper.MetalVariant;
+import zone.moddev.mc.ironagefurniture.api.entity.EntityReleasedLavaLamp;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
@@ -30,13 +33,20 @@ public class LightSourceSconceLavaWall extends LightSourceSconceGlowWall {
     }
 
     @Override
+    public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
+        super.onBlockAdded(worldIn, pos, state);
+        scheduleRelease(worldIn, pos);
+    }
+
+    @Override
     public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
         EnumFacing facing = state.getValue(FACING);
         BlockPos behind = pos.offset(facing.getOpposite());
 
         if (!worldIn.getBlockState(behind).isSideSolid(worldIn, behind, facing)) {
             if (!worldIn.isRemote) {
-                spawnAsEntity(worldIn, pos, new ItemStack(BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron, 1));
+                spawnAsEntity(worldIn, pos, MetalVariantHelper.getDrop(
+                        BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron, worldIn, pos));
                 IBlockState lavaState = LightDrop().getDefaultState().withProperty(FACING, facing);
                 worldIn.setBlockState(pos, lavaState, 3);
                 worldIn.scheduleUpdate(pos, LightDrop(), LightDrop().tickRate(worldIn));
@@ -46,16 +56,70 @@ public class LightSourceSconceLavaWall extends LightSourceSconceGlowWall {
         }
 
         super.neighborChanged(state, worldIn, pos, blockIn, fromPos);
+        scheduleRelease(worldIn, pos);
+    }
+
+    private void scheduleRelease(World world, BlockPos pos) {
+        if (!world.isRemote && world.getBlockState(pos).getBlock() == this
+                && canRelease(world.isBlockPowered(pos), world.isAirBlock(pos.down()))
+                && !world.isUpdateScheduled(pos, this)) {
+            world.scheduleUpdate(pos, this, tickRate(world));
+        }
+    }
+
+    static boolean canRelease(boolean powered, boolean airBelow) {
+        return powered && airBelow;
+    }
+
+    @Override
+    public int tickRate(World worldIn) {
+        return 2;
+    }
+
+    @Override
+    public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
+        if (world.isRemote || world.getBlockState(pos).getBlock() != this) return;
+        EnumFacing facing = state.getValue(FACING);
+        BlockPos behind = pos.offset(facing.getOpposite());
+        if (!world.getBlockState(behind).isSideSolid(world, behind, facing)) {
+            neighborChanged(state, world, pos, world.getBlockState(behind).getBlock(), behind);
+            return;
+        }
+        if (!canRelease(world.isBlockPowered(pos), world.isAirBlock(pos.down()))) return;
+
+        MetalVariant metal = MetalVariantHelper.getMetal(world, pos);
+        IBlockState emptyState = BlockObjectHolder.light_metal_ironage_sconce_wall_empty_iron
+                .getDefaultState().withProperty(FACING, facing);
+        if (!MetalVariantHelper.replaceBlockPreservingMetal(world, pos, emptyState)) return;
+
+        EnumFacing outwards = facing.getOpposite();
+        Block lamp = LightDrop();
+        EntityPlayer nearest = world.getClosestPlayer(pos.getX() + 0.5D, pos.getY() + 0.5D,
+                pos.getZ() + 0.5D, -1.0D, false);
+        boolean preserveOnLanding = nearest != null && nearest.capabilities.isCreativeMode;
+        EntityReleasedLavaLamp falling = new EntityReleasedLavaLamp(world,
+                pos.getX() + 0.5D + 0.27D * outwards.getXOffset(),
+                pos.getY() + 5.0D / 16.0D,
+                pos.getZ() + 0.5D + 0.27D * outwards.getZOffset(),
+                lamp.getDefaultState().withProperty(FACING, facing), pos.getY(), preserveOnLanding);
+        if (world.spawnEntity(falling)) {
+            ((LightSourceLava)lamp).onStartFalling(falling);
+        } else if (world.getBlockState(pos).getBlock() == emptyState.getBlock()) {
+            world.setBlockState(pos, MetalVariantHelper.withMetal(state, metal), 3);
+            MetalVariantHelper.setMetal(world, pos, metal);
+        }
     }
 
     @Override
     public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-        return Lists.newArrayList(new ItemStack(BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron, 1));
+        return Lists.newArrayList(MetalVariantHelper.getDrop(
+                BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron, world, pos));
     }
 
     @Override
     public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
-        if (player != null && player.capabilities.isCreativeMode) {
+        if (willHarvest || (player != null && player.capabilities.isCreativeMode)) {
+            // Keep the metal-bearing tile entity until Forge has collected the holder drop.
             return super.removedByPlayer(state, world, pos, player, willHarvest);
         }
 
@@ -78,12 +142,16 @@ public class LightSourceSconceLavaWall extends LightSourceSconceGlowWall {
     public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state,
             TileEntity te, ItemStack stack) {
         boolean silkTouch = hasSilkTouch(stack);
-
-        if (silkTouch && !player.capabilities.isCreativeMode && !worldIn.isRemote) {
-            spawnAsEntity(worldIn, pos, new ItemStack(LightDrop(), 1));
-        }
-
         super.harvestBlock(worldIn, player, pos, state, te, stack);
+
+        if (!player.capabilities.isCreativeMode && !worldIn.isRemote) {
+            if (silkTouch) {
+                spawnAsEntity(worldIn, pos, new ItemStack(LightDrop(), 1));
+            } else {
+                // Shatter after removing the holder, so its cleanup cannot erase the fire.
+                breakIntoFire(worldIn, pos, player);
+            }
+        }
     }
 
     @Override

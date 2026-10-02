@@ -1,0 +1,19 @@
+{
+    "type": "forge:ore_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_acacia/meta_6",
+    "ingredients": [
+        {
+            "item": "minecraft:bed",
+            "data": 6
+        },
+        {
+            "item": "minecraft:planks",
+            "data": 4
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_wood_foot_acacia",
+        "data": 6,
+        "nbt": "{Color:\"pink\"}"
+    }
+}

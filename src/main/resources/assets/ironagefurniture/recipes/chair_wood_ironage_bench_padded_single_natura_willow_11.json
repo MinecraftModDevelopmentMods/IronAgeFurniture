@@ -14,7 +14,7 @@
         "data": 11,
         "nbt": "{Color:\"blue\"}"
     },
-    "group": "furniture",
+    "group": "ironagefurniture:chair_wood_ironage_bench_padded_single_natura_willow/meta_11",
     "conditions": [
         {
             "type": "forge:mod_loaded",

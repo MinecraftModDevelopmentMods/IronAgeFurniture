@@ -1,0 +1,28 @@
+{
+    "type": "forge:ore_shaped",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_throne_big_oak",
+        "data": 9,
+        "nbt": "{Color:\"cyan\"}"
+    },
+    "group": "ironagefurniture:chair_wood_ironage_throne_big_oak/meta_9",
+    "pattern": [
+        "z",
+        "x",
+        "y"
+    ],
+    "key": {
+        "z": {
+            "item": "minecraft:carpet",
+            "data": 9
+        },
+        "x": {
+            "item": "minecraft:planks",
+            "data": 5
+        },
+        "y": {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_big_oak",
+            "data": 32767
+        }
+    }
+}

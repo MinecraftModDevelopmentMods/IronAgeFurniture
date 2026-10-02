@@ -14,7 +14,7 @@
         "data": 6,
         "nbt": "{Color:\"pink\"}"
     },
-    "group": "furniture",
+    "group": "ironagefurniture:chair_wood_ironage_bench_back_padded_single_biomesoplenty_cherry/meta_6",
     "conditions": [
         {
             "type": "forge:mod_loaded",

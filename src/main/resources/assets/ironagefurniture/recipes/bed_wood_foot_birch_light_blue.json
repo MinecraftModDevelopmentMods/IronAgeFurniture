@@ -1,0 +1,19 @@
+{
+    "type": "forge:ore_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_birch/meta_3",
+    "ingredients": [
+        {
+            "item": "minecraft:bed",
+            "data": 3
+        },
+        {
+            "item": "minecraft:planks",
+            "data": 2
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_wood_foot_birch",
+        "data": 3,
+        "nbt": "{Color:\"light_blue\"}"
+    }
+}

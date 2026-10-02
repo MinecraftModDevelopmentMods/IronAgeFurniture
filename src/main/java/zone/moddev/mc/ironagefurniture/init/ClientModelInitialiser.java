@@ -5,8 +5,12 @@ import java.util.Map;
 import zone.moddev.mc.ironagefurniture.Ironagefurniture;
 import zone.moddev.mc.ironagefurniture.api.Enumerations.PaddedBenchColour;
 import zone.moddev.mc.ironagefurniture.api.Items.ItemBlockPaddedBench;
+import zone.moddev.mc.ironagefurniture.api.Items.ItemBlockUpholsteredFurniture;
 import zone.moddev.mc.ironagefurniture.api.PaddedBenchColourHelper;
+import zone.moddev.mc.ironagefurniture.api.Enumerations.UpholsteryColour;
+import zone.moddev.mc.ironagefurniture.api.UpholsteryColourHelper;
 import zone.moddev.mc.ironagefurniture.client.model.PaddedBenchModelLoader;
+import zone.moddev.mc.ironagefurniture.client.model.UpholsteryModelLoader;
 
 import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.block.model.ModelBakery;
@@ -33,6 +37,7 @@ public final class ClientModelInitialiser {
 		}
 		registered = true;
 		ModelLoaderRegistry.registerLoader(PaddedBenchModelLoader.INSTANCE);
+		ModelLoaderRegistry.registerLoader(UpholsteryModelLoader.INSTANCE);
 	}
 
 	public static void registerPaddedBenchItemModels() {
@@ -42,6 +47,30 @@ public final class ClientModelInitialiser {
 			}
 			registerPaddedBenchItemModel(Ironagefurniture.MODID, entry.getKey(), entry.getValue());
 		}
+	}
+
+	public static void registerUpholsteryItemModels() {
+		for (Map.Entry<String, Item> entry : Ironagefurniture.ItemRegistry.entrySet()) {
+			if (!(entry.getValue() instanceof ItemBlockUpholsteredFurniture)) continue;
+			final String itemName = entry.getKey();
+			Item item = entry.getValue();
+			ResourceLocation[] variants = new ResourceLocation[UpholsteryColour.values().length];
+			int index = 0;
+			for (UpholsteryColour colour : UpholsteryColour.values())
+				variants[index++] = upholsteryItemModelLocation(itemName, colour);
+			ModelBakery.registerItemVariants(item, variants);
+			ModelLoader.setCustomMeshDefinition(item, new ItemMeshDefinition() {
+				@Override public ModelResourceLocation getModelLocation(ItemStack stack) {
+					return upholsteryItemModelLocation(itemName, UpholsteryColourHelper.getColour(stack));
+				}
+			});
+		}
+	}
+
+	public static ModelResourceLocation upholsteryItemModelLocation(String itemName, UpholsteryColour colour) {
+		UpholsteryColour safe = colour == null ? UpholsteryColour.RED : colour;
+		return new ModelResourceLocation(Ironagefurniture.MODID + ":upholstered/"
+				+ safe.getSerializedName() + "/" + itemName, "inventory");
 	}
 
 	/**

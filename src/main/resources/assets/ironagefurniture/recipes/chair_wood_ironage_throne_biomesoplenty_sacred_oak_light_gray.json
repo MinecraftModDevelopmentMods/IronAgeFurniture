@@ -1,0 +1,34 @@
+{
+    "type": "forge:ore_shaped",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_sacred_oak",
+        "data": 8,
+        "nbt": "{Color:\"light_gray\"}"
+    },
+    "group": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_sacred_oak/meta_8",
+    "pattern": [
+        "z",
+        "x",
+        "y"
+    ],
+    "key": {
+        "z": {
+            "item": "minecraft:carpet",
+            "data": 8
+        },
+        "x": {
+            "item": "biomesoplenty:planks_0",
+            "data": 0
+        },
+        "y": {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_sacred_oak",
+            "data": 32767
+        }
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        }
+    ]
+}

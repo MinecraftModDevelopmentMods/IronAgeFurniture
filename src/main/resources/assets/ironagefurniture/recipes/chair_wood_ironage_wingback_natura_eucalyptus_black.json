@@ -1,0 +1,33 @@
+{
+    "type": "forge:ore_shaped",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_wingback_natura_eucalyptus",
+        "data": 15,
+        "nbt": "{Color:\"black\"}"
+    },
+    "group": "ironagefurniture:chair_wood_ironage_wingback_natura_eucalyptus/meta_15",
+    "pattern": [
+        "z",
+        "x",
+        "y"
+    ],
+    "key": {
+        "z": {
+            "item": "minecraft:carpet",
+            "data": 15
+        },
+        "x": {
+            "item": "natura:overworld_planks",
+            "data": 5
+        },
+        "y": {
+            "item": "ironagefurniture:chair_wood_ironage_classic_natura_eucalyptus"
+        }
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "natura"
+        }
+    ]
+}

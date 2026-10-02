@@ -1,0 +1,26 @@
+{
+    "type": "ironagefurniture:canopy_bed_upgrade",
+    "group": "ironagefurniture:bed_canopy_foot_lower_forestry_maple/meta_0",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_forestry_maple",
+            "data": 0,
+            "nbt": "{Color:\"red\"}"
+        },
+        {
+            "item": "forestry:planks.1",
+            "data": 6
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_canopy_foot_lower_forestry_maple",
+        "data": 0,
+        "nbt": "{Color:\"red\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "forestry"
+        }
+    ]
+}

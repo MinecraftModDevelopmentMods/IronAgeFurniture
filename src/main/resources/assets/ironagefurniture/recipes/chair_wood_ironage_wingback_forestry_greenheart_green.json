@@ -1,0 +1,33 @@
+{
+    "type": "forge:ore_shaped",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_wingback_forestry_greenheart",
+        "data": 13,
+        "nbt": "{Color:\"green\"}"
+    },
+    "group": "ironagefurniture:chair_wood_ironage_wingback_forestry_greenheart/meta_13",
+    "pattern": [
+        "z",
+        "x",
+        "y"
+    ],
+    "key": {
+        "z": {
+            "item": "minecraft:carpet",
+            "data": 13
+        },
+        "x": {
+            "item": "forestry:planks.0",
+            "data": 14
+        },
+        "y": {
+            "item": "ironagefurniture:chair_wood_ironage_classic_forestry_greenheart"
+        }
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "forestry"
+        }
+    ]
+}

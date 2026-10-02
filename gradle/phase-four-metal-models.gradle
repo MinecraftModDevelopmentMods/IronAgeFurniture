@@ -1,0 +1,100 @@
+import groovy.json.JsonSlurper
+
+// The iron models define the geometry. Other metals change only the texture;
+// their block and item models are generated when the catalog is updated.
+def sconceBlockstates = layout.projectDirectory.dir(
+        'src/main/resources/assets/ironagefurniture/blockstates')
+def sconceBlockModels = layout.projectDirectory.dir(
+        'src/main/resources/assets/ironagefurniture/models/block')
+def sconceItemModels = layout.projectDirectory.dir(
+        'src/main/resources/assets/ironagefurniture/models/item')
+def metals = ['iron', 'gold', 'adamantine', 'antimony', 'aquarium', 'bismuth',
+        'brass', 'bronze', 'coldiron', 'copper', 'cupronickel', 'electrum',
+        'invar', 'lead', 'mithril', 'nickel', 'pewter', 'platinum', 'silver',
+        'starsteel', 'steel', 'tin', 'zinc']
+def metalTexture = { String metal ->
+    metal == 'gold' ? 'minecraft:blocks/gold_block'
+            : "basemetals:blocks/${metal}_block".toString()
+}
+
+def expectedMetalModels = {
+    Map<File, String> expected = [:]
+    Set<String> variantKeys = [] as LinkedHashSet<String>
+    ['north', 'east', 'south', 'west'].each { String direction ->
+        metals.each { String metal ->
+            variantKeys.add("facing=${direction},metal=${metal}".toString())
+        }
+    }
+    fileTree(sconceBlockstates) {
+        include 'light_metal_ironage_sconce_*_iron*.json'
+    }.files.sort { it.name }.each { File stateFile ->
+        Map variants = (new JsonSlurper().parse(stateFile) as Map).variants as Map
+        if (variants.keySet() != variantKeys) {
+            throw new GradleException("Incorrect metal/facing variants in ${stateFile.name}")
+        }
+        ['north', 'east', 'south', 'west'].each { String direction ->
+            String ironLocation = variants["facing=${direction},metal=iron"].model
+            String ironName = ironLocation.substring('ironagefurniture:'.length())
+            File ironFile = new File(sconceBlockModels.asFile, "${ironName}.json")
+            if (!ironFile.isFile()) {
+                throw new GradleException("Missing iron sconce model ${ironFile.name}")
+            }
+            String ironText = ironFile.getText('UTF-8').replace('\r\n', '\n')
+            if (!ironText.contains('minecraft:blocks/iron_block')) {
+                throw new GradleException("Iron sconce model has no metal texture: ${ironFile.name}")
+            }
+            metals.findAll { it != 'iron' }.each { String metal ->
+                String location = variants["facing=${direction},metal=${metal}"].model
+                if (!location.startsWith('ironagefurniture:')) {
+                    throw new GradleException("Unexpected sconce model namespace: ${location}")
+                }
+                String name = location.substring('ironagefurniture:'.length())
+                File output = new File(sconceBlockModels.asFile, "${name}.json")
+                String content = ironText.replace('minecraft:blocks/iron_block', metalTexture(metal))
+                if (expected.containsKey(output) && expected[output] != content) {
+                    throw new GradleException("Conflicting generated sconce model: ${name}")
+                }
+                expected[output] = content
+            }
+        }
+    }
+
+    File ironItem = new File(sconceItemModels.asFile,
+            'light_metal_ironage_sconce_floor_empty_iron.json')
+    String ironItemText = ironItem.getText('UTF-8').replace('\r\n', '\n')
+    metals.findAll { it != 'iron' }.each { String metal ->
+        File output = new File(sconceItemModels.asFile,
+                "light_metal_ironage_sconce_floor_empty_${metal}.json")
+        expected[output] = ironItemText.replace(
+                'light_metal_ironage_sconce_floor_empty_iron',
+                "light_metal_ironage_sconce_floor_empty_${metal}")
+    }
+    return expected
+}
+
+tasks.register('updatePhaseFourMetalModels') {
+    group = 'furniture'
+    description = 'Regenerates metal sconce block and item models from their iron counterparts.'
+    doLast {
+        expectedMetalModels().each { File output, String content ->
+            output.parentFile.mkdirs()
+            output.setText(content, 'UTF-8')
+        }
+    }
+}
+
+tasks.register('verifyPhaseFourMetalModels') {
+    group = 'verification'
+    description = 'Checks all metal sconce models and blockstates against the pinned catalog.'
+    inputs.files fileTree(sconceBlockstates) { include 'light_metal_ironage_sconce_*_iron*.json' }
+    inputs.files fileTree(sconceBlockModels) { include 'light_metal_ironage_sconce_*_iron*.json' }
+    doLast {
+        expectedMetalModels().each { File output, String content ->
+            if (!output.isFile() || output.getText('UTF-8').replace('\r\n', '\n') != content) {
+                throw new GradleException("Metal sconce model is missing or stale: ${output.name}")
+            }
+        }
+    }
+}
+
+tasks.named('check') { dependsOn tasks.named('verifyPhaseFourMetalModels') }

@@ -1,0 +1,23 @@
+{
+    "type": "ironagefurniture:bed_recolour",
+    "group": "ironagefurniture:bed_canopy_foot_left_lower_natura_bloodwood/bed_recolour",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_canopy_foot_left_lower_natura_bloodwood",
+            "data": 32767
+        },
+        {
+            "item": "minecraft:carpet",
+            "data": 32767
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_canopy_foot_left_lower_natura_bloodwood"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "natura"
+        }
+    ]
+}

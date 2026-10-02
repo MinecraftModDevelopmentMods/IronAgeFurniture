@@ -41,6 +41,39 @@
       "file": "ImmersiveEngineering-0.12-98.jar",
       "sha256": "1dceb974d037dae7161f9a8e9f78cb33dfaad9e3adf02d14d52a3024eb961e58",
       "source": "https://www.curseforge.com/minecraft/mc-mods/immersive-engineering/files/2974106"
+    },
+    {
+      "modId": "mineralogy",
+      "role": "integration",
+      "version": "3.8.0.53",
+      "file": "Mineralogy-1.12.2-3.8.0.53.jar",
+      "sha256": "c42e608e5662a94138bd2461019d33283f96e3fb66e28db91c00a49e9a8005cd",
+      "source": "https://www.curseforge.com/minecraft/mc-mods/minecraft-mineralogy/files"
+    },
+    {
+      "modId": "basemetals",
+      "role": "integration",
+      "version": "2.5.0-rc2.332",
+      "file": "BaseMetals-1.12-2.5.0-rc2.332.jar",
+      "sha256": "034fd791a9e77345c19f6098c01d4b5b66f90ef4a953fb0831089935ead9dffb",
+      "source": "https://www.curseforge.com/minecraft/mc-mods/base-metals/files/2712965"
+    },
+    {
+      "modId": "mmdlib",
+      "role": "dependency",
+      "requiredBy": ["basemetals"],
+      "version": "1.0.0-rc2.36",
+      "file": "MMDLib-1.12-1.0.0-rc2.36.jar",
+      "sha256": "fe2229e6755a5fd306c33cc22dccf055378d371339133e4912c5dc9213e360af",
+      "source": "https://www.curseforge.com/minecraft/mc-mods/mmdlib/files/2712947"
+    },
+    {
+      "modId": "cfm",
+      "role": "integration",
+      "version": "6.3.2",
+      "file": "furniture-6.3.2-1.12.2.jar",
+      "sha256": "f412373512e14b431736ec54f465bf196b81c07939fa484202f457e1c0fbf144",
+      "source": "https://www.curseforge.com/minecraft/mc-mods/mrcrayfish-furniture-mod/files/3865259"
     }
   ]
 }

@@ -1,0 +1,34 @@
+{
+    "type": "forge:ore_shaped",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_throne_immersiveengineering_treated_wood",
+        "data": 1,
+        "nbt": "{Color:\"orange\"}"
+    },
+    "group": "ironagefurniture:chair_wood_ironage_throne_immersiveengineering_treated_wood/meta_1",
+    "pattern": [
+        "z",
+        "x",
+        "y"
+    ],
+    "key": {
+        "z": {
+            "item": "minecraft:carpet",
+            "data": 1
+        },
+        "x": {
+            "item": "immersiveengineering:treated_wood",
+            "data": 0
+        },
+        "y": {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_immersiveengineering_treated_wood",
+            "data": 32767
+        }
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "immersiveengineering"
+        }
+    ]
+}

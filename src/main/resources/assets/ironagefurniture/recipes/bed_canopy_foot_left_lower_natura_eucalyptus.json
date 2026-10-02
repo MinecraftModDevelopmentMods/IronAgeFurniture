@@ -1,0 +1,23 @@
+{
+    "type": "ironagefurniture:matching_upholstery",
+    "group": "ironagefurniture:bed_canopy_foot_left_lower_natura_eucalyptus/matching_upholstery",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_canopy_foot_lower_natura_eucalyptus",
+            "data": 32767
+        },
+        {
+            "item": "ironagefurniture:bed_canopy_foot_lower_natura_eucalyptus",
+            "data": 32767
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_canopy_foot_left_lower_natura_eucalyptus"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "natura"
+        }
+    ]
+}

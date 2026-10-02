@@ -14,7 +14,7 @@
         "data": 13,
         "nbt": "{Color:\"green\"}"
     },
-    "group": "furniture",
+    "group": "ironagefurniture:chair_wood_ironage_bench_back_padded_single_natura_hopseed/meta_13",
     "conditions": [
         {
             "type": "forge:mod_loaded",

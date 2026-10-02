@@ -1,0 +1,20 @@
+{
+    "type": "ironagefurniture:canopy_bed_upgrade",
+    "group": "ironagefurniture:bed_canopy_foot_lower_big_oak/meta_1",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_big_oak",
+            "data": 1,
+            "nbt": "{Color:\"orange\"}"
+        },
+        {
+            "item": "minecraft:planks",
+            "data": 5
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_canopy_foot_lower_big_oak",
+        "data": 1,
+        "nbt": "{Color:\"orange\"}"
+    }
+}

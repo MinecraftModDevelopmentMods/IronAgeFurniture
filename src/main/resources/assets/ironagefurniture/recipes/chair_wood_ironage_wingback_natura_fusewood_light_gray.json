@@ -1,0 +1,33 @@
+{
+    "type": "forge:ore_shaped",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_wingback_natura_fusewood",
+        "data": 8,
+        "nbt": "{Color:\"light_gray\"}"
+    },
+    "group": "ironagefurniture:chair_wood_ironage_wingback_natura_fusewood/meta_8",
+    "pattern": [
+        "z",
+        "x",
+        "y"
+    ],
+    "key": {
+        "z": {
+            "item": "minecraft:carpet",
+            "data": 8
+        },
+        "x": {
+            "item": "natura:nether_planks",
+            "data": 3
+        },
+        "y": {
+            "item": "ironagefurniture:chair_wood_ironage_classic_natura_fusewood"
+        }
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "natura"
+        }
+    ]
+}

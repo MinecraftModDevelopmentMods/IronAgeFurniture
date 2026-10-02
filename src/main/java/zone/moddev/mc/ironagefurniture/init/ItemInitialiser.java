@@ -2,6 +2,8 @@ package zone.moddev.mc.ironagefurniture.init;
 
 import zone.moddev.mc.ironagefurniture.Ironagefurniture;
 import zone.moddev.mc.ironagefurniture.api.Items.ItemBlockPaddedBench;
+import zone.moddev.mc.ironagefurniture.api.Items.ItemBlockUpholsteredFurniture;
+import zone.moddev.mc.ironagefurniture.api.Items.ItemBlockMetalVariant;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -13,7 +15,8 @@ public class ItemInitialiser {
 
 		for(String name : Ironagefurniture.ItemRegistry.keySet()){
 			Item i = Ironagefurniture.ItemRegistry.get(name);
-			if (i instanceof ItemBlockPaddedBench) {
+			if (i instanceof ItemBlockPaddedBench || i instanceof ItemBlockUpholsteredFurniture
+					|| i instanceof ItemBlockMetalVariant) {
 				continue;
 			}
     		Minecraft.getMinecraft().getRenderItem().getItemModelMesher()

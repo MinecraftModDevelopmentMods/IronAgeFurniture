@@ -14,7 +14,7 @@
         "data": 7,
         "nbt": "{Color:\"gray\"}"
     },
-    "group": "furniture",
+    "group": "ironagefurniture:chair_wood_ironage_bench_back_padded_single_natura_sakura/meta_7",
     "conditions": [
         {
             "type": "forge:mod_loaded",

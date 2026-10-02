@@ -14,7 +14,7 @@
         "data": 14,
         "nbt": "{Color:\"white\"}"
     },
-    "group": "furniture",
+    "group": "ironagefurniture:chair_wood_ironage_bench_back_padded_single_forestry_chestnut/meta_14",
     "conditions": [
         {
             "type": "forge:mod_loaded",

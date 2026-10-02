@@ -1,0 +1,10 @@
+{
+    "credit": "By FoxNekitsune",
+    "parent": "ironagefurniture:block/template_chair_wingback_inventory",
+    "textures": {
+        "cloth": "minecraft:blocks/wool_colored_red",
+        "log": "forestry:blocks/wood/bark.greenheart",
+        "particle": "forestry:blocks/wood/bark.greenheart",
+        "planks": "forestry:blocks/wood/planks.greenheart"
+    }
+}

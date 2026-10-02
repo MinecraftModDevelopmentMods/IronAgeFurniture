@@ -1,0 +1,25 @@
+{
+    "type": "forge:ore_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_forestry_cherry/meta_12",
+    "ingredients": [
+        {
+            "item": "minecraft:bed",
+            "data": 12
+        },
+        {
+            "item": "forestry:planks.0",
+            "data": 15
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_wood_foot_forestry_cherry",
+        "data": 12,
+        "nbt": "{Color:\"brown\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "forestry"
+        }
+    ]
+}

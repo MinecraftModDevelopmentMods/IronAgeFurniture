@@ -1,17 +1,27 @@
 [![Discord](https://img.shields.io/badge/Discord-MMD-green.svg?style=flat&logo=Discord)](https://discord.moddev.zone)
-[![CurseForge](https://img.shields.io/badge/CurseForge-Iron%20Age%20Furniture-orange.svg)](https://www.curseforge.com/minecraft/mc-mods/iron-age-furniture)
+[![CurseForge](https://img.shields.io/badge/CurseForge-Iron%20Age%20Furniture-orange.svg)](https://www.curseforge.com/minecraft/mc-mods/ironagefurniture)
 [![Build, test, and audit](https://github.com/MinecraftModDevelopmentMods/IronAgeFurniture/actions/workflows/ci.yml/badge.svg?branch=master-1.12)](https://github.com/MinecraftModDevelopmentMods/IronAgeFurniture/actions/workflows/ci.yml?query=branch%3Amaster-1.12)
 
 # IronAgeFurniture
 
-IronAgeFurniture adds chairs, stools, benches, lamps, sconces, and other ye
-olde-style furniture to Minecraft. Seating is functional, furniture supports
-the appropriate vanilla and optional-mod materials, and lighting includes
-falling and throwable lava lamps.
+IronAgeFurniture adds functional chairs, stools, benches, beds, lamps, and
+sconces in an old-fashioned style. Furniture uses vanilla woods and, when
+installed, matching materials from supported mods.
 
-This branch provides IronAgeFurniture `0.3.0.112021` for Minecraft 1.12.2 and
-Forge 14.23.5.2859. It requires Java 8 and can be installed on both clients and
-dedicated servers.
+This branch contains the `0.4.0.112021` Phase 4 update for Minecraft
+1.12.2 and Forge 14.23.5.2859. The game requires Java 8; the mod runs on
+clients and dedicated servers.
+
+Phase 4 adds multiblock wooden and canopy beds, wingback and throne chairs,
+removable shields on shield chairs, twin-torch sconces, candles, rock-salt
+sconces, and metal sconce choices. A carried candle shows a small flame and
+smoke. Optional dynamic lighting can also light the area around it while held;
+see the setup instructions below. A powered wall lava-lamp sconce releases its
+lamp when there is room below; it can fall, shatter, and start a fire.
+
+Mining a lava-lamp sconce with a suitable Silk Touch pickaxe returns the empty
+sconce and intact lamp separately. Without Silk Touch, the sconce still drops
+in its original metal, but the lamp shatters and starts a fire.
 
 Padded benches and padded back benches support all sixteen vanilla carpet
 colours without adding block or item IDs. Existing benches and data-zero items
@@ -19,6 +29,19 @@ remain red. New stacks retain both their legacy metadata and a stable `Color`
 NBT string through crafting, Creative inventory, placement, drops, pick block,
 connected-shape changes and chunk reloads. Mixed-colour runs remain governed by
 the unchanged bench joining algorithm.
+
+The recipe book lists furniture designs, woods and upholstery colours
+separately, so you can find the piece you want without cycling through the
+whole seating collection. Alternate recipes for the same chair share an entry.
+
+Beds keep their colour as you build them up. Craft a vanilla bed with one plank
+of your chosen wood to make a wooden bed, then add another matching plank to
+make a canopy bed. Combine two single beds of the same wood, style and colour
+to make a double bed. To change any IAF bed's colour deliberately, craft it
+with a carpet in the colour you want.
+
+Wooden and canopy beds are flammable like chairs. If fire consumes any part,
+the whole bed burns away.
 
 ## Optional integrations
 
@@ -29,21 +52,76 @@ installed:
 - Natura
 - Forestry
 - Immersive Engineering
+- Mineralogy (rock-salt lighting)
+- Base Metals (extra sconce materials)
+- MrCrayfish's Furniture Mod (chair conversion recipes)
 
-They are optional. Their recipes and recipe advancements are conditionally
-loaded, so a normal installation does not need any of them.
+They are optional. Their recipes and advancements load only when the relevant
+mod is installed. The available Base Metals sconce variants follow the
+installed Base Metals build.
+
+## Carried-light setup
+
+IAF supplies the candle's flame and smoke, but does not include a dynamic
+lighting engine. Without a separate lighting mod, a candle lights its
+surroundings only when placed.
+
+With OptiFine, enable **Dynamic Lights** in Video Settings (Fast or Fancy).
+OptiFine recognises the existing block light levels of IAF candles and lamps
+automatically; no extra IAF configuration is needed. This also applies to the
+Forge 1.10 candle.
+
+If you use [AtomicStryker's Dynamic Lights for Minecraft 1.12.2](https://www.curseforge.com/minecraft/mc-mods/dynamic-lights/files/2563244)
+instead, start the game once to create its configuration, then close it. In
+`config/dynamiclights_theplayer.cfg`, append these entries to the comma-separated
+`S:LightItems` list, keeping the existing entries:
+
+```text
+ironagefurniture:light_metal_ironage_candle_floor=12,ironagefurniture:light_metal_ironage_block_floor_glow_clear=15,ironagefurniture:light_metal_ironage_block_floor_lava_clear=15,ironagefurniture:light_metal_ironage_block_floor_red_clear=0
+```
+
+| Carried item | Light level |
+| --- | --- |
+| Candle | 12 |
+| Glow dust lamp | 15 |
+| Lava lamp | 15 |
+| Red lamp | 0 until placed and powered |
+
+Red lamps need a redstone signal, so carrying one must not make it glow.
+Empty sconces and obsidian chunks give off no light. Filled sconces, wall
+lights, and powered or unlit variants are placed-block states, not separate
+inventory items; their normal block lighting needs no item-list entry.
+Rock-salt sconces hold Mineralogy's own lamp item rather than a separate IAF
+rock-salt item.
+
+Restart the game after saving the file. To light items carried by other
+players or dropped on the ground as well, add the same entries to `S:LightItems`
+in `dynamiclights_otherplayers.cfg` and `dynamiclights_dropitems.cfg`.
+
+These lights are a client-side visual effect, not a replacement for placed
+lighting that prevents mobs from spawning. Use one dynamic-lighting solution
+at a time.
 
 ## Compatibility
 
-The persistent mod ID, registry names, resource paths, configuration names,
-entities, and saved-world identity remain under `ironagefurniture`. Existing
-1.12.2 worlds therefore retain the same runtime identities.
+The persistent mod ID, surviving registry names, resource paths,
+configuration names, and saved-world identity remain under
+`ironagefurniture`. Older padded benches without colour data stay red; older
+sconces without metal data stay iron. Beds and other upholstered furniture
+keep their colour when placed, moved, broken, and reloaded. Shield chairs
+retain the complete attached shield item, including its wear, design, name,
+and enchantments.
+
+If MrCrayfish's Furniture Mod is removed from an older world, this build can
+recover its six wooden chair types as IAF classic chairs. Conversion while
+both mods remain installed is a separate option, off by default. Back up any
+world before opening it with a new mod version.
 
 The supported Java source namespace is now
 `zone.moddev.mc.ironagefurniture`. Add-ons compiled against the former
 `com.mcmoddev.ironagefurniture` packages must update their imports. The Maven
 coordinate is
-`zone.moddev.mc:iron-age-furniture:0.3.0.112021`.
+`zone.moddev.mc:iron-age-furniture:0.4.0.112021`.
 
 Furniture add-ons can register subclasses of the public IAF furniture blocks
 under their own mod namespace and place their items in the IAF creative tab.
@@ -53,7 +131,8 @@ sixteen-colour padded-bench renderer. Add-ons should retain ownership of their
 own registry and resource IDs rather than registering new content as
 `ironagefurniture`.
 
-See [CHANGELOG.md](CHANGELOG.md) for the release notes and
+See [CHANGELOG.md](CHANGELOG.md) for the release notes,
+[docs/UPGRADING.md](docs/UPGRADING.md) for tested old-world upgrades, and
 [docs/VERSIONS.md](docs/VERSIONS.md) for the versioning scheme. Bugs can be
 reported through the
 [MMD issue tracker](https://github.com/MinecraftModDevelopmentMods/IronAgeFurniture/issues).
@@ -75,6 +154,8 @@ Generate reproducible Eclipse/Buildship metadata with:
 ```text
 gradlew.bat prepareEclipse verifyEclipseProductionClasspath
 ```
+
+The build tasks are described in [gradle/README.md](gradle/README.md).
 
 Release publication is initiated manually from the protected default-branch
 dispatcher after the exact target commit has passed hosted CI. Building
