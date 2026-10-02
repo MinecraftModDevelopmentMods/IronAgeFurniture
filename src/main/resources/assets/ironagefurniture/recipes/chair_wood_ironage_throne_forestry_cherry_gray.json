@@ -1,0 +1,34 @@
+{
+    "type": "forge:ore_shaped",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_throne_forestry_cherry",
+        "data": 7,
+        "nbt": "{Color:\"gray\"}"
+    },
+    "group": "ironagefurniture:chair_wood_ironage_throne_forestry_cherry/meta_7",
+    "pattern": [
+        "z",
+        "x",
+        "y"
+    ],
+    "key": {
+        "z": {
+            "item": "minecraft:carpet",
+            "data": 7
+        },
+        "x": {
+            "item": "forestry:planks.0",
+            "data": 15
+        },
+        "y": {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_forestry_cherry",
+            "data": 32767
+        }
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "forestry"
+        }
+    ]
+}

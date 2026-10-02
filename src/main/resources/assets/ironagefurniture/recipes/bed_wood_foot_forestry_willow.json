@@ -1,0 +1,25 @@
+{
+    "type": "forge:ore_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_forestry_willow/meta_0",
+    "ingredients": [
+        {
+            "item": "minecraft:bed",
+            "data": 14
+        },
+        {
+            "item": "forestry:planks.0",
+            "data": 12
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_wood_foot_forestry_willow",
+        "data": 0,
+        "nbt": "{Color:\"red\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "forestry"
+        }
+    ]
+}

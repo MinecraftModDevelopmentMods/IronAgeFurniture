@@ -1,0 +1,23 @@
+{
+    "type": "ironagefurniture:matching_upholstery",
+    "group": "ironagefurniture:bed_canopy_foot_left_lower_forestry_chestnut/matching_upholstery",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_canopy_foot_lower_forestry_chestnut",
+            "data": 32767
+        },
+        {
+            "item": "ironagefurniture:bed_canopy_foot_lower_forestry_chestnut",
+            "data": 32767
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_canopy_foot_left_lower_forestry_chestnut"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "forestry"
+        }
+    ]
+}

@@ -1,0 +1,25 @@
+{
+    "type": "forge:ore_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_natura_redwood/meta_15",
+    "ingredients": [
+        {
+            "item": "minecraft:bed",
+            "data": 15
+        },
+        {
+            "item": "natura:overworld_planks",
+            "data": 8
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_wood_foot_natura_redwood",
+        "data": 15,
+        "nbt": "{Color:\"black\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "natura"
+        }
+    ]
+}

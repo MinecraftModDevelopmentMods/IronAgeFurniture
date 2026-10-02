@@ -1,0 +1,33 @@
+{
+    "type": "forge:ore_shaped",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_mangrove",
+        "data": 12,
+        "nbt": "{Color:\"brown\"}"
+    },
+    "group": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_mangrove/meta_12",
+    "pattern": [
+        "z",
+        "x",
+        "y"
+    ],
+    "key": {
+        "z": {
+            "item": "minecraft:carpet",
+            "data": 12
+        },
+        "x": {
+            "item": "biomesoplenty:planks_0",
+            "data": 6
+        },
+        "y": {
+            "item": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_mangrove"
+        }
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        }
+    ]
+}

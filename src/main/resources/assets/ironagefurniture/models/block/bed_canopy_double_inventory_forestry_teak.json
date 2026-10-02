@@ -1,0 +1,11 @@
+{
+    "credit": "By FoxNekitsune",
+    "parent": "ironagefurniture:block/template_bed_canopy_double_inventory",
+    "textures": {
+        "cloth": "minecraft:blocks/wool_colored_red",
+        "log": "forestry:blocks/wood/bark.teak",
+        "particle": "forestry:blocks/wood/bark.teak",
+        "planks": "forestry:blocks/wood/planks.teak",
+        "sheet": "minecraft:blocks/wool_colored_white"
+    }
+}

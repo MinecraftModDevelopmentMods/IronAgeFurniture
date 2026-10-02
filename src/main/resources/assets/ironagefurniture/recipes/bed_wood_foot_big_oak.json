@@ -1,0 +1,19 @@
+{
+    "type": "forge:ore_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_big_oak/meta_0",
+    "ingredients": [
+        {
+            "item": "minecraft:bed",
+            "data": 14
+        },
+        {
+            "item": "minecraft:planks",
+            "data": 5
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_wood_foot_big_oak",
+        "data": 0,
+        "nbt": "{Color:\"red\"}"
+    }
+}

@@ -1,0 +1,33 @@
+{
+    "type": "forge:ore_shaped",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_wingback_forestry_wenge",
+        "data": 0,
+        "nbt": "{Color:\"red\"}"
+    },
+    "group": "ironagefurniture:chair_wood_ironage_wingback_forestry_wenge/meta_0",
+    "pattern": [
+        "z",
+        "x",
+        "y"
+    ],
+    "key": {
+        "z": {
+            "item": "minecraft:carpet",
+            "data": 14
+        },
+        "x": {
+            "item": "forestry:planks.0",
+            "data": 5
+        },
+        "y": {
+            "item": "ironagefurniture:chair_wood_ironage_classic_forestry_wenge"
+        }
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "forestry"
+        }
+    ]
+}

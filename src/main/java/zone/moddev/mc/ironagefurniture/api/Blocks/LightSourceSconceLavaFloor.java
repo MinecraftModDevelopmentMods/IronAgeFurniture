@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.google.common.collect.Lists;
 import zone.moddev.mc.ironagefurniture.BlockObjectHolder;
+import zone.moddev.mc.ironagefurniture.api.MetalVariantHelper;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
@@ -33,7 +34,8 @@ public class LightSourceSconceLavaFloor extends LightSourceSconceGlowFloor {
     public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
         if (!canPlaceOnTop(worldIn, pos.down())) {
             if (!worldIn.isRemote) {
-                spawnAsEntity(worldIn, pos, new ItemStack(BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron, 1));
+                spawnAsEntity(worldIn, pos, MetalVariantHelper.getDrop(
+                        BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron, worldIn, pos));
                 IBlockState lavaState = LightDrop().getDefaultState().withProperty(FACING, state.getValue(FACING));
                 worldIn.setBlockState(pos, lavaState, 3);
                 worldIn.scheduleUpdate(pos, LightDrop(), LightDrop().tickRate(worldIn));
@@ -47,12 +49,14 @@ public class LightSourceSconceLavaFloor extends LightSourceSconceGlowFloor {
 
     @Override
     public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-        return Lists.newArrayList(new ItemStack(BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron, 1));
+        return Lists.newArrayList(MetalVariantHelper.getDrop(
+                BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron, world, pos));
     }
 
     @Override
     public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
-        if (player != null && player.capabilities.isCreativeMode) {
+        if (willHarvest || (player != null && player.capabilities.isCreativeMode)) {
+            // Keep the metal-bearing tile entity until Forge has collected the holder drop.
             return super.removedByPlayer(state, world, pos, player, willHarvest);
         }
 
@@ -75,12 +79,16 @@ public class LightSourceSconceLavaFloor extends LightSourceSconceGlowFloor {
     public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state,
             TileEntity te, ItemStack stack) {
         boolean silkTouch = hasSilkTouch(stack);
-
-        if (silkTouch && !player.capabilities.isCreativeMode && !worldIn.isRemote) {
-            spawnAsEntity(worldIn, pos, new ItemStack(LightDrop(), 1));
-        }
-
         super.harvestBlock(worldIn, player, pos, state, te, stack);
+
+        if (!player.capabilities.isCreativeMode && !worldIn.isRemote) {
+            if (silkTouch) {
+                spawnAsEntity(worldIn, pos, new ItemStack(LightDrop(), 1));
+            } else {
+                // Shatter after removing the holder, so its cleanup cannot erase the fire.
+                breakIntoFire(worldIn, pos, player);
+            }
+        }
     }
 
     @Override

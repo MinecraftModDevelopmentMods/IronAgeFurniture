@@ -1,0 +1,25 @@
+{
+    "type": "forge:ore_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_biomesoplenty_hellbark/meta_10",
+    "ingredients": [
+        {
+            "item": "minecraft:bed",
+            "data": 10
+        },
+        {
+            "item": "biomesoplenty:planks_0",
+            "data": 11
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_wood_foot_biomesoplenty_hellbark",
+        "data": 10,
+        "nbt": "{Color:\"purple\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        }
+    ]
+}

@@ -1,0 +1,26 @@
+{
+    "type": "ironagefurniture:canopy_bed_upgrade",
+    "group": "ironagefurniture:bed_canopy_foot_lower_forestry_balsa/meta_9",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_forestry_balsa",
+            "data": 9,
+            "nbt": "{Color:\"cyan\"}"
+        },
+        {
+            "item": "forestry:planks.0",
+            "data": 11
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_canopy_foot_lower_forestry_balsa",
+        "data": 9,
+        "nbt": "{Color:\"cyan\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "forestry"
+        }
+    ]
+}

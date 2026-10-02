@@ -1,0 +1,11 @@
+{
+    "credit": "By FoxNekitsune",
+    "parent": "ironagefurniture:block/template_bed_wood_double_inventory",
+    "textures": {
+        "cloth": "minecraft:blocks/wool_colored_red",
+        "log": "forestry:blocks/wood/bark.larch",
+        "particle": "forestry:blocks/wood/bark.larch",
+        "planks": "forestry:blocks/wood/planks.larch",
+        "sheet": "minecraft:blocks/wool_colored_white"
+    }
+}

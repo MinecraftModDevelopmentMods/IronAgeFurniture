@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 import zone.moddev.mc.ironagefurniture.BlockObjectHolder;
+import zone.moddev.mc.ironagefurniture.api.MetalVariantHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -90,7 +91,8 @@ public class LightHolderSconceWall extends LightHolderSconceFloor {
 
     @Override
     public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-        return Lists.newArrayList(new ItemStack(BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron));
+        return Lists.newArrayList(MetalVariantHelper.getDrop(
+                BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron, world, pos));
     }
 
     @Override
@@ -156,6 +158,16 @@ public class LightHolderSconceWall extends LightHolderSconceFloor {
     @Override
     protected Block GetGlowVariant() {
         return BlockObjectHolder.light_metal_ironage_sconce_wall_glow_iron;
+    }
+
+    @Override
+    protected Block GetRockSaltVariant() {
+        return BlockObjectHolder.light_metal_ironage_sconce_wall_rocksalt_iron;
+    }
+
+    @Override
+    protected Block GetCandleVariant() {
+        return BlockObjectHolder.light_metal_ironage_sconce_wall_candle_iron;
     }
 
     @Override

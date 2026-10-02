@@ -1,0 +1,33 @@
+{
+    "type": "forge:ore_shaped",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_umbran",
+        "data": 3,
+        "nbt": "{Color:\"light_blue\"}"
+    },
+    "group": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_umbran/meta_3",
+    "pattern": [
+        "z",
+        "x",
+        "y"
+    ],
+    "key": {
+        "z": {
+            "item": "minecraft:carpet",
+            "data": 3
+        },
+        "x": {
+            "item": "biomesoplenty:planks_0",
+            "data": 2
+        },
+        "y": {
+            "item": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_umbran"
+        }
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        }
+    ]
+}

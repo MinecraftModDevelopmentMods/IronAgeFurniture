@@ -1,0 +1,25 @@
+{
+    "type": "forge:ore_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_forestry_mahoe/meta_9",
+    "ingredients": [
+        {
+            "item": "minecraft:bed",
+            "data": 9
+        },
+        {
+            "item": "forestry:planks.1",
+            "data": 0
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_wood_foot_forestry_mahoe",
+        "data": 9,
+        "nbt": "{Color:\"cyan\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "forestry"
+        }
+    ]
+}

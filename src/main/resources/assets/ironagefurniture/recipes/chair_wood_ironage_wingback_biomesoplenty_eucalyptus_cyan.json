@@ -1,0 +1,33 @@
+{
+    "type": "forge:ore_shaped",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_eucalyptus",
+        "data": 9,
+        "nbt": "{Color:\"cyan\"}"
+    },
+    "group": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_eucalyptus/meta_9",
+    "pattern": [
+        "z",
+        "x",
+        "y"
+    ],
+    "key": {
+        "z": {
+            "item": "minecraft:carpet",
+            "data": 9
+        },
+        "x": {
+            "item": "biomesoplenty:planks_0",
+            "data": 15
+        },
+        "y": {
+            "item": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_eucalyptus"
+        }
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        }
+    ]
+}

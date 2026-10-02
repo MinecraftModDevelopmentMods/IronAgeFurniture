@@ -1,0 +1,26 @@
+{
+    "type": "ironagefurniture:canopy_bed_upgrade",
+    "group": "ironagefurniture:bed_canopy_foot_lower_forestry_poplar/meta_13",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_forestry_poplar",
+            "data": 13,
+            "nbt": "{Color:\"green\"}"
+        },
+        {
+            "item": "forestry:planks.1",
+            "data": 1
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_canopy_foot_lower_forestry_poplar",
+        "data": 13,
+        "nbt": "{Color:\"green\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "forestry"
+        }
+    ]
+}

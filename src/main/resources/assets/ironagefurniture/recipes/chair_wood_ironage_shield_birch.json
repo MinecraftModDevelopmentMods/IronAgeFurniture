@@ -1,5 +1,5 @@
 {
-    "type": "forge:ore_shapeless",
+    "type": "ironagefurniture:shield_chair",
     "ingredients": [
         {
             "item": "minecraft:shield"
@@ -11,5 +11,5 @@
     "result": {
         "item": "ironagefurniture:chair_wood_ironage_shield_birch"
     },
-    "group": "furniture"
+    "group": "ironagefurniture:chair_wood_ironage_shield_birch/meta_0"
 }

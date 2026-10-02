@@ -37,12 +37,21 @@ def integrationForName = { String name ->
     if (name.contains('_natura_')) return 'natura'
     if (name.contains('_forestry_')) return 'forestry'
     if (name.contains('_immersiveengineering_')) return 'immersiveengineering'
+    if (name.contains('_basemetals_')) return 'basemetals'
     if (name.startsWith('cfm_')) return 'cfm'
     return null
 }
 
 def orderedCondition = { String modId ->
     [type: 'forge:mod_loaded', modid: modId] as LinkedHashMap
+}
+
+def recipeConditions = { String modId, Map recipe ->
+    List<Map> conditions = [orderedCondition(modId)]
+    if (modId == 'basemetals') {
+        conditions.add([type: 'minecraft:item_exists', item: recipe.key.x.item])
+    }
+    conditions
 }
 
 def normalizedRecipe = { File file ->
@@ -59,12 +68,21 @@ def normalizedRecipe = { File file ->
         result.nbt = "{Color:\"${colour.name}\"}"
         parsed.result = result
     }
+    String resultItem = parsed.result.item
+    if (resultItem.startsWith('ironagefurniture:chair_wood_')
+            || resultItem.startsWith('ironagefurniture:bed_')) {
+        // The book combines recipes with the same group, even across woods and colours.
+        String variant = parsed.type == 'ironagefurniture:matching_upholstery'
+                ? 'matching_upholstery' : parsed.type == 'ironagefurniture:bed_recolour'
+                ? 'bed_recolour' : "meta_${parsed.result.data ?: 0}"
+        parsed.group = "${resultItem}/${variant}".toString()
+    }
     String modId = integrationForName(file.name)
     Map reordered = new LinkedHashMap()
     parsed.each { key, value ->
         if (key != 'conditions') reordered[key] = value
     }
-    if (modId != null) reordered.conditions = [orderedCondition(modId)]
+    if (modId != null) reordered.conditions = recipeConditions(modId, reordered)
     return reordered
 }
 
@@ -87,6 +105,12 @@ collectItemPredicates = { Object value, List<Map> predicates ->
 }
 
 def ingredientPredicate = { Map recipe, File source ->
+    if (recipe.type == 'ironagefurniture:canopy_bed_upgrade') {
+        // Stored colour wins over old item damage in canopy crafting as well as
+        // placement. The book should unlock from that same colour, not the planks.
+        Map bed = recipe.ingredients[0] as Map
+        return [item: bed.item, nbt: bed.nbt]
+    }
     List<Map> predicates = []
     if (recipe.ingredients != null) collectItemPredicates(recipe.ingredients, predicates)
     if (recipe.key != null) collectItemPredicates(recipe.key, predicates)
@@ -94,6 +118,12 @@ def ingredientPredicate = { Map recipe, File source ->
         throw new GradleException("Recipe has no exact item ingredient for its advancement: ${source}")
     }
     Map preferred = predicates.find { it.item.toString().startsWith('ironagefurniture:') }
+    // A wildcard subtype is valid in crafting but cannot serve as an exact
+    // inventory criterion. Use the recipe's colour-specific carpet instead.
+    if (preferred?.data == 32767) {
+        Map carpet = predicates.find { it.item == 'minecraft:carpet' && it.data != 32767 }
+        preferred = carpet ?: [item: preferred.item]
+    }
     return new LinkedHashMap(preferred ?: predicates.first())
 }
 
@@ -115,7 +145,7 @@ def normalizedAdvancement = { File recipeFile ->
             ]
     ]
     advancement.requirements = [['has_ingredient', 'has_the_recipe']]
-    if (modId != null) advancement.conditions = [orderedCondition(modId)]
+    if (modId != null) advancement.conditions = recipeConditions(modId, recipe)
     return advancement
 }
 
@@ -162,6 +192,9 @@ tasks.register('updatePaddedBenchColourAssets') {
 
         Set<String> colourNames = paddedColours.collect { it.name } as Set<String>
         fileTree(paddedLocaleRoot) { include '*.lang' }.files.sort().each { File locale ->
+            // The translated colour names are maintained by translators; the
+            // English bench-name generator cannot safely reconstruct them.
+            if (!locale.name.startsWith('en_')) return
             Set<String> seenKeys = [] as LinkedHashSet<String>
             List<String> retained = locale.readLines('UTF-8').findAll { String line ->
                 int separator = line.indexOf('=')
@@ -225,10 +258,10 @@ tasks.register('updateFurnitureCatalog') {
     group = 'generation'
     description = 'Deterministically rewrites catalog-governed 1.12 recipes and advancements.'
     inputs.file catalogFile
-    inputs.files fileTree(recipeDirectory) { include '*.json' }
+    inputs.files fileTree(recipeDirectory) { include '*.json'; exclude '_factories.json' }
     dependsOn tasks.named('updatePaddedBenchColourAssets')
     doLast {
-        List<File> recipes = fileTree(recipeDirectory) { include '*.json' }.files.sort { it.name }
+        List<File> recipes = fileTree(recipeDirectory) { include '*.json'; exclude '_factories.json' }.files.sort { it.name }
         recipes.each { file ->
             file.setText(formattedJson(normalizedRecipe(file)), 'UTF-8')
         }
@@ -250,7 +283,7 @@ tasks.register('verifyFurnitureCatalog') {
     inputs.file file('src/main/java/zone/moddev/mc/ironagefurniture/api/Enumerations/BenchType.java')
     inputs.file file('src/main/java/zone/moddev/mc/ironagefurniture/client/ClientRegistryEvents.java')
     inputs.file file('src/main/java/zone/moddev/mc/ironagefurniture/init/ClientModelInitialiser.java')
-    inputs.files fileTree(recipeDirectory) { include '*.json' }
+    inputs.files fileTree(recipeDirectory) { include '*.json'; exclude '_factories.json' }
     inputs.files fileTree(advancementDirectory) { include '*.json' }
     doLast {
         Map catalog = new JsonSlurper().parse(catalogFile.asFile) as Map
@@ -264,7 +297,7 @@ tasks.register('verifyFurnitureCatalog') {
         }
         verifyThrownLavaLampRenderer()
 
-        List<File> recipes = fileTree(recipeDirectory) { include '*.json' }.files.sort { it.name }
+        List<File> recipes = fileTree(recipeDirectory) { include '*.json'; exclude '_factories.json' }.files.sort { it.name }
         List<File> advancements = fileTree(advancementDirectory) { include '*.json' }.files.sort { it.name }
         if (recipes.collect { it.name } != advancements.collect { it.name }) {
             throw new GradleException('Every recipe must have one same-named advancement')
@@ -277,7 +310,7 @@ tasks.register('verifyFurnitureCatalog') {
             }
             String modId = integrationForName(file.name)
             Map parsed = new JsonSlurper().parse(file) as Map
-            if (modId != null && parsed.conditions != [orderedCondition(modId)]) {
+            if (modId != null && parsed.conditions != recipeConditions(modId, parsed)) {
                 throw new GradleException("Optional recipe has incorrect conditions: ${project.relativePath(file)}")
             }
         }
@@ -307,6 +340,23 @@ tasks.register('verifyFurnitureCatalog') {
                 throw new GradleException("Lighting catalog entry is missing assets: ${id}")
             }
         }
+        ['floor', 'wall'].each { String form ->
+            String model = "light_metal_ironage_sconce_${form}_torch_iron_twin"
+            if (!file("src/main/resources/assets/ironagefurniture/models/block/${model}.json").isFile()) {
+                throw new GradleException("Twin-torch model is missing: ${model}")
+            }
+            ['', '_unlit'].each { String suffix ->
+                File stateFile = new File(blockStates, "${model}${suffix}.json")
+                Map variants = (new JsonSlurper().parse(stateFile) as Map).variants as Map
+                Set<String> ironFacings = ['north', 'east', 'south', 'west']
+                        .collect { "facing=${it},metal=iron".toString() } as Set<String>
+                if (variants.size() != 92
+                        || !variants.keySet().containsAll(ironFacings)
+                        || ironFacings.any { variants[it].model != "ironagefurniture:${model}${suffix}" }) {
+                    throw new GradleException("Twin-torch blockstate has an unexpected model: ${stateFile}")
+                }
+            }
+        }
 
         String blockSource = file(
                 'src/main/java/zone/moddev/mc/ironagefurniture/init/BlockInitialiser.java')
@@ -325,9 +375,43 @@ tasks.register('verifyFurnitureCatalog') {
         Set<String> registeredPaddedIds = registeredIds.findAll {
             it ==~ /chair_wood_ironage_bench(?:_back)?_padded_single_.+/
         } as TreeSet<String>
-        if (registeredIds.size() != 640 || registeredPaddedIds != expectedPaddedIds) {
-            throw new GradleException('Coloured padded benches must reuse the existing 640 block/item IDs '
-                    + 'and both existing padded forms for every catalog wood')
+        Set<String> rockSaltIds = [
+                'light_metal_ironage_sconce_floor_rocksalt_iron',
+                'light_metal_ironage_sconce_wall_rocksalt_iron'
+        ] as Set<String>
+        rockSaltIds.each { String id ->
+            File stateFile = new File(blockStates, "${id}.json")
+            File modelFile = file("src/main/resources/assets/ironagefurniture/models/block/${id}.json")
+            if (!stateFile.isFile() || !modelFile.isFile()) {
+                throw new GradleException("Rock-salt sconce is missing its model or blockstate: ${id}")
+            }
+            Map model = new JsonSlurper().parse(modelFile) as Map
+            if ((model.textures as Map).contents != 'mineralogy:blocks/rocksalt_lamp') {
+                throw new GradleException("Rock-salt sconce must reference Mineralogy's published texture: ${id}")
+            }
+        }
+        Set<String> candleIds = [] as TreeSet<String>
+        ['floor', 'wall'].each { String form ->
+            ['', '_two', '_three', '_four'].each { String count ->
+                String model = "light_metal_ironage_sconce_${form}_candle_iron${count}"
+                candleIds.add(model)
+                candleIds.add("${model}_unlit".toString())
+                if (!file("src/main/resources/assets/ironagefurniture/models/block/${model}.json").isFile()) {
+                    throw new GradleException("Candle sconce model is missing: ${model}")
+                }
+                ['', '_unlit'].each { String state ->
+                    File stateFile = new File(blockStates, "${model}${state}.json")
+                    if (!stateFile.isFile()) {
+                        throw new GradleException("Candle sconce blockstate is missing: ${stateFile}")
+                    }
+                }
+            }
+        }
+        if (registeredIds.size() != 629 + catalog.lighting.size() + rockSaltIds.size() + candleIds.size()
+                || !registeredIds.containsAll(rockSaltIds)
+                || !registeredIds.containsAll(candleIds)
+                || registeredPaddedIds != expectedPaddedIds) {
+            throw new GradleException('Furniture registrations do not match the supported woods and lights')
         }
         if ((blockSource =~ /FurnitureFactory\.CreateWoodPaddedBench\("/).count
                 != catalogWoods.size()
@@ -383,10 +467,12 @@ tasks.register('verifyFurnitureCatalog') {
             }
             locales[locale.name] = entries
         }
-        if (locales.size() != 3 || locales.values().toSet().size() != 1) {
-            throw new GradleException('The three English locale files must have identical keys and values')
+        Map<String, String> referenceLocale = locales['en_us.lang']
+        if (locales.size() != 17 || referenceLocale == null
+                || locales.values().any { it.keySet() != referenceLocale.keySet() }
+                || ['en_en.lang', 'en_gb.lang'].any { locales[it] != referenceLocale }) {
+            throw new GradleException('All supported locales need the same keys; English variants must match')
         }
-        Map<String, String> referenceLocale = locales.values().first()
         registeredPaddedIds.each { String id ->
             paddedColours.each { colour ->
                 String suffix = colour.name == 'red' ? '' : ".${colour.name}"

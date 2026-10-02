@@ -1,0 +1,26 @@
+{
+    "type": "ironagefurniture:canopy_bed_upgrade",
+    "group": "ironagefurniture:bed_canopy_foot_lower_immersiveengineering_treated_wood/meta_14",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_immersiveengineering_treated_wood",
+            "data": 14,
+            "nbt": "{Color:\"white\"}"
+        },
+        {
+            "item": "immersiveengineering:treated_wood",
+            "data": 0
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_canopy_foot_lower_immersiveengineering_treated_wood",
+        "data": 14,
+        "nbt": "{Color:\"white\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "immersiveengineering"
+        }
+    ]
+}

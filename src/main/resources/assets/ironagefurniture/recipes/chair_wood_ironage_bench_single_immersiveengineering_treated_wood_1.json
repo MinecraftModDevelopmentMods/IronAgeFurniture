@@ -18,7 +18,7 @@
             "data": 0
         }
     },
-    "group": "furniture",
+    "group": "ironagefurniture:chair_wood_ironage_bench_single_immersiveengineering_treated_wood/meta_0",
     "conditions": [
         {
             "type": "forge:mod_loaded",

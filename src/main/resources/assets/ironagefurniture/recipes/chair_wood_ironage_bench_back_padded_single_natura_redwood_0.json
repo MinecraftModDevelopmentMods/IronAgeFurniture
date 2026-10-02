@@ -1,0 +1,24 @@
+{
+    "type": "forge:ore_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:carpet",
+            "data": 0
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_bench_back_single_natura_redwood"
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_bench_back_padded_single_natura_redwood",
+        "data": 14,
+        "nbt": "{Color:\"white\"}"
+    },
+    "group": "ironagefurniture:chair_wood_ironage_bench_back_padded_single_natura_redwood/meta_14",
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "natura"
+        }
+    ]
+}

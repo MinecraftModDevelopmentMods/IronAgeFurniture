@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "group": "sconce",
+    "pattern": [
+        "xxx",
+        "x  ",
+        "x  "
+    ],
+    "key": {
+        "x": {
+            "item": "basemetals:bismuth_nugget"
+        }
+    },
+    "result": {
+        "item": "ironagefurniture:light_metal_ironage_sconce_floor_empty_iron",
+        "data": 5,
+        "count": 4
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "basemetals"
+        },
+        {
+            "type": "minecraft:item_exists",
+            "item": "basemetals:bismuth_nugget"
+        }
+    ]
+}

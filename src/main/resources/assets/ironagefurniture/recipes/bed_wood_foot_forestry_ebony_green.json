@@ -1,0 +1,25 @@
+{
+    "type": "forge:ore_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_forestry_ebony/meta_13",
+    "ingredients": [
+        {
+            "item": "minecraft:bed",
+            "data": 13
+        },
+        {
+            "item": "forestry:planks.0",
+            "data": 9
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_wood_foot_forestry_ebony",
+        "data": 13,
+        "nbt": "{Color:\"green\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "forestry"
+        }
+    ]
+}

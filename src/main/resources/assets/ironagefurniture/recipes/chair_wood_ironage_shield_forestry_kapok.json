@@ -1,5 +1,5 @@
 {
-    "type": "forge:ore_shapeless",
+    "type": "ironagefurniture:shield_chair",
     "ingredients": [
         {
             "item": "minecraft:shield"
@@ -11,7 +11,7 @@
     "result": {
         "item": "ironagefurniture:chair_wood_ironage_shield_forestry_kapok"
     },
-    "group": "furniture",
+    "group": "ironagefurniture:chair_wood_ironage_shield_forestry_kapok/meta_0",
     "conditions": [
         {
             "type": "forge:mod_loaded",

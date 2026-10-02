@@ -1,0 +1,34 @@
+{
+    "type": "forge:ore_shaped",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_throne_natura_bloodwood",
+        "data": 4,
+        "nbt": "{Color:\"yellow\"}"
+    },
+    "group": "ironagefurniture:chair_wood_ironage_throne_natura_bloodwood/meta_4",
+    "pattern": [
+        "z",
+        "x",
+        "y"
+    ],
+    "key": {
+        "z": {
+            "item": "minecraft:carpet",
+            "data": 4
+        },
+        "x": {
+            "item": "natura:nether_planks",
+            "data": 1
+        },
+        "y": {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_natura_bloodwood",
+            "data": 32767
+        }
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "natura"
+        }
+    ]
+}

@@ -3,6 +3,7 @@ package zone.moddev.mc.ironagefurniture.init;
 import zone.moddev.mc.ironagefurniture.BlockObjectHolder;
 import zone.moddev.mc.ironagefurniture.IronAgeFurnitureConfiguration;
 import zone.moddev.mc.ironagefurniture.api.FurnitureFactory;
+import zone.moddev.mc.ironagefurniture.api.MineralogyCompat;
 
 import net.minecraftforge.fml.common.Loader;
 
@@ -24,6 +25,8 @@ public class BlockInitialiser {
 	 */
 	public static void init() {
 		generateChairs();
+		PhaseFourFurnitureInitialiser.registerChairs();
+		PhaseFourFurnitureInitialiser.registerBeds();
 		generateLights();
 	}
 	
@@ -295,6 +298,7 @@ public class BlockInitialiser {
 		if (IronAgeFurnitureConfiguration.INTEGRATION_NATURA && Loader.isModLoaded("natura")) {
 			if (IronAgeFurnitureConfiguration.GENERATE_CLASSIC_CHAIRS) {
 				BlockObjectHolder.chair_wood_ironage_classic_natura_amaranth		= FurnitureFactory.CreateWoodChair("chair_wood_ironage_classic_natura_amaranth");
+				BlockObjectHolder.chair_wood_ironage_classic_natura_redwood		= FurnitureFactory.CreateWoodChair("chair_wood_ironage_classic_natura_redwood");
 				BlockObjectHolder.chair_wood_ironage_classic_natura_eucalyptus		= FurnitureFactory.CreateWoodChair("chair_wood_ironage_classic_natura_eucalyptus");
 				BlockObjectHolder.chair_wood_ironage_classic_natura_hopseed			= FurnitureFactory.CreateWoodChair("chair_wood_ironage_classic_natura_hopseed");
 				BlockObjectHolder.chair_wood_ironage_classic_natura_maple			= FurnitureFactory.CreateWoodChair("chair_wood_ironage_classic_natura_maple");
@@ -310,6 +314,7 @@ public class BlockInitialiser {
 			
 			if (IronAgeFurnitureConfiguration.GENERATE_SHIELD_CHAIRS) {
 				BlockObjectHolder.chair_wood_ironage_shield_natura_amaranth			=	FurnitureFactory.CreateWoodShieldChair("chair_wood_ironage_shield_natura_amaranth");
+				BlockObjectHolder.chair_wood_ironage_shield_natura_redwood			=	FurnitureFactory.CreateWoodShieldChair("chair_wood_ironage_shield_natura_redwood");
 				BlockObjectHolder.chair_wood_ironage_shield_natura_eucalyptus		=	FurnitureFactory.CreateWoodShieldChair("chair_wood_ironage_shield_natura_eucalyptus");
 				BlockObjectHolder.chair_wood_ironage_shield_natura_hopseed			=	FurnitureFactory.CreateWoodShieldChair("chair_wood_ironage_shield_natura_hopseed");
 				BlockObjectHolder.chair_wood_ironage_shield_natura_maple			=	FurnitureFactory.CreateWoodShieldChair("chair_wood_ironage_shield_natura_maple");
@@ -325,6 +330,7 @@ public class BlockInitialiser {
 			
 			if (IronAgeFurnitureConfiguration.GENERATE_SHORT_STOOLS) {
 				BlockObjectHolder.chair_wood_ironage_stool_short_natura_amaranth		= FurnitureFactory.CreateWoodShortStool("chair_wood_ironage_stool_short_natura_amaranth");
+				BlockObjectHolder.chair_wood_ironage_stool_short_natura_redwood		= FurnitureFactory.CreateWoodShortStool("chair_wood_ironage_stool_short_natura_redwood");
 				BlockObjectHolder.chair_wood_ironage_stool_short_natura_eucalyptus		= FurnitureFactory.CreateWoodShortStool("chair_wood_ironage_stool_short_natura_eucalyptus");
 				BlockObjectHolder.chair_wood_ironage_stool_short_natura_hopseed			= FurnitureFactory.CreateWoodShortStool("chair_wood_ironage_stool_short_natura_hopseed");
 				BlockObjectHolder.chair_wood_ironage_stool_short_natura_maple			= FurnitureFactory.CreateWoodShortStool("chair_wood_ironage_stool_short_natura_maple");
@@ -340,6 +346,7 @@ public class BlockInitialiser {
 			
 			if (IronAgeFurnitureConfiguration.GENERATE_TALL_STOOLS) {
 				BlockObjectHolder.chair_wood_ironage_stool_tall_natura_amaranth			=	FurnitureFactory.CreateWoodTallStool("chair_wood_ironage_stool_tall_natura_amaranth");
+				BlockObjectHolder.chair_wood_ironage_stool_tall_natura_redwood			=	FurnitureFactory.CreateWoodTallStool("chair_wood_ironage_stool_tall_natura_redwood");
 				BlockObjectHolder.chair_wood_ironage_stool_tall_natura_eucalyptus		=	FurnitureFactory.CreateWoodTallStool("chair_wood_ironage_stool_tall_natura_eucalyptus");
 				BlockObjectHolder.chair_wood_ironage_stool_tall_natura_hopseed			=	FurnitureFactory.CreateWoodTallStool("chair_wood_ironage_stool_tall_natura_hopseed");
 				BlockObjectHolder.chair_wood_ironage_stool_tall_natura_maple			=	FurnitureFactory.CreateWoodTallStool("chair_wood_ironage_stool_tall_natura_maple");
@@ -355,6 +362,7 @@ public class BlockInitialiser {
 			
 			if (IronAgeFurnitureConfiguration.GENERATE_WOOD_BENCHES) {
 				BlockObjectHolder.chair_wood_ironage_bench_single_natura_amaranth		= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_single_natura_amaranth");
+				BlockObjectHolder.chair_wood_ironage_bench_single_natura_redwood		= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_single_natura_redwood");
 				BlockObjectHolder.chair_wood_ironage_bench_single_natura_eucalyptus		= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_single_natura_eucalyptus");
 				BlockObjectHolder.chair_wood_ironage_bench_single_natura_hopseed		= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_single_natura_hopseed");
 				BlockObjectHolder.chair_wood_ironage_bench_single_natura_maple			= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_single_natura_maple");
@@ -369,6 +377,7 @@ public class BlockInitialiser {
 			
 				BlockObjectHolder.chair_wood_ironage_bench_padded_single_natura_eucalyptus = FurnitureFactory.CreateWoodPaddedBench("chair_wood_ironage_bench_padded_single_natura_eucalyptus");
 				BlockObjectHolder.chair_wood_ironage_bench_padded_single_natura_amaranth = FurnitureFactory.CreateWoodPaddedBench("chair_wood_ironage_bench_padded_single_natura_amaranth");
+				BlockObjectHolder.chair_wood_ironage_bench_padded_single_natura_redwood = FurnitureFactory.CreateWoodPaddedBench("chair_wood_ironage_bench_padded_single_natura_redwood");
 				BlockObjectHolder.chair_wood_ironage_bench_padded_single_natura_hopseed = FurnitureFactory.CreateWoodPaddedBench("chair_wood_ironage_bench_padded_single_natura_hopseed");
 				BlockObjectHolder.chair_wood_ironage_bench_padded_single_natura_maple = FurnitureFactory.CreateWoodPaddedBench("chair_wood_ironage_bench_padded_single_natura_maple");
 				BlockObjectHolder.chair_wood_ironage_bench_padded_single_natura_sakura = FurnitureFactory.CreateWoodPaddedBench("chair_wood_ironage_bench_padded_single_natura_sakura");
@@ -381,6 +390,7 @@ public class BlockInitialiser {
 				BlockObjectHolder.chair_wood_ironage_bench_padded_single_natura_ghostwood = FurnitureFactory.CreateWoodPaddedBench("chair_wood_ironage_bench_padded_single_natura_ghostwood");
 			
 				BlockObjectHolder.chair_wood_ironage_bench_log_single_natura_amaranth		= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_natura_amaranth");
+				BlockObjectHolder.chair_wood_ironage_bench_log_single_natura_redwood		= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_natura_redwood");
 				BlockObjectHolder.chair_wood_ironage_bench_log_single_natura_eucalyptus		= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_natura_eucalyptus");
 				BlockObjectHolder.chair_wood_ironage_bench_log_single_natura_hopseed		= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_natura_hopseed");
 				BlockObjectHolder.chair_wood_ironage_bench_log_single_natura_maple			= FurnitureFactory.CreateWoodBench("chair_wood_ironage_bench_log_single_natura_maple");
@@ -395,6 +405,7 @@ public class BlockInitialiser {
 			
 				BlockObjectHolder.chair_wood_ironage_bench_back_single_natura_eucalyptus	= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_natura_eucalyptus");
 				BlockObjectHolder.chair_wood_ironage_bench_back_single_natura_amaranth 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_natura_amaranth");
+				BlockObjectHolder.chair_wood_ironage_bench_back_single_natura_redwood 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_natura_redwood");
 				BlockObjectHolder.chair_wood_ironage_bench_back_single_natura_hopseed 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_natura_hopseed");
 				BlockObjectHolder.chair_wood_ironage_bench_back_single_natura_maple 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_natura_maple");
 				BlockObjectHolder.chair_wood_ironage_bench_back_single_natura_sakura 		= FurnitureFactory.CreateWoodBackBench("chair_wood_ironage_bench_back_single_natura_sakura");
@@ -408,6 +419,7 @@ public class BlockInitialiser {
 				
 				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_natura_eucalyptus = FurnitureFactory.CreateWoodPaddedBackBench("chair_wood_ironage_bench_back_padded_single_natura_eucalyptus");
 				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_natura_amaranth 	= FurnitureFactory.CreateWoodPaddedBackBench("chair_wood_ironage_bench_back_padded_single_natura_amaranth");
+				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_natura_redwood 	= FurnitureFactory.CreateWoodPaddedBackBench("chair_wood_ironage_bench_back_padded_single_natura_redwood");
 				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_natura_hopseed 	= FurnitureFactory.CreateWoodPaddedBackBench("chair_wood_ironage_bench_back_padded_single_natura_hopseed");
 				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_natura_maple 		= FurnitureFactory.CreateWoodPaddedBackBench("chair_wood_ironage_bench_back_padded_single_natura_maple");
 				BlockObjectHolder.chair_wood_ironage_bench_back_padded_single_natura_sakura 	= FurnitureFactory.CreateWoodPaddedBackBench("chair_wood_ironage_bench_back_padded_single_natura_sakura");
@@ -708,8 +720,13 @@ public class BlockInitialiser {
 		if (!IronAgeFurnitureConfiguration.GENERATE_LIGHTS) {
 			return;
 		}
+		BlockObjectHolder.light_metal_ironage_candle_floor = FurnitureFactory.CreateCandleFloor("light_metal_ironage_candle_floor");
+		BlockObjectHolder.light_metal_ironage_candle_floor_unlit = FurnitureFactory.CreateCandleFloorUnlit("light_metal_ironage_candle_floor_unlit");
+		BlockObjectHolder.light_metal_ironage_candle_wall = FurnitureFactory.CreateCandleWall("light_metal_ironage_candle_wall");
+		BlockObjectHolder.light_metal_ironage_candle_wall_unlit = FurnitureFactory.CreateCandleWallUnlit("light_metal_ironage_candle_wall_unlit");
 		if (IronAgeFurnitureConfiguration.GENERATE_SCONCES) {
 			generateSconces();
+			generateCandleSconces();
 		}
 		if (IronAgeFurnitureConfiguration.GENERATE_GLOW_LAMPS) {
 			BlockObjectHolder.light_metal_ironage_block_floor_glow_clear = FurnitureFactory.CreateGlowdustLamp("light_metal_ironage_block_floor_glow_clear");
@@ -732,16 +749,43 @@ public class BlockInitialiser {
 	}
 
 	private static void generateSconces() {
+		if (MineralogyCompat.isEnabled()) {
+			BlockObjectHolder.light_metal_ironage_sconce_floor_rocksalt_iron = FurnitureFactory.CreateIronFloorRockSaltSconce("light_metal_ironage_sconce_floor_rocksalt_iron");
+			BlockObjectHolder.light_metal_ironage_sconce_wall_rocksalt_iron = FurnitureFactory.CreateIronWallRockSaltSconce("light_metal_ironage_sconce_wall_rocksalt_iron");
+		}
 		BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron = FurnitureFactory.CreateIronFloorSconce("light_metal_ironage_sconce_floor_empty_iron");
 		BlockObjectHolder.light_metal_ironage_sconce_wall_empty_iron = FurnitureFactory.CreateIronWallSconce("light_metal_ironage_sconce_wall_empty_iron");
 		BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron = FurnitureFactory.CreateIronFloorTorchSconce("light_metal_ironage_sconce_floor_torch_iron");
 		BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron_unlit = FurnitureFactory.CreateIronFloorTorchSconceUnlit("light_metal_ironage_sconce_floor_torch_iron_unlit");
+		BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron_twin = FurnitureFactory.CreateIronFloorTwinTorchSconce("light_metal_ironage_sconce_floor_torch_iron_twin");
+		BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron_twin_unlit = FurnitureFactory.CreateIronFloorTwinTorchSconceUnlit("light_metal_ironage_sconce_floor_torch_iron_twin_unlit");
 		BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron = FurnitureFactory.CreateIronWallTorchSconce("light_metal_ironage_sconce_wall_torch_iron");
 		BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron_unlit = FurnitureFactory.CreateIronWallTorchSconceUnlit("light_metal_ironage_sconce_wall_torch_iron_unlit");
+		BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron_twin = FurnitureFactory.CreateIronWallTwinTorchSconce("light_metal_ironage_sconce_wall_torch_iron_twin");
+		BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron_twin_unlit = FurnitureFactory.CreateIronWallTwinTorchSconceUnlit("light_metal_ironage_sconce_wall_torch_iron_twin_unlit");
 		BlockObjectHolder.light_metal_ironage_sconce_floor_redtorch_iron = FurnitureFactory.CreateIronFloorRedTorchSconce("light_metal_ironage_sconce_floor_redtorch_iron");
 		BlockObjectHolder.light_metal_ironage_sconce_floor_redtorch_iron_unlit = FurnitureFactory.CreateIronFloorRedTorchSconceUnlit("light_metal_ironage_sconce_floor_redtorch_iron_unlit");
 		BlockObjectHolder.light_metal_ironage_sconce_wall_redtorch_iron = FurnitureFactory.CreateIronWallRedTorchSconce("light_metal_ironage_sconce_wall_redtorch_iron");
 		BlockObjectHolder.light_metal_ironage_sconce_wall_redtorch_iron_unlit = FurnitureFactory.CreateIronWallRedTorchSconceUnlit("light_metal_ironage_sconce_wall_redtorch_iron_unlit");
+	}
+
+	private static void generateCandleSconces() {
+		BlockObjectHolder.light_metal_ironage_sconce_floor_candle_iron = FurnitureFactory.CreateIronFloorCandleSconce("light_metal_ironage_sconce_floor_candle_iron", 1);
+		BlockObjectHolder.light_metal_ironage_sconce_wall_candle_iron = FurnitureFactory.CreateIronWallCandleSconce("light_metal_ironage_sconce_wall_candle_iron", 1);
+		BlockObjectHolder.light_metal_ironage_sconce_floor_candle_iron_unlit = FurnitureFactory.CreateIronFloorCandleSconceUnlit("light_metal_ironage_sconce_floor_candle_iron_unlit", 1);
+		BlockObjectHolder.light_metal_ironage_sconce_wall_candle_iron_unlit = FurnitureFactory.CreateIronWallCandleSconceUnlit("light_metal_ironage_sconce_wall_candle_iron_unlit", 1);
+		BlockObjectHolder.light_metal_ironage_sconce_floor_candle_iron_two = FurnitureFactory.CreateIronFloorCandleSconce("light_metal_ironage_sconce_floor_candle_iron_two", 2);
+		BlockObjectHolder.light_metal_ironage_sconce_wall_candle_iron_two = FurnitureFactory.CreateIronWallCandleSconce("light_metal_ironage_sconce_wall_candle_iron_two", 2);
+		BlockObjectHolder.light_metal_ironage_sconce_floor_candle_iron_two_unlit = FurnitureFactory.CreateIronFloorCandleSconceUnlit("light_metal_ironage_sconce_floor_candle_iron_two_unlit", 2);
+		BlockObjectHolder.light_metal_ironage_sconce_wall_candle_iron_two_unlit = FurnitureFactory.CreateIronWallCandleSconceUnlit("light_metal_ironage_sconce_wall_candle_iron_two_unlit", 2);
+		BlockObjectHolder.light_metal_ironage_sconce_floor_candle_iron_three = FurnitureFactory.CreateIronFloorCandleSconce("light_metal_ironage_sconce_floor_candle_iron_three", 3);
+		BlockObjectHolder.light_metal_ironage_sconce_wall_candle_iron_three = FurnitureFactory.CreateIronWallCandleSconce("light_metal_ironage_sconce_wall_candle_iron_three", 3);
+		BlockObjectHolder.light_metal_ironage_sconce_floor_candle_iron_three_unlit = FurnitureFactory.CreateIronFloorCandleSconceUnlit("light_metal_ironage_sconce_floor_candle_iron_three_unlit", 3);
+		BlockObjectHolder.light_metal_ironage_sconce_wall_candle_iron_three_unlit = FurnitureFactory.CreateIronWallCandleSconceUnlit("light_metal_ironage_sconce_wall_candle_iron_three_unlit", 3);
+		BlockObjectHolder.light_metal_ironage_sconce_floor_candle_iron_four = FurnitureFactory.CreateIronFloorCandleSconce("light_metal_ironage_sconce_floor_candle_iron_four", 4);
+		BlockObjectHolder.light_metal_ironage_sconce_wall_candle_iron_four = FurnitureFactory.CreateIronWallCandleSconce("light_metal_ironage_sconce_wall_candle_iron_four", 4);
+		BlockObjectHolder.light_metal_ironage_sconce_floor_candle_iron_four_unlit = FurnitureFactory.CreateIronFloorCandleSconceUnlit("light_metal_ironage_sconce_floor_candle_iron_four_unlit", 4);
+		BlockObjectHolder.light_metal_ironage_sconce_wall_candle_iron_four_unlit = FurnitureFactory.CreateIronWallCandleSconceUnlit("light_metal_ironage_sconce_wall_candle_iron_four_unlit", 4);
 	}
 
 	private static void generateRedstoneLamps() {

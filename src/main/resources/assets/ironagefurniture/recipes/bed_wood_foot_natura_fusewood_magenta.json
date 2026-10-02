@@ -1,0 +1,25 @@
+{
+    "type": "forge:ore_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_natura_fusewood/meta_2",
+    "ingredients": [
+        {
+            "item": "minecraft:bed",
+            "data": 2
+        },
+        {
+            "item": "natura:nether_planks",
+            "data": 3
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_wood_foot_natura_fusewood",
+        "data": 2,
+        "nbt": "{Color:\"magenta\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "natura"
+        }
+    ]
+}

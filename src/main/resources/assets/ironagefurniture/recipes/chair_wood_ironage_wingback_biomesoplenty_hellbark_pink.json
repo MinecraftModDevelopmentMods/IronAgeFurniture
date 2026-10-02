@@ -1,0 +1,33 @@
+{
+    "type": "forge:ore_shaped",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_hellbark",
+        "data": 6,
+        "nbt": "{Color:\"pink\"}"
+    },
+    "group": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_hellbark/meta_6",
+    "pattern": [
+        "z",
+        "x",
+        "y"
+    ],
+    "key": {
+        "z": {
+            "item": "minecraft:carpet",
+            "data": 6
+        },
+        "x": {
+            "item": "biomesoplenty:planks_0",
+            "data": 11
+        },
+        "y": {
+            "item": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_hellbark"
+        }
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        }
+    ]
+}

@@ -1,0 +1,8 @@
+{
+  "credit": "By FoxNekitsune",
+  "parent": "ironagefurniture:block/template_light_metal_ironage_sconce_wall_candle",
+  "textures": {
+    "metal": "basemetals:blocks/cupronickel_block",
+    "wax": "ironagefurniture:blocks/candle_wax"
+  }
+}

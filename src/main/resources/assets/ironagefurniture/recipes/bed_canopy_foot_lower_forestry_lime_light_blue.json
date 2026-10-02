@@ -1,0 +1,26 @@
+{
+    "type": "ironagefurniture:canopy_bed_upgrade",
+    "group": "ironagefurniture:bed_canopy_foot_lower_forestry_lime/meta_3",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_forestry_lime",
+            "data": 3,
+            "nbt": "{Color:\"light_blue\"}"
+        },
+        {
+            "item": "forestry:planks.0",
+            "data": 3
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_canopy_foot_lower_forestry_lime",
+        "data": 3,
+        "nbt": "{Color:\"light_blue\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "forestry"
+        }
+    ]
+}

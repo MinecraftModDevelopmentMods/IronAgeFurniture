@@ -1,0 +1,11 @@
+{
+    "credit": "By FoxNekitsune",
+    "parent": "ironagefurniture:block/template_bed_wood_head_right",
+    "textures": {
+        "cloth": "minecraft:blocks/wool_colored_red",
+        "log": "biomesoplenty:blocks/jacaranda_log",
+        "particle": "biomesoplenty:blocks/jacaranda_log",
+        "planks": "biomesoplenty:blocks/jacaranda_planks",
+        "sheet": "minecraft:blocks/wool_colored_white"
+    }
+}

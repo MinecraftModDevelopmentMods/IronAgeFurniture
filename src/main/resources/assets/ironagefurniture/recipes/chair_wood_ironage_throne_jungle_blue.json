@@ -1,0 +1,28 @@
+{
+    "type": "forge:ore_shaped",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_throne_jungle",
+        "data": 11,
+        "nbt": "{Color:\"blue\"}"
+    },
+    "group": "ironagefurniture:chair_wood_ironage_throne_jungle/meta_11",
+    "pattern": [
+        "z",
+        "x",
+        "y"
+    ],
+    "key": {
+        "z": {
+            "item": "minecraft:carpet",
+            "data": 11
+        },
+        "x": {
+            "item": "minecraft:planks",
+            "data": 3
+        },
+        "y": {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_jungle",
+            "data": 32767
+        }
+    }
+}

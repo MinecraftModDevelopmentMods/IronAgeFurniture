@@ -19,7 +19,7 @@
     "natura": [
       "natura_amaranth", "natura_bloodwood", "natura_darkwood", "natura_eucalyptus",
       "natura_fusewood", "natura_ghostwood", "natura_hopseed", "natura_maple",
-      "natura_sakura", "natura_silverbell", "natura_tiger", "natura_willow"
+      "natura_redwood", "natura_sakura", "natura_silverbell", "natura_tiger", "natura_willow"
     ],
     "forestry": [
       "forestry_acacia", "forestry_balsa", "forestry_baobab", "forestry_cherry",
@@ -35,12 +35,20 @@
   },
   "fireproofWoods": [],
   "lighting": [
+    "light_metal_ironage_candle_floor",
+    "light_metal_ironage_candle_floor_unlit",
+    "light_metal_ironage_candle_wall",
+    "light_metal_ironage_candle_wall_unlit",
     "light_metal_ironage_sconce_floor_empty_iron",
     "light_metal_ironage_sconce_wall_empty_iron",
     "light_metal_ironage_sconce_floor_torch_iron",
     "light_metal_ironage_sconce_floor_torch_iron_unlit",
+    "light_metal_ironage_sconce_floor_torch_iron_twin",
+    "light_metal_ironage_sconce_floor_torch_iron_twin_unlit",
     "light_metal_ironage_sconce_wall_torch_iron",
     "light_metal_ironage_sconce_wall_torch_iron_unlit",
+    "light_metal_ironage_sconce_wall_torch_iron_twin",
+    "light_metal_ironage_sconce_wall_torch_iron_twin_unlit",
     "light_metal_ironage_sconce_floor_redtorch_iron",
     "light_metal_ironage_sconce_floor_redtorch_iron_unlit",
     "light_metal_ironage_sconce_wall_redtorch_iron",

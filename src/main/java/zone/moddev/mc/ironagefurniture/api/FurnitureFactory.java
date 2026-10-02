@@ -4,6 +4,11 @@ import zone.moddev.mc.ironagefurniture.Ironagefurniture;
 import zone.moddev.mc.ironagefurniture.api.Blocks.BackBench;
 import zone.moddev.mc.ironagefurniture.api.Blocks.Bench;
 import zone.moddev.mc.ironagefurniture.api.Blocks.Chair;
+import zone.moddev.mc.ironagefurniture.api.Blocks.ShieldChair;
+import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceCandleFloor;
+import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceCandleFloorUnlit;
+import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceCandleWall;
+import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceCandleWallUnlit;
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightHolderSconceFloor;
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightHolderSconceWall;
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceGlowdust;
@@ -11,6 +16,12 @@ import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceLava;
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceRed;
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceGlowFloor;
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceGlowWall;
+import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceRockSaltFloor;
+import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceRockSaltWall;
+import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceCandleFloor;
+import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceCandleFloorUnlit;
+import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceCandleWall;
+import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceCandleWallUnlit;
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceLavaFloor;
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceLavaWall;
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceRedFloor;
@@ -21,13 +32,23 @@ import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceRedTorchWallU
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceRedWall;
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceTorchFloor;
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceTorchFloorUnlit;
+import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceTorchFloorTwin;
+import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceTorchFloorTwinUnlit;
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceTorchWall;
 import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceTorchWallUnlit;
+import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceTorchWallTwin;
+import zone.moddev.mc.ironagefurniture.api.Blocks.LightSourceSconceTorchWallTwinUnlit;
+import zone.moddev.mc.ironagefurniture.api.Blocks.MultiBlockBed;
+import zone.moddev.mc.ironagefurniture.api.Blocks.MultiBlockWoodBed;
 import zone.moddev.mc.ironagefurniture.api.Blocks.ObsideanLump;
 import zone.moddev.mc.ironagefurniture.api.Blocks.PaddedBackBench;
 import zone.moddev.mc.ironagefurniture.api.Blocks.PaddedBench;
 import zone.moddev.mc.ironagefurniture.api.Blocks.Stool;
+import zone.moddev.mc.ironagefurniture.api.Blocks.ThroneChair;
+import zone.moddev.mc.ironagefurniture.api.Blocks.WingbackChair;
 import zone.moddev.mc.ironagefurniture.api.Items.ItemBlockPaddedBench;
+import zone.moddev.mc.ironagefurniture.api.Items.ItemBlockMetalVariant;
+import zone.moddev.mc.ironagefurniture.api.Items.ItemBlockUpholsteredFurniture;
 import zone.moddev.mc.ironagefurniture.api.Items.ItemBlockThrowableLavaLamp;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -36,7 +57,7 @@ import net.minecraft.item.ItemBlock;
 
 public class FurnitureFactory {
 	public static Block CreateWoodShieldChair(String name, float resistance, float hardness) {
-		return registerBlock(new Chair(Material.WOOD, name, resistance, hardness), name);
+		return registerBlock(new ShieldChair(Material.WOOD, name, resistance, hardness), name);
 	}
 
 	public static Block CreateWoodShieldChair(String name) {
@@ -57,6 +78,44 @@ public class FurnitureFactory {
 
 	public static Block CreateWoodChair(String name) {
 		return CreateWoodChair(name, 10, 1);
+	}
+
+	public static Block CreateWoodWingbackChair(String name) {
+		return registerUpholsteredBlock(new WingbackChair(Material.WOOD, name, 10, 1), name);
+	}
+
+	public static Block CreateWoodThroneChair(String name) {
+		return registerUpholsteredBlock(new ThroneChair(Material.WOOD, name, 10, 1), name);
+	}
+
+	public static Block CreateSingleCanopyBed(String wood) {
+		String name = "bed_canopy_foot_lower_" + wood;
+		MultiBlockBed bed = new MultiBlockBed(Material.WOOD, name, 10, 3, MultiBlockBed.SINGLE_SIDE);
+		Block registered = registerUpholsteredBlock(bed, name, 1);
+		bed.setSingleBlock(registered);
+		return registered;
+	}
+
+	public static Block[] CreateDoubleCanopyBed(String wood) {
+		String leftName = "bed_canopy_foot_left_lower_" + wood;
+		String rightName = "bed_canopy_foot_right_lower_" + wood;
+		MultiBlockBed left = new MultiBlockBed(Material.WOOD, leftName, 10, 6, MultiBlockBed.LEFT_SIDE);
+		MultiBlockBed right = new MultiBlockBed(Material.WOOD, rightName, 10, 6, MultiBlockBed.RIGHT_SIDE);
+		Block leftBlock = registerUpholsteredBlock(left, leftName, 1);
+		Block rightBlock = registerBlockWithoutItem(right, rightName);
+		left.setDoubleBlocks(leftBlock, rightBlock);
+		right.setDoubleBlocks(leftBlock, rightBlock);
+		return new Block[] {leftBlock, rightBlock};
+	}
+
+	public static Block CreateSingleWoodBed(String wood) {
+		String name = "bed_wood_foot_" + wood;
+		return registerUpholsteredBlock(new MultiBlockWoodBed(Material.WOOD, name, 10, 3, false), name, 1);
+	}
+
+	public static Block CreateDoubleWoodBed(String wood) {
+		String name = "bed_wood_foot_left_" + wood;
+		return registerUpholsteredBlock(new MultiBlockWoodBed(Material.WOOD, name, 10, 6, true), name, 1);
 	}
 
 	public static Block CreateWoodTallStool(String name, float resistance, float hardness) {
@@ -105,6 +164,22 @@ public class FurnitureFactory {
 		return registerBlockWithoutItem(new LightHolderSconceWall(Material.IRON, name, 10, 1), name);
 	}
 
+	public static Block CreateCandleFloor(String name) {
+		return registerBlock(new LightSourceCandleFloor(Material.CLOTH, name, 1, 0.1F), name);
+	}
+
+	public static Block CreateCandleFloorUnlit(String name) {
+		return registerBlockWithoutItem(new LightSourceCandleFloorUnlit(Material.CLOTH, name, 1, 0.1F), name);
+	}
+
+	public static Block CreateCandleWall(String name) {
+		return registerBlockWithoutItem(new LightSourceCandleWall(Material.CLOTH, name, 1, 0.1F), name);
+	}
+
+	public static Block CreateCandleWallUnlit(String name) {
+		return registerBlockWithoutItem(new LightSourceCandleWallUnlit(Material.CLOTH, name, 1, 0.1F), name);
+	}
+
 	public static Block CreateIronFloorSconce(String name) {
 		return registerBlock(new LightHolderSconceFloor(Material.IRON, name, 10, 1), name, 64);
 	}
@@ -117,12 +192,28 @@ public class FurnitureFactory {
 		return registerBlockWithoutItem(new LightSourceSconceTorchFloorUnlit(Material.IRON, name, 10, 1), name);
 	}
 
+	public static Block CreateIronFloorTwinTorchSconce(String name) {
+		return registerBlockWithoutItem(new LightSourceSconceTorchFloorTwin(Material.IRON, name, 10, 1), name);
+	}
+
+	public static Block CreateIronFloorTwinTorchSconceUnlit(String name) {
+		return registerBlockWithoutItem(new LightSourceSconceTorchFloorTwinUnlit(Material.IRON, name, 10, 1), name);
+	}
+
 	public static Block CreateIronWallTorchSconce(String name) {
 		return registerBlockWithoutItem(new LightSourceSconceTorchWall(Material.IRON, name, 10, 1), name);
 	}
 
 	public static Block CreateIronWallTorchSconceUnlit(String name) {
 		return registerBlockWithoutItem(new LightSourceSconceTorchWallUnlit(Material.IRON, name, 10, 1), name);
+	}
+
+	public static Block CreateIronWallTwinTorchSconce(String name) {
+		return registerBlockWithoutItem(new LightSourceSconceTorchWallTwin(Material.IRON, name, 10, 1), name);
+	}
+
+	public static Block CreateIronWallTwinTorchSconceUnlit(String name) {
+		return registerBlockWithoutItem(new LightSourceSconceTorchWallTwinUnlit(Material.IRON, name, 10, 1), name);
 	}
 
 	public static Block CreateIronFloorRedTorchSconce(String name) {
@@ -151,6 +242,30 @@ public class FurnitureFactory {
 
 	public static Block CreateIronWallGlowSconce(String name) {
 		return registerBlockWithoutItem(new LightSourceSconceGlowWall(Material.IRON, name, 10, 1), name);
+	}
+
+	public static Block CreateIronFloorRockSaltSconce(String name) {
+		return registerBlockWithoutItem(new LightSourceSconceRockSaltFloor(Material.IRON, name, 10, 1), name);
+	}
+
+	public static Block CreateIronWallRockSaltSconce(String name) {
+		return registerBlockWithoutItem(new LightSourceSconceRockSaltWall(Material.IRON, name, 10, 1), name);
+	}
+
+	public static Block CreateIronFloorCandleSconce(String name, int candleCount) {
+		return registerBlockWithoutItem(new LightSourceSconceCandleFloor(Material.IRON, name, 10, 1, candleCount), name);
+	}
+
+	public static Block CreateIronWallCandleSconce(String name, int candleCount) {
+		return registerBlockWithoutItem(new LightSourceSconceCandleWall(Material.IRON, name, 10, 1, candleCount), name);
+	}
+
+	public static Block CreateIronFloorCandleSconceUnlit(String name, int candleCount) {
+		return registerBlockWithoutItem(new LightSourceSconceCandleFloorUnlit(Material.IRON, name, 10, 1, candleCount), name);
+	}
+
+	public static Block CreateIronWallCandleSconceUnlit(String name, int candleCount) {
+		return registerBlockWithoutItem(new LightSourceSconceCandleWallUnlit(Material.IRON, name, 10, 1, candleCount), name);
 	}
 
 	public static Block CreateLavaLamp(String name) {
@@ -196,7 +311,9 @@ public class FurnitureFactory {
 		block.setCreativeTab(Ironagefurniture.ironagefurnitureTab);
 		if (registerItem) {
 			ItemBlock itemBlock = block instanceof LightSourceLava
-					? new ItemBlockThrowableLavaLamp(block) : new ItemBlock(block);
+					? new ItemBlockThrowableLavaLamp(block)
+					: MetalVariantHelper.isMetalVariantBlock(block)
+						? new ItemBlockMetalVariant(block) : new ItemBlock(block);
 			RegisterItem(itemBlock, name, maxStackSize);
 		}
 		Ironagefurniture.BlockRegistry.put(name, block);
@@ -222,6 +339,19 @@ public class FurnitureFactory {
 		block.setCreativeTab(Ironagefurniture.ironagefurnitureTab);
 		ItemBlock itemBlock = new ItemBlockPaddedBench(block);
 		RegisterItem(itemBlock, name, 16);
+		Ironagefurniture.BlockRegistry.put(name, block);
+		return block;
+	}
+
+	private static Block registerUpholsteredBlock(Block block, String name) {
+		return registerUpholsteredBlock(block, name, 16);
+	}
+
+	private static Block registerUpholsteredBlock(Block block, String name, int maxStackSize) {
+		block.setTranslationKey(Ironagefurniture.MODID + "." + name);
+		block.setRegistryName(name);
+		block.setCreativeTab(Ironagefurniture.ironagefurnitureTab);
+		RegisterItem(new ItemBlockUpholsteredFurniture(block), name, maxStackSize);
 		Ironagefurniture.BlockRegistry.put(name, block);
 		return block;
 	}

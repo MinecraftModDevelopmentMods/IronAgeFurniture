@@ -1,0 +1,25 @@
+{
+    "type": "forge:ore_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_immersiveengineering_treated_wood/meta_6",
+    "ingredients": [
+        {
+            "item": "minecraft:bed",
+            "data": 6
+        },
+        {
+            "item": "immersiveengineering:treated_wood",
+            "data": 0
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_wood_foot_immersiveengineering_treated_wood",
+        "data": 6,
+        "nbt": "{Color:\"pink\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "immersiveengineering"
+        }
+    ]
+}

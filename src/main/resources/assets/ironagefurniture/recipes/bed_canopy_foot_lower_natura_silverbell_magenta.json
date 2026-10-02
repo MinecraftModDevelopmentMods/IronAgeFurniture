@@ -1,0 +1,26 @@
+{
+    "type": "ironagefurniture:canopy_bed_upgrade",
+    "group": "ironagefurniture:bed_canopy_foot_lower_natura_silverbell/meta_2",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_natura_silverbell",
+            "data": 2,
+            "nbt": "{Color:\"magenta\"}"
+        },
+        {
+            "item": "natura:overworld_planks",
+            "data": 1
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_canopy_foot_lower_natura_silverbell",
+        "data": 2,
+        "nbt": "{Color:\"magenta\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "natura"
+        }
+    ]
+}

@@ -14,7 +14,7 @@
         "data": 10,
         "nbt": "{Color:\"purple\"}"
     },
-    "group": "furniture",
+    "group": "ironagefurniture:chair_wood_ironage_bench_back_padded_single_natura_fusewood/meta_10",
     "conditions": [
         {
             "type": "forge:mod_loaded",

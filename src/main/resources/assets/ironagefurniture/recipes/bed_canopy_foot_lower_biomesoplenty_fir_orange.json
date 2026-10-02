@@ -1,0 +1,26 @@
+{
+    "type": "ironagefurniture:canopy_bed_upgrade",
+    "group": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_fir/meta_1",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_fir",
+            "data": 1,
+            "nbt": "{Color:\"orange\"}"
+        },
+        {
+            "item": "biomesoplenty:planks_0",
+            "data": 3
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_fir",
+        "data": 1,
+        "nbt": "{Color:\"orange\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        }
+    ]
+}

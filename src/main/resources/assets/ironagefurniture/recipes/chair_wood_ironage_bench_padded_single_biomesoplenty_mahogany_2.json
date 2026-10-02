@@ -14,7 +14,7 @@
         "data": 2,
         "nbt": "{Color:\"magenta\"}"
     },
-    "group": "furniture",
+    "group": "ironagefurniture:chair_wood_ironage_bench_padded_single_biomesoplenty_mahogany/meta_2",
     "conditions": [
         {
             "type": "forge:mod_loaded",

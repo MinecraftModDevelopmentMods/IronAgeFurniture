@@ -188,4 +188,9 @@ public class LightSourceSconceTorchWall extends LightSourceSconceTorchFloor {
     protected Block GetUnlitTorchVariant() {
         return BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron_unlit;
     }
+
+    @Override
+    protected Block GetTwinTorchVariant() {
+        return BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron_twin;
+    }
 }

@@ -1,0 +1,88 @@
+import groovy.json.JsonOutput
+
+// The add-on metals use the published Base Metals nugget IDs. These files are
+// checked in so players can see their recipes without running a generator.
+def metalRecipeRoot = layout.projectDirectory.dir(
+        'src/main/resources/assets/ironagefurniture/recipes')
+def metalAdvancementRoot = layout.projectDirectory.dir(
+        'src/main/resources/assets/ironagefurniture/advancements/recipes')
+def metalNames = ['adamantine', 'antimony', 'aquarium', 'bismuth', 'brass',
+        'bronze', 'coldiron', 'copper', 'cupronickel', 'electrum', 'invar',
+        'lead', 'mithril', 'nickel', 'pewter', 'platinum', 'silver',
+        'starsteel', 'steel', 'tin', 'zinc']
+
+def metalRecipeFiles = {
+    Map<File, String> expected = [:]
+    (['gold'] + metalNames).eachWithIndex { String metal, int index ->
+        boolean optional = metal != 'gold'
+        int metadata = index + 1
+        String id = "light_metal_ironage_sconce_floor_empty_${optional ? 'basemetals_' : ''}${metal}"
+        String ingredient = optional ? "basemetals:${metal}_nugget" : 'minecraft:gold_nugget'
+        Map recipe = [
+                type   : 'minecraft:crafting_shaped',
+                group  : 'sconce',
+                pattern: ['xxx', 'x  ', 'x  '],
+                key    : [x: [item: ingredient]],
+                result : [item: 'ironagefurniture:light_metal_ironage_sconce_floor_empty_iron',
+                          data: metadata, count: 4]
+        ]
+        Map advancement = [
+                parent      : 'minecraft:recipes/root',
+                rewards     : [recipes: ["ironagefurniture:${id}".toString()]],
+                criteria    : [
+                        has_ingredient: [trigger: 'minecraft:inventory_changed',
+                                         conditions: [items: [[item: ingredient]]]],
+                        has_the_recipe: [trigger: 'minecraft:recipe_unlocked',
+                                         conditions: [recipe: "ironagefurniture:${id}".toString()]]
+                ],
+                requirements: [['has_ingredient', 'has_the_recipe']]
+        ]
+        if (optional) {
+            Map condition = [type: 'forge:mod_loaded', modid: 'basemetals']
+            Map itemCondition = [type: 'minecraft:item_exists', item: ingredient]
+            recipe.conditions = [condition, itemCondition]
+            advancement.conditions = [condition, itemCondition]
+        }
+        expected[new File(metalRecipeRoot.asFile, "${id}.json")] =
+                JsonOutput.prettyPrint(JsonOutput.toJson(recipe)) + '\n'
+        expected[new File(metalAdvancementRoot.asFile, "${id}.json")] =
+                JsonOutput.prettyPrint(JsonOutput.toJson(advancement)) + '\n'
+    }
+    expected
+}
+
+tasks.register('updatePhaseFourMetalRecipes') {
+    group = 'generation'
+    description = 'Regenerates gold and Base Metals sconce recipes and advancements.'
+    doLast {
+        metalRecipeFiles().each { File output, String content ->
+            output.parentFile.mkdirs()
+            output.setText(content, 'UTF-8')
+        }
+    }
+}
+
+tasks.register('verifyPhaseFourMetalRecipes') {
+    group = 'verification'
+    description = 'Checks the metal sconce recipes and exact unlock criteria.'
+    doLast {
+        metalRecipeFiles().each { File output, String content ->
+            if (!output.isFile() || output.getText('UTF-8').replace('\r\n', '\n') != content) {
+                throw new GradleException("Metal sconce recipe or advancement is missing or stale: ${output.name}")
+            }
+        }
+        fileTree('src/main/resources/assets/ironagefurniture/lang') {
+            include '*.lang'
+        }.files.each { File locale ->
+            List<String> lines = locale.readLines('UTF-8')
+            (['gold'] + metalNames).each { String metal ->
+                String key = "tile.ironagefurniture.light_metal_ironage_sconce_floor_empty_iron.${metal}.name="
+                if (lines.count { it.startsWith(key) } != 1) {
+                    throw new GradleException("Sconce metal name is missing or duplicated in ${locale.name}: ${metal}")
+                }
+            }
+        }
+    }
+}
+
+tasks.named('check') { dependsOn tasks.named('verifyPhaseFourMetalRecipes') }

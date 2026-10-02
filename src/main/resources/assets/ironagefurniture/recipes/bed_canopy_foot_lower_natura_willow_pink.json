@@ -1,0 +1,26 @@
+{
+    "type": "ironagefurniture:canopy_bed_upgrade",
+    "group": "ironagefurniture:bed_canopy_foot_lower_natura_willow/meta_6",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_natura_willow",
+            "data": 6,
+            "nbt": "{Color:\"pink\"}"
+        },
+        {
+            "item": "natura:overworld_planks",
+            "data": 4
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_canopy_foot_lower_natura_willow",
+        "data": 6,
+        "nbt": "{Color:\"pink\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "natura"
+        }
+    ]
+}

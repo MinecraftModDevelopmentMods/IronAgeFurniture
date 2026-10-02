@@ -1,0 +1,15 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:tallow"
+        },
+        {
+            "item": "minecraft:string"
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:light_metal_ironage_candle_floor",
+        "count": 8
+    }
+}
