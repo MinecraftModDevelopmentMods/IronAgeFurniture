@@ -4,7 +4,7 @@ Back up a world before opening it with a newer Minecraft or IronAgeFurniture
 version. Minecraft and Forge may need to rewrite chunks and registry data on
 the first load.
 
-The Forge 1.12.2 Phase 4 candidate has been tested with disposable copies of
+The Forge 1.12.2 Phase 4 update has been tested with disposable copies of
 worlds created by the 1.10.2 and 1.12.2 Phase 2 releases, both Phase 3
 multicolour builds, and a 1.10.2 Phase 4 build. These worlds loaded directly
 without an intermediate Minecraft version and passed a second load after

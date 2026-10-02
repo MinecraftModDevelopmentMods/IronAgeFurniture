@@ -38,6 +38,7 @@ tasks.register('verifyReleaseConfiguration') {
                 java_toolchain_version : '8.0.502+7',
                 gradle_java_version    : '17',
                 curseforge_project_id  : '341834',
+                curseforge_optionals   : 'biomes-o-plenty,natura,forestry,immersive-engineering,minecraft-mineralogy,base-metals,mrcrayfish-furniture-mod',
                 mod_license            : 'LGPL-2.1'
         ]
         expected.each { key, value ->

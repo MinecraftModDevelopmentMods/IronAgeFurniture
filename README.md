@@ -8,7 +8,7 @@ IronAgeFurniture adds functional chairs, stools, benches, beds, lamps, and
 sconces in an old-fashioned style. Furniture uses vanilla woods and, when
 installed, matching materials from supported mods.
 
-This branch is the unreleased `0.4.0.112021` Phase 4 candidate for Minecraft
+This branch contains the `0.4.0.112021` Phase 4 update for Minecraft
 1.12.2 and Forge 14.23.5.2859. The game requires Java 8; the mod runs on
 clients and dedicated servers.
 

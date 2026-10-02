@@ -1,7 +1,7 @@
-# IronAgeFurniture 0.4.0.112021 (unreleased)
+# IronAgeFurniture 0.4.0.112021
 
-Phase 4 candidate for Minecraft 1.12.2 and Forge 14.23.5.2859. The published
-Phase 3 release remains `0.3.0.112021` until this update is accepted.
+Phase 4 furniture and lighting update for Minecraft 1.12.2 and Forge
+14.23.5.2859.
 
 - Add multiblock wooden and canopy beds, wingback chairs, and thrones, with
   sixteen upholstery colours preserved through placement, drops, and reloads.
