@@ -102,6 +102,6 @@ public final class PhaseFourLighting {
         event.getRegistry().register(new Item(new Item.Properties().group(Ironagefurniture.IAF_GROUP))
                 .setRegistryName(Ironagefurniture.MODID, "tallow"));
         for (Block block : ForgeRegistries.BLOCKS.getValues()) if (block instanceof AdditionalSconce || block instanceof RockSaltSconce)
-            event.getRegistry().register(new BlockItem(block, new Item.Properties()).setRegistryName(block.getRegistryName()));
+            event.getRegistry().register(new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(block, new Item.Properties()).setRegistryName(block.getRegistryName()));
     }
 }

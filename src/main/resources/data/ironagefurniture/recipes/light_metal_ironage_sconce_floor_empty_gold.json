@@ -1,0 +1,25 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "group": "ironagefurniture:sconce_gold",
+    "conditions": [
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:light_metal_ironage_sconce_floor_empty_iron"
+        }
+    ],
+    "pattern": [
+        "xxx",
+        "x  ",
+        "x  "
+    ],
+    "key": {
+        "x": {
+            "item": "minecraft:gold_nugget"
+        }
+    },
+    "result": {
+        "item": "ironagefurniture:light_metal_ironage_sconce_floor_empty_iron",
+        "count": 4,
+        "nbt": "{Metal:\"gold\"}"
+    }
+}

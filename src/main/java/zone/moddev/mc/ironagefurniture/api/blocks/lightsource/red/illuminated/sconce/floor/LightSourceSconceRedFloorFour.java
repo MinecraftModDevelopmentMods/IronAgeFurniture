@@ -19,7 +19,7 @@ public class LightSourceSconceRedFloorFour extends LightSourceSconceRedFloor {
 	public LightSourceSconceRedFloorFour(float hardness, float blastResistance, SoundType sound, String name) {
 		super(Block.Properties.create(Material.IRON).hardnessAndResistance(hardness, blastResistance).sound(sound).lightValue(LIGHT_LEVEL) );
 
-		this.setDefaultState(this.getStateContainer().getBaseState() .with(DIRECTION, Direction.NORTH));
+		this.setDefaultState(this.getDefaultState() .with(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateContainer().getValidStates());
 		this.setRegistryName(name);
 		this.flameParticle = RedstoneParticleData.REDSTONE_DUST;

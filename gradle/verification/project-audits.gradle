@@ -123,8 +123,8 @@ tasks.register('verifyResourceJson') {
             include '**/*.json'
             include 'pack.mcmeta'
         }.files.sort { it.path }
-        if (jsonFiles.size() != 21951) {
-            throw new GradleException("Expected 21951 runtime JSON documents, found ${jsonFiles.size()}")
+        if (jsonFiles.size() != 22009) {
+            throw new GradleException("Expected 22009 runtime JSON documents, found ${jsonFiles.size()}")
         }
         jsonFiles.each { candidate ->
             try {
@@ -137,12 +137,15 @@ tasks.register('verifyResourceJson') {
         List<Map> locales = localeNames.collect { name ->
             new JsonSlurper().parse(file("src/main/resources/assets/ironagefurniture/lang/${name}")) as Map
         }
-        if (!locales.every { it.size() == 4467 }
+        if (!locales.every { it.size() == 4974 }
                 || !locales.tail().every { it.keySet() == locales.first().keySet() }) {
-            throw new GradleException('English locale files must retain 4467 identical translation keys')
+            throw new GradleException('English locale files must retain 4974 identical translation keys')
         }
 
-        Map<String, Map<String, Integer>> optionalIntegrations = optionalIntegrationExpectedCounts
+        // Dormant Base Metals contracts are audited here but are not counted
+        // as live-tested recipes by the optional-mod runtime fixture.
+        Map<String, Map<String, Integer>> optionalIntegrations = new LinkedHashMap(optionalIntegrationExpectedCounts)
+        optionalIntegrations.basemetals = [recipes: 21, advancements: 21]
         def hasModLoadedCondition = { Object conditions, String modId ->
             conditions instanceof List && conditions.any { condition ->
                 condition instanceof Map && condition.type == 'forge:mod_loaded'

@@ -18,6 +18,47 @@ tasks.register('compilePhaseFourProbe', JavaCompile) {
 }
 
 tasks.named('check') { dependsOn 'compilePhaseFourProbe' }
+
+// This deliberately small provider tests the future integration seam. Gold
+// stands in for each metal; antimony is omitted to test an incomplete catalog.
+def metalContractClasses = layout.buildDirectory.dir('metal-contract/classes')
+def metalContractResources = layout.buildDirectory.dir('metal-contract/resources')
+tasks.register('compileMetalContractFixture', JavaCompile) {
+    source fileTree('src/metalContractTest/java')
+    classpath = sourceSets.main.compileClasspath
+    destinationDirectory = metalContractClasses
+    javaCompiler = buildSupport.java8Compiler
+    options.encoding = 'UTF-8'
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+    options.compilerArgs.add('-proc:none')
+}
+tasks.register('generateMetalContractTags') {
+    outputs.dir metalContractResources
+    doLast {
+        ['adamantine', 'aquarium', 'bismuth', 'brass', 'bronze', 'coldiron',
+         'copper', 'cupronickel', 'electrum', 'invar', 'lead', 'mithril', 'nickel',
+         'pewter', 'platinum', 'silver', 'starsteel', 'steel', 'tin', 'zinc'].each { metal ->
+            ['items/nuggets': 'minecraft:gold_nugget', 'blocks/storage_blocks': 'minecraft:gold_block'].each { path, entry ->
+                File tag = new File(metalContractResources.get().asFile, "data/forge/tags/${path}/${metal}.json")
+                tag.parentFile.mkdirs()
+                tag.setText(groovy.json.JsonOutput.toJson([replace: false, values: [entry]]) + '\n', 'UTF-8')
+            }
+        }
+    }
+}
+tasks.register('metalContractFixtureJar', Jar) {
+    group = 'verification'
+    description = 'Builds the synthetic, unpublished Base Metals tag-contract fixture.'
+    dependsOn 'compileMetalContractFixture', 'generateMetalContractTags'
+    archiveFileName = 'synthetic-metal-contract-fixture.jar'
+    destinationDirectory = layout.buildDirectory.dir('metal-contract')
+    from metalContractClasses
+    from metalContractResources
+    from 'src/metalContractTest/resources'
+    filesMatching(buildSupport.archiveTextPatterns, buildSupport.normalizeArchiveLineEndings)
+}
+tasks.named('check') { dependsOn 'compileMetalContractFixture' }
 def deobfProbe = tasks.register('phaseFourProbeDeobfJar', Jar) {
     dependsOn 'compilePhaseFourProbe'
     archiveFileName = 'ironagefurniture-phase-four-probe-deobf.jar'
@@ -54,9 +95,28 @@ tasks.register('runPhaseFourServer', Exec) {
         if (!forge.isFile()) throw new GradleException("Install Forge in the disposable test directory first: ${server}")
         File marker = new File(server, 'phase-four-pass.properties')
         if (marker.exists() && !marker.delete()) throw new GradleException("Cannot clear old probe result: ${marker}")
+        if (new File(server, 'mods/synthetic-metal-contract-fixture.jar').isFile()) {
+            // Recipe conditions run during resource loading, before server
+            // lifecycle events. Set this test's option before starting Java.
+            Properties settings = new Properties()
+            new File(server, 'server.properties').withInputStream { settings.load(it) }
+            File config = new File(server, "${settings.getProperty('level-name', 'world')}/serverconfig/ironagefurniture-server.toml")
+            if (!config.canonicalPath.startsWith(server.canonicalPath + File.separator))
+                throw new GradleException('The synthetic fixture configuration must stay inside its disposable server')
+            boolean enabled = providers.gradleProperty('phaseFourBaseMetalsDisabled').orNull != 'true'
+            String text = config.isFile() ? config.getText('UTF-8') : "[client]\nbaseMetalsIntegration = true\n"
+            if (!(text =~ /(?m)^\s*baseMetalsIntegration\s*=\s*(true|false)\s*$/).find())
+                throw new GradleException('The synthetic fixture configuration has no Base Metals option')
+            config.parentFile.mkdirs()
+            config.setText(text.replaceAll(/(?m)^(\s*baseMetalsIntegration\s*=\s*)(true|false)\s*$/, "\$1${enabled}"), 'UTF-8')
+        }
         workingDir server
         executable buildSupport.java8Launcher.get().executablePath.asFile
         if (providers.gradleProperty('phaseFourLegacyBeds').orNull == 'true') args '-Diaf.probe.legacyBeds=true'
+        if (providers.gradleProperty('phaseFourLegacyMetals').orNull == 'true') args '-Diaf.probe.legacyMetals=true', '-Dfml.queryResult=confirm'
+        if (providers.gradleProperty('phaseFourSavedWorld').orNull == 'true') args '-Diaf.probe.savedWorld=true', '-Dfml.queryResult=confirm'
+        if (providers.gradleProperty('phaseFourSavedWorldReload').orNull == 'true') args '-Diaf.probe.savedWorldReload=true'
+        if (providers.gradleProperty('phaseFourBaseMetalsDisabled').orNull == 'true') args '-Diaf.probe.baseMetalsDisabled=true'
         String cfmMode = providers.gradleProperty('phaseFourCfmMode').orNull
         if (cfmMode != null) {
             if (!(cfmMode in ['seed', 'unchanged', 'converted', 'recovered', 'legacy110', 'legacy112']))

@@ -14,8 +14,9 @@ import zone.moddev.mc.ironagefurniture.api.blocks.base.FurnitureBlock;
 public final class LightInteractions {
     private LightInteractions() { }
     public static BlockState replacement(BlockState old, Block block) {
-        return block.getDefaultState().with(FurnitureBlock.DIRECTION, old.get(FurnitureBlock.DIRECTION))
-                .with(FurnitureBlock.WATERLOGGED, old.get(FurnitureBlock.WATERLOGGED));
+        return zone.moddev.mc.ironagefurniture.api.SconceMetalData.preserve(old,
+                block.getDefaultState().with(FurnitureBlock.DIRECTION, old.get(FurnitureBlock.DIRECTION))
+                .with(FurnitureBlock.WATERLOGGED, old.get(FurnitureBlock.WATERLOGGED)));
     }
     public static void replace(World world, BlockPos pos, BlockState old, Block block) {
         world.setBlockState(pos, replacement(old, block), 3);

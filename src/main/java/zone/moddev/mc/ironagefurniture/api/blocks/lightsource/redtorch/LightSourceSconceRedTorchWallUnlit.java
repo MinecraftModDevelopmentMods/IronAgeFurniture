@@ -40,7 +40,7 @@ public class LightSourceSconceRedTorchWallUnlit extends LightSourceSconceRedTorc
 		level.setBlockState(pos,
 				BlockObjectHolder.light_metal_ironage_sconce_wall_redtorch_iron.getDefaultState()
 						 .with(FurnitureBlock.DIRECTION, state .get(BlockStateProperties.HORIZONTAL_FACING))
-						 .with(FurnitureBlock.WATERLOGGED, state .get(BlockStateProperties.WATERLOGGED)),
+						 .with(FurnitureBlock.WATERLOGGED, state .get(BlockStateProperties.WATERLOGGED)).with(zone.moddev.mc.ironagefurniture.api.SconceMetalData.METAL, zone.moddev.mc.ironagefurniture.api.SconceMetalData.get(state)),
 				3);
 	}
 
@@ -60,7 +60,7 @@ public class LightSourceSconceRedTorchWallUnlit extends LightSourceSconceRedTorc
 		super(Block.Properties.create(Material.IRON).hardnessAndResistance(hardness, blastResistance).sound(sound)
 				.lightValue(0));
 
-		this.setDefaultState(this.getStateContainer().getBaseState() .with(FurnitureBlock.DIRECTION, Direction.NORTH));
+		this.setDefaultState(this.getDefaultState() .with(FurnitureBlock.DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateContainer().getValidStates());
 		this.setRegistryName(name);
 		this.flameParticle = ParticleTypes.FLAME;

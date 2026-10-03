@@ -92,6 +92,32 @@ public final class PhaseFourClientProbe {
             }
             require(TileEntityRendererDispatcher.instance.getRenderer(new ShieldChairTileEntity()) != null,
                     "Shield tile renderer not registered");
+            int metalModels = 0;
+            for (Block block : ForgeRegistries.BLOCKS.getValues()) {
+                if (!(block instanceof zone.moddev.mc.ironagefurniture.api.blocks.base.LightHolderSconce)) continue;
+                for (zone.moddev.mc.ironagefurniture.api.enumerations.SconceMetal metal
+                        : zone.moddev.mc.ironagefurniture.api.enumerations.SconceMetal.values()) {
+                    net.minecraft.util.ResourceLocation expected = game.getBlockRendererDispatcher().getModelForState(
+                            zone.moddev.mc.ironagefurniture.api.SconceMetalData.textureBlock(metal).getDefaultState())
+                            .getParticleTexture().getName();
+                    if (block.asItem() != Items.AIR) {
+                        ItemStack stack = zone.moddev.mc.ironagefurniture.api.SconceMetalData.create(block, metal);
+                        IBakedModel item = game.getItemRenderer().getItemModelWithOverrides(stack, null, null);
+                        require(item.getQuads(null, null, new Random(0)).stream().anyMatch(quad -> expected.equals(quad.getSprite().getName())),
+                                "Inventory frame has wrong metal texture: " + block.getRegistryName() + "/" + metal);
+                    }
+                    for (net.minecraft.block.BlockState state : block.getStateContainer().getValidStates()) {
+                        if (state.get(zone.moddev.mc.ironagefurniture.api.SconceMetalData.METAL) != metal) continue;
+                        IBakedModel model = game.getBlockRendererDispatcher().getModelForState(state);
+                        java.util.List<net.minecraft.client.renderer.model.BakedQuad> quads = model.getQuads(state, null, new Random(0));
+                        require(quads.stream().anyMatch(quad -> expected.equals(quad.getSprite().getName())),
+                                "Placed frame has wrong metal texture: " + state);
+                        require(quads.stream().noneMatch(quad -> quad.getSprite().getName().getPath().contains("missing")),
+                                "Missing metal model texture: " + state);
+                        metalModels++;
+                    }
+                }
+            }
             ItemStack patterned = new ItemStack(Items.SHIELD);
             net.minecraft.nbt.CompoundNBT pattern = new net.minecraft.nbt.CompoundNBT();
             pattern.putInt("Base", 14);
@@ -113,7 +139,8 @@ public final class PhaseFourClientProbe {
             ((zone.moddev.mc.ironagefurniture.client.renderer.ReleasedLavaLampRenderer)lampRenderer)
                     .doRender(lamp, -100, -100, -100, 0, 0);
             Files.write(Paths.get("phase-four-client-pass.properties"),
-                    ("status=PASS\nshield_chairs=" + chairs + "\nupholstered_forms=" + upholstery + "\n").getBytes(StandardCharsets.UTF_8));
+                    ("status=PASS\nshield_chairs=" + chairs + "\nupholstered_forms=" + upholstery
+                            + "\nmetal_models=" + metalModels + "\n").getBytes(StandardCharsets.UTF_8));
             org.apache.logging.log4j.LogManager.getLogger().info("IAF PHASE FOUR CLIENT PROBE PASSED: {} chairs", chairs);
         } catch (Exception failure) {
             throw new IllegalStateException("Phase 4 client probe failed", failure);

@@ -19,6 +19,7 @@ public class IronAgeFurnitureConfiguration
     	public final ForgeConfigSpec.BooleanValue INTEGRATION_BIOMESOPLENTY;
     	public final ForgeConfigSpec.BooleanValue INTEGRATION_IMMERSIVEENGINEERING;
         public final ForgeConfigSpec.BooleanValue INTEGRATION_MINERALOGY;
+        public final ForgeConfigSpec.BooleanValue INTEGRATION_BASEMETALS;
         public final ForgeConfigSpec.BooleanValue FORCE_CFM_CHAIR_CONVERSION;
         
         Client(ForgeConfigSpec.Builder builder)
@@ -70,6 +71,8 @@ public class IronAgeFurnitureConfiguration
                     .define("ieIntegration", true);
             this.INTEGRATION_MINERALOGY = builder.comment("Allow Mineralogy rock-salt lamps in sconces.")
                     .translation("ironagefurniture.integration.mineralogyIntegration").define("mineralogyIntegration", true);
+            this.INTEGRATION_BASEMETALS = builder.comment("Allow Base Metals sconces when its nugget and storage-block tags are available.")
+                    .translation("ironagefurniture.integration.baseMetalsIntegration").define("baseMetalsIntegration", true);
             this.FORCE_CFM_CHAIR_CONVERSION = builder.comment(
                     "Replace supported Crayfish wooden chairs with IAF chairs, even while CFM is installed. Back up the world first.")
                     .translation("ironagefurniture.integration.forceCfmChairConversion").define("forceCfmChairConversion", false);

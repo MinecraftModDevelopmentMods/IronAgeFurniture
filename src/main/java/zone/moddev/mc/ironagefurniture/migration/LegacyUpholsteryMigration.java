@@ -9,6 +9,7 @@ import zone.moddev.mc.ironagefurniture.api.enumerations.UpholsteryColour;
 public final class LegacyUpholsteryMigration {
     private static final String TILE_MARKER = "IronAgeFurnitureLegacyUpholstery";
     private static final String SHIELD_MARKER = "IronAgeFurnitureLegacyShield";
+    private static final String METAL_MARKER = "IronAgeFurnitureLegacySconceMetal";
     private LegacyUpholsteryMigration() { }
 
     public static boolean isUpholsteredPath(String path) {
@@ -21,11 +22,12 @@ public final class LegacyUpholsteryMigration {
             String id = tile.getString("id");
             boolean upholstery = id.equals("ironagefurniture:upholstery_colour") || id.equals("UpholsteryColour");
             boolean shield = id.equals("ironagefurniture:shield_chair") || id.equals("ShieldChair");
-            if (!upholstery && !shield) continue;
+            boolean metal = id.equals("ironagefurniture:sconce_metal") || id.equals("SconceMetal");
+            if (!upholstery && !shield && !metal) continue;
             // Vanilla's schemas retain a sign's unknown fields. Keep the real
             // identity private until the chunk has crossed those schemas.
             tile.putString("id", oldIds ? "Sign" : "minecraft:sign");
-            tile.putBoolean(upholstery ? TILE_MARKER : SHIELD_MARKER, true);
+            tile.putBoolean(upholstery ? TILE_MARKER : metal ? METAL_MARKER : SHIELD_MARKER, true);
         }
     }
     static int finishTiles(CompoundNBT level) {
@@ -36,14 +38,15 @@ public final class LegacyUpholsteryMigration {
             if (tile.getBoolean(SHIELD_MARKER)) {
                 tile.putString("id", "ironagefurniture:shield_chair");
                 tile.remove(SHIELD_MARKER);
-            } else if (tile.getBoolean(TILE_MARKER)) {
+            } else if (tile.getBoolean(TILE_MARKER) || tile.getBoolean(METAL_MARKER)) {
                 if (applyColour(level, tile)) {
                     tiles.remove(index);
                     converted++;
                 } else {
                     // Do not silently discard an unconverted tile's colour.
-                    tile.putString("id", "ironagefurniture:upholstery_colour");
+                    tile.putString("id", tile.getBoolean(METAL_MARKER) ? "ironagefurniture:sconce_metal" : "ironagefurniture:upholstery_colour");
                     tile.remove(TILE_MARKER);
+                    tile.remove(METAL_MARKER);
                 }
             }
         }
@@ -67,9 +70,13 @@ public final class LegacyUpholsteryMigration {
             if (oldIndex >= palette.size()) return false;
             CompoundNBT state = palette.getCompound(oldIndex).copy();
             String name = state.getString("Name");
-            if (!name.startsWith("ironagefurniture:") || !isUpholsteredPath(name.substring("ironagefurniture:".length()))) return false;
+            boolean metal = tile.getBoolean(METAL_MARKER);
+            if (!name.startsWith("ironagefurniture:") || (metal
+                    ? !name.startsWith("ironagefurniture:light_metal_ironage_sconce_")
+                    : !isUpholsteredPath(name.substring("ironagefurniture:".length())))) return false;
             CompoundNBT properties = state.getCompound("Properties");
-            properties.putString("colour", UpholsteryColour.byName(tile.getString("Color")).getName());
+            if (metal) properties.putString("metal", zone.moddev.mc.ironagefurniture.api.enumerations.SconceMetal.byName(tile.getString("Metal")).getName());
+            else properties.putString("colour", UpholsteryColour.byName(tile.getString("Color")).getName());
             state.put("Properties", properties);
             int replacement = palette.indexOf(state);
             if (replacement < 0) { replacement = palette.size(); palette.add(state); }
@@ -92,11 +99,11 @@ public final class LegacyUpholsteryMigration {
         if (!id.startsWith("ironagefurniture:") || !isUpholsteredPath(id.substring("ironagefurniture:".length()))) return false;
         CompoundNBT tag = stack.getCompound("tag");
         UpholsteryColour colour = tag.contains("Color", 8) ? UpholsteryColour.byName(tag.getString("Color"))
-                : stack.contains("Damage", 99) ? UpholsteryColour.byItemMetadata(stack.getInt("Damage")) : UpholsteryColour.RED;
+                : UpholsteryColour.byItemMetadata(stack.contains("Damage", 99) ? stack.getInt("Damage") : tag.getInt("Damage"));
         String path = LegacyPaddedBenchIds.currentId(new net.minecraft.util.ResourceLocation(id)).toString();
         // The right canopy half was never an inventory item.
         path = path.replace("bed_canopy_foot_right_lower_", "bed_canopy_foot_left_lower_");
-        boolean changed = !path.equals(id) || !colour.getName().equals(tag.getString("Color")) || stack.contains("Damage");
+        boolean changed = !path.equals(id) || !colour.getName().equals(tag.getString("Color")) || stack.contains("Damage") || tag.contains("Damage");
         if (!changed) return false;
         stack.putString("id", path);
         tag.putString("Color", colour.getName());

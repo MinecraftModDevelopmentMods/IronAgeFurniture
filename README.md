@@ -9,10 +9,11 @@ olde-style furniture to Minecraft. Seating is functional, furniture supports
 the appropriate vanilla and optional-mod materials, and lighting includes
 falling and throwable lava lamps.
 
-This branch is the in-development Phase 4 port, `0.4.0.114041`, for Minecraft
+This branch contains the Phase 4 candidate, `0.4.0.114041`, for Minecraft
 1.14.4 and Forge 28.2.26. It requires Java 8 on clients and dedicated servers.
-The Phase 4 furniture and migration work is not yet complete; the latest stable
-1.14.4 release remains `0.3.0.114041`. Use a disposable test world with this branch.
+It has not been released; the latest stable 1.14.4 release remains
+`0.3.0.114041`. Try the candidate in a disposable copy of your world before
+replacing a stable installation.
 
 ## Removable chair shields
 
@@ -64,6 +65,30 @@ lamp if the block directly below is empty. The sconce stays on the wall while
 the vial falls, breaking into fire on a dry landing or obsidian in water. Keep
 flammable furniture clear of the landing area. In Creative, the released lamp
 lands intact instead.
+
+## Sconce metals
+
+Sconces can be made from iron or gold. Gold is softer; stronger metals take
+longer to mine and better withstand explosions. The metal stays with the frame
+when lights are inserted, removed, extinguished or broken.
+
+This branch also has a conditional Base Metals compatibility contract, ready
+for a future compatible port. No Base Metals 1.14 build has been tested here,
+so its live recipes and textures are not yet verified. Without that mod, no
+Base Metals recipes or Creative entries appear. Previously saved metal names
+are retained, with an iron appearance until their supplying mod is available.
+The integration expects standard `forge:nuggets/<metal>` and
+`forge:storage_blocks/<metal>` tags. A missing or disabled metal stays out of
+the recipe book and Creative inventory. Tests with a synthetic tag provider
+check this contract; they are not a substitute for testing a real Base Metals port.
+
+## Languages
+
+Language files match the choices used by the other MMD mods: English, German,
+Spanish, French, Japanese, Korean, Portuguese, Russian and simplified Chinese,
+including the existing regional variants. Translations from the 1.12 release
+are retained. Names that have not yet been translated use English, so newly
+added furniture still has a readable name in every supported language.
 
 ## Optional integrations
 
@@ -122,6 +147,19 @@ Make a backup before upgrading a world. Only furniture whose wood is supported
 by this 1.14.4 release can be migrated. Natura, Forestry, and retired Biomes
 O' Plenty woods have no matching 1.14.4 furniture and should be removed from
 the old world before upgrading.
+
+Phase 4 sconce metals move from the older tile-entity and item-metadata format
+into saved block properties and `Metal` item data. All 23 known names are kept,
+even when Base Metals is absent. Missing metal data means iron. The same upgrade
+also keeps frame items stored away from placed furniture, including player and
+Ender Chest inventories.
+
+Saved-world tests cover the old red-only and later multicolour releases, Phase
+4 furniture, and an older 1.14.4 world. The supported fixtures load directly
+without an intermediate Minecraft version, then retain their converted data
+on a second load. See [docs/UPGRADING.md](docs/UPGRADING.md) for the tested formats
+and the limits of upgrading an old modpack. In particular, unsupported CFM
+containers can prevent Minecraft itself from loading an otherwise valid world.
 
 The supported Java source namespace is now
 `zone.moddev.mc.ironagefurniture`. Add-ons compiled against the former

@@ -378,6 +378,8 @@ ext.buildSupport = [
 apply from: 'gradle/verification/optional-integrations.gradle'
 apply from: 'gradle/verification/phase-four-runtime.gradle'
 apply from: 'gradle/phase-four-cfm.gradle'
+apply from: 'gradle/phase-four-metals.gradle'
+apply from: 'gradle/locales.gradle'
 apply from: 'gradle/verification/project-audits.gradle'
 apply from: 'gradle/release/artifacts.gradle'
 apply from: 'gradle/release/publishing.gradle'

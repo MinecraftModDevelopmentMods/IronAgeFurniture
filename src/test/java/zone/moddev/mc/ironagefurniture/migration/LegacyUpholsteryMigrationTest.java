@@ -15,6 +15,33 @@ import zone.moddev.mc.ironagefurniture.api.enumerations.*;
 public class LegacyUpholsteryMigrationTest {
     @BeforeClass public static void bootstrap() { Bootstrap.register(); }
 
+    @Test public void unrelatedLegacyItemNamesDoNotBreakFurnitureRecovery() {
+        CompoundNBT chest = new CompoundNBT(), other = new CompoundNBT(), furniture = new CompoundNBT();
+        other.putString("id", "mca:ToyTrain"); other.putByte("Count", (byte) 2);
+        CompoundNBT cargo = new CompoundNBT(); cargo.putString("Name", "Keep this unrelated data"); other.put("tag", cargo);
+        CompoundNBT before = other.copy();
+        furniture.putString("id", "ironagefurniture:chair_wood_ironage_classic_big_oak");
+        furniture.putByte("Count", (byte) 3);
+        ListNBT contents = new ListNBT(); contents.add(other); contents.add(furniture); chest.put("Items", contents);
+        assertTrue(LegacyPaddedItemMigration.migrateChunkContents(chest));
+        assertEquals(before, other);
+        assertEquals("ironagefurniture:chair_wood_ironage_classic_dark_oak", furniture.getString("id"));
+        assertFalse(LegacyPaddedItemMigration.migrateChunkContents(chest));
+    }
+
+    @Test public void ordinaryDarkOakFurnitureItemsAreRenamedBeforeFlattening() {
+        for (String form : new String[] {"classic", "shield", "stool_short", "stool_tall", "bench_single", "bench_log_single", "bench_back_single"}) {
+            CompoundNBT item = new CompoundNBT(), container = new CompoundNBT(), tag = new CompoundNBT();
+            item.putString("id", "ironagefurniture:chair_wood_ironage_" + form + "_big_oak");
+            item.putByte("Count", (byte) 3); tag.putString("Keep", "old furniture"); item.put("tag", tag);
+            ListNBT items = new ListNBT(); items.add(item); container.put("Items", items);
+            assertTrue(LegacyPaddedItemMigration.migrateChunkContents(container));
+            assertEquals("ironagefurniture:chair_wood_ironage_" + form + "_dark_oak", item.getString("id"));
+            assertEquals(3, item.getByte("Count")); assertEquals("old furniture", tag.getString("Keep"));
+            assertFalse(LegacyPaddedItemMigration.migrateChunkContents(container));
+        }
+    }
+
     @Test public void everyLegacyBedAndChairPartKeepsItsFacing() {
         WoodenBed wooden = new WoodenBed("bed_wood_foot_left_oak", true);
         WoodenBed single = new WoodenBed("bed_wood_foot_oak", false);
@@ -83,6 +110,30 @@ public class LegacyUpholsteryMigrationTest {
         assertEquals("Sign", invalid.getList("TileEntities", 10).getCompound(0).getString("id"));
         assertEquals(1, LegacyUpholsteryMigration.finishTiles(invalid));
     }
+    @Test public void legacyMetalTilesBecomeSavedPropertiesWithoutChangingLightState() {
+        for (zone.moddev.mc.ironagefurniture.api.enumerations.SconceMetal metal
+                : zone.moddev.mc.ironagefurniture.api.enumerations.SconceMetal.values()) {
+            CompoundNBT level = flattenedLevel("red");
+            CompoundNBT tile = level.getList("TileEntities", 10).getCompound(0);
+            tile.putString("id", "ironagefurniture:sconce_metal"); tile.remove("Color");
+            tile.putString("Metal", metal.getName());
+            CompoundNBT state = level.getList("Sections", 10).getCompound(0).getList("Palette", 10).getCompound(0);
+            state.putString("Name", "ironagefurniture:light_metal_ironage_sconce_wall_red_iron_thirteen");
+            state.getCompound("Properties").remove("part"); state.getCompound("Properties").remove("side");
+            state.getCompound("Properties").putString("waterlogged", "true");
+            LegacyUpholsteryMigration.prepareTiles(level, true);
+            assertEquals(1, LegacyUpholsteryMigration.finishTiles(level));
+            CompoundNBT section = level.getList("Sections", 10).getCompound(0);
+            BitArray bits = new BitArray(5, 4096, section.getLongArray("BlockStates"));
+            CompoundNBT migrated = section.getList("Palette", 10).getCompound(bits.getAt(0));
+            assertEquals(state.getString("Name"), migrated.getString("Name"));
+            assertEquals(metal.getName(), migrated.getCompound("Properties").getString("metal"));
+            assertEquals("north", migrated.getCompound("Properties").getString("facing"));
+            assertEquals("true", migrated.getCompound("Properties").getString("waterlogged"));
+            assertTrue(level.getList("TileEntities", 10).isEmpty());
+            assertEquals(0, LegacyUpholsteryMigration.finishTiles(level));
+        }
+    }
     private static CompoundNBT flattenedLevel(String colour) {
         CompoundNBT level = new CompoundNBT(); level.putInt("xPos", -1); level.putInt("zPos", 1);
         CompoundNBT section = new CompoundNBT(); section.putByte("Y", (byte) 4);
@@ -101,5 +152,18 @@ public class LegacyUpholsteryMigrationTest {
         tile.putString("Color", colour); tile.putInt("x", -16); tile.putInt("y", 64); tile.putInt("z", 16);
         ListNBT tiles = new ListNBT(); tiles.add(tile); level.put("TileEntities", tiles);
         return level;
+    }
+    @Test public void playerBedsKeepColourWhenFlatteningMovesDamageIntoTheTag() {
+        for (UpholsteryColour colour : UpholsteryColour.values()) {
+            CompoundNBT player = new CompoundNBT(), item = new CompoundNBT(), tag = new CompoundNBT();
+            item.putString("id", "ironagefurniture:bed_wood_foot_big_oak"); item.putByte("Count", (byte) 1);
+            tag.putInt("Damage", colour.getItemMetadata()); tag.putString("Keep", "bed"); item.put("tag", tag);
+            ListNBT ender = new ListNBT(); ender.add(item); player.put("EnderItems", ender);
+            LegacyWorldDataHook.preparePlayerData(player);
+            assertEquals("ironagefurniture:bed_wood_foot_dark_oak", item.getString("id"));
+            assertEquals(colour.getName(), tag.getString("Color")); assertFalse(tag.contains("Damage"));
+            assertEquals("bed", tag.getString("Keep"));
+            assertFalse(LegacyPaddedItemMigration.migrateChunkContents(player));
+        }
     }
 }

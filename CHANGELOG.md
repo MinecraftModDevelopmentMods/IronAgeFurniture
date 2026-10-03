@@ -1,8 +1,25 @@
-# IronAgeFurniture 0.4.0.114041 (in development)
+# IronAgeFurniture 0.4.0.114041 (release candidate)
 
-The Forge 1.14.4 Phase 4 port is being developed locally. This is not a completed
-release candidate yet.
+Phase 4 candidate for Minecraft 1.14.4 and Forge 28.2.26. It is available for
+local testing, not yet published as a release.
 
+- Add gold sconces and retain the stable legacy metal names in saved block
+  properties and item data. Mining toughness and blast resistance follow the
+  metal, while all light changes, waterlogging and drops keep the original frame.
+- Preserve pre-flattening sconce metals, including nested items and the old
+  `sconce_metal` tile data. An absent Base Metals installation does not erase
+  saved metal names. Future tag-based compatibility is conditional and remains
+  unverified with a live Base Metals 1.14 build.
+- Keep newly created sconces dry by default, including hidden red-lamp states;
+  previously saved waterlogged states remain waterlogged.
+- Preserve legacy furniture items in chest-only chunks and decode their colour
+  and metal before player inventories load across the flattening boundary.
+- Rename stored `big_oak` chairs, stools and benches before Minecraft's item
+  upgrade runs, so they reach their `dark_oak` counterparts rather than vanishing.
+- Ignore unrelated mods' old item names during IAF recovery, including legacy
+  uppercase names that newer Minecraft would reject as registry identifiers.
+- Carry forward the 1.12 language choices and existing translations, with
+  current English names for entries still awaiting translation.
 - Add wooden and canopy beds, including doubles, plus wingback chairs and thrones
   for the supported vanilla, BOP and IE woods. All sixteen upholstery colours
   remain intact in crafting, pick block and Survival drops.
@@ -46,6 +63,10 @@ release candidate yet.
   1.14.4 toolchain and existing publication safeguards remain unchanged.
 - Refresh artifact checksums whenever a jar changes, including changes to its
   bundled documentation, rather than reusing an out-of-date checksum file.
+- Check direct upgrades from the 1.10/1.12 red-only and multicolour releases,
+  Phase 4 beds, chairs, shields and metals, and an older same-version world.
+  Converted copies retain their data on a second load. An entire old modpack
+  may still need separate preparation for unsupported mods and containers.
 
 # IronAgeFurniture 0.3.0.114041
 

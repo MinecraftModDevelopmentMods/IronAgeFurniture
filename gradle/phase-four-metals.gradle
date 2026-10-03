@@ -1,0 +1,72 @@
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+
+// Metal names are a saved-world contract. Future Base Metals ports can supply
+// the standard nugget/storage tags without adding a hard dependency here.
+def metalNames = ['gold', 'adamantine', 'antimony', 'aquarium', 'bismuth', 'brass',
+        'bronze', 'coldiron', 'copper', 'cupronickel', 'electrum', 'invar', 'lead',
+        'mithril', 'nickel', 'pewter', 'platinum', 'silver', 'starsteel', 'steel', 'tin', 'zinc']
+def metalLabels = [coldiron: 'Cold Iron', starsteel: 'Star Steel']
+def metalResources = {
+    Map<String, String> files = [:]
+    def json = { value -> JsonOutput.prettyPrint(JsonOutput.toJson(value)) + '\n' }
+    String output = 'ironagefurniture:light_metal_ironage_sconce_floor_empty_iron'
+    metalNames.each { metal ->
+        boolean gold = metal == 'gold'
+        String id = 'light_metal_ironage_sconce_floor_empty_' + (gold ? metal : "basemetals_${metal}")
+        Map ingredient = gold ? [item: 'minecraft:gold_nugget'] : [tag: "forge:nuggets/${metal}"]
+        List conditions = [[type: 'forge:item_exists', item: output]]
+        if (!gold) conditions.addAll([[type: 'forge:mod_loaded', modid: 'basemetals'],
+                [type: 'ironagefurniture:metal_available', metal: metal]])
+        files["src/main/resources/data/ironagefurniture/recipes/${id}.json"] = json([
+                type: 'minecraft:crafting_shaped', group: "ironagefurniture:sconce_${metal}",
+                conditions: conditions, pattern: ['xxx', 'x  ', 'x  '], key: [x: ingredient],
+                result: [item: output, count: 4, nbt: "{Metal:\"${metal}\"}"]])
+        Map advancement = [parent: 'minecraft:recipes/root',
+                rewards: [recipes: ["ironagefurniture:${id}"]], criteria: [
+                    has_ingredient: [trigger: 'minecraft:inventory_changed', conditions: [items: [ingredient]]],
+                    has_the_recipe: [trigger: 'minecraft:recipe_unlocked', conditions: [recipe: "ironagefurniture:${id}"]]],
+                requirements: [['has_ingredient', 'has_the_recipe']]]
+        files["src/main/resources/data/ironagefurniture/advancements/recipes/furniture/${id}.json"] =
+                json([advancements: [[conditions: conditions, advancement: advancement]]])
+    }
+    Map names = new JsonSlurper().parse(file('src/main/resources/assets/ironagefurniture/lang/en_us.json')) as Map
+    Map frames = names.findAll { key, value -> key.startsWith('block.ironagefurniture.light_metal_ironage_sconce_')
+            && !metalNames.any { key.endsWith(".${it}") } }
+    frames.each { key, value ->
+        metalNames.each { metal ->
+            String label = metalLabels[metal] ?: metal.capitalize()
+            names["${key}.${metal}".toString()] = value.contains('Iron')
+                    ? value.replace('Iron', label) : "${label} ${value}".toString()
+        }
+    }
+    names['ironagefurniture.integration.baseMetalsIntegration'] = 'Base Metals sconces'
+    ['en_en', 'en_gb', 'en_us'].each { locale ->
+        files["src/main/resources/assets/ironagefurniture/lang/${locale}.json"] = json(new TreeMap(names))
+    }
+    files
+}
+tasks.register('updatePhaseFourMetals') {
+    group = 'generation'
+    description = 'Updates metal-specific sconce recipes, conditions and item names.'
+    doLast {
+        metalResources().each { path, text ->
+            File target = file(path)
+            if (!target.isFile() || target.getText('UTF-8').replace('\r\n', '\n') != text) {
+                target.parentFile.mkdirs(); target.setText(text, 'UTF-8')
+            }
+        }
+    }
+}
+tasks.register('verifyPhaseFourMetals') {
+    group = 'verification'
+    description = 'Verifies stable metal names, conditional recipes and exact unlock ingredients.'
+    doLast {
+        metalResources().each { path, text ->
+            if (!file(path).isFile() || file(path).getText('UTF-8').replace('\r\n', '\n') != text)
+                throw new GradleException("Missing or stale sconce metal resource: ${path}")
+        }
+    }
+}
+tasks.named('updateFurnitureCatalog') { dependsOn 'updatePhaseFourMetals' }
+tasks.named('check') { dependsOn 'verifyPhaseFourMetals' }

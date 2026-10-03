@@ -1,0 +1,33 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "group": "ironagefurniture:sconce_lead",
+    "conditions": [
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:light_metal_ironage_sconce_floor_empty_iron"
+        },
+        {
+            "type": "forge:mod_loaded",
+            "modid": "basemetals"
+        },
+        {
+            "type": "ironagefurniture:metal_available",
+            "metal": "lead"
+        }
+    ],
+    "pattern": [
+        "xxx",
+        "x  ",
+        "x  "
+    ],
+    "key": {
+        "x": {
+            "tag": "forge:nuggets/lead"
+        }
+    },
+    "result": {
+        "item": "ironagefurniture:light_metal_ironage_sconce_floor_empty_iron",
+        "count": 4,
+        "nbt": "{Metal:\"lead\"}"
+    }
+}

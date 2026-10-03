@@ -11,6 +11,8 @@ optional workflows live in smaller scripts:
 | `phase-four-upholstery.gradle` | Generate and check colour-specific beds, tall chairs, models and crafting recipes. |
 | `phase-four-lighting.gradle` | Generate and check candles, multi-candle/twin-torch sconces, waterlogged states and tallow recipes. |
 | `phase-four-cfm.gradle` | Generate and check the six conditional CFM chair conversion recipes and their exact unlock criteria. |
+| `phase-four-metals.gradle` | Generate and check gold and conditional Base Metals recipes and frame names. |
+| `locales.gradle` | Combine retained translations with current English fallback names for every supported language. |
 | `verification/optional-integrations.gradle` | Check pinned dependency jars and launch packaged-server integration tests. |
 | `verification/phase-four-runtime.gradle` | Build the isolated furniture test mod and run it on a disposable server. |
 | `verification/project-audits.gradle` | Check resources, metadata, namespaces, workflow pins and tracked files. |
@@ -44,8 +46,36 @@ real Forge harvesting. The client checks both inventory wool textures and every
 registered blockstate. Candle tests cover all floor/wall facings, water entry,
 draining, relighting, support loss, real harvesting and tallow output counts.
 The new sconces also check content insertion/removal, Creative consumption,
-flame orientation and saved-state reloads. Metal variants and the remaining
-Phase 4 upgrades are still being developed.
+flame orientation and saved-state reloads. Metal tests cover every known metal,
+all registered sconce states, real harvesting, light changes and saved-frame
+reloads. Saved-world checks run separately so synthetic furniture tests do not
+overwrite the imported cells they are meant to inspect.
+
+`metalContractFixtureJar` builds a separate synthetic tag provider. It uses
+vanilla gold as a stand-in and deliberately omits one metal to test incomplete
+catalogs. It must never be included in a published artifact or a normal modpack.
+It verifies the dormant Base Metals contract, not a real Base Metals release.
+
+`-PphaseFourLegacyMetals=true` reads a hash-checked 1.12 saved fixture and checks
+all 23 metals, four facings and 66 historical sconce IDs, plus player, Ender
+Chest, container, nested and dropped frame items. A second load checks that the
+converted block properties and item data persist.
+
+For a general upgrade fixture, place an independently prepared
+`saved-world-expectations.json` beside the disposable server and use
+`-PphaseFourSavedWorld=true`. The probe reads the saved chunks and player files
+through Minecraft's normal load path, checking registry names, shared block
+properties, shield data and stored or nested stacks. It waits for queued chunk
+conversions before checking the result. Repeat with
+`-PphaseFourSavedWorldReload=true` to check persistence after normal redstone
+updates and neighbouring water have settled. The expected data must come from
+the source world, not from a copy that has already been upgraded.
+
+The translation overrides in `locales/` come from the released 1.12 language
+files. `updateLocales` explicitly regenerates the complete 1.14 JSON files;
+ordinary builds only verify them. To import revised legacy translations, run
+`tools/import-legacy-locales.ps1` with `-LegacyLanguageDirectory` pointing to the
+reviewed `.lang` directory, then run `updateLocales` and inspect the changes.
 
 The optional-mod manifest also pins Mineralogy and its OreSpawn dependency.
 With them installed, the probe checks rock-salt lamp insertion, removal,

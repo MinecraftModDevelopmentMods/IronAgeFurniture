@@ -53,7 +53,9 @@ final class LavaTrapRuntimeProbe {
                     world.setBlockState(source.offset(facing.getOpposite()), Blocks.STONE.getDefaultState(), 2);
                     player.setPosition(source.getX() + 2, source.getY(), source.getZ() + .5);
                     player.interactionManager.setGameType(creative ? GameType.CREATIVE : GameType.SURVIVAL);
-                    BlockState state = sconce.getDefaultState().with(FurnitureBlock.DIRECTION, facing);
+                    BlockState state = sconce.getDefaultState().with(FurnitureBlock.DIRECTION, facing)
+                            .with(zone.moddev.mc.ironagefurniture.api.SconceMetalData.METAL,
+                                    zone.moddev.mc.ironagefurniture.api.enumerations.SconceMetal.GOLD);
                     world.setBlockState(source, state, 2);
                     int before = listener.spawned.size();
                     sconce.tick(state, world, source, world.rand);
@@ -67,7 +69,10 @@ final class LavaTrapRuntimeProbe {
                     require(listener.spawned.size() == before + 1, "Powered wall sconce did not release exactly one lamp");
                     ReleasedLavaLamp released = listener.spawned.get(before);
                     require(world.getBlockState(source).getBlock() == BlockObjectHolder.light_metal_ironage_sconce_wall_empty_iron
-                            && world.getBlockState(source).get(FurnitureBlock.DIRECTION) == facing, "Release destroyed or rotated the frame");
+                            && world.getBlockState(source).get(FurnitureBlock.DIRECTION) == facing
+                            && zone.moddev.mc.ironagefurniture.api.SconceMetalData.get(world.getBlockState(source))
+                                    == zone.moddev.mc.ironagefurniture.api.enumerations.SconceMetal.GOLD,
+                            "Release destroyed, rotated or changed the metal of the frame");
                     sconce.tick(state, world, source, world.rand);
                     require(listener.spawned.size() == before + 1, "Stale scheduled tick duplicated the lamp");
                     CompoundNBT saved = new CompoundNBT();

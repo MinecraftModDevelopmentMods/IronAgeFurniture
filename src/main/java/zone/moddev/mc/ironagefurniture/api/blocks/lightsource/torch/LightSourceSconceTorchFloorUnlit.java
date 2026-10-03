@@ -24,7 +24,7 @@ public class LightSourceSconceTorchFloorUnlit extends LightSourceSconceTorchFloo
 	public LightSourceSconceTorchFloorUnlit(float hardness, float blastResistance, SoundType sound, String name) {
 		super(Block.Properties.create(Material.IRON).hardnessAndResistance(hardness, blastResistance).sound(sound));
 
-		this.setDefaultState(this.getStateContainer().getBaseState() .with(DIRECTION, Direction.NORTH));
+		this.setDefaultState(this.getDefaultState() .with(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateContainer().getValidStates());
 		this.setRegistryName(name);
 	}
@@ -47,7 +47,7 @@ public class LightSourceSconceTorchFloorUnlit extends LightSourceSconceTorchFloo
 	private void Light(BlockState state, World world, BlockPos pos) {
 		world.setBlockState(pos, GetLitVariant().getDefaultState()
 				 .with(DIRECTION, state .get(BlockStateProperties.HORIZONTAL_FACING))
-				 .with(WATERLOGGED, state .get(BlockStateProperties.WATERLOGGED)), 3);
+				 .with(WATERLOGGED, state .get(BlockStateProperties.WATERLOGGED)).with(zone.moddev.mc.ironagefurniture.api.SconceMetalData.METAL, zone.moddev.mc.ironagefurniture.api.SconceMetalData.get(state)), 3);
 	}
 
 	@Override
@@ -77,7 +77,7 @@ public class LightSourceSconceTorchFloorUnlit extends LightSourceSconceTorchFloo
 		if (player.isCreative() && (stackInHand.getItem() == Blocks.TORCH.asItem() || stackInHand.isEmpty())) {
 			world.setBlockState(pos, GetEmptyVariant().getDefaultState()
 					 .with(DIRECTION, state .get(BlockStateProperties.HORIZONTAL_FACING))
-					 .with(WATERLOGGED, state .get(BlockStateProperties.WATERLOGGED)), 3);
+					 .with(WATERLOGGED, state .get(BlockStateProperties.WATERLOGGED)).with(zone.moddev.mc.ironagefurniture.api.SconceMetalData.METAL, zone.moddev.mc.ironagefurniture.api.SconceMetalData.get(state)), 3);
 
 			return true;
 		}

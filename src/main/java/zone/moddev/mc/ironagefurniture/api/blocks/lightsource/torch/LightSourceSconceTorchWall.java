@@ -27,7 +27,7 @@ public class LightSourceSconceTorchWall extends LightSourceSconceTorchFloor {
 	public LightSourceSconceTorchWall(Properties properties) {
 		super(properties);
 
-		this.setDefaultState(this.getStateContainer().getBaseState() .with(DIRECTION, Direction.NORTH) .with(WATERLOGGED, false));
+		this.setDefaultState(this.getDefaultState() .with(DIRECTION, Direction.NORTH) .with(WATERLOGGED, false));
         this.generateShapes(this.getStateContainer().getValidStates());
         this.flameParticle = ParticleTypes.FLAME;
 	}
@@ -83,7 +83,7 @@ public class LightSourceSconceTorchWall extends LightSourceSconceTorchFloor {
 	public LightSourceSconceTorchWall(float hardness, float blastResistance, SoundType sound, String name) {
 		super(Block.Properties.create(Material.IRON).hardnessAndResistance(hardness, blastResistance).sound(sound).lightValue(14) );
 
-		this.setDefaultState(this.getStateContainer().getBaseState() .with(DIRECTION, Direction.NORTH));
+		this.setDefaultState(this.getDefaultState() .with(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateContainer().getValidStates());
 		this.setRegistryName(name);
 		this.flameParticle = ParticleTypes.FLAME;

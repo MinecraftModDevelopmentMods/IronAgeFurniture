@@ -78,6 +78,13 @@ public final class LegacyWorldDataHook {
 	private LegacyWorldDataHook() {
 	}
 
+    /** Save readers call this before vanilla can discard old item subtype data. */
+    public static void preparePlayerData(CompoundNBT player) {
+        if (player == null) return;
+        LegacyPaddedItemMigration.migrateChunkContents(player);
+        CfmChairMigration.migratePlayerData(player);
+    }
+
 	public static void onServerAboutToStart(FMLServerAboutToStartEvent event) {
 		File levelDat = event.getServer().getActiveAnvilConverter()
 				.getFile(event.getServer().getFolderName(), "level.dat");
@@ -162,8 +169,11 @@ public final class LegacyWorldDataHook {
 		CompoundNBT level = root.getCompound("Level");
         CfmChairMigration.prepareChunk(level);
         if (!legacyWorldActive) return;
-		LegacyPaddedItemMigration.migrateChunkContents(level);
-		if (!containsLegacyIafBlock(level)) {
+		boolean migratedItems = LegacyPaddedItemMigration.migrateChunkContents(level);
+        // A chest or dropped item may live in a chunk with no placed IAF
+        // blocks. Preserve that chunk too, rather than regenerate its contents
+        // while upgrading an old, not-yet-lighted chunk.
+		if (!containsLegacyIafBlock(level) && !migratedItems) {
 			return;
 		}
 		ensurePaddedBenchTileEntities(level, root.getInt("DataVersion") < 704);

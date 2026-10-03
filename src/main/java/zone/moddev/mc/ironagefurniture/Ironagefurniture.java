@@ -32,6 +32,8 @@ public class Ironagefurniture
 	};
 
 	public Ironagefurniture() {
+        net.minecraftforge.common.crafting.CraftingHelper.register(
+                new zone.moddev.mc.ironagefurniture.api.recipes.SconceMetalCondition.Serializer());
         entities.REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
 
 		ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, IronAgeFurnitureConfiguration.clientSpec);

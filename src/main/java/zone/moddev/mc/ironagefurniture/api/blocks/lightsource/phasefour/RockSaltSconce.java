@@ -69,12 +69,12 @@ public final class RockSaltSconce extends LightHolderSconceFloor {
         return state;
     }
     @Override public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
-        ItemStack frame = new ItemStack(BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron);
+        ItemStack frame = zone.moddev.mc.ironagefurniture.api.SconceMetalData.create(BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron, zone.moddev.mc.ironagefurniture.api.SconceMetalData.get(state));
         Block lamp = MineralogyCompat.getRockSaltLamp();
         return lamp == null ? java.util.Collections.singletonList(frame) : Arrays.asList(frame, new ItemStack(lamp));
     }
     @Override public ItemStack getPickBlock(BlockState state, RayTraceResult hit, IBlockReader world, BlockPos pos, PlayerEntity player) {
-        return new ItemStack(BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron);
+        return zone.moddev.mc.ironagefurniture.api.SconceMetalData.create(BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron, zone.moddev.mc.ironagefurniture.api.SconceMetalData.get(state));
     }
     @Override protected boolean ActivateSconce(BlockState state, World world, BlockPos pos, PlayerEntity player,
             Hand hand, BlockRayTraceResult hit) {

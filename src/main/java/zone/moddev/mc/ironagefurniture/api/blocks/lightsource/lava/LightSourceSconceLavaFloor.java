@@ -80,13 +80,13 @@ public class LightSourceSconceLavaFloor extends LightSourceSconceGlowFloor imple
 
 		drops.add(stack);
 
-		return drops;
+		return zone.moddev.mc.ironagefurniture.api.SconceMetalData.preserveDrops(state, drops);
 	}
 
 	public LightSourceSconceLavaFloor(float hardness, float blastResistance, SoundType sound, String name) {
 		super(Block.Properties.create(Material.IRON).hardnessAndResistance(hardness, blastResistance).sound(sound).lightValue(14));
 
-		this.setDefaultState(this.getStateContainer().getBaseState() .with(FurnitureBlock.DIRECTION, Direction.NORTH));
+		this.setDefaultState(this.getDefaultState() .with(FurnitureBlock.DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateContainer().getValidStates());
 		this.setRegistryName(name);
 	}
@@ -128,7 +128,8 @@ public class LightSourceSconceLavaFloor extends LightSourceSconceGlowFloor imple
 
 		world.setBlockState(pos, EmptyVariant().getDefaultState()
 			.with(FurnitureBlock.DIRECTION, blockState.get(BlockStateProperties.HORIZONTAL_FACING))
-			.with(FurnitureBlock.WATERLOGGED, true), 3);
+			.with(FurnitureBlock.WATERLOGGED, true)
+            .with(zone.moddev.mc.ironagefurniture.api.SconceMetalData.METAL, zone.moddev.mc.ironagefurniture.api.SconceMetalData.get(blockState)), 3);
 
 		world.playSound(null, pos, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
 		world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 0.5F, 2.6F);

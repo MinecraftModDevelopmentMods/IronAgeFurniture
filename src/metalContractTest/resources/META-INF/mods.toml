@@ -1,0 +1,9 @@
+modLoader="javafml"
+loaderVersion="[28,)"
+license="LGPL-2.1-only"
+
+[[mods]]
+modId="basemetals"
+version="0.0.0"
+displayName="Synthetic Metal Tag Contract Fixture (Not Base Metals)"
+description="Test-only standard tags backed by vanilla gold. Never distribute with Iron Age Furniture."

@@ -54,6 +54,23 @@ public final class PhaseFourRuntimeProbe {
 
     private void serverStarted(FMLServerStartedEvent event) {
         MinecraftServer server = event.getServer();
+        if (Boolean.getBoolean("iaf.probe.savedWorld")) {
+            try { SavedWorldRuntimeProbe.prepare(server); }
+            catch (Exception failure) { server.initiateShutdown(false); throw new IllegalStateException("Could not load saved fixture chunks", failure); }
+            // Compatibility benches complete at the end of the world's tick.
+            // Observe the normal lifecycle instead of calling the migrator.
+            int[] ticks = {0};
+            MinecraftForge.EVENT_BUS.addListener(net.minecraftforge.eventbus.api.EventPriority.LOWEST,
+                    (net.minecraftforge.event.TickEvent.ServerTickEvent tick) -> {
+                if (tick.phase != net.minecraftforge.event.TickEvent.Phase.END || ++ticks[0] != 2) return;
+                try {
+                    int saved = SavedWorldRuntimeProbe.run(server);
+                    Files.write(Paths.get("phase-four-pass.properties"), ("status=PASS\nsaved_world_cases="+saved+"\n").getBytes(StandardCharsets.UTF_8));
+                } catch (Exception failure) { throw new IllegalStateException("Saved-world runtime probe failed", failure); }
+                finally { server.initiateShutdown(false); }
+            });
+            return;
+        }
         ServerWorld world = server.getWorld(DimensionType.OVERWORLD);
         FakePlayer player = FakePlayerFactory.getMinecraft(world);
         // Forge sends block-change packets even for a fake player's harvest.
@@ -65,6 +82,11 @@ public final class PhaseFourRuntimeProbe {
         int chairs = 0;
         int states = 0;
         try {
+            if (Boolean.getBoolean("iaf.probe.legacyMetals")) {
+                int legacy = LegacyMetalRuntimeProbe.run(world);
+                Files.write(Paths.get("phase-four-pass.properties"), ("status=PASS\nlegacy_metal_cases="+legacy+"\n").getBytes(StandardCharsets.UTF_8));
+                return;
+            }
             int cfm = CfmRuntimeProbe.run(server, world);
             if (!"none".equals(System.getProperty("iaf.probe.cfmMode", "none"))) {
                 Files.write(Paths.get("phase-four-pass.properties"), ("status=PASS\ncfm_cases=" + cfm
@@ -92,10 +114,11 @@ public final class PhaseFourRuntimeProbe {
             int sconces = SconceContentsRuntimeProbe.run(world, player);
             int rockSalt = RockSaltRuntimeProbe.run(world, player);
             int traps = LavaTrapRuntimeProbe.run(world, player);
+            int metals = SconceMetalRuntimeProbe.run(world, player);
             Files.write(Paths.get("phase-four-pass.properties"), ("status=PASS\nshield_chairs=" + chairs
                     + "\nshield_states=" + states + "\nupholstered_forms=" + upholstery + "\ncandle_cases=" + candles
                     + "\nsconce_cases=" + sconces + "\nrocksalt_cases=" + rockSalt + "\ntrap_cases=" + traps
-                    + "\ncfm_cases=" + cfm + "\n").getBytes(StandardCharsets.UTF_8));
+                    + "\ncfm_cases=" + cfm + "\nmetal_cases=" + metals + "\n").getBytes(StandardCharsets.UTF_8));
             org.apache.logging.log4j.LogManager.getLogger().info("IAF PHASE FOUR SHIELD PROBE PASSED: {} chairs, {} states", chairs, states);
         } catch (Exception failure) {
             throw new IllegalStateException("Phase 4 runtime probe failed", failure);

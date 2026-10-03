@@ -100,10 +100,10 @@ public final class AdditionalSconce extends LightHolderSconceFloor {
         return true;
     }
     @Override public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
-        return Arrays.asList(new ItemStack(BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron), new ItemStack(contents(), count));
+        return Arrays.asList(zone.moddev.mc.ironagefurniture.api.SconceMetalData.create(BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron, zone.moddev.mc.ironagefurniture.api.SconceMetalData.get(state)), new ItemStack(contents(), count));
     }
     @Override public ItemStack getPickBlock(BlockState state, RayTraceResult hit, IBlockReader world, BlockPos pos, PlayerEntity player) {
-        return new ItemStack(BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron);
+        return zone.moddev.mc.ironagefurniture.api.SconceMetalData.create(BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron, zone.moddev.mc.ironagefurniture.api.SconceMetalData.get(state));
     }
     @Override protected boolean ActivateSconce(BlockState state, World world, BlockPos pos, PlayerEntity player,
             Hand hand, BlockRayTraceResult hit) {
