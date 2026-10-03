@@ -13,7 +13,6 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.world.World;
@@ -32,7 +31,6 @@ import com.mojang.datafixers.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 public class LightSourceSconceLavaFloor extends LightSourceSconceGlowFloor implements ILiquidContainer {
@@ -56,16 +54,8 @@ public class LightSourceSconceLavaFloor extends LightSourceSconceGlowFloor imple
 	public boolean removedByPlayer(BlockState state, World level, BlockPos pos, PlayerEntity player, boolean willHarvest,
 									   IFluidState fluid) {
 
-		boolean isSilkTouch = false;
-
-		ItemStack tool = player.inventory.getCurrentItem();
-
-		if (tool != null) {
-			Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(tool);
-
-			if (enchantments != null && !enchantments.isEmpty())
-				isSilkTouch = enchantments.get(Enchantments.SILK_TOUCH) > 0;
-		}
+		boolean isSilkTouch = EnchantmentHelper.getEnchantmentLevel(
+                Enchantments.SILK_TOUCH, player.getHeldItemMainhand()) > 0;
 
 		if (isSilkTouch && !player.isCreative())
 			Block.spawnAsEntity(level, pos, new ItemStack(LightDrop(), 1));

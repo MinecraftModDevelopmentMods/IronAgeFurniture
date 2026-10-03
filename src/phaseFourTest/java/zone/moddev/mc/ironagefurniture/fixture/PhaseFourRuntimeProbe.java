@@ -52,6 +52,12 @@ public final class PhaseFourRuntimeProbe {
         MinecraftServer server = event.getServer();
         ServerWorld world = server.getWorld(DimensionType.OVERWORLD);
         FakePlayer player = FakePlayerFactory.getMinecraft(world);
+        // Forge sends block-change packets even for a fake player's harvest.
+        // No real client is connected to this disposable server probe.
+        player.connection = new net.minecraft.network.play.ServerPlayNetHandler(server,
+                new net.minecraft.network.NetworkManager(net.minecraft.network.PacketDirection.SERVERBOUND), player) {
+            @Override public void sendPacket(net.minecraft.network.IPacket<?> packet) { }
+        };
         int chairs = 0;
         int states = 0;
         try {
@@ -69,6 +75,7 @@ public final class PhaseFourRuntimeProbe {
                 chairs++;
             }
             require(chairs >= 6, "Vanilla shield chairs did not register");
+            verifyLavaHarvest(world, player);
             Files.write(Paths.get("phase-four-pass.properties"), ("status=PASS\nshield_chairs=" + chairs
                     + "\nshield_states=" + states + "\n").getBytes(StandardCharsets.UTF_8));
             org.apache.logging.log4j.LogManager.getLogger().info("IAF PHASE FOUR SHIELD PROBE PASSED: {} chairs, {} states", chairs, states);
@@ -196,6 +203,61 @@ public final class PhaseFourRuntimeProbe {
 
     private static void sameShield(ItemStack expected, ItemStack actual) {
         require(expected.write(new CompoundNBT()).equals(actual.write(new CompoundNBT())), "Shield data changed");
+    }
+
+    private static void verifyLavaHarvest(ServerWorld world, FakePlayer player) {
+        // Clear only this probe's mining area, including drops left by a failed
+        // previous test run. The server directory is always disposable.
+        for (int index = 0; index < 4; index++) {
+            BlockPos old = new BlockPos(64 + index * 4, 80, 96);
+            world.removeBlock(old, false);
+            world.removeBlock(old.down(), false);
+            world.removeBlock(old.south(), false);
+        }
+        world.getEntitiesWithinAABB(ItemEntity.class, new AxisAlignedBB(62, 78, 94, 80, 84, 100))
+                .forEach(Entity::remove);
+        String[] paths = { "light_metal_ironage_block_floor_lava_clear",
+                "light_metal_ironage_sconce_floor_lava_iron", "light_metal_ironage_sconce_wall_lava_iron" };
+        for (String path : paths) {
+            Block lamp = ForgeRegistries.BLOCKS.getValue(new ResourceLocation("ironagefurniture", path));
+            boolean sconce = path.contains("sconce");
+            for (int toolCase = 0; toolCase < 4; toolCase++) {
+                BlockPos pos = new BlockPos(64 + toolCase * 4, 80, 96);
+                world.setBlockState(pos.down(), Blocks.STONE.getDefaultState());
+                world.setBlockState(pos.south(), Blocks.STONE.getDefaultState());
+                BlockState state = lamp.getDefaultState().with(ShieldChair.DIRECTION, Direction.NORTH)
+                        .with(ShieldChair.WATERLOGGED, false);
+                world.setBlockState(pos, state);
+                ItemStack tool = new ItemStack(Items.DIAMOND_PICKAXE);
+                if (toolCase == 1) tool.addEnchantment(Enchantments.EFFICIENCY, 2);
+                if (toolCase == 2) tool.addEnchantment(Enchantments.SILK_TOUCH, 1);
+                player.interactionManager.setGameType(toolCase == 3 ? net.minecraft.world.GameType.CREATIVE : net.minecraft.world.GameType.SURVIVAL);
+                player.setHeldItem(Hand.MAIN_HAND, tool);
+                player.setPosition(pos.getX(), pos.getY(), pos.getZ());
+                require(player.interactionManager.tryHarvestBlock(pos), "Cannot mine lava light " + path);
+                // Removed entities stay in chunk lists until the next world tick.
+                List<ItemEntity> drops = world.getEntitiesWithinAABB(ItemEntity.class,
+                        new AxisAlignedBB(pos).grow(2), item -> !item.removed);
+                long intact = drops.stream().filter(item -> item.getItem().getItem() == ForgeRegistries.ITEMS.getValue(
+                        new ResourceLocation("ironagefurniture:light_metal_ironage_block_floor_lava_clear")))
+                        .mapToLong(item -> item.getItem().getCount()).sum();
+                long frames = drops.stream().filter(item -> item.getItem().getItem() == ForgeRegistries.ITEMS.getValue(
+                        new ResourceLocation("ironagefurniture:light_metal_ironage_sconce_floor_empty_iron")))
+                        .mapToLong(item -> item.getItem().getCount()).sum();
+                require(intact == (toolCase == 2 ? 1 : 0), "Wrong intact-lamp drop count for " + path
+                        + ", tool " + toolCase + ": " + intact + ", drops " + drops.stream()
+                        .map(item -> item.getItem().toString()).collect(java.util.stream.Collectors.joining(", ")));
+                require(frames == (sconce && toolCase != 3 ? 1 : 0), "Wrong sconce drop count for " + path);
+                require(world.getBlockState(pos).getBlock() == (toolCase < 2 ? Blocks.FIRE : Blocks.AIR),
+                        "Wrong lava shatter result for " + path + " with tool " + toolCase
+                        + ": " + world.getBlockState(pos));
+                drops.forEach(Entity::remove);
+                world.removeBlock(pos, false);
+                world.removeBlock(pos.down(), false);
+                world.removeBlock(pos.south(), false);
+            }
+        }
+        player.interactionManager.setGameType(net.minecraft.world.GameType.SURVIVAL);
     }
     private static void require(boolean passed, String message) { if (!passed) throw new IllegalStateException(message); }
 

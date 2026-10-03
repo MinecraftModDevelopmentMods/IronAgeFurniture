@@ -16,7 +16,6 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.SoundCategory;
 
-import java.util.Map;
 import java.util.Random;
 
 import zone.moddev.mc.ironagefurniture.BlockObjectHolder;
@@ -26,7 +25,6 @@ import net.minecraft.util.concurrent.TickDelayedTask;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.world.World;
@@ -47,16 +45,8 @@ public class LightSourceSconceLavaWall extends LightSourceSconceGlowWall {
 	public boolean removedByPlayer(BlockState state, World level, BlockPos pos, PlayerEntity player, boolean willHarvest,
 									   IFluidState fluid) {
 
-		boolean isSilkTouch = false;
-
-		ItemStack tool = player.inventory.getCurrentItem();
-
-		if (tool != null) {
-			Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(tool);
-
-			if (enchantments != null && !enchantments.isEmpty())
-				isSilkTouch = enchantments.get(Enchantments.SILK_TOUCH) > 0;
-		}
+		boolean isSilkTouch = EnchantmentHelper.getEnchantmentLevel(
+                Enchantments.SILK_TOUCH, player.getHeldItemMainhand()) > 0;
 
 		if (isSilkTouch && !player.isCreative())
 			Block.spawnAsEntity(level, pos, new ItemStack(LightDrop(), 1));
@@ -65,7 +55,7 @@ public class LightSourceSconceLavaWall extends LightSourceSconceGlowWall {
 
 		if (!isSilkTouch && !player.isCreative()) {
 			level.playSound(player, pos, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
-			level.setBlockState(pos, LightDrop().getDefaultState() .with(FurnitureBlock.WATERLOGGED, false), 3);
+			level.setBlockState(pos, Blocks.FIRE.getDefaultState(), 3);
 		}
 
 		return destroyed;

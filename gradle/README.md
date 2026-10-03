@@ -29,6 +29,10 @@ falling chairs and saved data. Run `phaseFourProbeJar` to build it, then use
 Forge 1.14.4 server. Running it twice checks the decorated chair and empty frame
 saved by the first run. Never point this test at a world you want to keep.
 
+It also mines standalone and sconce-mounted lava lamps using ordinary,
+Efficiency-enchanted and Silk Touch picks, then repeats the test in Creative.
+This checks intact-lamp recovery, empty-sconce drops and fire on shattering.
+
 The same test jar can check baked item and block models on a packaged client.
 It closes the test client after checking its models and writes
 `phase-four-client-pass.properties`. These checks cover shield chairs only;

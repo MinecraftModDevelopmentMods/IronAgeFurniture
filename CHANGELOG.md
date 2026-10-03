@@ -12,9 +12,14 @@ release candidate yet.
   fixer, including its changed banner-colour numbering.
 - Remove debug messages for optional furniture that is intentionally not
   registered when its wood-providing mod is absent.
+- Mining lava-filled floor or wall sconces returns the empty sconce. Silk Touch
+  also returns the intact lamp; other tools shatter it into fire. Tools with
+  other enchantments no longer cause a mining error.
 - Split the build into smaller files for resource checks, packaged integration
   tests, Eclipse setup, release artifacts and Maven publication. The Forge
   1.14.4 toolchain and existing publication safeguards remain unchanged.
+- Refresh artifact checksums whenever a jar changes, including changes to its
+  bundled documentation, rather than reusing an out-of-date checksum file.
 
 # IronAgeFurniture 0.3.0.114041
 

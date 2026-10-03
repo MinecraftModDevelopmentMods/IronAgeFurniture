@@ -2,7 +2,6 @@ package zone.moddev.mc.ironagefurniture.api.blocks.lightsource.lava;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import zone.moddev.mc.ironagefurniture.BlockObjectHolder;
@@ -19,7 +18,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.world.IBlockReader;
@@ -96,16 +94,8 @@ public class LightSourceLava extends LightSourceGlowdust {
 	@Override
 	public boolean removedByPlayer(BlockState state, World level, BlockPos pos, PlayerEntity player, boolean willHarvest, IFluidState fluid) {
 
-		boolean isSilkTouch = false;
-
-		ItemStack tool = player.inventory.getCurrentItem();
-
-		if (tool != null) {
-			Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(tool);
-
-			if (enchantments != null && !enchantments.isEmpty())
-				isSilkTouch = enchantments.get(Enchantments.SILK_TOUCH) > 0;
-		}
+		boolean isSilkTouch = EnchantmentHelper.getEnchantmentLevel(
+                Enchantments.SILK_TOUCH, player.getHeldItemMainhand()) > 0;
 
 		if (isSilkTouch && !player.isCreative())
 			Block.spawnAsEntity(level, pos, new ItemStack(state.getBlock().asItem(), 1));

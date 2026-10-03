@@ -22,6 +22,13 @@ enchantments, custom names and other item data stay with the shield. Breaking th
 chair returns the empty frame and its shield separately; pick block copies the
 fitted shield as part of the chair item. Existing chairs keep their plain shield.
 
+## Recovering lava lamps
+
+Mining a lava-filled sconce with a suitable pick returns its empty sconce in Survival. A Silk
+Touch tool also returns the intact lamp. Without Silk Touch the lamp breaks and
+starts a fire, whether the sconce was standing on the floor or mounted on a wall.
+Creative-mode breaking produces neither drops nor fire.
+
 ## Optional integrations
 
 IronAgeFurniture adds matching furniture and recipes when these mods are
