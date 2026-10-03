@@ -2,9 +2,30 @@ var Opcodes = Java.type('org.objectweb.asm.Opcodes');
 var InsnList = Java.type('org.objectweb.asm.tree.InsnList');
 var MethodInsnNode = Java.type('org.objectweb.asm.tree.MethodInsnNode');
 var VarInsnNode = Java.type('org.objectweb.asm.tree.VarInsnNode');
+var ASMAPI = Java.type('net.minecraftforge.coremod.api.ASMAPI');
 
 function initializeCoreMod() {
     return {
+        'ironagefurniture_removed_cfm_player_items': {
+            'target': { 'type': 'CLASS', 'name': 'net.minecraft.entity.player.PlayerEntity' },
+            'transformer': function(classNode) {
+                var reader = ASMAPI.mapMethod('func_70037_a');
+                var matched = 0;
+                for (var i = 0; i < classNode.methods.size(); ++i) {
+                    var method = classNode.methods.get(i);
+                    if (method.name !== reader || method.desc !== '(Lnet/minecraft/nbt/CompoundNBT;)V') continue;
+                    var prefix = new InsnList();
+                    prefix.add(new VarInsnNode(Opcodes.ALOAD, 1));
+                    prefix.add(new MethodInsnNode(Opcodes.INVOKESTATIC,
+                            'zone/moddev/mc/ironagefurniture/migration/CfmChairMigration', 'migratePlayerData',
+                            '(Lnet/minecraft/nbt/CompoundNBT;)V', false));
+                    method.instructions.insert(prefix);
+                    ++matched;
+                }
+                if (matched !== 1) throw new Error('Cannot locate the player inventory reader for CFM recovery');
+                return classNode;
+            }
+        },
         'ironagefurniture_legacy_chunk_data': {
             'target': {
                 'type': 'CLASS',

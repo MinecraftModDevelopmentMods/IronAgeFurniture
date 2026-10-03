@@ -57,6 +57,15 @@ tasks.register('runPhaseFourServer', Exec) {
         workingDir server
         executable buildSupport.java8Launcher.get().executablePath.asFile
         if (providers.gradleProperty('phaseFourLegacyBeds').orNull == 'true') args '-Diaf.probe.legacyBeds=true'
+        String cfmMode = providers.gradleProperty('phaseFourCfmMode').orNull
+        if (cfmMode != null) {
+            if (!(cfmMode in ['seed', 'unchanged', 'converted', 'recovered', 'legacy110', 'legacy112']))
+                throw new GradleException("Unknown CFM fixture mode: ${cfmMode}")
+            args "-Diaf.probe.cfmMode=${cfmMode}"
+            // Removing CFM also removes unsupported entries from its registry
+            // snapshot. Accept Forge's prompt only for this disposable fixture.
+            if (cfmMode in ['recovered', 'legacy110', 'legacy112']) args '-Dfml.queryResult=confirm'
+        }
         args '-Xmx2G', '-jar', forge.name, 'nogui'
     }
     doLast {

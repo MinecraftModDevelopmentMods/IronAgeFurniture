@@ -115,7 +115,8 @@ def archiveTextPatterns = archiveTextSuffixes.collect { "**/*${it}".toString() }
 archiveTextPatterns.addAll(['**/element-list', '**/package-list'])
 def optionalIntegrationExpectedCounts = [
         biomesoplenty        : [recipes: 2189, advancements: 2189],
-        immersiveengineering: [recipes: 198, advancements: 198]
+        immersiveengineering: [recipes: 198, advancements: 198],
+        cfm                 : [recipes: 6, advancements: 6]
 ]
 def normalizeArchiveLineEndings = { details ->
     details.filter(FixCrLfFilter,
@@ -376,6 +377,7 @@ ext.buildSupport = [
 
 apply from: 'gradle/verification/optional-integrations.gradle'
 apply from: 'gradle/verification/phase-four-runtime.gradle'
+apply from: 'gradle/phase-four-cfm.gradle'
 apply from: 'gradle/verification/project-audits.gradle'
 apply from: 'gradle/release/artifacts.gradle'
 apply from: 'gradle/release/publishing.gradle'

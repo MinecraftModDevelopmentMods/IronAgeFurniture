@@ -4462,6 +4462,7 @@
     "config.ironagefurniture.thrones": "Thrones",
     "config.ironagefurniture.wingback": "Wingback Chairs",
     "config.ironagefurniture.woodbeds": "Wooden Beds",
+    "ironagefurniture.integration.forceCfmChairConversion": "Replace Crayfish wooden chairs with IAF chairs",
     "ironagefurniture.integration.mineralogyIntegration": "Mineralogy lamps",
     "item.ironagefurniture.tallow": "Tallow",
     "itemGroup.ironagefurniture": "Iron Age Furniture"

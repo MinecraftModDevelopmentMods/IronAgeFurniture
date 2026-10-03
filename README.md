@@ -79,6 +79,30 @@ loaded, so a normal installation does not need any of them.
 With Mineralogy installed, use its rock-salt lamp on an empty sconce to fit it.
 The lamp stays lit underwater and can be removed intact with an empty hand.
 
+## Crayfish chair conversion
+
+With MrCrayfish's Furniture Mod installed, craft one of its six vanilla-wood
+chairs into a matching IAF classic chair. Other CFM furniture is not converted.
+
+Existing CFM chairs stay as they are by default. To replace those wooden chairs
+throughout a world while both mods are installed, enable
+`forceCfmChairConversion` in the world's IAF server configuration, then reopen
+the world. Conversion happens as chunks and player inventories load. It keeps
+chair facing, stack counts, custom names, enchantments and nested-container data.
+Back up the world first: turning the option off does not undo a conversion.
+
+If CFM has already been removed, IAF automatically recovers these supported
+wooden chairs instead of discarding them. This does not recover CFM tables,
+appliances, stone chairs or other unsupported furniture.
+Forge may still ask you to confirm the removal of CFM's other registry entries;
+inspect that list carefully before continuing with your backup copy.
+
+The compatibility checks cover CFM 4.1.2 chair data from Minecraft 1.10.2,
+CFM 6.3.2 chair data from 1.12.2, and CFM 7.0.0-pre15 on 1.14.4. These older
+worlds can be upgraded directly for the supported chairs; no intermediate
+Minecraft version is needed for that conversion. This is furniture recovery,
+not a way to make an entire old modpack compatible with Minecraft 1.14.4.
+
 ## Compatibility
 
 The persistent mod ID, registry names, resource paths, configuration names,

@@ -36,7 +36,7 @@ tasks.register('verifyOptionalIntegrationMods') {
     doLast {
         Map manifest = new JsonSlurper().parse(optionalIntegrationManifestFile.asFile) as Map
         if (manifest.minecraft != project.minecraft_version.toString()
-                || !(manifest.mods instanceof List) || manifest.mods.size() != 4) {
+                || !(manifest.mods instanceof List) || manifest.mods.size() != 5) {
             throw new GradleException('Optional-integration mod manifest is incomplete or targets the wrong game')
         }
         File modsDirectory = optionalIntegrationModsDirectory.get()

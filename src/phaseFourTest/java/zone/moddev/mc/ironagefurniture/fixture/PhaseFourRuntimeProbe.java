@@ -46,7 +46,11 @@ import zone.moddev.mc.ironagefurniture.api.tile.ShieldChairTileEntity;
 /** Runs real registry, crafting, tile storage and Forge harvesting checks. */
 @Mod("ironagefurniturephasefourprobe")
 public final class PhaseFourRuntimeProbe {
-    public PhaseFourRuntimeProbe() { MinecraftForge.EVENT_BUS.addListener(this::serverStarted); }
+    public PhaseFourRuntimeProbe() {
+        MinecraftForge.EVENT_BUS.addListener(net.minecraftforge.eventbus.api.EventPriority.HIGHEST,
+                CfmRuntimeProbe::beforeStart);
+        MinecraftForge.EVENT_BUS.addListener(this::serverStarted);
+    }
 
     private void serverStarted(FMLServerStartedEvent event) {
         MinecraftServer server = event.getServer();
@@ -61,6 +65,12 @@ public final class PhaseFourRuntimeProbe {
         int chairs = 0;
         int states = 0;
         try {
+            int cfm = CfmRuntimeProbe.run(server, world);
+            if (!"none".equals(System.getProperty("iaf.probe.cfmMode", "none"))) {
+                Files.write(Paths.get("phase-four-pass.properties"), ("status=PASS\ncfm_cases=" + cfm
+                        + "\ncfm_mode=" + System.getProperty("iaf.probe.cfmMode") + "\n").getBytes(StandardCharsets.UTF_8));
+                return;
+            }
             if (Boolean.getBoolean("iaf.probe.legacyBeds")) UpholsteryRuntimeProbe.verifyLegacyBeds(world);
             for (Block block : ForgeRegistries.BLOCKS.getValues()) {
                 if (!(block instanceof ShieldChair)) continue;
@@ -84,7 +94,8 @@ public final class PhaseFourRuntimeProbe {
             int traps = LavaTrapRuntimeProbe.run(world, player);
             Files.write(Paths.get("phase-four-pass.properties"), ("status=PASS\nshield_chairs=" + chairs
                     + "\nshield_states=" + states + "\nupholstered_forms=" + upholstery + "\ncandle_cases=" + candles
-                    + "\nsconce_cases=" + sconces + "\nrocksalt_cases=" + rockSalt + "\ntrap_cases=" + traps + "\n").getBytes(StandardCharsets.UTF_8));
+                    + "\nsconce_cases=" + sconces + "\nrocksalt_cases=" + rockSalt + "\ntrap_cases=" + traps
+                    + "\ncfm_cases=" + cfm + "\n").getBytes(StandardCharsets.UTF_8));
             org.apache.logging.log4j.LogManager.getLogger().info("IAF PHASE FOUR SHIELD PROBE PASSED: {} chairs, {} states", chairs, states);
         } catch (Exception failure) {
             throw new IllegalStateException("Phase 4 runtime probe failed", failure);

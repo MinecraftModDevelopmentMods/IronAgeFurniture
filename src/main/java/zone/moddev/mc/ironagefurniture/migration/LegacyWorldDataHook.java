@@ -42,6 +42,7 @@ public final class LegacyWorldDataHook {
 	private static final Logger LOGGER = LogManager.getLogger();
 	private static final BitSet LEGACY_IAF_BLOCK_IDS = new BitSet();
 	private static final BitSet LEGACY_PADDED_BLOCK_IDS = new BitSet();
+    private static final BitSet LEGACY_CFM_BLOCK_IDS = new BitSet();
 	private static final Map<String, String> LEGACY_VANILLA_TILE_ENTITY_IDS = new HashMap<>();
 	private static final String PRESERVE_CHUNK_MARKER = "IronAgeFurnitureLegacyPreserveChunk";
 	private static final String PADDED_TILE_MARKER = "IronAgeFurnitureLegacyPaddedBench";
@@ -154,16 +155,19 @@ public final class LegacyWorldDataHook {
 
 	/** Called by the chunk-loader coremod immediately before vanilla datafixing. */
 	public static void prepareLegacyChunk(CompoundNBT root) {
-		if (!legacyWorldActive || root == null || !root.contains("Level", 10)) {
+		if (root == null || !root.contains("Level", 10)) {
 			return;
 		}
 
 		CompoundNBT level = root.getCompound("Level");
+        CfmChairMigration.prepareChunk(level);
+        if (!legacyWorldActive) return;
 		LegacyPaddedItemMigration.migrateChunkContents(level);
 		if (!containsLegacyIafBlock(level)) {
 			return;
 		}
 		ensurePaddedBenchTileEntities(level, root.getInt("DataVersion") < 704);
+        CfmChairMigration.recordLegacyBlocks(countLegacyCfmBlocks(level));
 		LegacyUpholsteryMigration.prepareTiles(level, root.getInt("DataVersion") < 704);
 		level.putBoolean("TerrainPopulated", true);
 		level.putBoolean("LightPopulated", true);
@@ -212,13 +216,14 @@ public final class LegacyWorldDataHook {
 	private static int installLegacyBlockStates(CompoundNBT blockSnapshot) {
 		LEGACY_IAF_BLOCK_IDS.clear();
 		LEGACY_PADDED_BLOCK_IDS.clear();
+        LEGACY_CFM_BLOCK_IDS.clear();
 		Map<ResourceLocation, Integer> iafIds = new HashMap<>();
 		ListNBT savedIds = blockSnapshot.getList("ids", 10);
 		int highestStateId = 0;
 		for (int index = 0; index < savedIds.size(); ++index) {
 			CompoundNBT savedId = savedIds.getCompound(index);
 			String key = savedId.getString("K");
-			if (!key.startsWith(Ironagefurniture.MODID + ":")) {
+			if (!key.startsWith(Ironagefurniture.MODID + ":") && CfmChairMigration.legacyTarget(key) == null) {
 				continue;
 			}
 			ResourceLocation id = new ResourceLocation(key);
@@ -230,12 +235,15 @@ public final class LegacyWorldDataHook {
 		int mapped = 0;
 		for (Map.Entry<ResourceLocation, Integer> entry : iafIds.entrySet()) {
 			ResourceLocation oldId = entry.getKey();
-			Block block = resolveCurrentBlock(oldId);
+            String cfmTarget = CfmChairMigration.legacyTarget(oldId.toString());
+			Block block = cfmTarget == null ? resolveCurrentBlock(oldId)
+                    : ForgeRegistries.BLOCKS.getValue(new ResourceLocation(cfmTarget));
 			if (block == null) {
 				LOGGER.warn("Legacy Iron Age Furniture block '{}' has no supported 1.14 replacement", oldId);
 				continue;
 			}
 			LEGACY_IAF_BLOCK_IDS.set(entry.getValue());
+            if (cfmTarget != null) LEGACY_CFM_BLOCK_IDS.set(entry.getValue());
 			if (LegacyPaddedBenchIds.isLegacyPaddedPath(oldId.getPath())) {
 				LEGACY_PADDED_BLOCK_IDS.set(entry.getValue());
 			}
@@ -248,6 +256,17 @@ public final class LegacyWorldDataHook {
 		}
 		return mapped;
 	}
+
+    private static int countLegacyCfmBlocks(CompoundNBT level) {
+        int count = 0;
+        for (net.minecraft.nbt.INBT entry : level.getList("Sections", 10)) {
+            CompoundNBT section = (CompoundNBT)entry;
+            byte[] blocks = section.getByteArray("Blocks"), add = section.getByteArray("Add");
+            if (blocks.length != 4096) continue;
+            for (int index = 0; index < 4096; index++) if (LEGACY_CFM_BLOCK_IDS.get(blockId(blocks, add, index))) count++;
+        }
+        return count;
+    }
 
 	private static Block resolveCurrentBlock(ResourceLocation oldId) {
 		ResourceLocation target = LegacyPaddedBenchIds.currentId(oldId);

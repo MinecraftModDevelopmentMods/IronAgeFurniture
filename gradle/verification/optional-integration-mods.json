@@ -2,6 +2,14 @@
   "minecraft": "1.14.4",
   "mods": [
     {
+      "modId": "cfm",
+      "role": "integration",
+      "version": "7.0.0-pre15",
+      "file": "furniture-7.0.0-pre15-1.14.4.jar",
+      "sha256": "f1cd73ecaf976fe6f676bed41d81dd3c198821573f59ad348829b29bd28ab088",
+      "source": "https://www.curseforge.com/minecraft/mc-mods/mrcrayfish-furniture-mod/files/2841415"
+    },
+    {
       "modId": "biomesoplenty",
       "role": "integration",
       "version": "1.14.4-9.0.0.262",

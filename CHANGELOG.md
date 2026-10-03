@@ -14,6 +14,11 @@ release candidate yet.
   mining returns the frame and the correct number of candles or torches.
 - Add optional Mineralogy rock-salt lamps to floor and wall sconces. They stay
   lit underwater; removal and mining return the original lamp and frame.
+- Add conditional one-for-one conversion recipes for CFM's six vanilla-wood
+  chairs. Existing CFM chairs remain unchanged unless forced conversion is
+  enabled; supported chairs are recovered automatically when CFM is removed.
+  Facing, named and enchanted items, nested containers, player inventories and
+  Ender Chests are retained. Conversion is permanent, so make a backup first.
 - A powered wall-mounted lava sconce releases its lamp when the space below is
   open. The frame stays in place; the falling vial shatters into fire or an
   underwater obsidian chunk. Creative-mode testing leaves the landed lamp intact.

@@ -47,3 +47,10 @@ ${mod_description}
     versionRange="[0,)"
     ordering="AFTER"
     side="BOTH"
+
+[[dependencies.ironagefurniture]]
+    modId="cfm"
+    mandatory=false
+    versionRange="[0,)"
+    ordering="AFTER"
+    side="BOTH"

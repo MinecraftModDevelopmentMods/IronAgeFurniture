@@ -10,6 +10,7 @@ optional workflows live in smaller scripts:
 | `phase-four-shields.gradle` | Generate and check removable shield-chair frames and crafting recipes. |
 | `phase-four-upholstery.gradle` | Generate and check colour-specific beds, tall chairs, models and crafting recipes. |
 | `phase-four-lighting.gradle` | Generate and check candles, multi-candle/twin-torch sconces, waterlogged states and tallow recipes. |
+| `phase-four-cfm.gradle` | Generate and check the six conditional CFM chair conversion recipes and their exact unlock criteria. |
 | `verification/optional-integrations.gradle` | Check pinned dependency jars and launch packaged-server integration tests. |
 | `verification/phase-four-runtime.gradle` | Build the isolated furniture test mod and run it on a disposable server. |
 | `verification/project-audits.gradle` | Check resources, metadata, namespaces, workflow pins and tracked files. |
@@ -50,3 +51,18 @@ The optional-mod manifest also pins Mineralogy and its OreSpawn dependency.
 With them installed, the probe checks rock-salt lamp insertion, removal,
 underwater light, harvesting and reloads in all floor/wall facings. Without
 Mineralogy, neither rock-salt sconce is registered.
+
+CFM checks use a saved world containing all six wooden chairs in every facing,
+named and enchanted stacks, nested containers, dropped items, a player inventory
+and an Ender Chest. `-PphaseFourCfmMode=seed` creates this fixture with the pinned
+CFM jar installed. Run `unchanged` against a copy to check the default-off policy,
+`converted` to check opted-in replacement, and `recovered` against a copy without
+CFM to check removal recovery. Running the converted copies again checks that
+conversion does not repeat. These modes change only the disposable probe's
+configuration; the normal mod never reads probe properties.
+
+The `legacy110` and `legacy112` modes check saved pre-flattening chair fixtures:
+all six woods, their original facings, stored items, and dropped or nested
+stacks. Use a verified copy of the corresponding fixture, not a newly generated
+world. The recovery modes accept Forge's missing-mod prompt only inside the
+disposable test server; normal play still asks for confirmation.
