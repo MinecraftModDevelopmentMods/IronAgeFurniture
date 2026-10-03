@@ -73,6 +73,10 @@ Generate reproducible Eclipse/Buildship metadata with:
 gradlew.bat prepareEclipse verifyEclipseProductionClasspath
 ```
 
+The longer verification, Eclipse and publication tasks are grouped in smaller
+Gradle scripts. [gradle/README.md](gradle/README.md) explains where each part of
+the build lives.
+
 Release publication is initiated manually from the protected default-branch
 dispatcher after the exact target commit has passed hosted CI. Building
 locally does not tag or publish a release.

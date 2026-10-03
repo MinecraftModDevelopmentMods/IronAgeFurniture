@@ -1,0 +1,76 @@
+import org.gradle.api.publish.maven.tasks.PublishToMavenRepository
+
+// Local builds never publish. Maven upload tasks need explicit credentials,
+// and the release workflow supplies an already audited, immutable jar bundle.
+def expectedMavenGroup = buildSupport.expectedMavenGroup
+def expectedMavenArtifact = buildSupport.expectedMavenArtifact
+def expectedMavenCoordinate = buildSupport.expectedMavenCoordinate
+def preparedReleaseDir = buildSupport.preparedReleaseDir
+def releaseJar = buildSupport.releaseJar
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = project.group.toString()
+            artifactId = base.archivesName.get()
+            version = project.version.toString()
+            if (preparedReleaseDir.isPresent()) {
+                File prepared = file(preparedReleaseDir.get())
+                artifact(new File(prepared, expectedReleaseFiles.get()[0]))
+                artifact(new File(prepared, expectedReleaseFiles.get()[1])) { classifier = 'sources' }
+                artifact(new File(prepared, expectedReleaseFiles.get()[2])) { classifier = 'javadoc' }
+            } else {
+                artifact(releaseJar)
+                artifact(tasks.named('sourcesJar'))
+                artifact(tasks.named('javadocJar'))
+            }
+            pom {
+                name = project.mod_name
+                description = project.mod_description
+                url = 'https://github.com/MinecraftModDevelopmentMods/IronAgeFurniture'
+                licenses {
+                    license {
+                        name = 'GNU Lesser General Public License, Version 2.1'
+                        url = 'https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:https://github.com/MinecraftModDevelopmentMods/IronAgeFurniture.git'
+                    developerConnection = 'scm:git:ssh://git@github.com/MinecraftModDevelopmentMods/IronAgeFurniture.git'
+                    url = 'https://github.com/MinecraftModDevelopmentMods/IronAgeFurniture'
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            name = 'release'
+            url = uri(providers.environmentVariable('MAVEN_UPLOAD_URL')
+                    .orElse('https://invalid.invalid/missing-maven-upload-url').get())
+            credentials {
+                username = providers.environmentVariable('MAVEN_UPLOAD_USERNAME').orNull ?: ''
+                password = providers.environmentVariable('MAVEN_UPLOAD_PASSWORD').orNull ?: ''
+            }
+        }
+    }
+}
+
+tasks.register('validateMavenReleaseCredentials') {
+    group = 'publishing'
+    description = 'Prevents Maven publication without an explicit remote repository and credentials.'
+    doLast {
+        ['MAVEN_UPLOAD_URL', 'MAVEN_UPLOAD_USERNAME', 'MAVEN_UPLOAD_PASSWORD'].each { name ->
+            if (!System.getenv(name)) throw new GradleException("${name} is required")
+        }
+        if (System.getenv('MAVEN_UPLOAD_URL').startsWith('file:')) {
+            throw new GradleException('Maven release publication must use a remote repository')
+        }
+    }
+}
+
+tasks.withType(PublishToMavenRepository).configureEach {
+    dependsOn tasks.named('validateMavenReleaseCredentials')
+    dependsOn(preparedReleaseDir.isPresent()
+            ? tasks.named('verifyPreparedReleaseArtifacts')
+            : tasks.named('verifyReleaseArtifacts'))
+}

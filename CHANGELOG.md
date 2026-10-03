@@ -1,3 +1,9 @@
+# Unreleased Phase 4 development for Forge 1.14.4
+
+- Split the build into smaller files for resource checks, packaged integration
+  tests, Eclipse setup, release artifacts and Maven publication. The Forge
+  1.14.4 toolchain and existing publication safeguards remain unchanged.
+
 # IronAgeFurniture 0.3.0.114041
 
 Phase 3 lighting release for Minecraft 1.14.4 and Forge 28.2.26.

@@ -1,0 +1,186 @@
+import groovy.json.JsonSlurper
+import groovy.xml.XmlSlurper
+import java.util.Arrays
+import java.util.jar.Manifest
+import java.util.zip.ZipFile
+// A release consists of the playable jar, sources and Javadocs. Audit them
+// before calculating checksums or assembling the bundle used by publication.
+def expectedReleaseFiles = buildSupport.expectedReleaseFiles
+def preparedReleaseDir = buildSupport.preparedReleaseDir
+def expectedMavenCoordinate = buildSupport.expectedMavenCoordinate
+def sha256Of = buildSupport.sha256Of
+def archiveTextSuffixes = buildSupport.archiveTextSuffixes
+
+tasks.register('verifyReleaseArtifacts') {
+    group = 'verification'
+    description = 'Audits exactly three deterministic Java 8 release jars.'
+    dependsOn tasks.named('assemble')
+    dependsOn tasks.named('verifyReleaseConfiguration')
+    dependsOn tasks.named('verifyRepositoryHygiene')
+    dependsOn tasks.named('verifyResourceJson')
+    dependsOn tasks.named('verifyNamespace')
+    dependsOn tasks.named('verifyVersionMetadata')
+    doLast {
+        File libs = layout.buildDirectory.dir('libs').get().asFile
+        List<File> jars = (libs.listFiles() ?: [] as File[])
+                .findAll { it.name.endsWith('.jar') }.sort { it.name }
+        List<String> expected = expectedReleaseFiles.get().sort()
+        if (jars.collect { it.name } != expected || jars.any { it.length() == 0L }) {
+            throw new GradleException("Expected exactly three non-empty release jars ${expected}, " +
+                    "found ${jars.collect { it.name }}")
+        }
+        List<String> forbiddenEntries = [
+                'com/mcmoddev/ironagefurniture/', 'src/test/', 'src/optionalIntegrationTest/',
+                'zone/moddev/mc/ironagefurniture/fixture/',
+                'ironagefurniture-optional-integration-probe', 'agent-notes/', '.github/',
+                '.classpath', '.project', 'ci-fixtures/', 'minecraft-mavenizer', 'build/', 'run/'
+        ]
+        jars.each { candidate ->
+            new ZipFile(candidate).withCloseable { ZipFile zip ->
+                List<String> names = zip.entries().collect { it.name }
+                forbiddenEntries.each { forbidden ->
+                    if (names.any { it.contains(forbidden) }) {
+                        throw new GradleException("${candidate.name} contains forbidden entry ${forbidden}")
+                    }
+                }
+                zip.entries().findAll { entry ->
+                    !entry.isDirectory() && (archiveTextSuffixes.any { entry.name.endsWith(it) }
+                            || entry.name.endsWith('/element-list')
+                            || entry.name.endsWith('/package-list'))
+                }.each { entry ->
+                    if (zip.getInputStream(entry).withCloseable { it.bytes.any { value -> value == 13 } }) {
+                        throw new GradleException("${candidate.name}!/${entry.name} does not use LF endings")
+                    }
+                }
+            }
+        }
+        File mainJar = new File(libs, expectedReleaseFiles.get()[0])
+        new ZipFile(mainJar).withCloseable { ZipFile zip ->
+            [
+                    'META-INF/mods.toml',
+                    'assets/ironagefurniture/lang/en_us.json',
+                    'zone/moddev/mc/ironagefurniture/Ironagefurniture.class'
+            ].each { required ->
+                if (zip.getEntry(required) == null) {
+                    throw new GradleException("Release jar is missing ${required}")
+                }
+            }
+            String metadata = zip.getInputStream(zip.getEntry('META-INF/mods.toml'))
+                    .withCloseable { it.getText('UTF-8') }
+            if (!metadata.contains('modId="ironagefurniture"')
+                    || !metadata.contains("version=\"${project.version}\"")
+                    || metadata.contains('${')) {
+                throw new GradleException('Packaged mods.toml is not synchronized')
+            }
+            Manifest manifest = new Manifest(zip.getInputStream(zip.getEntry('META-INF/MANIFEST.MF')))
+            if (manifest.mainAttributes.getValue('Implementation-Version') != project.version.toString()
+                    || manifest.mainAttributes.getValue('Maven-Artifact') != expectedMavenCoordinate
+                    || manifest.mainAttributes.getValue('Implementation-Timestamp') != null
+                    || manifest.mainAttributes.getValue('Timestamp') != null) {
+                throw new GradleException('Release manifest identity is incorrect or volatile')
+            }
+            zip.entries().findAll { it.name.endsWith('.class') }.each { entry ->
+                byte[] header = zip.getInputStream(entry).withCloseable { it.readNBytes(8) }
+                int major = ((header[6] & 0xff) << 8) | (header[7] & 0xff)
+                if (major != 52) {
+                    throw new GradleException("${entry.name} uses class major ${major}, expected 52")
+                }
+            }
+            if (zip.entries().any { it.name.endsWith('.java')
+                    || it.name.startsWith('assets/iron-age-furniture/')
+                    || it.name.startsWith('data/iron-age-furniture/') }) {
+                throw new GradleException('Runtime jar contains source or a renamed persistent namespace')
+            }
+        }
+        new ZipFile(new File(libs, expectedReleaseFiles.get()[1])).withCloseable { zip ->
+            if (zip.getEntry('zone/moddev/mc/ironagefurniture/Ironagefurniture.java') == null) {
+                throw new GradleException('Sources jar is missing Ironagefurniture.java')
+            }
+        }
+        new ZipFile(new File(libs, expectedReleaseFiles.get()[2])).withCloseable { zip ->
+            if (zip.getEntry('index.html') == null) {
+                throw new GradleException('Javadoc jar is missing index.html')
+            }
+        }
+    }
+}
+
+tasks.register('writeReleaseChecksums') {
+    group = 'verification'
+    description = 'Writes SHA-256 checksums for the audited release jars.'
+    dependsOn tasks.named('verifyReleaseArtifacts')
+    outputs.file(layout.buildDirectory.file('release/SHA256SUMS'))
+    doLast {
+        File output = layout.buildDirectory.file('release/SHA256SUMS').get().asFile
+        output.parentFile.mkdirs()
+        File libs = layout.buildDirectory.dir('libs').get().asFile
+        output.setText(expectedReleaseFiles.get().sort().collect { name ->
+            "${sha256Of(new File(libs, name))}  ${name}"
+        }.join('\n') + '\n', 'UTF-8')
+    }
+}
+
+tasks.register('verifyReleaseChecksums') {
+    group = 'verification'
+    description = 'Recomputes and verifies the release SHA-256 checksum manifest.'
+    dependsOn tasks.named('writeReleaseChecksums')
+    doLast {
+        File libs = layout.buildDirectory.dir('libs').get().asFile
+        File manifest = layout.buildDirectory.file('release/SHA256SUMS').get().asFile
+        Map<String, String> declared = manifest.readLines('UTF-8').findAll { !it.trim().isEmpty() }
+                .collectEntries { line ->
+                    def parts = line.split(/\s+/, 2)
+                    [(parts[1]): parts[0].toUpperCase()]
+                }
+        if (declared.keySet().sort() != expectedReleaseFiles.get().sort()) {
+            throw new GradleException('Checksum manifest does not list exactly the release artifacts')
+        }
+        declared.each { name, expected ->
+            String actual = sha256Of(new File(libs, name))
+            if (actual != expected) throw new GradleException("Checksum mismatch for ${name}")
+        }
+    }
+}
+
+tasks.register('prepareReleaseBundle', Sync) {
+    group = 'verification'
+    description = 'Copies the audited jars, checksum manifest, and release notes into one immutable bundle.'
+    dependsOn tasks.named('verifyReleaseChecksums')
+    into layout.buildDirectory.dir('prepared-release')
+    from(layout.buildDirectory.dir('libs')) {
+        include expectedReleaseFiles.get()
+    }
+    from(layout.buildDirectory.file('release/SHA256SUMS'))
+    from('CHANGELOG.md')
+}
+
+tasks.register('verifyPreparedReleaseArtifacts') {
+    group = 'verification'
+    description = 'Audits a previously built immutable release bundle before publication.'
+    doLast {
+        if (!preparedReleaseDir.isPresent()) {
+            throw new GradleException('preparedReleaseDir is required')
+        }
+        File prepared = file(preparedReleaseDir.get())
+        List<String> expectedBundle = (expectedReleaseFiles.get()
+                + ['SHA256SUMS', 'CHANGELOG.md']).sort()
+        List<String> actualBundle = (prepared.listFiles() ?: [] as File[])
+                .findAll { it.isFile() }.collect { it.name }.sort()
+        if (actualBundle != expectedBundle) {
+            throw new GradleException("Expected prepared bundle ${expectedBundle}, found ${actualBundle}")
+        }
+        Map<String, String> declared = new File(prepared, 'SHA256SUMS').readLines('UTF-8')
+                .findAll { !it.trim().isEmpty() }.collectEntries { line ->
+                    def parts = line.split(/\s+/, 2)
+                    [(parts[1]): parts[0].toUpperCase()]
+                }
+        if (declared.keySet().sort() != expectedReleaseFiles.get().sort()) {
+            throw new GradleException('Prepared checksums do not list exactly the release jars')
+        }
+        declared.each { name, expected ->
+            if (sha256Of(new File(prepared, name)) != expected) {
+                throw new GradleException("Prepared checksum mismatch for ${name}")
+            }
+        }
+    }
+}
