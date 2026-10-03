@@ -16,6 +16,22 @@
       "file": "ImmersiveEngineering-0.14-102.jar",
       "sha256": "79309e18a70bd21a3882b5a2b97848cc38520f548699bfac645fb8048f13663f",
       "source": "https://www.curseforge.com/minecraft/mc-mods/immersive-engineering/files/2980313"
+    },
+    {
+      "modId": "mineralogy",
+      "role": "integration",
+      "version": "6.0.1.114041",
+      "file": "Mineralogy-6.0.1.114041.jar",
+      "sha256": "6107476bf31100f6f81e56dbae68fd21ac82ddf35f06affbf3ae9e286ac905bf",
+      "source": "https://github.com/MinecraftModDevelopmentMods/MinecraftMineralogy/releases/tag/6.0.1.114041"
+    },
+    {
+      "modId": "orespawn",
+      "role": "dependency",
+      "version": "4.0.8.114041",
+      "file": "OreSpawn-4.0.8.114041.jar",
+      "sha256": "ec9bd64f1bd85c430a327fda9a862eabc37a16c0983791683a3d0d32a852b07a",
+      "source": "https://github.com/MinecraftModDevelopmentMods/OreSpawn/releases/tag/4.0.8.114041"
     }
   ]
 }

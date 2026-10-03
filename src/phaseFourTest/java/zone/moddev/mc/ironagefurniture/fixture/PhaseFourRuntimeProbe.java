@@ -80,9 +80,10 @@ public final class PhaseFourRuntimeProbe {
             int upholstery = UpholsteryRuntimeProbe.run(server, world, player);
             int candles = CandleRuntimeProbe.run(world, player);
             int sconces = SconceContentsRuntimeProbe.run(world, player);
+            int rockSalt = RockSaltRuntimeProbe.run(world, player);
             Files.write(Paths.get("phase-four-pass.properties"), ("status=PASS\nshield_chairs=" + chairs
                     + "\nshield_states=" + states + "\nupholstered_forms=" + upholstery + "\ncandle_cases=" + candles
-                    + "\nsconce_cases=" + sconces + "\n").getBytes(StandardCharsets.UTF_8));
+                    + "\nsconce_cases=" + sconces + "\nrocksalt_cases=" + rockSalt + "\n").getBytes(StandardCharsets.UTF_8));
             org.apache.logging.log4j.LogManager.getLogger().info("IAF PHASE FOUR SHIELD PROBE PASSED: {} chairs, {} states", chairs, states);
         } catch (Exception failure) {
             throw new IllegalStateException("Phase 4 runtime probe failed", failure);

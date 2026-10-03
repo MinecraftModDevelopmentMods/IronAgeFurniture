@@ -4443,6 +4443,7 @@
     "block.ironagefurniture.light_metal_ironage_sconce_floor_candle_iron_two_unlit": "Unlit Iron Candle Sconce (2 Candles)",
     "block.ironagefurniture.light_metal_ironage_sconce_floor_candle_iron_unlit": "Unlit Iron Candle Sconce",
     "block.ironagefurniture.light_metal_ironage_sconce_floor_empty_iron": "Sconce",
+    "block.ironagefurniture.light_metal_ironage_sconce_floor_rocksalt_iron": "Iron Rock-Salt Sconce",
     "block.ironagefurniture.light_metal_ironage_sconce_floor_torch_iron_twin": "Iron Twin-Torch Sconce",
     "block.ironagefurniture.light_metal_ironage_sconce_floor_torch_iron_twin_unlit": "Unlit Iron Twin-Torch Sconce",
     "block.ironagefurniture.light_metal_ironage_sconce_wall_candle_iron": "Iron Candle Sconce",
@@ -4453,6 +4454,7 @@
     "block.ironagefurniture.light_metal_ironage_sconce_wall_candle_iron_two": "Iron Candle Sconce (2 Candles)",
     "block.ironagefurniture.light_metal_ironage_sconce_wall_candle_iron_two_unlit": "Unlit Iron Candle Sconce (2 Candles)",
     "block.ironagefurniture.light_metal_ironage_sconce_wall_candle_iron_unlit": "Unlit Iron Candle Sconce",
+    "block.ironagefurniture.light_metal_ironage_sconce_wall_rocksalt_iron": "Iron Rock-Salt Sconce",
     "block.ironagefurniture.light_metal_ironage_sconce_wall_torch_iron_twin": "Iron Twin-Torch Sconce",
     "block.ironagefurniture.light_metal_ironage_sconce_wall_torch_iron_twin_unlit": "Unlit Iron Twin-Torch Sconce",
     "block.ironagefurniture.obsidian_chunk": "Obsidian Chunk",
@@ -4460,6 +4462,7 @@
     "config.ironagefurniture.thrones": "Thrones",
     "config.ironagefurniture.wingback": "Wingback Chairs",
     "config.ironagefurniture.woodbeds": "Wooden Beds",
+    "ironagefurniture.integration.mineralogyIntegration": "Mineralogy lamps",
     "item.ironagefurniture.tallow": "Tallow",
     "itemGroup.ironagefurniture": "Iron Age Furniture"
 }

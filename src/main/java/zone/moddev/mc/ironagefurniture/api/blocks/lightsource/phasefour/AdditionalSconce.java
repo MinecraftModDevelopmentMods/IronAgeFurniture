@@ -131,12 +131,7 @@ public final class AdditionalSconce extends LightHolderSconceFloor {
             }
             return true;
         }
-        if (held.getItem() == Items.TORCH || held.getItem() == Items.REDSTONE_TORCH
-                || held.getItem() == PhaseFourLighting.candle(false, true).asItem()
-                || held.getItem() == BlockObjectHolder.light_metal_ironage_block_floor_glow_clear.asItem()
-                || held.getItem() == BlockObjectHolder.light_metal_ironage_block_floor_lava_clear.asItem()
-                || held.getItem() == BlockObjectHolder.light_metal_ironage_block_floor_red_clear.asItem()) return true;
-        return false;
+        return PhaseFourLighting.isLightItem(held);
     }
     @Override public void neighborChanged(BlockState state, World world, BlockPos pos, Block changed, BlockPos from, boolean moving) {
         if (!world.isRemote && !lit && !state.get(WATERLOGGED) && world.isBlockPowered(pos))

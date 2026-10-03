@@ -18,6 +18,7 @@ public class IronAgeFurnitureConfiguration
         public final ForgeConfigSpec.BooleanValue GENERATE_CANOPY_BEDS;
     	public final ForgeConfigSpec.BooleanValue INTEGRATION_BIOMESOPLENTY;
     	public final ForgeConfigSpec.BooleanValue INTEGRATION_IMMERSIVEENGINEERING;
+        public final ForgeConfigSpec.BooleanValue INTEGRATION_MINERALOGY;
         
         Client(ForgeConfigSpec.Builder builder)
         {
@@ -66,6 +67,8 @@ public class IronAgeFurnitureConfiguration
             		.comment("Integrate with Immersive Engineering.")
                     .translation("ironagefurniture.integration.ieIntegration")
                     .define("ieIntegration", true);
+            this.INTEGRATION_MINERALOGY = builder.comment("Allow Mineralogy rock-salt lamps in sconces.")
+                    .translation("ironagefurniture.integration.mineralogyIntegration").define("mineralogyIntegration", true);
             
             builder.pop();
         }

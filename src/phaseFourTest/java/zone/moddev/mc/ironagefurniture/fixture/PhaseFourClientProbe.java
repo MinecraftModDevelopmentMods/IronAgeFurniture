@@ -77,7 +77,8 @@ public final class PhaseFourClientProbe {
             require(upholstery >= 36, "Upholstered furniture not loaded");
             for (Block block : ForgeRegistries.BLOCKS.getValues()) {
                 if (!(block instanceof zone.moddev.mc.ironagefurniture.api.blocks.lightsource.phasefour.Candle)
-                        && !(block instanceof zone.moddev.mc.ironagefurniture.api.blocks.lightsource.phasefour.AdditionalSconce)) continue;
+                        && !(block instanceof zone.moddev.mc.ironagefurniture.api.blocks.lightsource.phasefour.AdditionalSconce)
+                        && !(block instanceof zone.moddev.mc.ironagefurniture.api.blocks.lightsource.phasefour.RockSaltSconce)) continue;
                 for (net.minecraft.block.BlockState state : block.getStateContainer().getValidStates()) {
                     IBakedModel placed = game.getBlockRendererDispatcher().getModelForState(state);
                     require(placed != game.getModelManager().getMissingModel(), "Missing candle/twin-torch block model");

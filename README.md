@@ -66,9 +66,12 @@ installed:
 
 - Biomes O' Plenty
 - Immersive Engineering
+- Minecraft Mineralogy (rock-salt lamps in sconces)
 
 They are optional. Their recipes and recipe advancements are conditionally
 loaded, so a normal installation does not need any of them.
+With Mineralogy installed, use its rock-salt lamp on an empty sconce to fit it.
+The lamp stays lit underwater and can be removed intact with an empty hand.
 
 ## Compatibility
 

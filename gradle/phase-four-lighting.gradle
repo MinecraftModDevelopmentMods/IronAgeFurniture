@@ -58,6 +58,25 @@ def lightingFiles = {
     }
     names['item.ironagefurniture.tallow'] = 'Tallow'
     ['floor', 'wall'].each { form ->
+        String template = "template_light_metal_ironage_sconce_${form}_rocksalt"
+        Map geometry = new JsonSlurper().parse(new File(lightTemplates, "${template}.json")) as Map
+        geometry.textures.particle = 'mineralogy:blocks/rocksalt_lamp'
+        files["${assets}/models/block/${template}.json"] = lightJson(geometry)
+        String id = "light_metal_ironage_sconce_${form}_rocksalt_iron"
+        files["${assets}/models/block/${id}.json"] = lightJson([parent: "ironagefurniture:block/${template}",
+            textures: [metal: 'minecraft:block/iron_block', contents: 'mineralogy:blocks/rocksalt_lamp']])
+        Map variants = [:]
+        [north: 0, east: 90, south: 180, west: 270].each { facing, rotation ->
+            [false, true].each { wet ->
+                variants["facing=${facing},waterlogged=${wet}"] = [model: "ironagefurniture:block/${id}", y: form == 'wall' ? (rotation + 270) % 360 : rotation]
+            }
+        }
+        files["${assets}/blockstates/${id}.json"] = lightJson([variants: variants])
+        files["${assets}/models/item/${id}.json"] = lightJson([parent: "ironagefurniture:block/${id}"])
+        names["block.ironagefurniture.${id}"] = 'Iron Rock-Salt Sconce'
+    }
+    names['ironagefurniture.integration.mineralogyIntegration'] = 'Mineralogy lamps'
+    ['floor', 'wall'].each { form ->
         ['torch_twin', 'candle', 'candle_two', 'candle_three', 'candle_four'].each { family ->
             String template = "template_light_metal_ironage_sconce_${form}_${family}"
             Map geometry = new JsonSlurper().parse(new File(lightTemplates, "${template}.json")) as Map

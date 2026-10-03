@@ -36,7 +36,7 @@ tasks.register('verifyOptionalIntegrationMods') {
     doLast {
         Map manifest = new JsonSlurper().parse(optionalIntegrationManifestFile.asFile) as Map
         if (manifest.minecraft != project.minecraft_version.toString()
-                || !(manifest.mods instanceof List) || manifest.mods.size() != 2) {
+                || !(manifest.mods instanceof List) || manifest.mods.size() != 4) {
             throw new GradleException('Optional-integration mod manifest is incomplete or targets the wrong game')
         }
         File modsDirectory = optionalIntegrationModsDirectory.get()
@@ -76,7 +76,7 @@ tasks.register('verifyOptionalIntegrationMods') {
                 def matcher = text =~ /["']${java.util.regex.Pattern.quote(modId)}:([^"']+)["']/
                 matcher.each { match ->
                     String path = match[1].toString()
-                    if (path.startsWith('block/') || path.startsWith('item/')) {
+                    if (path.startsWith('block/') || path.startsWith('blocks/') || path.startsWith('item/')) {
                         externalTextures[modId].add("assets/${modId}/textures/${path}.png")
                     }
                 }

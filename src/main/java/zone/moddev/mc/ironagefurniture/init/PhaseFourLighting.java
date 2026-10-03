@@ -20,6 +20,8 @@ import zone.moddev.mc.ironagefurniture.Ironagefurniture;
 import zone.moddev.mc.ironagefurniture.api.blocks.lightsource.phasefour.Candle;
 import zone.moddev.mc.ironagefurniture.api.blocks.lightsource.phasefour.AdditionalSconce;
 import zone.moddev.mc.ironagefurniture.api.blocks.lightsource.phasefour.LightInteractions;
+import zone.moddev.mc.ironagefurniture.api.blocks.lightsource.phasefour.RockSaltSconce;
+import zone.moddev.mc.ironagefurniture.api.MineralogyCompat;
 
 /** New light identities remain compatible with the accepted 1.10/1.12 release. */
 @Mod.EventBusSubscriber(modid = Ironagefurniture.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -39,6 +41,25 @@ public final class PhaseFourLighting {
         return path + (lit ? "" : "_unlit");
     }
     public static Block sconce(boolean wall, boolean lit, boolean twinTorch, int count) { return block(sconceId(wall, lit, twinTorch, count)); }
+    public static String rockSaltId(boolean wall) { return "light_metal_ironage_sconce_" + (wall ? "wall" : "floor") + "_rocksalt_iron"; }
+    public static Block rockSalt(boolean wall) { return block(rockSaltId(wall)); }
+    public static boolean isLightItem(ItemStack stack) {
+        net.minecraft.item.Item item = stack.getItem();
+        return item == net.minecraft.item.Items.TORCH || item == net.minecraft.item.Items.REDSTONE_TORCH
+                || item == candle(false, true).asItem() || MineralogyCompat.isRockSaltLamp(stack)
+                || item == zone.moddev.mc.ironagefurniture.BlockObjectHolder.light_metal_ironage_block_floor_glow_clear.asItem()
+                || item == zone.moddev.mc.ironagefurniture.BlockObjectHolder.light_metal_ironage_block_floor_lava_clear.asItem()
+                || item == zone.moddev.mc.ironagefurniture.BlockObjectHolder.light_metal_ironage_block_floor_red_clear.asItem();
+    }
+    public static boolean insertRockSalt(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, boolean wall) {
+        ItemStack held = player.getHeldItem(hand);
+        if (!MineralogyCompat.isRockSaltLamp(held)) return false;
+        if (!world.isRemote) {
+            LightInteractions.replace(world, pos, state, rockSalt(wall));
+            if (!player.isCreative()) held.shrink(1);
+        }
+        return true;
+    }
     public static boolean insertCandle(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, boolean wall) {
         ItemStack held = player.getHeldItem(hand);
         if (held.getItem() != candle(false, true).asItem()) return false;
@@ -62,6 +83,8 @@ public final class PhaseFourLighting {
         event.getRegistry().register(CANDLE_FLAME.setRegistryName(Ironagefurniture.MODID, "candle_flame"));
     }
     @SubscribeEvent public static void registerBlocks(RegistryEvent.Register<Block> event) {
+        if (MineralogyCompat.isEnabled()) for (boolean wall : new boolean[]{false, true})
+            event.getRegistry().register(new RockSaltSconce(rockSaltId(wall), wall));
         for (boolean wall : new boolean[]{false, true}) for (boolean lit : new boolean[]{false, true})
             event.getRegistry().register(new Candle(candleId(wall, lit), wall, lit));
         for (boolean wall : new boolean[]{false, true}) for (boolean lit : new boolean[]{false, true}) {
@@ -78,7 +101,7 @@ public final class PhaseFourLighting {
         }
         event.getRegistry().register(new Item(new Item.Properties().group(Ironagefurniture.IAF_GROUP))
                 .setRegistryName(Ironagefurniture.MODID, "tallow"));
-        for (Block block : ForgeRegistries.BLOCKS.getValues()) if (block instanceof AdditionalSconce)
+        for (Block block : ForgeRegistries.BLOCKS.getValues()) if (block instanceof AdditionalSconce || block instanceof RockSaltSconce)
             event.getRegistry().register(new BlockItem(block, new Item.Properties()).setRegistryName(block.getRegistryName()));
     }
 }

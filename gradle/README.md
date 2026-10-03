@@ -45,3 +45,8 @@ draining, relighting, support loss, real harvesting and tallow output counts.
 The new sconces also check content insertion/removal, Creative consumption,
 flame orientation and saved-state reloads. Metal variants and the remaining
 Phase 4 upgrades are still being developed.
+
+The optional-mod manifest also pins Mineralogy and its OreSpawn dependency.
+With them installed, the probe checks rock-salt lamp insertion, removal,
+underwater light, harvesting and reloads in all floor/wall facings. Without
+Mineralogy, neither rock-salt sconce is registered.

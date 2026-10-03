@@ -12,6 +12,8 @@ release candidate yet.
 - Sconces can hold up to four candles or two torches. Inserting, removing,
   extinguishing and relighting their contents preserves facing and waterlogging;
   mining returns the frame and the correct number of candles or torches.
+- Add optional Mineralogy rock-salt lamps to floor and wall sconces. They stay
+  lit underwater; removal and mining return the original lamp and frame.
 - Bed upgrades keep the supplied bed's colour. Double beds require matching
   singles; carpet recipes deliberately recolour an existing bed. Recipe-book
   entries remain separate for each wood, form and colour.
