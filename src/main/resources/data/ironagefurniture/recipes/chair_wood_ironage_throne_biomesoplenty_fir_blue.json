@@ -1,0 +1,39 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "c",
+        "p",
+        "s"
+    ],
+    "key": {
+        "c": {
+            "item": "minecraft:blue_carpet"
+        },
+        "p": {
+            "item": "biomesoplenty:fir_planks"
+        },
+        "s": {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_fir"
+        }
+    },
+    "group": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_fir_blue",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_fir",
+        "count": 1,
+        "nbt": "{Color:\"blue\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_fir"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_fir"
+        }
+    ]
+}

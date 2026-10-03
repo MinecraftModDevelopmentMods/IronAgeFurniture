@@ -1,0 +1,39 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "c",
+        "p",
+        "s"
+    ],
+    "key": {
+        "c": {
+            "item": "minecraft:pink_carpet"
+        },
+        "p": {
+            "item": "biomesoplenty:dead_planks"
+        },
+        "s": {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_dead"
+        }
+    },
+    "group": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_dead_pink",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_dead",
+        "count": 1,
+        "nbt": "{Color:\"pink\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_dead"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_dead"
+        }
+    ]
+}

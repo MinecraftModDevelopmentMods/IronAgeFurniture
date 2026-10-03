@@ -1,0 +1,39 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "c",
+        "p",
+        "s"
+    ],
+    "key": {
+        "c": {
+            "item": "minecraft:lime_carpet"
+        },
+        "p": {
+            "item": "biomesoplenty:magic_planks"
+        },
+        "s": {
+            "item": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_magic"
+        }
+    },
+    "group": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_magic_lime",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_magic",
+        "count": 1,
+        "nbt": "{Color:\"lime\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_magic"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_magic"
+        }
+    ]
+}

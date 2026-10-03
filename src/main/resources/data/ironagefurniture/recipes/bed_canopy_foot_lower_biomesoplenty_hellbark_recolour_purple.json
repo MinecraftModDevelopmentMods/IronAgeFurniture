@@ -1,0 +1,31 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_hellbark_recolour_purple",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_hellbark"
+        },
+        {
+            "item": "minecraft:purple_carpet"
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_hellbark"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_hellbark"
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_hellbark",
+        "count": 1,
+        "nbt": "{Color:\"purple\"}"
+    }
+}

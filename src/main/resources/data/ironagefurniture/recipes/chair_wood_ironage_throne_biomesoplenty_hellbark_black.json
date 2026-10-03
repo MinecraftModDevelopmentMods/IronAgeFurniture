@@ -1,0 +1,39 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "c",
+        "p",
+        "s"
+    ],
+    "key": {
+        "c": {
+            "item": "minecraft:black_carpet"
+        },
+        "p": {
+            "item": "biomesoplenty:hellbark_planks"
+        },
+        "s": {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_hellbark"
+        }
+    },
+    "group": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_hellbark_black",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_hellbark",
+        "count": 1,
+        "nbt": "{Color:\"black\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_hellbark"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_hellbark"
+        }
+    ]
+}

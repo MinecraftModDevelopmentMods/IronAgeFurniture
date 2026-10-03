@@ -1,0 +1,39 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "c",
+        "p",
+        "s"
+    ],
+    "key": {
+        "c": {
+            "item": "minecraft:red_carpet"
+        },
+        "p": {
+            "item": "biomesoplenty:magic_planks"
+        },
+        "s": {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_magic"
+        }
+    },
+    "group": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_magic_red",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_magic",
+        "count": 1,
+        "nbt": "{Color:\"red\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_magic"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_magic"
+        }
+    ]
+}

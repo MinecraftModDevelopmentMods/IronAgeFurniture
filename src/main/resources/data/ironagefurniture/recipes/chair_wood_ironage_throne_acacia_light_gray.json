@@ -1,0 +1,35 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "c",
+        "p",
+        "s"
+    ],
+    "key": {
+        "c": {
+            "item": "minecraft:light_gray_carpet"
+        },
+        "p": {
+            "item": "minecraft:acacia_planks"
+        },
+        "s": {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_acacia"
+        }
+    },
+    "group": "ironagefurniture:chair_wood_ironage_throne_acacia_light_gray",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_throne_acacia",
+        "count": 1,
+        "nbt": "{Color:\"light_gray\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_throne_acacia"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_wingback_acacia"
+        }
+    ]
+}

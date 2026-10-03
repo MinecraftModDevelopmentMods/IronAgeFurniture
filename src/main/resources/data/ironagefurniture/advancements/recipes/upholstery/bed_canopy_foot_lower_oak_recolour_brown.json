@@ -1,0 +1,48 @@
+{
+    "advancements": [
+        {
+            "conditions": [
+                {
+                    "type": "forge:item_exists",
+                    "item": "ironagefurniture:bed_canopy_foot_lower_oak"
+                },
+                {
+                    "type": "forge:item_exists",
+                    "item": "ironagefurniture:bed_wood_foot_oak"
+                }
+            ],
+            "advancement": {
+                "parent": "minecraft:recipes/root",
+                "rewards": {
+                    "recipes": [
+                        "ironagefurniture:bed_canopy_foot_lower_oak_recolour_brown"
+                    ]
+                },
+                "criteria": {
+                    "has_ingredient": {
+                        "trigger": "minecraft:inventory_changed",
+                        "conditions": {
+                            "items": [
+                                {
+                                    "item": "minecraft:brown_carpet"
+                                }
+                            ]
+                        }
+                    },
+                    "has_the_recipe": {
+                        "trigger": "minecraft:recipe_unlocked",
+                        "conditions": {
+                            "recipe": "ironagefurniture:bed_canopy_foot_lower_oak_recolour_brown"
+                        }
+                    }
+                },
+                "requirements": [
+                    [
+                        "has_ingredient",
+                        "has_the_recipe"
+                    ]
+                ]
+            }
+        }
+    ]
+}

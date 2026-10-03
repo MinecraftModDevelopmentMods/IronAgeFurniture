@@ -54,6 +54,27 @@ public final class PhaseFourClientProbe {
                 chairs++;
             }
             require(chairs >= 6, "Vanilla chairs not loaded");
+            int upholstery = 0;
+            for (Block block : ForgeRegistries.BLOCKS.getValues()) {
+                if (block instanceof zone.moddev.mc.ironagefurniture.api.blocks.furniture.FurnitureBed
+                        || block instanceof zone.moddev.mc.ironagefurniture.api.blocks.furniture.MultiBlockChair)
+                    for (net.minecraft.block.BlockState state : block.getStateContainer().getValidStates())
+                        require(game.getBlockRendererDispatcher().getModelForState(state) != game.getModelManager().getMissingModel(),
+                                "Missing upholstered blockstate: " + state);
+                if (!(block.asItem() instanceof zone.moddev.mc.ironagefurniture.api.items.UpholsteredBlockItem)) continue;
+                for (zone.moddev.mc.ironagefurniture.api.enumerations.UpholsteryColour colour
+                        : zone.moddev.mc.ironagefurniture.api.enumerations.UpholsteryColour.values()) {
+                    IBakedModel model = game.getItemRenderer().getItemModelWithOverrides(
+                            zone.moddev.mc.ironagefurniture.api.UpholsteryItemData.create(block, colour), null, null);
+                    require(model != game.getModelManager().getMissingModel(), "Missing upholstered inventory model");
+                    java.util.List<net.minecraft.client.renderer.model.BakedQuad> quads = model.getQuads(null, null, new Random(0));
+                    require(quads.stream().anyMatch(quad -> quad.getSprite().getName().equals(
+                            new net.minecraft.util.ResourceLocation("minecraft:block/" + colour.getName() + "_wool"))),
+                            "Inventory colour does not select its wool texture: " + block.getRegistryName() + "/" + colour);
+                }
+                upholstery++;
+            }
+            require(upholstery >= 36, "Upholstered furniture not loaded");
             require(TileEntityRendererDispatcher.instance.getRenderer(new ShieldChairTileEntity()) != null,
                     "Shield tile renderer not registered");
             ItemStack patterned = new ItemStack(Items.SHIELD);
@@ -69,7 +90,7 @@ public final class PhaseFourClientProbe {
             renderer.renderShield(new ItemStack(Items.SHIELD), chair.getDefaultState(), -100, -100, -100);
             renderer.renderShield(patterned, chair.getDefaultState(), -100, -100, -100);
             Files.write(Paths.get("phase-four-client-pass.properties"),
-                    ("status=PASS\nshield_chairs=" + chairs + "\n").getBytes(StandardCharsets.UTF_8));
+                    ("status=PASS\nshield_chairs=" + chairs + "\nupholstered_forms=" + upholstery + "\n").getBytes(StandardCharsets.UTF_8));
             org.apache.logging.log4j.LogManager.getLogger().info("IAF PHASE FOUR CLIENT PROBE PASSED: {} chairs", chairs);
         } catch (Exception failure) {
             throw new IllegalStateException("Phase 4 client probe failed", failure);

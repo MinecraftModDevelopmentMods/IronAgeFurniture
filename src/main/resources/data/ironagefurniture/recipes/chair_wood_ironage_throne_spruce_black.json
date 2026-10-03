@@ -1,0 +1,35 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "c",
+        "p",
+        "s"
+    ],
+    "key": {
+        "c": {
+            "item": "minecraft:black_carpet"
+        },
+        "p": {
+            "item": "minecraft:spruce_planks"
+        },
+        "s": {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_spruce"
+        }
+    },
+    "group": "ironagefurniture:chair_wood_ironage_throne_spruce_black",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_throne_spruce",
+        "count": 1,
+        "nbt": "{Color:\"black\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_throne_spruce"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_wingback_spruce"
+        }
+    ]
+}

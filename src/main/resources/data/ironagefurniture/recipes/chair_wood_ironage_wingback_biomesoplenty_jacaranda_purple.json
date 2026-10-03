@@ -1,0 +1,39 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "c",
+        "p",
+        "s"
+    ],
+    "key": {
+        "c": {
+            "item": "minecraft:purple_carpet"
+        },
+        "p": {
+            "item": "biomesoplenty:jacaranda_planks"
+        },
+        "s": {
+            "item": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_jacaranda"
+        }
+    },
+    "group": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_jacaranda_purple",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_jacaranda",
+        "count": 1,
+        "nbt": "{Color:\"purple\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_jacaranda"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_jacaranda"
+        }
+    ]
+}

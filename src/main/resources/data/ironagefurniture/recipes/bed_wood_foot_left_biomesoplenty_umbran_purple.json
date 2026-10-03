@@ -1,0 +1,31 @@
+{
+    "type": "ironagefurniture:upholstery_upgrade",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_umbran"
+        },
+        {
+            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_umbran"
+        }
+    ],
+    "group": "ironagefurniture:bed_wood_foot_left_biomesoplenty_umbran_purple",
+    "result": {
+        "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_umbran",
+        "count": 1,
+        "nbt": "{Color:\"purple\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_umbran"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_umbran"
+        }
+    ]
+}

@@ -1,0 +1,39 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "c",
+        "p",
+        "s"
+    ],
+    "key": {
+        "c": {
+            "item": "minecraft:brown_carpet"
+        },
+        "p": {
+            "item": "biomesoplenty:umbran_planks"
+        },
+        "s": {
+            "item": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_umbran"
+        }
+    },
+    "group": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_umbran_brown",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_umbran",
+        "count": 1,
+        "nbt": "{Color:\"brown\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_umbran"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_umbran"
+        }
+    ]
+}

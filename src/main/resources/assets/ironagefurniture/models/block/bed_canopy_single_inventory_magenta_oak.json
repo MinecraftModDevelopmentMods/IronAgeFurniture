@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_bed_canopy_single_inventory",
+    "textures": {
+        "log": "minecraft:block/oak_log",
+        "planks": "minecraft:block/oak_planks",
+        "particle": "minecraft:block/oak_log",
+        "cloth": "minecraft:block/magenta_wool"
+    }
+}

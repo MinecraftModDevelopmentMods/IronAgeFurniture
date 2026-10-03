@@ -15,6 +15,7 @@ plugins {
 // Regeneration is an explicit task, so importing the project cannot rewrite them.
 apply from: 'gradle/furniture-catalog.gradle'
 apply from: 'gradle/phase-four-shields.gradle'
+apply from: 'gradle/phase-four-upholstery.gradle'
 
 def sha256Of = { File inputFile ->
     MessageDigest digest = MessageDigest.getInstance('SHA-256')
@@ -112,8 +113,8 @@ def archiveTextSuffixes = [
 def archiveTextPatterns = archiveTextSuffixes.collect { "**/*${it}".toString() }
 archiveTextPatterns.addAll(['**/element-list', '**/package-list'])
 def optionalIntegrationExpectedCounts = [
-        biomesoplenty        : [recipes: 429, advancements: 429],
-        immersiveengineering: [recipes: 38, advancements: 38]
+        biomesoplenty        : [recipes: 2189, advancements: 2189],
+        immersiveengineering: [recipes: 198, advancements: 198]
 ]
 def normalizeArchiveLineEndings = { details ->
     details.filter(FixCrLfFilter,

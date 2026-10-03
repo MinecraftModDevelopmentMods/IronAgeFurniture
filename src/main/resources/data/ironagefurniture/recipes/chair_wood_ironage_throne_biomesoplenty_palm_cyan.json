@@ -1,0 +1,39 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "c",
+        "p",
+        "s"
+    ],
+    "key": {
+        "c": {
+            "item": "minecraft:cyan_carpet"
+        },
+        "p": {
+            "item": "biomesoplenty:palm_planks"
+        },
+        "s": {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_palm"
+        }
+    },
+    "group": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_palm_cyan",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_palm",
+        "count": 1,
+        "nbt": "{Color:\"cyan\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_palm"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_palm"
+        }
+    ]
+}

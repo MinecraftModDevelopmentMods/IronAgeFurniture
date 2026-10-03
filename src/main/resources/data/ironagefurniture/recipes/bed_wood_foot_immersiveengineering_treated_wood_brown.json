@@ -1,0 +1,27 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:brown_bed"
+        },
+        {
+            "item": "immersiveengineering:treated_wood_packaged"
+        }
+    ],
+    "group": "ironagefurniture:bed_wood_foot_immersiveengineering_treated_wood_brown",
+    "result": {
+        "item": "ironagefurniture:bed_wood_foot_immersiveengineering_treated_wood",
+        "count": 1,
+        "nbt": "{Color:\"brown\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "immersiveengineering"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_wood_foot_immersiveengineering_treated_wood"
+        }
+    ]
+}

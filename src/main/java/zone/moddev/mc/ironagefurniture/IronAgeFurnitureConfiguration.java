@@ -12,6 +12,10 @@ public class IronAgeFurnitureConfiguration
     	public final ForgeConfigSpec.BooleanValue GENERATE_SHORT_STOOLS;
     	public final ForgeConfigSpec.BooleanValue GENERATE_TALL_STOOLS;
     	public final ForgeConfigSpec.BooleanValue GENERATE_BENCHES;
+        public final ForgeConfigSpec.BooleanValue GENERATE_WINGBACK_CHAIRS;
+        public final ForgeConfigSpec.BooleanValue GENERATE_THRONES;
+        public final ForgeConfigSpec.BooleanValue GENERATE_WOOD_BEDS;
+        public final ForgeConfigSpec.BooleanValue GENERATE_CANOPY_BEDS;
     	public final ForgeConfigSpec.BooleanValue INTEGRATION_BIOMESOPLENTY;
     	public final ForgeConfigSpec.BooleanValue INTEGRATION_IMMERSIVEENGINEERING;
         
@@ -43,6 +47,15 @@ public class IronAgeFurnitureConfiguration
             		.comment("Generate benches.")
                     .translation("ironagefurniture.generation.generateBenches")
                     .define("generateBenches", true);
+
+            this.GENERATE_WINGBACK_CHAIRS = builder.comment("Add upholstered wingback chairs.")
+                    .translation("ironagefurniture.generation.generateWingbackChairs").define("generateWingbackChairs", true);
+            this.GENERATE_THRONES = builder.comment("Add tall upholstered thrones.")
+                    .translation("ironagefurniture.generation.generateThrones").define("generateThrones", true);
+            this.GENERATE_WOOD_BEDS = builder.comment("Add single and double wooden beds.")
+                    .translation("ironagefurniture.generation.generateWoodBeds").define("generateWoodBeds", true);
+            this.GENERATE_CANOPY_BEDS = builder.comment("Add single and double canopy beds.")
+                    .translation("ironagefurniture.generation.generateCanopyBeds").define("generateCanopyBeds", true);
             
             this.INTEGRATION_BIOMESOPLENTY = builder
                     .comment("Integrate with Biomes O Plenty.")

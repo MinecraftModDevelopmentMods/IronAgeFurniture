@@ -51,6 +51,11 @@ def normalizedRecipe = { File file ->
     if (parsed.group == 'furniture') {
         parsed.remove('group')
     }
+    // Beds and tall chairs have their own deterministic generator. Its item
+    // existence conditions also hide recipes when a furniture family is disabled.
+    if (parsed.conditions instanceof List && parsed.conditions.any { it.type == 'forge:item_exists' }) {
+        return parsed
+    }
     if (modId != null) {
         Map reordered = new LinkedHashMap()
         reordered.type = parsed.type
@@ -201,22 +206,15 @@ tasks.register('verifyFurnitureCatalog') {
             }
         }
 
-        Map expectedCounts = [biomesoplenty: 429, immersiveengineering: 38]
+        Map expectedCounts = [biomesoplenty: 2189, immersiveengineering: 198]
         expectedCounts.each { modId, count ->
             int recipes = fileTree(recipeDirectory) {
                 include "*_${modId}_*.json"
             }.files.size()
-            int advancements = fileTree(advancementDirectory) {
+            int advancements = fileTree('src/main/resources/data/ironagefurniture/advancements') {
                 include "*_${modId}_*.json"
+                include "**/*_${modId}_*.json"
             }.files.size()
-            if (modId == 'immersiveengineering') {
-                recipes = fileTree(recipeDirectory) {
-                    include '*_immersiveengineering_treated_wood.json'
-                }.files.size()
-                advancements = fileTree(advancementDirectory) {
-                    include '*_immersiveengineering_treated_wood.json'
-                }.files.size()
-            }
             if (recipes != count || advancements != count) {
                 throw new GradleException("Unexpected ${modId} catalog coverage: " +
                         "${recipes} recipes, ${advancements} advancements; expected ${count}")

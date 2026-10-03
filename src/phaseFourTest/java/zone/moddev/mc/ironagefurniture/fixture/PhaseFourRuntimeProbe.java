@@ -61,6 +61,7 @@ public final class PhaseFourRuntimeProbe {
         int chairs = 0;
         int states = 0;
         try {
+            if (Boolean.getBoolean("iaf.probe.legacyBeds")) UpholsteryRuntimeProbe.verifyLegacyBeds(world);
             for (Block block : ForgeRegistries.BLOCKS.getValues()) {
                 if (!(block instanceof ShieldChair)) continue;
                 ShieldChair chair = (ShieldChair) block;
@@ -76,8 +77,9 @@ public final class PhaseFourRuntimeProbe {
             }
             require(chairs >= 6, "Vanilla shield chairs did not register");
             verifyLavaHarvest(world, player);
+            int upholstery = UpholsteryRuntimeProbe.run(server, world, player);
             Files.write(Paths.get("phase-four-pass.properties"), ("status=PASS\nshield_chairs=" + chairs
-                    + "\nshield_states=" + states + "\n").getBytes(StandardCharsets.UTF_8));
+                    + "\nshield_states=" + states + "\nupholstered_forms=" + upholstery + "\n").getBytes(StandardCharsets.UTF_8));
             org.apache.logging.log4j.LogManager.getLogger().info("IAF PHASE FOUR SHIELD PROBE PASSED: {} chairs, {} states", chairs, states);
         } catch (Exception failure) {
             throw new IllegalStateException("Phase 4 runtime probe failed", failure);

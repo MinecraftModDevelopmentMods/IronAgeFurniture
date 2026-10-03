@@ -1,0 +1,35 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "c",
+        "p",
+        "s"
+    ],
+    "key": {
+        "c": {
+            "item": "minecraft:red_carpet"
+        },
+        "p": {
+            "item": "minecraft:spruce_planks"
+        },
+        "s": {
+            "item": "ironagefurniture:chair_wood_ironage_classic_spruce"
+        }
+    },
+    "group": "ironagefurniture:chair_wood_ironage_wingback_spruce_red",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_wingback_spruce",
+        "count": 1,
+        "nbt": "{Color:\"red\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_wingback_spruce"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_classic_spruce"
+        }
+    ]
+}

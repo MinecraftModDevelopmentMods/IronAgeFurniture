@@ -1,0 +1,27 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_lower_acacia_recolour_white",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_canopy_foot_lower_acacia"
+        },
+        {
+            "item": "minecraft:white_carpet"
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_canopy_foot_lower_acacia"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_wood_foot_acacia"
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_canopy_foot_lower_acacia",
+        "count": 1,
+        "nbt": "{Color:\"white\"}"
+    }
+}

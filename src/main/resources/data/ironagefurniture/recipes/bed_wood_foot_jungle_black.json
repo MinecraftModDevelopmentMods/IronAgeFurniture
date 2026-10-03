@@ -1,0 +1,23 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:black_bed"
+        },
+        {
+            "item": "minecraft:jungle_planks"
+        }
+    ],
+    "group": "ironagefurniture:bed_wood_foot_jungle_black",
+    "result": {
+        "item": "ironagefurniture:bed_wood_foot_jungle",
+        "count": 1,
+        "nbt": "{Color:\"black\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_wood_foot_jungle"
+        }
+    ]
+}

@@ -1,0 +1,35 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "c",
+        "p",
+        "s"
+    ],
+    "key": {
+        "c": {
+            "item": "minecraft:white_carpet"
+        },
+        "p": {
+            "item": "minecraft:birch_planks"
+        },
+        "s": {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_birch"
+        }
+    },
+    "group": "ironagefurniture:chair_wood_ironage_throne_birch_white",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_throne_birch",
+        "count": 1,
+        "nbt": "{Color:\"white\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_throne_birch"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_wingback_birch"
+        }
+    ]
+}

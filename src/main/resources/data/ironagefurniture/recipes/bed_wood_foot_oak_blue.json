@@ -1,0 +1,23 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:blue_bed"
+        },
+        {
+            "item": "minecraft:oak_planks"
+        }
+    ],
+    "group": "ironagefurniture:bed_wood_foot_oak_blue",
+    "result": {
+        "item": "ironagefurniture:bed_wood_foot_oak",
+        "count": 1,
+        "nbt": "{Color:\"blue\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_wood_foot_oak"
+        }
+    ]
+}

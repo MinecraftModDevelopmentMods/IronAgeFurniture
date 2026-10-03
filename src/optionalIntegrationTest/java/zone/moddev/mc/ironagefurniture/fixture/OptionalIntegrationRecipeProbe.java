@@ -30,7 +30,7 @@ public final class OptionalIntegrationRecipeProbe
     private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger();
     private static final List<String> REQUIRED_MODS = Arrays.asList(
             "biomesoplenty", "immersiveengineering");
-    private static final int EXPECTED_CONDITIONAL_ENTRIES = 467;
+    private static final int EXPECTED_CONDITIONAL_ENTRIES = 2387;
 
     public OptionalIntegrationRecipeProbe()
     {

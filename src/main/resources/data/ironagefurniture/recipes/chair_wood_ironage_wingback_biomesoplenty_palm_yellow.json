@@ -1,0 +1,39 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "c",
+        "p",
+        "s"
+    ],
+    "key": {
+        "c": {
+            "item": "minecraft:yellow_carpet"
+        },
+        "p": {
+            "item": "biomesoplenty:palm_planks"
+        },
+        "s": {
+            "item": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_palm"
+        }
+    },
+    "group": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_palm_yellow",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_palm",
+        "count": 1,
+        "nbt": "{Color:\"yellow\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_palm"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_palm"
+        }
+    ]
+}

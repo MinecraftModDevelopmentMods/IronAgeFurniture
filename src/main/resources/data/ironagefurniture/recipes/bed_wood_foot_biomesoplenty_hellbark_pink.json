@@ -1,0 +1,27 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:pink_bed"
+        },
+        {
+            "item": "biomesoplenty:hellbark_planks"
+        }
+    ],
+    "group": "ironagefurniture:bed_wood_foot_biomesoplenty_hellbark_pink",
+    "result": {
+        "item": "ironagefurniture:bed_wood_foot_biomesoplenty_hellbark",
+        "count": 1,
+        "nbt": "{Color:\"pink\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_hellbark"
+        }
+    ]
+}

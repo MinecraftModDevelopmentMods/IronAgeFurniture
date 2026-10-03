@@ -1,0 +1,39 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "c",
+        "p",
+        "s"
+    ],
+    "key": {
+        "c": {
+            "item": "minecraft:pink_carpet"
+        },
+        "p": {
+            "item": "biomesoplenty:mahogany_planks"
+        },
+        "s": {
+            "item": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_mahogany"
+        }
+    },
+    "group": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_mahogany_pink",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_mahogany",
+        "count": 1,
+        "nbt": "{Color:\"pink\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_mahogany"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_mahogany"
+        }
+    ]
+}

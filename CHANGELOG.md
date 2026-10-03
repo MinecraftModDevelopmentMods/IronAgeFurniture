@@ -3,6 +3,16 @@
 The Forge 1.14.4 Phase 4 port is being developed locally. This is not a completed
 release candidate yet.
 
+- Add wooden and canopy beds, including doubles, plus wingback chairs and thrones
+  for the supported vanilla, BOP and IE woods. All sixteen upholstery colours
+  remain intact in crafting, pick block and Survival drops.
+- Bed upgrades keep the supplied bed's colour. Double beds require matching
+  singles; carpet recipes deliberately recolour an existing bed. Recipe-book
+  entries remain separate for each wood, form and colour.
+- Keep the original bed and tall-chair model geometry and inventory transforms,
+  with resource-pack-overridable wood and vanilla wool textures.
+- Carry legacy bed and tall-chair part metadata across flattening, and convert
+  their old upholstery tiles into coloured blockstates without losing facing.
 - Shields can be removed from and fitted to shield chairs without losing their
   damage, banner designs, enchantments, names or other item data. Old chairs keep
   their plain shields, and empty frames stay empty after saving and reloading.

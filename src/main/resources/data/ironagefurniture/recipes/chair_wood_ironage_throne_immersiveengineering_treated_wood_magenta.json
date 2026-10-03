@@ -1,0 +1,39 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "c",
+        "p",
+        "s"
+    ],
+    "key": {
+        "c": {
+            "item": "minecraft:magenta_carpet"
+        },
+        "p": {
+            "item": "immersiveengineering:treated_wood_packaged"
+        },
+        "s": {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_immersiveengineering_treated_wood"
+        }
+    },
+    "group": "ironagefurniture:chair_wood_ironage_throne_immersiveengineering_treated_wood_magenta",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_throne_immersiveengineering_treated_wood",
+        "count": 1,
+        "nbt": "{Color:\"magenta\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "immersiveengineering"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_throne_immersiveengineering_treated_wood"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_wingback_immersiveengineering_treated_wood"
+        }
+    ]
+}

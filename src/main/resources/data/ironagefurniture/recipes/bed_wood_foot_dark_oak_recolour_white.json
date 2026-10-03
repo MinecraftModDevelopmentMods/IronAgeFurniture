@@ -1,0 +1,23 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_dark_oak_recolour_white",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_dark_oak"
+        },
+        {
+            "item": "minecraft:white_carpet"
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_wood_foot_dark_oak"
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_wood_foot_dark_oak",
+        "count": 1,
+        "nbt": "{Color:\"white\"}"
+    }
+}

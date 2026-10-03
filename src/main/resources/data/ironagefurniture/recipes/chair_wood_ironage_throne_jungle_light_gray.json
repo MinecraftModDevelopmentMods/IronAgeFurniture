@@ -1,0 +1,35 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "c",
+        "p",
+        "s"
+    ],
+    "key": {
+        "c": {
+            "item": "minecraft:light_gray_carpet"
+        },
+        "p": {
+            "item": "minecraft:jungle_planks"
+        },
+        "s": {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_jungle"
+        }
+    },
+    "group": "ironagefurniture:chair_wood_ironage_throne_jungle_light_gray",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_throne_jungle",
+        "count": 1,
+        "nbt": "{Color:\"light_gray\"}"
+    },
+    "conditions": [
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_throne_jungle"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_wingback_jungle"
+        }
+    ]
+}

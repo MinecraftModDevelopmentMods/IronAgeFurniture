@@ -8,8 +8,9 @@ optional workflows live in smaller scripts:
 | --- | --- |
 | `furniture-catalog.gradle` | Verify the committed furniture resources or regenerate them explicitly. |
 | `phase-four-shields.gradle` | Generate and check removable shield-chair frames and crafting recipes. |
+| `phase-four-upholstery.gradle` | Generate and check colour-specific beds, tall chairs, models and crafting recipes. |
 | `verification/optional-integrations.gradle` | Check pinned dependency jars and launch packaged-server integration tests. |
-| `verification/phase-four-runtime.gradle` | Build the isolated shield-chair test mod and run it on a disposable server. |
+| `verification/phase-four-runtime.gradle` | Build the isolated furniture test mod and run it on a disposable server. |
 | `verification/project-audits.gradle` | Check resources, metadata, namespaces, workflow pins and tracked files. |
 | `release/artifacts.gradle` | Audit the main, sources and Javadoc jars, then checksum the release bundle. |
 | `release/publishing.gradle` | Configure Maven uploads and require publication credentials. |
@@ -35,5 +36,8 @@ This checks intact-lamp recovery, empty-sconce drops and fire on shattering.
 
 The same test jar can check baked item and block models on a packaged client.
 It closes the test client after checking its models and writes
-`phase-four-client-pass.properties`. These checks cover shield chairs only;
-the rest of the Phase 4 port still needs its own gameplay and upgrade tests.
+`phase-four-client-pass.properties`. The bed and tall-chair checks also cover all
+sixteen colours, every facing, wet/dry placement, whole-structure cleanup and
+real Forge harvesting. The client checks both inventory wool textures and every
+registered blockstate. New lighting, metal variants and the remaining Phase 4
+upgrades still need their own tests.

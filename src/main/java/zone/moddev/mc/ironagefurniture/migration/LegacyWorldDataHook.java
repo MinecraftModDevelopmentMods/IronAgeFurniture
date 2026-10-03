@@ -164,6 +164,7 @@ public final class LegacyWorldDataHook {
 			return;
 		}
 		ensurePaddedBenchTileEntities(level, root.getInt("DataVersion") < 704);
+		LegacyUpholsteryMigration.prepareTiles(level, root.getInt("DataVersion") < 704);
 		level.putBoolean("TerrainPopulated", true);
 		level.putBoolean("LightPopulated", true);
 		level.putBoolean(PRESERVE_CHUNK_MARKER, true);
@@ -180,6 +181,7 @@ public final class LegacyWorldDataHook {
 		}
 		if (level.getBoolean(PRESERVE_CHUNK_MARKER)) {
 			restorePaddedBenchTileEntityIds(level);
+			LegacyUpholsteryMigration.finishTiles(level);
 			level.putString("Status", "full");
 			level.remove(PRESERVE_CHUNK_MARKER);
 		}
@@ -262,6 +264,27 @@ public final class LegacyWorldDataHook {
 		}
 		if (block instanceof BackBench && state.has(BackBench.TYPE)) {
 			state = state.with(BackBench.TYPE, benchType(meta));
+		}
+		if (block instanceof zone.moddev.mc.ironagefurniture.api.blocks.furniture.WoodenBed) {
+			state = state.with(net.minecraft.state.properties.BlockStateProperties.BED_PART,
+					(meta & 4) == 0 ? net.minecraft.state.properties.BedPart.FOOT : net.minecraft.state.properties.BedPart.HEAD)
+					.with(zone.moddev.mc.ironagefurniture.api.blocks.furniture.FurnitureBed.SIDE,
+					(meta & 8) == 0 || !((zone.moddev.mc.ironagefurniture.api.blocks.furniture.WoodenBed) block).isDoubleBed()
+							? zone.moddev.mc.ironagefurniture.api.enumerations.WoodBedSide.LEFT
+							: zone.moddev.mc.ironagefurniture.api.enumerations.WoodBedSide.RIGHT);
+		} else if (block instanceof zone.moddev.mc.ironagefurniture.api.blocks.furniture.CanopyBed) {
+			state = state.with(zone.moddev.mc.ironagefurniture.api.blocks.furniture.CanopyBed.PART,
+					zone.moddev.mc.ironagefurniture.api.enumerations.CanopyBedPart.values()[(meta & 15) >> 2])
+					.with(zone.moddev.mc.ironagefurniture.api.blocks.furniture.FurnitureBed.SIDE,
+					block.getRegistryName().getPath().startsWith("bed_canopy_foot_right_")
+							? zone.moddev.mc.ironagefurniture.api.enumerations.WoodBedSide.RIGHT
+							: zone.moddev.mc.ironagefurniture.api.enumerations.WoodBedSide.LEFT);
+		} else if (block instanceof zone.moddev.mc.ironagefurniture.api.blocks.furniture.MultiBlockChair) {
+			int part = (meta & 15) >> 2;
+			state = state.with(zone.moddev.mc.ironagefurniture.api.blocks.furniture.MultiBlockChair.PART,
+					part == 2 ? zone.moddev.mc.ironagefurniture.api.enumerations.ChairPart.UPPER
+							: part == 1 ? zone.moddev.mc.ironagefurniture.api.enumerations.ChairPart.MIDDLE
+							: zone.moddev.mc.ironagefurniture.api.enumerations.ChairPart.LOWER);
 		}
 		return state;
 	}

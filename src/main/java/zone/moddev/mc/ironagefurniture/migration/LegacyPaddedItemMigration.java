@@ -30,7 +30,7 @@ public final class LegacyPaddedItemMigration {
 	}
 
 	static boolean migrateItemCompound(CompoundNBT stack) {
-		boolean changed = false;
+		boolean changed = LegacyUpholsteryMigration.migrateItem(stack);
 		if (stack.contains("id", 8)) {
 			ResourceLocation id = new ResourceLocation(stack.getString("id"));
 			if (Ironagefurniture.MODID.equals(id.getNamespace())) {

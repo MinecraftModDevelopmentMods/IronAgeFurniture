@@ -1,0 +1,1444 @@
+{
+    "variants": {
+        "colour=black,facing=south,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_black_jungle"
+        },
+        "colour=black,facing=south,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_black_jungle"
+        },
+        "colour=black,facing=north,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_black_jungle",
+            "y": 180
+        },
+        "colour=black,facing=north,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_black_jungle",
+            "y": 180
+        },
+        "colour=black,facing=east,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_black_jungle",
+            "y": 270
+        },
+        "colour=black,facing=east,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_black_jungle",
+            "y": 270
+        },
+        "colour=black,facing=west,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_black_jungle",
+            "y": 90
+        },
+        "colour=black,facing=west,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_black_jungle",
+            "y": 90
+        },
+        "colour=black,facing=south,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_black_jungle"
+        },
+        "colour=black,facing=south,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_black_jungle"
+        },
+        "colour=black,facing=north,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_black_jungle",
+            "y": 180
+        },
+        "colour=black,facing=north,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_black_jungle",
+            "y": 180
+        },
+        "colour=black,facing=east,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_black_jungle",
+            "y": 270
+        },
+        "colour=black,facing=east,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_black_jungle",
+            "y": 270
+        },
+        "colour=black,facing=west,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_black_jungle",
+            "y": 90
+        },
+        "colour=black,facing=west,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_black_jungle",
+            "y": 90
+        },
+        "colour=black,facing=south,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_black_jungle"
+        },
+        "colour=black,facing=south,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_black_jungle"
+        },
+        "colour=black,facing=north,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_black_jungle",
+            "y": 180
+        },
+        "colour=black,facing=north,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_black_jungle",
+            "y": 180
+        },
+        "colour=black,facing=east,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_black_jungle",
+            "y": 270
+        },
+        "colour=black,facing=east,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_black_jungle",
+            "y": 270
+        },
+        "colour=black,facing=west,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_black_jungle",
+            "y": 90
+        },
+        "colour=black,facing=west,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_black_jungle",
+            "y": 90
+        },
+        "colour=blue,facing=south,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_blue_jungle"
+        },
+        "colour=blue,facing=south,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_blue_jungle"
+        },
+        "colour=blue,facing=north,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_blue_jungle",
+            "y": 180
+        },
+        "colour=blue,facing=north,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_blue_jungle",
+            "y": 180
+        },
+        "colour=blue,facing=east,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_blue_jungle",
+            "y": 270
+        },
+        "colour=blue,facing=east,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_blue_jungle",
+            "y": 270
+        },
+        "colour=blue,facing=west,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_blue_jungle",
+            "y": 90
+        },
+        "colour=blue,facing=west,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_blue_jungle",
+            "y": 90
+        },
+        "colour=blue,facing=south,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_blue_jungle"
+        },
+        "colour=blue,facing=south,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_blue_jungle"
+        },
+        "colour=blue,facing=north,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_blue_jungle",
+            "y": 180
+        },
+        "colour=blue,facing=north,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_blue_jungle",
+            "y": 180
+        },
+        "colour=blue,facing=east,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_blue_jungle",
+            "y": 270
+        },
+        "colour=blue,facing=east,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_blue_jungle",
+            "y": 270
+        },
+        "colour=blue,facing=west,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_blue_jungle",
+            "y": 90
+        },
+        "colour=blue,facing=west,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_blue_jungle",
+            "y": 90
+        },
+        "colour=blue,facing=south,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_blue_jungle"
+        },
+        "colour=blue,facing=south,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_blue_jungle"
+        },
+        "colour=blue,facing=north,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_blue_jungle",
+            "y": 180
+        },
+        "colour=blue,facing=north,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_blue_jungle",
+            "y": 180
+        },
+        "colour=blue,facing=east,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_blue_jungle",
+            "y": 270
+        },
+        "colour=blue,facing=east,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_blue_jungle",
+            "y": 270
+        },
+        "colour=blue,facing=west,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_blue_jungle",
+            "y": 90
+        },
+        "colour=blue,facing=west,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_blue_jungle",
+            "y": 90
+        },
+        "colour=brown,facing=south,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_brown_jungle"
+        },
+        "colour=brown,facing=south,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_brown_jungle"
+        },
+        "colour=brown,facing=north,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_brown_jungle",
+            "y": 180
+        },
+        "colour=brown,facing=north,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_brown_jungle",
+            "y": 180
+        },
+        "colour=brown,facing=east,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_brown_jungle",
+            "y": 270
+        },
+        "colour=brown,facing=east,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_brown_jungle",
+            "y": 270
+        },
+        "colour=brown,facing=west,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_brown_jungle",
+            "y": 90
+        },
+        "colour=brown,facing=west,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_brown_jungle",
+            "y": 90
+        },
+        "colour=brown,facing=south,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_brown_jungle"
+        },
+        "colour=brown,facing=south,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_brown_jungle"
+        },
+        "colour=brown,facing=north,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_brown_jungle",
+            "y": 180
+        },
+        "colour=brown,facing=north,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_brown_jungle",
+            "y": 180
+        },
+        "colour=brown,facing=east,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_brown_jungle",
+            "y": 270
+        },
+        "colour=brown,facing=east,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_brown_jungle",
+            "y": 270
+        },
+        "colour=brown,facing=west,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_brown_jungle",
+            "y": 90
+        },
+        "colour=brown,facing=west,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_brown_jungle",
+            "y": 90
+        },
+        "colour=brown,facing=south,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_brown_jungle"
+        },
+        "colour=brown,facing=south,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_brown_jungle"
+        },
+        "colour=brown,facing=north,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_brown_jungle",
+            "y": 180
+        },
+        "colour=brown,facing=north,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_brown_jungle",
+            "y": 180
+        },
+        "colour=brown,facing=east,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_brown_jungle",
+            "y": 270
+        },
+        "colour=brown,facing=east,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_brown_jungle",
+            "y": 270
+        },
+        "colour=brown,facing=west,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_brown_jungle",
+            "y": 90
+        },
+        "colour=brown,facing=west,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_brown_jungle",
+            "y": 90
+        },
+        "colour=cyan,facing=south,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_cyan_jungle"
+        },
+        "colour=cyan,facing=south,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_cyan_jungle"
+        },
+        "colour=cyan,facing=north,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_cyan_jungle",
+            "y": 180
+        },
+        "colour=cyan,facing=north,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_cyan_jungle",
+            "y": 180
+        },
+        "colour=cyan,facing=east,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_cyan_jungle",
+            "y": 270
+        },
+        "colour=cyan,facing=east,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_cyan_jungle",
+            "y": 270
+        },
+        "colour=cyan,facing=west,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_cyan_jungle",
+            "y": 90
+        },
+        "colour=cyan,facing=west,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_cyan_jungle",
+            "y": 90
+        },
+        "colour=cyan,facing=south,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_cyan_jungle"
+        },
+        "colour=cyan,facing=south,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_cyan_jungle"
+        },
+        "colour=cyan,facing=north,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_cyan_jungle",
+            "y": 180
+        },
+        "colour=cyan,facing=north,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_cyan_jungle",
+            "y": 180
+        },
+        "colour=cyan,facing=east,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_cyan_jungle",
+            "y": 270
+        },
+        "colour=cyan,facing=east,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_cyan_jungle",
+            "y": 270
+        },
+        "colour=cyan,facing=west,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_cyan_jungle",
+            "y": 90
+        },
+        "colour=cyan,facing=west,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_cyan_jungle",
+            "y": 90
+        },
+        "colour=cyan,facing=south,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_cyan_jungle"
+        },
+        "colour=cyan,facing=south,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_cyan_jungle"
+        },
+        "colour=cyan,facing=north,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_cyan_jungle",
+            "y": 180
+        },
+        "colour=cyan,facing=north,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_cyan_jungle",
+            "y": 180
+        },
+        "colour=cyan,facing=east,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_cyan_jungle",
+            "y": 270
+        },
+        "colour=cyan,facing=east,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_cyan_jungle",
+            "y": 270
+        },
+        "colour=cyan,facing=west,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_cyan_jungle",
+            "y": 90
+        },
+        "colour=cyan,facing=west,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_cyan_jungle",
+            "y": 90
+        },
+        "colour=gray,facing=south,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_gray_jungle"
+        },
+        "colour=gray,facing=south,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_gray_jungle"
+        },
+        "colour=gray,facing=north,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_gray_jungle",
+            "y": 180
+        },
+        "colour=gray,facing=north,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_gray_jungle",
+            "y": 180
+        },
+        "colour=gray,facing=east,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_gray_jungle",
+            "y": 270
+        },
+        "colour=gray,facing=east,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_gray_jungle",
+            "y": 270
+        },
+        "colour=gray,facing=west,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_gray_jungle",
+            "y": 90
+        },
+        "colour=gray,facing=west,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_gray_jungle",
+            "y": 90
+        },
+        "colour=gray,facing=south,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_gray_jungle"
+        },
+        "colour=gray,facing=south,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_gray_jungle"
+        },
+        "colour=gray,facing=north,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_gray_jungle",
+            "y": 180
+        },
+        "colour=gray,facing=north,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_gray_jungle",
+            "y": 180
+        },
+        "colour=gray,facing=east,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_gray_jungle",
+            "y": 270
+        },
+        "colour=gray,facing=east,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_gray_jungle",
+            "y": 270
+        },
+        "colour=gray,facing=west,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_gray_jungle",
+            "y": 90
+        },
+        "colour=gray,facing=west,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_gray_jungle",
+            "y": 90
+        },
+        "colour=gray,facing=south,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_gray_jungle"
+        },
+        "colour=gray,facing=south,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_gray_jungle"
+        },
+        "colour=gray,facing=north,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_gray_jungle",
+            "y": 180
+        },
+        "colour=gray,facing=north,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_gray_jungle",
+            "y": 180
+        },
+        "colour=gray,facing=east,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_gray_jungle",
+            "y": 270
+        },
+        "colour=gray,facing=east,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_gray_jungle",
+            "y": 270
+        },
+        "colour=gray,facing=west,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_gray_jungle",
+            "y": 90
+        },
+        "colour=gray,facing=west,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_gray_jungle",
+            "y": 90
+        },
+        "colour=green,facing=south,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_green_jungle"
+        },
+        "colour=green,facing=south,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_green_jungle"
+        },
+        "colour=green,facing=north,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_green_jungle",
+            "y": 180
+        },
+        "colour=green,facing=north,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_green_jungle",
+            "y": 180
+        },
+        "colour=green,facing=east,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_green_jungle",
+            "y": 270
+        },
+        "colour=green,facing=east,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_green_jungle",
+            "y": 270
+        },
+        "colour=green,facing=west,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_green_jungle",
+            "y": 90
+        },
+        "colour=green,facing=west,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_green_jungle",
+            "y": 90
+        },
+        "colour=green,facing=south,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_green_jungle"
+        },
+        "colour=green,facing=south,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_green_jungle"
+        },
+        "colour=green,facing=north,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_green_jungle",
+            "y": 180
+        },
+        "colour=green,facing=north,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_green_jungle",
+            "y": 180
+        },
+        "colour=green,facing=east,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_green_jungle",
+            "y": 270
+        },
+        "colour=green,facing=east,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_green_jungle",
+            "y": 270
+        },
+        "colour=green,facing=west,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_green_jungle",
+            "y": 90
+        },
+        "colour=green,facing=west,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_green_jungle",
+            "y": 90
+        },
+        "colour=green,facing=south,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_green_jungle"
+        },
+        "colour=green,facing=south,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_green_jungle"
+        },
+        "colour=green,facing=north,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_green_jungle",
+            "y": 180
+        },
+        "colour=green,facing=north,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_green_jungle",
+            "y": 180
+        },
+        "colour=green,facing=east,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_green_jungle",
+            "y": 270
+        },
+        "colour=green,facing=east,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_green_jungle",
+            "y": 270
+        },
+        "colour=green,facing=west,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_green_jungle",
+            "y": 90
+        },
+        "colour=green,facing=west,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_green_jungle",
+            "y": 90
+        },
+        "colour=light_blue,facing=south,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_light_blue_jungle"
+        },
+        "colour=light_blue,facing=south,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_light_blue_jungle"
+        },
+        "colour=light_blue,facing=north,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_light_blue_jungle",
+            "y": 180
+        },
+        "colour=light_blue,facing=north,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_light_blue_jungle",
+            "y": 180
+        },
+        "colour=light_blue,facing=east,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_light_blue_jungle",
+            "y": 270
+        },
+        "colour=light_blue,facing=east,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_light_blue_jungle",
+            "y": 270
+        },
+        "colour=light_blue,facing=west,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_light_blue_jungle",
+            "y": 90
+        },
+        "colour=light_blue,facing=west,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_light_blue_jungle",
+            "y": 90
+        },
+        "colour=light_blue,facing=south,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_light_blue_jungle"
+        },
+        "colour=light_blue,facing=south,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_light_blue_jungle"
+        },
+        "colour=light_blue,facing=north,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_light_blue_jungle",
+            "y": 180
+        },
+        "colour=light_blue,facing=north,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_light_blue_jungle",
+            "y": 180
+        },
+        "colour=light_blue,facing=east,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_light_blue_jungle",
+            "y": 270
+        },
+        "colour=light_blue,facing=east,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_light_blue_jungle",
+            "y": 270
+        },
+        "colour=light_blue,facing=west,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_light_blue_jungle",
+            "y": 90
+        },
+        "colour=light_blue,facing=west,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_light_blue_jungle",
+            "y": 90
+        },
+        "colour=light_blue,facing=south,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_light_blue_jungle"
+        },
+        "colour=light_blue,facing=south,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_light_blue_jungle"
+        },
+        "colour=light_blue,facing=north,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_light_blue_jungle",
+            "y": 180
+        },
+        "colour=light_blue,facing=north,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_light_blue_jungle",
+            "y": 180
+        },
+        "colour=light_blue,facing=east,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_light_blue_jungle",
+            "y": 270
+        },
+        "colour=light_blue,facing=east,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_light_blue_jungle",
+            "y": 270
+        },
+        "colour=light_blue,facing=west,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_light_blue_jungle",
+            "y": 90
+        },
+        "colour=light_blue,facing=west,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_light_blue_jungle",
+            "y": 90
+        },
+        "colour=light_gray,facing=south,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_light_gray_jungle"
+        },
+        "colour=light_gray,facing=south,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_light_gray_jungle"
+        },
+        "colour=light_gray,facing=north,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_light_gray_jungle",
+            "y": 180
+        },
+        "colour=light_gray,facing=north,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_light_gray_jungle",
+            "y": 180
+        },
+        "colour=light_gray,facing=east,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_light_gray_jungle",
+            "y": 270
+        },
+        "colour=light_gray,facing=east,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_light_gray_jungle",
+            "y": 270
+        },
+        "colour=light_gray,facing=west,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_light_gray_jungle",
+            "y": 90
+        },
+        "colour=light_gray,facing=west,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_light_gray_jungle",
+            "y": 90
+        },
+        "colour=light_gray,facing=south,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_light_gray_jungle"
+        },
+        "colour=light_gray,facing=south,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_light_gray_jungle"
+        },
+        "colour=light_gray,facing=north,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_light_gray_jungle",
+            "y": 180
+        },
+        "colour=light_gray,facing=north,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_light_gray_jungle",
+            "y": 180
+        },
+        "colour=light_gray,facing=east,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_light_gray_jungle",
+            "y": 270
+        },
+        "colour=light_gray,facing=east,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_light_gray_jungle",
+            "y": 270
+        },
+        "colour=light_gray,facing=west,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_light_gray_jungle",
+            "y": 90
+        },
+        "colour=light_gray,facing=west,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_light_gray_jungle",
+            "y": 90
+        },
+        "colour=light_gray,facing=south,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_light_gray_jungle"
+        },
+        "colour=light_gray,facing=south,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_light_gray_jungle"
+        },
+        "colour=light_gray,facing=north,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_light_gray_jungle",
+            "y": 180
+        },
+        "colour=light_gray,facing=north,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_light_gray_jungle",
+            "y": 180
+        },
+        "colour=light_gray,facing=east,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_light_gray_jungle",
+            "y": 270
+        },
+        "colour=light_gray,facing=east,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_light_gray_jungle",
+            "y": 270
+        },
+        "colour=light_gray,facing=west,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_light_gray_jungle",
+            "y": 90
+        },
+        "colour=light_gray,facing=west,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_light_gray_jungle",
+            "y": 90
+        },
+        "colour=lime,facing=south,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_lime_jungle"
+        },
+        "colour=lime,facing=south,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_lime_jungle"
+        },
+        "colour=lime,facing=north,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_lime_jungle",
+            "y": 180
+        },
+        "colour=lime,facing=north,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_lime_jungle",
+            "y": 180
+        },
+        "colour=lime,facing=east,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_lime_jungle",
+            "y": 270
+        },
+        "colour=lime,facing=east,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_lime_jungle",
+            "y": 270
+        },
+        "colour=lime,facing=west,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_lime_jungle",
+            "y": 90
+        },
+        "colour=lime,facing=west,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_lime_jungle",
+            "y": 90
+        },
+        "colour=lime,facing=south,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_lime_jungle"
+        },
+        "colour=lime,facing=south,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_lime_jungle"
+        },
+        "colour=lime,facing=north,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_lime_jungle",
+            "y": 180
+        },
+        "colour=lime,facing=north,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_lime_jungle",
+            "y": 180
+        },
+        "colour=lime,facing=east,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_lime_jungle",
+            "y": 270
+        },
+        "colour=lime,facing=east,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_lime_jungle",
+            "y": 270
+        },
+        "colour=lime,facing=west,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_lime_jungle",
+            "y": 90
+        },
+        "colour=lime,facing=west,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_lime_jungle",
+            "y": 90
+        },
+        "colour=lime,facing=south,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_lime_jungle"
+        },
+        "colour=lime,facing=south,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_lime_jungle"
+        },
+        "colour=lime,facing=north,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_lime_jungle",
+            "y": 180
+        },
+        "colour=lime,facing=north,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_lime_jungle",
+            "y": 180
+        },
+        "colour=lime,facing=east,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_lime_jungle",
+            "y": 270
+        },
+        "colour=lime,facing=east,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_lime_jungle",
+            "y": 270
+        },
+        "colour=lime,facing=west,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_lime_jungle",
+            "y": 90
+        },
+        "colour=lime,facing=west,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_lime_jungle",
+            "y": 90
+        },
+        "colour=magenta,facing=south,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_magenta_jungle"
+        },
+        "colour=magenta,facing=south,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_magenta_jungle"
+        },
+        "colour=magenta,facing=north,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_magenta_jungle",
+            "y": 180
+        },
+        "colour=magenta,facing=north,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_magenta_jungle",
+            "y": 180
+        },
+        "colour=magenta,facing=east,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_magenta_jungle",
+            "y": 270
+        },
+        "colour=magenta,facing=east,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_magenta_jungle",
+            "y": 270
+        },
+        "colour=magenta,facing=west,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_magenta_jungle",
+            "y": 90
+        },
+        "colour=magenta,facing=west,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_magenta_jungle",
+            "y": 90
+        },
+        "colour=magenta,facing=south,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_magenta_jungle"
+        },
+        "colour=magenta,facing=south,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_magenta_jungle"
+        },
+        "colour=magenta,facing=north,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_magenta_jungle",
+            "y": 180
+        },
+        "colour=magenta,facing=north,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_magenta_jungle",
+            "y": 180
+        },
+        "colour=magenta,facing=east,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_magenta_jungle",
+            "y": 270
+        },
+        "colour=magenta,facing=east,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_magenta_jungle",
+            "y": 270
+        },
+        "colour=magenta,facing=west,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_magenta_jungle",
+            "y": 90
+        },
+        "colour=magenta,facing=west,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_magenta_jungle",
+            "y": 90
+        },
+        "colour=magenta,facing=south,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_magenta_jungle"
+        },
+        "colour=magenta,facing=south,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_magenta_jungle"
+        },
+        "colour=magenta,facing=north,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_magenta_jungle",
+            "y": 180
+        },
+        "colour=magenta,facing=north,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_magenta_jungle",
+            "y": 180
+        },
+        "colour=magenta,facing=east,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_magenta_jungle",
+            "y": 270
+        },
+        "colour=magenta,facing=east,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_magenta_jungle",
+            "y": 270
+        },
+        "colour=magenta,facing=west,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_magenta_jungle",
+            "y": 90
+        },
+        "colour=magenta,facing=west,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_magenta_jungle",
+            "y": 90
+        },
+        "colour=orange,facing=south,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_orange_jungle"
+        },
+        "colour=orange,facing=south,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_orange_jungle"
+        },
+        "colour=orange,facing=north,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_orange_jungle",
+            "y": 180
+        },
+        "colour=orange,facing=north,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_orange_jungle",
+            "y": 180
+        },
+        "colour=orange,facing=east,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_orange_jungle",
+            "y": 270
+        },
+        "colour=orange,facing=east,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_orange_jungle",
+            "y": 270
+        },
+        "colour=orange,facing=west,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_orange_jungle",
+            "y": 90
+        },
+        "colour=orange,facing=west,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_orange_jungle",
+            "y": 90
+        },
+        "colour=orange,facing=south,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_orange_jungle"
+        },
+        "colour=orange,facing=south,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_orange_jungle"
+        },
+        "colour=orange,facing=north,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_orange_jungle",
+            "y": 180
+        },
+        "colour=orange,facing=north,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_orange_jungle",
+            "y": 180
+        },
+        "colour=orange,facing=east,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_orange_jungle",
+            "y": 270
+        },
+        "colour=orange,facing=east,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_orange_jungle",
+            "y": 270
+        },
+        "colour=orange,facing=west,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_orange_jungle",
+            "y": 90
+        },
+        "colour=orange,facing=west,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_orange_jungle",
+            "y": 90
+        },
+        "colour=orange,facing=south,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_orange_jungle"
+        },
+        "colour=orange,facing=south,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_orange_jungle"
+        },
+        "colour=orange,facing=north,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_orange_jungle",
+            "y": 180
+        },
+        "colour=orange,facing=north,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_orange_jungle",
+            "y": 180
+        },
+        "colour=orange,facing=east,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_orange_jungle",
+            "y": 270
+        },
+        "colour=orange,facing=east,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_orange_jungle",
+            "y": 270
+        },
+        "colour=orange,facing=west,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_orange_jungle",
+            "y": 90
+        },
+        "colour=orange,facing=west,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_orange_jungle",
+            "y": 90
+        },
+        "colour=pink,facing=south,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_pink_jungle"
+        },
+        "colour=pink,facing=south,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_pink_jungle"
+        },
+        "colour=pink,facing=north,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_pink_jungle",
+            "y": 180
+        },
+        "colour=pink,facing=north,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_pink_jungle",
+            "y": 180
+        },
+        "colour=pink,facing=east,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_pink_jungle",
+            "y": 270
+        },
+        "colour=pink,facing=east,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_pink_jungle",
+            "y": 270
+        },
+        "colour=pink,facing=west,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_pink_jungle",
+            "y": 90
+        },
+        "colour=pink,facing=west,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_pink_jungle",
+            "y": 90
+        },
+        "colour=pink,facing=south,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_pink_jungle"
+        },
+        "colour=pink,facing=south,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_pink_jungle"
+        },
+        "colour=pink,facing=north,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_pink_jungle",
+            "y": 180
+        },
+        "colour=pink,facing=north,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_pink_jungle",
+            "y": 180
+        },
+        "colour=pink,facing=east,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_pink_jungle",
+            "y": 270
+        },
+        "colour=pink,facing=east,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_pink_jungle",
+            "y": 270
+        },
+        "colour=pink,facing=west,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_pink_jungle",
+            "y": 90
+        },
+        "colour=pink,facing=west,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_pink_jungle",
+            "y": 90
+        },
+        "colour=pink,facing=south,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_pink_jungle"
+        },
+        "colour=pink,facing=south,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_pink_jungle"
+        },
+        "colour=pink,facing=north,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_pink_jungle",
+            "y": 180
+        },
+        "colour=pink,facing=north,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_pink_jungle",
+            "y": 180
+        },
+        "colour=pink,facing=east,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_pink_jungle",
+            "y": 270
+        },
+        "colour=pink,facing=east,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_pink_jungle",
+            "y": 270
+        },
+        "colour=pink,facing=west,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_pink_jungle",
+            "y": 90
+        },
+        "colour=pink,facing=west,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_pink_jungle",
+            "y": 90
+        },
+        "colour=purple,facing=south,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_purple_jungle"
+        },
+        "colour=purple,facing=south,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_purple_jungle"
+        },
+        "colour=purple,facing=north,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_purple_jungle",
+            "y": 180
+        },
+        "colour=purple,facing=north,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_purple_jungle",
+            "y": 180
+        },
+        "colour=purple,facing=east,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_purple_jungle",
+            "y": 270
+        },
+        "colour=purple,facing=east,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_purple_jungle",
+            "y": 270
+        },
+        "colour=purple,facing=west,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_purple_jungle",
+            "y": 90
+        },
+        "colour=purple,facing=west,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_purple_jungle",
+            "y": 90
+        },
+        "colour=purple,facing=south,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_purple_jungle"
+        },
+        "colour=purple,facing=south,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_purple_jungle"
+        },
+        "colour=purple,facing=north,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_purple_jungle",
+            "y": 180
+        },
+        "colour=purple,facing=north,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_purple_jungle",
+            "y": 180
+        },
+        "colour=purple,facing=east,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_purple_jungle",
+            "y": 270
+        },
+        "colour=purple,facing=east,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_purple_jungle",
+            "y": 270
+        },
+        "colour=purple,facing=west,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_purple_jungle",
+            "y": 90
+        },
+        "colour=purple,facing=west,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_purple_jungle",
+            "y": 90
+        },
+        "colour=purple,facing=south,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_purple_jungle"
+        },
+        "colour=purple,facing=south,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_purple_jungle"
+        },
+        "colour=purple,facing=north,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_purple_jungle",
+            "y": 180
+        },
+        "colour=purple,facing=north,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_purple_jungle",
+            "y": 180
+        },
+        "colour=purple,facing=east,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_purple_jungle",
+            "y": 270
+        },
+        "colour=purple,facing=east,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_purple_jungle",
+            "y": 270
+        },
+        "colour=purple,facing=west,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_purple_jungle",
+            "y": 90
+        },
+        "colour=purple,facing=west,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_purple_jungle",
+            "y": 90
+        },
+        "colour=red,facing=south,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_red_jungle"
+        },
+        "colour=red,facing=south,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_red_jungle"
+        },
+        "colour=red,facing=north,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_red_jungle",
+            "y": 180
+        },
+        "colour=red,facing=north,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_red_jungle",
+            "y": 180
+        },
+        "colour=red,facing=east,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_red_jungle",
+            "y": 270
+        },
+        "colour=red,facing=east,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_red_jungle",
+            "y": 270
+        },
+        "colour=red,facing=west,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_red_jungle",
+            "y": 90
+        },
+        "colour=red,facing=west,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_red_jungle",
+            "y": 90
+        },
+        "colour=red,facing=south,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_red_jungle"
+        },
+        "colour=red,facing=south,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_red_jungle"
+        },
+        "colour=red,facing=north,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_red_jungle",
+            "y": 180
+        },
+        "colour=red,facing=north,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_red_jungle",
+            "y": 180
+        },
+        "colour=red,facing=east,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_red_jungle",
+            "y": 270
+        },
+        "colour=red,facing=east,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_red_jungle",
+            "y": 270
+        },
+        "colour=red,facing=west,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_red_jungle",
+            "y": 90
+        },
+        "colour=red,facing=west,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_red_jungle",
+            "y": 90
+        },
+        "colour=red,facing=south,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_red_jungle"
+        },
+        "colour=red,facing=south,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_red_jungle"
+        },
+        "colour=red,facing=north,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_red_jungle",
+            "y": 180
+        },
+        "colour=red,facing=north,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_red_jungle",
+            "y": 180
+        },
+        "colour=red,facing=east,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_red_jungle",
+            "y": 270
+        },
+        "colour=red,facing=east,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_red_jungle",
+            "y": 270
+        },
+        "colour=red,facing=west,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_red_jungle",
+            "y": 90
+        },
+        "colour=red,facing=west,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_red_jungle",
+            "y": 90
+        },
+        "colour=white,facing=south,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_white_jungle"
+        },
+        "colour=white,facing=south,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_white_jungle"
+        },
+        "colour=white,facing=north,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_white_jungle",
+            "y": 180
+        },
+        "colour=white,facing=north,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_white_jungle",
+            "y": 180
+        },
+        "colour=white,facing=east,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_white_jungle",
+            "y": 270
+        },
+        "colour=white,facing=east,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_white_jungle",
+            "y": 270
+        },
+        "colour=white,facing=west,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_white_jungle",
+            "y": 90
+        },
+        "colour=white,facing=west,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_white_jungle",
+            "y": 90
+        },
+        "colour=white,facing=south,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_white_jungle"
+        },
+        "colour=white,facing=south,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_white_jungle"
+        },
+        "colour=white,facing=north,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_white_jungle",
+            "y": 180
+        },
+        "colour=white,facing=north,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_white_jungle",
+            "y": 180
+        },
+        "colour=white,facing=east,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_white_jungle",
+            "y": 270
+        },
+        "colour=white,facing=east,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_white_jungle",
+            "y": 270
+        },
+        "colour=white,facing=west,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_white_jungle",
+            "y": 90
+        },
+        "colour=white,facing=west,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_white_jungle",
+            "y": 90
+        },
+        "colour=white,facing=south,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_white_jungle"
+        },
+        "colour=white,facing=south,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_white_jungle"
+        },
+        "colour=white,facing=north,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_white_jungle",
+            "y": 180
+        },
+        "colour=white,facing=north,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_white_jungle",
+            "y": 180
+        },
+        "colour=white,facing=east,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_white_jungle",
+            "y": 270
+        },
+        "colour=white,facing=east,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_white_jungle",
+            "y": 270
+        },
+        "colour=white,facing=west,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_white_jungle",
+            "y": 90
+        },
+        "colour=white,facing=west,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_white_jungle",
+            "y": 90
+        },
+        "colour=yellow,facing=south,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_yellow_jungle"
+        },
+        "colour=yellow,facing=south,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_yellow_jungle"
+        },
+        "colour=yellow,facing=north,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_yellow_jungle",
+            "y": 180
+        },
+        "colour=yellow,facing=north,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_yellow_jungle",
+            "y": 180
+        },
+        "colour=yellow,facing=east,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_yellow_jungle",
+            "y": 270
+        },
+        "colour=yellow,facing=east,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_yellow_jungle",
+            "y": 270
+        },
+        "colour=yellow,facing=west,part=lower,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_lower_yellow_jungle",
+            "y": 90
+        },
+        "colour=yellow,facing=west,part=lower,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_lower_yellow_jungle",
+            "y": 90
+        },
+        "colour=yellow,facing=south,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_yellow_jungle"
+        },
+        "colour=yellow,facing=south,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_yellow_jungle"
+        },
+        "colour=yellow,facing=north,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_yellow_jungle",
+            "y": 180
+        },
+        "colour=yellow,facing=north,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_yellow_jungle",
+            "y": 180
+        },
+        "colour=yellow,facing=east,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_yellow_jungle",
+            "y": 270
+        },
+        "colour=yellow,facing=east,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_yellow_jungle",
+            "y": 270
+        },
+        "colour=yellow,facing=west,part=middle,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_yellow_jungle",
+            "y": 90
+        },
+        "colour=yellow,facing=west,part=middle,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_yellow_jungle",
+            "y": 90
+        },
+        "colour=yellow,facing=south,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_yellow_jungle"
+        },
+        "colour=yellow,facing=south,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_yellow_jungle"
+        },
+        "colour=yellow,facing=north,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_yellow_jungle",
+            "y": 180
+        },
+        "colour=yellow,facing=north,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_yellow_jungle",
+            "y": 180
+        },
+        "colour=yellow,facing=east,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_yellow_jungle",
+            "y": 270
+        },
+        "colour=yellow,facing=east,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_yellow_jungle",
+            "y": 270
+        },
+        "colour=yellow,facing=west,part=upper,waterlogged=false": {
+            "model": "ironagefurniture:block/chair_wingback_upper_yellow_jungle",
+            "y": 90
+        },
+        "colour=yellow,facing=west,part=upper,waterlogged=true": {
+            "model": "ironagefurniture:block/chair_wingback_upper_yellow_jungle",
+            "y": 90
+        }
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_chair_wingback_inventory",
+    "textures": {
+        "log": "immersiveengineering:block/wooden_decoration/treated_wood_packaged",
+        "planks": "immersiveengineering:block/wooden_decoration/treated_wood_vertical",
+        "particle": "immersiveengineering:block/wooden_decoration/treated_wood_packaged",
+        "cloth": "minecraft:block/white_wool"
+    }
+}

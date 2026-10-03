@@ -1,0 +1,23 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_jungle_recolour_red",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_jungle"
+        },
+        {
+            "item": "minecraft:red_carpet"
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_wood_foot_jungle"
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_wood_foot_jungle",
+        "count": 1,
+        "nbt": "{Color:\"red\"}"
+    }
+}

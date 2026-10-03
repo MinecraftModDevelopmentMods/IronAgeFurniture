@@ -22,6 +22,20 @@ enchantments, custom names and other item data stay with the shield. Breaking th
 chair returns the empty frame and its shield separately; pick block copies the
 fitted shield as part of the chair item. Existing chairs keep their plain shield.
 
+## Beds and tall chairs
+
+Wooden beds, canopy beds, wingback chairs and thrones come in all sixteen wool
+colours. Craft a vanilla bed with one matching plank to make a wooden bed of the
+same colour. Add another matching plank to turn it into a canopy bed, or combine
+two matching single beds to make a double. A carpet deliberately recolours an
+IAF bed. Different colours cannot be combined into one double bed.
+
+To make a wingback chair, put a carpet above a matching plank and a classic chair
+in a vertical crafting column. Use a wingback chair in the same arrangement to
+make a throne. These tall chairs and beds are single pieces of furniture:
+breaking any part removes the whole structure and returns one correctly coloured
+item. Wooden beds burn like the wooden seating.
+
 ## Recovering lava lamps
 
 Mining a lava-filled sconce with a suitable pick returns its empty sconce in Survival. A Silk

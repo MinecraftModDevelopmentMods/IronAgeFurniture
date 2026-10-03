@@ -1,0 +1,23 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_birch_recolour_light_gray",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_birch"
+        },
+        {
+            "item": "minecraft:light_gray_carpet"
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_wood_foot_birch"
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_wood_foot_birch",
+        "count": 1,
+        "nbt": "{Color:\"light_gray\"}"
+    }
+}
