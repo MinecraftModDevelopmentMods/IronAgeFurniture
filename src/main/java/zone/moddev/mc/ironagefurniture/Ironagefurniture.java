@@ -19,13 +19,15 @@ import net.minecraftforge.fml.config.ModConfig;
 public class Ironagefurniture
 {
     public static final String MODID = "ironagefurniture";
-    public static final String VERSION = "0.3.0.114041";
+    public static final String VERSION = "0.4.0.114041";
     public static final CommonProxy PROXY = DistExecutor.runForDist(() -> zone.moddev.mc.ironagefurniture.proxy.ClientProxy::new, () -> CommonProxy::new);
 
 	public static final ItemGroup IAF_GROUP = new ItemGroup(MODID) {
 	    @Override
 	    public ItemStack createIcon() {
-	        return new ItemStack(BlockObjectHolder.chair_wood_ironage_classic_dark_oak);
+	        net.minecraft.block.Block chair = zone.moddev.mc.ironagefurniture.init.ItemInitialiser
+                    .getProperty("chair_wood_ironage_classic_dark_oak");
+            return new ItemStack(chair == null ? BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron : chair);
 	    }
 	};
 

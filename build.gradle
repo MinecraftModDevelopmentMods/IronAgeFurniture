@@ -14,6 +14,7 @@ plugins {
 // Recipes and advancements are checked against the committed furniture catalog.
 // Regeneration is an explicit task, so importing the project cannot rewrite them.
 apply from: 'gradle/furniture-catalog.gradle'
+apply from: 'gradle/phase-four-shields.gradle'
 
 def sha256Of = { File inputFile ->
     MessageDigest digest = MessageDigest.getInstance('SHA-256')
@@ -372,6 +373,7 @@ ext.buildSupport = [
 ]
 
 apply from: 'gradle/verification/optional-integrations.gradle'
+apply from: 'gradle/verification/phase-four-runtime.gradle'
 apply from: 'gradle/verification/project-audits.gradle'
 apply from: 'gradle/release/artifacts.gradle'
 apply from: 'gradle/release/publishing.gradle'

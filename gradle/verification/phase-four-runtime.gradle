@@ -1,0 +1,66 @@
+// The probe is a separate mod jar. It exercises the packaged release candidate
+// on an installed Forge server and never becomes part of a published artifact.
+def runtimeClasses = layout.buildDirectory.dir('phase-four-probe/classes')
+def runtimeJar = layout.buildDirectory.file('phase-four-probe/ironagefurniture-phase-four-probe.jar')
+def runtimeServer = providers.gradleProperty('phaseFourServerDir').map { file(it) }
+        .orElse(file('run-phase-four'))
+
+tasks.register('compilePhaseFourProbe', JavaCompile) {
+    dependsOn 'classes'
+    source fileTree('src/phaseFourTest/java')
+    classpath = files(sourceSets.main.output, sourceSets.main.compileClasspath)
+    destinationDirectory = runtimeClasses
+    javaCompiler = buildSupport.java8Compiler
+    options.encoding = 'UTF-8'
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+    options.compilerArgs.add('-proc:none')
+}
+
+tasks.named('check') { dependsOn 'compilePhaseFourProbe' }
+def deobfProbe = tasks.register('phaseFourProbeDeobfJar', Jar) {
+    dependsOn 'compilePhaseFourProbe'
+    archiveFileName = 'ironagefurniture-phase-four-probe-deobf.jar'
+    destinationDirectory = layout.buildDirectory.dir('phase-four-probe')
+    from runtimeClasses
+    from 'src/phaseFourTest/resources'
+    filesMatching(buildSupport.archiveTextPatterns, buildSupport.normalizeArchiveLineEndings)
+}
+def mappedProbe = renamer.classes(deobfProbe) {
+    map.from minecraft.dependency.toSrgFile
+    // Resolve inherited Minecraft methods through our furniture subclasses.
+    libraries.from(tasks.named('jar'), sourceSets.main.compileClasspath)
+    output = runtimeJar
+}
+tasks.register('phaseFourProbeJar') {
+    group = 'verification'
+    description = 'Builds the separate packaged Phase 4 runtime test mod.'
+    dependsOn mappedProbe
+    outputs.file runtimeJar
+}
+tasks.register('stagePhaseFourProbe', Copy) {
+    dependsOn 'assemble', 'phaseFourProbeJar'
+    from runtimeJar
+    from layout.buildDirectory.file("libs/${base.archivesName.get()}-${version}.jar")
+    into runtimeServer.map { new File(it, 'mods') }
+}
+tasks.register('runPhaseFourServer', Exec) {
+    group = 'verification'
+    description = 'Tests the packaged Phase 4 candidate on a disposable Forge 1.14.4 server.'
+    dependsOn 'stagePhaseFourProbe'
+    doFirst {
+        File server = runtimeServer.get()
+        File forge = new File(server, "forge-${minecraft_version}-${forge_version}.jar")
+        if (!forge.isFile()) throw new GradleException("Install Forge in the disposable test directory first: ${server}")
+        File marker = new File(server, 'phase-four-pass.properties')
+        if (marker.exists() && !marker.delete()) throw new GradleException("Cannot clear old probe result: ${marker}")
+        workingDir server
+        executable buildSupport.java8Launcher.get().executablePath.asFile
+        args '-Xmx2G', '-jar', forge.name, 'nogui'
+    }
+    doLast {
+        File marker = new File(runtimeServer.get(), 'phase-four-pass.properties')
+        if (!marker.isFile() || !marker.getText('UTF-8').contains('status=PASS'))
+            throw new GradleException('The Phase 4 server exited without a passing result')
+    }
+}

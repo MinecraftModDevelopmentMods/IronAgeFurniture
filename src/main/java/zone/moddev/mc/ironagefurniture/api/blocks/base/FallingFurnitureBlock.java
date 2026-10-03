@@ -25,9 +25,8 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
 /**
- * Forge 1.16 exposes landing callbacks through FallingBlock rather than the
- * later Fallable interface. This preserves the shared furniture behavior
- * without making every FurnitureBlock fall.
+ * Chairs, benches and lamps share facing and waterlogging with other furniture,
+ * but also fall when their support disappears.
  */
 public abstract class FallingFurnitureBlock extends FallingBlock implements IWaterLoggable {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;

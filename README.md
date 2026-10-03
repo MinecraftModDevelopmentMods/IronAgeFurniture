@@ -9,9 +9,18 @@ olde-style furniture to Minecraft. Seating is functional, furniture supports
 the appropriate vanilla and optional-mod materials, and lighting includes
 falling and throwable lava lamps.
 
-This branch provides IronAgeFurniture `0.3.0.114041` for Minecraft 1.14.4 and
-Forge 28.2.26. It requires Java 8 and can be installed on both clients and
-dedicated servers.
+This branch is the in-development Phase 4 port, `0.4.0.114041`, for Minecraft
+1.14.4 and Forge 28.2.26. It requires Java 8 on clients and dedicated servers.
+The Phase 4 furniture and migration work is not yet complete; the latest stable
+1.14.4 release remains `0.3.0.114041`. Use a disposable test world with this branch.
+
+## Removable chair shields
+
+Sneak-right-click a shield chair with an empty main hand to take its shield off.
+Right-click the empty frame with a shield to fit it again. Damage, banner designs,
+enchantments, custom names and other item data stay with the shield. Breaking the
+chair returns the empty frame and its shield separately; pick block copies the
+fitted shield as part of the chair item. Existing chairs keep their plain shield.
 
 ## Optional integrations
 
@@ -48,7 +57,7 @@ The supported Java source namespace is now
 `zone.moddev.mc.ironagefurniture`. Add-ons compiled against the former
 `com.mcmoddev.ironagefurniture` packages must update their imports. The Maven
 coordinate is
-`zone.moddev.mc:iron-age-furniture:0.3.0.114041`.
+`zone.moddev.mc:iron-age-furniture:0.4.0.114041`.
 
 See [CHANGELOG.md](CHANGELOG.md) for the release notes and
 [docs/VERSIONS.md](docs/VERSIONS.md) for the versioning scheme. Bugs can be

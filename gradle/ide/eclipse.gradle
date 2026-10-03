@@ -13,7 +13,7 @@ tasks.register('syncForge28EclipseLaunches') {
     group = 'ide'
     description = 'Synchronizes processed resources and hardens Forge 28 Eclipse launches.'
     dependsOn tasks.named('genEclipseRuns')
-    dependsOn tasks.named('processResources')
+    dependsOn tasks.named('classes')
     dependsOn tasks.named('verifyBuildEnvironment')
     doLast {
         String mainClass = 'net.minecraftforge.userdev.LaunchTesting'
@@ -45,6 +45,7 @@ tasks.register('syncForge28EclipseLaunches') {
         File processedResources = layout.buildDirectory.dir('resources/main').get().asFile
         copy {
             from processedResources
+            from sourceSets.main.output.classesDirs
             into mainOutput
         }
 

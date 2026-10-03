@@ -7,6 +7,8 @@ import zone.moddev.mc.ironagefurniture.api.items.ThrowableLavaLampBlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
@@ -24,11 +26,7 @@ import static zone.moddev.mc.ironagefurniture.init.resources.vanilla.VANILLA_NET
 public class ItemInitialiser {
 
 	public static Block getProperty(String property) {
-		try {
-			return (Block) BlockObjectHolder.class.getDeclaredField(property).get(null);
-		} catch (Exception e) {
-			return null;
-		}
+		return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(Ironagefurniture.MODID, property));
 	}
 
 	private static void registerChairs(RegistryEvent.Register<Item> event, String[] woodTypes, boolean log, String[] netherWoodTypes) {
@@ -69,6 +67,7 @@ public class ItemInitialiser {
 	}
 
 	private static void registerItem(RegistryEvent.Register<Item> event, Block theBlock) {
+		if (theBlock == null) throw new IllegalStateException("Furniture block missing during item registration");
 		event.getRegistry().register(new BlockItem(theBlock, new BlockItem.Properties().group(Ironagefurniture.IAF_GROUP)).setRegistryName(Ironagefurniture.MODID, theBlock.getRegistryName().getPath()));
 	}
 

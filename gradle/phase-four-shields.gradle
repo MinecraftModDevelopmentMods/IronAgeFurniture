@@ -1,0 +1,72 @@
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+
+// Inventory items still use the decorative shield-chair model. Placed chairs
+// use its wooden frame and render the player's actual shield separately.
+def shieldAssets = file('src/main/resources/assets/ironagefurniture')
+def shieldCatalog = file('gradle/furniture-catalog.json')
+def shieldJson = { Object value -> JsonOutput.prettyPrint(JsonOutput.toJson(value)) + '\n' }
+def expectedShieldFiles = {
+    Map catalog = new JsonSlurper().parse(shieldCatalog) as Map
+    Map<String, String> files = [:]
+    catalog.woods.values().flatten().each { String wood ->
+        String path = "chair_wood_ironage_shield_${wood}"
+        Map model = new JsonSlurper().parse(new File(shieldAssets, "models/block/${path}.json")) as Map
+        Map geometry = model
+        while (!geometry.elements && geometry.parent?.startsWith('ironagefurniture:block/')) {
+            String parent = geometry.parent.substring('ironagefurniture:block/'.length())
+            geometry = new JsonSlurper().parse(new File(shieldAssets, "models/block/${parent}.json")) as Map
+        }
+        if (!geometry.elements) throw new GradleException("Shield-chair geometry is missing: ${path}")
+        model.elements = geometry.elements.findAll { element ->
+            !element.faces.values().any { face -> face.texture == '#2' }
+        }
+        if (!model.elements || model.elements.size() == geometry.elements.size())
+            throw new GradleException("Cannot separate the shield from its frame: ${path}")
+        files["src/main/resources/assets/ironagefurniture/models/block/${path}_frame.json"] = shieldJson(model)
+        Map state = new JsonSlurper().parse(new File(shieldAssets, "blockstates/${path}.json")) as Map
+        state.variants.values().each { variant -> variant.model = "ironagefurniture:block/${path}_frame" }
+        files["src/main/resources/assets/ironagefurniture/blockstates/${path}.json"] = shieldJson(state)
+        File recipe = file("src/main/resources/data/ironagefurniture/recipes/${path}.json")
+        Map data = new JsonSlurper().parse(recipe) as Map
+        data.type = 'ironagefurniture:shield_chair'
+        files[project.relativePath(recipe)] = shieldJson(data)
+        File advancement = file("src/main/resources/data/ironagefurniture/advancements/recipes/chairs/${path}.json")
+        Map document = new JsonSlurper().parse(advancement) as Map
+        Map payload = document.advancements instanceof List ? document.advancements[0].advancement : document
+        payload.criteria.has_rock = [trigger: 'minecraft:inventory_changed',
+                conditions: [items: [[item: 'minecraft:shield']]]]
+        files[project.relativePath(advancement)] = shieldJson(document)
+    }
+    files
+}
+
+tasks.register('updatePhaseFourShieldCatalog') {
+    group = 'generation'
+    description = 'Updates shield-chair frames and data-preserving crafting recipes.'
+    doLast {
+        expectedShieldFiles().each { path, text -> file(path).setText(text, 'UTF-8') }
+    }
+}
+
+tasks.register('verifyPhaseFourShieldCatalog') {
+    group = 'verification'
+    description = 'Checks shield-chair frames, recipe types and namespace coverage.'
+    inputs.file shieldCatalog
+    inputs.files fileTree(shieldAssets) { include '**/chair_wood_ironage_shield_*.json' }
+    inputs.files fileTree('src/main/resources/data/ironagefurniture/recipes') {
+        include 'chair_wood_ironage_shield_*.json'
+    }
+    inputs.files fileTree('src/main/resources/data/ironagefurniture/advancements') {
+        include '**/chair_wood_ironage_shield_*.json'
+    }
+    doLast {
+        expectedShieldFiles().each { path, text ->
+            if (!file(path).isFile() || file(path).getText('UTF-8').replace('\r\n', '\n') != text)
+                throw new GradleException("Missing or stale shield-chair resource: ${path}")
+        }
+    }
+}
+
+tasks.named('updateFurnitureCatalog') { dependsOn 'updatePhaseFourShieldCatalog' }
+tasks.named('check') { dependsOn 'verifyPhaseFourShieldCatalog' }

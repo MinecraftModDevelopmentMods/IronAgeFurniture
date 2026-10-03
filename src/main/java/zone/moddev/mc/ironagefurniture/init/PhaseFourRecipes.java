@@ -1,0 +1,23 @@
+package zone.moddev.mc.ironagefurniture.init;
+
+import net.minecraft.item.crafting.IRecipeSerializer;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ObjectHolder;
+import zone.moddev.mc.ironagefurniture.Ironagefurniture;
+import zone.moddev.mc.ironagefurniture.api.recipes.ShieldChairRecipe;
+
+@Mod.EventBusSubscriber(modid = Ironagefurniture.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@ObjectHolder(Ironagefurniture.MODID)
+public final class PhaseFourRecipes {
+    public static final IRecipeSerializer<ShieldChairRecipe> shield_chair = null;
+
+    private PhaseFourRecipes() { }
+
+    @SubscribeEvent
+    public static void registerRecipes(RegistryEvent.Register<IRecipeSerializer<?>> event) {
+        event.getRegistry().register(new ShieldChairRecipe.Serializer()
+                .setRegistryName(Ironagefurniture.MODID, "shield_chair"));
+    }
+}

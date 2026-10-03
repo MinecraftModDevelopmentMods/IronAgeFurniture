@@ -1,5 +1,17 @@
-# Unreleased Phase 4 development for Forge 1.14.4
+# IronAgeFurniture 0.4.0.114041 (in development)
 
+The Forge 1.14.4 Phase 4 port is being developed locally. This is not a completed
+release candidate yet.
+
+- Shields can be removed from and fitted to shield chairs without losing their
+  damage, banner designs, enchantments, names or other item data. Old chairs keep
+  their plain shields, and empty frames stay empty after saving and reloading.
+- Shield-chair crafting now keeps the shield supplied by the player. Mining a
+  chair returns its frame and shield; falling chairs retain their fitted shield.
+- Stored pre-flattening shield items are upgraded with Minecraft's item data
+  fixer, including its changed banner-colour numbering.
+- Remove debug messages for optional furniture that is intentionally not
+  registered when its wood-providing mod is absent.
 - Split the build into smaller files for resource checks, packaged integration
   tests, Eclipse setup, release artifacts and Maven publication. The Forge
   1.14.4 toolchain and existing publication safeguards remain unchanged.
