@@ -123,8 +123,8 @@ tasks.register('verifyResourceJson') {
             include '**/*.json'
             include 'pack.mcmeta'
         }.files.sort { it.path }
-        if (jsonFiles.size() != 21837) {
-            throw new GradleException("Expected 21837 runtime JSON documents, found ${jsonFiles.size()}")
+        if (jsonFiles.size() != 21931) {
+            throw new GradleException("Expected 21931 runtime JSON documents, found ${jsonFiles.size()}")
         }
         jsonFiles.each { candidate ->
             try {
@@ -137,9 +137,9 @@ tasks.register('verifyResourceJson') {
         List<Map> locales = localeNames.collect { name ->
             new JsonSlurper().parse(file("src/main/resources/assets/ironagefurniture/lang/${name}")) as Map
         }
-        if (!locales.every { it.size() == 4438 }
+        if (!locales.every { it.size() == 4463 }
                 || !locales.tail().every { it.keySet() == locales.first().keySet() }) {
-            throw new GradleException('English locale files must retain 4438 identical translation keys')
+            throw new GradleException('English locale files must retain 4463 identical translation keys')
         }
 
         Map<String, Map<String, Integer>> optionalIntegrations = optionalIntegrationExpectedCounts

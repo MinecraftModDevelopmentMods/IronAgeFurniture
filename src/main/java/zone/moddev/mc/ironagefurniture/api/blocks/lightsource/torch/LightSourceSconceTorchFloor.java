@@ -204,6 +204,8 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor implemen
 
 		ItemStack stackInHand = player.getHeldItem(hand);
 
+        if (zone.moddev.mc.ironagefurniture.init.PhaseFourLighting.addSecondTorch(state, world, pos, player, hand)) return true;
+
 		if (CanEx() && stackInHand.getItem() == Items.WATER_BUCKET) {
 			world.setBlockState(pos, UnlitVariant().getDefaultState()
 				 .with(DIRECTION, state .get(BlockStateProperties.HORIZONTAL_FACING))

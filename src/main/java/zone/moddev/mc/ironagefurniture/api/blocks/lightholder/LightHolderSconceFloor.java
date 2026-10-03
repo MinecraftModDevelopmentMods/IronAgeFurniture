@@ -142,6 +142,9 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 
 		ItemStack stackInHand = player.getHeldItem(hand);
 
+        if (zone.moddev.mc.ironagefurniture.init.PhaseFourLighting.insertCandle(state, world, pos, player, hand,
+                this instanceof LightHolderSconceWall)) return true;
+
 		if (stackInHand.getItem() == Blocks.TORCH.asItem()) {
 			Block torchSconce;
 

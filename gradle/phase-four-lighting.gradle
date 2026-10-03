@@ -1,0 +1,113 @@
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+
+// Keep the accepted candle geometry and crafting quantities. The generated
+// resources use 1.14 texture paths, waterlogged states and advancement predicates.
+def lightTemplates = file('gradle/lighting-templates')
+def lightJson = { Object value -> JsonOutput.prettyPrint(JsonOutput.toJson(value)).replaceAll(/(?m)[ \t]+$/, '') + '\n' }
+def lightingFiles = {
+    String assets = 'src/main/resources/assets/ironagefurniture'
+    String data = 'src/main/resources/data/ironagefurniture'
+    Map<String, String> files = [:]
+    ['floor', 'wall'].each { form ->
+        String id = "light_metal_ironage_candle_${form}"
+        Map model = new JsonSlurper().parse(new File(lightTemplates, "${id}.json")) as Map
+        model.textures = model.textures.collectEntries { key, value -> [(key): value.replace(':blocks/', ':block/')] }
+        files["${assets}/models/block/${id}.json"] = lightJson(model)
+        files["${assets}/models/block/${id}_unlit.json"] = lightJson([parent: "ironagefurniture:block/${id}"])
+        ['', '_unlit'].each { suffix ->
+            Map variants = [:]
+            [north: 0, east: 90, south: 180, west: 270].each { facing, rotation ->
+                [false, true].each { wet ->
+                    variants["facing=${facing},waterlogged=${wet}"] = [model: "ironagefurniture:block/${id}${suffix}",
+                        y: form == 'wall' ? (rotation + 180) % 360 : rotation]
+                }
+            }
+            files["${assets}/blockstates/${id}${suffix}.json"] = lightJson([variants: variants])
+            files["${assets}/models/item/${id}${suffix}.json"] = lightJson([parent: "ironagefurniture:block/${id}${suffix}"])
+        }
+    }
+    Map inventory = new JsonSlurper().parse(new File(lightTemplates, 'candle_inventory.json')) as Map
+    inventory.textures = inventory.textures.collectEntries { key, value ->
+        [(key): value.replace(':blocks/', ':block/').replace('block/fire_layer_0', 'block/fire_0')]
+    }
+    files["${assets}/models/item/light_metal_ironage_candle_floor.json"] = lightJson(inventory)
+    files["${assets}/models/item/tallow.json"] = lightJson([parent: 'minecraft:item/generated', textures: [layer0: 'ironagefurniture:item/tallow']])
+    files["${assets}/particles/candle_flame.json"] = lightJson([textures: ['minecraft:flame']])
+    def recipe = { String id, Map document, String ingredient ->
+        document.conditions = [[type: 'forge:item_exists', item: 'ironagefurniture:light_metal_ironage_candle_floor']]
+        files["${data}/recipes/${id}.json"] = lightJson(document)
+        files["${data}/advancements/recipes/lighting/${id}.json"] = lightJson([advancements: [[conditions: document.conditions,
+            advancement: [parent: 'minecraft:recipes/root', rewards: [recipes: ["ironagefurniture:${id}"]],
+                criteria: [has_ingredient: [trigger: 'minecraft:inventory_changed', conditions: [items: [[item: ingredient]]]],
+                    has_the_recipe: [trigger: 'minecraft:recipe_unlocked', conditions: [recipe: "ironagefurniture:${id}"]]],
+                requirements: [['has_ingredient', 'has_the_recipe']]]]]])
+    }
+    recipe('light_metal_ironage_candle_floor', [type: 'minecraft:crafting_shapeless',
+        ingredients: [[item: 'ironagefurniture:tallow'], [item: 'minecraft:string']],
+        result: [item: 'ironagefurniture:light_metal_ironage_candle_floor', count: 8]], 'ironagefurniture:tallow')
+    [cooked_porkchop: 3, cooked_beef: 2, cooked_mutton: 2, cooked_rabbit: 1, cooked_chicken: 1, rotten_flesh: 1].each { meat, amount ->
+        recipe("tallow_from_${meat}", [type: 'ironagefurniture:tallow_smelting', group: 'ironagefurniture:tallow',
+            ingredient: [item: "minecraft:${meat}"], result: 'ironagefurniture:tallow', count: amount,
+            experience: 0.1, cookingtime: 200], "minecraft:${meat}")
+    }
+    Map names = new JsonSlurper().parse(file("${assets}/lang/en_us.json")) as Map
+    ['floor', 'wall'].each { form ->
+        names["block.ironagefurniture.light_metal_ironage_candle_${form}"] = 'Candle'
+        names["block.ironagefurniture.light_metal_ironage_candle_${form}_unlit"] = 'Unlit Candle'
+    }
+    names['item.ironagefurniture.tallow'] = 'Tallow'
+    ['floor', 'wall'].each { form ->
+        ['torch_twin', 'candle', 'candle_two', 'candle_three', 'candle_four'].each { family ->
+            String template = "template_light_metal_ironage_sconce_${form}_${family}"
+            Map geometry = new JsonSlurper().parse(new File(lightTemplates, "${template}.json")) as Map
+            geometry.textures.particle = 'minecraft:block/iron_block'
+            files["${assets}/models/block/${template}.json"] = lightJson(geometry)
+            String id = "light_metal_ironage_sconce_${form}_" + (family == 'torch_twin' ? 'torch_iron_twin' : family.replace('candle', 'candle_iron'))
+            ['', '_unlit'].each { suffix ->
+                files["${assets}/models/block/${id}${suffix}.json"] = lightJson([
+                    parent: "ironagefurniture:block/${template}", textures: [metal: 'minecraft:block/iron_block',
+                        wax: 'ironagefurniture:block/candle_wax', torchtexture: 'minecraft:block/torch']])
+                Map variants = [:]
+                [north: 0, east: 90, south: 180, west: 270].each { facing, rotation ->
+                    [false, true].each { wet ->
+                        int modelRotation = form == 'floor' ? rotation : (rotation + (family == 'torch_twin' ? 270 : 180)) % 360
+                        variants["facing=${facing},waterlogged=${wet}"] = [model: "ironagefurniture:block/${id}${suffix}", y: modelRotation]
+                    }
+                }
+                files["${assets}/blockstates/${id}${suffix}.json"] = lightJson([variants: variants])
+                files["${assets}/models/item/${id}${suffix}.json"] = lightJson([parent: "ironagefurniture:block/${id}${suffix}"])
+                String label = family == 'torch_twin' ? 'Twin-Torch Sconce' : 'Candle Sconce'
+                if (family.startsWith('candle_')) label += ' (' + [candle_two: 2, candle_three: 3, candle_four: 4][family] + ' Candles)'
+                names["block.ironagefurniture.${id}${suffix}"] = (suffix ? 'Unlit ' : '') + 'Iron ' + label
+            }
+        }
+    }
+    ['en_en', 'en_gb', 'en_us'].each { locale -> files["${assets}/lang/${locale}.json"] = lightJson(new TreeMap(names)) }
+    files
+}
+tasks.register('updatePhaseFourLightingCatalog') {
+    group = 'generation'
+    description = 'Updates candle and twin-torch geometry, waterlogged states, recipes and names.'
+    doLast {
+        lightingFiles().each { path, text ->
+            File target = file(path)
+            if (!target.isFile() || target.getText('UTF-8').replace('\r\n', '\n') != text) {
+                target.parentFile.mkdirs()
+                target.setText(text, 'UTF-8')
+            }
+        }
+    }
+}
+tasks.register('verifyPhaseFourLightingCatalog') {
+    group = 'verification'
+    description = 'Checks the committed 1.14 candle and twin-torch resources against their source templates.'
+    doLast {
+        lightingFiles().each { path, text ->
+            if (!file(path).isFile() || file(path).getText('UTF-8').replace('\r\n', '\n') != text)
+                throw new GradleException("Missing or stale candle resource: ${path}")
+        }
+    }
+}
+tasks.named('updateFurnitureCatalog') { dependsOn 'updatePhaseFourLightingCatalog' }
+tasks.named('check') { dependsOn 'verifyPhaseFourLightingCatalog' }

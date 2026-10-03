@@ -36,6 +36,22 @@ make a throne. These tall chairs and beds are single pieces of furniture:
 breaking any part removes the whole structure and returns one correctly coloured
 item. Wooden beds burn like the wooden seating.
 
+## Candles
+
+Smelt cooked meat or rotten flesh into tallow, then craft one tallow with one
+string to make eight candles. Cooked pork gives three tallow; beef and mutton
+give two; chicken, rabbit and rotten flesh give one.
+
+Candles can stand on a suitable surface or attach to a wall. Water extinguishes
+them, including when placed underwater. Drain the water and use a torch or flint
+and steel to relight them. An empty sconce holds up to four candles; use an empty
+hand to remove them, or add a candle to a full sconce to take them all back.
+Adding a second torch to a lit torch sconce makes a brighter twin-torch sconce.
+These sconces also extinguish underwater and retain their contents until removed.
+Their small flame and occasional smoke are cosmetic;
+carrying a candle does not alter world lighting without a separate dynamic-light
+feature such as OptiFine's Dynamic Lights option.
+
 ## Recovering lava lamps
 
 Mining a lava-filled sconce with a suitable pick returns its empty sconce in Survival. A Silk

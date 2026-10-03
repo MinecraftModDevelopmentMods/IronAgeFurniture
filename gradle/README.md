@@ -9,6 +9,7 @@ optional workflows live in smaller scripts:
 | `furniture-catalog.gradle` | Verify the committed furniture resources or regenerate them explicitly. |
 | `phase-four-shields.gradle` | Generate and check removable shield-chair frames and crafting recipes. |
 | `phase-four-upholstery.gradle` | Generate and check colour-specific beds, tall chairs, models and crafting recipes. |
+| `phase-four-lighting.gradle` | Generate and check candles, multi-candle/twin-torch sconces, waterlogged states and tallow recipes. |
 | `verification/optional-integrations.gradle` | Check pinned dependency jars and launch packaged-server integration tests. |
 | `verification/phase-four-runtime.gradle` | Build the isolated furniture test mod and run it on a disposable server. |
 | `verification/project-audits.gradle` | Check resources, metadata, namespaces, workflow pins and tracked files. |
@@ -24,7 +25,7 @@ The integration probes are separate because they need the exact optional-mod
 jars listed in `verification/optional-integration-mods.json` and a verified
 Forge installer. Local builds and Eclipse imports never publish a release.
 
-The shield-chair probe checks placement, mining, pick block, removable shields,
+The furniture probe checks placement, mining, pick block, removable shields,
 falling chairs and saved data. Run `phaseFourProbeJar` to build it, then use
 `runPhaseFourServer` with `-PphaseFourServerDir` pointing to a disposable installed
 Forge 1.14.4 server. Running it twice checks the decorated chair and empty frame
@@ -39,5 +40,8 @@ It closes the test client after checking its models and writes
 `phase-four-client-pass.properties`. The bed and tall-chair checks also cover all
 sixteen colours, every facing, wet/dry placement, whole-structure cleanup and
 real Forge harvesting. The client checks both inventory wool textures and every
-registered blockstate. New lighting, metal variants and the remaining Phase 4
-upgrades still need their own tests.
+registered blockstate. Candle tests cover all floor/wall facings, water entry,
+draining, relighting, support loss, real harvesting and tallow output counts.
+The new sconces also check content insertion/removal, Creative consumption,
+flame orientation and saved-state reloads. Metal variants and the remaining
+Phase 4 upgrades are still being developed.

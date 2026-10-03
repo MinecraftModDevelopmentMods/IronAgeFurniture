@@ -16,6 +16,7 @@ plugins {
 apply from: 'gradle/furniture-catalog.gradle'
 apply from: 'gradle/phase-four-shields.gradle'
 apply from: 'gradle/phase-four-upholstery.gradle'
+apply from: 'gradle/phase-four-lighting.gradle'
 
 def sha256Of = { File inputFile ->
     MessageDigest digest = MessageDigest.getInstance('SHA-256')

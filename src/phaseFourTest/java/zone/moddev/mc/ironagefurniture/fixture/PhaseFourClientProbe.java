@@ -75,6 +75,20 @@ public final class PhaseFourClientProbe {
                 upholstery++;
             }
             require(upholstery >= 36, "Upholstered furniture not loaded");
+            for (Block block : ForgeRegistries.BLOCKS.getValues()) {
+                if (!(block instanceof zone.moddev.mc.ironagefurniture.api.blocks.lightsource.phasefour.Candle)
+                        && !(block instanceof zone.moddev.mc.ironagefurniture.api.blocks.lightsource.phasefour.AdditionalSconce)) continue;
+                for (net.minecraft.block.BlockState state : block.getStateContainer().getValidStates()) {
+                    IBakedModel placed = game.getBlockRendererDispatcher().getModelForState(state);
+                    require(placed != game.getModelManager().getMissingModel(), "Missing candle/twin-torch block model");
+                    require(placed.getQuads(state, null, new Random(0)).stream().noneMatch(quad -> quad.getSprite().getName().getPath().contains("missing")),
+                            "Sconce block has an unresolved texture: " + block.getRegistryName());
+                }
+                IBakedModel item = game.getItemRenderer().getItemModelWithOverrides(new ItemStack(block), null, null);
+                require(item != game.getModelManager().getMissingModel(), "Missing candle item model");
+                require(item.getQuads(null, null, new Random(0)).stream().noneMatch(quad -> quad.getSprite().getName().getPath().contains("missing")),
+                        "Candle/sconce item has an unresolved texture: " + block.getRegistryName());
+            }
             require(TileEntityRendererDispatcher.instance.getRenderer(new ShieldChairTileEntity()) != null,
                     "Shield tile renderer not registered");
             ItemStack patterned = new ItemStack(Items.SHIELD);

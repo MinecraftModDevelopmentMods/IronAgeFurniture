@@ -6,6 +6,12 @@ release candidate yet.
 - Add wooden and canopy beds, including doubles, plus wingback chairs and thrones
   for the supported vanilla, BOP and IE woods. All sixteen upholstery colours
   remain intact in crafting, pick block and Survival drops.
+- Add floor and wall candles with a small flame, sparse held-candle smoke,
+  waterlogging and relighting. Smelting meat into tallow keeps the original
+  quantities, and one tallow with one string makes eight candles.
+- Sconces can hold up to four candles or two torches. Inserting, removing,
+  extinguishing and relighting their contents preserves facing and waterlogging;
+  mining returns the frame and the correct number of candles or torches.
 - Bed upgrades keep the supplied bed's colour. Double beds require matching
   singles; carpet recipes deliberately recolour an existing bed. Recipe-book
   entries remain separate for each wood, form and colour.
