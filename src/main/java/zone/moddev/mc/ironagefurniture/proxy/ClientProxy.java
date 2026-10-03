@@ -5,6 +5,7 @@ import zone.moddev.mc.ironagefurniture.client.renderer.SeatRenderer;
 import zone.moddev.mc.ironagefurniture.client.renderer.ThrownLavaLampRenderer;
 import zone.moddev.mc.ironagefurniture.client.renderer.ShieldChairRenderer;
 import zone.moddev.mc.ironagefurniture.client.renderer.FallingShieldChairRenderer;
+import zone.moddev.mc.ironagefurniture.client.renderer.ReleasedLavaLampRenderer;
 import zone.moddev.mc.ironagefurniture.api.tile.ShieldChairTileEntity;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 
@@ -18,5 +19,7 @@ public class ClientProxy extends CommonProxy {
         RenderingRegistry.registerEntityRenderingHandler(zone.moddev.mc.ironagefurniture.api.entity.FallingShieldChair.class,
                 FallingShieldChairRenderer::new);
         ClientRegistry.bindTileEntitySpecialRenderer(ShieldChairTileEntity.class, new ShieldChairRenderer());
+        RenderingRegistry.registerEntityRenderingHandler(zone.moddev.mc.ironagefurniture.api.entity.ReleasedLavaLamp.class,
+                ReleasedLavaLampRenderer::new);
     }
 }

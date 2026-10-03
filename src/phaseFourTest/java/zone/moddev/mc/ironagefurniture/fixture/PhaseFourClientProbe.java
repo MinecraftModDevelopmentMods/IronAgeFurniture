@@ -104,6 +104,14 @@ public final class PhaseFourClientProbe {
                     new zone.moddev.mc.ironagefurniture.client.renderer.ShieldChairRenderer();
             renderer.renderShield(new ItemStack(Items.SHIELD), chair.getDefaultState(), -100, -100, -100);
             renderer.renderShield(patterned, chair.getDefaultState(), -100, -100, -100);
+            zone.moddev.mc.ironagefurniture.api.entity.ReleasedLavaLamp lamp =
+                    new zone.moddev.mc.ironagefurniture.api.entity.ReleasedLavaLamp(
+                            zone.moddev.mc.ironagefurniture.registers.entities.RELEASED_LAVA_LAMP.get(), null);
+            net.minecraft.client.renderer.entity.EntityRenderer<?> lampRenderer = game.getRenderManager().getRenderer(lamp);
+            require(lampRenderer instanceof zone.moddev.mc.ironagefurniture.client.renderer.ReleasedLavaLampRenderer,
+                    "Released lava lamp has no dedicated glass renderer");
+            ((zone.moddev.mc.ironagefurniture.client.renderer.ReleasedLavaLampRenderer)lampRenderer)
+                    .doRender(lamp, -100, -100, -100, 0, 0);
             Files.write(Paths.get("phase-four-client-pass.properties"),
                     ("status=PASS\nshield_chairs=" + chairs + "\nupholstered_forms=" + upholstery + "\n").getBytes(StandardCharsets.UTF_8));
             org.apache.logging.log4j.LogManager.getLogger().info("IAF PHASE FOUR CLIENT PROBE PASSED: {} chairs", chairs);

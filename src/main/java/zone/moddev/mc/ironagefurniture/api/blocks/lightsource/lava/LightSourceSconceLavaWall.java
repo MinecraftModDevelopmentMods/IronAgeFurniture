@@ -19,6 +19,8 @@ import net.minecraft.util.SoundCategory;
 import java.util.Random;
 
 import zone.moddev.mc.ironagefurniture.BlockObjectHolder;
+import zone.moddev.mc.ironagefurniture.api.entity.ReleasedLavaLamp;
+import zone.moddev.mc.ironagefurniture.api.blocks.lightsource.phasefour.LightInteractions;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.concurrent.TickDelayedTask;
@@ -31,6 +33,41 @@ import net.minecraft.world.World;
 import net.minecraft.world.IWorld;
 
 public class LightSourceSconceLavaWall extends LightSourceSconceGlowWall {
+    @Override public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState old, boolean moving) {
+        super.onBlockAdded(state, world, pos, old, moving);
+        scheduleRelease(world, pos);
+    }
+
+    @Override public void neighborChanged(BlockState state, World world, BlockPos pos, Block neighbour,
+            BlockPos neighbourPos, boolean moving) {
+        super.neighborChanged(state, world, pos, neighbour, neighbourPos, moving);
+        scheduleRelease(world, pos);
+    }
+
+    private void scheduleRelease(World world, BlockPos pos) {
+        if (!world.isRemote && world.getBlockState(pos).getBlock() == this
+                && canRelease(world.isBlockPowered(pos), world.isAirBlock(pos.down())))
+            world.getPendingBlockTicks().scheduleTick(pos, this, 2);
+    }
+
+    static boolean canRelease(boolean powered, boolean airBelow) { return powered && airBelow; }
+
+    @Override public void tick(BlockState state, World world, BlockPos pos, Random random) {
+        if (world.isRemote || world.getBlockState(pos).getBlock() != this || !state.isValidPosition(world, pos)
+                || !canRelease(world.isBlockPowered(pos), world.isAirBlock(pos.down()))) return;
+        BlockState empty = LightInteractions.replacement(state, EmptyVariant());
+        if (!world.setBlockState(pos, empty, 3)) return;
+        Direction outwards = state.get(FurnitureBlock.DIRECTION).getOpposite();
+        PlayerEntity nearest = world.getClosestPlayer(pos.getX() + .5, pos.getY() + .5, pos.getZ() + .5, -1, false);
+        ReleasedLavaLamp lamp = new ReleasedLavaLamp(world,
+                pos.getX() + .5 + .27 * outwards.getXOffset(), pos.getY() + 5.0 / 16.0,
+                pos.getZ() + .5 + .27 * outwards.getZOffset(),
+                LightDrop().getDefaultState().with(FurnitureBlock.DIRECTION, state.get(FurnitureBlock.DIRECTION)),
+                pos.getY(), nearest != null && nearest.isCreative());
+        if (!world.addEntity(lamp) && world.getBlockState(pos).getBlock() == empty.getBlock())
+            world.setBlockState(pos, state, 3);
+    }
+
 	@Override
 	public BlockState updatePostPlacement(BlockState state, Direction direction, BlockState state2, IWorld levelAccessor, BlockPos pos, BlockPos pos2) {
 	    if (direction.getOpposite() == state .get(FurnitureBlock.DIRECTION) && !state.isValidPosition(levelAccessor, pos)) {

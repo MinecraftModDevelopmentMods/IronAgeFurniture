@@ -59,6 +59,12 @@ Touch tool also returns the intact lamp. Without Silk Touch the lamp breaks and
 starts a fire, whether the sconce was standing on the floor or mounted on a wall.
 Creative-mode breaking produces neither drops nor fire.
 
+Wall-mounted lava sconces also work as traps: a redstone signal releases the
+lamp if the block directly below is empty. The sconce stays on the wall while
+the vial falls, breaking into fire on a dry landing or obsidian in water. Keep
+flammable furniture clear of the landing area. In Creative, the released lamp
+lands intact instead.
+
 ## Optional integrations
 
 IronAgeFurniture adds matching furniture and recipes when these mods are

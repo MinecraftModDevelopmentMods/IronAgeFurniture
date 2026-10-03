@@ -6,6 +6,7 @@ import java.util.Random;
 
 import zone.moddev.mc.ironagefurniture.BlockObjectHolder;
 import zone.moddev.mc.ironagefurniture.api.CreativeModeBreakTracker;
+import zone.moddev.mc.ironagefurniture.api.entity.ReleasedLavaLamp;
 import zone.moddev.mc.ironagefurniture.api.blocks.base.FurnitureBlock;
 import zone.moddev.mc.ironagefurniture.api.blocks.lightsource.glow.LightSourceGlowdust;
 import net.minecraft.util.math.BlockPos;
@@ -36,8 +37,10 @@ import net.minecraft.world.storage.loot.LootContext.Builder;
 public class LightSourceLava extends LightSourceGlowdust {
 	@Override
 	public void onEndFalling(World level, BlockPos pos, BlockState state, BlockState replacedState) {
-		if (level.isRemote || CreativeModeBreakTracker.shouldSuppressFallingLavaBreak(level, pos))
-			return;
+		if (level.isRemote) return;
+        Boolean releasedCreative = ReleasedLavaLamp.preserveCurrentLanding(level, pos);
+        if (releasedCreative != null ? releasedCreative.booleanValue()
+                : CreativeModeBreakTracker.shouldSuppressFallingLavaBreak(level, pos)) return;
 
 		if (replacedState.getFluidState().getFluid() == Fluids.WATER)
 			breakIntoObsidianChunk(level, pos, state, null);

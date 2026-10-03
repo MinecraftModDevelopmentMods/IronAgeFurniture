@@ -14,6 +14,9 @@ release candidate yet.
   mining returns the frame and the correct number of candles or torches.
 - Add optional Mineralogy rock-salt lamps to floor and wall sconces. They stay
   lit underwater; removal and mining return the original lamp and frame.
+- A powered wall-mounted lava sconce releases its lamp when the space below is
+  open. The frame stays in place; the falling vial shatters into fire or an
+  underwater obsidian chunk. Creative-mode testing leaves the landed lamp intact.
 - Bed upgrades keep the supplied bed's colour. Double beds require matching
   singles; carpet recipes deliberately recolour an existing bed. Recipe-book
   entries remain separate for each wood, form and colour.
