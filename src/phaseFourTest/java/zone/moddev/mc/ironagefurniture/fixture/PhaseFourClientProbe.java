@@ -24,6 +24,8 @@ import zone.moddev.mc.ironagefurniture.api.tile.ShieldChairTileEntity;
 @Mod.EventBusSubscriber(modid = "ironagefurniturephasefourprobe", value = Dist.CLIENT)
 public final class PhaseFourClientProbe {
     private static boolean complete;
+    private static boolean worldStarted;
+    private static int worldTicks;
 
     private PhaseFourClientProbe() { }
 
@@ -34,8 +36,37 @@ public final class PhaseFourClientProbe {
         String screen = event.getGui().getClass().getSimpleName();
         if (complete || (!(event.getGui() instanceof MainMenuScreen)
                 && !screen.equals("ModLoadingWarningScreen"))) return;
+        if (inWorld()) {
+            if (!worldStarted) {
+                worldStarted = true;
+                game.launchIntegratedServer("world", "Base Metals sconce test", null);
+            }
+            return;
+        }
+        verify(game);
+    }
+
+    @SubscribeEvent public static void tick(net.minecraftforge.event.TickEvent.ClientTickEvent event) {
+        Minecraft game = Minecraft.getInstance();
+        if (complete || !inWorld()
+                || event.phase != net.minecraftforge.event.TickEvent.Phase.END
+                || game.world == null || game.player == null || ++worldTicks < 40) return;
+        verify(game);
+    }
+
+    private static boolean inWorld() {
+        return Boolean.getBoolean("iaf.probe.liveBaseMetalsClient") || Boolean.getBoolean("iaf.probe.inWorldClient");
+    }
+
+    private static void verify(Minecraft game) {
         complete = true;
         try {
+            if (Boolean.getBoolean("iaf.probe.liveBaseMetalsClient")) {
+                long available = java.util.Arrays.stream(zone.moddev.mc.ironagefurniture.api.enumerations.SconceMetal.values())
+                        .filter(zone.moddev.mc.ironagefurniture.api.SconceMetalData::available).count();
+                require(available == (Boolean.getBoolean("iaf.probe.baseMetalsDisabled") ? 2 : 23),
+                        "Client did not receive published Base Metals tags/configuration: " + available);
+            }
             int chairs = 0;
             for (Block block : ForgeRegistries.BLOCKS.getValues()) {
                 if (!(block instanceof ShieldChair)) continue;
@@ -100,6 +131,12 @@ public final class PhaseFourClientProbe {
                     net.minecraft.util.ResourceLocation expected = game.getBlockRendererDispatcher().getModelForState(
                             zone.moddev.mc.ironagefurniture.api.SconceMetalData.textureBlock(metal).getDefaultState())
                             .getParticleTexture().getName();
+                    if (Boolean.getBoolean("iaf.probe.liveBaseMetalsClient") && metal.isBaseMetal()
+                            && !Boolean.getBoolean("iaf.probe.baseMetalsDisabled"))
+                        require("basemetals".equals(expected.getNamespace())
+                                && zone.moddev.mc.ironagefurniture.api.SconceMetalData.textureBlock(metal).getRegistryName()
+                                    .equals(new net.minecraft.util.ResourceLocation("basemetals", metal.getName() + "_block")),
+                                "Published metal resolved to a fallback texture: " + metal + "/" + expected);
                     if (block.asItem() != Items.AIR) {
                         ItemStack stack = zone.moddev.mc.ironagefurniture.api.SconceMetalData.create(block, metal);
                         IBakedModel item = game.getItemRenderer().getItemModelWithOverrides(stack, null, null);

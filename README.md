@@ -72,15 +72,16 @@ Sconces can be made from iron or gold. Gold is softer; stronger metals take
 longer to mine and better withstand explosions. The metal stays with the frame
 when lights are inserted, removed, extinguished or broken.
 
-This branch also has a conditional Base Metals compatibility contract, ready
-for a future compatible port. No Base Metals 1.14 build has been tested here,
-so its live recipes and textures are not yet verified. Without that mod, no
-Base Metals recipes or Creative entries appear. Previously saved metal names
+Install [Base Metals 3.0.1.114041](https://www.curseforge.com/minecraft/mc-mods/base-metals/files/9068954)
+and its required OreSpawn dependency to craft sconces from 21 additional metals.
+The published Base Metals build has been tested on a packaged client and server,
+including recipes, inventory and placed textures, mining toughness and metal-preserving drops.
+Without that mod, no Base Metals recipes or Creative entries appear. Previously saved metal names
 are retained, with an iron appearance until their supplying mod is available.
 The integration expects standard `forge:nuggets/<metal>` and
 `forge:storage_blocks/<metal>` tags. A missing or disabled metal stays out of
-the recipe book and Creative inventory. Tests with a synthetic tag provider
-check this contract; they are not a substitute for testing a real Base Metals port.
+the recipe book and Creative inventory. You can disable the integration in the
+IAF world configuration without erasing metal names already stored in that world.
 
 ## Languages
 

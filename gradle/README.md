@@ -56,6 +56,22 @@ vanilla gold as a stand-in and deliberately omits one metal to test incomplete
 catalogs. It must never be included in a published artifact or a normal modpack.
 It verifies the dormant Base Metals contract, not a real Base Metals release.
 
+For published Base Metals tests, `verification/base-metals-mods.json` pins
+Base Metals 3.0.1.114041 and its OreSpawn 4.1.0.114041 dependency. Supply the
+downloaded jars with `-PbaseMetalsModsDir=<directory>` and run
+`verifyBaseMetalsMods` to check their hashes, metal tags and actual model textures.
+Add those verified jars to the disposable server's mods folder and use
+`runPhaseFourServer -PphaseFourServerDir=<directory> -PphaseFourLiveBaseMetals=true`.
+The live probe requires all 21 additional metals and checks their real nugget
+recipes, metal-dependent mining speed and blast resistance, drops and light changes.
+
+For in-world client checks, put a copy of that saved world in the disposable
+client's `saves/world` folder and launch with `-Diaf.probe.liveBaseMetalsClient=true`.
+The probe loads the copy before checking textures, so it uses the synchronized
+Base Metals tags rather than the main menu's iron fallback. Set the world's
+`baseMetalsIntegration` option to false and add
+`-Diaf.probe.baseMetalsDisabled=true` to test the disabled configuration.
+
 `-PphaseFourLegacyMetals=true` reads a hash-checked 1.12 saved fixture and checks
 all 23 metals, four facings and 66 historical sconce IDs, plus player, Ender
 Chest, container, nested and dropped frame items. A second load checks that the

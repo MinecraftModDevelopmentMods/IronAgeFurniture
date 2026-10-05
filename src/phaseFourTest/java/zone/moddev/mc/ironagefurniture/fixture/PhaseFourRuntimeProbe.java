@@ -53,6 +53,9 @@ public final class PhaseFourRuntimeProbe {
     }
 
     private void serverStarted(FMLServerStartedEvent event) {
+        // The client probe loads a copied world to receive its real server tags.
+        // Leave that integrated server running until the render checks finish.
+        if (Boolean.getBoolean("iaf.probe.liveBaseMetalsClient") || Boolean.getBoolean("iaf.probe.inWorldClient")) return;
         MinecraftServer server = event.getServer();
         if (Boolean.getBoolean("iaf.probe.savedWorld")) {
             try { SavedWorldRuntimeProbe.prepare(server); }

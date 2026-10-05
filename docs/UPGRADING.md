@@ -73,7 +73,10 @@ unexpected removal list on your only copy of a world.
 
 ## Base Metals compatibility
 
-The 1.14.4 candidate's Base Metals integration is conditional. Its absent-mod
-behavior, saved metal data and standard-tag recipe contract are tested, but a
-real compatible Base Metals 1.14 jar has not been live-tested. The synthetic
-tag provider used by the tests is not a distributable Base Metals replacement.
+The 1.14.4 candidate's Base Metals integration is optional and has been tested
+with the published Base Metals 3.0.1.114041 and OreSpawn 4.1.0.114041 builds.
+An independently saved 1.12 fixture covering all 23 sconce metals, four facings,
+66 historical sconce IDs and stored, nested and dropped items passes both its
+initial upgrade and a second load with these mods installed. This complements
+the absent-mod migration tests; it does not certify upgrades of unrelated
+Base Metals machinery or an entire old modpack.

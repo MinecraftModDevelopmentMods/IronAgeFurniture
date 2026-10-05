@@ -1,0 +1,19 @@
+{
+  "minecraft": "1.14.4",
+  "mods": [
+    {
+      "modId": "basemetals",
+      "version": "3.0.1.114041",
+      "file": "BaseMetals-3.0.1.114041.jar",
+      "sha256": "8c5416a59f88c41883db2b8dcd180e2bdc29ad00ef6df964d67b6c49aeb6eb9e",
+      "source": "https://www.curseforge.com/minecraft/mc-mods/base-metals/files/9068954"
+    },
+    {
+      "modId": "orespawn",
+      "version": "4.1.0.114041",
+      "file": "OreSpawn-4.1.0.114041.jar",
+      "sha256": "7691c1ae7c6ac890a2cc785f3eef54a1255d61e4cfcf5661d67cb1609cfc41c6",
+      "source": "https://github.com/MinecraftModDevelopmentMods/OreSpawn/releases/tag/4.1.0.114041"
+    }
+  ]
+}

@@ -35,7 +35,7 @@ import zone.moddev.mc.ironagefurniture.api.blocks.base.LightHolderSconce;
 import zone.moddev.mc.ironagefurniture.api.blocks.base.FurnitureBlock;
 import zone.moddev.mc.ironagefurniture.api.enumerations.SconceMetal;
 
-/** Checks saved variants even without Base Metals, and mines real gold frames. */
+/** Checks every saved metal, then crafts and mines frames using the installed provider. */
 final class SconceMetalRuntimeProbe {
     private SconceMetalRuntimeProbe() { }
     static int run(ServerWorld world, FakePlayer player) {
@@ -67,6 +67,11 @@ final class SconceMetalRuntimeProbe {
         Item frame = BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron.asItem();
         NonNullList<ItemStack> creative = NonNullList.create(); frame.fillItemGroup(Ironagefurniture.IAF_GROUP, creative);
         long available = java.util.Arrays.stream(SconceMetal.values()).filter(SconceMetalData::available).count();
+        if (Boolean.getBoolean("iaf.probe.liveBaseMetals")) {
+            require(net.minecraftforge.fml.ModList.get().isLoaded("basemetals"), "Published Base Metals is absent");
+            require(available == (Boolean.getBoolean("iaf.probe.baseMetalsDisabled") ? 2 : 23),
+                    "Published Base Metals did not supply all twenty-one metal families: " + available);
+        }
         require(creative.size() == available && creative.stream().anyMatch(stack -> SconceMetalData.get(stack) == SconceMetal.GOLD),
                 "Unavailable Base Metals leaked into Creative or gold is missing");
         for (SconceMetal metal : SconceMetal.values()) {
@@ -83,13 +88,25 @@ final class SconceMetalRuntimeProbe {
                 player.interactionManager.setGameType(GameType.SURVIVAL);
                 player.setHeldItem(Hand.MAIN_HAND, new ItemStack(Items.IRON_PICKAXE));
                 player.setPosition(pos.getX(), pos.getY(), pos.getZ());
+                BlockState iron = state.with(SconceMetalData.METAL, SconceMetal.IRON);
+                require(Math.abs(state.getBlockHardness(world, pos)
+                        - metal.hardness(iron.getBlockHardness(world, pos))) < 0.0001F,
+                        "Mining hardness ignores the metal: " + metal);
+                require(Math.abs(block.getExplosionResistance(state, world, pos, null, null)
+                        - metal.resistance(block.getExplosionResistance(iron, world, pos, null, null))) < 0.0001F,
+                        "Blast resistance ignores the metal: " + metal);
+                if (metal == SconceMetal.ADAMANTINE || metal == SconceMetal.STARSTEEL)
+                    require(state.getPlayerRelativeBlockHardness(player, world, pos)
+                            < iron.getPlayerRelativeBlockHardness(player, world, pos),
+                            "A tougher metal mines as quickly as iron: " + metal);
                 require(state.canHarvestBlock(world, pos, player), "Iron pick cannot mine frame");
                 require(player.interactionManager.tryHarvestBlock(pos), "Real frame harvesting failed");
                 List<ItemEntity> drops = world.getEntitiesWithinAABB(ItemEntity.class, new AxisAlignedBB(pos).grow(2), entity -> !entity.removed);
                 require(drops.size() == 1 && drops.get(0).getItem().getItem() == frame
                         && SconceMetalData.get(drops.get(0).getItem()) == metal, "Real harvesting changed frame metal");
                 drops.forEach(Entity::remove);
-                if (metal == SconceMetal.GOLD || metal == SconceMetal.ADAMANTINE) verifyContents(world, player, pos, state);
+                if (metal == SconceMetal.GOLD || metal == SconceMetal.ADAMANTINE
+                        || Boolean.getBoolean("iaf.probe.liveBaseMetals")) verifyContents(world, player, pos, state);
                 cases++;
             }
             BlockPos saved = new BlockPos(800 + metal.ordinal() * 3, 80, 224);
@@ -100,6 +117,22 @@ final class SconceMetalRuntimeProbe {
             world.setBlockState(saved, expected, 2);
         }
         verifyRecipe(world);
+        for (SconceMetal metal : SconceMetal.values()) {
+            if (!metal.isBaseMetal() || !SconceMetalData.available(metal)) continue;
+            net.minecraft.item.crafting.ShapedRecipe recipe = (net.minecraft.item.crafting.ShapedRecipe)world.getRecipeManager()
+                    .getRecipe(new ResourceLocation("ironagefurniture", "light_metal_ironage_sconce_floor_empty_basemetals_" + metal.getName())).get();
+            java.util.Collection<Item> nuggets = net.minecraft.tags.ItemTags.getCollection()
+                    .getOrCreate(SconceMetalData.nuggets(metal)).getAllElements();
+            for (Item nugget : nuggets) {
+                CraftingInventory grid = grid();
+                for (int slot : new int[]{0, 1, 2, 3, 6}) grid.setInventorySlotContents(slot, new ItemStack(nugget));
+                require(recipe.matches(grid, world), "Published tagged nugget failed: " + metal + "/" + nugget.getRegistryName());
+                ItemStack result = recipe.getCraftingResult(grid);
+                require(result.getCount() == 4 && SconceMetalData.get(result) == metal, "Recipe lost its metal: " + metal);
+                grid.setInventorySlotContents(8, new ItemStack(nugget));
+                require(!recipe.matches(grid, world), "Metal recipe accepts extra ingredients: " + metal);
+            }
+        }
         if (net.minecraftforge.fml.ModList.get().isLoaded("basemetals")
                 && net.minecraftforge.fml.ModList.get().getModContainerById("basemetals").get().getModInfo().getVersion().toString().equals("0.0.0")) {
             require(!SconceMetalData.available(SconceMetal.ANTIMONY), "Incomplete metal tags must hide their variant");

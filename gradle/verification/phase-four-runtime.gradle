@@ -1,3 +1,6 @@
+import groovy.json.JsonSlurper
+import java.util.zip.ZipFile
+
 // The probe is a separate mod jar. It exercises the packaged release candidate
 // on an installed Forge server and never becomes part of a published artifact.
 def runtimeClasses = layout.buildDirectory.dir('phase-four-probe/classes')
@@ -18,6 +21,52 @@ tasks.register('compilePhaseFourProbe', JavaCompile) {
 }
 
 tasks.named('check') { dependsOn 'compilePhaseFourProbe' }
+
+// Downloaded mods stay outside the repository. Verify the published versions
+// and the tag/model contract before using them in a live integration test.
+tasks.register('verifyBaseMetalsMods') {
+    group = 'verification'
+    description = 'Verifies the published Base Metals/OreSpawn test jars and metal texture references.'
+    File manifestFile = file('gradle/verification/base-metals-mods.json')
+    inputs.file manifestFile
+    doLast {
+        File directory = file(providers.gradleProperty('baseMetalsModsDir').orElse('run-base-metals/mods').get())
+        Map manifest = new JsonSlurper().parse(manifestFile) as Map
+        if (manifest.minecraft != minecraft_version) throw new GradleException('Base Metals test manifest targets another Minecraft version')
+        manifest.mods.each { mod ->
+            File jar = new File(directory, mod.file)
+            if (!jar.isFile() || buildSupport.sha256Of(jar) != mod.sha256.toUpperCase(Locale.ROOT))
+                throw new GradleException("Missing or modified published test jar: ${mod.file}")
+            new ZipFile(jar).withCloseable { zip ->
+                String metadata = zip.getInputStream(zip.getEntry('META-INF/mods.toml')).getText('UTF-8')
+                if (!metadata.contains(mod.version) || !(metadata =~ /modId\s*=\s*"${mod.modId}"/).find())
+                    throw new GradleException("Unexpected mod identity in ${mod.file}")
+                if (mod.modId != 'basemetals') return
+                List metals = fileTree('src/main/resources/data/ironagefurniture/recipes') {
+                    include 'light_metal_ironage_sconce_floor_empty_basemetals_*.json'
+                }.files.collect { it.name.replace('light_metal_ironage_sconce_floor_empty_basemetals_', '').replace('.json', '') }.sort()
+                if (metals.size() != 21) throw new GradleException('Unexpected Base Metals recipe catalog size')
+                metals.each { metal ->
+                    ['items/nuggets': "basemetals:${metal}_nugget", 'blocks/storage_blocks': "basemetals:${metal}_block"].each { path, id ->
+                        def entry = zip.getEntry("data/forge/tags/${path}/${metal}.json")
+                        Map tag = entry == null ? [:] : new JsonSlurper().parse(zip.getInputStream(entry)) as Map
+                        List entries = tag.get('values') as List ?: []
+                        if (!entries.any { it.toString() == id.toString() })
+                            throw new GradleException("Published Base Metals tag does not supply ${id}")
+                    }
+                    def model = zip.getEntry("assets/basemetals/models/block/${metal}_block.json")
+                    if (model == null) throw new GradleException("Missing ${metal} storage-block model")
+                    Map textures = (new JsonSlurper().parse(zip.getInputStream(model)) as Map).textures
+                    textures.values().findAll { it.startsWith('basemetals:') }.each { texture ->
+                        String path = texture.substring('basemetals:'.length())
+                        if (zip.getEntry("assets/basemetals/textures/${path}.png") == null)
+                            throw new GradleException("Published storage-block model has a missing texture: ${texture}")
+                    }
+                }
+            }
+        }
+    }
+}
 
 // This deliberately small provider tests the future integration seam. Gold
 // stands in for each metal; antimony is omitted to test an incomplete catalog.
@@ -117,6 +166,7 @@ tasks.register('runPhaseFourServer', Exec) {
         if (providers.gradleProperty('phaseFourSavedWorld').orNull == 'true') args '-Diaf.probe.savedWorld=true', '-Dfml.queryResult=confirm'
         if (providers.gradleProperty('phaseFourSavedWorldReload').orNull == 'true') args '-Diaf.probe.savedWorldReload=true'
         if (providers.gradleProperty('phaseFourBaseMetalsDisabled').orNull == 'true') args '-Diaf.probe.baseMetalsDisabled=true'
+        if (providers.gradleProperty('phaseFourLiveBaseMetals').orNull == 'true') args '-Diaf.probe.liveBaseMetals=true'
         String cfmMode = providers.gradleProperty('phaseFourCfmMode').orNull
         if (cfmMode != null) {
             if (!(cfmMode in ['seed', 'unchanged', 'converted', 'recovered', 'legacy110', 'legacy112']))

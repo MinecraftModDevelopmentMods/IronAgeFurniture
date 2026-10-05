@@ -8,8 +8,11 @@ local testing, not yet published as a release.
   metal, while all light changes, waterlogging and drops keep the original frame.
 - Preserve pre-flattening sconce metals, including nested items and the old
   `sconce_metal` tile data. An absent Base Metals installation does not erase
-  saved metal names. Future tag-based compatibility is conditional and remains
-  unverified with a live Base Metals 1.14 build.
+  saved metal names. Verify the conditional integration against the published
+  Base Metals 3.0.1.114041 and OreSpawn 4.1.0.114041 builds, including all 21
+  additional metals, recipes, in-world client textures, mining toughness and
+  metal-preserving drops. Legacy 1.12 metal fixtures retain their state and item
+  data on both the initial upgrade and a second load with Base Metals installed.
 - Keep newly created sconces dry by default, including hidden red-lamp states;
   previously saved waterlogged states remain waterlogged.
 - Preserve legacy furniture items in chest-only chunks and decode their colour
