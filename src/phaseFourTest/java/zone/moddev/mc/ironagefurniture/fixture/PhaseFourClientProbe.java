@@ -142,6 +142,17 @@ public final class PhaseFourClientProbe {
                         IBakedModel item = game.getItemRenderer().getItemModelWithOverrides(stack, null, null);
                         require(item.getQuads(null, null, new Random(0)).stream().anyMatch(quad -> expected.equals(quad.getSprite().getName())),
                                 "Inventory frame has wrong metal texture: " + block.getRegistryName() + "/" + metal);
+                        verifyMetalUvs(item.getQuads(null, null, new Random(0)), expected,
+                                "Inventory " + block.getRegistryName() + "/" + metal);
+                        for (net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType transform
+                                : net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType.values()) {
+                            IBakedModel rendered = item.handlePerspective(transform).getLeft();
+                            java.util.List<net.minecraft.client.renderer.model.BakedQuad> renderedQuads =
+                                    rendered.getQuads(null, null, new Random(0));
+                            require(renderedQuads.stream().anyMatch(quad -> expected.equals(quad.getSprite().getName())),
+                                    "Camera transform discarded the metal model: " + block.getRegistryName() + "/" + metal + "/" + transform);
+                            verifyMetalUvs(renderedQuads, expected, "Rendered " + metal + "/" + transform);
+                        }
                     }
                     for (net.minecraft.block.BlockState state : block.getStateContainer().getValidStates()) {
                         if (state.get(zone.moddev.mc.ironagefurniture.api.SconceMetalData.METAL) != metal) continue;
@@ -151,6 +162,7 @@ public final class PhaseFourClientProbe {
                                 "Placed frame has wrong metal texture: " + state);
                         require(quads.stream().noneMatch(quad -> quad.getSprite().getName().getPath().contains("missing")),
                                 "Missing metal model texture: " + state);
+                        verifyMetalUvs(quads, expected, "Placed " + state);
                         metalModels++;
                     }
                 }
@@ -182,6 +194,26 @@ public final class PhaseFourClientProbe {
         } catch (Exception failure) {
             throw new IllegalStateException("Phase 4 client probe failed", failure);
         } finally { game.shutdown(); }
+    }
+
+    private static void verifyMetalUvs(java.util.List<net.minecraft.client.renderer.model.BakedQuad> quads,
+            net.minecraft.util.ResourceLocation expected, String description) {
+        for (net.minecraft.client.renderer.model.BakedQuad quad : quads) {
+            if (!expected.equals(quad.getSprite().getName())) continue;
+            net.minecraft.client.renderer.texture.TextureAtlasSprite sprite = quad.getSprite();
+            int stride = quad.getFormat().getIntegerSize();
+            int uv = quad.getFormat().getUvOffsetById(0) / 4;
+            int[] vertices = quad.getVertexData();
+            for (int vertex = 0; vertex < 4; vertex++) {
+                float u = Float.intBitsToFloat(vertices[vertex * stride + uv]);
+                float v = Float.intBitsToFloat(vertices[vertex * stride + uv + 1]);
+                require(u >= sprite.getMinU() - 0.000001F && u <= sprite.getMaxU() + 0.000001F
+                                && v >= sprite.getMinV() - 0.000001F && v <= sprite.getMaxV() + 0.000001F,
+                        description + " names " + expected + " but samples another atlas texture: " + u + "," + v
+                                + " outside " + sprite.getMinU() + ".." + sprite.getMaxU()
+                                + "," + sprite.getMinV() + ".." + sprite.getMaxV());
+            }
+        }
     }
 
     private static void require(boolean passed, String message) { if (!passed) throw new IllegalStateException(message); }

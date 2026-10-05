@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
+import javax.vecmath.Matrix4f;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
@@ -12,6 +13,7 @@ import net.minecraft.client.renderer.BlockModelShapes;
 import net.minecraft.client.renderer.model.BakedQuad;
 import net.minecraft.client.renderer.model.BakedQuadRetextured;
 import net.minecraft.client.renderer.model.IBakedModel;
+import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.model.ItemOverrideList;
 import net.minecraft.client.renderer.model.ModelResourceLocation;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -27,6 +29,7 @@ import net.minecraftforge.client.model.data.IModelData;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.apache.commons.lang3.tuple.Pair;
 import zone.moddev.mc.ironagefurniture.Ironagefurniture;
 import zone.moddev.mc.ironagefurniture.api.SconceMetalData;
 import zone.moddev.mc.ironagefurniture.api.blocks.base.LightHolderSconce;
@@ -67,6 +70,15 @@ public final class SconceMetalModels {
     private static final class MetalModel extends BakedModelWrapper<IBakedModel> {
         private final SconceMetal metal;
         MetalModel(IBakedModel original, SconceMetal metal) { super(original); this.metal = metal; }
+        @Override public boolean doesHandlePerspectives() { return true; }
+        @Override public Pair<? extends IBakedModel, Matrix4f> handlePerspective(ItemCameraTransforms.TransformType transform) {
+            // Keep the pack's camera transform without reverting to its iron
+            // model when Forge renders an inventory, held or dropped item.
+            Pair<? extends IBakedModel, Matrix4f> perspective = originalModel.handlePerspective(transform);
+            IBakedModel transformed = perspective.getLeft() == originalModel
+                    ? this : new MetalModel(perspective.getLeft(), metal);
+            return Pair.of(transformed, perspective.getRight());
+        }
         private TextureAtlasSprite texture() {
             // The supplying block's baked particle texture is already in the
             // atlas. This follows resource packs without guessing future paths.

@@ -13,6 +13,9 @@ local testing, not yet published as a release.
   additional metals, recipes, in-world client textures, mining toughness and
   metal-preserving drops. Legacy 1.12 metal fixtures retain their state and item
   data on both the initial upgrade and a second load with Base Metals installed.
+- Keep the selected sconce metal visible in the inventory, in either hand and
+  on dropped items. Camera transforms no longer revert gold or Base Metals
+  frames to the original iron appearance; resource-pack transforms are retained.
 - Keep newly created sconces dry by default, including hidden red-lamp states;
   previously saved waterlogged states remain waterlogged.
 - Preserve legacy furniture items in chest-only chunks and decode their colour
