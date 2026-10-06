@@ -1,6 +1,5 @@
 {
-    "type": "minecraft:crafting_shapeless",
-    "group": "ironagefurniture:bed_wood_foot_spruce_recolour_blue",
+    "type": "ironagefurniture:bed_recolour",
     "ingredients": [
         [
             {

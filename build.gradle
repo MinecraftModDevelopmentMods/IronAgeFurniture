@@ -114,8 +114,8 @@ def archiveTextSuffixes = [
 def archiveTextPatterns = archiveTextSuffixes.collect { "**/*${it}".toString() }
 archiveTextPatterns.addAll(['**/element-list', '**/package-list'])
 def optionalIntegrationExpectedCounts = [
-        biomesoplenty        : [recipes: 2189, advancements: 2189],
-        immersiveengineering: [recipes: 198, advancements: 198],
+        biomesoplenty        : [recipes: 2189, advancements: 1485],
+        immersiveengineering: [recipes: 198, advancements: 134],
         cfm                 : [recipes: 6, advancements: 6]
 ]
 def normalizeArchiveLineEndings = { details ->

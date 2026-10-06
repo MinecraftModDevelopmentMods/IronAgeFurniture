@@ -29,7 +29,10 @@ Wooden beds, canopy beds, wingback chairs and thrones come in all sixteen wool
 colours. Craft a vanilla bed with one matching plank to make a wooden bed of the
 same colour. Add another matching plank to turn it into a canopy bed, or combine
 two matching single beds to make a double. A carpet deliberately recolours an
-IAF bed. Different colours cannot be combined into one double bed.
+IAF bed. Different colours cannot be combined into one double bed. Recolouring
+is manual crafting: place the bed and the chosen carpet together in the grid.
+These colour-change recipes stay out of the recipe book so its suggestions
+focus on making and upgrading furniture, including in existing worlds.
 
 Bed and tall-chair colours now have separate inventory items, as do sconce
 metals. The recipe book can therefore select the right variant and move all

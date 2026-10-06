@@ -1,6 +1,5 @@
 {
-    "type": "minecraft:crafting_shapeless",
-    "group": "ironagefurniture:bed_wood_foot_biomesoplenty_mahogany_recolour_black",
+    "type": "ironagefurniture:bed_recolour",
     "ingredients": [
         [
             {

@@ -3,6 +3,9 @@
 Phase 4 candidate for Minecraft 1.14.4 and Forge 28.2.26. It is available for
 local testing, not yet published as a release.
 
+- Keep bed-and-carpet recolouring out of the recipe book, including previously
+  learned colour-change recipes. Manual recolouring still works for all bed
+  forms, woods and colours; construction and upgrade recipes remain visible.
 - Give bed, wingback-chair and throne colours and sconce metals distinct
   inventory items without adding blocks or tile entities. Recipe-book selection
   now moves the correct coloured bed along with the other ingredients.

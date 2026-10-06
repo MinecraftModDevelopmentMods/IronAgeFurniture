@@ -123,8 +123,8 @@ tasks.register('verifyResourceJson') {
             include '**/*.json'
             include 'pack.mcmeta'
         }.files.sort { it.path }
-        if (jsonFiles.size() != 23549) {
-            throw new GradleException("Expected 23549 runtime JSON documents, found ${jsonFiles.size()}")
+        if (jsonFiles.size() != 22397) {
+            throw new GradleException("Expected 22397 runtime JSON documents, found ${jsonFiles.size()}")
         }
         jsonFiles.each { candidate ->
             try {
@@ -209,6 +209,10 @@ tasks.register('verifyResourceJson') {
                     if (recipePath == null || !new File(recipeRoot, "${recipePath}.json").isFile()) {
                         throw new GradleException("Recipe advancement rewards missing recipe ${recipeId}: " +
                                 advancementFile)
+                    }
+                    if ((new JsonSlurper().parse(new File(recipeRoot, "${recipePath}.json")) as Map).type
+                            == 'ironagefurniture:bed_recolour') {
+                        throw new GradleException("Manual bed recolouring must not have an unlock advancement: ${advancementFile}")
                     }
                     List matchingCriteria = recipeCriteria.findAll { criterionName, criterion ->
                         criterion.conditions instanceof Map && criterion.conditions.recipe == recipeId

@@ -95,6 +95,7 @@ final class UpholsteryRuntimeProbe {
         boolean namedRed = id.startsWith("chair_") || id.startsWith("bed_canopy_foot_lower_");
         String recipeId = id + (colour == UpholsteryColour.RED && !namedRed ? "" : "_" + colour.getName());
         IRecipe<CraftingInventory> recipe = recipe(server, recipeId);
+        require(!recipe.isDynamic(), "Construction recipe disappeared from the book: " + recipeId);
         verifyRecipeBook(player, recipe);
         CraftingInventory grid = grid();
         if (id.startsWith("chair_")) {
@@ -133,6 +134,37 @@ final class UpholsteryRuntimeProbe {
                     new ResourceLocation("minecraft", colour.getName() + "_carpet"))));
             require(recolour.matches(grid, world) && UpholsteryItemData.getColour(recolour.getCraftingResult(grid)) == colour,
                     "Carpet did not deliberately recolour bed");
+            require(recolour.isDynamic(), "Bed recolouring clutters the recipe book: " + recolour.getId());
+            require(server.getAdvancementManager().getAdvancement(new ResourceLocation("ironagefurniture",
+                    "recipes/upholstery/" + recolour.getId().getPath())) == null, "Recolour unlock advancement still loaded");
+            // Recreate an old player's learned recipe list, then use vanilla's
+            // normal read/write path to check that only construction survives.
+            CompoundNBT saved = new CompoundNBT();
+            net.minecraft.nbt.ListNBT learned = new net.minecraft.nbt.ListNBT();
+            learned.add(new net.minecraft.nbt.StringNBT(recipe.getId().toString()));
+            learned.add(new net.minecraft.nbt.StringNBT(recolour.getId().toString()));
+            saved.put("recipes", learned);
+            saved.put("toBeDisplayed", learned.copy());
+            net.minecraft.item.crafting.ServerRecipeBook book = new net.minecraft.item.crafting.ServerRecipeBook(server.getRecipeManager());
+            book.read(saved);
+            require(book.isUnlocked(recipe) && !book.isUnlocked(recolour), "Saved recipe book retained recolouring or lost construction");
+            require(book.write().getList("recipes", 8).size() == 1, "Recolouring was saved as a learned recipe");
+            require(book.add(java.util.Collections.singletonList(recolour), player) == 0, "Crafting can unlock recolouring again");
+            net.minecraft.item.crafting.ServerRecipeBook restored = new net.minecraft.item.crafting.ServerRecipeBook(server.getRecipeManager());
+            restored.read(book.write());
+            require(restored.isUnlocked(recipe) && !restored.isUnlocked(recolour), "Recipe-book exclusion changed on the second load");
+            net.minecraft.inventory.container.WorkbenchContainer table = new net.minecraft.inventory.container.WorkbenchContainer(
+                    1, player.inventory, net.minecraft.util.IWorldPosCallable.of(world, new BlockPos(128, 80, 128)));
+            table.getSlot(1).putStack(grid.getStackInSlot(0).copy());
+            table.getSlot(2).putStack(grid.getStackInSlot(1).copy());
+            require(table.matches(recolour) && table.getSlot(0).getStack().getItem() == result.getItem(),
+                    "Manual recolouring no longer gives a crafting-table result");
+            table.getSlot(0).onTake(player, table.getSlot(0).getStack().copy());
+            require(table.getSlot(1).getStack().isEmpty() && table.getSlot(2).getStack().isEmpty(),
+                    "Manual recolouring did not consume one bed and one carpet");
+            require(!player.getRecipeBook().isUnlocked(recolour), "Taking the crafted bed unlocked recolouring");
+            grid.setInventorySlotContents(8, new ItemStack(Items.STICK));
+            require(!recolour.matches(grid, world), "Recolouring accepts extra ingredients");
         }
     }
     private static void verifyRecipeBook(FakePlayer player, IRecipe<CraftingInventory> recipe) {

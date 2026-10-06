@@ -1,6 +1,5 @@
 {
-    "type": "minecraft:crafting_shapeless",
-    "group": "ironagefurniture:bed_wood_foot_oak_recolour_pink",
+    "type": "ironagefurniture:bed_recolour",
     "ingredients": [
         [
             {

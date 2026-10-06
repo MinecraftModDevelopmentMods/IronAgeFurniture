@@ -206,7 +206,8 @@ tasks.register('verifyFurnitureCatalog') {
             }
         }
 
-        Map expectedCounts = [biomesoplenty: 2189, immersiveengineering: 198]
+        Map expectedCounts = [biomesoplenty: [recipes: 2189, advancements: 1485],
+                              immersiveengineering: [recipes: 198, advancements: 134]]
         expectedCounts.each { modId, count ->
             int recipes = fileTree(recipeDirectory) {
                 include "*_${modId}_*.json"
@@ -215,7 +216,7 @@ tasks.register('verifyFurnitureCatalog') {
                 include "*_${modId}_*.json"
                 include "**/*_${modId}_*.json"
             }.files.size()
-            if (recipes != count || advancements != count) {
+            if (recipes != count.recipes || advancements != count.advancements) {
                 throw new GradleException("Unexpected ${modId} catalog coverage: " +
                         "${recipes} recipes, ${advancements} advancements; expected ${count}")
             }

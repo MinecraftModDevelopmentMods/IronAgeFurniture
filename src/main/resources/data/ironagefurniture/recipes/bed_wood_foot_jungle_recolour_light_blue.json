@@ -1,6 +1,5 @@
 {
-    "type": "minecraft:crafting_shapeless",
-    "group": "ironagefurniture:bed_wood_foot_jungle_recolour_light_blue",
+    "type": "ironagefurniture:bed_recolour",
     "ingredients": [
         [
             {

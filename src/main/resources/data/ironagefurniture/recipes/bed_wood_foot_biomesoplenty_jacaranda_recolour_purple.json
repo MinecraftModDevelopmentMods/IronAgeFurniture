@@ -1,6 +1,5 @@
 {
-    "type": "minecraft:crafting_shapeless",
-    "group": "ironagefurniture:bed_wood_foot_biomesoplenty_jacaranda_recolour_purple",
+    "type": "ironagefurniture:bed_recolour",
     "ingredients": [
         [
             {

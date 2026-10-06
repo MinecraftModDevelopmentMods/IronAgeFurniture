@@ -1,6 +1,5 @@
 {
-    "type": "minecraft:crafting_shapeless",
-    "group": "ironagefurniture:bed_canopy_foot_lower_dark_oak_recolour_lime",
+    "type": "ironagefurniture:bed_recolour",
     "ingredients": [
         [
             {

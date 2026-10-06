@@ -1,6 +1,5 @@
 {
-    "type": "minecraft:crafting_shapeless",
-    "group": "ironagefurniture:bed_wood_foot_biomesoplenty_palm_recolour_lime",
+    "type": "ironagefurniture:bed_recolour",
     "ingredients": [
         [
             {

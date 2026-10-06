@@ -61,6 +61,25 @@ public final class PhaseFourClientProbe {
     private static void verify(Minecraft game) {
         complete = true;
         try {
+            if (inWorld()) {
+                net.minecraft.client.util.ClientRecipeBook book = game.player.getRecipeBook();
+                book.rebuildTable();
+                java.util.Set<net.minecraft.util.ResourceLocation> visible = new java.util.HashSet<>();
+                for (net.minecraft.client.gui.recipebook.RecipeList list : book.getRecipes())
+                    for (net.minecraft.item.crafting.IRecipe<?> recipe : list.getRecipes()) visible.add(recipe.getId());
+                int hidden = 0;
+                for (net.minecraft.item.crafting.IRecipe<?> recipe : game.world.getRecipeManager().getRecipes()) {
+                    if (!"ironagefurniture".equals(recipe.getId().getNamespace())) continue;
+                    if (recipe.getId().getPath().contains("_recolour_")) {
+                        require(recipe.isDynamic() && !visible.contains(recipe.getId()), "Client recipe book contains bed recolouring");
+                        hidden++;
+                    } else if (recipe.getId().getPath().startsWith("bed_")) {
+                        require(!recipe.isDynamic() && visible.contains(recipe.getId()), "Client recipe book lost a construction recipe");
+                    }
+                }
+                require(hidden >= 384, "Client did not receive all vanilla bed recolouring recipes");
+                org.apache.logging.log4j.LogManager.getLogger().info("IAF RECOLOUR RECIPE-BOOK PROBE PASSED: {} hidden recipes", hidden);
+            }
             if (Boolean.getBoolean("iaf.probe.liveBaseMetalsClient")) {
                 long available = java.util.Arrays.stream(zone.moddev.mc.ironagefurniture.api.enumerations.SconceMetal.values())
                         .filter(zone.moddev.mc.ironagefurniture.api.SconceMetalData::available).count();

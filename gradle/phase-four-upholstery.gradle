@@ -138,9 +138,12 @@ def upholsteryFiles = {
                     if (form.kind in ['wood', 'canopy']) {
                         String name = "${id}_recolour_${colour}"
                         Map carpet = [item: "minecraft:${colour}_carpet"]
-                        addRecipe(name, [type: 'minecraft:crafting_shapeless', group: "ironagefurniture:${name}",
+                        // Recolouring is manual crafting; only construction and
+                        // upgrades belong in the recipe book's suggestions.
+                        files["${data}/recipes/${name}.json"] = upholsteryJson([
+                            type: 'ironagefurniture:bed_recolour',
                             ingredients: [allColours(id), carpet], conditions: conditions,
-                            result: recipe.result], carpet)
+                            result: recipe.result])
                     }
                 }
             }
@@ -156,7 +159,14 @@ tasks.register('updatePhaseFourUpholsteryCatalog') {
     group = 'generation'
     description = 'Updates colour-aware beds, tall chairs, recipes and English names.'
     doLast {
-        upholsteryFiles().each { path, text ->
+        Map expected = upholsteryFiles()
+        // Remove only the old unlock files for recipes this generator owns.
+        expected.keySet().findAll { it.contains('/recipes/bed_') && it.contains('_recolour_') }.each { path ->
+            String name = file(path).name
+            File obsolete = file("src/main/resources/data/ironagefurniture/advancements/recipes/upholstery/${name}")
+            if (obsolete.isFile()) project.delete(obsolete)
+        }
+        expected.each { path, text ->
             File output = file(path)
             if (!output.isFile() || output.getText('UTF-8').replace('\r\n', '\n') != text) {
                 output.parentFile.mkdirs()
@@ -176,6 +186,13 @@ tasks.register('verifyPhaseFourUpholsteryCatalog') {
         expected.each { path, text ->
             if (!file(path).isFile() || file(path).getText('UTF-8').replace('\r\n', '\n') != text)
                 throw new GradleException("Missing or stale upholstered furniture resource: ${path}")
+        }
+        Set<String> recolourNames = expected.keySet().findAll {
+            it.contains('/recipes/bed_') && it.contains('_recolour_')
+        }.collect { file(it).name } as Set
+        fileTree('src/main/resources/data/ironagefurniture/advancements') { include '**/*.json' }.files.each { advancement ->
+            if (recolourNames.contains(advancement.name))
+                throw new GradleException("Bed recolouring must not generate an unlock advancement: ${advancement}")
         }
         logger.lifecycle('Verified {} generated upholstered furniture files.', expected.size())
     }

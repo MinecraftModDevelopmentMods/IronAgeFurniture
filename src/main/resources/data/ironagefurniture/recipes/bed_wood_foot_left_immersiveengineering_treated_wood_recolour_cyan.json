@@ -1,6 +1,5 @@
 {
-    "type": "minecraft:crafting_shapeless",
-    "group": "ironagefurniture:bed_wood_foot_left_immersiveengineering_treated_wood_recolour_cyan",
+    "type": "ironagefurniture:bed_recolour",
     "ingredients": [
         [
             {
