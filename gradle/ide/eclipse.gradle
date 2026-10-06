@@ -43,10 +43,17 @@ tasks.register('syncForge28EclipseLaunches') {
         ].join('\r\n'), 'UTF-8')
 
         File processedResources = layout.buildDirectory.dir('resources/main').get().asFile
-        copy {
-            from processedResources
-            from sourceSets.main.output.classesDirs
-            into mainOutput
+        File outputDirectory = file('bin/main')
+        File expectedOutput = new File(projectDir.canonicalFile, 'bin/main').absoluteFile
+        if (outputDirectory.canonicalFile != expectedOutput) {
+            throw new GradleException('Eclipse output must be the project bin/main directory, not a linked directory')
+        }
+        // Copying alone leaves classes for deleted sources behind. Keep this
+        // generated folder exact so Forge cannot discover an obsolete model.
+        project.sync { spec ->
+            spec.from(processedResources)
+            spec.from(sourceSets.main.output.classesDirs)
+            spec.into(outputDirectory)
         }
 
         ['Client', 'Server', 'Data'].each { runName ->
@@ -168,6 +175,19 @@ tasks.register('verifyEclipseProductionClasspath') {
         if (!eclipseModsToml.isFile()
                 || !Arrays.equals(eclipseModsToml.bytes, processedModsToml.bytes)) {
             throw new GradleException('Eclipse output contains stale or unexpanded mods.toml metadata')
+        }
+        Set<String> compiledClasses = [] as Set
+        sourceSets.main.output.classesDirs.files.each { directory ->
+            fileTree(directory).matching { include '**/*.class' }.files.each { compiled ->
+                compiledClasses.add(directory.toPath().relativize(compiled.toPath()).toString())
+            }
+        }
+        File eclipseOutput = file('bin/main')
+        Set<String> eclipseClasses = fileTree(eclipseOutput).matching { include '**/*.class' }.files.collect {
+            eclipseOutput.toPath().relativize(it.toPath()).toString()
+        } as Set
+        if (compiledClasses != eclipseClasses) {
+            throw new GradleException('Eclipse output contains missing or obsolete production classes; run prepareEclipse again')
         }
     }
 }
