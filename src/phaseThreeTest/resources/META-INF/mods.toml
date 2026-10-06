@@ -1,0 +1,8 @@
+modLoader="javafml"
+loaderVersion="[28,)"
+license="LGPL-2.1"
+[[mods]]
+modId="ironagefurniturereleasedcheckpoint"
+version="1.0"
+displayName="IAF Released World Checkpoint"
+description='''Disposable saved-world test; not part of Iron Age Furniture.'''

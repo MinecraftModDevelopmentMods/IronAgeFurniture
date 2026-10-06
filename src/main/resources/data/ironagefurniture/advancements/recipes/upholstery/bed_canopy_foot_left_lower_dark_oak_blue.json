@@ -24,8 +24,7 @@
                         "conditions": {
                             "items": [
                                 {
-                                    "item": "ironagefurniture:bed_canopy_foot_lower_dark_oak",
-                                    "nbt": "{Color:\"blue\"}"
+                                    "item": "ironagefurniture:bed_canopy_foot_lower_dark_oak_blue"
                                 }
                             ]
                         }

@@ -2,9 +2,56 @@
     "type": "minecraft:crafting_shapeless",
     "group": "ironagefurniture:bed_wood_foot_biomesoplenty_magic_recolour_lime",
     "ingredients": [
-        {
-            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_magic"
-        },
+        [
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_magic_black"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_magic_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_magic_brown"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_magic_cyan"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_magic_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_magic_green"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_magic_light_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_magic_light_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_magic_lime"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_magic_magenta"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_magic_orange"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_magic_pink"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_magic_purple"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_magic"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_magic_white"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_magic_yellow"
+            }
+        ],
         {
             "item": "minecraft:lime_carpet"
         }
@@ -20,8 +67,7 @@
         }
     ],
     "result": {
-        "item": "ironagefurniture:bed_wood_foot_biomesoplenty_magic",
-        "count": 1,
-        "nbt": "{Color:\"lime\"}"
+        "item": "ironagefurniture:bed_wood_foot_biomesoplenty_magic_lime",
+        "count": 1
     }
 }

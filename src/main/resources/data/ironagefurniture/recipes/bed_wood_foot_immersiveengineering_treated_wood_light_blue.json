@@ -10,9 +10,8 @@
     ],
     "group": "ironagefurniture:bed_wood_foot_immersiveengineering_treated_wood_light_blue",
     "result": {
-        "item": "ironagefurniture:bed_wood_foot_immersiveengineering_treated_wood",
-        "count": 1,
-        "nbt": "{Color:\"light_blue\"}"
+        "item": "ironagefurniture:bed_wood_foot_immersiveengineering_treated_wood_light_blue",
+        "count": 1
     },
     "conditions": [
         {

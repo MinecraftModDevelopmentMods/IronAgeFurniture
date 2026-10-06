@@ -18,9 +18,8 @@
     },
     "group": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_redwood_white",
     "result": {
-        "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_redwood",
-        "count": 1,
-        "nbt": "{Color:\"white\"}"
+        "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_redwood_white",
+        "count": 1
     },
     "conditions": [
         {

@@ -12,15 +12,61 @@
         "p": {
             "item": "minecraft:birch_planks"
         },
-        "s": {
-            "item": "ironagefurniture:chair_wood_ironage_wingback_birch"
-        }
+        "s": [
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_birch_black"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_birch_blue"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_birch_brown"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_birch_cyan"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_birch_gray"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_birch_green"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_birch_light_blue"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_birch_light_gray"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_birch_lime"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_birch_magenta"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_birch_orange"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_birch_pink"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_birch_purple"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_birch"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_birch_white"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_birch_yellow"
+            }
+        ]
     },
     "group": "ironagefurniture:chair_wood_ironage_throne_birch_red",
     "result": {
         "item": "ironagefurniture:chair_wood_ironage_throne_birch",
-        "count": 1,
-        "nbt": "{Color:\"red\"}"
+        "count": 1
     },
     "conditions": [
         {

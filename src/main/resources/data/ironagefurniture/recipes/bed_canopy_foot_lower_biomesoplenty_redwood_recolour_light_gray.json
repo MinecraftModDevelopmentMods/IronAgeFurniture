@@ -2,9 +2,56 @@
     "type": "minecraft:crafting_shapeless",
     "group": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_redwood_recolour_light_gray",
     "ingredients": [
-        {
-            "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_redwood"
-        },
+        [
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_redwood_black"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_redwood_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_redwood_brown"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_redwood_cyan"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_redwood_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_redwood_green"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_redwood_light_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_redwood_light_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_redwood_lime"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_redwood_magenta"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_redwood_orange"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_redwood_pink"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_redwood_purple"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_redwood"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_redwood_white"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_redwood_yellow"
+            }
+        ],
         {
             "item": "minecraft:light_gray_carpet"
         }
@@ -24,8 +71,7 @@
         }
     ],
     "result": {
-        "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_redwood",
-        "count": 1,
-        "nbt": "{Color:\"light_gray\"}"
+        "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_redwood_light_gray",
+        "count": 1
     }
 }

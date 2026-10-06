@@ -2,9 +2,56 @@
     "type": "minecraft:crafting_shapeless",
     "group": "ironagefurniture:bed_wood_foot_biomesoplenty_fir_recolour_gray",
     "ingredients": [
-        {
-            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_fir"
-        },
+        [
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_fir_black"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_fir_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_fir_brown"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_fir_cyan"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_fir_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_fir_green"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_fir_light_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_fir_light_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_fir_lime"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_fir_magenta"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_fir_orange"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_fir_pink"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_fir_purple"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_fir"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_fir_white"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_fir_yellow"
+            }
+        ],
         {
             "item": "minecraft:gray_carpet"
         }
@@ -20,8 +67,7 @@
         }
     ],
     "result": {
-        "item": "ironagefurniture:bed_wood_foot_biomesoplenty_fir",
-        "count": 1,
-        "nbt": "{Color:\"gray\"}"
+        "item": "ironagefurniture:bed_wood_foot_biomesoplenty_fir_gray",
+        "count": 1
     }
 }

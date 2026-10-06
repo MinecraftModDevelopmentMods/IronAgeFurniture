@@ -24,8 +24,7 @@
                         "conditions": {
                             "items": [
                                 {
-                                    "item": "ironagefurniture:bed_wood_foot_spruce",
-                                    "nbt": "{Color:\"cyan\"}"
+                                    "item": "ironagefurniture:bed_wood_foot_spruce_cyan"
                                 }
                             ]
                         }

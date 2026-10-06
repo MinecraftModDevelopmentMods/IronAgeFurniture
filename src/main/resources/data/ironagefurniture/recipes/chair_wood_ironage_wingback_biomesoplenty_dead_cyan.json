@@ -18,9 +18,8 @@
     },
     "group": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_dead_cyan",
     "result": {
-        "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_dead",
-        "count": 1,
-        "nbt": "{Color:\"cyan\"}"
+        "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_dead_cyan",
+        "count": 1
     },
     "conditions": [
         {

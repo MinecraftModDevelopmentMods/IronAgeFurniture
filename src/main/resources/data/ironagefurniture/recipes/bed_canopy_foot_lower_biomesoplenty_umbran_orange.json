@@ -2,7 +2,7 @@
     "type": "ironagefurniture:upholstery_upgrade",
     "ingredients": [
         {
-            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_umbran"
+            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_umbran_orange"
         },
         {
             "item": "biomesoplenty:umbran_planks"
@@ -10,9 +10,8 @@
     ],
     "group": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_umbran_orange",
     "result": {
-        "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_umbran",
-        "count": 1,
-        "nbt": "{Color:\"orange\"}"
+        "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_umbran_orange",
+        "count": 1
     },
     "conditions": [
         {

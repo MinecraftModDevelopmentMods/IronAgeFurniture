@@ -2,9 +2,56 @@
     "type": "minecraft:crafting_shapeless",
     "group": "ironagefurniture:bed_wood_foot_biomesoplenty_umbran_recolour_red",
     "ingredients": [
-        {
-            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_umbran"
-        },
+        [
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_umbran_black"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_umbran_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_umbran_brown"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_umbran_cyan"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_umbran_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_umbran_green"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_umbran_light_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_umbran_light_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_umbran_lime"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_umbran_magenta"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_umbran_orange"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_umbran_pink"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_umbran_purple"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_umbran"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_umbran_white"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_umbran_yellow"
+            }
+        ],
         {
             "item": "minecraft:red_carpet"
         }
@@ -21,7 +68,6 @@
     ],
     "result": {
         "item": "ironagefurniture:bed_wood_foot_biomesoplenty_umbran",
-        "count": 1,
-        "nbt": "{Color:\"red\"}"
+        "count": 1
     }
 }

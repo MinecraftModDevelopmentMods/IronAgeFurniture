@@ -28,8 +28,7 @@
                         "conditions": {
                             "items": [
                                 {
-                                    "item": "ironagefurniture:bed_wood_foot_biomesoplenty_dead",
-                                    "nbt": "{Color:\"gray\"}"
+                                    "item": "ironagefurniture:bed_wood_foot_biomesoplenty_dead_gray"
                                 }
                             ]
                         }

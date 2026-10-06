@@ -2,17 +2,16 @@
     "type": "ironagefurniture:upholstery_upgrade",
     "ingredients": [
         {
-            "item": "ironagefurniture:bed_canopy_foot_lower_jungle"
+            "item": "ironagefurniture:bed_canopy_foot_lower_jungle_yellow"
         },
         {
-            "item": "ironagefurniture:bed_canopy_foot_lower_jungle"
+            "item": "ironagefurniture:bed_canopy_foot_lower_jungle_yellow"
         }
     ],
     "group": "ironagefurniture:bed_canopy_foot_left_lower_jungle_yellow",
     "result": {
-        "item": "ironagefurniture:bed_canopy_foot_left_lower_jungle",
-        "count": 1,
-        "nbt": "{Color:\"yellow\"}"
+        "item": "ironagefurniture:bed_canopy_foot_left_lower_jungle_yellow",
+        "count": 1
     },
     "conditions": [
         {

@@ -2,9 +2,56 @@
     "type": "minecraft:crafting_shapeless",
     "group": "ironagefurniture:bed_wood_foot_biomesoplenty_mahogany_recolour_pink",
     "ingredients": [
-        {
-            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_mahogany"
-        },
+        [
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_mahogany_black"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_mahogany_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_mahogany_brown"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_mahogany_cyan"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_mahogany_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_mahogany_green"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_mahogany_light_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_mahogany_light_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_mahogany_lime"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_mahogany_magenta"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_mahogany_orange"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_mahogany_pink"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_mahogany_purple"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_mahogany"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_mahogany_white"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_mahogany_yellow"
+            }
+        ],
         {
             "item": "minecraft:pink_carpet"
         }
@@ -20,8 +67,7 @@
         }
     ],
     "result": {
-        "item": "ironagefurniture:bed_wood_foot_biomesoplenty_mahogany",
-        "count": 1,
-        "nbt": "{Color:\"pink\"}"
+        "item": "ironagefurniture:bed_wood_foot_biomesoplenty_mahogany_pink",
+        "count": 1
     }
 }

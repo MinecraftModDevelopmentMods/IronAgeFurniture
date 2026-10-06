@@ -28,8 +28,7 @@
                         "conditions": {
                             "items": [
                                 {
-                                    "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_palm",
-                                    "nbt": "{Color:\"light_blue\"}"
+                                    "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_palm_light_blue"
                                 }
                             ]
                         }

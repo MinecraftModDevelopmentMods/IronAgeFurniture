@@ -2,17 +2,16 @@
     "type": "ironagefurniture:upholstery_upgrade",
     "ingredients": [
         {
-            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_jacaranda"
+            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_jacaranda_white"
         },
         {
-            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_jacaranda"
+            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_jacaranda_white"
         }
     ],
     "group": "ironagefurniture:bed_wood_foot_left_biomesoplenty_jacaranda_white",
     "result": {
-        "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_jacaranda",
-        "count": 1,
-        "nbt": "{Color:\"white\"}"
+        "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_jacaranda_white",
+        "count": 1
     },
     "conditions": [
         {

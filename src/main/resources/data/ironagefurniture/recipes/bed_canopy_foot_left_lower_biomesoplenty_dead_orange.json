@@ -2,17 +2,16 @@
     "type": "ironagefurniture:upholstery_upgrade",
     "ingredients": [
         {
-            "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_dead"
+            "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_dead_orange"
         },
         {
-            "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_dead"
+            "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_dead_orange"
         }
     ],
     "group": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_dead_orange",
     "result": {
-        "item": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_dead",
-        "count": 1,
-        "nbt": "{Color:\"orange\"}"
+        "item": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_dead_orange",
+        "count": 1
     },
     "conditions": [
         {

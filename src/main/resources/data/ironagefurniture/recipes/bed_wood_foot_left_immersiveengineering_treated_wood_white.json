@@ -2,17 +2,16 @@
     "type": "ironagefurniture:upholstery_upgrade",
     "ingredients": [
         {
-            "item": "ironagefurniture:bed_wood_foot_immersiveengineering_treated_wood"
+            "item": "ironagefurniture:bed_wood_foot_immersiveengineering_treated_wood_white"
         },
         {
-            "item": "ironagefurniture:bed_wood_foot_immersiveengineering_treated_wood"
+            "item": "ironagefurniture:bed_wood_foot_immersiveengineering_treated_wood_white"
         }
     ],
     "group": "ironagefurniture:bed_wood_foot_left_immersiveengineering_treated_wood_white",
     "result": {
-        "item": "ironagefurniture:bed_wood_foot_left_immersiveengineering_treated_wood",
-        "count": 1,
-        "nbt": "{Color:\"white\"}"
+        "item": "ironagefurniture:bed_wood_foot_left_immersiveengineering_treated_wood_white",
+        "count": 1
     },
     "conditions": [
         {

@@ -2,17 +2,16 @@
     "type": "ironagefurniture:upholstery_upgrade",
     "ingredients": [
         {
-            "item": "ironagefurniture:bed_wood_foot_immersiveengineering_treated_wood"
+            "item": "ironagefurniture:bed_wood_foot_immersiveengineering_treated_wood_pink"
         },
         {
-            "item": "ironagefurniture:bed_wood_foot_immersiveengineering_treated_wood"
+            "item": "ironagefurniture:bed_wood_foot_immersiveengineering_treated_wood_pink"
         }
     ],
     "group": "ironagefurniture:bed_wood_foot_left_immersiveengineering_treated_wood_pink",
     "result": {
-        "item": "ironagefurniture:bed_wood_foot_left_immersiveengineering_treated_wood",
-        "count": 1,
-        "nbt": "{Color:\"pink\"}"
+        "item": "ironagefurniture:bed_wood_foot_left_immersiveengineering_treated_wood_pink",
+        "count": 1
     },
     "conditions": [
         {

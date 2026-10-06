@@ -10,9 +10,8 @@
     ],
     "group": "ironagefurniture:bed_wood_foot_biomesoplenty_jacaranda_brown",
     "result": {
-        "item": "ironagefurniture:bed_wood_foot_biomesoplenty_jacaranda",
-        "count": 1,
-        "nbt": "{Color:\"brown\"}"
+        "item": "ironagefurniture:bed_wood_foot_biomesoplenty_jacaranda_brown",
+        "count": 1
     },
     "conditions": [
         {

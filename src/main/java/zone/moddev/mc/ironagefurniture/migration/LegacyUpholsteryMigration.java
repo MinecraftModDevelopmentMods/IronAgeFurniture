@@ -98,17 +98,23 @@ public final class LegacyUpholsteryMigration {
         String id = stack.getString("id");
         if (!id.startsWith("ironagefurniture:") || !isUpholsteredPath(id.substring("ironagefurniture:".length()))) return false;
         CompoundNBT tag = stack.getCompound("tag");
-        UpholsteryColour colour = tag.contains("Color", 8) ? UpholsteryColour.byName(tag.getString("Color"))
+        UpholsteryColour fixed = UpholsteryColour.RED;
+        for (UpholsteryColour candidate : UpholsteryColour.values()) if (candidate != UpholsteryColour.RED
+                && id.endsWith("_" + candidate.getName())
+                && (fixed == UpholsteryColour.RED || candidate.getName().length() > fixed.getName().length())) fixed = candidate;
+        UpholsteryColour colour = fixed != UpholsteryColour.RED ? fixed : tag.contains("Color", 8) ? UpholsteryColour.byName(tag.getString("Color"))
                 : UpholsteryColour.byItemMetadata(stack.contains("Damage", 99) ? stack.getInt("Damage") : tag.getInt("Damage"));
-        String path = LegacyPaddedBenchIds.currentId(new net.minecraft.util.ResourceLocation(id)).toString();
+        String base = fixed == UpholsteryColour.RED ? id : id.substring(0, id.length() - fixed.getName().length() - 1);
+        String path = LegacyPaddedBenchIds.currentId(new net.minecraft.util.ResourceLocation(base)).toString();
         // The right canopy half was never an inventory item.
         path = path.replace("bed_canopy_foot_right_lower_", "bed_canopy_foot_left_lower_");
-        boolean changed = !path.equals(id) || !colour.getName().equals(tag.getString("Color")) || stack.contains("Damage") || tag.contains("Damage");
+        path = zone.moddev.mc.ironagefurniture.api.UpholsteryItemData.itemId(new net.minecraft.util.ResourceLocation(path), colour).toString();
+        boolean changed = !path.equals(id) || tag.contains("Color") || stack.contains("Damage") || tag.contains("Damage");
         if (!changed) return false;
         stack.putString("id", path);
-        tag.putString("Color", colour.getName());
+        tag.remove("Color");
         tag.remove("Damage");
-        stack.put("tag", tag);
+        if (tag.isEmpty()) stack.remove("tag"); else stack.put("tag", tag);
         stack.remove("Damage");
         return true;
     }

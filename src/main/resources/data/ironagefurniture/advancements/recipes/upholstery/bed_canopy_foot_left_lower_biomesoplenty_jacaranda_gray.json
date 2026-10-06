@@ -28,8 +28,7 @@
                         "conditions": {
                             "items": [
                                 {
-                                    "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_jacaranda",
-                                    "nbt": "{Color:\"gray\"}"
+                                    "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_jacaranda_gray"
                                 }
                             ]
                         }

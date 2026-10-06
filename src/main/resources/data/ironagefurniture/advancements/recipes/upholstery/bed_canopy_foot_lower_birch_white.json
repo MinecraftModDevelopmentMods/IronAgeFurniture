@@ -24,8 +24,7 @@
                         "conditions": {
                             "items": [
                                 {
-                                    "item": "ironagefurniture:bed_wood_foot_birch",
-                                    "nbt": "{Color:\"white\"}"
+                                    "item": "ironagefurniture:bed_wood_foot_birch_white"
                                 }
                             ]
                         }

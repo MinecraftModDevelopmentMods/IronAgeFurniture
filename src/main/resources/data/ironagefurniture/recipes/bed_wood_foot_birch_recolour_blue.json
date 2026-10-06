@@ -2,9 +2,56 @@
     "type": "minecraft:crafting_shapeless",
     "group": "ironagefurniture:bed_wood_foot_birch_recolour_blue",
     "ingredients": [
-        {
-            "item": "ironagefurniture:bed_wood_foot_birch"
-        },
+        [
+            {
+                "item": "ironagefurniture:bed_wood_foot_birch_black"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_birch_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_birch_brown"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_birch_cyan"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_birch_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_birch_green"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_birch_light_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_birch_light_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_birch_lime"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_birch_magenta"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_birch_orange"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_birch_pink"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_birch_purple"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_birch"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_birch_white"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_birch_yellow"
+            }
+        ],
         {
             "item": "minecraft:blue_carpet"
         }
@@ -16,8 +63,7 @@
         }
     ],
     "result": {
-        "item": "ironagefurniture:bed_wood_foot_birch",
-        "count": 1,
-        "nbt": "{Color:\"blue\"}"
+        "item": "ironagefurniture:bed_wood_foot_birch_blue",
+        "count": 1
     }
 }

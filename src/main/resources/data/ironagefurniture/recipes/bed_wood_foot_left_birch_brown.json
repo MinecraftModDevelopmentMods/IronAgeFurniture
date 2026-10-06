@@ -2,17 +2,16 @@
     "type": "ironagefurniture:upholstery_upgrade",
     "ingredients": [
         {
-            "item": "ironagefurniture:bed_wood_foot_birch"
+            "item": "ironagefurniture:bed_wood_foot_birch_brown"
         },
         {
-            "item": "ironagefurniture:bed_wood_foot_birch"
+            "item": "ironagefurniture:bed_wood_foot_birch_brown"
         }
     ],
     "group": "ironagefurniture:bed_wood_foot_left_birch_brown",
     "result": {
-        "item": "ironagefurniture:bed_wood_foot_left_birch",
-        "count": 1,
-        "nbt": "{Color:\"brown\"}"
+        "item": "ironagefurniture:bed_wood_foot_left_birch_brown",
+        "count": 1
     },
     "conditions": [
         {

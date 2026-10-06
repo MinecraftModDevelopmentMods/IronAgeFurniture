@@ -2,7 +2,7 @@
     "type": "ironagefurniture:upholstery_upgrade",
     "ingredients": [
         {
-            "item": "ironagefurniture:bed_wood_foot_jungle"
+            "item": "ironagefurniture:bed_wood_foot_jungle_cyan"
         },
         {
             "item": "minecraft:jungle_planks"
@@ -10,9 +10,8 @@
     ],
     "group": "ironagefurniture:bed_canopy_foot_lower_jungle_cyan",
     "result": {
-        "item": "ironagefurniture:bed_canopy_foot_lower_jungle",
-        "count": 1,
-        "nbt": "{Color:\"cyan\"}"
+        "item": "ironagefurniture:bed_canopy_foot_lower_jungle_cyan",
+        "count": 1
     },
     "conditions": [
         {

@@ -12,15 +12,61 @@
         "p": {
             "item": "minecraft:acacia_planks"
         },
-        "s": {
-            "item": "ironagefurniture:chair_wood_ironage_wingback_acacia"
-        }
+        "s": [
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_acacia_black"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_acacia_blue"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_acacia_brown"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_acacia_cyan"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_acacia_gray"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_acacia_green"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_acacia_light_blue"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_acacia_light_gray"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_acacia_lime"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_acacia_magenta"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_acacia_orange"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_acacia_pink"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_acacia_purple"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_acacia"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_acacia_white"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_acacia_yellow"
+            }
+        ]
     },
     "group": "ironagefurniture:chair_wood_ironage_throne_acacia_brown",
     "result": {
-        "item": "ironagefurniture:chair_wood_ironage_throne_acacia",
-        "count": 1,
-        "nbt": "{Color:\"brown\"}"
+        "item": "ironagefurniture:chair_wood_ironage_throne_acacia_brown",
+        "count": 1
     },
     "conditions": [
         {

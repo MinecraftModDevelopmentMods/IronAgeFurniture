@@ -2,9 +2,56 @@
     "type": "minecraft:crafting_shapeless",
     "group": "ironagefurniture:bed_wood_foot_jungle_recolour_pink",
     "ingredients": [
-        {
-            "item": "ironagefurniture:bed_wood_foot_jungle"
-        },
+        [
+            {
+                "item": "ironagefurniture:bed_wood_foot_jungle_black"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_jungle_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_jungle_brown"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_jungle_cyan"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_jungle_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_jungle_green"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_jungle_light_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_jungle_light_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_jungle_lime"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_jungle_magenta"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_jungle_orange"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_jungle_pink"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_jungle_purple"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_jungle"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_jungle_white"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_jungle_yellow"
+            }
+        ],
         {
             "item": "minecraft:pink_carpet"
         }
@@ -16,8 +63,7 @@
         }
     ],
     "result": {
-        "item": "ironagefurniture:bed_wood_foot_jungle",
-        "count": 1,
-        "nbt": "{Color:\"pink\"}"
+        "item": "ironagefurniture:bed_wood_foot_jungle_pink",
+        "count": 1
     }
 }

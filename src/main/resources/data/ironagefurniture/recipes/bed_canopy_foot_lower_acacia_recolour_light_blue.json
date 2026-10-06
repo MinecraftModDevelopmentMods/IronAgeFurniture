@@ -2,9 +2,56 @@
     "type": "minecraft:crafting_shapeless",
     "group": "ironagefurniture:bed_canopy_foot_lower_acacia_recolour_light_blue",
     "ingredients": [
-        {
-            "item": "ironagefurniture:bed_canopy_foot_lower_acacia"
-        },
+        [
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_acacia_black"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_acacia_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_acacia_brown"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_acacia_cyan"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_acacia_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_acacia_green"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_acacia_light_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_acacia_light_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_acacia_lime"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_acacia_magenta"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_acacia_orange"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_acacia_pink"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_acacia_purple"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_acacia"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_acacia_white"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_acacia_yellow"
+            }
+        ],
         {
             "item": "minecraft:light_blue_carpet"
         }
@@ -20,8 +67,7 @@
         }
     ],
     "result": {
-        "item": "ironagefurniture:bed_canopy_foot_lower_acacia",
-        "count": 1,
-        "nbt": "{Color:\"light_blue\"}"
+        "item": "ironagefurniture:bed_canopy_foot_lower_acacia_light_blue",
+        "count": 1
     }
 }

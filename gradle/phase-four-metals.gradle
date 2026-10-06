@@ -21,7 +21,7 @@ def metalResources = {
         files["src/main/resources/data/ironagefurniture/recipes/${id}.json"] = json([
                 type: 'minecraft:crafting_shaped', group: "ironagefurniture:sconce_${metal}",
                 conditions: conditions, pattern: ['xxx', 'x  ', 'x  '], key: [x: ingredient],
-                result: [item: output, count: 4, nbt: "{Metal:\"${metal}\"}"]])
+                result: [item: "ironagefurniture:${id}", count: 4]])
         Map advancement = [parent: 'minecraft:recipes/root',
                 rewards: [recipes: ["ironagefurniture:${id}"]], criteria: [
                     has_ingredient: [trigger: 'minecraft:inventory_changed', conditions: [items: [ingredient]]],
@@ -29,6 +29,17 @@ def metalResources = {
                 requirements: [['has_ingredient', 'has_the_recipe']]]
         files["src/main/resources/data/ironagefurniture/advancements/recipes/furniture/${id}.json"] =
                 json([advancements: [[conditions: conditions, advancement: advancement]]])
+    }
+    // Every existing sconce item retains its iron name. The other metals use
+    // normal item models which share that frame's resource-pack geometry.
+    fileTree('src/main/resources/assets/ironagefurniture/models/item') {
+        include 'light_metal_ironage_sconce_*_iron*.json'
+    }.files.each { model ->
+        String base = model.name.replaceFirst(/\.json$/, '')
+        metalNames.each { metal ->
+            String id = base.replaceFirst(/_iron(?=_|$)/, '_' + (metal == 'gold' ? metal : "basemetals_${metal}"))
+            files["src/main/resources/assets/ironagefurniture/models/item/${id}.json"] = json([parent: "ironagefurniture:item/${base}"])
+        }
     }
     Map names = new JsonSlurper().parse(file('src/main/resources/assets/ironagefurniture/lang/en_us.json')) as Map
     Map frames = names.findAll { key, value -> key.startsWith('block.ironagefurniture.light_metal_ironage_sconce_')

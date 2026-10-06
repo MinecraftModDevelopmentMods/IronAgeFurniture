@@ -2,9 +2,56 @@
     "type": "minecraft:crafting_shapeless",
     "group": "ironagefurniture:bed_wood_foot_left_biomesoplenty_hellbark_recolour_red",
     "ingredients": [
-        {
-            "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_hellbark"
-        },
+        [
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_hellbark_black"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_hellbark_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_hellbark_brown"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_hellbark_cyan"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_hellbark_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_hellbark_green"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_hellbark_light_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_hellbark_light_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_hellbark_lime"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_hellbark_magenta"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_hellbark_orange"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_hellbark_pink"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_hellbark_purple"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_hellbark"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_hellbark_white"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_hellbark_yellow"
+            }
+        ],
         {
             "item": "minecraft:red_carpet"
         }
@@ -25,7 +72,6 @@
     ],
     "result": {
         "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_hellbark",
-        "count": 1,
-        "nbt": "{Color:\"red\"}"
+        "count": 1
     }
 }

@@ -10,9 +10,8 @@
     ],
     "group": "ironagefurniture:bed_wood_foot_spruce_blue",
     "result": {
-        "item": "ironagefurniture:bed_wood_foot_spruce",
-        "count": 1,
-        "nbt": "{Color:\"blue\"}"
+        "item": "ironagefurniture:bed_wood_foot_spruce_blue",
+        "count": 1
     },
     "conditions": [
         {

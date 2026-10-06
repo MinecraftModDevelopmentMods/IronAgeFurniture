@@ -2,7 +2,7 @@
     "type": "ironagefurniture:upholstery_upgrade",
     "ingredients": [
         {
-            "item": "ironagefurniture:bed_wood_foot_birch"
+            "item": "ironagefurniture:bed_wood_foot_birch_lime"
         },
         {
             "item": "minecraft:birch_planks"
@@ -10,9 +10,8 @@
     ],
     "group": "ironagefurniture:bed_canopy_foot_lower_birch_lime",
     "result": {
-        "item": "ironagefurniture:bed_canopy_foot_lower_birch",
-        "count": 1,
-        "nbt": "{Color:\"lime\"}"
+        "item": "ironagefurniture:bed_canopy_foot_lower_birch_lime",
+        "count": 1
     },
     "conditions": [
         {

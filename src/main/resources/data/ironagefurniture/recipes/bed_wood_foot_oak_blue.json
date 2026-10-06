@@ -10,9 +10,8 @@
     ],
     "group": "ironagefurniture:bed_wood_foot_oak_blue",
     "result": {
-        "item": "ironagefurniture:bed_wood_foot_oak",
-        "count": 1,
-        "nbt": "{Color:\"blue\"}"
+        "item": "ironagefurniture:bed_wood_foot_oak_blue",
+        "count": 1
     },
     "conditions": [
         {

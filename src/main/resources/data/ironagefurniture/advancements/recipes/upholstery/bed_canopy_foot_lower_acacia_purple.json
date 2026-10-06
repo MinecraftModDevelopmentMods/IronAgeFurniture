@@ -24,8 +24,7 @@
                         "conditions": {
                             "items": [
                                 {
-                                    "item": "ironagefurniture:bed_wood_foot_acacia",
-                                    "nbt": "{Color:\"purple\"}"
+                                    "item": "ironagefurniture:bed_wood_foot_acacia_purple"
                                 }
                             ]
                         }

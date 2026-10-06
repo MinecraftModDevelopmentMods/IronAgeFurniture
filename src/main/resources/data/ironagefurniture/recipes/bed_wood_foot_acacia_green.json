@@ -10,9 +10,8 @@
     ],
     "group": "ironagefurniture:bed_wood_foot_acacia_green",
     "result": {
-        "item": "ironagefurniture:bed_wood_foot_acacia",
-        "count": 1,
-        "nbt": "{Color:\"green\"}"
+        "item": "ironagefurniture:bed_wood_foot_acacia_green",
+        "count": 1
     },
     "conditions": [
         {

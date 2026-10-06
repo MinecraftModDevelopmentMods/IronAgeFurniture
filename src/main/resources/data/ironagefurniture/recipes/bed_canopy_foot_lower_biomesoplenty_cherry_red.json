@@ -11,8 +11,7 @@
     "group": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_cherry_red",
     "result": {
         "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_cherry",
-        "count": 1,
-        "nbt": "{Color:\"red\"}"
+        "count": 1
     },
     "conditions": [
         {

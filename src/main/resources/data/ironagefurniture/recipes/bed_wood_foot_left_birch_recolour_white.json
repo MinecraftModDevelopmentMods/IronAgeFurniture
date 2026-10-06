@@ -2,9 +2,56 @@
     "type": "minecraft:crafting_shapeless",
     "group": "ironagefurniture:bed_wood_foot_left_birch_recolour_white",
     "ingredients": [
-        {
-            "item": "ironagefurniture:bed_wood_foot_left_birch"
-        },
+        [
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_birch_black"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_birch_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_birch_brown"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_birch_cyan"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_birch_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_birch_green"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_birch_light_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_birch_light_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_birch_lime"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_birch_magenta"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_birch_orange"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_birch_pink"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_birch_purple"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_birch"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_birch_white"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_birch_yellow"
+            }
+        ],
         {
             "item": "minecraft:white_carpet"
         }
@@ -20,8 +67,7 @@
         }
     ],
     "result": {
-        "item": "ironagefurniture:bed_wood_foot_left_birch",
-        "count": 1,
-        "nbt": "{Color:\"white\"}"
+        "item": "ironagefurniture:bed_wood_foot_left_birch_white",
+        "count": 1
     }
 }

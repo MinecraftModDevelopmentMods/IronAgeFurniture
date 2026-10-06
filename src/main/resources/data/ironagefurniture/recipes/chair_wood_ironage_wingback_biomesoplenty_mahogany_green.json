@@ -18,9 +18,8 @@
     },
     "group": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_mahogany_green",
     "result": {
-        "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_mahogany",
-        "count": 1,
-        "nbt": "{Color:\"green\"}"
+        "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_mahogany_green",
+        "count": 1
     },
     "conditions": [
         {

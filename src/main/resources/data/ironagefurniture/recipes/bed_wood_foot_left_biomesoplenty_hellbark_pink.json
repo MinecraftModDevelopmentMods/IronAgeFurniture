@@ -2,17 +2,16 @@
     "type": "ironagefurniture:upholstery_upgrade",
     "ingredients": [
         {
-            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_hellbark"
+            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_hellbark_pink"
         },
         {
-            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_hellbark"
+            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_hellbark_pink"
         }
     ],
     "group": "ironagefurniture:bed_wood_foot_left_biomesoplenty_hellbark_pink",
     "result": {
-        "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_hellbark",
-        "count": 1,
-        "nbt": "{Color:\"pink\"}"
+        "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_hellbark_pink",
+        "count": 1
     },
     "conditions": [
         {

@@ -2,9 +2,56 @@
     "type": "minecraft:crafting_shapeless",
     "group": "ironagefurniture:bed_wood_foot_biomesoplenty_willow_recolour_blue",
     "ingredients": [
-        {
-            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_willow"
-        },
+        [
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_willow_black"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_willow_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_willow_brown"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_willow_cyan"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_willow_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_willow_green"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_willow_light_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_willow_light_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_willow_lime"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_willow_magenta"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_willow_orange"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_willow_pink"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_willow_purple"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_willow"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_willow_white"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_biomesoplenty_willow_yellow"
+            }
+        ],
         {
             "item": "minecraft:blue_carpet"
         }
@@ -20,8 +67,7 @@
         }
     ],
     "result": {
-        "item": "ironagefurniture:bed_wood_foot_biomesoplenty_willow",
-        "count": 1,
-        "nbt": "{Color:\"blue\"}"
+        "item": "ironagefurniture:bed_wood_foot_biomesoplenty_willow_blue",
+        "count": 1
     }
 }

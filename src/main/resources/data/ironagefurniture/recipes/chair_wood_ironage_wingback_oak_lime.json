@@ -18,9 +18,8 @@
     },
     "group": "ironagefurniture:chair_wood_ironage_wingback_oak_lime",
     "result": {
-        "item": "ironagefurniture:chair_wood_ironage_wingback_oak",
-        "count": 1,
-        "nbt": "{Color:\"lime\"}"
+        "item": "ironagefurniture:chair_wood_ironage_wingback_oak_lime",
+        "count": 1
     },
     "conditions": [
         {

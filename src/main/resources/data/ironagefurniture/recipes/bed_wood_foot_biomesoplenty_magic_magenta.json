@@ -10,9 +10,8 @@
     ],
     "group": "ironagefurniture:bed_wood_foot_biomesoplenty_magic_magenta",
     "result": {
-        "item": "ironagefurniture:bed_wood_foot_biomesoplenty_magic",
-        "count": 1,
-        "nbt": "{Color:\"magenta\"}"
+        "item": "ironagefurniture:bed_wood_foot_biomesoplenty_magic_magenta",
+        "count": 1
     },
     "conditions": [
         {

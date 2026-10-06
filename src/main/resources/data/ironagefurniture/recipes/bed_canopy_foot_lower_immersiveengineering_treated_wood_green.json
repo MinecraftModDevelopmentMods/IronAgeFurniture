@@ -2,7 +2,7 @@
     "type": "ironagefurniture:upholstery_upgrade",
     "ingredients": [
         {
-            "item": "ironagefurniture:bed_wood_foot_immersiveengineering_treated_wood"
+            "item": "ironagefurniture:bed_wood_foot_immersiveengineering_treated_wood_green"
         },
         {
             "item": "immersiveengineering:treated_wood_packaged"
@@ -10,9 +10,8 @@
     ],
     "group": "ironagefurniture:bed_canopy_foot_lower_immersiveengineering_treated_wood_green",
     "result": {
-        "item": "ironagefurniture:bed_canopy_foot_lower_immersiveengineering_treated_wood",
-        "count": 1,
-        "nbt": "{Color:\"green\"}"
+        "item": "ironagefurniture:bed_canopy_foot_lower_immersiveengineering_treated_wood_green",
+        "count": 1
     },
     "conditions": [
         {

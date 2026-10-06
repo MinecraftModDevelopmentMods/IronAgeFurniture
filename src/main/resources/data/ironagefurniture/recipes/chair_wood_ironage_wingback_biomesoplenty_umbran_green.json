@@ -18,9 +18,8 @@
     },
     "group": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_umbran_green",
     "result": {
-        "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_umbran",
-        "count": 1,
-        "nbt": "{Color:\"green\"}"
+        "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_umbran_green",
+        "count": 1
     },
     "conditions": [
         {

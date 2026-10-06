@@ -2,17 +2,16 @@
     "type": "ironagefurniture:upholstery_upgrade",
     "ingredients": [
         {
-            "item": "ironagefurniture:bed_canopy_foot_lower_immersiveengineering_treated_wood"
+            "item": "ironagefurniture:bed_canopy_foot_lower_immersiveengineering_treated_wood_blue"
         },
         {
-            "item": "ironagefurniture:bed_canopy_foot_lower_immersiveengineering_treated_wood"
+            "item": "ironagefurniture:bed_canopy_foot_lower_immersiveengineering_treated_wood_blue"
         }
     ],
     "group": "ironagefurniture:bed_canopy_foot_left_lower_immersiveengineering_treated_wood_blue",
     "result": {
-        "item": "ironagefurniture:bed_canopy_foot_left_lower_immersiveengineering_treated_wood",
-        "count": 1,
-        "nbt": "{Color:\"blue\"}"
+        "item": "ironagefurniture:bed_canopy_foot_left_lower_immersiveengineering_treated_wood_blue",
+        "count": 1
     },
     "conditions": [
         {

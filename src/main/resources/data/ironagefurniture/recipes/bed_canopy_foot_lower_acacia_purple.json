@@ -2,7 +2,7 @@
     "type": "ironagefurniture:upholstery_upgrade",
     "ingredients": [
         {
-            "item": "ironagefurniture:bed_wood_foot_acacia"
+            "item": "ironagefurniture:bed_wood_foot_acacia_purple"
         },
         {
             "item": "minecraft:acacia_planks"
@@ -10,9 +10,8 @@
     ],
     "group": "ironagefurniture:bed_canopy_foot_lower_acacia_purple",
     "result": {
-        "item": "ironagefurniture:bed_canopy_foot_lower_acacia",
-        "count": 1,
-        "nbt": "{Color:\"purple\"}"
+        "item": "ironagefurniture:bed_canopy_foot_lower_acacia_purple",
+        "count": 1
     },
     "conditions": [
         {

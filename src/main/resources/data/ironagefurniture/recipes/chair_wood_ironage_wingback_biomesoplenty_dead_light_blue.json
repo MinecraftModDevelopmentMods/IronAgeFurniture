@@ -18,9 +18,8 @@
     },
     "group": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_dead_light_blue",
     "result": {
-        "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_dead",
-        "count": 1,
-        "nbt": "{Color:\"light_blue\"}"
+        "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_dead_light_blue",
+        "count": 1
     },
     "conditions": [
         {

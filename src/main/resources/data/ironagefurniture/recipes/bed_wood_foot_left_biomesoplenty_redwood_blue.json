@@ -2,17 +2,16 @@
     "type": "ironagefurniture:upholstery_upgrade",
     "ingredients": [
         {
-            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_redwood"
+            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_redwood_blue"
         },
         {
-            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_redwood"
+            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_redwood_blue"
         }
     ],
     "group": "ironagefurniture:bed_wood_foot_left_biomesoplenty_redwood_blue",
     "result": {
-        "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_redwood",
-        "count": 1,
-        "nbt": "{Color:\"blue\"}"
+        "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_redwood_blue",
+        "count": 1
     },
     "conditions": [
         {

@@ -2,9 +2,56 @@
     "type": "minecraft:crafting_shapeless",
     "group": "ironagefurniture:bed_wood_foot_left_spruce_recolour_cyan",
     "ingredients": [
-        {
-            "item": "ironagefurniture:bed_wood_foot_left_spruce"
-        },
+        [
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_spruce_black"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_spruce_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_spruce_brown"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_spruce_cyan"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_spruce_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_spruce_green"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_spruce_light_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_spruce_light_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_spruce_lime"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_spruce_magenta"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_spruce_orange"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_spruce_pink"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_spruce_purple"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_spruce"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_spruce_white"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_spruce_yellow"
+            }
+        ],
         {
             "item": "minecraft:cyan_carpet"
         }
@@ -20,8 +67,7 @@
         }
     ],
     "result": {
-        "item": "ironagefurniture:bed_wood_foot_left_spruce",
-        "count": 1,
-        "nbt": "{Color:\"cyan\"}"
+        "item": "ironagefurniture:bed_wood_foot_left_spruce_cyan",
+        "count": 1
     }
 }

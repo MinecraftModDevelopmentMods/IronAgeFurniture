@@ -22,6 +22,32 @@ tasks.register('compilePhaseFourProbe', JavaCompile) {
 
 tasks.named('check') { dependsOn 'compilePhaseFourProbe' }
 
+// This small checkpoint deliberately uses no Phase 4 classes. It saves a
+// copied fixture under the published Phase 3 jar before the upgrade test.
+tasks.register('compileReleasedWorldCheckpoint', JavaCompile) {
+    source fileTree('src/phaseThreeTest/java')
+    classpath = sourceSets.main.compileClasspath
+    destinationDirectory = layout.buildDirectory.dir('released-world-checkpoint/classes')
+    javaCompiler = buildSupport.java8Compiler
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+    options.compilerArgs.add('-proc:none')
+}
+def checkpointJar = tasks.register('releasedWorldCheckpointDeobfJar', Jar) {
+    dependsOn 'compileReleasedWorldCheckpoint'
+    archiveFileName = 'released-world-checkpoint-deobf.jar'
+    destinationDirectory = layout.buildDirectory.dir('released-world-checkpoint')
+    from layout.buildDirectory.dir('released-world-checkpoint/classes')
+    from 'src/phaseThreeTest/resources'
+    filesMatching(buildSupport.archiveTextPatterns, buildSupport.normalizeArchiveLineEndings)
+}
+def checkpointMapped = renamer.classes(checkpointJar) {
+    map.from minecraft.dependency.toSrgFile
+    output = layout.buildDirectory.file('released-world-checkpoint/iaf-released-world-checkpoint.jar')
+}
+tasks.register('releasedWorldCheckpointJar') { dependsOn checkpointMapped }
+tasks.named('check') { dependsOn 'compileReleasedWorldCheckpoint' }
+
 // Downloaded mods stay outside the repository. Verify the published versions
 // and the tag/model contract before using them in a live integration test.
 tasks.register('verifyBaseMetalsMods') {

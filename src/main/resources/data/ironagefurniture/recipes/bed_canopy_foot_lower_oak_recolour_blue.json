@@ -2,9 +2,56 @@
     "type": "minecraft:crafting_shapeless",
     "group": "ironagefurniture:bed_canopy_foot_lower_oak_recolour_blue",
     "ingredients": [
-        {
-            "item": "ironagefurniture:bed_canopy_foot_lower_oak"
-        },
+        [
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_oak_black"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_oak_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_oak_brown"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_oak_cyan"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_oak_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_oak_green"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_oak_light_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_oak_light_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_oak_lime"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_oak_magenta"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_oak_orange"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_oak_pink"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_oak_purple"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_oak"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_oak_white"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_oak_yellow"
+            }
+        ],
         {
             "item": "minecraft:blue_carpet"
         }
@@ -20,8 +67,7 @@
         }
     ],
     "result": {
-        "item": "ironagefurniture:bed_canopy_foot_lower_oak",
-        "count": 1,
-        "nbt": "{Color:\"blue\"}"
+        "item": "ironagefurniture:bed_canopy_foot_lower_oak_blue",
+        "count": 1
     }
 }

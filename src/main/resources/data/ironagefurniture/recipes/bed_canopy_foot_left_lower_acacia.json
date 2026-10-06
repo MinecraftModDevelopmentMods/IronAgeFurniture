@@ -11,8 +11,7 @@
     "group": "ironagefurniture:bed_canopy_foot_left_lower_acacia",
     "result": {
         "item": "ironagefurniture:bed_canopy_foot_left_lower_acacia",
-        "count": 1,
-        "nbt": "{Color:\"red\"}"
+        "count": 1
     },
     "conditions": [
         {

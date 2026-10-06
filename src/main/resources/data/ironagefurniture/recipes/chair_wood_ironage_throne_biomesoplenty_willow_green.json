@@ -12,15 +12,61 @@
         "p": {
             "item": "biomesoplenty:willow_planks"
         },
-        "s": {
-            "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_willow"
-        }
+        "s": [
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_willow_black"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_willow_blue"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_willow_brown"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_willow_cyan"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_willow_gray"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_willow_green"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_willow_light_blue"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_willow_light_gray"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_willow_lime"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_willow_magenta"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_willow_orange"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_willow_pink"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_willow_purple"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_willow"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_willow_white"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_willow_yellow"
+            }
+        ]
     },
     "group": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_willow_green",
     "result": {
-        "item": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_willow",
-        "count": 1,
-        "nbt": "{Color:\"green\"}"
+        "item": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_willow_green",
+        "count": 1
     },
     "conditions": [
         {

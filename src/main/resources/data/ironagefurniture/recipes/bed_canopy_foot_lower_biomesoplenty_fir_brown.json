@@ -2,7 +2,7 @@
     "type": "ironagefurniture:upholstery_upgrade",
     "ingredients": [
         {
-            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_fir"
+            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_fir_brown"
         },
         {
             "item": "biomesoplenty:fir_planks"
@@ -10,9 +10,8 @@
     ],
     "group": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_fir_brown",
     "result": {
-        "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_fir",
-        "count": 1,
-        "nbt": "{Color:\"brown\"}"
+        "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_fir_brown",
+        "count": 1
     },
     "conditions": [
         {

@@ -4,15 +4,27 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import zone.moddev.mc.ironagefurniture.api.SconceMetalData;
 import zone.moddev.mc.ironagefurniture.api.enumerations.SconceMetal;
 
-/** Metals share the existing sconce item ID rather than allocating extra furniture IDs. */
+/** Distinct metal items share the existing sconce block and its metal state. */
 public final class MetalSconceBlockItem extends BlockItem {
-    public MetalSconceBlockItem(Block block, Properties properties) { super(block, properties); }
+    private final SconceMetal metal;
+    public MetalSconceBlockItem(Block block, Properties properties) { this(block, properties, SconceMetal.IRON); }
+    public MetalSconceBlockItem(Block block, Properties properties, SconceMetal metal) {
+        super(block, properties); this.metal = metal;
+    }
+    public SconceMetal getMetal() { return metal; }
+    @Override public void addToBlockToItemMap(java.util.Map<Block, Item> map, Item item) {
+        if (metal == SconceMetal.IRON) super.addToBlockToItemMap(map, item);
+    }
+    @Override public void removeFromBlockToItemMap(java.util.Map<Block, Item> map, Item item) {
+        if (metal == SconceMetal.IRON) super.removeFromBlockToItemMap(map, item);
+    }
     @Override protected BlockState getStateForPlacement(BlockItemUseContext context) {
         BlockState state = super.getStateForPlacement(context);
         return state == null ? null : state.with(SconceMetalData.METAL, SconceMetalData.get(context.getItem()));
@@ -22,7 +34,6 @@ public final class MetalSconceBlockItem extends BlockItem {
         return super.getTranslationKey() + (metal == SconceMetal.IRON ? "" : "." + metal.getName());
     }
     @Override public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
-        if (isInGroup(group)) for (SconceMetal metal : SconceMetal.values())
-            if (SconceMetalData.available(metal)) items.add(SconceMetalData.create(getBlock(), metal));
+        if (isInGroup(group) && SconceMetalData.available(metal)) items.add(new ItemStack(this));
     }
 }

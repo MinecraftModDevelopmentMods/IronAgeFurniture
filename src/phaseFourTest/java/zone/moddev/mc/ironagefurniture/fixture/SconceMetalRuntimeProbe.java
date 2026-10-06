@@ -65,7 +65,10 @@ final class SconceMetalRuntimeProbe {
         require(blocks == (zone.moddev.mc.ironagefurniture.init.PhaseFourLighting.rockSalt(false) instanceof LightHolderSconce ? 68 : 66),
                 "Metal variants changed sconce registration count: " + blocks);
         Item frame = BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron.asItem();
-        NonNullList<ItemStack> creative = NonNullList.create(); frame.fillItemGroup(Ironagefurniture.IAF_GROUP, creative);
+        NonNullList<ItemStack> creative = NonNullList.create();
+        for (SconceMetal metal : SconceMetal.values())
+            SconceMetalData.create(((net.minecraft.item.BlockItem)frame).getBlock(), metal).getItem()
+                    .fillItemGroup(Ironagefurniture.IAF_GROUP, creative);
         long available = java.util.Arrays.stream(SconceMetal.values()).filter(SconceMetalData::available).count();
         if (Boolean.getBoolean("iaf.probe.liveBaseMetals")) {
             require(net.minecraftforge.fml.ModList.get().isLoaded("basemetals"), "Published Base Metals is absent");
@@ -80,6 +83,7 @@ final class SconceMetalRuntimeProbe {
                             == (metal.isBaseMetal() && SconceMetalData.available(metal)),
                     "Base Metals recipe does not match tag/configuration availability: " + metal);
             for (boolean wall : new boolean[]{false, true}) for (Direction facing : Direction.Plane.HORIZONTAL) {
+                world.getEntitiesWithinAABB(ItemEntity.class, new AxisAlignedBB(pos).grow(3)).forEach(Entity::remove);
                 Block block = wall ? BlockObjectHolder.light_metal_ironage_sconce_wall_empty_iron
                         : BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron;
                 world.setBlockState(pos.offset(facing.getOpposite()), Blocks.STONE.getDefaultState(), 2);
@@ -102,8 +106,11 @@ final class SconceMetalRuntimeProbe {
                 require(state.canHarvestBlock(world, pos, player), "Iron pick cannot mine frame");
                 require(player.interactionManager.tryHarvestBlock(pos), "Real frame harvesting failed");
                 List<ItemEntity> drops = world.getEntitiesWithinAABB(ItemEntity.class, new AxisAlignedBB(pos).grow(2), entity -> !entity.removed);
-                require(drops.size() == 1 && drops.get(0).getItem().getItem() == frame
-                        && SconceMetalData.get(drops.get(0).getItem()) == metal, "Real harvesting changed frame metal");
+                require(drops.size() == 1 && drops.get(0).getItem().getItem()
+                        == SconceMetalData.create(((net.minecraft.item.BlockItem)frame).getBlock(), metal).getItem()
+                        && SconceMetalData.get(drops.get(0).getItem()) == metal, "Real harvesting changed frame metal: "
+                        + state + " -> " + drops.stream().map(item -> item.getItem().write(new net.minecraft.nbt.CompoundNBT()).toString())
+                                .collect(java.util.stream.Collectors.toList()));
                 drops.forEach(Entity::remove);
                 if (metal == SconceMetal.GOLD || metal == SconceMetal.ADAMANTINE
                         || Boolean.getBoolean("iaf.probe.liveBaseMetals")) verifyContents(world, player, pos, state);

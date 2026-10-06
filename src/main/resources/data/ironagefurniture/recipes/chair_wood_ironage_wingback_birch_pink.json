@@ -18,9 +18,8 @@
     },
     "group": "ironagefurniture:chair_wood_ironage_wingback_birch_pink",
     "result": {
-        "item": "ironagefurniture:chair_wood_ironage_wingback_birch",
-        "count": 1,
-        "nbt": "{Color:\"pink\"}"
+        "item": "ironagefurniture:chair_wood_ironage_wingback_birch_pink",
+        "count": 1
     },
     "conditions": [
         {

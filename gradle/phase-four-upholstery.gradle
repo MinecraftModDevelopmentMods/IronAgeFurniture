@@ -2,7 +2,8 @@ import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 
 // The saved block names stay the same as 1.12. In 1.14, upholstery is a
-// blockstate property; inventory items keep the portable Color NBT field.
+// blockstate property. Each inventory colour has an ordinary item identity,
+// so the vanilla recipe book can find and move the matching bed or chair.
 def upholsteryCatalog = file('gradle/furniture-catalog.json')
 def upholsteryTemplates = file('gradle/furniture-templates')
 def upholsteryJson = { Object value ->
@@ -11,6 +12,8 @@ def upholsteryJson = { Object value ->
 def upholsteryFiles = {
     Map catalog = new JsonSlurper().parse(upholsteryCatalog) as Map
     List colours = catalog.colours
+    def itemId = { String base, String colour -> base + (colour == 'red' ? '' : "_${colour}") }
+    def allColours = { String base -> colours.collect { [item: "ironagefurniture:${itemId(base, it)}"] } }
     Map<String, String> files = [:]
     String assets = 'src/main/resources/assets/ironagefurniture'
     String data = 'src/main/resources/data/ironagefurniture'
@@ -104,25 +107,24 @@ def upholsteryFiles = {
                         input = form.kind == 'wingback' ? "chair_wood_ironage_classic_${wood}" : "chair_wood_ironage_wingback_${wood}"
                         ingredient = [item: "minecraft:${colour}_carpet"]
                         recipe = [type: 'minecraft:crafting_shaped', pattern: ['c', 'p', 's'],
-                            key: [c: ingredient, p: plank, s: [item: "ironagefurniture:${input}"]]]
+                            key: [c: ingredient, p: plank, s: form.kind == 'throne' ? allColours(input) : [item: "ironagefurniture:${input}"]]]
                     } else if (form.kind == 'wood' && !form.doubleBed) {
                         ingredient = [item: "minecraft:${colour}_bed"]
                         recipe = [type: 'minecraft:crafting_shapeless', ingredients: [ingredient, plank]]
                     } else {
                         input = form.doubleBed ? (form.kind == 'wood' ? "bed_wood_foot_${wood}" : "bed_canopy_foot_lower_${wood}") : "bed_wood_foot_${wood}"
-                        ingredient = [item: "ironagefurniture:${input}"]
+                        ingredient = [item: "ironagefurniture:${itemId(input, colour)}"]
                         recipe = [type: 'ironagefurniture:upholstery_upgrade', ingredients: [ingredient,
                             form.doubleBed ? ingredient : plank]]
                     }
                     recipe.group = "ironagefurniture:${recipeId}"
-                    recipe.result = [item: "ironagefurniture:${id}", count: 1, nbt: "{Color:\"${colour}\"}"]
+                    recipe.result = [item: "ironagefurniture:${itemId(id, colour)}", count: 1]
                     List conditions = []
                     if (integration != 'vanilla') conditions.add([type: 'forge:mod_loaded', modid: integration])
                     conditions.add([type: 'forge:item_exists', item: "ironagefurniture:${id}"])
                     if (input != null) conditions.add([type: 'forge:item_exists', item: "ironagefurniture:${input}"])
                     recipe.conditions = conditions
                     Map predicate = new LinkedHashMap(ingredient)
-                    if (recipe.type == 'ironagefurniture:upholstery_upgrade') predicate.nbt = "{Color:\"${colour}\"}"
                     def addRecipe = { String name, Map document, Map exactIngredient ->
                         files["${data}/recipes/${name}.json"] = upholsteryJson(document)
                         Map advancement = [parent: 'minecraft:recipes/root', rewards: [recipes: ["ironagefurniture:${name}"]],
@@ -137,7 +139,7 @@ def upholsteryFiles = {
                         String name = "${id}_recolour_${colour}"
                         Map carpet = [item: "minecraft:${colour}_carpet"]
                         addRecipe(name, [type: 'minecraft:crafting_shapeless', group: "ironagefurniture:${name}",
-                            ingredients: [[item: "ironagefurniture:${id}"], carpet], conditions: conditions,
+                            ingredients: [allColours(id), carpet], conditions: conditions,
                             result: recipe.result], carpet)
                     }
                 }

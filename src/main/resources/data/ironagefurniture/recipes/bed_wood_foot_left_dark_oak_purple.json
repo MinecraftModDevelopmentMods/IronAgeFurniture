@@ -2,17 +2,16 @@
     "type": "ironagefurniture:upholstery_upgrade",
     "ingredients": [
         {
-            "item": "ironagefurniture:bed_wood_foot_dark_oak"
+            "item": "ironagefurniture:bed_wood_foot_dark_oak_purple"
         },
         {
-            "item": "ironagefurniture:bed_wood_foot_dark_oak"
+            "item": "ironagefurniture:bed_wood_foot_dark_oak_purple"
         }
     ],
     "group": "ironagefurniture:bed_wood_foot_left_dark_oak_purple",
     "result": {
-        "item": "ironagefurniture:bed_wood_foot_left_dark_oak",
-        "count": 1,
-        "nbt": "{Color:\"purple\"}"
+        "item": "ironagefurniture:bed_wood_foot_left_dark_oak_purple",
+        "count": 1
     },
     "conditions": [
         {

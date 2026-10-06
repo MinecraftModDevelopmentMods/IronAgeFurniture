@@ -10,9 +10,8 @@
     ],
     "group": "ironagefurniture:bed_wood_foot_biomesoplenty_willow_light_gray",
     "result": {
-        "item": "ironagefurniture:bed_wood_foot_biomesoplenty_willow",
-        "count": 1,
-        "nbt": "{Color:\"light_gray\"}"
+        "item": "ironagefurniture:bed_wood_foot_biomesoplenty_willow_light_gray",
+        "count": 1
     },
     "conditions": [
         {

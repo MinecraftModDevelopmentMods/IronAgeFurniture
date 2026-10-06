@@ -12,15 +12,61 @@
         "p": {
             "item": "minecraft:dark_oak_planks"
         },
-        "s": {
-            "item": "ironagefurniture:chair_wood_ironage_wingback_dark_oak"
-        }
+        "s": [
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_dark_oak_black"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_dark_oak_blue"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_dark_oak_brown"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_dark_oak_cyan"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_dark_oak_gray"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_dark_oak_green"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_dark_oak_light_blue"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_dark_oak_light_gray"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_dark_oak_lime"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_dark_oak_magenta"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_dark_oak_orange"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_dark_oak_pink"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_dark_oak_purple"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_dark_oak"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_dark_oak_white"
+            },
+            {
+                "item": "ironagefurniture:chair_wood_ironage_wingback_dark_oak_yellow"
+            }
+        ]
     },
     "group": "ironagefurniture:chair_wood_ironage_throne_dark_oak_red",
     "result": {
         "item": "ironagefurniture:chair_wood_ironage_throne_dark_oak",
-        "count": 1,
-        "nbt": "{Color:\"red\"}"
+        "count": 1
     },
     "conditions": [
         {

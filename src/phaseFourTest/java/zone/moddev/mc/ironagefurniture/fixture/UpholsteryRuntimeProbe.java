@@ -62,12 +62,15 @@ final class UpholsteryRuntimeProbe {
         for (Block block : ForgeRegistries.BLOCKS.getValues()) {
             if (!(block.asItem() instanceof UpholsteredBlockItem)) continue;
             NonNullList<ItemStack> creative = NonNullList.create();
-            block.asItem().fillItemGroup(Ironagefurniture.IAF_GROUP, creative);
+            for (UpholsteryColour colour : UpholsteryColour.values()) {
+                Item item = UpholsteryItemData.create(block, colour).getItem();
+                item.fillItemGroup(Ironagefurniture.IAF_GROUP, creative);
+            }
             require(creative.size() == 16, "Expected sixteen creative colours: " + block.getRegistryName());
             for (UpholsteryColour colour : UpholsteryColour.values()) {
                 require(UpholsteryItemData.getColour(creative.get(colour.getItemMetadata())) == colour,
                         "Wrong creative colour");
-                verifyRecipes(server, world, block, colour);
+                verifyRecipes(server, world, player, block, colour);
                 for (Direction facing : Direction.Plane.HORIZONTAL) {
                     verifyStructure(world, player, block, colour, facing, false);
                     verifyStructure(world, player, block, colour, facing, true);
@@ -87,11 +90,12 @@ final class UpholsteryRuntimeProbe {
         return (IRecipe<CraftingInventory>) server.getRecipeManager().getRecipe(new ResourceLocation("ironagefurniture", path))
                 .orElseThrow(() -> new IllegalStateException("Missing recipe " + path));
     }
-    private static void verifyRecipes(MinecraftServer server, ServerWorld world, Block block, UpholsteryColour colour) {
+    private static void verifyRecipes(MinecraftServer server, ServerWorld world, FakePlayer player, Block block, UpholsteryColour colour) {
         String id = block.getRegistryName().getPath();
         boolean namedRed = id.startsWith("chair_") || id.startsWith("bed_canopy_foot_lower_");
         String recipeId = id + (colour == UpholsteryColour.RED && !namedRed ? "" : "_" + colour.getName());
         IRecipe<CraftingInventory> recipe = recipe(server, recipeId);
+        verifyRecipeBook(player, recipe);
         CraftingInventory grid = grid();
         if (id.startsWith("chair_")) {
             for (int index = 0; index < recipe.getIngredients().size(); index++)
@@ -105,16 +109,13 @@ final class UpholsteryRuntimeProbe {
         }
         require(recipe.matches(grid, world), "Recipe rejects its own colour: " + recipeId);
         ItemStack result = recipe.getCraftingResult(grid);
-        require(result.getItem() == block.asItem() && UpholsteryItemData.getColour(result) == colour,
+        require(result.getItem() == UpholsteryItemData.create(block, colour).getItem() && UpholsteryItemData.getColour(result) == colour
+                && !result.hasTag(),
                 "Crafting changed the output colour: " + recipeId);
         if (recipe instanceof zone.moddev.mc.ironagefurniture.api.recipes.UpholsteryUpgradeRecipe) {
             ItemStack input = grid.getStackInSlot(0);
             input.getOrCreateTag().putString("AnotherModsData", "keep");
             require("keep".equals(recipe.getCraftingResult(grid).getTag().getString("AnotherModsData")), "Upgrade lost item NBT");
-            input.getTag().putString("Color", "invalid");
-            require(recipe.matches(grid, world) == (colour == UpholsteryColour.RED), "Invalid colour did not default to red");
-            if (colour != UpholsteryColour.RED) require(recipe.getCraftingResult(grid).isEmpty(), "Invalid upgrade gave a result");
-            grid.setInventorySlotContents(0, UpholsteryItemData.recolour(input, colour));
             if (grid.getStackInSlot(1).getItem() instanceof UpholsteredBlockItem) {
                 grid.setInventorySlotContents(1, UpholsteryItemData.recolour(grid.getStackInSlot(1),
                         colour == UpholsteryColour.RED ? UpholsteryColour.BLACK : UpholsteryColour.RED));
@@ -132,6 +133,34 @@ final class UpholsteryRuntimeProbe {
                     new ResourceLocation("minecraft", colour.getName() + "_carpet"))));
             require(recolour.matches(grid, world) && UpholsteryItemData.getColour(recolour.getCraftingResult(grid)) == colour,
                     "Carpet did not deliberately recolour bed");
+        }
+    }
+    private static void verifyRecipeBook(FakePlayer player, IRecipe<CraftingInventory> recipe) {
+        java.util.List<ItemStack> before = new java.util.ArrayList<>();
+        for (int slot = 0; slot < player.inventory.getSizeInventory(); slot++)
+            before.add(player.inventory.getStackInSlot(slot).copy());
+        net.minecraft.inventory.container.WorkbenchContainer table =
+                new net.minecraft.inventory.container.WorkbenchContainer(1, player.inventory);
+        try {
+            player.inventory.clear();
+            int slot = 0;
+            for (net.minecraft.item.crafting.Ingredient ingredient : recipe.getIngredients()) {
+                ItemStack[] choices = ingredient.getMatchingStacks();
+                if (choices.length == 0) continue;
+                ItemStack input = choices[0].copy();
+                require(!input.hasTag(), "Recipe-book ingredient still depends on NBT: " + recipe.getId());
+                player.inventory.setInventorySlotContents(slot++, input);
+            }
+            player.getRecipeBook().unlock(recipe);
+            new net.minecraft.item.crafting.ServerRecipePlacer<>(table).place(player, recipe, false);
+            require(table.matches(recipe), "Recipe book did not move every ingredient: " + recipe.getId());
+            CraftingInventory grid = grid();
+            for (int index = 0; index < 9; index++) grid.setInventorySlotContents(index, table.getSlot(index + 1).getStack().copy());
+            ItemStack actual = recipe.getCraftingResult(grid);
+            require(ItemStack.areItemStacksEqual(actual, recipe.getRecipeOutput()), "Recipe-book output changed: " + recipe.getId());
+        } finally {
+            player.inventory.clear();
+            for (int slot = 0; slot < before.size(); slot++) player.inventory.setInventorySlotContents(slot, before.get(slot));
         }
     }
     private static void verifyStructure(ServerWorld world, FakePlayer player, Block block, UpholsteryColour colour,
@@ -161,10 +190,11 @@ final class UpholsteryRuntimeProbe {
             require(actual == part.getValue().with(FurnitureBed.WATERLOGGED, wet), "Wrong structural part " + pos + ": " + actual);
             require(NBTUtil.readBlockState(NBTUtil.writeBlockState(actual)) == actual, "State palette round trip changed furniture");
             ItemStack pick = actual.getBlock().getPickBlock(actual, null, world, pos, player);
-            require(pick.getItem() == block.asItem() && UpholsteryItemData.getColour(pick) == colour, "Pick block lost colour");
+            require(pick.getItem() == UpholsteryItemData.create(block, colour).getItem()
+                    && UpholsteryItemData.getColour(pick) == colour && !pick.hasTag(), "Pick block lost colour");
             List<ItemStack> drops = actual.getDrops(new LootContext.Builder(world));
-            require(drops.size() == 1 && drops.get(0).getItem() == block.asItem()
-                    && UpholsteryItemData.getColour(drops.get(0)) == colour, "Drops lost colour or form");
+            require(drops.size() == 1 && drops.get(0).getItem() == UpholsteryItemData.create(block, colour).getItem()
+                    && UpholsteryItemData.getColour(drops.get(0)) == colour && !drops.get(0).hasTag(), "Drops lost colour or form");
             if (block instanceof FurnitureBed) {
                 FurnitureBed bed = (FurnitureBed) actual.getBlock();
                 require(bed.basePos(pos, actual).equals(base), "A bed part points at the wrong base");

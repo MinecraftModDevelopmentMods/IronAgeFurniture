@@ -48,7 +48,10 @@ public final class SconceMetalModels {
                 IBakedModel model = event.getModelRegistry().get(key);
                 if (model != null) event.getModelRegistry().put(key, new MetalModel(model, SconceMetalData.get(state)));
             }
-            ModelResourceLocation key = new ModelResourceLocation(block.getRegistryName(), "inventory");
+        }
+        for (net.minecraft.item.Item item : ForgeRegistries.ITEMS.getValues()) {
+            if (!(item instanceof zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem)) continue;
+            ModelResourceLocation key = new ModelResourceLocation(item.getRegistryName(), "inventory");
             IBakedModel model = event.getModelRegistry().get(key);
             if (model != null) event.getModelRegistry().put(key, new ItemModel(model));
         }

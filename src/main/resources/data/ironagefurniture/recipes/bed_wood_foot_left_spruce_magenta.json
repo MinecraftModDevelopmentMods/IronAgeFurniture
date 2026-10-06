@@ -2,17 +2,16 @@
     "type": "ironagefurniture:upholstery_upgrade",
     "ingredients": [
         {
-            "item": "ironagefurniture:bed_wood_foot_spruce"
+            "item": "ironagefurniture:bed_wood_foot_spruce_magenta"
         },
         {
-            "item": "ironagefurniture:bed_wood_foot_spruce"
+            "item": "ironagefurniture:bed_wood_foot_spruce_magenta"
         }
     ],
     "group": "ironagefurniture:bed_wood_foot_left_spruce_magenta",
     "result": {
-        "item": "ironagefurniture:bed_wood_foot_left_spruce",
-        "count": 1,
-        "nbt": "{Color:\"magenta\"}"
+        "item": "ironagefurniture:bed_wood_foot_left_spruce_magenta",
+        "count": 1
     },
     "conditions": [
         {

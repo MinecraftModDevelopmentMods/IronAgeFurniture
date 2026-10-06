@@ -24,8 +24,7 @@
                         "conditions": {
                             "items": [
                                 {
-                                    "item": "ironagefurniture:bed_canopy_foot_lower_spruce",
-                                    "nbt": "{Color:\"green\"}"
+                                    "item": "ironagefurniture:bed_canopy_foot_lower_spruce_green"
                                 }
                             ]
                         }

@@ -2,17 +2,16 @@
     "type": "ironagefurniture:upholstery_upgrade",
     "ingredients": [
         {
-            "item": "ironagefurniture:bed_canopy_foot_lower_birch"
+            "item": "ironagefurniture:bed_canopy_foot_lower_birch_pink"
         },
         {
-            "item": "ironagefurniture:bed_canopy_foot_lower_birch"
+            "item": "ironagefurniture:bed_canopy_foot_lower_birch_pink"
         }
     ],
     "group": "ironagefurniture:bed_canopy_foot_left_lower_birch_pink",
     "result": {
-        "item": "ironagefurniture:bed_canopy_foot_left_lower_birch",
-        "count": 1,
-        "nbt": "{Color:\"pink\"}"
+        "item": "ironagefurniture:bed_canopy_foot_left_lower_birch_pink",
+        "count": 1
     },
     "conditions": [
         {

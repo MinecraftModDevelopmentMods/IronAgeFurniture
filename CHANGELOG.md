@@ -3,12 +3,18 @@
 Phase 4 candidate for Minecraft 1.14.4 and Forge 28.2.26. It is available for
 local testing, not yet published as a release.
 
+- Give bed, wingback-chair and throne colours and sconce metals distinct
+  inventory items without adding blocks or tile entities. Recipe-book selection
+  now moves the correct coloured bed along with the other ingredients.
+- Import old metadata and `Color`/`Metal` item data into these identities,
+  including tagged items in existing 1.14 worlds. Keep stack counts, other
+  saved item data, placed states and temporarily unavailable metals intact.
 - Add gold sconces and retain the stable legacy metal names in saved block
   properties and item data. Mining toughness and blast resistance follow the
   metal, while all light changes, waterlogging and drops keep the original frame.
 - Preserve pre-flattening sconce metals, including nested items and the old
   `sconce_metal` tile data. An absent Base Metals installation does not erase
-  saved metal names. Verify the conditional integration against the published
+  saved metal names. The conditional integration has been tested with published
   Base Metals 3.0.1.114041 and OreSpawn 4.1.0.114041 builds, including all 21
   additional metals, recipes, in-world client textures, mining toughness and
   metal-preserving drops. Legacy 1.12 metal fixtures retain their state and item

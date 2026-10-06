@@ -24,8 +24,7 @@
                         "conditions": {
                             "items": [
                                 {
-                                    "item": "ironagefurniture:bed_wood_foot_dark_oak",
-                                    "nbt": "{Color:\"green\"}"
+                                    "item": "ironagefurniture:bed_wood_foot_dark_oak_green"
                                 }
                             ]
                         }

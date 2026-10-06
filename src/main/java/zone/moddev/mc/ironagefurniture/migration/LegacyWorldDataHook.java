@@ -168,8 +168,8 @@ public final class LegacyWorldDataHook {
 
 		CompoundNBT level = root.getCompound("Level");
         CfmChairMigration.prepareChunk(level);
-        if (!legacyWorldActive) return;
 		boolean migratedItems = LegacyPaddedItemMigration.migrateChunkContents(level);
+        if (!legacyWorldActive) return;
         // A chest or dropped item may live in a chunk with no placed IAF
         // blocks. Preserve that chunk too, rather than regenerate its contents
         // while upgrading an old, not-yet-lighted chunk.
@@ -190,6 +190,7 @@ public final class LegacyWorldDataHook {
 			return root;
 		}
 		CompoundNBT level = root.getCompound("Level");
+		LegacyPaddedItemMigration.migrateChunkContents(level);
 		if (legacyWorldActive) {
 			normalizeLegacyVanillaTileEntityIds(level);
 		}

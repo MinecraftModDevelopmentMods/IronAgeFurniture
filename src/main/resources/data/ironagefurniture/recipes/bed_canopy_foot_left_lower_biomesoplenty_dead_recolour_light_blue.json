@@ -2,9 +2,56 @@
     "type": "minecraft:crafting_shapeless",
     "group": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_dead_recolour_light_blue",
     "ingredients": [
-        {
-            "item": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_dead"
-        },
+        [
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_dead_black"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_dead_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_dead_brown"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_dead_cyan"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_dead_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_dead_green"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_dead_light_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_dead_light_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_dead_lime"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_dead_magenta"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_dead_orange"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_dead_pink"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_dead_purple"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_dead"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_dead_white"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_dead_yellow"
+            }
+        ],
         {
             "item": "minecraft:light_blue_carpet"
         }
@@ -24,8 +71,7 @@
         }
     ],
     "result": {
-        "item": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_dead",
-        "count": 1,
-        "nbt": "{Color:\"light_blue\"}"
+        "item": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_dead_light_blue",
+        "count": 1
     }
 }

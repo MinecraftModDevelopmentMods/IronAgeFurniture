@@ -71,10 +71,12 @@ final class LegacyMetalRuntimeProbe {
         return cases + 93;
     }
     private static void verify(ItemStack stack, SconceMetal metal, String keep, int count) {
-        require(stack.getItem() == ForgeRegistries.ITEMS.getValue(new ResourceLocation("ironagefurniture:light_metal_ironage_sconce_floor_empty_iron")), "Frame item lost");
+        require(stack.getItem() == ForgeRegistries.ITEMS.getValue(SconceMetalData.itemId(
+                new ResourceLocation("ironagefurniture:light_metal_ironage_sconce_floor_empty_iron"), metal)), "Frame item lost");
         require(stack.getCount() == count && SconceMetalData.get(stack) == metal, "Legacy item lost metal/count: " + metal + ": " + stack.write(new CompoundNBT()));
         require(stack.hasTag() && keep.equals(stack.getTag().getString("Keep")), "Unrelated item NBT changed");
         require(!stack.getTag().contains("Damage"), "Legacy metal remained as durability");
+        require(!stack.getTag().contains("Metal"), "Legacy metal field was not flattened");
     }
     private static void require(boolean okay, String message) { if (!okay) throw new IllegalStateException(message); }
 }

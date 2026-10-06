@@ -2,17 +2,16 @@
     "type": "ironagefurniture:upholstery_upgrade",
     "ingredients": [
         {
-            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_umbran"
+            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_umbran_black"
         },
         {
-            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_umbran"
+            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_umbran_black"
         }
     ],
     "group": "ironagefurniture:bed_wood_foot_left_biomesoplenty_umbran_black",
     "result": {
-        "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_umbran",
-        "count": 1,
-        "nbt": "{Color:\"black\"}"
+        "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_umbran_black",
+        "count": 1
     },
     "conditions": [
         {

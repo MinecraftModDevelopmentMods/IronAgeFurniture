@@ -28,8 +28,7 @@
                         "conditions": {
                             "items": [
                                 {
-                                    "item": "ironagefurniture:bed_canopy_foot_lower_immersiveengineering_treated_wood",
-                                    "nbt": "{Color:\"magenta\"}"
+                                    "item": "ironagefurniture:bed_canopy_foot_lower_immersiveengineering_treated_wood_magenta"
                                 }
                             ]
                         }

@@ -28,8 +28,7 @@
                         "conditions": {
                             "items": [
                                 {
-                                    "item": "ironagefurniture:bed_wood_foot_biomesoplenty_redwood",
-                                    "nbt": "{Color:\"gray\"}"
+                                    "item": "ironagefurniture:bed_wood_foot_biomesoplenty_redwood_gray"
                                 }
                             ]
                         }

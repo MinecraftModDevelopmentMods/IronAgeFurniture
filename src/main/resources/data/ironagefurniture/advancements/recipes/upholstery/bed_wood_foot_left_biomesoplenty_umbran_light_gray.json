@@ -28,8 +28,7 @@
                         "conditions": {
                             "items": [
                                 {
-                                    "item": "ironagefurniture:bed_wood_foot_biomesoplenty_umbran",
-                                    "nbt": "{Color:\"light_gray\"}"
+                                    "item": "ironagefurniture:bed_wood_foot_biomesoplenty_umbran_light_gray"
                                 }
                             ]
                         }

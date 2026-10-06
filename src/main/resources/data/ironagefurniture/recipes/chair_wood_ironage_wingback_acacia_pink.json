@@ -18,9 +18,8 @@
     },
     "group": "ironagefurniture:chair_wood_ironage_wingback_acacia_pink",
     "result": {
-        "item": "ironagefurniture:chair_wood_ironage_wingback_acacia",
-        "count": 1,
-        "nbt": "{Color:\"pink\"}"
+        "item": "ironagefurniture:chair_wood_ironage_wingback_acacia_pink",
+        "count": 1
     },
     "conditions": [
         {

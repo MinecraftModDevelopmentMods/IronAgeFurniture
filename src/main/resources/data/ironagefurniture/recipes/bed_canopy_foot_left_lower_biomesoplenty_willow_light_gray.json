@@ -2,17 +2,16 @@
     "type": "ironagefurniture:upholstery_upgrade",
     "ingredients": [
         {
-            "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_willow"
+            "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_willow_light_gray"
         },
         {
-            "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_willow"
+            "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_willow_light_gray"
         }
     ],
     "group": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_willow_light_gray",
     "result": {
-        "item": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_willow",
-        "count": 1,
-        "nbt": "{Color:\"light_gray\"}"
+        "item": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_willow_light_gray",
+        "count": 1
     },
     "conditions": [
         {

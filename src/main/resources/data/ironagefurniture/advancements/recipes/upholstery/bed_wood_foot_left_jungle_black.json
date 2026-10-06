@@ -24,8 +24,7 @@
                         "conditions": {
                             "items": [
                                 {
-                                    "item": "ironagefurniture:bed_wood_foot_jungle",
-                                    "nbt": "{Color:\"black\"}"
+                                    "item": "ironagefurniture:bed_wood_foot_jungle_black"
                                 }
                             ]
                         }

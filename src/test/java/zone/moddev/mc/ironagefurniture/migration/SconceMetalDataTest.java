@@ -57,12 +57,16 @@ public class SconceMetalDataTest {
             ListNBT contents = new ListNBT(); contents.add(stack);
             CompoundNBT container = new CompoundNBT(); container.put("Items", contents);
             assertTrue(LegacyPaddedItemMigration.migrateChunkContents(container));
-            assertEquals(metal.getName(), stack.getCompound("tag").getString("Metal"));
+            assertEquals(metalId(metal), stack.getString("id"));
+            assertFalse(stack.getCompound("tag").contains("Metal"));
             assertEquals(5, stack.getByte("Count")); assertFalse(stack.contains("Damage"));
             assertFalse(LegacyPaddedItemMigration.migrateChunkContents(container));
-            stack.putShort("Damage", (short) 0); stack.getCompound("tag").putString("OtherData", "keep");
+            stack.putShort("Damage", (short) 0);
+            CompoundNBT tag = new CompoundNBT(); tag.putString("OtherData", "keep");
+            tag.putString("Metal", metal.getName()); stack.put("tag", tag);
             assertTrue(SconceMetalData.migrateItem(stack));
-            assertEquals(metal.getName(), stack.getCompound("tag").getString("Metal"));
+            assertEquals(metalId(metal), stack.getString("id"));
+            assertFalse(stack.getCompound("tag").contains("Metal"));
             assertEquals("keep", stack.getCompound("tag").getString("OtherData"));
         }
     }
@@ -84,9 +88,28 @@ public class SconceMetalDataTest {
             stack.putByte("Count", (byte) 3); tag.putInt("Damage", metal.ordinal()); tag.putString("Keep", "saved"); stack.put("tag", tag);
             ListNBT inventory = new ListNBT(); inventory.add(stack); player.put("Inventory", inventory);
             LegacyWorldDataHook.preparePlayerData(player);
-            assertEquals(metal.getName(), tag.getString("Metal")); assertFalse(tag.contains("Damage"));
+            assertEquals(metalId(metal), stack.getString("id"));
+            assertFalse(tag.contains("Metal")); assertFalse(tag.contains("Damage"));
             assertEquals("saved", tag.getString("Keep"));
             assertFalse(LegacyPaddedItemMigration.migrateChunkContents(player));
+        }
+    }
+    private static String metalId(SconceMetal metal) {
+        return SconceMetalData.itemId(new net.minecraft.util.ResourceLocation(
+                "ironagefurniture:light_metal_ironage_sconce_floor_empty_iron"), metal).toString();
+    }
+    @Test public void flattenedMetalsOverrideStaleTagsAndInvalidLegacyMetalBecomesIron() {
+        for (SconceMetal metal : SconceMetal.values()) {
+            CompoundNBT stack = new CompoundNBT(), tag = new CompoundNBT();
+            stack.putString("id", metalId(metal)); stack.putByte("Count", (byte) 2);
+            tag.putString("Metal", metal == SconceMetal.IRON ? "invalid" : "iron");
+            tag.putString("Keep", "saved"); stack.put("tag", tag); stack.putShort("Damage", (short) 1);
+            assertTrue(SconceMetalData.migrateItem(stack));
+            assertEquals(metalId(metal), stack.getString("id"));
+            assertEquals(2, stack.getByte("Count"));
+            assertEquals("saved", tag.getString("Keep"));
+            assertFalse(tag.contains("Metal")); assertFalse(stack.contains("Damage"));
+            assertFalse(SconceMetalData.migrateItem(stack));
         }
     }
 }

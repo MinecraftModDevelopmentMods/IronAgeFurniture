@@ -10,9 +10,8 @@
     ],
     "group": "ironagefurniture:bed_wood_foot_jungle_pink",
     "result": {
-        "item": "ironagefurniture:bed_wood_foot_jungle",
-        "count": 1,
-        "nbt": "{Color:\"pink\"}"
+        "item": "ironagefurniture:bed_wood_foot_jungle_pink",
+        "count": 1
     },
     "conditions": [
         {

@@ -28,8 +28,7 @@
                         "conditions": {
                             "items": [
                                 {
-                                    "item": "ironagefurniture:bed_wood_foot_biomesoplenty_mahogany",
-                                    "nbt": "{Color:\"white\"}"
+                                    "item": "ironagefurniture:bed_wood_foot_biomesoplenty_mahogany_white"
                                 }
                             ]
                         }

@@ -10,6 +10,11 @@ import zone.moddev.mc.ironagefurniture.Ironagefurniture;
 import zone.moddev.mc.ironagefurniture.IronAgeFurnitureConfiguration;
 import zone.moddev.mc.ironagefurniture.api.blocks.furniture.*;
 import zone.moddev.mc.ironagefurniture.api.items.UpholsteredBlockItem;
+import zone.moddev.mc.ironagefurniture.api.UpholsteryItemData;
+import zone.moddev.mc.ironagefurniture.api.SconceMetalData;
+import zone.moddev.mc.ironagefurniture.api.enumerations.UpholsteryColour;
+import zone.moddev.mc.ironagefurniture.api.enumerations.SconceMetal;
+import zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem;
 
 /** Called from the existing wood catalog, so optional woods use the same gates. */
 @Mod.EventBusSubscriber(modid = Ironagefurniture.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -34,12 +39,27 @@ public final class PhaseFourFurniture {
             event.getRegistry().registerAll(single, left, right);
         }
     }
-    @SubscribeEvent public static void registerItems(RegistryEvent.Register<Item> event) {
+    @SubscribeEvent(priority = net.minecraftforge.eventbus.api.EventPriority.LOWEST)
+    public static void registerItems(RegistryEvent.Register<Item> event) {
         for (Block block : ForgeRegistries.BLOCKS.getValues()) {
             if (!(block instanceof MultiBlockChair) && !(block instanceof FurnitureBed)) continue;
             if (block instanceof FurnitureBed && ((FurnitureBed)block).itemBlock() != block) continue;
-            event.getRegistry().register(new UpholsteredBlockItem(block, new Item.Properties().group(Ironagefurniture.IAF_GROUP))
-                    .setRegistryName(block.getRegistryName()));
+            for (UpholsteryColour colour : UpholsteryColour.values())
+                event.getRegistry().register(new UpholsteredBlockItem(block,
+                        new Item.Properties().group(Ironagefurniture.IAF_GROUP), colour)
+                        .setRegistryName(UpholsteryItemData.itemId(block.getRegistryName(), colour)));
+        }
+        // Register even temporarily unavailable metals so removing Base Metals
+        // cannot erase stored sconces. Only their recipes and tab entries hide.
+        for (Item item : new java.util.ArrayList<>(event.getRegistry().getValues())) {
+            if (!(item instanceof MetalSconceBlockItem)) continue;
+            Block block = ((MetalSconceBlockItem)item).getBlock();
+            for (SconceMetal metal : SconceMetal.values()) if (metal != SconceMetal.IRON) {
+                Item.Properties properties = new Item.Properties();
+                if (item.getGroup() != null) properties.group(item.getGroup());
+                event.getRegistry().register(new MetalSconceBlockItem(block, properties, metal)
+                        .setRegistryName(SconceMetalData.itemId(item.getRegistryName(), metal)));
+            }
         }
     }
 }

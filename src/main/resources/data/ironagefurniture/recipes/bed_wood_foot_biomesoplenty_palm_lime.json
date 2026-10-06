@@ -10,9 +10,8 @@
     ],
     "group": "ironagefurniture:bed_wood_foot_biomesoplenty_palm_lime",
     "result": {
-        "item": "ironagefurniture:bed_wood_foot_biomesoplenty_palm",
-        "count": 1,
-        "nbt": "{Color:\"lime\"}"
+        "item": "ironagefurniture:bed_wood_foot_biomesoplenty_palm_lime",
+        "count": 1
     },
     "conditions": [
         {

@@ -2,7 +2,7 @@
     "type": "ironagefurniture:upholstery_upgrade",
     "ingredients": [
         {
-            "item": "ironagefurniture:bed_wood_foot_spruce"
+            "item": "ironagefurniture:bed_wood_foot_spruce_gray"
         },
         {
             "item": "minecraft:spruce_planks"
@@ -10,9 +10,8 @@
     ],
     "group": "ironagefurniture:bed_canopy_foot_lower_spruce_gray",
     "result": {
-        "item": "ironagefurniture:bed_canopy_foot_lower_spruce",
-        "count": 1,
-        "nbt": "{Color:\"gray\"}"
+        "item": "ironagefurniture:bed_canopy_foot_lower_spruce_gray",
+        "count": 1
     },
     "conditions": [
         {

@@ -31,6 +31,11 @@ same colour. Add another matching plank to turn it into a canopy bed, or combine
 two matching single beds to make a double. A carpet deliberately recolours an
 IAF bed. Different colours cannot be combined into one double bed.
 
+Bed and tall-chair colours now have separate inventory items, as do sconce
+metals. The recipe book can therefore select the right variant and move all
+its ingredients into the crafting grid. They still share the existing placed
+blocks; no extra block registrations or tile entities are needed.
+
 To make a wingback chair, put a carpet above a matching plank and a classic chair
 in a vertical crafting column. Use a wingback chair in the same arrangement to
 make a throne. These tall chairs and beds are single pieces of furniture:
@@ -150,10 +155,15 @@ O' Plenty woods have no matching 1.14.4 furniture and should be removed from
 the old world before upgrading.
 
 Phase 4 sconce metals move from the older tile-entity and item-metadata format
-into saved block properties and `Metal` item data. All 23 known names are kept,
+into saved block properties and metal-specific items. All 23 known names are kept,
 even when Base Metals is absent. Missing metal data means iron. The same upgrade
 also keeps frame items stored away from placed furniture, including player and
 Ender Chest inventories.
+
+The older `Color` and `Metal` item fields are read during upgrades from 1.10,
+1.12 and earlier 1.14 builds, then replaced by the corresponding item identity.
+Counts, names and other saved item data are retained. Missing or invalid colour
+data means red; missing or invalid metal data means iron.
 
 Saved-world tests cover the old red-only and later multicolour releases, Phase
 4 furniture, and an older 1.14.4 world. The supported fixtures load directly

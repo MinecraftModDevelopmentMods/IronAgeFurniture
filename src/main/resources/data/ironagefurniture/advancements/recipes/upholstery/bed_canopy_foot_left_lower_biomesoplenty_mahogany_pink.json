@@ -28,8 +28,7 @@
                         "conditions": {
                             "items": [
                                 {
-                                    "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_mahogany",
-                                    "nbt": "{Color:\"pink\"}"
+                                    "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_mahogany_pink"
                                 }
                             ]
                         }

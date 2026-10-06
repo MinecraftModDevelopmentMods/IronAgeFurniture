@@ -123,8 +123,8 @@ tasks.register('verifyResourceJson') {
             include '**/*.json'
             include 'pack.mcmeta'
         }.files.sort { it.path }
-        if (jsonFiles.size() != 22009) {
-            throw new GradleException("Expected 22009 runtime JSON documents, found ${jsonFiles.size()}")
+        if (jsonFiles.size() != 23549) {
+            throw new GradleException("Expected 23549 runtime JSON documents, found ${jsonFiles.size()}")
         }
         jsonFiles.each { candidate ->
             try {

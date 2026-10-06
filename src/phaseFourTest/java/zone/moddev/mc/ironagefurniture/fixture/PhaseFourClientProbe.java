@@ -133,10 +133,21 @@ public final class PhaseFourClientProbe {
                             .getParticleTexture().getName();
                     if (Boolean.getBoolean("iaf.probe.liveBaseMetalsClient") && metal.isBaseMetal()
                             && !Boolean.getBoolean("iaf.probe.baseMetalsDisabled"))
-                        require("basemetals".equals(expected.getNamespace())
-                                && zone.moddev.mc.ironagefurniture.api.SconceMetalData.textureBlock(metal).getRegistryName()
-                                    .equals(new net.minecraft.util.ResourceLocation("basemetals", metal.getName() + "_block")),
-                                "Published metal resolved to a fallback texture: " + metal + "/" + expected);
+                        {
+                            java.util.Collection<Block> suppliers = net.minecraft.tags.BlockTags.getCollection()
+                                    .getOrCreate(zone.moddev.mc.ironagefurniture.api.SconceMetalData.storage(metal)).getAllElements();
+                            Block selected = zone.moddev.mc.ironagefurniture.api.SconceMetalData.textureBlock(metal);
+                            // IE may supply the same metal tag as Base Metals.
+                            // Either real storage block is valid, but iron or a
+                            // missing sprite must never stand in for it.
+                            require(suppliers.contains(selected) && selected != net.minecraft.block.Blocks.IRON_BLOCK
+                                    && !expected.getPath().contains("missing"),
+                                    "Published metal resolved to a fallback texture: " + metal + "/" + expected);
+                            if (suppliers.size() == 1)
+                                require("basemetals".equals(expected.getNamespace()) && selected.getRegistryName()
+                                        .equals(new net.minecraft.util.ResourceLocation("basemetals", metal.getName() + "_block")),
+                                        "Published Base Metals texture changed: " + metal + "/" + expected);
+                        }
                     if (block.asItem() != Items.AIR) {
                         ItemStack stack = zone.moddev.mc.ironagefurniture.api.SconceMetalData.create(block, metal);
                         IBakedModel item = game.getItemRenderer().getItemModelWithOverrides(stack, null, null);

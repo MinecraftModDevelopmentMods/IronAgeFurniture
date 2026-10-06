@@ -2,9 +2,56 @@
     "type": "minecraft:crafting_shapeless",
     "group": "ironagefurniture:bed_wood_foot_acacia_recolour_magenta",
     "ingredients": [
-        {
-            "item": "ironagefurniture:bed_wood_foot_acacia"
-        },
+        [
+            {
+                "item": "ironagefurniture:bed_wood_foot_acacia_black"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_acacia_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_acacia_brown"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_acacia_cyan"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_acacia_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_acacia_green"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_acacia_light_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_acacia_light_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_acacia_lime"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_acacia_magenta"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_acacia_orange"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_acacia_pink"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_acacia_purple"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_acacia"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_acacia_white"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_acacia_yellow"
+            }
+        ],
         {
             "item": "minecraft:magenta_carpet"
         }
@@ -16,8 +63,7 @@
         }
     ],
     "result": {
-        "item": "ironagefurniture:bed_wood_foot_acacia",
-        "count": 1,
-        "nbt": "{Color:\"magenta\"}"
+        "item": "ironagefurniture:bed_wood_foot_acacia_magenta",
+        "count": 1
     }
 }

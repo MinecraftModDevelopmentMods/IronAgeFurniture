@@ -2,9 +2,56 @@
     "type": "minecraft:crafting_shapeless",
     "group": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_jacaranda_recolour_black",
     "ingredients": [
-        {
-            "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_jacaranda"
-        },
+        [
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_jacaranda_black"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_jacaranda_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_jacaranda_brown"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_jacaranda_cyan"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_jacaranda_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_jacaranda_green"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_jacaranda_light_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_jacaranda_light_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_jacaranda_lime"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_jacaranda_magenta"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_jacaranda_orange"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_jacaranda_pink"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_jacaranda_purple"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_jacaranda"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_jacaranda_white"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_jacaranda_yellow"
+            }
+        ],
         {
             "item": "minecraft:black_carpet"
         }
@@ -24,8 +71,7 @@
         }
     ],
     "result": {
-        "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_jacaranda",
-        "count": 1,
-        "nbt": "{Color:\"black\"}"
+        "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_jacaranda_black",
+        "count": 1
     }
 }

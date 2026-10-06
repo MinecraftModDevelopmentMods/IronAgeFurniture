@@ -2,9 +2,56 @@
     "type": "minecraft:crafting_shapeless",
     "group": "ironagefurniture:bed_canopy_foot_left_lower_jungle_recolour_black",
     "ingredients": [
-        {
-            "item": "ironagefurniture:bed_canopy_foot_left_lower_jungle"
-        },
+        [
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_jungle_black"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_jungle_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_jungle_brown"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_jungle_cyan"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_jungle_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_jungle_green"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_jungle_light_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_jungle_light_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_jungle_lime"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_jungle_magenta"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_jungle_orange"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_jungle_pink"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_jungle_purple"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_jungle"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_jungle_white"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_jungle_yellow"
+            }
+        ],
         {
             "item": "minecraft:black_carpet"
         }
@@ -20,8 +67,7 @@
         }
     ],
     "result": {
-        "item": "ironagefurniture:bed_canopy_foot_left_lower_jungle",
-        "count": 1,
-        "nbt": "{Color:\"black\"}"
+        "item": "ironagefurniture:bed_canopy_foot_left_lower_jungle_black",
+        "count": 1
     }
 }

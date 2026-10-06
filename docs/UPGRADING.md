@@ -13,7 +13,12 @@ remain red; later multicolour benches retain their saved `Color` value.
 
 Phase 4 beds and tall chairs retain their colour and structure parts. Sconce
 metals move from legacy item metadata and tile data into the modern `metal`
-block property and `Metal` item field. A missing colour means red; a missing
+block property and metal-specific item identities. Bed and tall-chair colours
+likewise have individual item identities while sharing their existing placed
+blocks. The old `Color` and `Metal` fields are accepted on import and removed
+after conversion; unrelated item data and counts are retained. This also
+handles tagged items saved by earlier 1.14 Phase 4 candidates.
+A missing or invalid colour means red; a missing or invalid
 metal means iron. Known Base Metals names survive even when the supplying mod
 is absent, although their appearance falls back to iron.
 
@@ -41,7 +46,8 @@ supported furniture fixtures.
 | 1.12.2 Phase 3 | Multicolour benches, connected states, lighting and stored items. |
 | 1.10.2 and 1.12.2 Phase 4 | Saved beds, tall chairs, shields, candles, lamps and player items; a separate 1.12 fixture covers all sixteen bed colours. |
 | 1.12.2 Phase 4 metal fixture | All 23 metal names across 66 sconce states and four facings, plus player, Ender Chest, container, nested and dropped frame items. |
-| 1.14.4 Phase 3 | Existing flattened furniture and inventory data. |
+| 1.14.4 Phase 3 | A copy loaded and saved with the published `0.3.0.114041` jar, then upgraded with its furniture states and items intact. |
+| Earlier 1.14.4 Phase 4 candidates | All sixteen colours of each bed and tall-chair form and all 23 sconce metals, including named items, custom data, nested containers, dropped items, player inventories and Ender Chests. |
 | CFM chair fixtures | 1.10.2 CFM 4.1.2, 1.12.2 CFM 6.3.2 and 1.14.4 CFM 7.0.0-pre15: all six supported woods, facing and stored chair data. |
 
 These checks are not a promise that every old modpack can upgrade intact. The

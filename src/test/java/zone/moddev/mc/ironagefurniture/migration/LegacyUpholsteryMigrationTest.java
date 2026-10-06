@@ -91,17 +91,19 @@ public class LegacyUpholsteryMigrationTest {
             item.putByte("Count", (byte) 3);
             item.putShort("Damage", (short) colour.getItemMetadata());
             assertTrue(LegacyUpholsteryMigration.migrateItem(item));
-            assertEquals("ironagefurniture:bed_wood_foot_dark_oak", item.getString("id"));
-            assertEquals(colour.getName(), item.getCompound("tag").getString("Color"));
+            assertEquals(bedId(colour), item.getString("id"));
+            assertFalse(item.getCompound("tag").contains("Color"));
             assertEquals(3, item.getByte("Count"));
             assertFalse(item.contains("Damage"));
             assertFalse(LegacyUpholsteryMigration.migrateItem(item));
             item.putShort("Damage", (short) 15);
-            item.getCompound("tag").putString("OtherData", "keep");
+            CompoundNBT tag = new CompoundNBT(); tag.putString("OtherData", "keep");
+            tag.putString("Color", colour.getName()); item.put("tag", tag);
             CompoundNBT container = new CompoundNBT();
             ListNBT contents = new ListNBT(); contents.add(item); container.put("Items", contents);
             assertTrue(LegacyPaddedItemMigration.migrateChunkContents(container));
-            assertEquals(colour.getName(), item.getCompound("tag").getString("Color"));
+            assertEquals(bedId(colour), item.getString("id"));
+            assertFalse(item.getCompound("tag").contains("Color"));
             assertEquals("keep", item.getCompound("tag").getString("OtherData"));
             assertFalse(LegacyPaddedItemMigration.migrateChunkContents(container));
         }
@@ -160,10 +162,54 @@ public class LegacyUpholsteryMigrationTest {
             tag.putInt("Damage", colour.getItemMetadata()); tag.putString("Keep", "bed"); item.put("tag", tag);
             ListNBT ender = new ListNBT(); ender.add(item); player.put("EnderItems", ender);
             LegacyWorldDataHook.preparePlayerData(player);
-            assertEquals("ironagefurniture:bed_wood_foot_dark_oak", item.getString("id"));
-            assertEquals(colour.getName(), tag.getString("Color")); assertFalse(tag.contains("Damage"));
+            assertEquals(bedId(colour), item.getString("id"));
+            assertFalse(tag.contains("Color")); assertFalse(tag.contains("Damage"));
             assertEquals("bed", tag.getString("Keep"));
             assertFalse(LegacyPaddedItemMigration.migrateChunkContents(player));
+        }
+    }
+    private static String bedId(UpholsteryColour colour) {
+        return zone.moddev.mc.ironagefurniture.api.UpholsteryItemData.itemId(
+                new net.minecraft.util.ResourceLocation("ironagefurniture:bed_wood_foot_dark_oak"), colour).toString();
+    }
+    @Test public void everyTagged114VariantFlattensOnceWithoutChangingOtherData() {
+        for (String form : new String[] {"bed_wood_foot_", "bed_wood_foot_left_", "bed_canopy_foot_lower_",
+                "bed_canopy_foot_left_lower_", "chair_wood_ironage_wingback_", "chair_wood_ironage_throne_"}) {
+            for (UpholsteryColour colour : UpholsteryColour.values()) {
+                CompoundNBT stack = new CompoundNBT(), tag = new CompoundNBT(), container = new CompoundNBT();
+                String base = "ironagefurniture:" + form + "oak";
+                stack.putString("id", base); stack.putByte("Count", (byte) 7);
+                tag.putString("Color", colour.getName()); tag.putString("OtherModsData", "preserve");
+                stack.put("tag", tag);
+                ListNBT inner = new ListNBT(); inner.add(stack); container.put("NestedItems", inner);
+                assertTrue(LegacyPaddedItemMigration.migrateChunkContents(container));
+                String expected = base + (colour == UpholsteryColour.RED ? "" : "_" + colour.getName());
+                assertEquals(expected, stack.getString("id")); assertEquals(7, stack.getByte("Count"));
+                assertEquals("preserve", stack.getCompound("tag").getString("OtherModsData"));
+                assertFalse(stack.getCompound("tag").contains("Color"));
+                CompoundNBT once = container.copy();
+                assertFalse(LegacyPaddedItemMigration.migrateChunkContents(container)); assertEquals(once, container);
+            }
+        }
+        for (String invalid : new String[] {"", "not_a_colour"}) {
+            CompoundNBT stack = new CompoundNBT(), tag = new CompoundNBT();
+            stack.putString("id", "ironagefurniture:bed_wood_foot_oak"); stack.putByte("Count", (byte) 1);
+            tag.putString("Color", invalid); tag.putInt("Damage", 15); stack.put("tag", tag);
+            assertTrue(LegacyUpholsteryMigration.migrateItem(stack));
+            assertEquals("ironagefurniture:bed_wood_foot_oak", stack.getString("id"));
+            assertFalse(stack.contains("tag"));
+            assertFalse(LegacyUpholsteryMigration.migrateItem(stack));
+        }
+    }
+    @Test public void canonicalIdentityWinsOverObsoleteColourFieldsIncludingLightGray() {
+        for (UpholsteryColour colour : UpholsteryColour.values()) if (colour != UpholsteryColour.RED) {
+            CompoundNBT stack = new CompoundNBT(), tag = new CompoundNBT();
+            stack.putString("id", bedId(colour)); stack.putByte("Count", (byte) 2);
+            tag.putString("Color", "red"); stack.put("tag", tag); stack.putShort("Damage", (short) 15);
+            assertTrue(LegacyUpholsteryMigration.migrateItem(stack));
+            assertEquals(bedId(colour), stack.getString("id"));
+            assertFalse(stack.contains("tag")); assertFalse(stack.contains("Damage"));
+            assertFalse(LegacyUpholsteryMigration.migrateItem(stack));
         }
     }
 }

@@ -18,9 +18,8 @@
     },
     "group": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_hellbark_black",
     "result": {
-        "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_hellbark",
-        "count": 1,
-        "nbt": "{Color:\"black\"}"
+        "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_hellbark_black",
+        "count": 1
     },
     "conditions": [
         {

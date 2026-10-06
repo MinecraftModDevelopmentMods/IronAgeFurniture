@@ -2,17 +2,16 @@
     "type": "ironagefurniture:upholstery_upgrade",
     "ingredients": [
         {
-            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_fir"
+            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_fir_magenta"
         },
         {
-            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_fir"
+            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_fir_magenta"
         }
     ],
     "group": "ironagefurniture:bed_wood_foot_left_biomesoplenty_fir_magenta",
     "result": {
-        "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_fir",
-        "count": 1,
-        "nbt": "{Color:\"magenta\"}"
+        "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_fir_magenta",
+        "count": 1
     },
     "conditions": [
         {

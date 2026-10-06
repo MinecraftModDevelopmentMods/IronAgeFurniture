@@ -26,8 +26,7 @@
         }
     },
     "result": {
-        "item": "ironagefurniture:light_metal_ironage_sconce_floor_empty_iron",
-        "count": 4,
-        "nbt": "{Metal:\"bronze\"}"
+        "item": "ironagefurniture:light_metal_ironage_sconce_floor_empty_basemetals_bronze",
+        "count": 4
     }
 }

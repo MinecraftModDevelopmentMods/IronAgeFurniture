@@ -16,9 +16,12 @@ the 1.10.2 and 1.12.2 releases. Back up a world before moving it across this
 boundary; once Minecraft has saved it as 1.14.4, it cannot be opened safely by
 the older game versions.
 
-Phase 4 stores upholstery under the stable `Color` name and sconce metal under
-`Metal`. The upgrade bridge converts the 1.10/1.12 metadata and tile formats
-without changing surviving registry names. An absent Base Metals installation
+The 1.10/1.12 versions store upholstery under `Color` and sconce metal under
+`Metal`. In 1.14, colours and metals use block properties and distinct inventory
+items. Existing red/iron item IDs and every surviving block ID are retained;
+new variant item IDs append a colour or replace the iron metal suffix.
+The upgrade bridge converts legacy metadata, tile data and tagged items from
+earlier 1.14 candidates. An absent Base Metals installation
 does not erase a known metal; it only changes availability and rendering until
 that material is supplied again.
 

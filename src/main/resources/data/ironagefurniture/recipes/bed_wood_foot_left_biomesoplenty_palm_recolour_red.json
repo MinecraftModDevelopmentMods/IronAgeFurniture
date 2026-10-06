@@ -2,9 +2,56 @@
     "type": "minecraft:crafting_shapeless",
     "group": "ironagefurniture:bed_wood_foot_left_biomesoplenty_palm_recolour_red",
     "ingredients": [
-        {
-            "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_palm"
-        },
+        [
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_palm_black"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_palm_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_palm_brown"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_palm_cyan"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_palm_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_palm_green"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_palm_light_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_palm_light_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_palm_lime"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_palm_magenta"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_palm_orange"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_palm_pink"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_palm_purple"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_palm"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_palm_white"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_palm_yellow"
+            }
+        ],
         {
             "item": "minecraft:red_carpet"
         }
@@ -25,7 +72,6 @@
     ],
     "result": {
         "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_palm",
-        "count": 1,
-        "nbt": "{Color:\"red\"}"
+        "count": 1
     }
 }

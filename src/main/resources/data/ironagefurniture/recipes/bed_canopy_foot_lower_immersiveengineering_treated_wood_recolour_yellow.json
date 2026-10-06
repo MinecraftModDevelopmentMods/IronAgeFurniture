@@ -2,9 +2,56 @@
     "type": "minecraft:crafting_shapeless",
     "group": "ironagefurniture:bed_canopy_foot_lower_immersiveengineering_treated_wood_recolour_yellow",
     "ingredients": [
-        {
-            "item": "ironagefurniture:bed_canopy_foot_lower_immersiveengineering_treated_wood"
-        },
+        [
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_immersiveengineering_treated_wood_black"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_immersiveengineering_treated_wood_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_immersiveengineering_treated_wood_brown"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_immersiveengineering_treated_wood_cyan"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_immersiveengineering_treated_wood_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_immersiveengineering_treated_wood_green"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_immersiveengineering_treated_wood_light_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_immersiveengineering_treated_wood_light_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_immersiveengineering_treated_wood_lime"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_immersiveengineering_treated_wood_magenta"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_immersiveengineering_treated_wood_orange"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_immersiveengineering_treated_wood_pink"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_immersiveengineering_treated_wood_purple"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_immersiveengineering_treated_wood"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_immersiveengineering_treated_wood_white"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_immersiveengineering_treated_wood_yellow"
+            }
+        ],
         {
             "item": "minecraft:yellow_carpet"
         }
@@ -24,8 +71,7 @@
         }
     ],
     "result": {
-        "item": "ironagefurniture:bed_canopy_foot_lower_immersiveengineering_treated_wood",
-        "count": 1,
-        "nbt": "{Color:\"yellow\"}"
+        "item": "ironagefurniture:bed_canopy_foot_lower_immersiveengineering_treated_wood_yellow",
+        "count": 1
     }
 }

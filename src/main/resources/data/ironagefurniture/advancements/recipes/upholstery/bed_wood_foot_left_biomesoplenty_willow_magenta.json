@@ -28,8 +28,7 @@
                         "conditions": {
                             "items": [
                                 {
-                                    "item": "ironagefurniture:bed_wood_foot_biomesoplenty_willow",
-                                    "nbt": "{Color:\"magenta\"}"
+                                    "item": "ironagefurniture:bed_wood_foot_biomesoplenty_willow_magenta"
                                 }
                             ]
                         }

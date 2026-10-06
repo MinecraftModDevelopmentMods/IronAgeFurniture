@@ -2,7 +2,7 @@
     "type": "ironagefurniture:upholstery_upgrade",
     "ingredients": [
         {
-            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_magic"
+            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_magic_light_blue"
         },
         {
             "item": "biomesoplenty:magic_planks"
@@ -10,9 +10,8 @@
     ],
     "group": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_magic_light_blue",
     "result": {
-        "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_magic",
-        "count": 1,
-        "nbt": "{Color:\"light_blue\"}"
+        "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_magic_light_blue",
+        "count": 1
     },
     "conditions": [
         {

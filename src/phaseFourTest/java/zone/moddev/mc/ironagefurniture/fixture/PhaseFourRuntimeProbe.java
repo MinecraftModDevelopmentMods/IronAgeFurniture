@@ -85,6 +85,11 @@ public final class PhaseFourRuntimeProbe {
         int chairs = 0;
         int states = 0;
         try {
+            if (System.getProperty("iaf.probe.taggedMode") != null) {
+                int cases = TaggedItemMigrationProbe.run(world, "seed".equals(System.getProperty("iaf.probe.taggedMode")));
+                Files.write(Paths.get("phase-four-pass.properties"), ("status=PASS\ntagged_cases=" + cases + "\n").getBytes(StandardCharsets.UTF_8));
+                return;
+            }
             if (Boolean.getBoolean("iaf.probe.legacyMetals")) {
                 int legacy = LegacyMetalRuntimeProbe.run(world);
                 Files.write(Paths.get("phase-four-pass.properties"), ("status=PASS\nlegacy_metal_cases="+legacy+"\n").getBytes(StandardCharsets.UTF_8));

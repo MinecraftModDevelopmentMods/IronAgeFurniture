@@ -10,9 +10,8 @@
     ],
     "group": "ironagefurniture:bed_wood_foot_birch_cyan",
     "result": {
-        "item": "ironagefurniture:bed_wood_foot_birch",
-        "count": 1,
-        "nbt": "{Color:\"cyan\"}"
+        "item": "ironagefurniture:bed_wood_foot_birch_cyan",
+        "count": 1
     },
     "conditions": [
         {
