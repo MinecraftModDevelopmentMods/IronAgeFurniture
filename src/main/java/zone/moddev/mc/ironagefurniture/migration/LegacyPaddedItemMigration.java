@@ -30,8 +30,21 @@ public final class LegacyPaddedItemMigration {
 	}
 
 	static boolean migrateItemCompound(CompoundNBT stack) {
-		boolean changed = false;
-		if (stack.contains("id", 8)) {
+		boolean changed = LegacyUpholsteryMigration.migrateItem(stack);
+        changed |= zone.moddev.mc.ironagefurniture.api.SconceMetalData.migrateItem(stack);
+		// A missing-mapping alias is too late for items crossing flattening:
+		// vanilla can discard the old name before Forge constructs the stack.
+		// Other legacy mods may have names that no longer pass ResourceLocation
+		// validation. Their data is not ours to parse or rewrite.
+		if (stack.getString("id").startsWith(Ironagefurniture.MODID + ":")) {
+			ResourceLocation oldId = new ResourceLocation(stack.getString("id"));
+			ResourceLocation currentId = LegacyPaddedBenchIds.currentId(oldId);
+			if (!currentId.equals(oldId)) {
+				stack.putString("id", currentId.toString());
+				changed = true;
+			}
+		}
+		if (stack.getString("id").startsWith(Ironagefurniture.MODID + ":")) {
 			ResourceLocation id = new ResourceLocation(stack.getString("id"));
 			if (Ironagefurniture.MODID.equals(id.getNamespace())) {
 				CompoundNBT tag = stack.contains("tag", 10) ? stack.getCompound("tag") : null;

@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_bed_wood_foot_left",
+    "textures": {
+        "log": "minecraft:block/dark_oak_log",
+        "planks": "minecraft:block/dark_oak_planks",
+        "particle": "minecraft:block/dark_oak_log",
+        "cloth": "minecraft:block/purple_wool"
+    }
+}

@@ -1,0 +1,26 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:brown_bed"
+        },
+        {
+            "item": "biomesoplenty:hellbark_planks"
+        }
+    ],
+    "group": "ironagefurniture:bed_wood_foot_biomesoplenty_hellbark_brown",
+    "result": {
+        "item": "ironagefurniture:bed_wood_foot_biomesoplenty_hellbark_brown",
+        "count": 1
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_hellbark"
+        }
+    ]
+}

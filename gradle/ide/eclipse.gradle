@@ -1,0 +1,214 @@
+import groovy.json.JsonSlurper
+import groovy.xml.XmlSlurper
+import java.util.Arrays
+import java.util.jar.Manifest
+import java.util.zip.ZipFile
+// Eclipse launches need Forge's merged classes and processed resources. The
+// project still compiles on Java 8 while Buildship runs Gradle on Java 17.
+def java8Launcher = buildSupport.java8Launcher
+def eclipseWorkspaceProjectName = buildSupport.eclipseWorkspaceProjectName
+def developmentModOutput = layout.buildDirectory.dir('forge-run-mod-classes/main')
+
+tasks.register('syncForge28EclipseLaunches') {
+    group = 'ide'
+    description = 'Synchronizes processed resources and hardens Forge 28 Eclipse launches.'
+    dependsOn tasks.named('genEclipseRuns')
+    dependsOn tasks.named('classes')
+    dependsOn tasks.named('verifyBuildEnvironment')
+    doLast {
+        String mainClass = 'net.minecraftforge.userdev.LaunchTesting'
+        String mainOutput = new File(projectDir, 'bin/main').absolutePath
+        String modClasses = "${project.mod_id}%%${mainOutput}${File.pathSeparator}" +
+                "${project.mod_id}%%${mainOutput}"
+        String eclipseGradleJavaHome = System.getenv('JAVA_HOME') ?: System.getProperty('java.home')
+        def escapePreference = { value -> value.replace('\\', '\\\\').replace(':', '\\:') }
+        File buildshipPreferences = file('.settings/org.eclipse.buildship.core.prefs')
+        buildshipPreferences.parentFile.mkdirs()
+        buildshipPreferences.setText([
+                'arguments=',
+                'auto.sync=false',
+                'build.scans.enabled=false',
+                'connection.gradle.distribution=GRADLE_DISTRIBUTION(WRAPPER)',
+                "connection.gradle.user.home=${escapePreference(gradle.gradleUserHomeDir.absolutePath)}",
+                'connection.project.dir=',
+                'eclipse.preferences.version=1',
+                "gradle.user.home=${escapePreference(gradle.gradleUserHomeDir.absolutePath)}",
+                "java.home=${escapePreference(eclipseGradleJavaHome)}",
+                'jvm.arguments=',
+                'offline.mode=false',
+                'override.workspace.settings=true',
+                'show.console.view=false',
+                'show.executions.view=false',
+                ''
+        ].join('\r\n'), 'UTF-8')
+
+        File processedResources = layout.buildDirectory.dir('resources/main').get().asFile
+        File outputDirectory = file('bin/main')
+        File expectedOutput = new File(projectDir.canonicalFile, 'bin/main').absoluteFile
+        if (outputDirectory.canonicalFile != expectedOutput) {
+            throw new GradleException('Eclipse output must be the project bin/main directory, not a linked directory')
+        }
+        // Copying alone leaves classes for deleted sources behind. Keep this
+        // generated folder exact so Forge cannot discover an obsolete model.
+        project.sync { spec ->
+            spec.from(processedResources)
+            spec.from(sourceSets.main.output.classesDirs)
+            spec.into(outputDirectory)
+        }
+
+        ['Client', 'Server', 'Data'].each { runName ->
+            File launch = [file("run${runName}.launch"), file(".eclipse/run${runName}.launch")]
+                    .find { it.isFile() }
+            if (launch == null) {
+                throw new GradleException("Missing generated Eclipse launch run${runName}.launch")
+            }
+            String text = launch.getText('UTF-8')
+            if (text.contains('<mapAttribute key="org.eclipse.debug.core.environmentVariables"/>')) {
+                text = text.replace(
+                        '<mapAttribute key="org.eclipse.debug.core.environmentVariables"/>',
+                        '<mapAttribute key="org.eclipse.debug.core.environmentVariables">\r\n' +
+                        "    <mapEntry key=\"MOD_CLASSES\" value=\"${modClasses}\"/>\r\n" +
+                        '</mapAttribute>')
+            }
+            text = text.replace('<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value=""/>',
+                    "<stringAttribute key=\"org.eclipse.jdt.launching.MAIN_TYPE\" value=\"${mainClass}\"/>")
+            text = text.replaceFirst(
+                    /<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="[^"]*"\/>/,
+                    java.util.regex.Matcher.quoteReplacement(
+                            "<stringAttribute key=\"org.eclipse.jdt.launching.PROJECT_ATTR\" value=\"${eclipseWorkspaceProjectName}\"/>"))
+            text = text.replaceFirst(/<mapEntry key="MOD_CLASSES" value="[^"]*"\/>/,
+                    java.util.regex.Matcher.quoteReplacement(
+                            "<mapEntry key=\"MOD_CLASSES\" value=\"${modClasses}\"/>"))
+
+            def programArguments = text =~ /(<stringAttribute key="org\.eclipse\.jdt\.launching\.PROGRAM_ARGUMENTS" value=")([^"]*)("\/>)/
+            if (programArguments.count != 1) {
+                throw new GradleException("ForgeGradle generated malformed program arguments in ${launch.name}")
+            }
+            String arguments = programArguments[0][2]
+            ['cache', 'metadata', 'to-srg', 'to-obf'].each { flag ->
+                String prefix = "--${flag} "
+                int valueStart = arguments.indexOf(prefix)
+                int valueEnd = valueStart < 0 ? -1 : arguments.indexOf(' --', valueStart + prefix.length())
+                if (valueStart < 0 || valueEnd < 0) {
+                    throw new GradleException("ForgeGradle omitted --${flag} from ${launch.name}")
+                }
+                valueStart += prefix.length()
+                String value = arguments.substring(valueStart, valueEnd)
+                if (!value.startsWith('&quot;') || !value.endsWith('&quot;')) {
+                    arguments = "${arguments.substring(0, valueStart)}&quot;${value}&quot;${arguments.substring(valueEnd)}"
+                }
+            }
+            text = text.replace(programArguments[0][0],
+                    programArguments[0][1] + arguments + programArguments[0][3])
+
+            if (!text.contains('ATTR_EXCLUDE_TEST_CODE')) {
+                text = text.replace('</launchConfiguration>',
+                        '    <booleanAttribute key="org.eclipse.jdt.launching.ATTR_EXCLUDE_TEST_CODE" value="true"/>\r\n' +
+                        '</launchConfiguration>')
+            }
+            launch.setText(text, 'UTF-8')
+        }
+    }
+}
+
+tasks.register('verifyEclipseProductionClasspath') {
+    group = 'verification'
+    description = 'Verifies Buildship and production-only Forge 28 launch metadata.'
+    dependsOn tasks.named('eclipse')
+    dependsOn tasks.named('syncForge28EclipseLaunches')
+    doLast {
+        File classpath = file('.classpath')
+        File eclipseProject = file('.project')
+        if (!classpath.isFile() || !eclipseProject.isFile()
+                || !eclipseProject.getText('UTF-8').contains("<name>${eclipseWorkspaceProjectName}</name>")) {
+            throw new GradleException('Eclipse project metadata is missing or misnamed')
+        }
+        def classpathXml = new XmlSlurper(false, false).parse(classpath)
+        classpathXml.classpathentry.each { entry ->
+            String path = entry.@path.text()
+            boolean testSource = path.replace('\\', '/').startsWith('src/test/')
+            boolean testLibrary = path ==~ /(?i).*\/(junit|hamcrest|mockito|byte-buddy)[^\/]*\/.*\.jar/
+            if (testSource) {
+                String scope = entry.attributes.attribute.find {
+                    it.@name.text() == 'gradle_scope'
+                }?.@value?.text()
+                if (entry.@output.text() != 'bin/test' || scope != 'test') {
+                    throw new GradleException("Eclipse test source is not isolated: ${path}")
+                }
+            }
+            if (testLibrary) {
+                String scope = entry.attributes.attribute.find {
+                    it.@name.text() == 'gradle_used_by_scope'
+                }?.@value?.text()
+                if (scope != 'test') {
+                    throw new GradleException("Eclipse production classpath exposes test dependency: ${path}")
+                }
+            }
+        }
+        File buildshipPreferences = file('.settings/org.eclipse.buildship.core.prefs')
+        if (!buildshipPreferences.isFile()
+                || !buildshipPreferences.getText('UTF-8').contains('override.workspace.settings=true')) {
+            throw new GradleException('Eclipse Buildship wrapper preferences are missing')
+        }
+        ['Client', 'Server', 'Data'].each { runName ->
+            File launch = [file("run${runName}.launch"), file(".eclipse/run${runName}.launch")]
+                    .find { it.isFile() }
+            String text = launch.getText('UTF-8')
+            String mainOutput = new File(projectDir, 'bin/main').absolutePath
+            String expectedModClasses = "${project.mod_id}%%${mainOutput}${File.pathSeparator}" +
+                    "${project.mod_id}%%${mainOutput}"
+            if (!text.contains('ATTR_EXCLUDE_TEST_CODE')
+                    || text ==~ /(?s).*(?:junit|mockito|src[\\\/]test).*/
+                    || !text.contains(expectedModClasses)
+                    || !text.contains("key=\"org.eclipse.jdt.launching.PROJECT_ATTR\" value=\"${eclipseWorkspaceProjectName}\"")) {
+                throw new GradleException("Eclipse launch is not production-only: ${launch.name}")
+            }
+            ['cache', 'metadata', 'to-srg', 'to-obf'].each { flag ->
+                if (!text.contains("--${flag} &quot;")) {
+                    throw new GradleException("Eclipse launch does not quote --${flag}: ${launch.name}")
+                }
+            }
+        }
+        File processedModsToml = layout.buildDirectory.file(
+                'resources/main/META-INF/mods.toml').get().asFile
+        File eclipseModsToml = file('bin/main/META-INF/mods.toml')
+        if (!eclipseModsToml.isFile()
+                || !Arrays.equals(eclipseModsToml.bytes, processedModsToml.bytes)) {
+            throw new GradleException('Eclipse output contains stale or unexpanded mods.toml metadata')
+        }
+        Set<String> compiledClasses = [] as Set
+        sourceSets.main.output.classesDirs.files.each { directory ->
+            fileTree(directory).matching { include '**/*.class' }.files.each { compiled ->
+                compiledClasses.add(directory.toPath().relativize(compiled.toPath()).toString())
+            }
+        }
+        File eclipseOutput = file('bin/main')
+        Set<String> eclipseClasses = fileTree(eclipseOutput).matching { include '**/*.class' }.files.collect {
+            eclipseOutput.toPath().relativize(it.toPath()).toString()
+        } as Set
+        if (compiledClasses != eclipseClasses) {
+            throw new GradleException('Eclipse output contains missing or obsolete production classes; run prepareEclipse again')
+        }
+    }
+}
+
+tasks.matching { it.name == 'genEclipseRuns' }.configureEach {
+    finalizedBy tasks.named('syncForge28EclipseLaunches')
+}
+
+tasks.register('isolateEclipseProductionRuns') {
+    group = 'ide'
+    dependsOn tasks.named('genEclipseRuns')
+    dependsOn tasks.named('syncForge28EclipseLaunches')
+}
+
+tasks.matching { it.name == 'eclipse' }.configureEach {
+    finalizedBy tasks.named('syncForge28EclipseLaunches')
+}
+
+tasks.register('prepareEclipse') {
+    group = 'ide'
+    description = 'Creates the Buildship project model and ForgeGradle 7 launch profiles.'
+    dependsOn tasks.named('eclipse')
+    dependsOn tasks.named('isolateEclipseProductionRuns')
+}

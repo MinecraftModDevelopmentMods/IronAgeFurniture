@@ -2,11 +2,11 @@ package zone.moddev.mc.ironagefurniture.api.blocks.lightsource.lava;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import zone.moddev.mc.ironagefurniture.BlockObjectHolder;
 import zone.moddev.mc.ironagefurniture.api.CreativeModeBreakTracker;
+import zone.moddev.mc.ironagefurniture.api.entity.ReleasedLavaLamp;
 import zone.moddev.mc.ironagefurniture.api.blocks.base.FurnitureBlock;
 import zone.moddev.mc.ironagefurniture.api.blocks.lightsource.glow.LightSourceGlowdust;
 import net.minecraft.util.math.BlockPos;
@@ -19,7 +19,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.world.IBlockReader;
@@ -38,8 +37,10 @@ import net.minecraft.world.storage.loot.LootContext.Builder;
 public class LightSourceLava extends LightSourceGlowdust {
 	@Override
 	public void onEndFalling(World level, BlockPos pos, BlockState state, BlockState replacedState) {
-		if (level.isRemote || CreativeModeBreakTracker.shouldSuppressFallingLavaBreak(level, pos))
-			return;
+		if (level.isRemote) return;
+        Boolean releasedCreative = ReleasedLavaLamp.preserveCurrentLanding(level, pos);
+        if (releasedCreative != null ? releasedCreative.booleanValue()
+                : CreativeModeBreakTracker.shouldSuppressFallingLavaBreak(level, pos)) return;
 
 		if (replacedState.getFluidState().getFluid() == Fluids.WATER)
 			breakIntoObsidianChunk(level, pos, state, null);
@@ -96,16 +97,8 @@ public class LightSourceLava extends LightSourceGlowdust {
 	@Override
 	public boolean removedByPlayer(BlockState state, World level, BlockPos pos, PlayerEntity player, boolean willHarvest, IFluidState fluid) {
 
-		boolean isSilkTouch = false;
-
-		ItemStack tool = player.inventory.getCurrentItem();
-
-		if (tool != null) {
-			Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(tool);
-
-			if (enchantments != null && !enchantments.isEmpty())
-				isSilkTouch = enchantments.get(Enchantments.SILK_TOUCH) > 0;
-		}
+		boolean isSilkTouch = EnchantmentHelper.getEnchantmentLevel(
+                Enchantments.SILK_TOUCH, player.getHeldItemMainhand()) > 0;
 
 		if (isSilkTouch && !player.isCreative())
 			Block.spawnAsEntity(level, pos, new ItemStack(state.getBlock().asItem(), 1));

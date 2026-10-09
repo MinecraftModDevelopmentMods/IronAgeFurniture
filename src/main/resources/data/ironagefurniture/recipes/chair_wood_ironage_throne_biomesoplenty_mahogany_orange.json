@@ -1,0 +1,33 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:orange_carpet"
+        },
+        {
+            "item": "biomesoplenty:mahogany_planks"
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_mahogany_orange"
+        }
+    ],
+    "group": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_mahogany_orange",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_mahogany_orange",
+        "count": 1
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_mahogany"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_mahogany"
+        }
+    ]
+}

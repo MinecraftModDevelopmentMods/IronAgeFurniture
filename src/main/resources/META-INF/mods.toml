@@ -7,7 +7,7 @@ issueTrackerURL="https://github.com/MinecraftModDevelopmentMods/IronAgeFurniture
 modId="${mod_id}"
 version="${version}"
 displayName="${mod_name}"
-displayURL="https://www.curseforge.com/minecraft/mc-mods/iron-age-furniture"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/ironagefurniture"
 credits="Cyanobacterium, SkyBlade1978, FoxNekitsune, the MMD Team, Forge, FML, and the mod authors"
 authors="${mod_authors}"
 description='''
@@ -36,6 +36,27 @@ ${mod_description}
 
 [[dependencies.ironagefurniture]]
     modId="immersiveengineering"
+    mandatory=false
+    versionRange="[0,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.ironagefurniture]]
+    modId="mineralogy"
+    mandatory=false
+    versionRange="[0,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.ironagefurniture]]
+    modId="cfm"
+    mandatory=false
+    versionRange="[0,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.ironagefurniture]]
+    modId="basemetals"
     mandatory=false
     versionRange="[0,)"
     ordering="AFTER"

@@ -1,0 +1,44 @@
+{
+    "advancements": [
+        {
+            "conditions": [
+                {
+                    "type": "forge:item_exists",
+                    "item": "ironagefurniture:light_metal_ironage_candle_floor"
+                }
+            ],
+            "advancement": {
+                "parent": "minecraft:recipes/root",
+                "rewards": {
+                    "recipes": [
+                        "ironagefurniture:tallow_from_cooked_rabbit"
+                    ]
+                },
+                "criteria": {
+                    "has_ingredient": {
+                        "trigger": "minecraft:inventory_changed",
+                        "conditions": {
+                            "items": [
+                                {
+                                    "item": "minecraft:cooked_rabbit"
+                                }
+                            ]
+                        }
+                    },
+                    "has_the_recipe": {
+                        "trigger": "minecraft:recipe_unlocked",
+                        "conditions": {
+                            "recipe": "ironagefurniture:tallow_from_cooked_rabbit"
+                        }
+                    }
+                },
+                "requirements": [
+                    [
+                        "has_ingredient",
+                        "has_the_recipe"
+                    ]
+                ]
+            }
+        }
+    ]
+}

@@ -29,8 +29,8 @@ public final class OptionalIntegrationRecipeProbe
 
     private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger();
     private static final List<String> REQUIRED_MODS = Arrays.asList(
-            "biomesoplenty", "immersiveengineering");
-    private static final int EXPECTED_CONDITIONAL_ENTRIES = 467;
+            "biomesoplenty", "immersiveengineering", "cfm");
+    private static final int EXPECTED_CONDITIONAL_ENTRIES = 2393;
 
     public OptionalIntegrationRecipeProbe()
     {
@@ -152,7 +152,7 @@ public final class OptionalIntegrationRecipeProbe
             result.append("mod.").append(modId).append("=")
                     .append(versions.get(modId)).append('\n');
         }
-        for (String modId : Arrays.asList("biomesoplenty", "immersiveengineering"))
+        for (String modId : REQUIRED_MODS)
         {
             result.append("recipes.").append(modId).append("=")
                     .append(recipes.getOrDefault(modId, 0)).append('\n');

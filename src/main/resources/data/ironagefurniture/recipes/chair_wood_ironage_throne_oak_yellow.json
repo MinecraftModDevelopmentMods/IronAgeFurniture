@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:yellow_carpet"
+        },
+        {
+            "item": "minecraft:oak_planks"
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_oak_yellow"
+        }
+    ],
+    "group": "ironagefurniture:chair_wood_ironage_throne_oak_yellow",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_throne_oak_yellow",
+        "count": 1
+    },
+    "conditions": [
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_throne_oak"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_wingback_oak"
+        }
+    ]
+}

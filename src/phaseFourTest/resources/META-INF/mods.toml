@@ -1,0 +1,15 @@
+modLoader="javafml"
+loaderVersion="[28,)"
+license="LGPL-2.1-only"
+
+[[mods]]
+modId="ironagefurniturephasefourprobe"
+version="1"
+displayName="Iron Age Furniture Phase 4 Runtime Tests"
+
+[[dependencies.ironagefurniturephasefourprobe]]
+modId="ironagefurniture"
+mandatory=true
+versionRange="[0.4.0.114041]"
+ordering="AFTER"
+side="BOTH"

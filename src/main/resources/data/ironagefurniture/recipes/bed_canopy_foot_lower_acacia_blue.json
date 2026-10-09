@@ -1,0 +1,29 @@
+{
+    "type": "ironagefurniture:upholstery_upgrade",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_acacia_blue"
+        },
+        {
+            "item": "minecraft:acacia_planks"
+        },
+        {
+            "item": "minecraft:blue_carpet"
+        }
+    ],
+    "group": "ironagefurniture:bed_canopy_foot_lower_acacia_blue",
+    "result": {
+        "item": "ironagefurniture:bed_canopy_foot_lower_acacia_blue",
+        "count": 1
+    },
+    "conditions": [
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_canopy_foot_lower_acacia"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_wood_foot_acacia"
+        }
+    ]
+}

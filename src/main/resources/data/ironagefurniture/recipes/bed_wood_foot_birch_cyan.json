@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:cyan_bed"
+        },
+        {
+            "item": "minecraft:birch_planks"
+        }
+    ],
+    "group": "ironagefurniture:bed_wood_foot_birch_cyan",
+    "result": {
+        "item": "ironagefurniture:bed_wood_foot_birch_cyan",
+        "count": 1
+    },
+    "conditions": [
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_wood_foot_birch"
+        }
+    ]
+}

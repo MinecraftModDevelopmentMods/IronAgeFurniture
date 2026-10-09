@@ -1,0 +1,33 @@
+{
+    "type": "ironagefurniture:upholstery_upgrade",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_dead_white"
+        },
+        {
+            "item": "biomesoplenty:dead_planks"
+        },
+        {
+            "item": "minecraft:white_carpet"
+        }
+    ],
+    "group": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_dead_white",
+    "result": {
+        "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_dead_white",
+        "count": 1
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_dead"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_dead"
+        }
+    ]
+}

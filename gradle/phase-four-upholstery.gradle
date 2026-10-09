@@ -1,0 +1,210 @@
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+
+// The saved block names stay the same as 1.12. In 1.14, upholstery is a
+// blockstate property. Each inventory colour has an ordinary item identity,
+// so the vanilla recipe book can find and move the matching bed or chair.
+def upholsteryCatalog = file('gradle/furniture-catalog.json')
+def upholsteryTemplates = file('gradle/furniture-templates')
+def upholsteryJson = { Object value ->
+    JsonOutput.prettyPrint(JsonOutput.toJson(value)).replaceAll(/(?m)[ \t]+$/, '') + '\n'
+}
+def upholsteryFiles = {
+    Map catalog = new JsonSlurper().parse(upholsteryCatalog) as Map
+    List colours = catalog.colours
+    def itemId = { String base, String colour -> base + (colour == 'red' ? '' : "_${colour}") }
+    def allColours = { String base -> colours.collect { [item: "ironagefurniture:${itemId(base, it)}"] } }
+    Map<String, String> files = [:]
+    String assets = 'src/main/resources/assets/ironagefurniture'
+    String data = 'src/main/resources/data/ironagefurniture'
+    Map templates = [:]
+    fileTree(upholsteryTemplates) { include '*.json' }.files.sort { it.name }.each { template ->
+        String stem = template.name.replaceFirst(/^template_/, '').replaceFirst(/\.json$/, '')
+        Map model = new JsonSlurper().parse(template) as Map
+        model.textures = [log: 'minecraft:block/oak_log', planks: 'minecraft:block/oak_planks',
+                cloth: 'minecraft:block/red_wool', particle: 'minecraft:block/oak_log']
+        if (stem.startsWith('bed_')) model.textures.sheet = 'minecraft:block/white_wool'
+        templates[stem] = model
+        files["${assets}/models/block/template_${stem}.json"] = upholsteryJson(model)
+    }
+    if (templates.size() != 29) throw new GradleException('Expected the 29 canonical bed and tall-chair templates')
+
+    Map names = new JsonSlurper().parse(file("${assets}/lang/en_us.json")) as Map
+    [chairs: 'Chairs', benches: 'Benches', beds: 'Beds', lights: 'Lights'].each { category, label ->
+        names["itemGroup.ironagefurniture.${category}".toString()] = "Iron Age Furniture: ${label}".toString()
+    }
+    // Only these generated names belong to this helper; existing translations
+    // and translations added by other furniture families are left alone.
+    names.keySet().findAll { key -> key ==~ /block\.ironagefurniture\.(?:bed_(?:wood|canopy)_.*|chair_wood_ironage_(?:wingback|throne)_.*)/ }
+            .toList().each { names.remove(it) }
+    [wingback: 'Wingback Chairs', thrones: 'Thrones', woodbeds: 'Wooden Beds', canopybeds: 'Canopy Beds'].each { key, name ->
+        names["config.ironagefurniture.${key}"] = name
+    }
+    catalog.woods.each { integration, woods ->
+        woods.each { String wood ->
+            Map chair = new JsonSlurper().parse(file("${assets}/models/block/chair_wood_ironage_classic_${wood}.json")) as Map
+            Map textures = new LinkedHashMap(chair.textures)
+            textures.particle = textures.log
+            Map classicRecipe = new JsonSlurper().parse(file("${data}/recipes/chair_wood_ironage_classic_${wood}.json")) as Map
+            Map plank = classicRecipe.key.x
+            String woodName = names["block.ironagefurniture.chair_wood_ironage_classic_${wood}"].replaceFirst(/ Classic Chair$/, '')
+            Map forms = [
+                "chair_wood_ironage_wingback_${wood}": [label: 'Wingback Chair', inventory: 'chair_wingback_inventory', parts: ['lower', 'middle', 'upper'], kind: 'wingback'],
+                "chair_wood_ironage_throne_${wood}": [label: 'Throne', inventory: 'chair_throne_inventory', parts: ['lower', 'middle', 'upper'], kind: 'throne'],
+                "bed_wood_foot_${wood}": [label: 'Wooden Bed', inventory: 'bed_wood_single_inventory', parts: ['foot', 'head'], kind: 'wood', doubleBed: false],
+                "bed_wood_foot_left_${wood}": [label: 'Double Wooden Bed', inventory: 'bed_wood_double_inventory', parts: ['foot', 'head'], kind: 'wood', doubleBed: true],
+                "bed_canopy_foot_lower_${wood}": [label: 'Canopy Bed', inventory: 'bed_canopy_single_inventory', parts: ['foot_lower', 'foot_upper', 'head_lower', 'head_upper'], kind: 'canopy', doubleBed: false],
+                "bed_canopy_foot_left_lower_${wood}": [label: 'Double Canopy Bed', inventory: 'bed_canopy_double_inventory', parts: ['foot_lower', 'foot_upper', 'head_lower', 'head_upper'], kind: 'canopy', doubleBed: true],
+                "bed_canopy_foot_right_lower_${wood}": [parts: ['foot_lower', 'foot_upper', 'head_lower', 'head_upper'], kind: 'canopy', doubleBed: true, hidden: true]
+            ]
+            colours.each { String colour ->
+                templates.keySet().each { String stem ->
+                    files["${assets}/models/block/${stem}_${colour}_${wood}.json"] = upholsteryJson([
+                        parent: "ironagefurniture:block/template_${stem}",
+                        textures: textures + [cloth: "minecraft:block/${colour}_wool"]])
+                }
+            }
+            forms.each { String id, Map form ->
+                Map variants = [:]
+                colours.each { String colour ->
+                    form.parts.each { String part ->
+                        List sides = form.kind in ['wood', 'canopy'] ? ['left', 'right'] : [null]
+                        sides.each { side ->
+                            [south: 0, north: 180, east: 270, west: 90].each { facing, rotation ->
+                                [false, true].each { wet ->
+                                    String stem
+                                    if (form.kind in ['wingback', 'throne']) {
+                                        String renderedPart = form.kind == 'wingback' && part == 'middle' ? 'upper' : part
+                                        stem = "chair_${form.kind}_${renderedPart}"
+                                    } else if (form.kind == 'wood') {
+                                        stem = "bed_wood_${part}" + (form.doubleBed ? "_${side}" : '')
+                                    } else {
+                                        List bits = part.tokenize('_')
+                                        stem = "bed_canopy_${bits[0]}" + (form.doubleBed ? "_${side}" : '') + "_${bits[1]}"
+                                    }
+                                    String key = "colour=${colour},facing=${facing},part=${part}"
+                                    if (side != null) key += ",side=${side}"
+                                    key += ",waterlogged=${wet}"
+                                    Map variant = [model: "ironagefurniture:block/${stem}_${colour}_${wood}"]
+                                    if (rotation != 0) variant.y = rotation
+                                    variants[key] = variant
+                                }
+                            }
+                        }
+                    }
+                }
+                files["${assets}/blockstates/${id}.json"] = upholsteryJson([variants: variants])
+                if (form.hidden) return
+                files["${assets}/models/item/${id}.json"] = upholsteryJson([parent: "ironagefurniture:block/${form.inventory}_red_${wood}"])
+                names["block.ironagefurniture.${id}"] = "${woodName} Red ${form.label}".toString()
+                colours.each { String colour ->
+                    String colourName = colour.tokenize('_').collect { it.capitalize() }.join(' ')
+                    names["block.ironagefurniture.${id}.${colour}"] = "${woodName} ${colourName} ${form.label}".toString()
+                    files["${assets}/models/item/${id}_${colour}.json"] = upholsteryJson([parent: "ironagefurniture:block/${form.inventory}_${colour}_${wood}"])
+                    boolean namedRed = form.kind in ['wingback', 'throne'] || (form.kind == 'canopy' && !form.doubleBed)
+                    String recipeId = id + (colour == 'red' && !namedRed ? '' : "_${colour}")
+                    Map ingredient
+                    Map recipe
+                    String input
+                    if (form.kind == 'wingback' || form.kind == 'throne') {
+                        input = form.kind == 'wingback' ? "chair_wood_ironage_classic_${wood}" : "chair_wood_ironage_wingback_${wood}"
+                        Map carpet = [item: "minecraft:${colour}_carpet"]
+                        Map chairInput = [item: "ironagefurniture:${form.kind == 'throne' ? itemId(input, colour) : input}"]
+                        // A throne adds height, not a new upholstery colour.
+                        // Its book entry unlocks from the matching wingback.
+                        ingredient = form.kind == 'throne' ? chairInput : carpet
+                        recipe = [type: 'minecraft:crafting_shapeless', ingredients: [carpet, plank, chairInput]]
+                    } else if (form.kind == 'wood' && !form.doubleBed) {
+                        ingredient = [item: "minecraft:${colour}_bed"]
+                        recipe = [type: 'minecraft:crafting_shapeless', ingredients: [ingredient, plank]]
+                    } else {
+                        input = form.doubleBed ? (form.kind == 'wood' ? "bed_wood_foot_${wood}" : "bed_canopy_foot_lower_${wood}") : "bed_wood_foot_${wood}"
+                        ingredient = [item: "ironagefurniture:${itemId(input, colour)}"]
+                        recipe = [type: 'ironagefurniture:upholstery_upgrade', ingredients: [ingredient,
+                            form.doubleBed ? ingredient : plank]]
+                        // A new canopy needs fabric of the bed's colour. Doubles
+                        // already get their fabric from two finished single beds.
+                        if (!form.doubleBed) recipe.ingredients.add([item: "minecraft:${colour}_carpet"])
+                    }
+                    recipe.group = "ironagefurniture:${recipeId}"
+                    recipe.result = [item: "ironagefurniture:${itemId(id, colour)}", count: 1]
+                    List conditions = []
+                    if (integration != 'vanilla') conditions.add([type: 'forge:mod_loaded', modid: integration])
+                    conditions.add([type: 'forge:item_exists', item: "ironagefurniture:${id}"])
+                    if (input != null) conditions.add([type: 'forge:item_exists', item: "ironagefurniture:${input}"])
+                    recipe.conditions = conditions
+                    Map predicate = new LinkedHashMap(ingredient)
+                    def addRecipe = { String name, Map document, Map exactIngredient ->
+                        files["${data}/recipes/${name}.json"] = upholsteryJson(document)
+                        Map advancement = [parent: 'minecraft:recipes/root', rewards: [recipes: ["ironagefurniture:${name}"]],
+                            criteria: [has_ingredient: [trigger: 'minecraft:inventory_changed', conditions: [items: [exactIngredient]]],
+                                has_the_recipe: [trigger: 'minecraft:recipe_unlocked', conditions: [recipe: "ironagefurniture:${name}"]]],
+                            requirements: [['has_ingredient', 'has_the_recipe']]]
+                        files["${data}/advancements/recipes/upholstery/${name}.json"] = upholsteryJson([
+                            advancements: [[conditions: document.conditions, advancement: advancement]]])
+                    }
+                    addRecipe(recipeId, recipe, predicate)
+                    if (form.kind in ['wood', 'canopy']) {
+                        String name = "${id}_recolour_${colour}"
+                        Map carpet = [item: "minecraft:${colour}_carpet"]
+                        // Recolouring is manual crafting; only construction and
+                        // upgrades belong in the recipe book's suggestions.
+                        files["${data}/recipes/${name}.json"] = upholsteryJson([
+                            type: 'ironagefurniture:bed_recolour',
+                            ingredients: [allColours(id), carpet], conditions: conditions,
+                            result: recipe.result])
+                    }
+                }
+            }
+        }
+    }
+    ['en_en', 'en_gb', 'en_us'].each { locale ->
+        files["${assets}/lang/${locale}.json"] = upholsteryJson(new TreeMap(names))
+    }
+    files
+}
+
+tasks.register('updatePhaseFourUpholsteryCatalog') {
+    group = 'generation'
+    description = 'Updates colour-aware beds, tall chairs, recipes and English names.'
+    doLast {
+        Map expected = upholsteryFiles()
+        // Remove only the old unlock files for recipes this generator owns.
+        expected.keySet().findAll { it.contains('/recipes/bed_') && it.contains('_recolour_') }.each { path ->
+            String name = file(path).name
+            File obsolete = file("src/main/resources/data/ironagefurniture/advancements/recipes/upholstery/${name}")
+            if (obsolete.isFile()) project.delete(obsolete)
+        }
+        expected.each { path, text ->
+            File output = file(path)
+            if (!output.isFile() || output.getText('UTF-8').replace('\r\n', '\n') != text) {
+                output.parentFile.mkdirs()
+                output.setText(text, 'UTF-8')
+            }
+        }
+    }
+}
+tasks.register('verifyPhaseFourUpholsteryCatalog') {
+    group = 'verification'
+    description = 'Checks every generated bed and tall-chair colour, state and recipe.'
+    inputs.file upholsteryCatalog
+    inputs.files fileTree(upholsteryTemplates)
+    inputs.files fileTree('src/main/resources') { include '**/*.json' }
+    doLast {
+        Map expected = upholsteryFiles()
+        expected.each { path, text ->
+            if (!file(path).isFile() || file(path).getText('UTF-8').replace('\r\n', '\n') != text)
+                throw new GradleException("Missing or stale upholstered furniture resource: ${path}")
+        }
+        Set<String> recolourNames = expected.keySet().findAll {
+            it.contains('/recipes/bed_') && it.contains('_recolour_')
+        }.collect { file(it).name } as Set
+        fileTree('src/main/resources/data/ironagefurniture/advancements') { include '**/*.json' }.files.each { advancement ->
+            if (recolourNames.contains(advancement.name))
+                throw new GradleException("Bed recolouring must not generate an unlock advancement: ${advancement}")
+        }
+        logger.lifecycle('Verified {} generated upholstered furniture files.', expected.size())
+    }
+}
+tasks.named('updateFurnitureCatalog') { dependsOn 'updatePhaseFourUpholsteryCatalog' }
+tasks.named('check') { dependsOn 'verifyPhaseFourUpholsteryCatalog' }

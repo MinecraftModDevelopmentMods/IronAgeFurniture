@@ -3,6 +3,8 @@ package zone.moddev.mc.ironagefurniture.registers;
 import zone.moddev.mc.ironagefurniture.Ironagefurniture;
 import zone.moddev.mc.ironagefurniture.api.entity.Seat;
 import zone.moddev.mc.ironagefurniture.api.entity.ThrownLavaLamp;
+import zone.moddev.mc.ironagefurniture.api.entity.FallingShieldChair;
+import zone.moddev.mc.ironagefurniture.api.entity.ReleasedLavaLamp;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EntityClassification;
@@ -16,6 +18,12 @@ public class entities {
     public static final RegistryObject<EntityType<ThrownLavaLamp>> THROWN_LAVA_LAMP = register("thrown_lava_lamp",
             EntityType.Builder.<ThrownLavaLamp>create(ThrownLavaLamp::new, EntityClassification.MISC)
                     .size(0.25F, 0.25F).setTrackingRange(4).setUpdateInterval(10));
+    public static final RegistryObject<EntityType<FallingShieldChair>> FALLING_SHIELD_CHAIR = register("falling_shield_chair",
+            EntityType.Builder.<FallingShieldChair>create(FallingShieldChair::new, EntityClassification.MISC)
+                    .size(0.98F, 0.98F).setTrackingRange(10).setUpdateInterval(20));
+    public static final RegistryObject<EntityType<ReleasedLavaLamp>> RELEASED_LAVA_LAMP = register("released_lava_lamp",
+            EntityType.Builder.<ReleasedLavaLamp>create(ReleasedLavaLamp::new, EntityClassification.MISC)
+                    .size(0.25F, 0.375F).setTrackingRange(4).setUpdateInterval(10));
 
     private static <T extends Entity> RegistryObject<EntityType<T>> register(String name, EntityType.Builder<T> builder)
     {

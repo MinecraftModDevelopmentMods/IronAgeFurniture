@@ -1,0 +1,44 @@
+{
+    "advancements": [
+        {
+            "conditions": [
+                {
+                    "type": "forge:item_exists",
+                    "item": "ironagefurniture:light_metal_ironage_sconce_floor_empty_iron"
+                }
+            ],
+            "advancement": {
+                "parent": "minecraft:recipes/root",
+                "rewards": {
+                    "recipes": [
+                        "ironagefurniture:light_metal_ironage_sconce_floor_empty_gold"
+                    ]
+                },
+                "criteria": {
+                    "has_ingredient": {
+                        "trigger": "minecraft:inventory_changed",
+                        "conditions": {
+                            "items": [
+                                {
+                                    "item": "minecraft:gold_nugget"
+                                }
+                            ]
+                        }
+                    },
+                    "has_the_recipe": {
+                        "trigger": "minecraft:recipe_unlocked",
+                        "conditions": {
+                            "recipe": "ironagefurniture:light_metal_ironage_sconce_floor_empty_gold"
+                        }
+                    }
+                },
+                "requirements": [
+                    [
+                        "has_ingredient",
+                        "has_the_recipe"
+                    ]
+                ]
+            }
+        }
+    ]
+}

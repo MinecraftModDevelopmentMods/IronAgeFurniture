@@ -1,0 +1,212 @@
+import groovy.json.JsonSlurper
+import java.util.zip.ZipFile
+
+// The probe is a separate mod jar. It exercises the packaged release candidate
+// on an installed Forge server and never becomes part of a published artifact.
+def runtimeClasses = layout.buildDirectory.dir('phase-four-probe/classes')
+def runtimeJar = layout.buildDirectory.file('phase-four-probe/ironagefurniture-phase-four-probe.jar')
+def runtimeServer = providers.gradleProperty('phaseFourServerDir').map { file(it) }
+        .orElse(file('run-phase-four'))
+
+tasks.register('compilePhaseFourProbe', JavaCompile) {
+    dependsOn 'classes'
+    source fileTree('src/phaseFourTest/java')
+    classpath = files(sourceSets.main.output, sourceSets.main.compileClasspath)
+    destinationDirectory = runtimeClasses
+    javaCompiler = buildSupport.java8Compiler
+    options.encoding = 'UTF-8'
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+    options.compilerArgs.add('-proc:none')
+}
+
+tasks.named('check') { dependsOn 'compilePhaseFourProbe' }
+
+// This small checkpoint deliberately uses no Phase 4 classes. It saves a
+// copied fixture under the published Phase 3 jar before the upgrade test.
+tasks.register('compileReleasedWorldCheckpoint', JavaCompile) {
+    source fileTree('src/phaseThreeTest/java')
+    classpath = sourceSets.main.compileClasspath
+    destinationDirectory = layout.buildDirectory.dir('released-world-checkpoint/classes')
+    javaCompiler = buildSupport.java8Compiler
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+    options.compilerArgs.add('-proc:none')
+}
+def checkpointJar = tasks.register('releasedWorldCheckpointDeobfJar', Jar) {
+    dependsOn 'compileReleasedWorldCheckpoint'
+    archiveFileName = 'released-world-checkpoint-deobf.jar'
+    destinationDirectory = layout.buildDirectory.dir('released-world-checkpoint')
+    from layout.buildDirectory.dir('released-world-checkpoint/classes')
+    from 'src/phaseThreeTest/resources'
+    filesMatching(buildSupport.archiveTextPatterns, buildSupport.normalizeArchiveLineEndings)
+}
+def checkpointMapped = renamer.classes(checkpointJar) {
+    map.from minecraft.dependency.toSrgFile
+    output = layout.buildDirectory.file('released-world-checkpoint/iaf-released-world-checkpoint.jar')
+}
+tasks.register('releasedWorldCheckpointJar') { dependsOn checkpointMapped }
+tasks.named('check') { dependsOn 'compileReleasedWorldCheckpoint' }
+
+// Downloaded mods stay outside the repository. Verify the published versions
+// and the tag/model contract before using them in a live integration test.
+tasks.register('verifyBaseMetalsMods') {
+    group = 'verification'
+    description = 'Verifies the published Base Metals/OreSpawn test jars and metal texture references.'
+    File manifestFile = file('gradle/verification/base-metals-mods.json')
+    inputs.file manifestFile
+    doLast {
+        File directory = file(providers.gradleProperty('baseMetalsModsDir').orElse('run-base-metals/mods').get())
+        Map manifest = new JsonSlurper().parse(manifestFile) as Map
+        if (manifest.minecraft != minecraft_version) throw new GradleException('Base Metals test manifest targets another Minecraft version')
+        manifest.mods.each { mod ->
+            File jar = new File(directory, mod.file)
+            if (!jar.isFile() || buildSupport.sha256Of(jar) != mod.sha256.toUpperCase(Locale.ROOT))
+                throw new GradleException("Missing or modified published test jar: ${mod.file}")
+            new ZipFile(jar).withCloseable { zip ->
+                String metadata = zip.getInputStream(zip.getEntry('META-INF/mods.toml')).getText('UTF-8')
+                if (!metadata.contains(mod.version) || !(metadata =~ /modId\s*=\s*"${mod.modId}"/).find())
+                    throw new GradleException("Unexpected mod identity in ${mod.file}")
+                if (mod.modId != 'basemetals') return
+                List metals = fileTree('src/main/resources/data/ironagefurniture/recipes') {
+                    include 'light_metal_ironage_sconce_floor_empty_basemetals_*.json'
+                }.files.collect { it.name.replace('light_metal_ironage_sconce_floor_empty_basemetals_', '').replace('.json', '') }.sort()
+                if (metals.size() != 21) throw new GradleException('Unexpected Base Metals recipe catalog size')
+                metals.each { metal ->
+                    ['items/nuggets': "basemetals:${metal}_nugget", 'blocks/storage_blocks': "basemetals:${metal}_block"].each { path, id ->
+                        def entry = zip.getEntry("data/forge/tags/${path}/${metal}.json")
+                        Map tag = entry == null ? [:] : new JsonSlurper().parse(zip.getInputStream(entry)) as Map
+                        List entries = tag.get('values') as List ?: []
+                        if (!entries.any { it.toString() == id.toString() })
+                            throw new GradleException("Published Base Metals tag does not supply ${id}")
+                    }
+                    def model = zip.getEntry("assets/basemetals/models/block/${metal}_block.json")
+                    if (model == null) throw new GradleException("Missing ${metal} storage-block model")
+                    Map textures = (new JsonSlurper().parse(zip.getInputStream(model)) as Map).textures
+                    textures.values().findAll { it.startsWith('basemetals:') }.each { texture ->
+                        String path = texture.substring('basemetals:'.length())
+                        if (zip.getEntry("assets/basemetals/textures/${path}.png") == null)
+                            throw new GradleException("Published storage-block model has a missing texture: ${texture}")
+                    }
+                }
+            }
+        }
+    }
+}
+
+// This deliberately small provider tests the future integration seam. Gold
+// stands in for each metal; antimony is omitted to test an incomplete catalog.
+def metalContractClasses = layout.buildDirectory.dir('metal-contract/classes')
+def metalContractResources = layout.buildDirectory.dir('metal-contract/resources')
+tasks.register('compileMetalContractFixture', JavaCompile) {
+    source fileTree('src/metalContractTest/java')
+    classpath = sourceSets.main.compileClasspath
+    destinationDirectory = metalContractClasses
+    javaCompiler = buildSupport.java8Compiler
+    options.encoding = 'UTF-8'
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+    options.compilerArgs.add('-proc:none')
+}
+tasks.register('generateMetalContractTags') {
+    outputs.dir metalContractResources
+    doLast {
+        ['adamantine', 'aquarium', 'bismuth', 'brass', 'bronze', 'coldiron',
+         'copper', 'cupronickel', 'electrum', 'invar', 'lead', 'mithril', 'nickel',
+         'pewter', 'platinum', 'silver', 'starsteel', 'steel', 'tin', 'zinc'].each { metal ->
+            ['items/nuggets': 'minecraft:gold_nugget', 'blocks/storage_blocks': 'minecraft:gold_block'].each { path, entry ->
+                File tag = new File(metalContractResources.get().asFile, "data/forge/tags/${path}/${metal}.json")
+                tag.parentFile.mkdirs()
+                tag.setText(groovy.json.JsonOutput.toJson([replace: false, values: [entry]]) + '\n', 'UTF-8')
+            }
+        }
+    }
+}
+tasks.register('metalContractFixtureJar', Jar) {
+    group = 'verification'
+    description = 'Builds the synthetic, unpublished Base Metals tag-contract fixture.'
+    dependsOn 'compileMetalContractFixture', 'generateMetalContractTags'
+    archiveFileName = 'synthetic-metal-contract-fixture.jar'
+    destinationDirectory = layout.buildDirectory.dir('metal-contract')
+    from metalContractClasses
+    from metalContractResources
+    from 'src/metalContractTest/resources'
+    filesMatching(buildSupport.archiveTextPatterns, buildSupport.normalizeArchiveLineEndings)
+}
+tasks.named('check') { dependsOn 'compileMetalContractFixture' }
+def deobfProbe = tasks.register('phaseFourProbeDeobfJar', Jar) {
+    dependsOn 'compilePhaseFourProbe'
+    archiveFileName = 'ironagefurniture-phase-four-probe-deobf.jar'
+    destinationDirectory = layout.buildDirectory.dir('phase-four-probe')
+    from runtimeClasses
+    from 'src/phaseFourTest/resources'
+    filesMatching(buildSupport.archiveTextPatterns, buildSupport.normalizeArchiveLineEndings)
+}
+def mappedProbe = renamer.classes(deobfProbe) {
+    map.from minecraft.dependency.toSrgFile
+    // Resolve inherited Minecraft methods through our furniture subclasses.
+    libraries.from(tasks.named('jar'), sourceSets.main.compileClasspath)
+    output = runtimeJar
+}
+tasks.register('phaseFourProbeJar') {
+    group = 'verification'
+    description = 'Builds the separate packaged Phase 4 runtime test mod.'
+    dependsOn mappedProbe
+    outputs.file runtimeJar
+}
+tasks.register('stagePhaseFourProbe', Copy) {
+    dependsOn 'assemble', 'phaseFourProbeJar'
+    from runtimeJar
+    from layout.buildDirectory.file("libs/${base.archivesName.get()}-${version}.jar")
+    into runtimeServer.map { new File(it, 'mods') }
+}
+tasks.register('runPhaseFourServer', Exec) {
+    group = 'verification'
+    description = 'Tests the packaged Phase 4 candidate on a disposable Forge 1.14.4 server.'
+    dependsOn 'stagePhaseFourProbe'
+    doFirst {
+        File server = runtimeServer.get()
+        File forge = new File(server, "forge-${minecraft_version}-${forge_version}.jar")
+        if (!forge.isFile()) throw new GradleException("Install Forge in the disposable test directory first: ${server}")
+        File marker = new File(server, 'phase-four-pass.properties')
+        if (marker.exists() && !marker.delete()) throw new GradleException("Cannot clear old probe result: ${marker}")
+        if (new File(server, 'mods/synthetic-metal-contract-fixture.jar').isFile()) {
+            // Recipe conditions run during resource loading, before server
+            // lifecycle events. Set this test's option before starting Java.
+            Properties settings = new Properties()
+            new File(server, 'server.properties').withInputStream { settings.load(it) }
+            File config = new File(server, "${settings.getProperty('level-name', 'world')}/serverconfig/ironagefurniture-server.toml")
+            if (!config.canonicalPath.startsWith(server.canonicalPath + File.separator))
+                throw new GradleException('The synthetic fixture configuration must stay inside its disposable server')
+            boolean enabled = providers.gradleProperty('phaseFourBaseMetalsDisabled').orNull != 'true'
+            String text = config.isFile() ? config.getText('UTF-8') : "[client]\nbaseMetalsIntegration = true\n"
+            if (!(text =~ /(?m)^\s*baseMetalsIntegration\s*=\s*(true|false)\s*$/).find())
+                throw new GradleException('The synthetic fixture configuration has no Base Metals option')
+            config.parentFile.mkdirs()
+            config.setText(text.replaceAll(/(?m)^(\s*baseMetalsIntegration\s*=\s*)(true|false)\s*$/, "\$1${enabled}"), 'UTF-8')
+        }
+        workingDir server
+        executable buildSupport.java8Launcher.get().executablePath.asFile
+        if (providers.gradleProperty('phaseFourLegacyBeds').orNull == 'true') args '-Diaf.probe.legacyBeds=true'
+        if (providers.gradleProperty('phaseFourLegacyMetals').orNull == 'true') args '-Diaf.probe.legacyMetals=true', '-Dfml.queryResult=confirm'
+        if (providers.gradleProperty('phaseFourSavedWorld').orNull == 'true') args '-Diaf.probe.savedWorld=true', '-Dfml.queryResult=confirm'
+        if (providers.gradleProperty('phaseFourSavedWorldReload').orNull == 'true') args '-Diaf.probe.savedWorldReload=true'
+        if (providers.gradleProperty('phaseFourBaseMetalsDisabled').orNull == 'true') args '-Diaf.probe.baseMetalsDisabled=true'
+        if (providers.gradleProperty('phaseFourLiveBaseMetals').orNull == 'true') args '-Diaf.probe.liveBaseMetals=true'
+        String cfmMode = providers.gradleProperty('phaseFourCfmMode').orNull
+        if (cfmMode != null) {
+            if (!(cfmMode in ['seed', 'unchanged', 'converted', 'recovered', 'legacy110', 'legacy112']))
+                throw new GradleException("Unknown CFM fixture mode: ${cfmMode}")
+            args "-Diaf.probe.cfmMode=${cfmMode}"
+            // Removing CFM also removes unsupported entries from its registry
+            // snapshot. Accept Forge's prompt only for this disposable fixture.
+            if (cfmMode in ['recovered', 'legacy110', 'legacy112']) args '-Dfml.queryResult=confirm'
+        }
+        args '-Xmx2G', '-jar', forge.name, 'nogui'
+    }
+    doLast {
+        File marker = new File(runtimeServer.get(), 'phase-four-pass.properties')
+        if (!marker.isFile() || !marker.getText('UTF-8').contains('status=PASS'))
+            throw new GradleException('The Phase 4 server exited without a passing result')
+    }
+}

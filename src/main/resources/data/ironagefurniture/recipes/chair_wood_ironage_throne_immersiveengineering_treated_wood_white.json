@@ -1,0 +1,33 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:white_carpet"
+        },
+        {
+            "item": "immersiveengineering:treated_wood_packaged"
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_immersiveengineering_treated_wood_white"
+        }
+    ],
+    "group": "ironagefurniture:chair_wood_ironage_throne_immersiveengineering_treated_wood_white",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_throne_immersiveengineering_treated_wood_white",
+        "count": 1
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "immersiveengineering"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_throne_immersiveengineering_treated_wood"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_wingback_immersiveengineering_treated_wood"
+        }
+    ]
+}

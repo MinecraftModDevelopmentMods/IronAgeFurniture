@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:purple_bed"
+        },
+        {
+            "item": "minecraft:acacia_planks"
+        }
+    ],
+    "group": "ironagefurniture:bed_wood_foot_acacia_purple",
+    "result": {
+        "item": "ironagefurniture:bed_wood_foot_acacia_purple",
+        "count": 1
+    },
+    "conditions": [
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_wood_foot_acacia"
+        }
+    ]
+}

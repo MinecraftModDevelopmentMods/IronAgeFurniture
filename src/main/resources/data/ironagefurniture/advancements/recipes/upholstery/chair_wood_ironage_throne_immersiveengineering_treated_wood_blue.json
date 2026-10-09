@@ -1,0 +1,52 @@
+{
+    "advancements": [
+        {
+            "conditions": [
+                {
+                    "type": "forge:mod_loaded",
+                    "modid": "immersiveengineering"
+                },
+                {
+                    "type": "forge:item_exists",
+                    "item": "ironagefurniture:chair_wood_ironage_throne_immersiveengineering_treated_wood"
+                },
+                {
+                    "type": "forge:item_exists",
+                    "item": "ironagefurniture:chair_wood_ironage_wingback_immersiveengineering_treated_wood"
+                }
+            ],
+            "advancement": {
+                "parent": "minecraft:recipes/root",
+                "rewards": {
+                    "recipes": [
+                        "ironagefurniture:chair_wood_ironage_throne_immersiveengineering_treated_wood_blue"
+                    ]
+                },
+                "criteria": {
+                    "has_ingredient": {
+                        "trigger": "minecraft:inventory_changed",
+                        "conditions": {
+                            "items": [
+                                {
+                                    "item": "ironagefurniture:chair_wood_ironage_wingback_immersiveengineering_treated_wood_blue"
+                                }
+                            ]
+                        }
+                    },
+                    "has_the_recipe": {
+                        "trigger": "minecraft:recipe_unlocked",
+                        "conditions": {
+                            "recipe": "ironagefurniture:chair_wood_ironage_throne_immersiveengineering_treated_wood_blue"
+                        }
+                    }
+                },
+                "requirements": [
+                    [
+                        "has_ingredient",
+                        "has_the_recipe"
+                    ]
+                ]
+            }
+        }
+    ]
+}

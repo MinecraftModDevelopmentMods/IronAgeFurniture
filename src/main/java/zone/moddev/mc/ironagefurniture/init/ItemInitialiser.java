@@ -7,6 +7,8 @@ import zone.moddev.mc.ironagefurniture.api.items.ThrowableLavaLampBlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
@@ -24,11 +26,7 @@ import static zone.moddev.mc.ironagefurniture.init.resources.vanilla.VANILLA_NET
 public class ItemInitialiser {
 
 	public static Block getProperty(String property) {
-		try {
-			return (Block) BlockObjectHolder.class.getDeclaredField(property).get(null);
-		} catch (Exception e) {
-			return null;
-		}
+		return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(Ironagefurniture.MODID, property));
 	}
 
 	private static void registerChairs(RegistryEvent.Register<Item> event, String[] woodTypes, boolean log, String[] netherWoodTypes) {
@@ -69,7 +67,11 @@ public class ItemInitialiser {
 	}
 
 	private static void registerItem(RegistryEvent.Register<Item> event, Block theBlock) {
-		event.getRegistry().register(new BlockItem(theBlock, new BlockItem.Properties().group(Ironagefurniture.IAF_GROUP)).setRegistryName(Ironagefurniture.MODID, theBlock.getRegistryName().getPath()));
+		if (theBlock == null) throw new IllegalStateException("Furniture block missing during item registration");
+		net.minecraft.item.ItemGroup group = theBlock.getRegistryName().getPath().contains("_bench_")
+                ? Ironagefurniture.IAF_BENCHES_GROUP : Ironagefurniture.IAF_CHAIRS_GROUP;
+		event.getRegistry().register(new zone.moddev.mc.ironagefurniture.api.items.FurnitureBlockItem(theBlock,
+                new BlockItem.Properties().group(group)).setRegistryName(Ironagefurniture.MODID, theBlock.getRegistryName().getPath()));
 	}
 
 	@SubscribeEvent
@@ -77,27 +79,27 @@ public class ItemInitialiser {
 		registerChairs(event, VANILLA_WOOD_TYPES, true, VANILLA_NETHER_WOOD_TYPES);
 
 		event.getRegistry().registerAll(
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron, new BlockItem.Properties().group(Ironagefurniture.IAF_GROUP)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron.getRegistryName().getPath()),
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron.getRegistryName().getPath()),
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron_unlit, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron_unlit.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron, new BlockItem.Properties().group(Ironagefurniture.IAF_LIGHTS_GROUP)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron_unlit, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron_unlit.getRegistryName().getPath()),
 
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_empty_iron, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_empty_iron.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_empty_iron, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_empty_iron.getRegistryName().getPath()),
 
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron.getRegistryName().getPath()),
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron_unlit, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron_unlit.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron_unlit, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron_unlit.getRegistryName().getPath()),
 
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_redtorch_iron, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_redtorch_iron.getRegistryName().getPath()),
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_redtorch_iron_unlit, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_redtorch_iron_unlit.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_redtorch_iron, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_redtorch_iron.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_redtorch_iron_unlit, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_redtorch_iron_unlit.getRegistryName().getPath()),
 
-			new BlockItem(BlockObjectHolder.light_metal_ironage_block_floor_glow_clear, new BlockItem.Properties().group(Ironagefurniture.IAF_GROUP)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_block_floor_glow_clear.getRegistryName().getPath()),
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_glow_iron, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_glow_iron.getRegistryName().getPath()),
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_glow_iron, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_glow_iron.getRegistryName().getPath()),
+			new BlockItem(BlockObjectHolder.light_metal_ironage_block_floor_glow_clear, new BlockItem.Properties().group(Ironagefurniture.IAF_LIGHTS_GROUP)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_block_floor_glow_clear.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_glow_iron, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_glow_iron.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_glow_iron, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_glow_iron.getRegistryName().getPath()),
 
-			new ThrowableLavaLampBlockItem(BlockObjectHolder.light_metal_ironage_block_floor_lava_clear, new BlockItem.Properties().group(Ironagefurniture.IAF_GROUP)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_block_floor_lava_clear.getRegistryName().getPath()),
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_lava_iron, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_lava_iron.getRegistryName().getPath()),
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_lava_iron, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_lava_iron.getRegistryName().getPath()),
+			new ThrowableLavaLampBlockItem(BlockObjectHolder.light_metal_ironage_block_floor_lava_clear, new BlockItem.Properties().group(Ironagefurniture.IAF_LIGHTS_GROUP)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_block_floor_lava_clear.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_lava_iron, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_lava_iron.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_lava_iron, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_lava_iron.getRegistryName().getPath()),
 
-			new BlockItem(BlockObjectHolder.light_metal_ironage_block_floor_red_clear, new BlockItem.Properties().group(Ironagefurniture.IAF_GROUP)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_block_floor_red_clear.getRegistryName().getPath()),
+			new BlockItem(BlockObjectHolder.light_metal_ironage_block_floor_red_clear, new BlockItem.Properties().group(Ironagefurniture.IAF_LIGHTS_GROUP)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_block_floor_red_clear.getRegistryName().getPath()),
 			new BlockItem(BlockObjectHolder.light_metal_ironage_block_floor_red_clear_one, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_block_floor_red_clear_one.getRegistryName().getPath()),
 			new BlockItem(BlockObjectHolder.light_metal_ironage_block_floor_red_clear_two, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_block_floor_red_clear_two.getRegistryName().getPath()),
 			new BlockItem(BlockObjectHolder.light_metal_ironage_block_floor_red_clear_three, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_block_floor_red_clear_three.getRegistryName().getPath()),
@@ -114,41 +116,41 @@ public class ItemInitialiser {
 			new BlockItem(BlockObjectHolder.light_metal_ironage_block_floor_red_clear_fourteen, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_block_floor_red_clear_fourteen.getRegistryName().getPath()),
 			new BlockItem(BlockObjectHolder.light_metal_ironage_block_floor_red_clear_fifteen, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_block_floor_red_clear_fifteen.getRegistryName().getPath()),
 
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron.getRegistryName().getPath()),
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_one, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_one.getRegistryName().getPath()),
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_two, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_two.getRegistryName().getPath()),
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_three, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_three.getRegistryName().getPath()),
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_four, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_four.getRegistryName().getPath()),
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_five, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_five.getRegistryName().getPath()),
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_six, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_six.getRegistryName().getPath()),
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_seven, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_seven.getRegistryName().getPath()),
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_eight, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_eight.getRegistryName().getPath()),
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_nine, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_nine.getRegistryName().getPath()),
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_ten, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_ten.getRegistryName().getPath()),
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_eleven, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_eleven.getRegistryName().getPath()),
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_twelve, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_twelve.getRegistryName().getPath()),
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_thirteen, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_thirteen.getRegistryName().getPath()),
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_fourteen, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_fourteen.getRegistryName().getPath()),
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_fifteen, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_fifteen.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_one, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_one.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_two, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_two.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_three, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_three.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_four, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_four.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_five, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_five.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_six, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_six.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_seven, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_seven.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_eight, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_eight.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_nine, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_nine.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_ten, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_ten.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_eleven, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_eleven.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_twelve, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_twelve.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_thirteen, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_thirteen.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_fourteen, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_fourteen.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_fifteen, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_fifteen.getRegistryName().getPath()),
 
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron.getRegistryName().getPath()),
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_one, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_one.getRegistryName().getPath()),
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_two, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_two.getRegistryName().getPath()),
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_three, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_three.getRegistryName().getPath()),
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_four, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_four.getRegistryName().getPath()),
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_five, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_five.getRegistryName().getPath()),
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_six, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_six.getRegistryName().getPath()),
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_seven, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_seven.getRegistryName().getPath()),
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_eight, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_eight.getRegistryName().getPath()),
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_nine, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_nine.getRegistryName().getPath()),
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_ten, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_ten.getRegistryName().getPath()),
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_eleven, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_eleven.getRegistryName().getPath()),
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_twelve, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_twelve.getRegistryName().getPath()),
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_thirteen, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_thirteen.getRegistryName().getPath()),
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_fourteen, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_fourteen.getRegistryName().getPath()),
-			new BlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_fifteen, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_fifteen.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_one, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_one.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_two, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_two.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_three, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_three.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_four, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_four.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_five, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_five.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_six, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_six.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_seven, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_seven.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_eight, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_eight.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_nine, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_nine.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_ten, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_ten.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_eleven, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_eleven.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_twelve, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_twelve.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_thirteen, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_thirteen.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_fourteen, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_fourteen.getRegistryName().getPath()),
+			new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_fifteen, new BlockItem.Properties()).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_fifteen.getRegistryName().getPath()),
 
-			new BlockItem(BlockObjectHolder.obsidian_chunk, new BlockItem.Properties().group(Ironagefurniture.IAF_GROUP)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.obsidian_chunk.getRegistryName().getPath())
+			new BlockItem(BlockObjectHolder.obsidian_chunk, new BlockItem.Properties().group(Ironagefurniture.IAF_LIGHTS_GROUP)).setRegistryName(Ironagefurniture.MODID, BlockObjectHolder.obsidian_chunk.getRegistryName().getPath())
 		);
 
 		if (IronAgeFurnitureConfiguration.CLIENT.INTEGRATION_BIOMESOPLENTY.get() && ModList.get().isLoaded("biomesoplenty")) {

@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:lime_carpet"
+        },
+        {
+            "item": "minecraft:spruce_planks"
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_classic_spruce"
+        }
+    ],
+    "group": "ironagefurniture:chair_wood_ironage_wingback_spruce_lime",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_wingback_spruce_lime",
+        "count": 1
+    },
+    "conditions": [
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_wingback_spruce"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_classic_spruce"
+        }
+    ]
+}

@@ -1,0 +1,60 @@
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+
+// These IDs come from the published CFM 1.14 jar, not its older 1.12 naming.
+def cfmResources = {
+    Map<String, String> files = [:]
+    def json = { value -> JsonOutput.prettyPrint(JsonOutput.toJson(value)) + '\n' }
+    ['oak', 'spruce', 'birch', 'jungle', 'acacia', 'dark_oak'].each { wood ->
+        String id = "cfm_${wood}_chair_conversion"
+        String input = "cfm:${wood}_chair"
+        String target = "ironagefurniture:chair_wood_ironage_classic_${wood}"
+        List conditions = [[type: 'forge:mod_loaded', modid: 'cfm'],
+                [type: 'forge:item_exists', item: input], [type: 'forge:item_exists', item: target]]
+        files["src/main/resources/data/ironagefurniture/recipes/${id}.json"] = json([
+                type: 'minecraft:crafting_shapeless', conditions: conditions,
+                ingredients: [[item: input]], result: [item: target, count: 1]])
+        Map advancement = [
+                parent: 'minecraft:recipes/root',
+                rewards: [recipes: ["ironagefurniture:${id}"]],
+                criteria: [
+                        has_ingredient: [trigger: 'minecraft:inventory_changed', conditions: [items: [[item: input]]]],
+                        has_the_recipe: [trigger: 'minecraft:recipe_unlocked', conditions: [recipe: "ironagefurniture:${id}"]]
+                ],
+                requirements: [['has_ingredient', 'has_the_recipe']]
+        ]
+        files["src/main/resources/data/ironagefurniture/advancements/recipes/furniture/${id}.json"] =
+                json([advancements: [[conditions: conditions, advancement: advancement]]])
+    }
+    ['en_en', 'en_gb', 'en_us'].each { locale ->
+        String path = "src/main/resources/assets/ironagefurniture/lang/${locale}.json"
+        Map names = new JsonSlurper().parse(file(path)) as Map
+        names['ironagefurniture.integration.forceCfmChairConversion'] = 'Replace Crayfish wooden chairs with IAF chairs'
+        files[path] = json(new TreeMap(names))
+    }
+    files
+}
+tasks.register('updatePhaseFourCfmRecipes') {
+    group = 'generation'
+    description = 'Updates the six conditional Crayfish chair conversion recipes.'
+    doLast {
+        cfmResources().each { path, text ->
+            File target = file(path)
+            if (!target.isFile() || target.getText('UTF-8').replace('\r\n', '\n') != text) {
+                target.parentFile.mkdirs(); target.setText(text, 'UTF-8')
+            }
+        }
+    }
+}
+tasks.register('verifyPhaseFourCfmRecipes') {
+    group = 'verification'
+    description = 'Checks exact CFM ingredients, outputs, conditions and unlock criteria.'
+    doLast {
+        cfmResources().each { path, text ->
+            if (!file(path).isFile() || file(path).getText('UTF-8').replace('\r\n', '\n') != text)
+                throw new GradleException("Missing or stale Crayfish conversion resource: ${path}")
+        }
+    }
+}
+tasks.named('updateFurnitureCatalog') { dependsOn 'updatePhaseFourCfmRecipes' }
+tasks.named('check') { dependsOn 'verifyPhaseFourCfmRecipes' }

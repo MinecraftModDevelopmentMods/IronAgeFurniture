@@ -56,7 +56,7 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor implemen
 			drops.add(lightStack);
 		}
 
-		return drops;
+		return zone.moddev.mc.ironagefurniture.api.SconceMetalData.preserveDrops(state, drops);
 	}
 
 	protected Block LightDrop() {
@@ -70,7 +70,7 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor implemen
 	public LightSourceSconceTorchFloor(Properties properties) {
 		super(properties);
 
-		this.setDefaultState(this.getStateContainer().getBaseState() .with(DIRECTION, Direction.NORTH) .with(WATERLOGGED, false));
+		this.setDefaultState(this.getDefaultState() .with(DIRECTION, Direction.NORTH) .with(WATERLOGGED, false));
 		this.generateShapes(this.getStateContainer().getValidStates());
 		this.flameParticle = ParticleTypes.FLAME;
 	}
@@ -78,7 +78,7 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor implemen
 	public LightSourceSconceTorchFloor(float hardness, float blastResistance, SoundType sound, String name) {
 		super(Block.Properties.create(Material.IRON).hardnessAndResistance(hardness, blastResistance).sound(sound).lightValue(14));
 
-		this.setDefaultState(this.getStateContainer().getBaseState() .with(DIRECTION, Direction.NORTH));
+		this.setDefaultState(this.getDefaultState() .with(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateContainer().getValidStates());
 		this.setRegistryName(name);
 		this.flameParticle = ParticleTypes.FLAME;
@@ -147,7 +147,7 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor implemen
 		world.getBlockState(pos);
 		world.setBlockState(pos, UnlitVariant().getDefaultState()
 			 .with(DIRECTION, state .get(BlockStateProperties.HORIZONTAL_FACING))
-			 .with(WATERLOGGED, state .get(BlockStateProperties.WATERLOGGED)), 3);
+			 .with(WATERLOGGED, state .get(BlockStateProperties.WATERLOGGED)).with(zone.moddev.mc.ironagefurniture.api.SconceMetalData.METAL, zone.moddev.mc.ironagefurniture.api.SconceMetalData.get(state)), 3);
 
 		world.notifyBlockUpdate(pos, state, world.getBlockState(pos), 3);
 	}
@@ -162,13 +162,15 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor implemen
 
 			if (CanEx()) world.setBlockState(pos, UnlitVariant().getDefaultState()
 				 .with(DIRECTION, blockState .get(BlockStateProperties.HORIZONTAL_FACING))
-				 .with(WATERLOGGED, Boolean.valueOf(true)), 3);
+				 .with(WATERLOGGED, Boolean.valueOf(true))
+                 .with(zone.moddev.mc.ironagefurniture.api.SconceMetalData.METAL,
+                         zone.moddev.mc.ironagefurniture.api.SconceMetalData.get(blockState)), 3);
 
 			world.getPendingFluidTicks().scheduleTick(pos, fluidState.getFluid(), fluidState.getFluid().getTickRate(world));
 		} else {
 			if (CanEx()) world.setBlockState(pos, UnlitVariant().getDefaultState()
 				 .with(DIRECTION, blockState .get(BlockStateProperties.HORIZONTAL_FACING))
-				 .with(WATERLOGGED, blockState .get(BlockStateProperties.WATERLOGGED)), 3);
+				 .with(WATERLOGGED, blockState .get(BlockStateProperties.WATERLOGGED)).with(zone.moddev.mc.ironagefurniture.api.SconceMetalData.METAL, zone.moddev.mc.ironagefurniture.api.SconceMetalData.get(blockState)), 3);
 		}
 
 		return success;
@@ -204,10 +206,12 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor implemen
 
 		ItemStack stackInHand = player.getHeldItem(hand);
 
+        if (zone.moddev.mc.ironagefurniture.init.PhaseFourLighting.addSecondTorch(state, world, pos, player, hand)) return true;
+
 		if (CanEx() && stackInHand.getItem() == Items.WATER_BUCKET) {
 			world.setBlockState(pos, UnlitVariant().getDefaultState()
 				 .with(DIRECTION, state .get(BlockStateProperties.HORIZONTAL_FACING))
-				 .with(WATERLOGGED, state .get(BlockStateProperties.WATERLOGGED)), 3);
+				 .with(WATERLOGGED, state .get(BlockStateProperties.WATERLOGGED)).with(zone.moddev.mc.ironagefurniture.api.SconceMetalData.METAL, zone.moddev.mc.ironagefurniture.api.SconceMetalData.get(state)), 3);
 
 			return true;
 		}
@@ -220,7 +224,7 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor implemen
 
 			world.setBlockState(pos, EmptyVariant().getDefaultState()
 				 .with(DIRECTION, direction)
-				 .with(WATERLOGGED, state .get(BlockStateProperties.WATERLOGGED)), 3);
+				 .with(WATERLOGGED, state .get(BlockStateProperties.WATERLOGGED)).with(zone.moddev.mc.ironagefurniture.api.SconceMetalData.METAL, zone.moddev.mc.ironagefurniture.api.SconceMetalData.get(state)), 3);
 
 			if (!player.isCreative()) {
 				if (stackInHand.getItem() == LightDrop().asItem())

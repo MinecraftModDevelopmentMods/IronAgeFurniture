@@ -1,0 +1,1924 @@
+{
+    "variants": {
+        "colour=black,facing=south,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_black_biomesoplenty_redwood"
+        },
+        "colour=black,facing=south,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_black_biomesoplenty_redwood"
+        },
+        "colour=black,facing=north,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_black_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=black,facing=north,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_black_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=black,facing=east,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_black_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=black,facing=east,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_black_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=black,facing=west,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_black_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=black,facing=west,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_black_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=black,facing=south,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_black_biomesoplenty_redwood"
+        },
+        "colour=black,facing=south,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_black_biomesoplenty_redwood"
+        },
+        "colour=black,facing=north,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_black_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=black,facing=north,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_black_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=black,facing=east,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_black_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=black,facing=east,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_black_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=black,facing=west,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_black_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=black,facing=west,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_black_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=black,facing=south,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_black_biomesoplenty_redwood"
+        },
+        "colour=black,facing=south,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_black_biomesoplenty_redwood"
+        },
+        "colour=black,facing=north,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_black_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=black,facing=north,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_black_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=black,facing=east,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_black_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=black,facing=east,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_black_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=black,facing=west,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_black_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=black,facing=west,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_black_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=black,facing=south,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_black_biomesoplenty_redwood"
+        },
+        "colour=black,facing=south,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_black_biomesoplenty_redwood"
+        },
+        "colour=black,facing=north,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_black_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=black,facing=north,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_black_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=black,facing=east,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_black_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=black,facing=east,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_black_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=black,facing=west,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_black_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=black,facing=west,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_black_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=blue,facing=south,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_blue_biomesoplenty_redwood"
+        },
+        "colour=blue,facing=south,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_blue_biomesoplenty_redwood"
+        },
+        "colour=blue,facing=north,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_blue_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=blue,facing=north,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_blue_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=blue,facing=east,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_blue_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=blue,facing=east,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_blue_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=blue,facing=west,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_blue_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=blue,facing=west,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_blue_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=blue,facing=south,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_blue_biomesoplenty_redwood"
+        },
+        "colour=blue,facing=south,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_blue_biomesoplenty_redwood"
+        },
+        "colour=blue,facing=north,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_blue_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=blue,facing=north,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_blue_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=blue,facing=east,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_blue_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=blue,facing=east,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_blue_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=blue,facing=west,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_blue_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=blue,facing=west,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_blue_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=blue,facing=south,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_blue_biomesoplenty_redwood"
+        },
+        "colour=blue,facing=south,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_blue_biomesoplenty_redwood"
+        },
+        "colour=blue,facing=north,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_blue_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=blue,facing=north,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_blue_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=blue,facing=east,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_blue_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=blue,facing=east,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_blue_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=blue,facing=west,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_blue_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=blue,facing=west,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_blue_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=blue,facing=south,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_blue_biomesoplenty_redwood"
+        },
+        "colour=blue,facing=south,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_blue_biomesoplenty_redwood"
+        },
+        "colour=blue,facing=north,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_blue_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=blue,facing=north,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_blue_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=blue,facing=east,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_blue_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=blue,facing=east,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_blue_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=blue,facing=west,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_blue_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=blue,facing=west,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_blue_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=brown,facing=south,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_brown_biomesoplenty_redwood"
+        },
+        "colour=brown,facing=south,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_brown_biomesoplenty_redwood"
+        },
+        "colour=brown,facing=north,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_brown_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=brown,facing=north,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_brown_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=brown,facing=east,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_brown_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=brown,facing=east,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_brown_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=brown,facing=west,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_brown_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=brown,facing=west,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_brown_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=brown,facing=south,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_brown_biomesoplenty_redwood"
+        },
+        "colour=brown,facing=south,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_brown_biomesoplenty_redwood"
+        },
+        "colour=brown,facing=north,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_brown_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=brown,facing=north,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_brown_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=brown,facing=east,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_brown_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=brown,facing=east,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_brown_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=brown,facing=west,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_brown_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=brown,facing=west,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_brown_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=brown,facing=south,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_brown_biomesoplenty_redwood"
+        },
+        "colour=brown,facing=south,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_brown_biomesoplenty_redwood"
+        },
+        "colour=brown,facing=north,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_brown_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=brown,facing=north,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_brown_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=brown,facing=east,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_brown_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=brown,facing=east,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_brown_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=brown,facing=west,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_brown_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=brown,facing=west,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_brown_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=brown,facing=south,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_brown_biomesoplenty_redwood"
+        },
+        "colour=brown,facing=south,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_brown_biomesoplenty_redwood"
+        },
+        "colour=brown,facing=north,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_brown_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=brown,facing=north,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_brown_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=brown,facing=east,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_brown_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=brown,facing=east,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_brown_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=brown,facing=west,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_brown_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=brown,facing=west,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_brown_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=cyan,facing=south,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_cyan_biomesoplenty_redwood"
+        },
+        "colour=cyan,facing=south,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_cyan_biomesoplenty_redwood"
+        },
+        "colour=cyan,facing=north,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_cyan_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=cyan,facing=north,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_cyan_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=cyan,facing=east,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_cyan_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=cyan,facing=east,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_cyan_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=cyan,facing=west,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_cyan_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=cyan,facing=west,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_cyan_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=cyan,facing=south,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_cyan_biomesoplenty_redwood"
+        },
+        "colour=cyan,facing=south,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_cyan_biomesoplenty_redwood"
+        },
+        "colour=cyan,facing=north,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_cyan_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=cyan,facing=north,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_cyan_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=cyan,facing=east,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_cyan_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=cyan,facing=east,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_cyan_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=cyan,facing=west,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_cyan_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=cyan,facing=west,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_cyan_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=cyan,facing=south,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_cyan_biomesoplenty_redwood"
+        },
+        "colour=cyan,facing=south,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_cyan_biomesoplenty_redwood"
+        },
+        "colour=cyan,facing=north,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_cyan_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=cyan,facing=north,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_cyan_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=cyan,facing=east,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_cyan_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=cyan,facing=east,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_cyan_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=cyan,facing=west,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_cyan_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=cyan,facing=west,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_cyan_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=cyan,facing=south,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_cyan_biomesoplenty_redwood"
+        },
+        "colour=cyan,facing=south,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_cyan_biomesoplenty_redwood"
+        },
+        "colour=cyan,facing=north,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_cyan_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=cyan,facing=north,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_cyan_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=cyan,facing=east,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_cyan_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=cyan,facing=east,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_cyan_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=cyan,facing=west,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_cyan_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=cyan,facing=west,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_cyan_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=gray,facing=south,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_gray_biomesoplenty_redwood"
+        },
+        "colour=gray,facing=south,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_gray_biomesoplenty_redwood"
+        },
+        "colour=gray,facing=north,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_gray_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=gray,facing=north,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_gray_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=gray,facing=east,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_gray_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=gray,facing=east,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_gray_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=gray,facing=west,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_gray_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=gray,facing=west,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_gray_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=gray,facing=south,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_gray_biomesoplenty_redwood"
+        },
+        "colour=gray,facing=south,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_gray_biomesoplenty_redwood"
+        },
+        "colour=gray,facing=north,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_gray_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=gray,facing=north,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_gray_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=gray,facing=east,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_gray_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=gray,facing=east,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_gray_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=gray,facing=west,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_gray_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=gray,facing=west,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_gray_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=gray,facing=south,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_gray_biomesoplenty_redwood"
+        },
+        "colour=gray,facing=south,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_gray_biomesoplenty_redwood"
+        },
+        "colour=gray,facing=north,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_gray_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=gray,facing=north,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_gray_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=gray,facing=east,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_gray_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=gray,facing=east,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_gray_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=gray,facing=west,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_gray_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=gray,facing=west,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_gray_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=gray,facing=south,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_gray_biomesoplenty_redwood"
+        },
+        "colour=gray,facing=south,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_gray_biomesoplenty_redwood"
+        },
+        "colour=gray,facing=north,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_gray_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=gray,facing=north,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_gray_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=gray,facing=east,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_gray_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=gray,facing=east,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_gray_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=gray,facing=west,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_gray_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=gray,facing=west,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_gray_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=green,facing=south,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_green_biomesoplenty_redwood"
+        },
+        "colour=green,facing=south,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_green_biomesoplenty_redwood"
+        },
+        "colour=green,facing=north,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_green_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=green,facing=north,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_green_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=green,facing=east,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_green_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=green,facing=east,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_green_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=green,facing=west,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_green_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=green,facing=west,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_green_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=green,facing=south,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_green_biomesoplenty_redwood"
+        },
+        "colour=green,facing=south,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_green_biomesoplenty_redwood"
+        },
+        "colour=green,facing=north,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_green_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=green,facing=north,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_green_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=green,facing=east,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_green_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=green,facing=east,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_green_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=green,facing=west,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_green_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=green,facing=west,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_green_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=green,facing=south,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_green_biomesoplenty_redwood"
+        },
+        "colour=green,facing=south,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_green_biomesoplenty_redwood"
+        },
+        "colour=green,facing=north,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_green_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=green,facing=north,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_green_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=green,facing=east,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_green_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=green,facing=east,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_green_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=green,facing=west,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_green_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=green,facing=west,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_green_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=green,facing=south,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_green_biomesoplenty_redwood"
+        },
+        "colour=green,facing=south,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_green_biomesoplenty_redwood"
+        },
+        "colour=green,facing=north,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_green_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=green,facing=north,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_green_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=green,facing=east,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_green_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=green,facing=east,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_green_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=green,facing=west,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_green_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=green,facing=west,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_green_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=light_blue,facing=south,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_light_blue_biomesoplenty_redwood"
+        },
+        "colour=light_blue,facing=south,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_light_blue_biomesoplenty_redwood"
+        },
+        "colour=light_blue,facing=north,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_light_blue_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=light_blue,facing=north,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_light_blue_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=light_blue,facing=east,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_light_blue_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=light_blue,facing=east,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_light_blue_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=light_blue,facing=west,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_light_blue_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=light_blue,facing=west,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_light_blue_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=light_blue,facing=south,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_light_blue_biomesoplenty_redwood"
+        },
+        "colour=light_blue,facing=south,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_light_blue_biomesoplenty_redwood"
+        },
+        "colour=light_blue,facing=north,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_light_blue_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=light_blue,facing=north,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_light_blue_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=light_blue,facing=east,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_light_blue_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=light_blue,facing=east,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_light_blue_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=light_blue,facing=west,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_light_blue_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=light_blue,facing=west,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_light_blue_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=light_blue,facing=south,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_light_blue_biomesoplenty_redwood"
+        },
+        "colour=light_blue,facing=south,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_light_blue_biomesoplenty_redwood"
+        },
+        "colour=light_blue,facing=north,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_light_blue_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=light_blue,facing=north,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_light_blue_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=light_blue,facing=east,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_light_blue_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=light_blue,facing=east,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_light_blue_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=light_blue,facing=west,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_light_blue_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=light_blue,facing=west,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_light_blue_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=light_blue,facing=south,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_light_blue_biomesoplenty_redwood"
+        },
+        "colour=light_blue,facing=south,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_light_blue_biomesoplenty_redwood"
+        },
+        "colour=light_blue,facing=north,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_light_blue_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=light_blue,facing=north,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_light_blue_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=light_blue,facing=east,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_light_blue_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=light_blue,facing=east,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_light_blue_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=light_blue,facing=west,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_light_blue_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=light_blue,facing=west,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_light_blue_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=light_gray,facing=south,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_light_gray_biomesoplenty_redwood"
+        },
+        "colour=light_gray,facing=south,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_light_gray_biomesoplenty_redwood"
+        },
+        "colour=light_gray,facing=north,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_light_gray_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=light_gray,facing=north,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_light_gray_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=light_gray,facing=east,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_light_gray_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=light_gray,facing=east,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_light_gray_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=light_gray,facing=west,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_light_gray_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=light_gray,facing=west,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_light_gray_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=light_gray,facing=south,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_light_gray_biomesoplenty_redwood"
+        },
+        "colour=light_gray,facing=south,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_light_gray_biomesoplenty_redwood"
+        },
+        "colour=light_gray,facing=north,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_light_gray_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=light_gray,facing=north,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_light_gray_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=light_gray,facing=east,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_light_gray_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=light_gray,facing=east,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_light_gray_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=light_gray,facing=west,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_light_gray_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=light_gray,facing=west,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_light_gray_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=light_gray,facing=south,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_light_gray_biomesoplenty_redwood"
+        },
+        "colour=light_gray,facing=south,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_light_gray_biomesoplenty_redwood"
+        },
+        "colour=light_gray,facing=north,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_light_gray_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=light_gray,facing=north,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_light_gray_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=light_gray,facing=east,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_light_gray_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=light_gray,facing=east,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_light_gray_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=light_gray,facing=west,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_light_gray_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=light_gray,facing=west,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_light_gray_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=light_gray,facing=south,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_light_gray_biomesoplenty_redwood"
+        },
+        "colour=light_gray,facing=south,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_light_gray_biomesoplenty_redwood"
+        },
+        "colour=light_gray,facing=north,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_light_gray_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=light_gray,facing=north,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_light_gray_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=light_gray,facing=east,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_light_gray_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=light_gray,facing=east,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_light_gray_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=light_gray,facing=west,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_light_gray_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=light_gray,facing=west,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_light_gray_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=lime,facing=south,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_lime_biomesoplenty_redwood"
+        },
+        "colour=lime,facing=south,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_lime_biomesoplenty_redwood"
+        },
+        "colour=lime,facing=north,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_lime_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=lime,facing=north,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_lime_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=lime,facing=east,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_lime_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=lime,facing=east,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_lime_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=lime,facing=west,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_lime_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=lime,facing=west,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_lime_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=lime,facing=south,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_lime_biomesoplenty_redwood"
+        },
+        "colour=lime,facing=south,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_lime_biomesoplenty_redwood"
+        },
+        "colour=lime,facing=north,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_lime_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=lime,facing=north,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_lime_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=lime,facing=east,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_lime_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=lime,facing=east,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_lime_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=lime,facing=west,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_lime_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=lime,facing=west,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_lime_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=lime,facing=south,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_lime_biomesoplenty_redwood"
+        },
+        "colour=lime,facing=south,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_lime_biomesoplenty_redwood"
+        },
+        "colour=lime,facing=north,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_lime_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=lime,facing=north,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_lime_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=lime,facing=east,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_lime_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=lime,facing=east,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_lime_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=lime,facing=west,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_lime_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=lime,facing=west,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_lime_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=lime,facing=south,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_lime_biomesoplenty_redwood"
+        },
+        "colour=lime,facing=south,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_lime_biomesoplenty_redwood"
+        },
+        "colour=lime,facing=north,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_lime_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=lime,facing=north,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_lime_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=lime,facing=east,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_lime_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=lime,facing=east,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_lime_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=lime,facing=west,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_lime_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=lime,facing=west,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_lime_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=magenta,facing=south,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_magenta_biomesoplenty_redwood"
+        },
+        "colour=magenta,facing=south,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_magenta_biomesoplenty_redwood"
+        },
+        "colour=magenta,facing=north,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_magenta_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=magenta,facing=north,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_magenta_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=magenta,facing=east,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_magenta_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=magenta,facing=east,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_magenta_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=magenta,facing=west,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_magenta_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=magenta,facing=west,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_magenta_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=magenta,facing=south,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_magenta_biomesoplenty_redwood"
+        },
+        "colour=magenta,facing=south,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_magenta_biomesoplenty_redwood"
+        },
+        "colour=magenta,facing=north,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_magenta_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=magenta,facing=north,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_magenta_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=magenta,facing=east,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_magenta_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=magenta,facing=east,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_magenta_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=magenta,facing=west,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_magenta_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=magenta,facing=west,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_magenta_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=magenta,facing=south,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_magenta_biomesoplenty_redwood"
+        },
+        "colour=magenta,facing=south,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_magenta_biomesoplenty_redwood"
+        },
+        "colour=magenta,facing=north,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_magenta_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=magenta,facing=north,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_magenta_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=magenta,facing=east,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_magenta_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=magenta,facing=east,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_magenta_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=magenta,facing=west,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_magenta_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=magenta,facing=west,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_magenta_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=magenta,facing=south,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_magenta_biomesoplenty_redwood"
+        },
+        "colour=magenta,facing=south,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_magenta_biomesoplenty_redwood"
+        },
+        "colour=magenta,facing=north,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_magenta_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=magenta,facing=north,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_magenta_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=magenta,facing=east,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_magenta_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=magenta,facing=east,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_magenta_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=magenta,facing=west,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_magenta_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=magenta,facing=west,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_magenta_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=orange,facing=south,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_orange_biomesoplenty_redwood"
+        },
+        "colour=orange,facing=south,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_orange_biomesoplenty_redwood"
+        },
+        "colour=orange,facing=north,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_orange_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=orange,facing=north,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_orange_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=orange,facing=east,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_orange_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=orange,facing=east,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_orange_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=orange,facing=west,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_orange_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=orange,facing=west,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_orange_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=orange,facing=south,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_orange_biomesoplenty_redwood"
+        },
+        "colour=orange,facing=south,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_orange_biomesoplenty_redwood"
+        },
+        "colour=orange,facing=north,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_orange_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=orange,facing=north,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_orange_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=orange,facing=east,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_orange_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=orange,facing=east,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_orange_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=orange,facing=west,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_orange_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=orange,facing=west,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_orange_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=orange,facing=south,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_orange_biomesoplenty_redwood"
+        },
+        "colour=orange,facing=south,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_orange_biomesoplenty_redwood"
+        },
+        "colour=orange,facing=north,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_orange_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=orange,facing=north,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_orange_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=orange,facing=east,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_orange_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=orange,facing=east,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_orange_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=orange,facing=west,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_orange_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=orange,facing=west,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_orange_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=orange,facing=south,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_orange_biomesoplenty_redwood"
+        },
+        "colour=orange,facing=south,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_orange_biomesoplenty_redwood"
+        },
+        "colour=orange,facing=north,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_orange_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=orange,facing=north,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_orange_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=orange,facing=east,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_orange_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=orange,facing=east,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_orange_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=orange,facing=west,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_orange_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=orange,facing=west,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_orange_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=pink,facing=south,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_pink_biomesoplenty_redwood"
+        },
+        "colour=pink,facing=south,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_pink_biomesoplenty_redwood"
+        },
+        "colour=pink,facing=north,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_pink_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=pink,facing=north,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_pink_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=pink,facing=east,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_pink_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=pink,facing=east,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_pink_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=pink,facing=west,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_pink_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=pink,facing=west,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_pink_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=pink,facing=south,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_pink_biomesoplenty_redwood"
+        },
+        "colour=pink,facing=south,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_pink_biomesoplenty_redwood"
+        },
+        "colour=pink,facing=north,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_pink_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=pink,facing=north,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_pink_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=pink,facing=east,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_pink_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=pink,facing=east,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_pink_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=pink,facing=west,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_pink_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=pink,facing=west,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_pink_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=pink,facing=south,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_pink_biomesoplenty_redwood"
+        },
+        "colour=pink,facing=south,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_pink_biomesoplenty_redwood"
+        },
+        "colour=pink,facing=north,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_pink_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=pink,facing=north,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_pink_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=pink,facing=east,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_pink_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=pink,facing=east,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_pink_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=pink,facing=west,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_pink_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=pink,facing=west,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_pink_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=pink,facing=south,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_pink_biomesoplenty_redwood"
+        },
+        "colour=pink,facing=south,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_pink_biomesoplenty_redwood"
+        },
+        "colour=pink,facing=north,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_pink_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=pink,facing=north,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_pink_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=pink,facing=east,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_pink_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=pink,facing=east,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_pink_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=pink,facing=west,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_pink_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=pink,facing=west,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_pink_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=purple,facing=south,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_purple_biomesoplenty_redwood"
+        },
+        "colour=purple,facing=south,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_purple_biomesoplenty_redwood"
+        },
+        "colour=purple,facing=north,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_purple_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=purple,facing=north,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_purple_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=purple,facing=east,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_purple_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=purple,facing=east,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_purple_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=purple,facing=west,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_purple_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=purple,facing=west,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_purple_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=purple,facing=south,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_purple_biomesoplenty_redwood"
+        },
+        "colour=purple,facing=south,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_purple_biomesoplenty_redwood"
+        },
+        "colour=purple,facing=north,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_purple_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=purple,facing=north,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_purple_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=purple,facing=east,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_purple_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=purple,facing=east,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_purple_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=purple,facing=west,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_purple_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=purple,facing=west,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_purple_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=purple,facing=south,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_purple_biomesoplenty_redwood"
+        },
+        "colour=purple,facing=south,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_purple_biomesoplenty_redwood"
+        },
+        "colour=purple,facing=north,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_purple_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=purple,facing=north,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_purple_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=purple,facing=east,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_purple_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=purple,facing=east,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_purple_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=purple,facing=west,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_purple_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=purple,facing=west,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_purple_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=purple,facing=south,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_purple_biomesoplenty_redwood"
+        },
+        "colour=purple,facing=south,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_purple_biomesoplenty_redwood"
+        },
+        "colour=purple,facing=north,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_purple_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=purple,facing=north,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_purple_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=purple,facing=east,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_purple_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=purple,facing=east,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_purple_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=purple,facing=west,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_purple_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=purple,facing=west,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_purple_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=red,facing=south,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_red_biomesoplenty_redwood"
+        },
+        "colour=red,facing=south,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_red_biomesoplenty_redwood"
+        },
+        "colour=red,facing=north,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_red_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=red,facing=north,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_red_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=red,facing=east,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_red_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=red,facing=east,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_red_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=red,facing=west,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_red_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=red,facing=west,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_red_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=red,facing=south,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_red_biomesoplenty_redwood"
+        },
+        "colour=red,facing=south,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_red_biomesoplenty_redwood"
+        },
+        "colour=red,facing=north,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_red_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=red,facing=north,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_red_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=red,facing=east,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_red_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=red,facing=east,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_red_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=red,facing=west,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_red_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=red,facing=west,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_red_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=red,facing=south,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_red_biomesoplenty_redwood"
+        },
+        "colour=red,facing=south,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_red_biomesoplenty_redwood"
+        },
+        "colour=red,facing=north,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_red_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=red,facing=north,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_red_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=red,facing=east,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_red_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=red,facing=east,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_red_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=red,facing=west,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_red_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=red,facing=west,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_red_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=red,facing=south,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_red_biomesoplenty_redwood"
+        },
+        "colour=red,facing=south,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_red_biomesoplenty_redwood"
+        },
+        "colour=red,facing=north,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_red_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=red,facing=north,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_red_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=red,facing=east,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_red_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=red,facing=east,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_red_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=red,facing=west,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_red_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=red,facing=west,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_red_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=white,facing=south,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_white_biomesoplenty_redwood"
+        },
+        "colour=white,facing=south,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_white_biomesoplenty_redwood"
+        },
+        "colour=white,facing=north,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_white_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=white,facing=north,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_white_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=white,facing=east,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_white_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=white,facing=east,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_white_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=white,facing=west,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_white_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=white,facing=west,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_white_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=white,facing=south,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_white_biomesoplenty_redwood"
+        },
+        "colour=white,facing=south,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_white_biomesoplenty_redwood"
+        },
+        "colour=white,facing=north,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_white_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=white,facing=north,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_white_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=white,facing=east,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_white_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=white,facing=east,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_white_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=white,facing=west,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_white_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=white,facing=west,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_white_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=white,facing=south,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_white_biomesoplenty_redwood"
+        },
+        "colour=white,facing=south,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_white_biomesoplenty_redwood"
+        },
+        "colour=white,facing=north,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_white_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=white,facing=north,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_white_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=white,facing=east,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_white_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=white,facing=east,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_white_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=white,facing=west,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_white_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=white,facing=west,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_white_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=white,facing=south,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_white_biomesoplenty_redwood"
+        },
+        "colour=white,facing=south,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_white_biomesoplenty_redwood"
+        },
+        "colour=white,facing=north,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_white_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=white,facing=north,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_white_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=white,facing=east,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_white_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=white,facing=east,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_white_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=white,facing=west,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_white_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=white,facing=west,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_white_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=yellow,facing=south,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_yellow_biomesoplenty_redwood"
+        },
+        "colour=yellow,facing=south,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_yellow_biomesoplenty_redwood"
+        },
+        "colour=yellow,facing=north,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_yellow_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=yellow,facing=north,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_yellow_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=yellow,facing=east,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_yellow_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=yellow,facing=east,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_yellow_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=yellow,facing=west,part=foot,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_yellow_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=yellow,facing=west,part=foot,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_yellow_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=yellow,facing=south,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_yellow_biomesoplenty_redwood"
+        },
+        "colour=yellow,facing=south,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_yellow_biomesoplenty_redwood"
+        },
+        "colour=yellow,facing=north,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_yellow_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=yellow,facing=north,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_yellow_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=yellow,facing=east,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_yellow_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=yellow,facing=east,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_yellow_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=yellow,facing=west,part=foot,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_foot_yellow_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=yellow,facing=west,part=foot,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_foot_yellow_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=yellow,facing=south,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_yellow_biomesoplenty_redwood"
+        },
+        "colour=yellow,facing=south,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_yellow_biomesoplenty_redwood"
+        },
+        "colour=yellow,facing=north,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_yellow_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=yellow,facing=north,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_yellow_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=yellow,facing=east,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_yellow_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=yellow,facing=east,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_yellow_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=yellow,facing=west,part=head,side=left,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_yellow_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=yellow,facing=west,part=head,side=left,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_yellow_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=yellow,facing=south,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_yellow_biomesoplenty_redwood"
+        },
+        "colour=yellow,facing=south,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_yellow_biomesoplenty_redwood"
+        },
+        "colour=yellow,facing=north,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_yellow_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=yellow,facing=north,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_yellow_biomesoplenty_redwood",
+            "y": 180
+        },
+        "colour=yellow,facing=east,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_yellow_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=yellow,facing=east,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_yellow_biomesoplenty_redwood",
+            "y": 270
+        },
+        "colour=yellow,facing=west,part=head,side=right,waterlogged=false": {
+            "model": "ironagefurniture:block/bed_wood_head_yellow_biomesoplenty_redwood",
+            "y": 90
+        },
+        "colour=yellow,facing=west,part=head,side=right,waterlogged=true": {
+            "model": "ironagefurniture:block/bed_wood_head_yellow_biomesoplenty_redwood",
+            "y": 90
+        }
+    }
+}

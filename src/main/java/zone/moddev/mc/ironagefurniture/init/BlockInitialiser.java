@@ -57,10 +57,12 @@ public class BlockInitialiser {
 	public static void registerChairs(RegistryEvent.Register<Block> event, String[] woods, boolean shield, boolean shortStool, boolean tallStool, boolean bench, boolean log, String[] netherwoods) {
 
 		for (String wood : woods) {
+
+            PhaseFourFurniture.registerBlocks(event, wood);
 			event.getRegistry().register(new Chair(1, 10, SoundType.WOOD, "chair_wood_ironage_classic_" + wood));
 
 			if (shield)
-				event.getRegistry().register(new Chair(1, 10, SoundType.WOOD, "chair_wood_ironage_shield_" + wood));
+				event.getRegistry().register(new ShieldChair(1, 10, SoundType.WOOD, "chair_wood_ironage_shield_" + wood));
 
 			if (shortStool)
 				event.getRegistry().register(new Stool(1, 10, SoundType.WOOD, "chair_wood_ironage_stool_short_" + wood));

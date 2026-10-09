@@ -16,23 +16,58 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.SoundCategory;
 
-import java.util.Map;
 import java.util.Random;
 
 import zone.moddev.mc.ironagefurniture.BlockObjectHolder;
+import zone.moddev.mc.ironagefurniture.api.entity.ReleasedLavaLamp;
+import zone.moddev.mc.ironagefurniture.api.blocks.lightsource.phasefour.LightInteractions;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.concurrent.TickDelayedTask;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.world.World;
 import net.minecraft.world.IWorld;
 
 public class LightSourceSconceLavaWall extends LightSourceSconceGlowWall {
+    @Override public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState old, boolean moving) {
+        super.onBlockAdded(state, world, pos, old, moving);
+        scheduleRelease(world, pos);
+    }
+
+    @Override public void neighborChanged(BlockState state, World world, BlockPos pos, Block neighbour,
+            BlockPos neighbourPos, boolean moving) {
+        super.neighborChanged(state, world, pos, neighbour, neighbourPos, moving);
+        scheduleRelease(world, pos);
+    }
+
+    private void scheduleRelease(World world, BlockPos pos) {
+        if (!world.isRemote && world.getBlockState(pos).getBlock() == this
+                && canRelease(world.isBlockPowered(pos), world.isAirBlock(pos.down())))
+            world.getPendingBlockTicks().scheduleTick(pos, this, 2);
+    }
+
+    static boolean canRelease(boolean powered, boolean airBelow) { return powered && airBelow; }
+
+    @Override public void tick(BlockState state, World world, BlockPos pos, Random random) {
+        if (world.isRemote || world.getBlockState(pos).getBlock() != this || !state.isValidPosition(world, pos)
+                || !canRelease(world.isBlockPowered(pos), world.isAirBlock(pos.down()))) return;
+        BlockState empty = LightInteractions.replacement(state, EmptyVariant());
+        if (!world.setBlockState(pos, empty, 3)) return;
+        Direction outwards = state.get(FurnitureBlock.DIRECTION).getOpposite();
+        PlayerEntity nearest = world.getClosestPlayer(pos.getX() + .5, pos.getY() + .5, pos.getZ() + .5, -1, false);
+        ReleasedLavaLamp lamp = new ReleasedLavaLamp(world,
+                pos.getX() + .5 + .27 * outwards.getXOffset(), pos.getY() + 5.0 / 16.0,
+                pos.getZ() + .5 + .27 * outwards.getZOffset(),
+                LightDrop().getDefaultState().with(FurnitureBlock.DIRECTION, state.get(FurnitureBlock.DIRECTION)),
+                pos.getY(), nearest != null && nearest.isCreative());
+        if (!world.addEntity(lamp) && world.getBlockState(pos).getBlock() == empty.getBlock())
+            world.setBlockState(pos, state, 3);
+    }
+
 	@Override
 	public BlockState updatePostPlacement(BlockState state, Direction direction, BlockState state2, IWorld levelAccessor, BlockPos pos, BlockPos pos2) {
 	    if (direction.getOpposite() == state .get(FurnitureBlock.DIRECTION) && !state.isValidPosition(levelAccessor, pos)) {
@@ -47,16 +82,8 @@ public class LightSourceSconceLavaWall extends LightSourceSconceGlowWall {
 	public boolean removedByPlayer(BlockState state, World level, BlockPos pos, PlayerEntity player, boolean willHarvest,
 									   IFluidState fluid) {
 
-		boolean isSilkTouch = false;
-
-		ItemStack tool = player.inventory.getCurrentItem();
-
-		if (tool != null) {
-			Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(tool);
-
-			if (enchantments != null && !enchantments.isEmpty())
-				isSilkTouch = enchantments.get(Enchantments.SILK_TOUCH) > 0;
-		}
+		boolean isSilkTouch = EnchantmentHelper.getEnchantmentLevel(
+                Enchantments.SILK_TOUCH, player.getHeldItemMainhand()) > 0;
 
 		if (isSilkTouch && !player.isCreative())
 			Block.spawnAsEntity(level, pos, new ItemStack(LightDrop(), 1));
@@ -65,7 +92,7 @@ public class LightSourceSconceLavaWall extends LightSourceSconceGlowWall {
 
 		if (!isSilkTouch && !player.isCreative()) {
 			level.playSound(player, pos, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
-			level.setBlockState(pos, LightDrop().getDefaultState() .with(FurnitureBlock.WATERLOGGED, false), 3);
+			level.setBlockState(pos, Blocks.FIRE.getDefaultState(), 3);
 		}
 
 		return destroyed;
@@ -84,7 +111,7 @@ public class LightSourceSconceLavaWall extends LightSourceSconceGlowWall {
 	public LightSourceSconceLavaWall(float hardness, float blastResistance, SoundType sound, String name) {
 		super(Block.Properties.create(Material.IRON).hardnessAndResistance(hardness, blastResistance).sound(sound).lightValue(14));
 
-		this.setDefaultState(this.getStateContainer().getBaseState() .with(FurnitureBlock.DIRECTION, Direction.NORTH));
+		this.setDefaultState(this.getDefaultState() .with(FurnitureBlock.DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateContainer().getValidStates());
 		this.setRegistryName(name);
 	}
@@ -100,7 +127,8 @@ public class LightSourceSconceLavaWall extends LightSourceSconceGlowWall {
 
 		world.setBlockState(pos, EmptyVariant().getDefaultState()
 			.with(FurnitureBlock.DIRECTION, blockState.get(BlockStateProperties.HORIZONTAL_FACING))
-			.with(FurnitureBlock.WATERLOGGED, true), 3);
+			.with(FurnitureBlock.WATERLOGGED, true)
+            .with(zone.moddev.mc.ironagefurniture.api.SconceMetalData.METAL, zone.moddev.mc.ironagefurniture.api.SconceMetalData.get(blockState)), 3);
 
 		world.playSound(null, pos, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
 		world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 0.5F, 2.6F);

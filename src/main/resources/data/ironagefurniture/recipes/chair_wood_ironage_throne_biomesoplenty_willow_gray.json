@@ -1,0 +1,33 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:gray_carpet"
+        },
+        {
+            "item": "biomesoplenty:willow_planks"
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_willow_gray"
+        }
+    ],
+    "group": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_willow_gray",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_willow_gray",
+        "count": 1
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_willow"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_willow"
+        }
+    ]
+}

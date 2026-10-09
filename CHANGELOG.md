@@ -1,3 +1,80 @@
+# IronAgeFurniture 0.4.0.114041
+
+Phase 4 for Minecraft 1.14.4 and Forge 28.2.26. Requires Java 8 on clients and servers.
+
+## New furniture
+
+- Add wooden and canopy beds, including doubles, plus wingback chairs and
+  thrones in all sixteen upholstery colours for supported vanilla, Biomes O'
+  Plenty and Immersive Engineering woods.
+- Craft a wooden bed from a vanilla bed and a matching plank, keeping its
+  colour. Add another matching plank and carpet to make a canopy bed. Combine
+  two matching singles for a double bed.
+- Make chair upgrades shapeless: a classic chair, matching plank and chosen
+  carpet make a wingback; a wingback, matching plank and matching carpet make
+  a throne.
+- Give coloured beds and tall chairs separate inventory items so the recipe
+  book selects the right ingredients. Bed recolouring remains available by
+  hand but stays out of the recipe book, including previously learned recipes.
+- Discover matching throne, canopy and double-bed recipes as soon as their
+  input furniture is crafted, without closing the crafting table. Other woods
+  and colours are not unlocked.
+- Split Creative inventory into Chairs, Benches, Beds and Lights.
+- Place wingbacks and thrones facing the player, like classic chairs. Existing
+  placed chairs keep their direction. Wooden beds burn like wooden seating.
+
+## Shields and lighting
+
+- Remove and refit chair shields without losing damage, banner designs,
+  enchantments, names or other item data. Shield-chair crafting keeps the
+  supplied shield; breaking a chair returns its frame and shield separately.
+- Add floor and wall candles, small flames and held-candle smoke. Smelt meat
+  or rotten flesh into tallow; one tallow and one string make eight candles.
+  Held effects are cosmetic unless a separate dynamic-light feature is enabled.
+- Fit up to four candles or two torches into a sconce. Water extinguishes them.
+  Redstone lights waterlogged twin torches while powered; they go out again
+  when the signal stops.
+- Recover sconce frames and their contents with bare hands or any tool,
+  including unlit and waterlogged states and broken supports. Suitable
+  pickaxes still mine faster; dropped frames keep their metal.
+- Add gold and 21 optional Base Metals sconce materials with matching textures,
+  mining toughness and blast resistance. Five matching nuggets make four
+  sconces for every supported metal.
+- Add optional Mineralogy rock-salt sconces, which stay lit underwater and
+  return their lamp and frame when removed or broken.
+- Recover an intact lava lamp from a sconce with Silk Touch. Without it, the
+  frame drops and the lamp shatters into fire. Creative breaking creates
+  neither drops nor fire.
+- Powered wall lava sconces release their lamp when the space below is clear.
+  The frame stays on the wall; the falling lamp shatters into fire on dry ground
+  or an obsidian chunk in water.
+
+## Existing worlds and integrations
+
+- Preserve supported furniture from 1.10.2, 1.12.2 and older 1.14.4 releases:
+  facing, connected states, upholstery, metals, beds, stored shields and items
+  in player inventories, Ender Chests, containers, nested containers and drops.
+- Convert legacy colour and metal item data into the matching inventory
+  identities without changing surviving block IDs. Missing colour defaults to
+  red; missing metal defaults to iron. Known Base Metals names survive while
+  that mod is absent. Legacy `big_oak` furniture becomes `dark_oak`.
+- Add one-for-one recipes for CFM's six vanilla-wood chairs. Existing CFM
+  chairs remain unchanged unless forced conversion is enabled; supported
+  chairs are recovered automatically when CFM is removed. Other CFM furniture
+  is not converted.
+- Retain the 1.12 language choices and translations, with English names for
+  entries still awaiting translation. Hide unavailable optional woods and
+  metals without missing-recipe or object-holder debug spam.
+- Verify the published Base Metals 3.0.1.114041 and OreSpawn 4.1.0.114041
+  integration, including recipes, textures, drops and legacy metal saves.
+- Split the build scripts by responsibility while retaining the Forge 1.14.4
+  toolchain, reproducible release jars, Eclipse setup and guarded publication.
+
+Back up your world before upgrading. Supported upgrade fixtures load directly
+and retain their converted data on a second load, but unsupported mods and
+containers may need preparation in the old version. See
+[the upgrade guide](docs/UPGRADING.md) for supported formats and limitations.
+
 # IronAgeFurniture 0.3.0.114041
 
 Phase 3 lighting release for Minecraft 1.14.4 and Forge 28.2.26.
