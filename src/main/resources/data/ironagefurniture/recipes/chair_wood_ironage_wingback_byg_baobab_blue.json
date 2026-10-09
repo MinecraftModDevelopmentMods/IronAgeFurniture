@@ -1,0 +1,33 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:blue_carpet"
+        },
+        {
+            "item": "byg:baobab_planks"
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_classic_byg_baobab"
+        }
+    ],
+    "group": "ironagefurniture:chair_wood_ironage_wingback_byg_baobab_blue",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_wingback_byg_baobab_blue",
+        "count": 1
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "byg"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_wingback_byg_baobab"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_classic_byg_baobab"
+        }
+    ]
+}

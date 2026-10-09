@@ -26,7 +26,7 @@
                         "conditions": {
                             "items": [
                                 {
-                                    "item": "byg:green_enchanted_planks"
+                                    "item": "minecraft:shield"
                                 }
                             ]
                         }

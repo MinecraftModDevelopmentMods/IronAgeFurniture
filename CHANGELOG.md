@@ -1,4 +1,28 @@
-# IronAgeFurniture 0.3.0.115021
+# IronAgeFurniture 0.4.0.115021
+
+Phase 4 candidate for Minecraft 1.15.2 and Forge 31.2.57.
+
+- Add wooden and canopy beds, matching doubles, wingbacks and thrones for all
+  39 existing wood families, with sixteen colour-specific items for each form.
+- Preserve shield designs and all other item data when removing and replacing
+  a shield-chair shield.
+- Add candles, twin-torch and rock-salt sconces, and iron, gold and optional
+  Base Metals sconce frames with material-appropriate textures and toughness.
+- Keep sconce contents through hand/tool harvesting and support loss. Preserve
+  the intended lava-lamp shattering, Silk Touch recovery and redstone traps.
+- Separate Chairs, Benches, Beds and Lights creative tabs. Keep bed recolouring
+  available for manual crafting without crowding the recipe book.
+- Use colour-matched shapeless chair upgrades and immediate matching upgrade
+  discovery. Five matching nuggets now consistently produce four sconces.
+- Add seventeen locales with English fallbacks, and divide the build scripts
+  into smaller files with practical explanations.
+- Extend legacy furniture imports for Phase 4 upholstery, shields and metals,
+  including the 1.12 Oh The Biomes add-on and its retired-wood substitutes.
+- Update learned legacy furniture recipes and remove previously learned bed
+  recolouring entries from the recipe book. Keep disabled BYG furniture out of
+  the creative tabs without removing its saved registry entries.
+
+## Previous release: 0.3.0.115021
 
 Phase 3 lighting release for Minecraft 1.15.2 and Forge 31.2.57.
 

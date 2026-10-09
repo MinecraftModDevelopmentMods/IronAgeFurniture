@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_bed_canopy_double_inventory",
+    "textures": {
+        "log": "byg:blocks/redwood_log",
+        "planks": "byg:blocks/redwood_planks",
+        "particle": "byg:blocks/redwood_log",
+        "cloth": "minecraft:block/purple_wool"
+    }
+}

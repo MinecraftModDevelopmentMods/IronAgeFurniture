@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_bed_wood_foot_left",
+    "textures": {
+        "log": "byg:blocks/holly_log",
+        "planks": "byg:blocks/holly_planks",
+        "particle": "byg:blocks/holly_log",
+        "cloth": "minecraft:block/red_wool"
+    }
+}

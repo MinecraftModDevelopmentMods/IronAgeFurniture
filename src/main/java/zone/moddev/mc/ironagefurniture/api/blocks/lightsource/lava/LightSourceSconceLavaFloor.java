@@ -13,7 +13,6 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.world.World;
@@ -32,7 +31,6 @@ import com.mojang.datafixers.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 public class LightSourceSconceLavaFloor extends LightSourceSconceGlowFloor implements ILiquidContainer {
@@ -56,16 +54,8 @@ public class LightSourceSconceLavaFloor extends LightSourceSconceGlowFloor imple
 	public boolean removedByPlayer(BlockState state, World level, BlockPos pos, PlayerEntity player, boolean willHarvest,
 									   IFluidState fluid) {
 
-		boolean isSilkTouch = false;
-
-		ItemStack tool = player.inventory.getSelected();
-
-		if (tool != null) {
-			Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(tool);
-
-			if (enchantments != null && !enchantments.isEmpty())
-				isSilkTouch = enchantments.get(Enchantments.SILK_TOUCH) > 0;
-		}
+		boolean isSilkTouch = EnchantmentHelper.getItemEnchantmentLevel(
+                Enchantments.SILK_TOUCH, player.getMainHandItem()) > 0;
 
 		if (isSilkTouch && !player.isCreative())
 			Block.popResource(level, pos, new ItemStack(LightDrop(), 1));
@@ -90,13 +80,13 @@ public class LightSourceSconceLavaFloor extends LightSourceSconceGlowFloor imple
 
 		drops.add(stack);
 
-		return drops;
+		return zone.moddev.mc.ironagefurniture.api.SconceMetalData.preserveDrops(state, drops);
 	}
 
 	public LightSourceSconceLavaFloor(float hardness, float blastResistance, SoundType sound, String name) {
 		super(Block.Properties.of(Material.METAL).strength(hardness, blastResistance).sound(sound).lightLevel(14));
 
-		this.registerDefaultState(this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
+		this.registerDefaultState(this.defaultBlockState() .setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
 		this.setRegistryName(name);
 	}
@@ -138,7 +128,8 @@ public class LightSourceSconceLavaFloor extends LightSourceSconceGlowFloor imple
 
 		world.setBlock(pos, EmptyVariant().defaultBlockState()
 			.setValue(FurnitureBlock.DIRECTION, blockState.getValue(BlockStateProperties.HORIZONTAL_FACING))
-			.setValue(FurnitureBlock.WATERLOGGED, true), 3);
+			.setValue(FurnitureBlock.WATERLOGGED, true)
+            .setValue(zone.moddev.mc.ironagefurniture.api.SconceMetalData.METAL, zone.moddev.mc.ironagefurniture.api.SconceMetalData.get(blockState)), 3);
 
 		world.playSound(null, pos, SoundEvents.GLASS_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
 		world.playSound(null, pos, SoundEvents.LAVA_EXTINGUISH, SoundCategory.BLOCKS, 0.5F, 2.6F);

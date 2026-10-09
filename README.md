@@ -4,14 +4,39 @@
 
 # IronAgeFurniture
 
-IronAgeFurniture adds chairs, stools, benches, lamps, sconces, and other ye
+IronAgeFurniture adds chairs, stools, benches, beds, lamps, sconces, and other ye
 olde-style furniture to Minecraft. Seating is functional, furniture supports
 the appropriate vanilla and optional-mod materials, and lighting includes
 falling and throwable lava lamps.
 
-This branch provides IronAgeFurniture `0.3.0.115021` for Minecraft 1.15.2 and
+This branch provides IronAgeFurniture `0.4.0.115021` for Minecraft 1.15.2 and
 Forge 31.2.57. It requires Java 8 and can be installed on both clients and
 dedicated servers.
+
+## Phase 4 furniture and lighting
+
+Choose from four creative tabs: Chairs, Benches, Beds and Lights. This edition
+keeps all 39 wood families, including the optional biome-mod woods.
+
+- Make a wooden bed with a vanilla bed and a matching plank. Its colour stays
+  the same. Add another matching plank and matching carpet for a canopy bed.
+  Two identical single beds make a double; carpet can deliberately recolour
+  an IAF bed, but those recolouring recipes stay out of the recipe book.
+- Upgrade a classic chair with a matching plank and carpet to make a wingback.
+  A wingback, another matching plank and matching carpet make a throne. Both
+  upgrades are shapeless, and their recipe-book entries use the exact colour.
+- Remove and reattach a shield without losing its banner design, damage,
+  enchantments, name or other saved item data.
+- Light the room with candles, twin-torch sconces and optional Mineralogy
+  rock-salt lamps. Five matching metal nuggets make four sconces.
+- Carrying a candle shows a small flame and smoke effect. Moving light still
+  needs OptiFine or a compatible dynamic-light mod; IAF does not add its own
+  dynamic-light engine.
+
+Sconces keep their metal and contents when broken by hand or a tool. A lava
+lamp is the intentional exception: Silk Touch recovers it intact; ordinary
+breaking shatters it and may start a fire. Powering a lava-lamp sconce releases
+the lamp as a falling trap.
 
 ## Optional integrations
 
@@ -21,9 +46,16 @@ installed:
 - Biomes O' Plenty
 - Immersive Engineering
 - Oh The Biomes You'll Go
+- Base Metals (additional sconce metals)
+- Mineralogy (rock-salt sconces)
+- MrCrayfish's Furniture Mod (chair conversion recipes)
 
 They are optional. Their recipes and recipe advancements are conditionally
 loaded, so a normal installation does not need any of them.
+
+CFM world conversion is off by default while both mods are installed. Enable
+the conversion option only when you want supported CFM chairs replaced with
+IAF chairs. Removed-mod recovery is also provided for supported old chairs.
 
 ## Compatibility
 
@@ -31,12 +63,12 @@ The persistent mod ID, registry names, resource paths, configuration names,
 entities, and saved-world identity remain under `ironagefurniture`. Existing
 1.15.2 worlds therefore retain the same runtime identities.
 
-This release can also upgrade supported IronAgeFurniture furniture and Phase 3
-lights saved by the Forge 1.10.2 and 1.12.2 editions across Minecraft's
-flattening. Facing, connected-bench shape, lighting state, and padded-bench
-colour are preserved. The original red-only padded benches become red, while
-the later sixteen-colour format keeps its saved `Color` value in placed blocks,
-inventories, containers, and dropped items.
+The upgrade bridge imports supported Phase 2, 3 and 4 furniture from Forge
+1.10.2 and 1.12.2, as well as older 1.14.4 and 1.15.2 saves. It preserves
+facing, connected benches, bed and chair parts, upholstery, sconce metals and
+stored shields. The original red-only benches become red; later colours and
+metals become the matching current items in inventories, containers and drops.
+New coloured furniture uses distinct item IDs rather than recipe-selection NBT.
 
 Worlds using the Iron Age Furniture Oh The Biomes Add-On for 1.12.2 are also
 supported. The twenty-one woods still present in BYG 1.15.2 keep their matching
@@ -46,12 +78,14 @@ Ebony, Palm becomes Baobab, and Rowan becomes Maple.
 
 Always back up a world before moving it to a newer Minecraft version. Once the
 world has been saved by 1.15.2 it cannot safely be reopened in an older version.
+See [the upgrade guide](docs/UPGRADING.md) for tested paths, optional-mod limits
+and a short checklist before using a valuable world.
 
 The supported Java source namespace is now
 `zone.moddev.mc.ironagefurniture`. Add-ons compiled against the former
 `com.mcmoddev.ironagefurniture` packages must update their imports. The Maven
 coordinate is
-`zone.moddev.mc:iron-age-furniture:0.3.0.115021`.
+`zone.moddev.mc:iron-age-furniture:0.4.0.115021`.
 
 See [CHANGELOG.md](CHANGELOG.md) for the release notes and
 [docs/VERSIONS.md](docs/VERSIONS.md) for the versioning scheme. Bugs can be

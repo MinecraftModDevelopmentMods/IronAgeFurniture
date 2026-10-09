@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "group": "ironagefurniture:sconce_invar",
+    "conditions": [
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:light_metal_ironage_sconce_floor_empty_iron"
+        },
+        {
+            "type": "forge:mod_loaded",
+            "modid": "basemetals"
+        },
+        {
+            "type": "ironagefurniture:metal_available",
+            "metal": "invar"
+        }
+    ],
+    "pattern": [
+        "xxx",
+        "x  ",
+        "x  "
+    ],
+    "key": {
+        "x": {
+            "tag": "forge:nuggets/invar"
+        }
+    },
+    "result": {
+        "item": "ironagefurniture:light_metal_ironage_sconce_floor_empty_basemetals_invar",
+        "count": 4
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_bed_canopy_double_inventory",
+    "textures": {
+        "log": "byg:blocks/green_enchanted_log",
+        "planks": "byg:blocks/green_enchanted_planks",
+        "particle": "byg:blocks/green_enchanted_log",
+        "cloth": "minecraft:block/lime_wool"
+    }
+}

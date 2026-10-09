@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_bed_wood_double_inventory",
+    "textures": {
+        "log": "byg:blocks/cypress_log",
+        "planks": "byg:blocks/cypress_planks",
+        "particle": "byg:blocks/cypress_log",
+        "cloth": "minecraft:block/purple_wool"
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_bed_canopy_foot_right_upper",
+    "textures": {
+        "log": "byg:blocks/willow_log",
+        "planks": "byg:blocks/willow_planks",
+        "particle": "byg:blocks/willow_log",
+        "cloth": "minecraft:block/lime_wool"
+    }
+}

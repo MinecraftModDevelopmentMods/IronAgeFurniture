@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_bed_canopy_head_right_upper",
+    "textures": {
+        "log": "minecraft:block/acacia_log",
+        "planks": "minecraft:block/acacia_planks",
+        "particle": "minecraft:block/acacia_log",
+        "cloth": "minecraft:block/yellow_wool"
+    }
+}

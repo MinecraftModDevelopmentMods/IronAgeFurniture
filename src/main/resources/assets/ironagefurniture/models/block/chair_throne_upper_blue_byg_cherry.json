@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_chair_throne_upper",
+    "textures": {
+        "log": "byg:blocks/cherry_log",
+        "planks": "byg:blocks/cherry_planks",
+        "particle": "byg:blocks/cherry_log",
+        "cloth": "minecraft:block/blue_wool"
+    }
+}

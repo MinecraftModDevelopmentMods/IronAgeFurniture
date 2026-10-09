@@ -15,6 +15,11 @@ public class LegacyMigrationContractTest {
 		assertTrue(transformer.contains("prepareLegacyChunk"));
 		assertTrue(transformer.contains("finalizeLegacyChunk"));
 		assertTrue(new File("src/main/resources/META-INF/coremods.json").isFile());
+		assertTrue(transformer.contains("ironagefurniture_legacy_player_files"));
+		assertTrue(transformer.contains("ironagefurniture_legacy_single_player_data"));
+		assertTrue(transformer.contains("ironagefurniture_legacy_player_items"));
+		assertTrue(transformer.contains("preparePlayerData"));
+		assertTrue(transformer.contains("Cannot locate raw legacy player data readers"));
 	}
 
 	@Test

@@ -1,0 +1,33 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:black_carpet"
+        },
+        {
+            "item": "byg:witch_hazel_planks"
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_byg_witch_hazel_black"
+        }
+    ],
+    "group": "ironagefurniture:chair_wood_ironage_throne_byg_witch_hazel_black",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_throne_byg_witch_hazel_black",
+        "count": 1
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "byg"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_throne_byg_witch_hazel"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_wingback_byg_witch_hazel"
+        }
+    ]
+}

@@ -1,0 +1,33 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:cyan_carpet"
+        },
+        {
+            "item": "byg:pine_planks"
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_byg_pine_cyan"
+        }
+    ],
+    "group": "ironagefurniture:chair_wood_ironage_throne_byg_pine_cyan",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_throne_byg_pine_cyan",
+        "count": 1
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "byg"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_throne_byg_pine"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_wingback_byg_pine"
+        }
+    ]
+}

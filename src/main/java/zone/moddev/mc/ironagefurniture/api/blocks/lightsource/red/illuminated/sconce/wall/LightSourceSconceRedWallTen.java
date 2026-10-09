@@ -18,7 +18,7 @@ public class LightSourceSconceRedWallTen extends LightSourceSconceRedWall {
 	public LightSourceSconceRedWallTen(float hardness, float blastResistance, SoundType sound, String name) {
 		super(Properties.of(Material.METAL).strength(hardness, blastResistance).sound(sound).lightLevel(LIGHT_LEVEL) );
 
-		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
+		this.registerDefaultState(this.defaultBlockState() .setValue(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
 		this.setRegistryName(name);
 		this.flameParticle = RedstoneParticleData.REDSTONE;

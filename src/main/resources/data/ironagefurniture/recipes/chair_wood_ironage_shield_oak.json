@@ -1,5 +1,5 @@
 {
-    "type": "crafting_shapeless",
+    "type": "ironagefurniture:shield_chair",
     "ingredients": [
         {
             "item": "minecraft:shield"
