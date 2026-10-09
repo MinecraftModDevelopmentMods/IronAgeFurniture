@@ -6,6 +6,9 @@
         },
         {
             "item": "minecraft:jungle_planks"
+        },
+        {
+            "item": "minecraft:white_carpet"
         }
     ],
     "group": "ironagefurniture:bed_canopy_foot_lower_jungle_white",

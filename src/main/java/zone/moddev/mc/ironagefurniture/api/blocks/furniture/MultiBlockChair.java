@@ -58,7 +58,8 @@ public abstract class MultiBlockChair extends Chair {
             if (part.getY() >= context.getWorld().getHeight()
                     || !context.getWorld().getBlockState(part).isReplaceable(context)) return null;
         }
-        return super.getStateForPlacement(context).with(DIRECTION, context.getPlacementHorizontalFacing().getOpposite())
+        // The tall-chair models use the same orientation as classic chairs.
+        return super.getStateForPlacement(context)
                 .with(PART, ChairPart.LOWER).with(UpholsteryItemData.COLOUR, UpholsteryItemData.getColour(context.getItem()));
     }
     @Override public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {

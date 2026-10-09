@@ -6,6 +6,9 @@
         },
         {
             "item": "minecraft:birch_planks"
+        },
+        {
+            "item": "minecraft:yellow_carpet"
         }
     ],
     "group": "ironagefurniture:bed_canopy_foot_lower_birch_yellow",

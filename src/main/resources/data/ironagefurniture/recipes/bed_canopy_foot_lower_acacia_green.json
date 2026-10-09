@@ -6,6 +6,9 @@
         },
         {
             "item": "minecraft:acacia_planks"
+        },
+        {
+            "item": "minecraft:green_carpet"
         }
     ],
     "group": "ironagefurniture:bed_canopy_foot_lower_acacia_green",

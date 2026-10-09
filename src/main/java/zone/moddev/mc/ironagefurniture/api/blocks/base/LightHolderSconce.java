@@ -28,6 +28,10 @@ public abstract class LightHolderSconce extends LightHolder {
     }
     @Override public int getHarvestLevel(BlockState state) { return SconceMetalData.get(state).harvestLevel(); }
     @Override public ToolType getHarvestTool(BlockState state) { return ToolType.PICKAXE; }
+    @Override public boolean canHarvestBlock(BlockState state, IBlockReader world, BlockPos pos, PlayerEntity player) {
+        // A pickaxe speeds up mining, but hands and other tools must not destroy the frame or its contents.
+        return true;
+    }
     @Override public ItemStack getPickBlock(BlockState state, RayTraceResult hit, IBlockReader world, BlockPos pos, PlayerEntity player) {
         // Interaction-only states may have no item of their own. Pick the
         // craftable frame, carrying the metal rather than a hidden state ID.

@@ -1,87 +1,79 @@
-# IronAgeFurniture 0.4.0.114041 (release candidate)
+# IronAgeFurniture 0.4.0.114041
 
-Phase 4 candidate for Minecraft 1.14.4 and Forge 28.2.26. It is available for
-local testing, not yet published as a release.
+Phase 4 for Minecraft 1.14.4 and Forge 28.2.26. Requires Java 8 on clients and servers.
 
-- Keep bed-and-carpet recolouring out of the recipe book, including previously
-  learned colour-change recipes. Manual recolouring still works for all bed
-  forms, woods and colours; construction and upgrade recipes remain visible.
-- Give bed, wingback-chair and throne colours and sconce metals distinct
-  inventory items without adding blocks or tile entities. Recipe-book selection
-  now moves the correct coloured bed along with the other ingredients.
-- Import old metadata and `Color`/`Metal` item data into these identities,
-  including tagged items in existing 1.14 worlds. Keep stack counts, other
-  saved item data, placed states and temporarily unavailable metals intact.
-- Add gold sconces and retain the stable legacy metal names in saved block
-  properties and item data. Mining toughness and blast resistance follow the
-  metal, while all light changes, waterlogging and drops keep the original frame.
-- Preserve pre-flattening sconce metals, including nested items and the old
-  `sconce_metal` tile data. An absent Base Metals installation does not erase
-  saved metal names. The conditional integration has been tested with published
-  Base Metals 3.0.1.114041 and OreSpawn 4.1.0.114041 builds, including all 21
-  additional metals, recipes, in-world client textures, mining toughness and
-  metal-preserving drops. Legacy 1.12 metal fixtures retain their state and item
-  data on both the initial upgrade and a second load with Base Metals installed.
-- Keep the selected sconce metal visible in the inventory, in either hand and
-  on dropped items. Camera transforms no longer revert gold or Base Metals
-  frames to the original iron appearance; resource-pack transforms are retained.
-- Keep newly created sconces dry by default, including hidden red-lamp states;
-  previously saved waterlogged states remain waterlogged.
-- Preserve legacy furniture items in chest-only chunks and decode their colour
-  and metal before player inventories load across the flattening boundary.
-- Rename stored `big_oak` chairs, stools and benches before Minecraft's item
-  upgrade runs, so they reach their `dark_oak` counterparts rather than vanishing.
-- Ignore unrelated mods' old item names during IAF recovery, including legacy
-  uppercase names that newer Minecraft would reject as registry identifiers.
-- Carry forward the 1.12 language choices and existing translations, with
-  current English names for entries still awaiting translation.
-- Add wooden and canopy beds, including doubles, plus wingback chairs and thrones
-  for the supported vanilla, BOP and IE woods. All sixteen upholstery colours
-  remain intact in crafting, pick block and Survival drops.
-- Add floor and wall candles with a small flame, sparse held-candle smoke,
-  waterlogging and relighting. Smelting meat into tallow keeps the original
-  quantities, and one tallow with one string makes eight candles.
-- Sconces can hold up to four candles or two torches. Inserting, removing,
-  extinguishing and relighting their contents preserves facing and waterlogging;
-  mining returns the frame and the correct number of candles or torches.
-- Add optional Mineralogy rock-salt lamps to floor and wall sconces. They stay
-  lit underwater; removal and mining return the original lamp and frame.
-- Add conditional one-for-one conversion recipes for CFM's six vanilla-wood
-  chairs. Existing CFM chairs remain unchanged unless forced conversion is
-  enabled; supported chairs are recovered automatically when CFM is removed.
-  Facing, named and enchanted items, nested containers, player inventories and
-  Ender Chests are retained. Conversion is permanent, so make a backup first.
-- A powered wall-mounted lava sconce releases its lamp when the space below is
-  open. The frame stays in place; the falling vial shatters into fire or an
-  underwater obsidian chunk. Creative-mode testing leaves the landed lamp intact.
-- Bed upgrades keep the supplied bed's colour. Double beds require matching
-  singles; carpet recipes deliberately recolour an existing bed. Recipe-book
-  entries remain separate for each wood, form and colour.
-- Keep the original bed and tall-chair model geometry and inventory transforms,
-  with resource-pack-overridable wood and vanilla wool textures.
-- Carry legacy bed and tall-chair part metadata across flattening, and convert
-  their old upholstery tiles into coloured blockstates without losing facing.
-- Shields can be removed from and fitted to shield chairs without losing their
-  damage, banner designs, enchantments, names or other item data. Old chairs keep
-  their plain shields, and empty frames stay empty after saving and reloading.
-- Shield-chair crafting now keeps the shield supplied by the player. Mining a
-  chair returns its frame and shield; falling chairs retain their fitted shield.
-- Stored pre-flattening shield items are upgraded with Minecraft's item data
-  fixer, including its changed banner-colour numbering.
-- Remove debug messages for optional furniture that is intentionally not
-  registered when its wood-providing mod is absent.
-- Mining lava-filled floor or wall sconces returns the empty sconce. Silk Touch
-  also returns the intact lamp; other tools shatter it into fire. Tools with
-  other enchantments no longer cause a mining error.
-- Split the build into smaller files for resource checks, packaged integration
-  tests, Eclipse setup, release artifacts and Maven publication. The Forge
-  1.14.4 toolchain and existing publication safeguards remain unchanged.
-- Refresh artifact checksums whenever a jar changes, including changes to its
-  bundled documentation, rather than reusing an out-of-date checksum file.
-- Check direct upgrades from the 1.10/1.12 red-only and multicolour releases,
-  Phase 4 beds, chairs, shields and metals, and an older same-version world.
-  Converted copies retain their data on a second load. An entire old modpack
-  may still need separate preparation for unsupported mods and containers.
+## New furniture
+
+- Add wooden and canopy beds, including doubles, plus wingback chairs and
+  thrones in all sixteen upholstery colours for supported vanilla, Biomes O'
+  Plenty and Immersive Engineering woods.
+- Craft a wooden bed from a vanilla bed and a matching plank, keeping its
+  colour. Add another matching plank and carpet to make a canopy bed. Combine
+  two matching singles for a double bed.
+- Make chair upgrades shapeless: a classic chair, matching plank and chosen
+  carpet make a wingback; a wingback, matching plank and matching carpet make
+  a throne.
+- Give coloured beds and tall chairs separate inventory items so the recipe
+  book selects the right ingredients. Bed recolouring remains available by
+  hand but stays out of the recipe book, including previously learned recipes.
+- Discover matching throne, canopy and double-bed recipes as soon as their
+  input furniture is crafted, without closing the crafting table. Other woods
+  and colours are not unlocked.
+- Split Creative inventory into Chairs, Benches, Beds and Lights.
+- Place wingbacks and thrones facing the player, like classic chairs. Existing
+  placed chairs keep their direction. Wooden beds burn like wooden seating.
+
+## Shields and lighting
+
+- Remove and refit chair shields without losing damage, banner designs,
+  enchantments, names or other item data. Shield-chair crafting keeps the
+  supplied shield; breaking a chair returns its frame and shield separately.
+- Add floor and wall candles, small flames and held-candle smoke. Smelt meat
+  or rotten flesh into tallow; one tallow and one string make eight candles.
+  Held effects are cosmetic unless a separate dynamic-light feature is enabled.
+- Fit up to four candles or two torches into a sconce. Water extinguishes them.
+  Redstone lights waterlogged twin torches while powered; they go out again
+  when the signal stops.
+- Recover sconce frames and their contents with bare hands or any tool,
+  including unlit and waterlogged states and broken supports. Suitable
+  pickaxes still mine faster; dropped frames keep their metal.
+- Add gold and 21 optional Base Metals sconce materials with matching textures,
+  mining toughness and blast resistance. Five matching nuggets make four
+  sconces for every supported metal.
+- Add optional Mineralogy rock-salt sconces, which stay lit underwater and
+  return their lamp and frame when removed or broken.
+- Recover an intact lava lamp from a sconce with Silk Touch. Without it, the
+  frame drops and the lamp shatters into fire. Creative breaking creates
+  neither drops nor fire.
+- Powered wall lava sconces release their lamp when the space below is clear.
+  The frame stays on the wall; the falling lamp shatters into fire on dry ground
+  or an obsidian chunk in water.
+
+## Existing worlds and integrations
+
+- Preserve supported furniture from 1.10.2, 1.12.2 and older 1.14.4 releases:
+  facing, connected states, upholstery, metals, beds, stored shields and items
+  in player inventories, Ender Chests, containers, nested containers and drops.
+- Convert legacy colour and metal item data into the matching inventory
+  identities without changing surviving block IDs. Missing colour defaults to
+  red; missing metal defaults to iron. Known Base Metals names survive while
+  that mod is absent. Legacy `big_oak` furniture becomes `dark_oak`.
+- Add one-for-one recipes for CFM's six vanilla-wood chairs. Existing CFM
+  chairs remain unchanged unless forced conversion is enabled; supported
+  chairs are recovered automatically when CFM is removed. Other CFM furniture
+  is not converted.
+- Retain the 1.12 language choices and translations, with English names for
+  entries still awaiting translation. Hide unavailable optional woods and
+  metals without missing-recipe or object-holder debug spam.
+- Verify the published Base Metals 3.0.1.114041 and OreSpawn 4.1.0.114041
+  integration, including recipes, textures, drops and legacy metal saves.
+- Split the build scripts by responsibility while retaining the Forge 1.14.4
+  toolchain, reproducible release jars, Eclipse setup and guarded publication.
+
+Back up your world before upgrading. Supported upgrade fixtures load directly
+and retain their converted data on a second load, but unsupported mods and
+containers may need preparation in the old version. See
+[the upgrade guide](docs/UPGRADING.md) for supported formats and limitations.
 
 # IronAgeFurniture 0.3.0.114041
 

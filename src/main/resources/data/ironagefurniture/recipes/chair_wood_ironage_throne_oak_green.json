@@ -1,68 +1,16 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "c",
-        "p",
-        "s"
-    ],
-    "key": {
-        "c": {
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
             "item": "minecraft:green_carpet"
         },
-        "p": {
+        {
             "item": "minecraft:oak_planks"
         },
-        "s": [
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_oak_black"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_oak_blue"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_oak_brown"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_oak_cyan"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_oak_gray"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_oak_green"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_oak_light_blue"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_oak_light_gray"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_oak_lime"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_oak_magenta"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_oak_orange"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_oak_pink"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_oak_purple"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_oak"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_oak_white"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_oak_yellow"
-            }
-        ]
-    },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_oak_green"
+        }
+    ],
     "group": "ironagefurniture:chair_wood_ironage_throne_oak_green",
     "result": {
         "item": "ironagefurniture:chair_wood_ironage_throne_oak_green",

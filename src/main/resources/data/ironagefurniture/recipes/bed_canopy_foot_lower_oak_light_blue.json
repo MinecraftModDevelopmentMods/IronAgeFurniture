@@ -6,6 +6,9 @@
         },
         {
             "item": "minecraft:oak_planks"
+        },
+        {
+            "item": "minecraft:light_blue_carpet"
         }
     ],
     "group": "ironagefurniture:bed_canopy_foot_lower_oak_light_blue",

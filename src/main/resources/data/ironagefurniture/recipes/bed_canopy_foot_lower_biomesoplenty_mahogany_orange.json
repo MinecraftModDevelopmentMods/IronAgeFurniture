@@ -6,6 +6,9 @@
         },
         {
             "item": "biomesoplenty:mahogany_planks"
+        },
+        {
+            "item": "minecraft:orange_carpet"
         }
     ],
     "group": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_mahogany_orange",

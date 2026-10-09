@@ -68,7 +68,7 @@ final class SconceMetalRuntimeProbe {
         NonNullList<ItemStack> creative = NonNullList.create();
         for (SconceMetal metal : SconceMetal.values())
             SconceMetalData.create(((net.minecraft.item.BlockItem)frame).getBlock(), metal).getItem()
-                    .fillItemGroup(Ironagefurniture.IAF_GROUP, creative);
+                    .fillItemGroup(Ironagefurniture.IAF_LIGHTS_GROUP, creative);
         long available = java.util.Arrays.stream(SconceMetal.values()).filter(SconceMetalData::available).count();
         if (Boolean.getBoolean("iaf.probe.liveBaseMetals")) {
             require(net.minecraftforge.fml.ModList.get().isLoaded("basemetals"), "Published Base Metals is absent");
@@ -192,17 +192,26 @@ final class SconceMetalRuntimeProbe {
         }
     }
     private static void verifyRecipe(ServerWorld world) {
-        IRecipe<?> found = world.getRecipeManager().getRecipe(new ResourceLocation("ironagefurniture",
-                "light_metal_ironage_sconce_floor_empty_gold")).orElseThrow(() -> new IllegalStateException("Missing gold recipe"));
-        require(found instanceof net.minecraft.item.crafting.ShapedRecipe, "Wrong gold recipe type");
-        net.minecraft.item.crafting.ShapedRecipe recipe = (net.minecraft.item.crafting.ShapedRecipe)found;
-        CraftingInventory grid = grid();
-        for (int slot : new int[]{0, 1, 2, 3, 6}) grid.setInventorySlotContents(slot, new ItemStack(Items.GOLD_NUGGET));
-        require(recipe.matches(grid, world), "Gold recipe does not match");
-        ItemStack result = recipe.getCraftingResult(grid);
-        require(result.getCount() == 4 && SconceMetalData.get(result) == SconceMetal.GOLD, "Crafting lost gold NBT");
-        grid.setInventorySlotContents(8, new ItemStack(Items.GOLD_NUGGET));
-        require(!recipe.matches(grid, world), "Recipe accepts extra ingredients");
+        for (SconceMetal metal : new SconceMetal[]{SconceMetal.IRON, SconceMetal.GOLD}) {
+            ResourceLocation id = new ResourceLocation("ironagefurniture",
+                    "light_metal_ironage_sconce_floor_empty_" + metal.getName());
+            IRecipe<?> found = world.getRecipeManager().getRecipe(id)
+                    .orElseThrow(() -> new IllegalStateException("Missing sconce recipe: " + id));
+            require(found instanceof net.minecraft.item.crafting.ShapedRecipe, "Wrong sconce recipe type: " + id);
+            net.minecraft.item.crafting.ShapedRecipe recipe = (net.minecraft.item.crafting.ShapedRecipe)found;
+            Item nugget = metal == SconceMetal.IRON ? Items.IRON_NUGGET : Items.GOLD_NUGGET;
+            CraftingInventory grid = grid();
+            for (int slot : new int[]{0, 1, 2, 3, 6}) grid.setInventorySlotContents(slot, new ItemStack(nugget));
+            require(recipe.matches(grid, world), "Sconce recipe does not match: " + id);
+            ItemStack result = recipe.getCraftingResult(grid);
+            require(result.getCount() == 4 && id.equals(result.getItem().getRegistryName())
+                    && SconceMetalData.get(result) == metal, "Five nuggets did not make four matching sconces: " + id);
+            grid.setInventorySlotContents(8, new ItemStack(nugget));
+            require(!recipe.matches(grid, world), "Sconce recipe accepts extra ingredients: " + id);
+            grid.setInventorySlotContents(8, ItemStack.EMPTY);
+            grid.setInventorySlotContents(0, new ItemStack(metal == SconceMetal.IRON ? Items.GOLD_NUGGET : Items.IRON_NUGGET));
+            require(!recipe.matches(grid, world), "Sconce recipe accepts mixed metals: " + id);
+        }
     }
     private static CraftingInventory grid() {
         return new CraftingInventory(new Container(null, 0) {

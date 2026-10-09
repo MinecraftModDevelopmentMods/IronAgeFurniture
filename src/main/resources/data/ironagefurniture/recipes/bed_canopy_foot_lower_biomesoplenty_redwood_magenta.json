@@ -6,6 +6,9 @@
         },
         {
             "item": "biomesoplenty:redwood_planks"
+        },
+        {
+            "item": "minecraft:magenta_carpet"
         }
     ],
     "group": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_redwood_magenta",

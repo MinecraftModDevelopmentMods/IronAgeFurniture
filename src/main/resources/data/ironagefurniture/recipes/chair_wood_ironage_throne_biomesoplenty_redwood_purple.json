@@ -1,68 +1,16 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "c",
-        "p",
-        "s"
-    ],
-    "key": {
-        "c": {
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
             "item": "minecraft:purple_carpet"
         },
-        "p": {
+        {
             "item": "biomesoplenty:redwood_planks"
         },
-        "s": [
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_redwood_black"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_redwood_blue"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_redwood_brown"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_redwood_cyan"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_redwood_gray"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_redwood_green"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_redwood_light_blue"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_redwood_light_gray"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_redwood_lime"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_redwood_magenta"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_redwood_orange"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_redwood_pink"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_redwood_purple"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_redwood"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_redwood_white"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_redwood_yellow"
-            }
-        ]
-    },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_redwood_purple"
+        }
+    ],
     "group": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_redwood_purple",
     "result": {
         "item": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_redwood_purple",

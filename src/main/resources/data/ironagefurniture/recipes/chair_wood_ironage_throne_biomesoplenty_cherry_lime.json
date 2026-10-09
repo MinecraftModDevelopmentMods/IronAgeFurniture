@@ -1,68 +1,16 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "c",
-        "p",
-        "s"
-    ],
-    "key": {
-        "c": {
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
             "item": "minecraft:lime_carpet"
         },
-        "p": {
+        {
             "item": "biomesoplenty:cherry_planks"
         },
-        "s": [
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_cherry_black"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_cherry_blue"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_cherry_brown"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_cherry_cyan"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_cherry_gray"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_cherry_green"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_cherry_light_blue"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_cherry_light_gray"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_cherry_lime"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_cherry_magenta"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_cherry_orange"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_cherry_pink"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_cherry_purple"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_cherry"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_cherry_white"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_cherry_yellow"
-            }
-        ]
-    },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_cherry_lime"
+        }
+    ],
     "group": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_cherry_lime",
     "result": {
         "item": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_cherry_lime",

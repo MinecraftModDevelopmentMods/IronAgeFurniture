@@ -46,7 +46,8 @@ public final class PhaseFourFurniture {
             if (block instanceof FurnitureBed && ((FurnitureBed)block).itemBlock() != block) continue;
             for (UpholsteryColour colour : UpholsteryColour.values())
                 event.getRegistry().register(new UpholsteredBlockItem(block,
-                        new Item.Properties().group(Ironagefurniture.IAF_GROUP), colour)
+                        new Item.Properties().group(block instanceof FurnitureBed
+                                ? Ironagefurniture.IAF_BEDS_GROUP : Ironagefurniture.IAF_CHAIRS_GROUP), colour)
                         .setRegistryName(UpholsteryItemData.itemId(block.getRegistryName(), colour)));
         }
         // Register even temporarily unavailable metals so removing Base Metals

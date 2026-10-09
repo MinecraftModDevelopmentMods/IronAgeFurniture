@@ -1,5 +1,5 @@
 [![Discord](https://img.shields.io/badge/Discord-MMD-green.svg?style=flat&logo=Discord)](https://discord.moddev.zone)
-[![CurseForge](https://img.shields.io/badge/CurseForge-Iron%20Age%20Furniture-orange.svg)](https://www.curseforge.com/minecraft/mc-mods/iron-age-furniture)
+[![CurseForge](https://img.shields.io/badge/CurseForge-Iron%20Age%20Furniture-orange.svg)](https://www.curseforge.com/minecraft/mc-mods/ironagefurniture)
 [![Build, test, and audit](https://github.com/MinecraftModDevelopmentMods/IronAgeFurniture/actions/workflows/ci.yml/badge.svg?branch=master-1.14)](https://github.com/MinecraftModDevelopmentMods/IronAgeFurniture/actions/workflows/ci.yml?query=branch%3Amaster-1.14)
 
 # IronAgeFurniture
@@ -9,11 +9,15 @@ olde-style furniture to Minecraft. Seating is functional, furniture supports
 the appropriate vanilla and optional-mod materials, and lighting includes
 falling and throwable lava lamps.
 
-This branch contains the Phase 4 candidate, `0.4.0.114041`, for Minecraft
+This branch contains Phase 4, `0.4.0.114041`, for Minecraft
 1.14.4 and Forge 28.2.26. It requires Java 8 on clients and dedicated servers.
-It has not been released; the latest stable 1.14.4 release remains
-`0.3.0.114041`. Try the candidate in a disposable copy of your world before
-replacing a stable installation.
+Back up your world before upgrading and try a separate copy first. The
+[upgrade guide](docs/UPGRADING.md) explains which older furniture can be recovered
+and where an old modpack needs extra preparation.
+
+Creative inventory has four tabs, in order: **Chairs**, **Benches**, **Beds** and
+**Lights**. Stools share Chairs; candles, tallow and obsidian chunks share Lights.
+Optional woods and metals appear only when their integration is available.
 
 ## Removable chair shields
 
@@ -27,10 +31,13 @@ fitted shield as part of the chair item. Existing chairs keep their plain shield
 
 Wooden beds, canopy beds, wingback chairs and thrones come in all sixteen wool
 colours. Craft a vanilla bed with one matching plank to make a wooden bed of the
-same colour. Add another matching plank to turn it into a canopy bed, or combine
-two matching single beds to make a double. A carpet deliberately recolours an
-IAF bed. Different colours cannot be combined into one double bed. Recolouring
-is manual crafting: place the bed and the chosen carpet together in the grid.
+same colour. To add a canopy, combine that wooden bed with one more matching
+plank and one carpet matching the bed's colour. This upgrade is shapeless.
+Combine two matching single beds to make a double. Crafting a wooden or canopy
+single discovers its matching upgrades immediately, without closing the table.
+A carpet deliberately recolours an IAF bed. Different colours cannot be
+combined into one double bed. Recolouring is manual crafting: place the bed and
+the chosen carpet together in the grid.
 These colour-change recipes stay out of the recipe book so its suggestions
 focus on making and upgrading furniture, including in existing worlds.
 
@@ -39,9 +46,13 @@ metals. The recipe book can therefore select the right variant and move all
 its ingredients into the crafting grid. They still share the existing placed
 blocks; no extra block registrations or tile entities are needed.
 
-To make a wingback chair, put a carpet above a matching plank and a classic chair
-in a vertical crafting column. Use a wingback chair in the same arrangement to
-make a throne. These tall chairs and beds are single pieces of furniture:
+To make a wingback chair, combine a classic chair, a plank of the same wood and
+a carpet of your chosen colour. Upgrade it to a throne with another matching
+plank and a carpet matching the wingback's colour. Both recipes are shapeless:
+put the three ingredients anywhere in the crafting grid. Crafting or owning a
+wingback discovers the throne of the same wood and colour, even while the table
+is open. The recipe book's craftable filter still needs the matching plank and
+carpet in your inventory. These tall chairs and beds are single pieces of furniture:
 breaking any part removes the whole structure and returns one correctly coloured
 item. Wooden beds burn like the wooden seating.
 
@@ -57,13 +68,19 @@ and steel to relight them. An empty sconce holds up to four candles; use an empt
 hand to remove them, or add a candle to a full sconce to take them all back.
 Adding a second torch to a lit torch sconce makes a brighter twin-torch sconce.
 These sconces also extinguish underwater and retain their contents until removed.
+Like single-torch sconces, waterlogged twin torches light while receiving a
+redstone signal and go out again when the signal stops. Dry torches stay lit
+afterwards; waterlogged candles still cannot be relit by redstone.
+Breaking a torch or candle sconce, or its support, returns its frame and all its contents,
+even when unlit. Rock-salt sconces return their lamp and frame too. Waterlogged
+lights leave their water behind, and the dropped frame keeps its metal type.
 Their small flame and occasional smoke are cosmetic;
 carrying a candle does not alter world lighting without a separate dynamic-light
 feature such as OptiFine's Dynamic Lights option.
 
 ## Recovering lava lamps
 
-Mining a lava-filled sconce with a suitable pick returns its empty sconce in Survival. A Silk
+Breaking a lava-filled sconce returns its empty sconce in Survival. A Silk
 Touch tool also returns the intact lamp. Without Silk Touch the lamp breaks and
 starts a fire, whether the sconce was standing on the floor or mounted on a wall.
 Creative-mode breaking produces neither drops nor fire.
@@ -76,9 +93,13 @@ lands intact instead.
 
 ## Sconce metals
 
-Sconces can be made from iron or gold. Gold is softer; stronger metals take
+Five matching nuggets make four sconces, whether the frame is iron, gold or
+a supported Base Metals metal. Gold is softer; stronger metals take
 longer to mine and better withstand explosions. The metal stays with the frame
 when lights are inserted, removed, extinguished or broken.
+Sconces can be recovered with bare hands or any tool; a suitable pickaxe is
+faster, but using the wrong tool never destroys the frame or its contents.
+Lava lamps keep their Silk Touch and shattering rules described above.
 
 Install [Base Metals 3.0.1.114041](https://www.curseforge.com/minecraft/mc-mods/base-metals/files/9068954)
 and its required OreSpawn dependency to craft sconces from 21 additional metals.

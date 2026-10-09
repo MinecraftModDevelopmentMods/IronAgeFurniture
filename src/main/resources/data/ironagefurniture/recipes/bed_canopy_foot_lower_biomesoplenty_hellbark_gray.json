@@ -6,6 +6,9 @@
         },
         {
             "item": "biomesoplenty:hellbark_planks"
+        },
+        {
+            "item": "minecraft:gray_carpet"
         }
     ],
     "group": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_hellbark_gray",

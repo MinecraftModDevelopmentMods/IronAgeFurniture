@@ -6,6 +6,9 @@
         },
         {
             "item": "biomesoplenty:dead_planks"
+        },
+        {
+            "item": "minecraft:magenta_carpet"
         }
     ],
     "group": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_dead_magenta",

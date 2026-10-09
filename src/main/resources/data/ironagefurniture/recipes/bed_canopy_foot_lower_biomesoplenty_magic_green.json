@@ -6,6 +6,9 @@
         },
         {
             "item": "biomesoplenty:magic_planks"
+        },
+        {
+            "item": "minecraft:green_carpet"
         }
     ],
     "group": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_magic_green",

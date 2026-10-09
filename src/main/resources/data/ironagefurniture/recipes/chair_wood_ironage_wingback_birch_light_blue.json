@@ -1,21 +1,16 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "c",
-        "p",
-        "s"
-    ],
-    "key": {
-        "c": {
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
             "item": "minecraft:light_blue_carpet"
         },
-        "p": {
+        {
             "item": "minecraft:birch_planks"
         },
-        "s": {
+        {
             "item": "ironagefurniture:chair_wood_ironage_classic_birch"
         }
-    },
+    ],
     "group": "ironagefurniture:chair_wood_ironage_wingback_birch_light_blue",
     "result": {
         "item": "ironagefurniture:chair_wood_ironage_wingback_birch_light_blue",

@@ -6,6 +6,9 @@
         },
         {
             "item": "minecraft:dark_oak_planks"
+        },
+        {
+            "item": "minecraft:purple_carpet"
         }
     ],
     "group": "ironagefurniture:bed_canopy_foot_lower_dark_oak_purple",

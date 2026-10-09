@@ -6,6 +6,9 @@
         },
         {
             "item": "immersiveengineering:treated_wood_packaged"
+        },
+        {
+            "item": "minecraft:blue_carpet"
         }
     ],
     "group": "ironagefurniture:bed_canopy_foot_lower_immersiveengineering_treated_wood_blue",

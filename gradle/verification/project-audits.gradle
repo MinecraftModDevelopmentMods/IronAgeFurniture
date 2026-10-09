@@ -137,13 +137,13 @@ tasks.register('verifyResourceJson') {
         List<Map> locales = localeNames.collect { name ->
             new JsonSlurper().parse(file("src/main/resources/assets/ironagefurniture/lang/${name}")) as Map
         }
-        if (!locales.every { it.size() == 4974 }
+        if (!locales.every { it.size() == 4978 }
                 || !locales.tail().every { it.keySet() == locales.first().keySet() }) {
-            throw new GradleException('English locale files must retain 4974 identical translation keys')
+            throw new GradleException('English locale files must retain 4978 identical translation keys')
         }
 
-        // Dormant Base Metals contracts are audited here but are not counted
-        // as live-tested recipes by the optional-mod runtime fixture.
+        // Base Metals has its own pinned jar and runtime checks; include its
+        // conditional recipes here as well as the other optional integrations.
         Map<String, Map<String, Integer>> optionalIntegrations = new LinkedHashMap(optionalIntegrationExpectedCounts)
         optionalIntegrations.basemetals = [recipes: 21, advancements: 21]
         def hasModLoadedCondition = { Object conditions, String modId ->

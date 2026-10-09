@@ -6,6 +6,9 @@
         },
         {
             "item": "minecraft:spruce_planks"
+        },
+        {
+            "item": "minecraft:gray_carpet"
         }
     ],
     "group": "ironagefurniture:bed_canopy_foot_lower_spruce_gray",

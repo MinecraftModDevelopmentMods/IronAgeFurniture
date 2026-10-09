@@ -6,6 +6,9 @@
         },
         {
             "item": "biomesoplenty:jacaranda_planks"
+        },
+        {
+            "item": "minecraft:white_carpet"
         }
     ],
     "group": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_jacaranda_white",

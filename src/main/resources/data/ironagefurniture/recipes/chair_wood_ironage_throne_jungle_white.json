@@ -1,68 +1,16 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "c",
-        "p",
-        "s"
-    ],
-    "key": {
-        "c": {
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
             "item": "minecraft:white_carpet"
         },
-        "p": {
+        {
             "item": "minecraft:jungle_planks"
         },
-        "s": [
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_jungle_black"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_jungle_blue"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_jungle_brown"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_jungle_cyan"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_jungle_gray"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_jungle_green"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_jungle_light_blue"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_jungle_light_gray"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_jungle_lime"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_jungle_magenta"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_jungle_orange"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_jungle_pink"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_jungle_purple"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_jungle"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_jungle_white"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_jungle_yellow"
-            }
-        ]
-    },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_jungle_white"
+        }
+    ],
     "group": "ironagefurniture:chair_wood_ironage_throne_jungle_white",
     "result": {
         "item": "ironagefurniture:chair_wood_ironage_throne_jungle_white",

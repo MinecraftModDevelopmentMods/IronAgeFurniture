@@ -57,6 +57,10 @@ public final class PhaseFourRuntimeProbe {
         // Leave that integrated server running until the render checks finish.
         if (Boolean.getBoolean("iaf.probe.liveBaseMetalsClient") || Boolean.getBoolean("iaf.probe.inWorldClient")) return;
         MinecraftServer server = event.getServer();
+        if (Boolean.getBoolean("iaf.probe.twinTorchRedstone")) {
+            SconceRedstoneRuntimeProbe.start(server);
+            return;
+        }
         if (Boolean.getBoolean("iaf.probe.savedWorld")) {
             try { SavedWorldRuntimeProbe.prepare(server); }
             catch (Exception failure) { server.initiateShutdown(false); throw new IllegalStateException("Could not load saved fixture chunks", failure); }
@@ -85,6 +89,21 @@ public final class PhaseFourRuntimeProbe {
         int chairs = 0;
         int states = 0;
         try {
+            if (Boolean.getBoolean("iaf.probe.directSconceOnly")) {
+                int harvests = DirectSconceHarvestRuntimeProbe.run(world, player);
+                Files.write(Paths.get("phase-four-pass.properties"), ("status=PASS\ndirect_sconce_cases=" + harvests + "\n").getBytes(StandardCharsets.UTF_8));
+                return;
+            }
+            if (Boolean.getBoolean("iaf.probe.supportLossOnly")) {
+                int support = SupportLossRuntimeProbe.run(world, player);
+                Files.write(Paths.get("phase-four-pass.properties"), ("status=PASS\nsupport_loss_cases=" + support + "\n").getBytes(StandardCharsets.UTF_8));
+                return;
+            }
+            if (Boolean.getBoolean("iaf.probe.chairPlacementOnly")) {
+                int placements = ChairPlacementRuntimeProbe.run(world, player);
+                Files.write(Paths.get("phase-four-pass.properties"), ("status=PASS\nchair_placements=" + placements + "\n").getBytes(StandardCharsets.UTF_8));
+                return;
+            }
             if (System.getProperty("iaf.probe.taggedMode") != null) {
                 int cases = TaggedItemMigrationProbe.run(world, "seed".equals(System.getProperty("iaf.probe.taggedMode")));
                 Files.write(Paths.get("phase-four-pass.properties"), ("status=PASS\ntagged_cases=" + cases + "\n").getBytes(StandardCharsets.UTF_8));
@@ -93,6 +112,11 @@ public final class PhaseFourRuntimeProbe {
             if (Boolean.getBoolean("iaf.probe.legacyMetals")) {
                 int legacy = LegacyMetalRuntimeProbe.run(world);
                 Files.write(Paths.get("phase-four-pass.properties"), ("status=PASS\nlegacy_metal_cases="+legacy+"\n").getBytes(StandardCharsets.UTF_8));
+                return;
+            }
+            int creativeItems = CreativeTabsRuntimeProbe.run();
+            if (Boolean.getBoolean("iaf.probe.tabsOnly")) {
+                Files.write(Paths.get("phase-four-pass.properties"), ("status=PASS\ncreative_items=" + creativeItems + "\n").getBytes(StandardCharsets.UTF_8));
                 return;
             }
             int cfm = CfmRuntimeProbe.run(server, world);
@@ -117,6 +141,7 @@ public final class PhaseFourRuntimeProbe {
             }
             require(chairs >= 6, "Vanilla shield chairs did not register");
             verifyLavaHarvest(world, player);
+            int placements = ChairPlacementRuntimeProbe.run(world, player);
             int upholstery = UpholsteryRuntimeProbe.run(server, world, player);
             int candles = CandleRuntimeProbe.run(world, player);
             int sconces = SconceContentsRuntimeProbe.run(world, player);
@@ -126,7 +151,7 @@ public final class PhaseFourRuntimeProbe {
             Files.write(Paths.get("phase-four-pass.properties"), ("status=PASS\nshield_chairs=" + chairs
                     + "\nshield_states=" + states + "\nupholstered_forms=" + upholstery + "\ncandle_cases=" + candles
                     + "\nsconce_cases=" + sconces + "\nrocksalt_cases=" + rockSalt + "\ntrap_cases=" + traps
-                    + "\ncfm_cases=" + cfm + "\nmetal_cases=" + metals + "\n").getBytes(StandardCharsets.UTF_8));
+                    + "\ncfm_cases=" + cfm + "\nmetal_cases=" + metals + "\nchair_placements=" + placements + "\n").getBytes(StandardCharsets.UTF_8));
             org.apache.logging.log4j.LogManager.getLogger().info("IAF PHASE FOUR SHIELD PROBE PASSED: {} chairs, {} states", chairs, states);
         } catch (Exception failure) {
             throw new IllegalStateException("Phase 4 runtime probe failed", failure);

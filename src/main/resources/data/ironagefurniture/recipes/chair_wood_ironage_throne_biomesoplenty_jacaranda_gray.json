@@ -1,68 +1,16 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "c",
-        "p",
-        "s"
-    ],
-    "key": {
-        "c": {
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
             "item": "minecraft:gray_carpet"
         },
-        "p": {
+        {
             "item": "biomesoplenty:jacaranda_planks"
         },
-        "s": [
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_jacaranda_black"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_jacaranda_blue"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_jacaranda_brown"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_jacaranda_cyan"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_jacaranda_gray"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_jacaranda_green"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_jacaranda_light_blue"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_jacaranda_light_gray"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_jacaranda_lime"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_jacaranda_magenta"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_jacaranda_orange"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_jacaranda_pink"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_jacaranda_purple"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_jacaranda"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_jacaranda_white"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_jacaranda_yellow"
-            }
-        ]
-    },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_jacaranda_gray"
+        }
+    ],
     "group": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_jacaranda_gray",
     "result": {
         "item": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_jacaranda_gray",

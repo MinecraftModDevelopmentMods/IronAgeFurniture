@@ -26,6 +26,14 @@ public final class PhaseFourClientProbe {
     private static boolean complete;
     private static boolean worldStarted;
     private static int worldTicks;
+    private static boolean discoveryStarted;
+    private static int syncTicks;
+    private static boolean bedDiscoveryStarted;
+    private static int bedSyncTicks;
+    private static boolean placementStarted;
+    private static volatile boolean placementComplete;
+    private static volatile Throwable placementFailure;
+    private static volatile int placementCases;
 
     private PhaseFourClientProbe() { }
 
@@ -39,7 +47,8 @@ public final class PhaseFourClientProbe {
         if (inWorld()) {
             if (!worldStarted) {
                 worldStarted = true;
-                game.launchIntegratedServer("world", "Base Metals sconce test", null);
+                game.launchIntegratedServer("world", "IAF furniture test", Boolean.getBoolean("iaf.probe.tabsOnly")
+                        ? new net.minecraft.world.WorldSettings(6L, net.minecraft.world.GameType.SURVIVAL, true, false, net.minecraft.world.WorldType.DEFAULT) : null);
             }
             return;
         }
@@ -51,6 +60,50 @@ public final class PhaseFourClientProbe {
         if (complete || !inWorld()
                 || event.phase != net.minecraftforge.event.TickEvent.Phase.END
                 || game.world == null || game.player == null || ++worldTicks < 40) return;
+        if (Boolean.getBoolean("iaf.probe.throneDiscovery")) {
+            if (!discoveryStarted) {
+                discoveryStarted = true;
+                game.getIntegratedServer().execute(() -> ThroneDiscoveryRuntimeProbe.run(game.getIntegratedServer(),
+                        game.getIntegratedServer().getPlayerList().getPlayerByUUID(game.player.getUniqueID())));
+            }
+            if (!ThroneDiscoveryRuntimeProbe.complete) return;
+            if (ThroneDiscoveryRuntimeProbe.failure != null) throw new IllegalStateException("Real-player discovery failed", ThroneDiscoveryRuntimeProbe.failure);
+            if (++syncTicks < 20) return;
+            for (net.minecraft.util.ResourceLocation id : ThroneDiscoveryRuntimeProbe.expected)
+                require(game.player.getRecipeBook().isUnlocked(game.world.getRecipeManager().getRecipe(id).get()),
+                        "Matching throne unlock did not reach client: " + id);
+            org.apache.logging.log4j.LogManager.getLogger().info("IAF THRONE DISCOVERY CLIENT SYNC PASSED: {} recipes", ThroneDiscoveryRuntimeProbe.expected.size());
+        }
+        if (Boolean.getBoolean("iaf.probe.bedDiscovery")) {
+            if (!bedDiscoveryStarted) {
+                bedDiscoveryStarted = true;
+                game.getIntegratedServer().execute(() -> BedDiscoveryRuntimeProbe.run(game.getIntegratedServer(),
+                        game.getIntegratedServer().getPlayerList().getPlayerByUUID(game.player.getUniqueID())));
+            }
+            if (!BedDiscoveryRuntimeProbe.complete) return;
+            if (BedDiscoveryRuntimeProbe.failure != null) throw new IllegalStateException("Real-player bed discovery failed", BedDiscoveryRuntimeProbe.failure);
+            if (++bedSyncTicks < 20) return;
+            for (net.minecraft.util.ResourceLocation id : BedDiscoveryRuntimeProbe.expected)
+                require(game.player.getRecipeBook().isUnlocked(game.world.getRecipeManager().getRecipe(id).get()),
+                        "Matching bed unlock did not reach client: " + id);
+            org.apache.logging.log4j.LogManager.getLogger().info("IAF BED DISCOVERY CLIENT SYNC PASSED: {} recipes", BedDiscoveryRuntimeProbe.expected.size());
+        }
+        if (Boolean.getBoolean("iaf.probe.chairPlacementClient")) {
+            if (!placementStarted) {
+                placementStarted = true;
+                game.getIntegratedServer().execute(() -> {
+                    try {
+                        net.minecraft.entity.player.ServerPlayerEntity player = game.getIntegratedServer().getPlayerList()
+                                .getPlayerByUUID(game.player.getUniqueID());
+                        placementCases = ChairPlacementRuntimeProbe.run(
+                                game.getIntegratedServer().getWorld(net.minecraft.world.dimension.DimensionType.OVERWORLD), player);
+                    } catch (Throwable failure) { placementFailure = failure; }
+                    finally { placementComplete = true; }
+                });
+            }
+            if (!placementComplete) return;
+            if (placementFailure != null) throw new IllegalStateException("Connected-player chair placement failed", placementFailure);
+        }
         verify(game);
     }
 
@@ -61,6 +114,30 @@ public final class PhaseFourClientProbe {
     private static void verify(Minecraft game) {
         complete = true;
         try {
+            int creativeItems = CreativeTabsRuntimeProbe.run();
+            java.util.Set<net.minecraft.item.Item> icons = new java.util.HashSet<>();
+            for (net.minecraft.item.ItemGroup group : new net.minecraft.item.ItemGroup[] {
+                    zone.moddev.mc.ironagefurniture.Ironagefurniture.IAF_CHAIRS_GROUP,
+                    zone.moddev.mc.ironagefurniture.Ironagefurniture.IAF_BENCHES_GROUP,
+                    zone.moddev.mc.ironagefurniture.Ironagefurniture.IAF_BEDS_GROUP,
+                    zone.moddev.mc.ironagefurniture.Ironagefurniture.IAF_LIGHTS_GROUP})
+            {
+                require(!group.createIcon().isEmpty() && icons.add(group.createIcon().getItem()), "Empty or duplicate creative icon");
+                require(game.getItemRenderer().getItemModelWithOverrides(group.createIcon(), null, null)
+                        != game.getModelManager().getMissingModel(), "Missing creative icon model");
+            }
+            if (Boolean.getBoolean("iaf.probe.disabledCreative")) {
+                require(creativeItems == 8, "Disabled families or integrations remain in creative inventory");
+                require(zone.moddev.mc.ironagefurniture.Ironagefurniture.IAF_CHAIRS_GROUP.createIcon().getItem() == Items.OAK_STAIRS
+                        && zone.moddev.mc.ironagefurniture.Ironagefurniture.IAF_BENCHES_GROUP.createIcon().getItem() == Items.OAK_SLAB
+                        && zone.moddev.mc.ironagefurniture.Ironagefurniture.IAF_BEDS_GROUP.createIcon().getItem() == Items.RED_BED,
+                        "Disabled furniture did not use safe vanilla icons");
+            }
+            if (Boolean.getBoolean("iaf.probe.tabsOnly") || Boolean.getBoolean("iaf.probe.missingThroneTarget")) {
+                Files.write(Paths.get("phase-four-client-pass.properties"), ("status=PASS\ncreative_items=" + creativeItems + "\n").getBytes(StandardCharsets.UTF_8));
+                game.shutdown();
+                return;
+            }
             if (inWorld()) {
                 net.minecraft.client.util.ClientRecipeBook book = game.player.getRecipeBook();
                 book.rebuildTable();
@@ -68,6 +145,8 @@ public final class PhaseFourClientProbe {
                 for (net.minecraft.client.gui.recipebook.RecipeList list : book.getRecipes())
                     for (net.minecraft.item.crafting.IRecipe<?> recipe : list.getRecipes()) visible.add(recipe.getId());
                 int hidden = 0;
+                int tallChairs = 0;
+                int canopies = 0;
                 for (net.minecraft.item.crafting.IRecipe<?> recipe : game.world.getRecipeManager().getRecipes()) {
                     if (!"ironagefurniture".equals(recipe.getId().getNamespace())) continue;
                     if (recipe.getId().getPath().contains("_recolour_")) {
@@ -75,10 +154,45 @@ public final class PhaseFourClientProbe {
                         hidden++;
                     } else if (recipe.getId().getPath().startsWith("bed_")) {
                         require(!recipe.isDynamic() && visible.contains(recipe.getId()), "Client recipe book lost a construction recipe");
+                        if (recipe.getId().getPath().startsWith("bed_canopy_foot_lower_")) {
+                            require(recipe.getIngredients().size() == 3, "Client canopy recipe lacks its matching carpet");
+                            net.minecraft.item.ItemStack bed = recipe.getIngredients().get(0).getMatchingStacks()[0];
+                            net.minecraft.item.ItemStack carpet = recipe.getIngredients().get(2).getMatchingStacks()[0];
+                            zone.moddev.mc.ironagefurniture.api.enumerations.UpholsteryColour colour =
+                                    zone.moddev.mc.ironagefurniture.api.UpholsteryItemData.getColour(recipe.getRecipeOutput());
+                            require(zone.moddev.mc.ironagefurniture.api.UpholsteryItemData.getColour(bed) == colour
+                                    && carpet.getItem() == ForgeRegistries.ITEMS.getValue(new net.minecraft.util.ResourceLocation(
+                                            "minecraft", colour.getName() + "_carpet")), "Client canopy recipe changes upholstery colour");
+                            net.minecraft.item.crafting.RecipeItemHelper inventory = new net.minecraft.item.crafting.RecipeItemHelper();
+                            inventory.accountStack(bed);
+                            inventory.accountStack(recipe.getIngredients().get(1).getMatchingStacks()[0]);
+                            require(!inventory.canCraft(recipe, null), "Client marks a canopy craftable without fabric");
+                            inventory.accountStack(carpet);
+                            require(inventory.canCraft(recipe, null), "Client rejects complete canopy ingredients");
+                            canopies++;
+                        }
+                    } else if (recipe.getId().getPath().startsWith("chair_wood_ironage_wingback_")
+                            || recipe.getId().getPath().startsWith("chair_wood_ironage_throne_")) {
+                        require(recipe instanceof net.minecraft.item.crafting.ShapelessRecipe && !recipe.isDynamic()
+                                && visible.contains(recipe.getId()), "Client lost a shapeless tall-chair recipe");
+                        require(recipe.getIngredients().size() == 3, "Client tall-chair recipe lost an ingredient");
+                        for (net.minecraft.item.crafting.Ingredient ingredient : recipe.getIngredients())
+                            require(ingredient.getMatchingStacks().length == 1, "Client tall-chair recipe cycles through different chairs");
+                        if (recipe.getId().getPath().startsWith("chair_wood_ironage_throne_")) {
+                            net.minecraft.item.ItemStack chair = recipe.getIngredients().get(2).getMatchingStacks()[0];
+                            require(zone.moddev.mc.ironagefurniture.api.UpholsteryItemData.getColour(chair)
+                                    == zone.moddev.mc.ironagefurniture.api.UpholsteryItemData.getColour(recipe.getRecipeOutput()),
+                                    "Client throne recipe uses a differently coloured wingback");
+                        }
+                        tallChairs++;
                     }
                 }
                 require(hidden >= 384, "Client did not receive all vanilla bed recolouring recipes");
                 org.apache.logging.log4j.LogManager.getLogger().info("IAF RECOLOUR RECIPE-BOOK PROBE PASSED: {} hidden recipes", hidden);
+                require(tallChairs >= 192, "Client did not receive the vanilla tall-chair recipes");
+                org.apache.logging.log4j.LogManager.getLogger().info("IAF TALL-CHAIR RECIPE-BOOK CLIENT PROBE PASSED: {} recipes", tallChairs);
+                require(canopies >= 96, "Client did not receive every vanilla canopy colour");
+                org.apache.logging.log4j.LogManager.getLogger().info("IAF CANOPY CARPET CLIENT PROBE PASSED: {} recipes", canopies);
             }
             if (Boolean.getBoolean("iaf.probe.liveBaseMetalsClient")) {
                 long available = java.util.Arrays.stream(zone.moddev.mc.ironagefurniture.api.enumerations.SconceMetal.values())
@@ -108,9 +222,12 @@ public final class PhaseFourClientProbe {
             for (Block block : ForgeRegistries.BLOCKS.getValues()) {
                 if (block instanceof zone.moddev.mc.ironagefurniture.api.blocks.furniture.FurnitureBed
                         || block instanceof zone.moddev.mc.ironagefurniture.api.blocks.furniture.MultiBlockChair)
-                    for (net.minecraft.block.BlockState state : block.getStateContainer().getValidStates())
+                    for (net.minecraft.block.BlockState state : block.getStateContainer().getValidStates()) {
                         require(game.getBlockRendererDispatcher().getModelForState(state) != game.getModelManager().getMissingModel(),
                                 "Missing upholstered blockstate: " + state);
+                        if (block instanceof zone.moddev.mc.ironagefurniture.api.blocks.furniture.MultiBlockChair)
+                            verifyChairBackModel(game, state);
+                    }
                 if (!(block.asItem() instanceof zone.moddev.mc.ironagefurniture.api.items.UpholsteredBlockItem)) continue;
                 for (zone.moddev.mc.ironagefurniture.api.enumerations.UpholsteryColour colour
                         : zone.moddev.mc.ironagefurniture.api.enumerations.UpholsteryColour.values()) {
@@ -125,6 +242,8 @@ public final class PhaseFourClientProbe {
                 upholstery++;
             }
             require(upholstery >= 36, "Upholstered furniture not loaded");
+            if (Boolean.getBoolean("iaf.probe.chairPlacementClient"))
+                org.apache.logging.log4j.LogManager.getLogger().info("IAF CONNECTED-PLAYER CHAIR PLACEMENT PASSED: {} cases; baked backs match all state rotations", placementCases);
             for (Block block : ForgeRegistries.BLOCKS.getValues()) {
                 if (!(block instanceof zone.moddev.mc.ironagefurniture.api.blocks.lightsource.phasefour.Candle)
                         && !(block instanceof zone.moddev.mc.ironagefurniture.api.blocks.lightsource.phasefour.AdditionalSconce)
@@ -217,13 +336,43 @@ public final class PhaseFourClientProbe {
                     "Released lava lamp has no dedicated glass renderer");
             ((zone.moddev.mc.ironagefurniture.client.renderer.ReleasedLavaLampRenderer)lampRenderer)
                     .doRender(lamp, -100, -100, -100, 0, 0);
+            int torchParticles = Boolean.getBoolean("iaf.probe.sconceParticles") ? SconceFlameClientProbe.run(game) : 0;
             Files.write(Paths.get("phase-four-client-pass.properties"),
                     ("status=PASS\nshield_chairs=" + chairs + "\nupholstered_forms=" + upholstery
-                            + "\nmetal_models=" + metalModels + "\n").getBytes(StandardCharsets.UTF_8));
+                            + "\nmetal_models=" + metalModels + "\nchair_placements=" + placementCases
+                            + "\ntwin_torch_particle_cases=" + torchParticles + "\n").getBytes(StandardCharsets.UTF_8));
             org.apache.logging.log4j.LogManager.getLogger().info("IAF PHASE FOUR CLIENT PROBE PASSED: {} chairs", chairs);
         } catch (Exception failure) {
             throw new IllegalStateException("Phase 4 client probe failed", failure);
         } finally { game.shutdown(); }
+    }
+
+    private static void verifyChairBackModel(Minecraft game, net.minecraft.block.BlockState state) {
+        net.minecraft.util.Direction heading = state.get(zone.moddev.mc.ironagefurniture.api.blocks.furniture.Chair.DIRECTION);
+        IBakedModel model = game.getBlockRendererDispatcher().getModelForState(state);
+        java.util.List<net.minecraft.client.renderer.model.BakedQuad> quads = new java.util.ArrayList<>(model.getQuads(state, null, new Random(0)));
+        quads.addAll(model.getQuads(state, heading.getOpposite(), new Random(0)));
+        boolean backFound = false;
+        for (net.minecraft.client.renderer.model.BakedQuad quad : quads) {
+            if (quad.getFace() != heading.getOpposite()) continue;
+            int[] vertices = quad.getVertexData();
+            int stride = quad.getFormat().getIntegerSize();
+            double minAlong = 2, minAcross = 2, maxAcross = -2, minY = 2, maxY = -2;
+            for (int vertex = 0; vertex < 4; vertex++) {
+                double x = Float.intBitsToFloat(vertices[vertex * stride]) - .5;
+                double y = Float.intBitsToFloat(vertices[vertex * stride + 1]);
+                double z = Float.intBitsToFloat(vertices[vertex * stride + 2]) - .5;
+                minAlong = Math.min(minAlong, x * heading.getXOffset() + z * heading.getZOffset());
+                double across = x * heading.getZOffset() - z * heading.getXOffset();
+                minAcross = Math.min(minAcross, across);
+                maxAcross = Math.max(maxAcross, across);
+                minY = Math.min(minY, y);
+                maxY = Math.max(maxY, y);
+            }
+            // A broad upright back panel, not an arm or the throne's top canopy.
+            if (minAlong > .35 && maxAcross - minAcross >= .5 && maxY - minY > .4) backFound = true;
+        }
+        require(backFound, "Rendered chair back is not behind its seat: " + state);
     }
 
     private static void verifyMetalUvs(java.util.List<net.minecraft.client.renderer.model.BakedQuad> quads,

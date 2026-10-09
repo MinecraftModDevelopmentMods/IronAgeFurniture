@@ -27,6 +27,6 @@ public final class UpholsteredBlockItem extends BlockItem {
         return super.getTranslationKey() + "." + UpholsteryItemData.getColour(stack).getName();
     }
     @Override public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
-        if (isInGroup(group)) items.add(new ItemStack(this));
+        if (isInGroup(group) && FurnitureCreativeVisibility.isVisible(this)) items.add(new ItemStack(this));
     }
 }

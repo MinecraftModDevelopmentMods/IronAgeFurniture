@@ -30,6 +30,9 @@ def upholsteryFiles = {
     if (templates.size() != 29) throw new GradleException('Expected the 29 canonical bed and tall-chair templates')
 
     Map names = new JsonSlurper().parse(file("${assets}/lang/en_us.json")) as Map
+    [chairs: 'Chairs', benches: 'Benches', beds: 'Beds', lights: 'Lights'].each { category, label ->
+        names["itemGroup.ironagefurniture.${category}".toString()] = "Iron Age Furniture: ${label}".toString()
+    }
     // Only these generated names belong to this helper; existing translations
     // and translations added by other furniture families are left alone.
     names.keySet().findAll { key -> key ==~ /block\.ironagefurniture\.(?:bed_(?:wood|canopy)_.*|chair_wood_ironage_(?:wingback|throne)_.*)/ }
@@ -105,9 +108,12 @@ def upholsteryFiles = {
                     String input
                     if (form.kind == 'wingback' || form.kind == 'throne') {
                         input = form.kind == 'wingback' ? "chair_wood_ironage_classic_${wood}" : "chair_wood_ironage_wingback_${wood}"
-                        ingredient = [item: "minecraft:${colour}_carpet"]
-                        recipe = [type: 'minecraft:crafting_shaped', pattern: ['c', 'p', 's'],
-                            key: [c: ingredient, p: plank, s: form.kind == 'throne' ? allColours(input) : [item: "ironagefurniture:${input}"]]]
+                        Map carpet = [item: "minecraft:${colour}_carpet"]
+                        Map chairInput = [item: "ironagefurniture:${form.kind == 'throne' ? itemId(input, colour) : input}"]
+                        // A throne adds height, not a new upholstery colour.
+                        // Its book entry unlocks from the matching wingback.
+                        ingredient = form.kind == 'throne' ? chairInput : carpet
+                        recipe = [type: 'minecraft:crafting_shapeless', ingredients: [carpet, plank, chairInput]]
                     } else if (form.kind == 'wood' && !form.doubleBed) {
                         ingredient = [item: "minecraft:${colour}_bed"]
                         recipe = [type: 'minecraft:crafting_shapeless', ingredients: [ingredient, plank]]
@@ -116,6 +122,9 @@ def upholsteryFiles = {
                         ingredient = [item: "ironagefurniture:${itemId(input, colour)}"]
                         recipe = [type: 'ironagefurniture:upholstery_upgrade', ingredients: [ingredient,
                             form.doubleBed ? ingredient : plank]]
+                        // A new canopy needs fabric of the bed's colour. Doubles
+                        // already get their fabric from two finished single beds.
+                        if (!form.doubleBed) recipe.ingredients.add([item: "minecraft:${colour}_carpet"])
                     }
                     recipe.group = "ironagefurniture:${recipeId}"
                     recipe.result = [item: "ironagefurniture:${itemId(id, colour)}", count: 1]

@@ -6,6 +6,7 @@ import java.util.Random;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
@@ -87,7 +88,8 @@ public final class AdditionalSconce extends LightHolderSconceFloor {
     }
     @Override public BlockState updatePostPlacement(BlockState state, Direction direction, BlockState neighbour,
             IWorld world, BlockPos pos, BlockPos neighbourPos) {
-        if (!state.isValidPosition(world, pos)) return state.getFluidState().getBlockState();
+        // Air requests normal destruction and drops; Minecraft restores any water afterwards.
+        if (!state.isValidPosition(world, pos)) return Blocks.AIR.getDefaultState();
         if (state.get(WATERLOGGED)) world.getPendingFluidTicks().scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
         return state;
     }
@@ -133,17 +135,30 @@ public final class AdditionalSconce extends LightHolderSconceFloor {
         }
         return PhaseFourLighting.isLightItem(held);
     }
+    boolean litAfterRedstone(boolean waterlogged, boolean powered) {
+        // Waterlogged torches need continuous power; dry flames stay lit afterwards.
+        if (twinTorch && waterlogged) return powered;
+        return lit || !waterlogged && powered;
+    }
+    @Override public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState previous, boolean moving) {
+        super.onBlockAdded(state, world, pos, previous, moving);
+        // Placement, adding the second torch and waterlogging can leave an existing signal unchanged.
+        if (twinTorch && previous.getBlock() != this)
+            neighborChanged(state, world, pos, previous.getBlock(), pos, moving);
+    }
     @Override public void neighborChanged(BlockState state, World world, BlockPos pos, Block changed, BlockPos from, boolean moving) {
-        if (!world.isRemote && !lit && !state.get(WATERLOGGED) && world.isBlockPowered(pos))
+        if (!world.isRemote && litAfterRedstone(state.get(WATERLOGGED), world.isBlockPowered(pos)) != lit)
             world.getPendingBlockTicks().scheduleTick(pos, this, 2);
     }
     @Override public void tick(BlockState state, World world, BlockPos pos, Random random) {
-        if (!world.isRemote && !lit && !state.get(WATERLOGGED) && world.isBlockPowered(pos))
-            LightInteractions.replace(world, pos, state, variant(count, true, wall));
+        if (!world.isRemote) {
+            boolean nextLit = litAfterRedstone(state.get(WATERLOGGED), world.isBlockPowered(pos));
+            if (nextLit != lit) LightInteractions.replace(world, pos, state, variant(count, nextLit, wall));
+        }
     }
     @Override public boolean canConnectRedstone(BlockState state, IBlockReader world, BlockPos pos, Direction side) { return true; }
     @Override public void animateTick(BlockState state, World world, BlockPos pos, Random random) {
-        if (!lit || state.get(WATERLOGGED)) return;
+        if (!lit || !twinTorch && state.get(WATERLOGGED)) return;
         for (int index = 0; index < count; index++) {
             Vec3d flame = getFlameOffset(state, index);
             double x = pos.getX() + flame.x, y = pos.getY() + flame.y, z = pos.getZ() + flame.z;

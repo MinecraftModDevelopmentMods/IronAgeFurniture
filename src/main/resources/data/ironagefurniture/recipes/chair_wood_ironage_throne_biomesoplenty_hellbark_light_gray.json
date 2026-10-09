@@ -1,68 +1,16 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "c",
-        "p",
-        "s"
-    ],
-    "key": {
-        "c": {
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
             "item": "minecraft:light_gray_carpet"
         },
-        "p": {
+        {
             "item": "biomesoplenty:hellbark_planks"
         },
-        "s": [
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_hellbark_black"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_hellbark_blue"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_hellbark_brown"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_hellbark_cyan"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_hellbark_gray"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_hellbark_green"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_hellbark_light_blue"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_hellbark_light_gray"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_hellbark_lime"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_hellbark_magenta"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_hellbark_orange"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_hellbark_pink"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_hellbark_purple"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_hellbark"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_hellbark_white"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_hellbark_yellow"
-            }
-        ]
-    },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_hellbark_light_gray"
+        }
+    ],
     "group": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_hellbark_light_gray",
     "result": {
         "item": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_hellbark_light_gray",

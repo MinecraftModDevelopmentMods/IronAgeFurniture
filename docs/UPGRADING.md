@@ -1,4 +1,4 @@
-# Upgrading a world to the 1.14.4 Phase 4 candidate
+# Upgrading a world to 1.14.4 Phase 4
 
 Make a backup first and test a separate copy. Minecraft's flattening changes
 how blocks and items are stored; after saving a world in 1.14.4, do not reopen
@@ -79,7 +79,7 @@ unexpected removal list on your only copy of a world.
 
 ## Base Metals compatibility
 
-The 1.14.4 candidate's Base Metals integration is optional and has been tested
+The 1.14.4 Base Metals integration is optional and has been tested
 with the published Base Metals 3.0.1.114041 and OreSpawn 4.1.0.114041 builds.
 An independently saved 1.12 fixture covering all 23 sconce metals, four facings,
 66 historical sconce IDs and stored, nested and dropped items passes both its

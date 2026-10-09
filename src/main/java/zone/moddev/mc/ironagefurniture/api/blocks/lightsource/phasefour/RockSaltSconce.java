@@ -6,6 +6,7 @@ import java.util.Random;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
@@ -64,7 +65,8 @@ public final class RockSaltSconce extends LightHolderSconceFloor {
     }
     @Override public BlockState updatePostPlacement(BlockState state, Direction direction, BlockState neighbour,
             IWorld world, BlockPos pos, BlockPos neighbourPos) {
-        if (!state.isValidPosition(world, pos)) return state.getFluidState().getBlockState();
+        // Air requests normal destruction and drops; Minecraft restores any water afterwards.
+        if (!state.isValidPosition(world, pos)) return Blocks.AIR.getDefaultState();
         if (state.get(WATERLOGGED)) world.getPendingFluidTicks().scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
         return state;
     }

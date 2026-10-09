@@ -1,68 +1,16 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "c",
-        "p",
-        "s"
-    ],
-    "key": {
-        "c": {
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
             "item": "minecraft:brown_carpet"
         },
-        "p": {
+        {
             "item": "immersiveengineering:treated_wood_packaged"
         },
-        "s": [
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_immersiveengineering_treated_wood_black"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_immersiveengineering_treated_wood_blue"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_immersiveengineering_treated_wood_brown"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_immersiveengineering_treated_wood_cyan"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_immersiveengineering_treated_wood_gray"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_immersiveengineering_treated_wood_green"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_immersiveengineering_treated_wood_light_blue"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_immersiveengineering_treated_wood_light_gray"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_immersiveengineering_treated_wood_lime"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_immersiveengineering_treated_wood_magenta"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_immersiveengineering_treated_wood_orange"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_immersiveengineering_treated_wood_pink"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_immersiveengineering_treated_wood_purple"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_immersiveengineering_treated_wood"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_immersiveengineering_treated_wood_white"
-            },
-            {
-                "item": "ironagefurniture:chair_wood_ironage_wingback_immersiveengineering_treated_wood_yellow"
-            }
-        ]
-    },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_immersiveengineering_treated_wood_brown"
+        }
+    ],
     "group": "ironagefurniture:chair_wood_ironage_throne_immersiveengineering_treated_wood_brown",
     "result": {
         "item": "ironagefurniture:chair_wood_ironage_throne_immersiveengineering_treated_wood_brown",

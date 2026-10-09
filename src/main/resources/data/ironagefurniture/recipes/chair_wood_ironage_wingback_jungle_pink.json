@@ -1,21 +1,16 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "c",
-        "p",
-        "s"
-    ],
-    "key": {
-        "c": {
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
             "item": "minecraft:pink_carpet"
         },
-        "p": {
+        {
             "item": "minecraft:jungle_planks"
         },
-        "s": {
+        {
             "item": "ironagefurniture:chair_wood_ironage_classic_jungle"
         }
-    },
+    ],
     "group": "ironagefurniture:chair_wood_ironage_wingback_jungle_pink",
     "result": {
         "item": "ironagefurniture:chair_wood_ironage_wingback_jungle_pink",

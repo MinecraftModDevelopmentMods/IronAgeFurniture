@@ -6,6 +6,9 @@
         },
         {
             "item": "biomesoplenty:umbran_planks"
+        },
+        {
+            "item": "minecraft:light_blue_carpet"
         }
     ],
     "group": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_umbran_light_blue",

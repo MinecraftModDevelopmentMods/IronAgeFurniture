@@ -1,21 +1,16 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "c",
-        "p",
-        "s"
-    ],
-    "key": {
-        "c": {
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
             "item": "minecraft:black_carpet"
         },
-        "p": {
+        {
             "item": "biomesoplenty:hellbark_planks"
         },
-        "s": {
+        {
             "item": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_hellbark"
         }
-    },
+    ],
     "group": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_hellbark_black",
     "result": {
         "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_hellbark_black",

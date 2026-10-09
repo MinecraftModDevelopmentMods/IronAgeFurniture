@@ -6,6 +6,9 @@
         },
         {
             "item": "biomesoplenty:palm_planks"
+        },
+        {
+            "item": "minecraft:white_carpet"
         }
     ],
     "group": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_palm_white",

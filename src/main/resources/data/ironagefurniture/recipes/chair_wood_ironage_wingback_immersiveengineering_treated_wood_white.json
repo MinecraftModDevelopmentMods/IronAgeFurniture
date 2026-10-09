@@ -1,21 +1,16 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "c",
-        "p",
-        "s"
-    ],
-    "key": {
-        "c": {
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
             "item": "minecraft:white_carpet"
         },
-        "p": {
+        {
             "item": "immersiveengineering:treated_wood_packaged"
         },
-        "s": {
+        {
             "item": "ironagefurniture:chair_wood_ironage_classic_immersiveengineering_treated_wood"
         }
-    },
+    ],
     "group": "ironagefurniture:chair_wood_ironage_wingback_immersiveengineering_treated_wood_white",
     "result": {
         "item": "ironagefurniture:chair_wood_ironage_wingback_immersiveengineering_treated_wood_white",

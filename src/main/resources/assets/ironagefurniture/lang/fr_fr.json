@@ -4972,5 +4972,9 @@
     "ironagefurniture.integration.forceCfmChairConversion": "Replace Crayfish wooden chairs with IAF chairs",
     "ironagefurniture.integration.mineralogyIntegration": "Mineralogy lamps",
     "item.ironagefurniture.tallow": "Suif",
-    "itemGroup.ironagefurniture": "Iron Age Furniture"
+    "itemGroup.ironagefurniture": "Iron Age Furniture",
+    "itemGroup.ironagefurniture.beds": "Iron Age Furniture: Beds",
+    "itemGroup.ironagefurniture.benches": "Iron Age Furniture: Benches",
+    "itemGroup.ironagefurniture.chairs": "Iron Age Furniture: Chairs",
+    "itemGroup.ironagefurniture.lights": "Iron Age Furniture: Lights"
 }

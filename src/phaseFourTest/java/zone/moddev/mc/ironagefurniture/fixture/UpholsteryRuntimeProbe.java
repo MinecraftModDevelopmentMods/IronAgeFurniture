@@ -64,7 +64,8 @@ final class UpholsteryRuntimeProbe {
             NonNullList<ItemStack> creative = NonNullList.create();
             for (UpholsteryColour colour : UpholsteryColour.values()) {
                 Item item = UpholsteryItemData.create(block, colour).getItem();
-                item.fillItemGroup(Ironagefurniture.IAF_GROUP, creative);
+                item.fillItemGroup(block instanceof FurnitureBed ? Ironagefurniture.IAF_BEDS_GROUP
+                        : Ironagefurniture.IAF_CHAIRS_GROUP, creative);
             }
             require(creative.size() == 16, "Expected sixteen creative colours: " + block.getRegistryName());
             for (UpholsteryColour colour : UpholsteryColour.values()) {
@@ -113,6 +114,8 @@ final class UpholsteryRuntimeProbe {
         require(result.getItem() == UpholsteryItemData.create(block, colour).getItem() && UpholsteryItemData.getColour(result) == colour
                 && !result.hasTag(),
                 "Crafting changed the output colour: " + recipeId);
+        if (block instanceof MultiBlockChair) verifyTallChairRecipe(world, player, block, colour, recipe);
+        if (id.startsWith("bed_canopy_foot_lower_")) verifyCanopyUpgrade(world, player, block, colour, recipe);
         if (recipe instanceof zone.moddev.mc.ironagefurniture.api.recipes.UpholsteryUpgradeRecipe) {
             ItemStack input = grid.getStackInSlot(0);
             input.getOrCreateTag().putString("AnotherModsData", "keep");
@@ -166,6 +169,156 @@ final class UpholsteryRuntimeProbe {
             grid.setInventorySlotContents(8, new ItemStack(Items.STICK));
             require(!recolour.matches(grid, world), "Recolouring accepts extra ingredients");
         }
+    }
+    private static void verifyCanopyUpgrade(ServerWorld world, FakePlayer player, Block block,
+            UpholsteryColour colour, IRecipe<CraftingInventory> recipe) {
+        require(recipe instanceof zone.moddev.mc.ironagefurniture.api.recipes.UpholsteryUpgradeRecipe
+                && recipe.getIngredients().size() == 3, "Canopy lacks matching bed, plank and carpet: " + recipe.getId());
+        String wood = block.getRegistryName().getPath().substring("bed_canopy_foot_lower_".length());
+        Block wooden = ForgeRegistries.BLOCKS.getValue(new ResourceLocation("ironagefurniture", "bed_wood_foot_" + wood));
+        ItemStack[] inputs = new ItemStack[3];
+        for (int index = 0; index < inputs.length; index++) {
+            ItemStack[] choices = recipe.getIngredients().get(index).getMatchingStacks();
+            require(choices.length == 1 && !choices[0].hasTag(), "Canopy recipe-book ingredient is ambiguous");
+            inputs[index] = choices[0].copy();
+        }
+        require(inputs[0].getItem() == UpholsteryItemData.create(wooden, colour).getItem(), "Canopy uses a different bed colour or wood");
+        require(inputs[2].getItem() == ForgeRegistries.ITEMS.getValue(new ResourceLocation("minecraft", colour.getName() + "_carpet")),
+                "Canopy uses a different carpet colour");
+        net.minecraft.item.crafting.RecipeItemHelper inventory = new net.minecraft.item.crafting.RecipeItemHelper();
+        inventory.accountStack(inputs[0]); inventory.accountStack(inputs[1]);
+        require(!inventory.canCraft(recipe, null), "Recipe book marks canopy craftable without carpet");
+        inventory.accountStack(inputs[2]);
+        require(inventory.canCraft(recipe, null), "Recipe book rejects the complete canopy ingredients");
+        for (int width : new int[] {2, 3}) {
+            CraftingInventory grid = new CraftingInventory(new Container(null, 0) {
+                @Override public boolean canInteractWith(PlayerEntity player) { return false; }
+            }, width, width);
+            for (int bed = 0; bed < grid.getSizeInventory(); bed++)
+                for (int plank = 0; plank < grid.getSizeInventory(); plank++)
+                    for (int carpet = 0; carpet < grid.getSizeInventory(); carpet++) {
+                        if (bed == plank || bed == carpet || plank == carpet) continue;
+                        grid.clear();
+                        grid.setInventorySlotContents(bed, inputs[0].copy());
+                        grid.setInventorySlotContents(plank, inputs[1].copy());
+                        grid.setInventorySlotContents(carpet, inputs[2].copy());
+                        require(recipe.matches(grid, world), "Canopy upgrade depends on ingredient order");
+                        require(ItemStack.areItemStacksEqual(recipe.getCraftingResult(grid), recipe.getRecipeOutput()), "Canopy upgrade changed colour");
+                    }
+        }
+        CraftingInventory grid = grid();
+        for (int index = 0; index < inputs.length; index++) grid.setInventorySlotContents(index, inputs[index].copy());
+        for (int index = 0; index < inputs.length; index++) {
+            grid.setInventorySlotContents(index, ItemStack.EMPTY);
+            require(!recipe.matches(grid, world), "Canopy accepts a missing ingredient");
+            grid.setInventorySlotContents(index, inputs[index].copy());
+        }
+        for (UpholsteryColour wrong : UpholsteryColour.values()) {
+            if (wrong == colour) continue;
+            grid.setInventorySlotContents(2, new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("minecraft", wrong.getName() + "_carpet"))));
+            require(!recipe.matches(grid, world), "Mismatched carpet silently recolours canopy");
+            grid.setInventorySlotContents(2, inputs[2].copy());
+            grid.setInventorySlotContents(0, UpholsteryItemData.create(wooden, wrong));
+            require(!recipe.matches(grid, world), "Wrong wooden-bed colour matched canopy");
+            grid.setInventorySlotContents(0, inputs[0].copy());
+        }
+        grid.setInventorySlotContents(1, new ItemStack(inputs[1].getItem() == Items.OAK_PLANKS ? Items.BIRCH_PLANKS : Items.OAK_PLANKS));
+        require(!recipe.matches(grid, world), "Wrong plank wood matched canopy");
+        grid.setInventorySlotContents(1, inputs[1].copy());
+        Block wrongWood = ForgeRegistries.BLOCKS.getValue(new ResourceLocation("ironagefurniture", "bed_wood_foot_" + (wood.equals("oak") ? "birch" : "oak")));
+        grid.setInventorySlotContents(0, UpholsteryItemData.create(wrongWood, colour));
+        require(!recipe.matches(grid, world), "Wrong bed wood matched canopy");
+        grid.setInventorySlotContents(0, inputs[0].copy());
+        net.minecraft.network.PacketBuffer packet = new net.minecraft.network.PacketBuffer(io.netty.buffer.Unpooled.buffer());
+        try {
+            zone.moddev.mc.ironagefurniture.init.PhaseFourRecipes.upholstery_upgrade.write(packet,
+                    (zone.moddev.mc.ironagefurniture.api.recipes.UpholsteryUpgradeRecipe) recipe);
+            IRecipe<CraftingInventory> received = zone.moddev.mc.ironagefurniture.init.PhaseFourRecipes.upholstery_upgrade.read(recipe.getId(), packet);
+            require(received.getIngredients().size() == 3 && received.matches(grid, world)
+                    && ItemStack.areItemStacksEqual(received.getRecipeOutput(), recipe.getRecipeOutput()), "Client recipe sync lost canopy fabric");
+        } finally { packet.release(); }
+        net.minecraft.inventory.container.WorkbenchContainer table = new net.minecraft.inventory.container.WorkbenchContainer(
+                1, player.inventory, net.minecraft.util.IWorldPosCallable.of(world, new BlockPos(128, 80, 128)));
+        int[] slots = {2, 5, 9};
+        for (int index = 0; index < inputs.length; index++) {
+            ItemStack input = inputs[index].copy(); input.setCount(2);
+            table.getSlot(slots[index]).putStack(input);
+        }
+        require(table.matches(recipe) && ItemStack.areItemStacksEqual(table.getSlot(0).getStack(), recipe.getRecipeOutput()),
+                "Crafting table chose another recipe for the canopy ingredients");
+        table.getSlot(0).onTake(player, table.getSlot(0).getStack().copy());
+        for (int slot : slots) require(table.getSlot(slot).getStack().getCount() == 1, "Canopy did not consume exactly one of each ingredient");
+    }
+    private static void verifyTallChairRecipe(ServerWorld world, FakePlayer player, Block block,
+            UpholsteryColour colour, IRecipe<CraftingInventory> recipe) {
+        String id = block.getRegistryName().getPath();
+        boolean throne = id.startsWith("chair_wood_ironage_throne_");
+        String wood = id.substring((throne ? "chair_wood_ironage_throne_" : "chair_wood_ironage_wingback_").length());
+        require(recipe instanceof net.minecraft.item.crafting.ShapelessRecipe && recipe.getIngredients().size() == 3,
+                "Tall chair still uses a shaped recipe: " + recipe.getId());
+        ItemStack[] inputs = new ItemStack[3];
+        for (int ingredient = 0; ingredient < inputs.length; ingredient++) {
+            ItemStack[] choices = recipe.getIngredients().get(ingredient).getMatchingStacks();
+            require(choices.length == 1, "Tall chair has an ambiguous recipe-book ingredient: " + recipe.getId());
+            inputs[ingredient] = choices[0].copy();
+        }
+        Block source = ForgeRegistries.BLOCKS.getValue(new ResourceLocation("ironagefurniture",
+                "chair_wood_ironage_" + (throne ? "wingback_" : "classic_") + wood));
+        require(inputs[2].getItem() == (throne ? UpholsteryItemData.create(source, colour).getItem() : source.asItem()),
+                "Throne does not require its matching-colour wingback: " + recipe.getId());
+        // Try every position and ingredient order, including the player's 2x2 grid.
+        for (int width : new int[] { 2, 3 }) {
+            CraftingInventory grid = new CraftingInventory(new Container(null, 0) {
+                @Override public boolean canInteractWith(PlayerEntity player) { return false; }
+            }, width, width);
+            for (int carpet = 0; carpet < grid.getSizeInventory(); carpet++)
+                for (int plank = 0; plank < grid.getSizeInventory(); plank++)
+                    for (int chair = 0; chair < grid.getSizeInventory(); chair++) {
+                        if (carpet == plank || carpet == chair || plank == chair) continue;
+                        grid.clear();
+                        grid.setInventorySlotContents(carpet, inputs[0].copy());
+                        grid.setInventorySlotContents(plank, inputs[1].copy());
+                        grid.setInventorySlotContents(chair, inputs[2].copy());
+                        require(recipe.matches(grid, world), "Shapeless tall-chair recipe depends on slot order: " + recipe.getId());
+                        require(ItemStack.areItemStacksEqual(recipe.getCraftingResult(grid), recipe.getRecipeOutput()),
+                                "Shapeless tall-chair output changed");
+                    }
+        }
+        CraftingInventory grid = grid();
+        for (int slot = 0; slot < inputs.length; slot++) grid.setInventorySlotContents(slot, inputs[slot].copy());
+        for (UpholsteryColour wrong : UpholsteryColour.values()) {
+            if (wrong == colour) continue;
+            grid.setInventorySlotContents(0, new ItemStack(ForgeRegistries.ITEMS.getValue(
+                    new ResourceLocation("minecraft", wrong.getName() + "_carpet"))));
+            require(!recipe.matches(grid, world), "Wrong carpet matched tall-chair recipe");
+            grid.setInventorySlotContents(0, inputs[0].copy());
+            if (throne) {
+                grid.setInventorySlotContents(2, UpholsteryItemData.create(source, wrong));
+                require(!recipe.matches(grid, world), "Throne silently recolours a different wingback");
+                grid.setInventorySlotContents(2, inputs[2].copy());
+            }
+        }
+        grid.setInventorySlotContents(1, new ItemStack(inputs[1].getItem() == Items.OAK_PLANKS ? Items.BIRCH_PLANKS : Items.OAK_PLANKS));
+        require(!recipe.matches(grid, world), "Wrong plank wood matched tall chair");
+        grid.setInventorySlotContents(1, inputs[1].copy());
+        Block wrongWood = ForgeRegistries.BLOCKS.getValue(new ResourceLocation("ironagefurniture",
+                "chair_wood_ironage_" + (throne ? "wingback_" : "classic_") + (wood.equals("oak") ? "birch" : "oak")));
+        grid.setInventorySlotContents(2, throne ? UpholsteryItemData.create(wrongWood, colour) : new ItemStack(wrongWood));
+        require(!recipe.matches(grid, world), "Wrong chair wood matched tall chair");
+        grid.setInventorySlotContents(2, ItemStack.EMPTY);
+        require(!recipe.matches(grid, world), "Tall chair matched without the source chair");
+        net.minecraft.inventory.container.WorkbenchContainer table = new net.minecraft.inventory.container.WorkbenchContainer(
+                1, player.inventory, net.minecraft.util.IWorldPosCallable.of(world, new BlockPos(128, 80, 128)));
+        int[] slots = { 2, 5, 9 };
+        for (int ingredient = 0; ingredient < inputs.length; ingredient++) {
+            ItemStack input = inputs[ingredient].copy();
+            input.setCount(2);
+            table.getSlot(slots[ingredient]).putStack(input);
+        }
+        require(table.matches(recipe) && ItemStack.areItemStacksEqual(table.getSlot(0).getStack(), recipe.getRecipeOutput()),
+                "Crafting table selected a different tall-chair recipe");
+        table.getSlot(0).onTake(player, table.getSlot(0).getStack().copy());
+        for (int slot : slots) require(table.getSlot(slot).getStack().getCount() == 1, "Tall chair consumed the wrong ingredient count");
     }
     private static void verifyRecipeBook(FakePlayer player, IRecipe<CraftingInventory> recipe) {
         java.util.List<ItemStack> before = new java.util.ArrayList<>();

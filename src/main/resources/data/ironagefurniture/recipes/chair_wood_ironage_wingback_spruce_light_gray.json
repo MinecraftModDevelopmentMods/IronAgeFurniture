@@ -1,21 +1,16 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "c",
-        "p",
-        "s"
-    ],
-    "key": {
-        "c": {
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
             "item": "minecraft:light_gray_carpet"
         },
-        "p": {
+        {
             "item": "minecraft:spruce_planks"
         },
-        "s": {
+        {
             "item": "ironagefurniture:chair_wood_ironage_classic_spruce"
         }
-    },
+    ],
     "group": "ironagefurniture:chair_wood_ironage_wingback_spruce_light_gray",
     "result": {
         "item": "ironagefurniture:chair_wood_ironage_wingback_spruce_light_gray",

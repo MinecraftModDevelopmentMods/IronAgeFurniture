@@ -1,21 +1,16 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "c",
-        "p",
-        "s"
-    ],
-    "key": {
-        "c": {
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
             "item": "minecraft:yellow_carpet"
         },
-        "p": {
+        {
             "item": "biomesoplenty:willow_planks"
         },
-        "s": {
+        {
             "item": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_willow"
         }
-    },
+    ],
     "group": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_willow_yellow",
     "result": {
         "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_willow_yellow",

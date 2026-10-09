@@ -96,10 +96,10 @@ public final class PhaseFourLighting {
     @SubscribeEvent public static void registerItems(RegistryEvent.Register<Item> event) {
         for (boolean wall : new boolean[]{false, true}) for (boolean lit : new boolean[]{false, true}) {
             Item.Properties properties = new Item.Properties();
-            if (!wall && lit) properties.group(Ironagefurniture.IAF_GROUP);
+            if (!wall && lit) properties.group(Ironagefurniture.IAF_LIGHTS_GROUP);
             event.getRegistry().register(new BlockItem(candle(wall, lit), properties).setRegistryName(candle(wall, lit).getRegistryName()));
         }
-        event.getRegistry().register(new Item(new Item.Properties().group(Ironagefurniture.IAF_GROUP))
+        event.getRegistry().register(new Item(new Item.Properties().group(Ironagefurniture.IAF_LIGHTS_GROUP))
                 .setRegistryName(Ironagefurniture.MODID, "tallow"));
         for (Block block : ForgeRegistries.BLOCKS.getValues()) if (block instanceof AdditionalSconce || block instanceof RockSaltSconce)
             event.getRegistry().register(new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(block, new Item.Properties()).setRegistryName(block.getRegistryName()));
