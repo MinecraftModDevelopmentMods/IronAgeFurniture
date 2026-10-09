@@ -1,0 +1,242 @@
+name: Resume prepared Forge 1.14 release
+
+run-name: Resume IronAgeFurniture 0.4.0.114041 publication
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_live_publication:
+        description: Publish the original 0.4.0.114041 bundle without rebuilding or moving its tag.
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  actions: read
+  contents: read
+
+concurrency:
+  group: iron-age-furniture-release-0.4.0.114041
+  cancel-in-progress: false
+
+# The first publication stopped during Gradle configuration, before any upload.
+# This recovery is deliberately limited to that run and its unchanged artifacts.
+# New releases still use the dispatcher on the repository's default branch.
+env:
+  SOURCE_RUN: '37925871159'
+  SOURCE_ARTIFACT: '11613863502'
+  RELEASE_SHA: b9f06402602a677b249fbde7705973d9791e2db2
+  RELEASE_VERSION: '0.4.0.114041'
+
+jobs:
+  validate:
+    name: Validate immutable publication recovery
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: release
+    steps:
+      - name: Check out publication repair
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+
+      - name: Verify confirmation, original run, tag and repair scope
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CONFIRM_LIVE_PUBLICATION: ${{ inputs.confirm_live_publication }}
+          CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
+          MAVEN_UPLOAD_URL: ${{ secrets.MAVEN_UPLOAD_URL }}
+          MAVEN_UPLOAD_USERNAME: ${{ secrets.MAVEN_UPLOAD_USERNAME }}
+          MAVEN_UPLOAD_PASSWORD: ${{ secrets.MAVEN_UPLOAD_PASSWORD }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$GITHUB_REPOSITORY" == MinecraftModDevelopmentMods/IronAgeFurniture ]]
+          [[ "$GITHUB_REF" == refs/heads/master-1.14 ]]
+          [[ "$CONFIRM_LIVE_PUBLICATION" == true ]]
+          for credential in CURSEFORGE_TOKEN MAVEN_UPLOAD_URL MAVEN_UPLOAD_USERNAME MAVEN_UPLOAD_PASSWORD; do
+            [[ -n "${!credential:-}" ]] || { echo "Missing release credential: $credential" >&2; exit 1; }
+          done
+          [[ "$(sed -n 's/^mod_version=//p' gradle.properties)" == "$RELEASE_VERSION" ]]
+          [[ "$(gh api "repos/$GITHUB_REPOSITORY/git/ref/tags/$RELEASE_VERSION" --jq .object.sha)" == "$RELEASE_SHA" ]]
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN" > "$RUNNER_TEMP/source-run.json"
+          jq -e '.event == "workflow_dispatch" and .status == "completed" and .conclusion == "failure" and .path == ".github/workflows/publish-release.yml"' "$RUNNER_TEMP/source-run.json"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN/jobs?per_page=100" > "$RUNNER_TEMP/source-jobs.json"
+          jq -e '[.jobs[] | select(.name == "Build immutable release artifact" or .name == "Confirm 0.4.0.114041 live publication" or .name == "Create validated release tag") | .conclusion] == ["success", "success", "success"]' "$RUNNER_TEMP/source-jobs.json"
+          jq -e '[.jobs[] | select(.name == "Publish Maven") | .conclusion] == ["failure"] and [.jobs[] | select(.name == "Publish CurseForge" or .name == "Publish GitHub Release") | .conclusion] == ["skipped", "skipped"]' "$RUNNER_TEMP/source-jobs.json"
+          gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$SOURCE_ARTIFACT" > "$RUNNER_TEMP/source-artifact.json"
+          jq -e --argjson run "$SOURCE_RUN" '.expired == false and .workflow_run.id == $run and .name == "iron-age-furniture-1.14.4-forge-b9f06402602a677b249fbde7705973d9791e2db2-37925871159-1" and .digest == "sha256:f1d27dce09288bca21929f4c6bb6a1ed01bdbaa5b4e9f4a614e46c3af3cc1bd3"' "$RUNNER_TEMP/source-artifact.json"
+          checks="$(gh api "repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA/check-runs?per_page=100")"
+          for name in 'Build, test, and audit' 'Cold Forge bootstrap' 'Analyze Java' 'Validation'; do
+            jq -e --arg name "$name" '[.check_runs[] | select(.name == $name and .conclusion == "success")] | length > 0' <<<"$checks"
+          done
+          for changed in $(git diff --name-only "$RELEASE_SHA" "$GITHUB_SHA"); do
+            case "$changed" in
+              gradle/release/publishing.gradle|.github/workflows/ci.yml|.github/workflows/publish-release.yml) ;;
+              *) echo "Recovery cannot include product or documentation changes: $changed" >&2; exit 1 ;;
+            esac
+          done
+          gh api "repos/$GITHUB_REPOSITORY/releases?per_page=100" \
+            | jq -e --arg version "$RELEASE_VERSION" '[.[] | select(.tag_name == $version)] | length == 0'
+
+      - name: Download original immutable bundle
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          artifact-ids: ${{ env.SOURCE_ARTIFACT }}
+          run-id: ${{ env.SOURCE_RUN }}
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/release-input
+          merge-multiple: true
+
+      - name: Verify original release checksums
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$RUNNER_TEMP/release-input"
+          [[ "$(find . -maxdepth 1 -type f | wc -l)" -eq 5 ]]
+          [[ "$(sha256sum iron-age-furniture-0.4.0.114041.jar | cut -d ' ' -f 1)" == 721b1f9476c8d682672bc5dd19b88835be9d787aec51d6192af6153205bccb1e ]]
+          [[ "$(sha256sum iron-age-furniture-0.4.0.114041-sources.jar | cut -d ' ' -f 1)" == 58b6f3a57695e545d10a541263b54b66fece1de22759307531ecd592a1382ca4 ]]
+          [[ "$(sha256sum iron-age-furniture-0.4.0.114041-javadoc.jar | cut -d ' ' -f 1)" == 6ffe5c00ec15a00ef6c826371010d3ab7851e4156a6a4462cdbb8e20ba378f3a ]]
+          sha256sum --check SHA256SUMS
+
+  publish_maven:
+    name: Publish original Maven bundle
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out publication repair
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.sha }}
+
+      - name: Install pinned Java 25 Mavenizer runtime
+        uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
+        with:
+          distribution: temurin
+          java-version: '25.0.3+9.0.LTS'
+
+      - name: Install pinned Java 8 toolchain
+        uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
+        with:
+          distribution: temurin
+          java-version: '8.0.502+7'
+
+      - name: Install Java 17 for Gradle
+        uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
+        with:
+          distribution: temurin
+          java-version: '17.0.1+12'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6
+
+      - name: Download original immutable bundle
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          artifact-ids: ${{ env.SOURCE_ARTIFACT }}
+          run-id: ${{ env.SOURCE_RUN }}
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/release-input
+          merge-multiple: true
+
+      - name: Publish only the prepared Maven artifacts
+        env:
+          MAVEN_UPLOAD_URL: ${{ secrets.MAVEN_UPLOAD_URL }}
+          MAVEN_UPLOAD_USERNAME: ${{ secrets.MAVEN_UPLOAD_USERNAME }}
+          MAVEN_UPLOAD_PASSWORD: ${{ secrets.MAVEN_UPLOAD_PASSWORD }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x ./gradlew
+          ./gradlew publishMavenJavaPublicationToReleaseRepository \
+            -PpreparedReleaseDir="$RUNNER_TEMP/release-input" \
+            --no-daemon --stacktrace \
+            -Dorg.gradle.java.installations.paths="$JAVA_HOME_25_X64,$JAVA_HOME_8_X64,$JAVA_HOME" \
+            -Dorg.gradle.java.installations.auto-detect=false \
+            -Dorg.gradle.java.installations.auto-download=false
+
+  publish_curseforge:
+    name: Publish original CurseForge bundle
+    needs: publish_maven
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Download original immutable bundle
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          artifact-ids: ${{ env.SOURCE_ARTIFACT }}
+          run-id: ${{ env.SOURCE_RUN }}
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/release-input
+          merge-multiple: true
+
+      - name: Verify bundle
+        run: cd "$RUNNER_TEMP/release-input" && sha256sum --check SHA256SUMS
+
+      - name: Publish Forge 1.14.4 release
+        uses: Kira-NT/mc-publish@52307b03863581dec6b652b83e597aec02ebb075 # v3.3.1
+        with:
+          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+          curseforge-id: '341834'
+          curseforge-dependencies: |
+            biomes-o-plenty(optional)
+            immersive-engineering(optional)
+            minecraft-mineralogy(optional)
+            base-metals(optional)
+            mrcrayfish-furniture-mod(optional)
+          name: IronAgeFurniture 0.4.0.114041 for Minecraft 1.14.4 (Forge)
+          version: '0.4.0.114041'
+          version-type: release
+          changelog-file: ${{ runner.temp }}/release-input/CHANGELOG.md
+          loaders: forge
+          game-versions: '1.14.4'
+          game-version-filter: none
+          environment: client | server
+          java: Java 8
+          fail-mode: fail
+          files: |
+            ${{ runner.temp }}/release-input/iron-age-furniture-0.4.0.114041.jar
+            ${{ runner.temp }}/release-input/iron-age-furniture-0.4.0.114041-sources.jar
+            ${{ runner.temp }}/release-input/iron-age-furniture-0.4.0.114041-javadoc.jar
+
+  publish_github:
+    name: Publish original GitHub bundle
+    needs: publish_curseforge
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      actions: read
+      contents: write
+    steps:
+      - name: Download original immutable bundle
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          artifact-ids: ${{ env.SOURCE_ARTIFACT }}
+          run-id: ${{ env.SOURCE_RUN }}
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/release-input
+          merge-multiple: true
+
+      - name: Verify bundle
+        run: cd "$RUNNER_TEMP/release-input" && sha256sum --check SHA256SUMS
+
+      - name: Publish GitHub Release last
+        uses: Kira-NT/mc-publish@52307b03863581dec6b652b83e597aec02ebb075 # v3.3.1
+        with:
+          github-token: ${{ github.token }}
+          github-tag: ${{ env.RELEASE_VERSION }}
+          github-commitish: ${{ env.RELEASE_SHA }}
+          github-draft: false
+          github-prerelease: false
+          name: IronAgeFurniture 0.4.0.114041 for Minecraft 1.14.4 (Forge)
+          version: '0.4.0.114041'
+          version-type: release
+          changelog-file: ${{ runner.temp }}/release-input/CHANGELOG.md
+          fail-mode: fail
+          files: |
+            ${{ runner.temp }}/release-input/iron-age-furniture-0.4.0.114041.jar
+            ${{ runner.temp }}/release-input/iron-age-furniture-0.4.0.114041-sources.jar
+            ${{ runner.temp }}/release-input/iron-age-furniture-0.4.0.114041-javadoc.jar
+            ${{ runner.temp }}/release-input/SHA256SUMS

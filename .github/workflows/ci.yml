@@ -120,6 +120,19 @@ jobs:
             -Dorg.gradle.java.installations.auto-detect=false \
             -Dorg.gradle.java.installations.auto-download=false
 
+      - name: Stage and check immutable Maven publication
+        run: |
+          set -euo pipefail
+          java_args=(
+            "-Dorg.gradle.java.installations.paths=$JAVA_HOME,$JAVA_HOME_8_X64,$JAVA_HOME_25_X64"
+            -Dorg.gradle.java.installations.auto-detect=false
+            -Dorg.gradle.java.installations.auto-download=false
+          )
+          ./gradlew prepareReleaseBundle --no-daemon --stacktrace "${java_args[@]}"
+          ./gradlew verifyPreparedMavenPublication \
+            -PpreparedReleaseDir="$GITHUB_WORKSPACE/build/prepared-release" \
+            --no-daemon --stacktrace "${java_args[@]}"
+
       - name: Generate and audit Eclipse production launches
         run: >-
           ./gradlew genEclipseRuns eclipse isolateEclipseProductionRuns verifyEclipseProductionClasspath

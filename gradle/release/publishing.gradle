@@ -5,6 +5,7 @@ import org.gradle.api.publish.maven.tasks.PublishToMavenRepository
 def expectedMavenGroup = buildSupport.expectedMavenGroup
 def expectedMavenArtifact = buildSupport.expectedMavenArtifact
 def expectedMavenCoordinate = buildSupport.expectedMavenCoordinate
+def expectedReleaseFiles = buildSupport.expectedReleaseFiles
 def preparedReleaseDir = buildSupport.preparedReleaseDir
 def releaseJar = buildSupport.releaseJar
 
@@ -73,4 +74,35 @@ tasks.withType(PublishToMavenRepository).configureEach {
     dependsOn(preparedReleaseDir.isPresent()
             ? tasks.named('verifyPreparedReleaseArtifacts')
             : tasks.named('verifyReleaseArtifacts'))
+}
+
+tasks.register('verifyPreparedMavenPublication') {
+    group = 'verification'
+    description = 'Checks that Maven publishes only the three jars in the prepared release bundle.'
+    dependsOn tasks.named('verifyPreparedReleaseArtifacts')
+    dependsOn tasks.named('verifyMavenCoordinates')
+    doLast {
+        if (!preparedReleaseDir.isPresent()) {
+            throw new GradleException('preparedReleaseDir is required')
+        }
+        File prepared = file(preparedReleaseDir.get()).canonicalFile
+        def publication = publishing.publications.mavenJava
+        Map<String, String> actual = publication.artifacts.collectEntries { artifact ->
+            if (artifact.file.canonicalFile.parentFile != prepared || artifact.extension != 'jar') {
+                throw new GradleException('Maven publication must use the prepared jars without rebuilding them')
+            }
+            [(artifact.classifier ?: ''): artifact.file.name]
+        }
+        def names = expectedReleaseFiles.get()
+        Map<String, String> expected = ['': names[0], sources: names[1], javadoc: names[2]]
+        if (publication.artifacts.size() != 3 || actual != expected) {
+            throw new GradleException("Prepared Maven artifacts ${actual} do not match ${expected}")
+        }
+    }
+}
+
+if (preparedReleaseDir.isPresent()) {
+    tasks.withType(PublishToMavenRepository).configureEach {
+        dependsOn tasks.named('verifyPreparedMavenPublication')
+    }
 }
