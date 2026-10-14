@@ -49,7 +49,7 @@ or other CFM furniture. Check any missing-mapping prompt before accepting it.
 
 ## Tested upgrade routes and limits
 
-Disposable worlds from 1.10 and 1.12 Phase 2, 3 and 4, released 1.14 Phase 3
+Disposable worlds from 1.10 and 1.12 Phase 2, 3 and 4, 1.14 Phase 3
 and 4, released 1.15 Phase 4, and the previous 1.16 Phase 3 release have been
 checked through Minecraft's normal loading path. The released 1.12 BYG add-on
 fixture also covers its surviving and retired woods. These furniture fixtures
