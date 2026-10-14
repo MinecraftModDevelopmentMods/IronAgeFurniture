@@ -1,0 +1,76 @@
+{
+    "type": "ironagefurniture:bed_recolour",
+    "ingredients": [
+        [
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_byg_embur_black"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_byg_embur_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_byg_embur_brown"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_byg_embur_cyan"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_byg_embur_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_byg_embur_green"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_byg_embur_light_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_byg_embur_light_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_byg_embur_lime"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_byg_embur_magenta"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_byg_embur_orange"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_byg_embur_pink"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_byg_embur_purple"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_byg_embur"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_byg_embur_white"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_byg_embur_yellow"
+            }
+        ],
+        {
+            "item": "minecraft:black_carpet"
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "byg"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_canopy_foot_lower_byg_embur"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_wood_foot_byg_embur"
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_canopy_foot_lower_byg_embur_black",
+        "count": 1
+    }
+}

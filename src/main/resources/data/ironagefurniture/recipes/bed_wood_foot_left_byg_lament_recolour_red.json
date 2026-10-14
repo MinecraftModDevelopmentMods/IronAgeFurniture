@@ -1,0 +1,76 @@
+{
+    "type": "ironagefurniture:bed_recolour",
+    "ingredients": [
+        [
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_lament_black"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_lament_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_lament_brown"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_lament_cyan"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_lament_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_lament_green"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_lament_light_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_lament_light_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_lament_lime"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_lament_magenta"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_lament_orange"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_lament_pink"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_lament_purple"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_lament"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_lament_white"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_lament_yellow"
+            }
+        ],
+        {
+            "item": "minecraft:red_carpet"
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "byg"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_wood_foot_left_byg_lament"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_wood_foot_byg_lament"
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_wood_foot_left_byg_lament",
+        "count": 1
+    }
+}

@@ -52,7 +52,7 @@ public class LightSourceGlowdust extends FallingFurnitureBlock {
 	}
 
 	public LightSourceGlowdust(float hardness, float blastResistance, SoundType sound, String name) {
-		super(Block.Properties.of(Material.METAL).strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> 15));
+		super(Block.Properties.of(Material.GLASS).strength(hardness, blastResistance).sound(sound).lightLevel(state -> 15));
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());

@@ -2,11 +2,11 @@ package zone.moddev.mc.ironagefurniture.api.blocks.lightsource.lava;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import zone.moddev.mc.ironagefurniture.BlockObjectHolder;
 import zone.moddev.mc.ironagefurniture.api.CreativeModeBreakTracker;
+import zone.moddev.mc.ironagefurniture.api.entity.ReleasedLavaLamp;
 import zone.moddev.mc.ironagefurniture.api.blocks.base.FurnitureBlock;
 import zone.moddev.mc.ironagefurniture.api.blocks.lightsource.glow.LightSourceGlowdust;
 import net.minecraft.util.math.BlockPos;
@@ -19,7 +19,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.world.IBlockReader;
@@ -38,8 +37,10 @@ import net.minecraft.loot.LootContext.Builder;
 public class LightSourceLava extends LightSourceGlowdust {
 	@Override
 	public void onLand(World level, BlockPos pos, BlockState state, BlockState replacedState, FallingBlockEntity fallingEntity) {
-		if (level.isClientSide || CreativeModeBreakTracker.shouldSuppressFallingLavaBreak(level, pos))
-			return;
+		if (level.isClientSide) return;
+        Boolean releasedCreative = ReleasedLavaLamp.preserveCurrentLanding(level, pos);
+        if (releasedCreative != null ? releasedCreative.booleanValue()
+                : CreativeModeBreakTracker.shouldSuppressFallingLavaBreak(level, pos)) return;
 
 		if (replacedState.getFluidState().getType() == Fluids.WATER)
 			breakIntoObsidianChunk(level, pos, state, null);
@@ -64,7 +65,7 @@ public class LightSourceLava extends LightSourceGlowdust {
 
 
 	public LightSourceLava(float hardness, float blastResistance, SoundType sound, String name) {
-		super(Block.Properties.of(Material.METAL).strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> 15));
+		super(Block.Properties.of(Material.GLASS).strength(hardness, blastResistance).sound(sound).lightLevel(state -> 15));
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH).setValue(WATERLOGGED, false));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
@@ -96,24 +97,18 @@ public class LightSourceLava extends LightSourceGlowdust {
 	@Override
 	public boolean removedByPlayer(BlockState state, World level, BlockPos pos, PlayerEntity player, boolean willHarvest, FluidState fluid) {
 
-		boolean isSilkTouch = false;
-
-		ItemStack tool = player.inventory.getSelected();
-
-		if (tool != null) {
-			Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(tool);
-
-			if (enchantments != null && !enchantments.isEmpty())
-				isSilkTouch = enchantments.get(Enchantments.SILK_TOUCH) > 0;
-		}
-
-		if (isSilkTouch && !player.isCreative())
-			Block.popResource(level, pos, new ItemStack(state.getBlock().asItem(), 1));
+		boolean isSilkTouch = EnchantmentHelper.getItemEnchantmentLevel(
+                Enchantments.SILK_TOUCH, player.getMainHandItem()) > 0;
 
 		boolean destroyed = super.removedByPlayer(state, level, pos, player, willHarvest, fluid);
-
-		if (!isSilkTouch && !player.isCreative())
-			breakIntoFire(level, pos, player);
+		// Let the client predict air. Replacing the vial with fire here makes
+		// its final mining particles ask for the bounds of fire's empty shape.
+		if (destroyed && !level.isClientSide && !player.isCreative()) {
+			if (isSilkTouch)
+				Block.popResource(level, pos, new ItemStack(state.getBlock().asItem(), 1));
+			else
+				breakIntoFire(level, pos, player);
+		}
 
 		return destroyed;
 	}

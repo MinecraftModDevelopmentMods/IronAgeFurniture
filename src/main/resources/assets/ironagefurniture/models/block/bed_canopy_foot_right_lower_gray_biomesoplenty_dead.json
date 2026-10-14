@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_bed_canopy_foot_right_lower",
+    "textures": {
+        "log": "biomesoplenty:block/dead_log",
+        "planks": "biomesoplenty:block/dead_planks",
+        "particle": "biomesoplenty:block/dead_log",
+        "cloth": "minecraft:block/gray_wool"
+    }
+}

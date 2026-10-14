@@ -1,0 +1,33 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:white_carpet"
+        },
+        {
+            "item": "byg:zelkova_planks"
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_classic_byg_zelkova"
+        }
+    ],
+    "group": "ironagefurniture:chair_wood_ironage_wingback_byg_zelkova_white",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_wingback_byg_zelkova_white",
+        "count": 1
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "byg"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_wingback_byg_zelkova"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_classic_byg_zelkova"
+        }
+    ]
+}

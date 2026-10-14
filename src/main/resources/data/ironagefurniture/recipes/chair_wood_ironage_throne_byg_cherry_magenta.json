@@ -1,0 +1,33 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:magenta_carpet"
+        },
+        {
+            "item": "byg:cherry_planks"
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_byg_cherry_magenta"
+        }
+    ],
+    "group": "ironagefurniture:chair_wood_ironage_throne_byg_cherry_magenta",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_throne_byg_cherry_magenta",
+        "count": 1
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "byg"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_throne_byg_cherry"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_wingback_byg_cherry"
+        }
+    ]
+}

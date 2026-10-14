@@ -17,6 +17,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraft.block.AbstractFireBlock;
 import net.minecraft.block.BlockState;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
@@ -82,12 +83,26 @@ public class ThrownLavaLamp extends ProjectileItemEntity {
     @Override
     protected void onHit(RayTraceResult result) {
         super.onHit(result);
-        if (!level.isClientSide) {
-            level.playSound(null, getX(), getY(), getZ(), SoundEvents.GLASS_BREAK,
-                    SoundCategory.BLOCKS, 1.0F, 1.0F);
-            level.broadcastEntityEvent(this, (byte) 3);
-            remove();
+        if (!level.isClientSide) shatter(false);
+    }
+
+    @Override public void tick() {
+        super.tick();
+        if (!level.isClientSide && !removed && isInWater()) {
+            level.setBlock(blockPosition(), BlockObjectHolder.obsidian_chunk.defaultBlockState()
+                    .setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.fromYRot(yRot))
+                    .setValue(BlockStateProperties.WATERLOGGED, true), 3);
+            shatter(true);
         }
+    }
+
+    private void shatter(boolean extinguished) {
+        level.playSound(null, getX(), getY(), getZ(), SoundEvents.GLASS_BREAK,
+                SoundCategory.BLOCKS, 1.0F, 1.0F);
+        if (extinguished) level.playSound(null, getX(), getY(), getZ(), SoundEvents.LAVA_EXTINGUISH,
+                SoundCategory.BLOCKS, .5F, 2.6F);
+        level.broadcastEntityEvent(this, (byte)3);
+        remove();
     }
 
     private void placeImpactFire(BlockRayTraceResult result) {

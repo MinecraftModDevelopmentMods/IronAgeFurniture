@@ -1,0 +1,239 @@
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+import java.util.zip.ZipEntry
+import java.util.zip.ZipFile
+import java.util.zip.ZipOutputStream
+
+// A published mod jar calls SRG-named Minecraft methods. Development launches
+// need renamed copies; keep the hash-checked originals for normal-game tests.
+def manifests = ['optional-integration-mods.json', 'base-metals-mods.json'].collect {
+    file("gradle/verification/${it}")
+}
+def knownMods = manifests.collectMany { new JsonSlurper().parse(it).mods }.unique { it.file }
+// Only the compatibility profile loads these copies. Keep runClient's folder empty.
+def modsDirectory = new File(buildSupport.compatibilityRunDirectory.asFile, 'mods')
+def installedMods = knownMods.findAll { new File(modsDirectory, it.file.toString()).isFile() }
+def originalsDirectory = file('.gradle/development-integrations/originals')
+def stateFile = file('.gradle/development-integrations/prepared.json')
+
+def preserveDevelopmentIntegrationOriginals = tasks.register('preserveDevelopmentIntegrationOriginals') {
+    group = 'ide'
+    description = 'Keeps verified original downloads before preparing development-only mod copies.'
+    inputs.files(manifests)
+    inputs.files(installedMods.collect { new File(modsDirectory, it.file.toString()) })
+    outputs.dir(originalsDirectory)
+    doNotTrackState('Preserved downloads must survive changes to the installed optional-mod set')
+    doLast {
+        Map previous = stateFile.isFile() ? new JsonSlurper().parse(stateFile) as Map : [:]
+        installedMods.each { mod ->
+            File installed = new File(modsDirectory, mod.file.toString())
+            File original = new File(originalsDirectory, mod.file.toString())
+            String expected = mod.sha256.toString().toUpperCase(Locale.ROOT)
+            String installedHash = buildSupport.sha256Of(installed)
+            if (installedHash == expected) {
+                if (!original.isFile() || buildSupport.sha256Of(original) != expected) {
+                    originalsDirectory.mkdirs()
+                    java.nio.file.Files.copy(installed.toPath(), original.toPath(),
+                            java.nio.file.StandardCopyOption.REPLACE_EXISTING)
+                }
+            } else if (!original.isFile() || buildSupport.sha256Of(original) != expected
+                    || previous.get(mod.file.toString()) != installedHash) {
+                throw new GradleException("Unrecognised ${installed.name}; restore its published jar before preparing Eclipse")
+            }
+        }
+    }
+}
+
+def inputDirectory = layout.buildDirectory.dir('development-integrations/inputs')
+def prepareDevelopmentIntegrationInputs = tasks.register('prepareDevelopmentIntegrationInputs') {
+    group = 'ide'
+    description = 'Translates development access rules, including legacy method wildcards.'
+    dependsOn preserveDevelopmentIntegrationOriginals
+    dependsOn tasks.named('prepareDevelopmentMixinMappings')
+    inputs.files(installedMods.collect { new File(originalsDirectory, it.file.toString()) })
+    inputs.file(layout.buildDirectory.file('development-mixins/srg-to-official.srg'))
+    outputs.files(installedMods.collect { inputDirectory.get().file(it.file.toString()) })
+    doLast {
+        Map<String, String> classes = [:]
+        Map<String, String> members = [:]
+        file('build/development-mixins/srg-to-official.srg').eachLine('UTF-8') { line ->
+            List<String> columns = line.tokenize()
+            if (columns[0] == 'CL:') classes[columns[1]] = columns[2]
+            else if (columns[0] in ['FD:', 'MD:']) {
+                String target = columns[columns[0] == 'FD:' ? 2 : 3]
+                members[columns[1].substring(columns[1].lastIndexOf('/') + 1)] =
+                        target.substring(target.lastIndexOf('/') + 1)
+            }
+        }
+        installedMods.each { mod ->
+            File original = new File(originalsDirectory, mod.file.toString())
+            File destination = inputDirectory.get().file(mod.file.toString()).asFile
+            destination.parentFile.mkdirs()
+            new ZipFile(original).withCloseable { zip ->
+                new ZipOutputStream(new FileOutputStream(destination)).withCloseable { output ->
+                    zip.entries().each { entry ->
+                        ZipEntry copy = new ZipEntry(entry.name)
+                        copy.time = entry.time
+                        output.putNextEntry(copy)
+                        if (entry.name == 'META-INF/accesstransformer.cfg') {
+                            // The Renamer's AT converter rejects legacy *() wildcards.
+                            // Keep their meaning and translate just the classes and names.
+                            String text = zip.getInputStream(entry).withCloseable { it.getText('UTF-8') }
+                            String remapped = text.readLines().collect { line ->
+                                int commentStart = line.indexOf('#')
+                                String comment = commentStart < 0 ? '' : ' ' + line.substring(commentStart)
+                                String rule = (commentStart < 0 ? line : line.substring(0, commentStart)).trim()
+                                if (rule.isEmpty()) return line
+                                List<String> columns = rule.tokenize()
+                                if (columns.size() < 2 || columns.size() > 3)
+                                    throw new GradleException("Invalid access rule in ${original.name}: ${line}")
+                                String owner = columns[1].replace('.', '/')
+                                columns[1] = classes.get(owner, owner).replace('/', '.')
+                                if (columns.size() == 3 && !(columns[2] in ['*', '*()'])) {
+                                    int descriptorStart = columns[2].indexOf('(')
+                                    String name = descriptorStart < 0 ? columns[2] : columns[2].substring(0, descriptorStart)
+                                    String descriptor = descriptorStart < 0 ? '' : columns[2].substring(descriptorStart)
+                                    columns[2] = members.get(name, name) + descriptor.replaceAll(/L([^;]+);/) { full, type ->
+                                        "L${classes.get(type, type)};"
+                                    }
+                                }
+                                columns.join(' ') + comment
+                            }.join('\n') + '\n'
+                            output.write(remapped.getBytes('UTF-8'))
+                        } else if (mod.modId == 'orespawn'
+                                && entry.name == 'zone/moddev/mc/orespawn/worldgen/OreSourcePolicies.class') {
+                            // This released helper also looks up tag methods by string.
+                            // Translate its SRG constants, not the world-generation logic.
+                            zip.getInputStream(entry).withCloseable { stream ->
+                                DataInputStream input = new DataInputStream(stream)
+                                DataOutputStream data = new DataOutputStream(output)
+                                data.writeInt(input.readInt())
+                                data.writeShort(input.readUnsignedShort())
+                                data.writeShort(input.readUnsignedShort())
+                                int count = input.readUnsignedShort()
+                                data.writeShort(count)
+                                for (int index = 1; index < count; index++) {
+                                    int tag = input.readUnsignedByte()
+                                    data.writeByte(tag)
+                                    if (tag == 1) {
+                                        String value = input.readUTF()
+                                        data.writeUTF(value ==~ /(?:func_|field_).*/ ? members.get(value, value) : value)
+                                    } else {
+                                        int size = [3: 4, 4: 4, 5: 8, 6: 8, 7: 2, 8: 2,
+                                                    9: 4, 10: 4, 11: 4, 12: 4, 15: 3,
+                                                    16: 2, 17: 4, 18: 4, 19: 2, 20: 2][tag] ?: 0
+                                        if (size == 0) throw new GradleException("Unknown class constant ${tag}")
+                                        byte[] bytes = new byte[size]
+                                        input.readFully(bytes)
+                                        data.write(bytes)
+                                        if (tag == 5 || tag == 6) index++
+                                    }
+                                }
+                                input.transferTo(data)
+                            }
+                        } else if (!entry.isDirectory()) {
+                            zip.getInputStream(entry).withCloseable { input -> input.transferTo(output) }
+                        }
+                        output.closeEntry()
+                    }
+                }
+            }
+        }
+    }
+}
+
+def renamedMods = installedMods.collect { mod ->
+    renamer.classes("renameDevelopmentIntegration${mod.modId.toString().capitalize()}") {
+        group = 'ide'
+        description = "Prepares ${mod.modId} for development without changing its original download."
+        dependsOn prepareDevelopmentIntegrationInputs
+        dependsOn tasks.named('prepareDevelopmentMixinMappings')
+        input = inputDirectory.get().file(mod.file.toString())
+        output = layout.buildDirectory.file("development-integrations/${mod.file}")
+        map.setFrom(layout.buildDirectory.file('development-mixins/srg-to-official.srg'))
+        naiveSrg = true
+        accessTransformers = false
+    }
+}
+
+def prepareDevelopmentIntegrationMods = tasks.register('prepareDevelopmentIntegrationMods', Copy) {
+    group = 'ide'
+    description = 'Prepares installed optional mods for Eclipse and Gradle; release jars remain untouched.'
+    dependsOn renamedMods
+    from renamedMods.collect { it.flatMap { task -> task.output } }
+    into modsDirectory
+    doLast {
+        Map state = stateFile.isFile() ? new JsonSlurper().parse(stateFile) as Map : [:]
+        installedMods.each { mod ->
+            state[mod.file.toString()] = buildSupport.sha256Of(new File(modsDirectory, mod.file.toString()))
+        }
+        stateFile.parentFile.mkdirs()
+        stateFile.setText(JsonOutput.prettyPrint(JsonOutput.toJson(state)) + '\n', 'UTF-8')
+    }
+}
+
+def verifyDevelopmentIntegrationMods = tasks.register('verifyDevelopmentIntegrationMods') {
+    group = 'verification'
+    description = 'Checks original hashes and unchanged resources in development-only mod copies.'
+    dependsOn prepareDevelopmentIntegrationMods
+    doLast {
+        installedMods.each { mod ->
+            File original = new File(originalsDirectory, mod.file.toString())
+            File prepared = new File(modsDirectory, mod.file.toString())
+            if (buildSupport.sha256Of(original) != mod.sha256.toString().toUpperCase(Locale.ROOT))
+                throw new GradleException("Preserved download changed: ${original.name}")
+            new ZipFile(original).withCloseable { source ->
+                new ZipFile(prepared).withCloseable { target ->
+                    source.entries().findAll { !it.isDirectory() && (it.name.startsWith('assets/')
+                            || it.name.startsWith('data/') || it.name == 'META-INF/mods.toml') }.each { entry ->
+                        def copy = target.getEntry(entry.name)
+                        if (copy == null || !Arrays.equals(
+                                source.getInputStream(entry).withCloseable { it.bytes },
+                                target.getInputStream(copy).withCloseable { it.bytes }))
+                            throw new GradleException("Development preparation changed ${original.name}!/${entry.name}")
+                    }
+                }
+            }
+        }
+    }
+}
+
+tasks.named('syncForge36EclipseLaunches') { dependsOn verifyDevelopmentIntegrationMods }
+def verifyDevelopmentRunProfiles = tasks.register('verifyDevelopmentRunProfiles') {
+    group = 'verification'
+    description = 'Checks that core-only and optional-mod clients have separate game folders.'
+    doLast {
+        File coreDirectory = buildSupport.coreRunDirectory.asFile.canonicalFile
+        File compatibilityDirectory = buildSupport.compatibilityRunDirectory.asFile.canonicalFile
+        if (coreDirectory == compatibilityDirectory
+                || coreDirectory.toPath().startsWith(compatibilityDirectory.toPath())
+                || compatibilityDirectory.toPath().startsWith(coreDirectory.toPath())) {
+            throw new GradleException('Core-only and compatibility clients must use separate, non-nested folders')
+        }
+        File coreMods = new File(coreDirectory, 'mods')
+        if (!coreMods.isDirectory() && !coreMods.mkdirs())
+            throw new GradleException("Could not create core-only mods folder: ${coreMods}")
+        Set<File> unexpectedMods = fileTree(coreMods).matching { include '**/*.jar' }.files
+        if (!unexpectedMods.isEmpty()) {
+            throw new GradleException("The core-only profile contains mod jars: ${unexpectedMods*.name.sort()}. " +
+                    'Move optional mods to the compatibility profile before launching runClient.')
+        }
+        ['runClient': coreDirectory, 'runClientCompatibility': compatibilityDirectory].each { name, directory ->
+            JavaExec client = tasks.named(name).get() as JavaExec
+            if (client.workingDir.canonicalFile != directory
+                    || client.environment['target'] != 'fmluserdevclient') {
+                throw new GradleException("Incorrect client profile routing: ${name} " +
+                        "(folder=${client.workingDir}, target=${client.environment['target']}, expected=${directory})")
+            }
+        }
+    }
+}
+
+tasks.named('syncForge36EclipseLaunches') { dependsOn verifyDevelopmentRunProfiles }
+tasks.named('check') { dependsOn verifyDevelopmentRunProfiles }
+preserveDevelopmentIntegrationOriginals.configure { dependsOn verifyDevelopmentRunProfiles }
+
+tasks.withType(JavaExec).configureEach {
+    if (name in ['runClient', 'runClientCompatibility']) dependsOn verifyDevelopmentRunProfiles
+    if (name in ['runClientCompatibility', 'runServer']) dependsOn prepareDevelopmentIntegrationMods
+}

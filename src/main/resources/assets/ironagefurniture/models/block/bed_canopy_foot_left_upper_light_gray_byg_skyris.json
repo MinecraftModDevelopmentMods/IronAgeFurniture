@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_bed_canopy_foot_left_upper",
+    "textures": {
+        "log": "byg:block/skyris_log",
+        "planks": "byg:block/skyris_planks",
+        "particle": "byg:block/skyris_log",
+        "cloth": "minecraft:block/light_gray_wool"
+    }
+}

@@ -44,7 +44,7 @@ public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor 
 	public LightSourceSconceRedTorchFloor(AbstractBlock.Properties properties) {
 		super(properties);
 
-		this.registerDefaultState(this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH).setValue(FurnitureBlock.WATERLOGGED, false));
+		this.registerDefaultState(this.defaultBlockState() .setValue(FurnitureBlock.DIRECTION, Direction.NORTH) .setValue(FurnitureBlock.WATERLOGGED, false));
         this.generateShapes(this.getStateDefinition().getPossibleStates());
         this.flameParticle = RedstoneParticleData.REDSTONE;
 	}
@@ -52,7 +52,7 @@ public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor 
 	public LightSourceSconceRedTorchFloor(float hardness, float blastResistance, SoundType sound, String name) {
 		super(Block.Properties.of(Material.METAL).strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> 8) );
 
-		this.registerDefaultState(this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
+		this.registerDefaultState(this.defaultBlockState() .setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
 		this.setRegistryName(name);
 		this.flameParticle = RedstoneParticleData.REDSTONE;
@@ -105,8 +105,8 @@ public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor 
 		if (flag) {
 			level.setBlock(pos,
 					BlockObjectHolder.light_metal_ironage_sconce_floor_redtorch_iron_unlit.defaultBlockState()
-							.setValue(FurnitureBlock.DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
-							.setValue(FurnitureBlock.WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)),
+							 .setValue(FurnitureBlock.DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
+							 .setValue(FurnitureBlock.WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)).setValue(zone.moddev.mc.ironagefurniture.api.SconceMetalData.METAL, zone.moddev.mc.ironagefurniture.api.SconceMetalData.get(state)),
 					3);
 
 			if (isToggledTooFrequently(level, pos, true)) {

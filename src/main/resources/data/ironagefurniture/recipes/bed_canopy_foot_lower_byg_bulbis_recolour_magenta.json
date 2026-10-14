@@ -1,0 +1,76 @@
+{
+    "type": "ironagefurniture:bed_recolour",
+    "ingredients": [
+        [
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_byg_bulbis_black"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_byg_bulbis_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_byg_bulbis_brown"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_byg_bulbis_cyan"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_byg_bulbis_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_byg_bulbis_green"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_byg_bulbis_light_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_byg_bulbis_light_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_byg_bulbis_lime"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_byg_bulbis_magenta"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_byg_bulbis_orange"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_byg_bulbis_pink"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_byg_bulbis_purple"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_byg_bulbis"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_byg_bulbis_white"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_byg_bulbis_yellow"
+            }
+        ],
+        {
+            "item": "minecraft:magenta_carpet"
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "byg"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_canopy_foot_lower_byg_bulbis"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_wood_foot_byg_bulbis"
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_canopy_foot_lower_byg_bulbis_magenta",
+        "count": 1
+    }
+}

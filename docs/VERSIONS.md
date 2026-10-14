@@ -4,9 +4,9 @@ IronAgeFurniture releases use `Major.Minor.Bug.Target`. The first three componen
 
 The target is calculated as `MmmppL`: Minecraft major without padding, two-digit minor, two-digit patch, and a one-digit loader code. Forge uses loader code `1`; NeoForge uses `2`.
 
-For Minecraft 1.16.5 Forge, the target is `116051`, so this Phase 3 release is `0.3.0.116051`. The release tag is exactly that complete version.
+For Minecraft 1.16.5 Forge, the target is `116051`, so this Phase 4 candidate is `0.4.0.116051`. A release tag uses exactly that complete version.
 
-Equivalent forward ports retain `0.3.0` and change only the target. A player-visible feature or fix changes Major, Minor, or Bug independently of the target.
+Equivalent Phase 4 forward ports retain `0.4.0` and change only the target. A player-visible feature or fix changes Major, Minor, or Bug independently of the target.
 
 The 1.16.5 release contains the upgrade bridge for supported furniture and
 lighting saved by the 1.10.2 and 1.12.2 releases, including the 1.12.2 Oh The

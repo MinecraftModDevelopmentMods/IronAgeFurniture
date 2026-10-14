@@ -1,0 +1,48 @@
+{
+    "advancements": [
+        {
+            "conditions": [
+                {
+                    "type": "forge:item_exists",
+                    "item": "ironagefurniture:bed_canopy_foot_lower_acacia"
+                },
+                {
+                    "type": "forge:item_exists",
+                    "item": "ironagefurniture:bed_wood_foot_acacia"
+                }
+            ],
+            "advancement": {
+                "parent": "minecraft:recipes/root",
+                "rewards": {
+                    "recipes": [
+                        "ironagefurniture:bed_canopy_foot_lower_acacia_white"
+                    ]
+                },
+                "criteria": {
+                    "has_ingredient": {
+                        "trigger": "minecraft:inventory_changed",
+                        "conditions": {
+                            "items": [
+                                {
+                                    "item": "ironagefurniture:bed_wood_foot_acacia_white"
+                                }
+                            ]
+                        }
+                    },
+                    "has_the_recipe": {
+                        "trigger": "minecraft:recipe_unlocked",
+                        "conditions": {
+                            "recipe": "ironagefurniture:bed_canopy_foot_lower_acacia_white"
+                        }
+                    }
+                },
+                "requirements": [
+                    [
+                        "has_ingredient",
+                        "has_the_recipe"
+                    ]
+                ]
+            }
+        }
+    ]
+}

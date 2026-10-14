@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:light_blue_carpet"
+        },
+        {
+            "item": "minecraft:oak_planks"
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_classic_oak"
+        }
+    ],
+    "group": "ironagefurniture:chair_wood_ironage_wingback_oak_light_blue",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_wingback_oak_light_blue",
+        "count": 1
+    },
+    "conditions": [
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_wingback_oak"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_classic_oak"
+        }
+    ]
+}

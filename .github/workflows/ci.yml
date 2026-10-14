@@ -122,7 +122,7 @@ jobs:
 
       - name: Generate and audit Eclipse production launches
         run: >-
-          ./gradlew genEclipseRuns eclipse isolateEclipseProductionRuns verifyEclipseProductionClasspath
+          ./gradlew genEclipseRuns eclipse syncForge36EclipseLaunches isolateEclipseProductionRuns verifyEclipseProductionClasspath
           --no-daemon --stacktrace
           -Dorg.gradle.java.installations.paths="$JAVA_HOME,$JAVA_HOME_8_X64,$JAVA_HOME_25_X64"
           -Dorg.gradle.java.installations.auto-detect=false
@@ -135,9 +135,9 @@ jobs:
           if-no-files-found: error
           retention-days: 30
           path: |
-            build/libs/iron-age-furniture-0.3.0.116051.jar
-            build/libs/iron-age-furniture-0.3.0.116051-sources.jar
-            build/libs/iron-age-furniture-0.3.0.116051-javadoc.jar
+            build/libs/iron-age-furniture-0.4.0.116051.jar
+            build/libs/iron-age-furniture-0.4.0.116051-sources.jar
+            build/libs/iron-age-furniture-0.4.0.116051-javadoc.jar
             build/release/SHA256SUMS
             CHANGELOG.md
 

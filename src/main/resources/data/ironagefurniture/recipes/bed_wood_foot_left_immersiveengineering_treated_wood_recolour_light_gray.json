@@ -1,0 +1,76 @@
+{
+    "type": "ironagefurniture:bed_recolour",
+    "ingredients": [
+        [
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_immersiveengineering_treated_wood_black"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_immersiveengineering_treated_wood_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_immersiveengineering_treated_wood_brown"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_immersiveengineering_treated_wood_cyan"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_immersiveengineering_treated_wood_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_immersiveengineering_treated_wood_green"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_immersiveengineering_treated_wood_light_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_immersiveengineering_treated_wood_light_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_immersiveengineering_treated_wood_lime"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_immersiveengineering_treated_wood_magenta"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_immersiveengineering_treated_wood_orange"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_immersiveengineering_treated_wood_pink"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_immersiveengineering_treated_wood_purple"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_immersiveengineering_treated_wood"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_immersiveengineering_treated_wood_white"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_immersiveengineering_treated_wood_yellow"
+            }
+        ],
+        {
+            "item": "minecraft:light_gray_carpet"
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "immersiveengineering"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_wood_foot_left_immersiveengineering_treated_wood"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_wood_foot_immersiveengineering_treated_wood"
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_wood_foot_left_immersiveengineering_treated_wood_light_gray",
+        "count": 1
+    }
+}
