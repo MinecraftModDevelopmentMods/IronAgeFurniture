@@ -4,8 +4,8 @@
 
 # IronAgeFurniture
 
-IronAgeFurniture adds chairs, stools, benches, beds, lamps, sconces, and other ye
-olde-style furniture to Minecraft. Seating is functional, furniture supports
+IronAgeFurniture adds functional chairs, stools, benches, beds, lamps and
+sconces in an old-fashioned style. Furniture supports
 the appropriate vanilla and optional-mod materials, and lighting includes
 falling and throwable lava lamps.
 
@@ -34,9 +34,18 @@ keeps all 39 wood families, including the optional biome-mod woods.
   dynamic-light engine.
 
 Sconces keep their metal and contents when broken by hand or a tool. A lava
-lamp is the intentional exception: Silk Touch recovers it intact; ordinary
-breaking shatters it and may start a fire. Powering a lava-lamp sconce releases
-the lamp as a falling trap.
+lamp is the intentional exception: Silk Touch recovers it intact. Ordinary
+breaking shatters a floor lamp; mining a filled wall sconce releases the vial
+to fall and shatter on landing, or turn into obsidian if it lands in water.
+Right-clicking to remove the lamp from its sconce is safe. Powering a wall
+lava-lamp sconce also releases the lamp as a falling trap.
+
+Click a candle or torch sconce with a water bucket to put its flames out without
+pouring water or emptying the bucket. This also works for standalone candles.
+Water placed around the holder still waterlogs and extinguishes it normally.
+
+Waterlogged candle and torch sconces burn while powered by redstone and go
+out again when the signal stops. Dry sconces stay lit after losing power.
 
 ## Optional integrations
 
@@ -110,6 +119,15 @@ Generate reproducible Eclipse/Buildship metadata with:
 ```text
 gradlew.bat prepareEclipse verifyEclipseProductionClasspath
 ```
+
+For development testing, choose `runClient` for IAF alone or
+`runClientCompatibility` for IAF with the optional mods. These profiles work
+in Eclipse and Gradle. The core-only profile uses `run-core`; the compatibility
+profile keeps the existing `run` folder and its `mods`, saves and settings.
+Their worlds and configuration are separate, and no existing saves are moved.
+Keep optional jars in `run/mods`, not `run-core/mods`, and prepare Eclipse again
+after changing them. See [the build guide](gradle/README.md) for the development
+copies used by optional mods.
 
 Release publication is initiated manually from the protected default-branch
 dispatcher after the exact target commit has passed hosted CI. Building

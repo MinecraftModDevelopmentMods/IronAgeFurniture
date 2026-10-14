@@ -120,6 +120,7 @@ final class DirectSconceHarvestRuntimeProbe {
         require(state.getHarvestTool() == ToolType.PICKAXE
                 && state.getHarvestLevel() == SconceMetalData.get(state).harvestLevel(), "Metal/tool policy changed");
         require(player.gameMode.destroyBlock(POS), "Direct breaking failed: " + state);
+        WallLavaMiningRuntimeProbe.settleReleased(world, POS);
         Map<Item, Integer> expected = new LinkedHashMap<>();
         if (!creative && tileDrops) {
             expected.put(SconceMetalData.create(BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron,
@@ -138,7 +139,9 @@ final class DirectSconceHarvestRuntimeProbe {
                 + ", expected=" + expected + ", actual=" + actual);
         boolean shatters = !creative && state.getBlock().getRegistryName().getPath().contains("_lava_")
                 && net.minecraft.enchantment.EnchantmentHelper.getItemEnchantmentLevel(Enchantments.SILK_TOUCH, tool) == 0;
-        require(world.getBlockState(POS).getBlock() == (shatters ? Blocks.FIRE
+        boolean wetWallLava = shatters && state.getBlock().getRegistryName().getPath().contains("_wall_lava_")
+                && state.getValue(FurnitureBlock.WATERLOGGED);
+        require(world.getBlockState(POS).getBlock() == (wetWallLava ? BlockObjectHolder.obsidian_chunk : shatters ? Blocks.FIRE
                 : state.getValue(FurnitureBlock.WATERLOGGED) ? Blocks.WATER : Blocks.AIR), "Wrong remaining block: " + state);
         world.updateNeighborsAt(POS, state.getBlock());
         require(drops(world).stream().mapToInt(drop -> drop.getItem().getCount()).sum()

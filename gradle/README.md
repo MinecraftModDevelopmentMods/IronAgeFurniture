@@ -19,10 +19,27 @@ optional workflows live in smaller scripts:
 | `release/artifacts.gradle` | Audit the main, sources and Javadoc jars, then checksum the release bundle. |
 | `release/publishing.gradle` | Configure Maven uploads and require publication credentials. |
 | `ide/eclipse.gradle` | Generate and check the nested Buildship project and production launches. |
+| `ide/development-mixins.gradle` | Translate published-mod mixin references for Eclipse and Gradle development launches. |
+| `ide/development-integrations.gradle` | Keep original optional-mod downloads and prepare renamed copies for development. |
 
 For ordinary validation, run `gradlew.bat clean check build javadoc
 verifyReleaseArtifacts verifyReleaseChecksums`. After changing the project
 setup, run `gradlew.bat prepareEclipse verifyEclipseProductionClasspath`.
+
+For optional-mod testing in Eclipse, put the supported published jars in
+`run/mods` before preparing the project, then select `runClientCompatibility`.
+The ordinary `runClient` uses a separate `run-core` folder and loads IAF alone.
+The compatibility profile retains the existing `run` saves and settings; neither
+profile copies or upgrades the other's worlds. Keep `run-core/mods` empty.
+Both profile names are also Gradle tasks. To use other separate game folders,
+set `-PrunDirectory=<core folder>` and
+`-PcompatibilityRunDirectory=<compatibility folder>` before regenerating launches.
+
+Preparation preserves verified originals
+in the local Gradle directory and replaces only those installed mods with
+development-named copies. Do not use these copies in a normal Minecraft profile;
+use the original downloads there instead. Removing a mod from `run/mods` does
+not reinstall it on the next preparation.
 
 The integration probes are separate because they need the exact optional-mod
 jars listed in `verification/optional-integration-mods.json` and a verified
@@ -37,6 +54,11 @@ saved by the first run. Never point this test at a world you want to keep.
 It also mines standalone and sconce-mounted lava lamps using ordinary,
 Efficiency-enchanted and Silk Touch picks, then repeats the test in Creative.
 This checks intact-lamp recovery, empty-sconce drops and fire on shattering.
+The server probe also covers bare-hand breaking and glass-vial mining speed.
+On a disposable in-world client, add `-Diaf.probe.inWorldClient=true` and
+`-Diaf.probe.lampMiningClient=true` to test the real client controller and hit
+particles, including the final swing that removes the lamp. It checks all lamp
+facings, glow/red variants, lava sconces, hands, pickaxes, Silk Touch and Creative.
 
 The same test jar can check baked item and block models on a packaged client.
 It closes the test client after checking its models and writes

@@ -57,14 +57,15 @@ public class LightSourceSconceLavaFloor extends LightSourceSconceGlowFloor imple
 		boolean isSilkTouch = EnchantmentHelper.getItemEnchantmentLevel(
                 Enchantments.SILK_TOUCH, player.getMainHandItem()) > 0;
 
-		if (isSilkTouch && !player.isCreative())
-			Block.popResource(level, pos, new ItemStack(LightDrop(), 1));
-
 		boolean destroyed = super.removedByPlayer(state, level, pos, player, willHarvest, fluid);
-
-		if (!isSilkTouch && !player.isCreative()) {
-			level.playSound(player, pos, SoundEvents.GLASS_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
-			level.setBlock(pos, Blocks.FIRE.defaultBlockState(), 3);
+		// Fire and intact-lamp drops are server results, not client mining predictions.
+		if (destroyed && !level.isClientSide && !player.isCreative()) {
+			if (isSilkTouch)
+				Block.popResource(level, pos, new ItemStack(LightDrop(), 1));
+			else {
+				level.playSound(player, pos, SoundEvents.GLASS_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
+				level.setBlock(pos, Blocks.FIRE.defaultBlockState(), 3);
+			}
 		}
 
 		return destroyed;

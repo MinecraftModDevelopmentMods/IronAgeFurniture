@@ -167,6 +167,11 @@ idea {
 
 // Forge 31 still needs its own userdev launch arguments and environment.
 // Do not replace these with the launch setup from a newer Minecraft version.
+// Use a fresh folder for core-only play; the existing full-mod saves stay in run.
+def coreRunDirectory = layout.projectDirectory.dir(
+        providers.gradleProperty('runDirectory').getOrElse('run-core'))
+def compatibilityRunDirectory = layout.projectDirectory.dir(
+        providers.gradleProperty('compatibilityRunDirectory').getOrElse('run'))
 minecraft {
     mappings channel: project.mcp_mappings_channel, version: project.mcp_mappings_version
 
@@ -180,7 +185,23 @@ minecraft {
                 ironagefurniture { source sourceSets.main }
             }
         }
-        register('client')
+        register('client') {
+            workingDir.set(coreRunDirectory)
+        }
+        register('clientCompatibility') {
+            workingDir.set(compatibilityRunDirectory)
+            // Forge 31's metadata supplies defaults only to a run named client.
+            mainClass.set('net.minecraftforge.userdev.LaunchTesting')
+            environment 'target', 'fmluserdevclient'
+            environment 'MCP_MAPPINGS', "${mcp_mappings_channel}_${mcp_mappings_version}"
+            environment 'MCP_VERSION', mcp_version
+            environment 'FORGE_VERSION', forge_version
+            environment 'FORGE_GROUP', 'net.minecraftforge'
+            environment 'MC_VERSION', minecraft_version
+            environment 'assetIndex', '{asset_index}'
+            environment 'assetDirectory', '{assets_root}'
+            environment 'nativesDirectory', '{natives}'
+        }
         register('server') {
             args '--nogui'
         }
@@ -206,6 +227,8 @@ def prepareDevelopmentMod = tasks.register('prepareDevelopmentMod', Sync) {
 
 def configureForge31Run = { JavaExec runTask, String launchTarget ->
     runTask.dependsOn prepareDevelopmentMod
+    if (runTask.name == 'runClient') runTask.workingDir = coreRunDirectory.asFile
+    if (runTask.name == 'runClientCompatibility') runTask.workingDir = compatibilityRunDirectory.asFile
     runTask.environment 'target', launchTarget
     runTask.environment 'MCP_MAPPINGS', "${mcp_mappings_channel}_${mcp_mappings_version}"
     runTask.environment 'MCP_VERSION', mcp_version
@@ -225,6 +248,7 @@ def configureForge31Run = { JavaExec runTask, String launchTarget ->
 tasks.withType(JavaExec).configureEach { JavaExec runTask ->
     String launchTarget = [
             runClient: 'fmluserdevclient',
+            runClientCompatibility: 'fmluserdevclient',
             runServer: 'fmluserdevserver',
             runData  : 'fmldatauserdev'
     ][runTask.name]
@@ -370,6 +394,8 @@ ext.buildSupport = [
         expectedMavenArtifact: expectedMavenArtifact,
         expectedMavenCoordinate: expectedMavenCoordinate,
         eclipseWorkspaceProjectName: eclipseWorkspaceProjectName,
+        coreRunDirectory: coreRunDirectory,
+        compatibilityRunDirectory: compatibilityRunDirectory,
         archiveTextPatterns: archiveTextPatterns,
         archiveTextSuffixes: archiveTextSuffixes,
         normalizeArchiveLineEndings: normalizeArchiveLineEndings,
@@ -384,7 +410,9 @@ apply from: 'gradle/locales.gradle'
 apply from: 'gradle/verification/project-audits.gradle'
 apply from: 'gradle/release/artifacts.gradle'
 apply from: 'gradle/release/publishing.gradle'
+apply from: 'gradle/ide/development-mixins.gradle'
 apply from: 'gradle/ide/eclipse.gradle'
+apply from: 'gradle/ide/development-integrations.gradle'
 
 tasks.named('check') {
     dependsOn tasks.named('verifyBuildEnvironment')

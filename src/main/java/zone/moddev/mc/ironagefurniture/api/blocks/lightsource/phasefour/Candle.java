@@ -108,7 +108,12 @@ public final class Candle extends FurnitureBlock {
             }
             return net.minecraft.util.ActionResultType.SUCCESS;
         }
-        // Water buckets use IWaterLoggable, including their normal consumption and sound.
+        // A bucket click puts the flame out; it does not pour water over the holder.
+        if (player.getItemInHand(hand).getItem() == Items.WATER_BUCKET) {
+            if (!world.isClientSide)
+                LightInteractions.replace(world, pos, state, PhaseFourLighting.candle(wall, false));
+            return net.minecraft.util.ActionResultType.SUCCESS;
+        }
         return net.minecraft.util.ActionResultType.PASS;
     }
     @Override public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {

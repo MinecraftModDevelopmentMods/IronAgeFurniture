@@ -106,30 +106,30 @@ public class BlockInitialiser {
 		event.getRegistry().register(new LightSourceSconceRedTorchWall(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_redtorch_iron"));
 		event.getRegistry().register(new LightSourceSconceRedTorchWallUnlit(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_redtorch_iron_unlit"));
 
-		event.getRegistry().register(new LightSourceGlowdust(1, 10, SoundType.GLASS, "light_metal_ironage_block_floor_glow_clear"));
+		event.getRegistry().register(new LightSourceGlowdust(.3F, .3F, SoundType.GLASS, "light_metal_ironage_block_floor_glow_clear"));
 		event.getRegistry().register(new LightSourceSconceGlowFloor(1, 10, SoundType.METAL, "light_metal_ironage_sconce_floor_glow_iron"));
 		event.getRegistry().register(new LightSourceSconceGlowWall(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_glow_iron"));
 
-		event.getRegistry().register(new LightSourceLava(1, 10, SoundType.GLASS, "light_metal_ironage_block_floor_lava_clear"));
+		event.getRegistry().register(new LightSourceLava(.3F, .3F, SoundType.GLASS, "light_metal_ironage_block_floor_lava_clear"));
 		event.getRegistry().register(new LightSourceSconceLavaFloor(1, 10, SoundType.METAL, "light_metal_ironage_sconce_floor_lava_iron"));
 		event.getRegistry().register(new LightSourceSconceLavaWall(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_lava_iron"));
 
-		event.getRegistry().register(new LightSourceRed(1, 10, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear"));
-		event.getRegistry().register(new LightSourceRedOne(1, 10, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_one"));
-		event.getRegistry().register(new LightSourceRedTwo(1, 10, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_two"));
-		event.getRegistry().register(new LightSourceRedThree(1, 10, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_three"));
-		event.getRegistry().register(new LightSourceRedFour(1, 10, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_four"));
-		event.getRegistry().register(new LightSourceRedFive(1, 10, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_five"));
-		event.getRegistry().register(new LightSourceRedSix(1, 10, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_six"));
-		event.getRegistry().register(new LightSourceRedSeven(1, 10, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_seven"));
-		event.getRegistry().register(new LightSourceRedEight(1, 10, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_eight"));
-		event.getRegistry().register(new LightSourceRedNine(1, 10, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_nine"));
-		event.getRegistry().register(new LightSourceRedTen(1, 10, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_ten"));
-		event.getRegistry().register(new LightSourceRedEleven(1, 10, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_eleven"));
-		event.getRegistry().register(new LightSourceRedTwelve(1, 10, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_twelve"));
-		event.getRegistry().register(new LightSourceRedThirteen(1, 10, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_thirteen"));
-		event.getRegistry().register(new LightSourceRedFourteen(1, 10, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_fourteen"));
-		event.getRegistry().register(new LightSourceRedFifteen(1, 10, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_fifteen"));
+		event.getRegistry().register(new LightSourceRed(.3F, .3F, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear"));
+		event.getRegistry().register(new LightSourceRedOne(.3F, .3F, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_one"));
+		event.getRegistry().register(new LightSourceRedTwo(.3F, .3F, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_two"));
+		event.getRegistry().register(new LightSourceRedThree(.3F, .3F, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_three"));
+		event.getRegistry().register(new LightSourceRedFour(.3F, .3F, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_four"));
+		event.getRegistry().register(new LightSourceRedFive(.3F, .3F, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_five"));
+		event.getRegistry().register(new LightSourceRedSix(.3F, .3F, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_six"));
+		event.getRegistry().register(new LightSourceRedSeven(.3F, .3F, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_seven"));
+		event.getRegistry().register(new LightSourceRedEight(.3F, .3F, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_eight"));
+		event.getRegistry().register(new LightSourceRedNine(.3F, .3F, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_nine"));
+		event.getRegistry().register(new LightSourceRedTen(.3F, .3F, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_ten"));
+		event.getRegistry().register(new LightSourceRedEleven(.3F, .3F, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_eleven"));
+		event.getRegistry().register(new LightSourceRedTwelve(.3F, .3F, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_twelve"));
+		event.getRegistry().register(new LightSourceRedThirteen(.3F, .3F, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_thirteen"));
+		event.getRegistry().register(new LightSourceRedFourteen(.3F, .3F, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_fourteen"));
+		event.getRegistry().register(new LightSourceRedFifteen(.3F, .3F, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_fifteen"));
 
 		event.getRegistry().register(new LightSourceSconceRedFloor(1, 10, SoundType.METAL, "light_metal_ironage_sconce_floor_red_iron"));
 		event.getRegistry().register(new LightSourceSconceRedFloorOne(1, 10, SoundType.METAL, "light_metal_ironage_sconce_floor_red_iron_one"));

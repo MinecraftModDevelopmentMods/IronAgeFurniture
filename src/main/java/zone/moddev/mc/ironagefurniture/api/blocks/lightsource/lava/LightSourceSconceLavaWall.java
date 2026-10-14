@@ -57,15 +57,20 @@ public class LightSourceSconceLavaWall extends LightSourceSconceGlowWall {
                 || !canRelease(world.hasNeighborSignal(pos), world.isEmptyBlock(pos.below()))) return;
         BlockState empty = LightInteractions.replacement(state, EmptyVariant());
         if (!world.setBlock(pos, empty, 3)) return;
-        Direction outwards = state.getValue(FurnitureBlock.DIRECTION).getOpposite();
         PlayerEntity nearest = world.getNearestPlayer(pos.getX() + .5, pos.getY() + .5, pos.getZ() + .5, -1, false);
+        if (!releaseLamp(world, pos, state, nearest != null && nearest.isCreative())
+                && world.getBlockState(pos).getBlock() == empty.getBlock())
+            world.setBlock(pos, state, 3);
+    }
+
+    private boolean releaseLamp(World world, BlockPos pos, BlockState state, boolean preserveOnLanding) {
+        Direction outwards = state.getValue(FurnitureBlock.DIRECTION).getOpposite();
         ReleasedLavaLamp lamp = new ReleasedLavaLamp(world,
                 pos.getX() + .5 + .27 * outwards.getStepX(), pos.getY() + 5.0 / 16.0,
                 pos.getZ() + .5 + .27 * outwards.getStepZ(),
                 LightDrop().defaultBlockState().setValue(FurnitureBlock.DIRECTION, state.getValue(FurnitureBlock.DIRECTION)),
-                pos.getY(), nearest != null && nearest.isCreative());
-        if (!world.addFreshEntity(lamp) && world.getBlockState(pos).getBlock() == empty.getBlock())
-            world.setBlock(pos, state, 3);
+                pos.getY(), preserveOnLanding);
+        return world.addFreshEntity(lamp);
     }
 
 	@Override
@@ -85,14 +90,17 @@ public class LightSourceSconceLavaWall extends LightSourceSconceGlowWall {
 		boolean isSilkTouch = EnchantmentHelper.getItemEnchantmentLevel(
                 Enchantments.SILK_TOUCH, player.getMainHandItem()) > 0;
 
-		if (isSilkTouch && !player.isCreative())
-			Block.popResource(level, pos, new ItemStack(LightDrop(), 1));
-
 		boolean destroyed = super.removedByPlayer(state, level, pos, player, willHarvest, fluid);
-
-		if (!isSilkTouch && !player.isCreative()) {
-			level.playSound(player, pos, SoundEvents.GLASS_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
-			level.setBlock(pos, Blocks.FIRE.defaultBlockState(), 3);
+		// The client predicts ordinary removal; falling and drops belong to the server.
+		if (destroyed && !level.isClientSide && !player.isCreative()) {
+			if (isSilkTouch)
+				Block.popResource(level, pos, new ItemStack(LightDrop(), 1));
+			else if (!releaseLamp(level, pos, state, false)) {
+                // A protection mod can refuse the entity. Keep both contents and
+                // frame, and return false so Forge does not also drop the frame.
+                level.setBlock(pos, state, 3);
+                return false;
+			}
 		}
 
 		return destroyed;

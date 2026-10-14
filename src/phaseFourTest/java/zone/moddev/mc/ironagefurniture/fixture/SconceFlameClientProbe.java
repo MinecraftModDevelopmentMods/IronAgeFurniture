@@ -37,14 +37,19 @@ final class SconceFlameClientProbe {
         }
         if (factories == null) throw new IllegalStateException("Client particle factories unavailable");
         IParticleFactory<BasicParticleType> flame = (IParticleFactory<BasicParticleType>)factories.get(ParticleTypes.FLAME.getRegistryName());
+        IParticleFactory<BasicParticleType> candleFlame = (IParticleFactory<BasicParticleType>)factories.get(PhaseFourLighting.CANDLE_FLAME.getRegistryName());
         IParticleFactory<BasicParticleType> smoke = (IParticleFactory<BasicParticleType>)factories.get(ParticleTypes.SMOKE.getRegistryName());
-        if (flame == null || smoke == null) throw new IllegalStateException("Torch particle factories missing");
+        if (flame == null || candleFlame == null || smoke == null) throw new IllegalStateException("Sconce particle factories missing");
         List<Vec3d> flames = new ArrayList<>(), smokes = new ArrayList<>();
         ParticleStatus previous = game.options.particles;
         game.options.particles = ParticleStatus.ALL;
         game.particleEngine.register(ParticleTypes.FLAME, (data, world, x, y, z, dx, dy, dz) -> {
             flames.add(new Vec3d(x, y, z));
             return flame.createParticle(data, world, x, y, z, dx, dy, dz);
+        });
+        game.particleEngine.register(PhaseFourLighting.CANDLE_FLAME, (data, world, x, y, z, dx, dy, dz) -> {
+            flames.add(new Vec3d(x, y, z));
+            return candleFlame.createParticle(data, world, x, y, z, dx, dy, dz);
         });
         game.particleEngine.register(ParticleTypes.SMOKE, (data, world, x, y, z, dx, dy, dz) -> {
             smokes.add(new Vec3d(x, y, z));
@@ -55,25 +60,34 @@ final class SconceFlameClientProbe {
             BlockPos pos = game.player.getCommandSenderBlockPosition();
             for (boolean wall : new boolean[]{false, true}) for (boolean lit : new boolean[]{false, true})
                 for (boolean wet : new boolean[]{false, true}) for (Direction facing : Direction.Plane.HORIZONTAL)
-                    for (SconceMetal metal : SconceMetal.values()) {
-                        AdditionalSconce sconce = (AdditionalSconce)PhaseFourLighting.sconce(wall, lit, true, 2);
+                    for (SconceMetal metal : SconceMetal.values()) for (boolean twin : new boolean[]{false, true})
+                        for (int count = twin ? 2 : 1; count <= (twin ? 2 : 4); count++) {
+                        AdditionalSconce sconce = (AdditionalSconce)PhaseFourLighting.sconce(wall, lit, twin, count);
                         BlockState state = sconce.defaultBlockState().setValue(Candle.WATERLOGGED, wet)
                                 .setValue(Candle.DIRECTION, facing).setValue(SconceMetalData.METAL, metal);
                         flames.clear(); smokes.clear();
                         sconce.animateTick(state, game.level, pos, new Random(0));
-                        if (flames.size() != (lit ? 2 : 0) || smokes.size() != (lit ? 2 : 0))
-                            throw new IllegalStateException("Wrong twin-torch particles: " + state);
+                        List<Vec3d> expectedSmoke = new ArrayList<>();
+                        Random smokeRandom = new Random(0);
+                        if (lit) for (int index = 0; index < count; index++)
+                            if (twin || smokeRandom.nextInt(3) == 0)
+                                expectedSmoke.add(sconce.getFlameOffset(state, index).add(new Vec3d(pos)).add(0, .04, 0));
+                        if (flames.size() != (lit ? count : 0) || smokes.size() != expectedSmoke.size())
+                            throw new IllegalStateException("Wrong sconce particles: " + state);
                         for (int index = 0; index < flames.size(); index++) {
                             Vec3d expected = sconce.getFlameOffset(state, index).add(new Vec3d(pos));
-                            if (flames.get(index).distanceTo(expected) > .000001
-                                    || smokes.get(index).distanceTo(expected.add(0, .04, 0)) > .000001)
-                                throw new IllegalStateException("Particles left their torch wicks: " + state);
+                            if (flames.get(index).distanceTo(expected) > .000001)
+                                throw new IllegalStateException("Flame left its wick: " + state);
                         }
+                        for (int index = 0; index < smokes.size(); index++)
+                            if (smokes.get(index).distanceTo(expectedSmoke.get(index)) > .000001)
+                                throw new IllegalStateException("Smoke left its wick: " + state);
                         cases++;
                     }
             return cases;
         } finally {
             game.particleEngine.register(ParticleTypes.FLAME, flame);
+            game.particleEngine.register(PhaseFourLighting.CANDLE_FLAME, candleFlame);
             game.particleEngine.register(ParticleTypes.SMOKE, smoke);
             game.options.particles = previous;
         }

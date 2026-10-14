@@ -1,7 +1,27 @@
 # IronAgeFurniture 0.4.0.115021
 
-Phase 4 candidate for Minecraft 1.15.2 and Forge 31.2.57.
+Phase 4 furniture and lighting for Minecraft 1.15.2 and Forge 31.2.57.
+Requires Java 8 on clients and servers.
 
+- Let a water-bucket click extinguish standalone candles, candle sconces and
+  twin-torch sconces without placing water or emptying the bucket. Keep their
+  facing, contents and metal; existing waterlogging is unchanged.
+
+- Let redstone relight waterlogged candle sconces, just like torch sconces.
+  They go out again when the signal stops; dry candles stay lit. Keep all
+  candle counts, frame metals and facings through the change.
+- Make lava lamps fall out of mined wall sconces and shatter on landing,
+  rather than trying to create fire in mid-air. Right-click removal and
+  Silk Touch still recover an intact lamp; the frame keeps its metal.
+- Fix a crash on the final mining swing when a lava lamp or lava sconce shatters.
+  Fire is created on the server rather than during client-side mining prediction.
+  Standalone glass lamps now break as quickly as glass instead of metal furniture.
+- Separate development testing into a core-only `runClient` and an optional-mod
+  `runClientCompatibility`, each with its own worlds and settings. Keep existing
+  full-mod test saves in their original folder.
+- Fix Eclipse and Gradle development startup with optional mods installed.
+  Prepare development-named mod copies and translate BYG's mixin references,
+  while keeping the original downloads unchanged for normal Minecraft use.
 - Add wooden and canopy beds, matching doubles, wingbacks and thrones for all
   39 existing wood families, with sixteen colour-specific items for each form.
 - Preserve shield designs and all other item data when removing and replacing

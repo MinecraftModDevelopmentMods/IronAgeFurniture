@@ -15,6 +15,7 @@ tasks.register('syncForge31EclipseLaunches') {
     dependsOn tasks.named('genEclipseRuns')
     dependsOn tasks.named('classes')
     dependsOn tasks.named('verifyBuildEnvironment')
+    dependsOn tasks.named('verifyDevelopmentMixinMappings')
     doLast {
         String mainClass = 'net.minecraftforge.userdev.LaunchTesting'
         String mainOutput = new File(projectDir, 'bin/main').absolutePath
@@ -56,7 +57,7 @@ tasks.register('syncForge31EclipseLaunches') {
             spec.into(outputDirectory)
         }
 
-        ['Client', 'Server', 'Data'].each { runName ->
+        ['Client', 'ClientCompatibility', 'Server', 'Data'].each { runName ->
             File launch = [file("run${runName}.launch"), file(".eclipse/run${runName}.launch")]
                     .find { it.isFile() }
             if (launch == null) {
@@ -69,6 +70,11 @@ tasks.register('syncForge31EclipseLaunches') {
                         '<mapAttribute key="org.eclipse.debug.core.environmentVariables">\r\n' +
                         "    <mapEntry key=\"MOD_CLASSES\" value=\"${modClasses}\"/>\r\n" +
                         '</mapAttribute>')
+            }
+            if (!text.contains('<mapEntry key="MOD_CLASSES"')) {
+                text = text.replace('<mapAttribute key="org.eclipse.debug.core.environmentVariables">',
+                        '<mapAttribute key="org.eclipse.debug.core.environmentVariables">\r\n' +
+                        "    <mapEntry key=\"MOD_CLASSES\" value=\"${modClasses}\"/>")
             }
             text = text.replace('<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value=""/>',
                     "<stringAttribute key=\"org.eclipse.jdt.launching.MAIN_TYPE\" value=\"${mainClass}\"/>")
@@ -150,11 +156,36 @@ tasks.register('verifyEclipseProductionClasspath') {
                 || !buildshipPreferences.getText('UTF-8').contains('override.workspace.settings=true')) {
             throw new GradleException('Eclipse Buildship wrapper preferences are missing')
         }
-        ['Client', 'Server', 'Data'].each { runName ->
+        ['Client', 'ClientCompatibility', 'Server', 'Data'].each { runName ->
             File launch = [file("run${runName}.launch"), file(".eclipse/run${runName}.launch")]
                     .find { it.isFile() }
             String text = launch.getText('UTF-8')
             String mainOutput = new File(projectDir, 'bin/main').absolutePath
+            String refmapFile = layout.buildDirectory.file('development-mixins/srg-to-official.srg')
+                    .get().asFile.absolutePath
+            def launchXml = new XmlSlurper(false, false).parse(launch)
+            if (runName in ['Client', 'ClientCompatibility']) {
+                File expectedDirectory = (runName == 'Client' ? buildSupport.coreRunDirectory
+                        : buildSupport.compatibilityRunDirectory).asFile
+                String workingDirectory = launchXml.stringAttribute.find {
+                    it.@key.text() == 'org.eclipse.jdt.launching.WORKING_DIRECTORY'
+                }?.@value?.text()
+                if (workingDirectory == null || new File(workingDirectory).canonicalFile != expectedDirectory.canonicalFile)
+                    throw new GradleException("Eclipse client has the wrong game folder: ${launch.name}")
+                String target = launchXml.mapAttribute.find {
+                    it.@key.text() == 'org.eclipse.debug.core.environmentVariables'
+                }?.mapEntry?.find { it.@key.text() == 'target' }?.@value?.text()
+                if (target != 'fmluserdevclient')
+                    throw new GradleException("Eclipse client has the wrong Forge launch target: ${launch.name}")
+            }
+            String vmArguments = launchXml.stringAttribute.find {
+                it.@key.text() == 'org.eclipse.jdt.launching.VM_ARGUMENTS'
+            }?.@value?.text()
+            if (vmArguments == null || !vmArguments.contains('-Dmixin.env.remapRefMap=true')
+                    || !vmArguments.contains('-Dmixin.env.refMapRemappingFile=')
+                    || !vmArguments.contains(refmapFile)) {
+                throw new GradleException("Eclipse launch is missing published-mod mixin remapping: ${launch.name}")
+            }
             String expectedModClasses = "${project.mod_id}%%${mainOutput}${File.pathSeparator}" +
                     "${project.mod_id}%%${mainOutput}"
             if (!text.contains('ATTR_EXCLUDE_TEST_CODE')

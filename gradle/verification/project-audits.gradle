@@ -67,6 +67,14 @@ tasks.register('verifyReleaseConfiguration') {
                 throw new GradleException("Unexpected ${key}: ${project.findProperty(key)}")
             }
         }
+        // CI must upload the version it just built, including both documentation jars.
+        String ciWorkflow = file('.github/workflows/ci.yml').getText('UTF-8')
+        ['', '-sources', '-javadoc'].each { suffix ->
+            String artifact = "build/libs/${project.mod_archive_name}-${project.version}${suffix}.jar"
+            if (!ciWorkflow.contains(artifact)) {
+                throw new GradleException("CI does not upload the current release artifact: ${artifact}")
+            }
+        }
     }
 }
 

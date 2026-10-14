@@ -62,7 +62,7 @@ block or item. Forge may still report missing mappings for unsupported CFM
 content; do not accept a removal prompt on a valuable world without checking
 what would be lost.
 
-## Local verification for this candidate
+## Tested upgrade paths and limitations
 
 Disposable, fingerprinted copies were loaded directly into 1.15.2 and then
 loaded again. No intermediate Minecraft edition was needed for the tested
