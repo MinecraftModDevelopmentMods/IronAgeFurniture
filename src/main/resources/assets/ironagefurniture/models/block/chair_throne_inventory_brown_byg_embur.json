@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_chair_throne_inventory",
+    "textures": {
+        "log": "byg:block/embur_planks",
+        "planks": "byg:block/embur_planks",
+        "particle": "byg:block/embur_planks",
+        "cloth": "minecraft:block/brown_wool"
+    }
+}

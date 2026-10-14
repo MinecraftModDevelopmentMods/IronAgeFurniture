@@ -1,0 +1,76 @@
+{
+    "type": "ironagefurniture:bed_recolour",
+    "ingredients": [
+        [
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_aspen_black"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_aspen_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_aspen_brown"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_aspen_cyan"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_aspen_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_aspen_green"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_aspen_light_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_aspen_light_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_aspen_lime"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_aspen_magenta"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_aspen_orange"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_aspen_pink"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_aspen_purple"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_aspen"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_aspen_white"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_aspen_yellow"
+            }
+        ],
+        {
+            "item": "minecraft:blue_carpet"
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "byg"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_wood_foot_left_byg_aspen"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_wood_foot_byg_aspen"
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_wood_foot_left_byg_aspen_blue",
+        "count": 1
+    }
+}

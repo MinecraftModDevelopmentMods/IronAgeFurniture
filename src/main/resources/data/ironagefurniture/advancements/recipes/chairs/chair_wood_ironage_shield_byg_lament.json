@@ -26,7 +26,7 @@
                         "conditions": {
                             "items": [
                                 {
-                                    "item": "byg:lament_planks"
+                                    "item": "minecraft:shield"
                                 }
                             ]
                         }

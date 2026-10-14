@@ -26,7 +26,7 @@
                         "conditions": {
                             "items": [
                                 {
-                                    "item": "biomesoplenty:redwood_planks"
+                                    "item": "minecraft:shield"
                                 }
                             ]
                         }

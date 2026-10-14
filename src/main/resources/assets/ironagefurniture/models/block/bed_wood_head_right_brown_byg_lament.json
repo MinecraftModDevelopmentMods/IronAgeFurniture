@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_bed_wood_head_right",
+    "textures": {
+        "log": "byg:block/lament_log",
+        "planks": "byg:block/lament_planks",
+        "particle": "byg:block/lament_log",
+        "cloth": "minecraft:block/brown_wool"
+    }
+}

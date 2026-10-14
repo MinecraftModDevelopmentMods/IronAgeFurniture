@@ -1,0 +1,33 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:light_gray_carpet"
+        },
+        {
+            "item": "biomesoplenty:hellbark_planks"
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_hellbark"
+        }
+    ],
+    "group": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_hellbark_light_gray",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_hellbark_light_gray",
+        "count": 1
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_hellbark"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_hellbark"
+        }
+    ]
+}

@@ -1,0 +1,30 @@
+{
+    "type": "ironagefurniture:upholstery_upgrade",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_canopy_foot_lower_byg_aspen_black"
+        },
+        {
+            "item": "ironagefurniture:bed_canopy_foot_lower_byg_aspen_black"
+        }
+    ],
+    "group": "ironagefurniture:bed_canopy_foot_left_lower_byg_aspen_black",
+    "result": {
+        "item": "ironagefurniture:bed_canopy_foot_left_lower_byg_aspen_black",
+        "count": 1
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "byg"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_canopy_foot_left_lower_byg_aspen"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_canopy_foot_lower_byg_aspen"
+        }
+    ]
+}

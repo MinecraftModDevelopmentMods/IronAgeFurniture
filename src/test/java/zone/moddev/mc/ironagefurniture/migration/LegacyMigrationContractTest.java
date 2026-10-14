@@ -15,6 +15,15 @@ public class LegacyMigrationContractTest {
 		assertTrue(transformer.contains("prepareLegacyChunk"));
 		assertTrue(transformer.contains("finalizeLegacyChunk"));
 		assertTrue(new File("src/main/resources/META-INF/coremods.json").isFile());
+		assertTrue(transformer.contains("ironagefurniture_legacy_player_files"));
+		assertTrue(transformer.contains("ironagefurniture_legacy_level_data"));
+		assertTrue(transformer.contains("net.minecraft.world.storage.PlayerData"));
+		assertTrue(transformer.contains("prepareLevelPlayerData"));
+		assertTrue(transformer.contains("preparePlayerData"));
+		assertTrue(transformer.contains("Cannot locate raw player data readers"));
+		assertTrue(transformer.contains("Type.getArgumentTypes(method.desc)"));
+		assertTrue(transformer.contains("Cannot locate Forge 36 world registry reader"));
+		assertTrue(transformer.contains("Cannot locate Forge 36 chunk updater"));
 	}
 
 	@Test

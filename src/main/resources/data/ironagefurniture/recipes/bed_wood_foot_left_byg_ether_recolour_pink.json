@@ -1,0 +1,76 @@
+{
+    "type": "ironagefurniture:bed_recolour",
+    "ingredients": [
+        [
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_ether_black"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_ether_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_ether_brown"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_ether_cyan"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_ether_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_ether_green"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_ether_light_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_ether_light_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_ether_lime"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_ether_magenta"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_ether_orange"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_ether_pink"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_ether_purple"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_ether"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_ether_white"
+            },
+            {
+                "item": "ironagefurniture:bed_wood_foot_left_byg_ether_yellow"
+            }
+        ],
+        {
+            "item": "minecraft:pink_carpet"
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "byg"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_wood_foot_left_byg_ether"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_wood_foot_byg_ether"
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_wood_foot_left_byg_ether_pink",
+        "count": 1
+    }
+}

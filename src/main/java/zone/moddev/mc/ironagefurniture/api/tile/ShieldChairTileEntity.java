@@ -1,0 +1,56 @@
+package zone.moddev.mc.ironagefurniture.api.tile;
+
+import net.minecraft.block.BlockState;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.tileentity.TileEntity;
+import zone.moddev.mc.ironagefurniture.api.ShieldChairItemData;
+import zone.moddev.mc.ironagefurniture.init.PhaseFourTileEntities;
+
+/** Non-ticking storage shared by shield chairs of every wood. */
+public final class ShieldChairTileEntity extends TileEntity {
+    private ItemStack shield = new ItemStack(Items.SHIELD);
+
+    public ShieldChairTileEntity() {
+        super(PhaseFourTileEntities.shield_chair);
+    }
+
+    public boolean hasShield() { return !shield.isEmpty(); }
+    public ItemStack getShield() { return shield.copy(); }
+
+    public void setShield(ItemStack next) {
+        if (next != null && !next.isEmpty() && next.getItem() != Items.SHIELD) return;
+        shield = next == null ? ItemStack.EMPTY : next.copy();
+        if (!shield.isEmpty()) shield.setCount(1);
+        setChanged();
+        if (level != null) {
+            BlockState state = level.getBlockState(worldPosition);
+            level.sendBlockUpdated(worldPosition, state, state, 3);
+        }
+    }
+
+    @Override public void load(BlockState state, CompoundNBT tag) {
+        super.load(state, tag);
+        shield = ShieldChairItemData.readShield(tag);
+    }
+
+    @Override public CompoundNBT save(CompoundNBT tag) {
+        super.save(tag);
+        tag.remove(ShieldChairItemData.SHIELD_TAG);
+        tag.remove(ShieldChairItemData.EMPTY_TAG);
+        tag.merge(ShieldChairItemData.writeShield(shield));
+        return tag;
+    }
+
+    @Override public CompoundNBT getUpdateTag() { return save(new CompoundNBT()); }
+    @Override public void handleUpdateTag(BlockState state, CompoundNBT tag) { load(state, tag); }
+    @Override public SUpdateTileEntityPacket getUpdatePacket() {
+        return new SUpdateTileEntityPacket(worldPosition, 0, getUpdateTag());
+    }
+    @Override public void onDataPacket(NetworkManager manager, SUpdateTileEntityPacket packet) {
+        load(getBlockState(), packet.getTag());
+    }
+}

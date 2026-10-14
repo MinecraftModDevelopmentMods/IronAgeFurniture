@@ -26,7 +26,7 @@
                         "conditions": {
                             "items": [
                                 {
-                                    "item": "byg:rainbow_eucalyptus_planks"
+                                    "item": "minecraft:shield"
                                 }
                             ]
                         }

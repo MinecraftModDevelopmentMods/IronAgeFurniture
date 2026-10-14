@@ -29,11 +29,34 @@ public final class LegacyPaddedItemMigration {
 		return migrateNested(level);
 	}
 
+    /** Unchanged item IDs still need their old container chunk preserved. */
+    static boolean containsFurnitureItems(INBT value) {
+        if (value instanceof CompoundNBT) {
+            CompoundNBT compound = (CompoundNBT)value;
+            String id = compound.getString("id");
+            if (compound.contains("Count", 99) && (id.startsWith("ironagefurniture:") || id.startsWith("iafbygaddon:")))
+                return true;
+            for (String key : compound.getAllKeys()) if (containsFurnitureItems(compound.get(key))) return true;
+        } else if (value instanceof ListNBT) {
+            for (INBT child : (ListNBT)value) if (containsFurnitureItems(child)) return true;
+        }
+        return false;
+    }
+
 	static boolean migrateItemCompound(CompoundNBT stack) {
-		boolean changed = false;
-		if (stack.contains("id", 8)) {
+		boolean changed = LegacyUpholsteryMigration.migrateItem(stack);
+        changed |= zone.moddev.mc.ironagefurniture.api.SconceMetalData.migrateItem(stack);
+        String savedName = stack.getString("id");
+        if (savedName.startsWith(Ironagefurniture.MODID + ":")
+                || savedName.startsWith(LegacyPaddedBenchIds.BYG_ADDON_MODID + ":")) {
 			ResourceLocation id = new ResourceLocation(stack.getString("id"));
 			if (LegacyPaddedBenchIds.isLegacyNamespace(id.getNamespace())) {
+				ResourceLocation renamed = LegacyPaddedBenchIds.currentId(id);
+                if (!renamed.equals(id) && !LegacyPaddedBenchIds.isLegacyPaddedPath(id.getPath())) {
+                    stack.putString("id", renamed.toString());
+                    id = renamed;
+                    changed = true;
+                }
 				CompoundNBT tag = stack.contains("tag", 10) ? stack.getCompound("tag") : null;
 				String colour = tag != null && tag.contains(LegacyPaddedBenchIds.COLOR_TAG, 8)
 						? tag.getString(LegacyPaddedBenchIds.COLOR_TAG) : "red";

@@ -1,0 +1,33 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:black_carpet"
+        },
+        {
+            "item": "byg:embur_planks"
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_byg_embur_black"
+        }
+    ],
+    "group": "ironagefurniture:chair_wood_ironage_throne_byg_embur_black",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_throne_byg_embur_black",
+        "count": 1
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "byg"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_throne_byg_embur"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_wingback_byg_embur"
+        }
+    ]
+}

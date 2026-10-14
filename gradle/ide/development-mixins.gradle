@@ -1,0 +1,90 @@
+import java.util.zip.GZIPInputStream
+
+// Published 1.16 mods use SRG method names in their mixin refmaps. Eclipse and
+// Gradle use readable names, so Mixin needs the same translation as Forge's loader.
+def sourceMappings = files(minecraft.dependency.toSrgFile)
+def developmentRefmapMappings = layout.buildDirectory.file('development-mixins/srg-to-official.srg')
+
+def prepareDevelopmentMixinMappings = tasks.register('prepareDevelopmentMixinMappings') {
+    group = 'ide'
+    description = 'Translates published-mod mixin references for Forge 1.16 development launches.'
+    inputs.files(sourceMappings)
+    outputs.file(developmentRefmapMappings)
+    doLast {
+        File source = sourceMappings.singleFile
+        File destination = developmentRefmapMappings.get().asFile
+        destination.parentFile.mkdirs()
+        source.withInputStream { input ->
+            List<String> lines = (source.name.endsWith('.gz') ? new GZIPInputStream(input) : input)
+                    .getText('UTF-8').readLines()
+            if (lines.isEmpty() || !lines.first().startsWith('tsrg2 ')) {
+                throw new GradleException('Expected ForgeGradle named-to-SRG mappings in TSRG2 format')
+            }
+            Map<String, String> classes = [:]
+            lines.drop(1).findAll { !it.isEmpty() && !it.startsWith('\t') }.each { line ->
+                List<String> columns = line.trim().tokenize()
+                if (columns.size() != 2) throw new GradleException("Invalid class mapping: ${line}")
+                classes[columns[0]] = columns[1]
+            }
+            // Mixin 0.8 reads plain SRG, not ForgeGradle's compressed TSRG2 format.
+            List<String> output = []
+            String namedOwner
+            String srgOwner
+            lines.drop(1).each { line ->
+                if (line.isEmpty() || line.startsWith('\t\t')) return
+                List<String> columns = line.trim().tokenize()
+                if (!line.startsWith('\t')) {
+                    namedOwner = columns[0]
+                    srgOwner = columns[1]
+                    output.add("CL: ${srgOwner} ${namedOwner}")
+                } else if (columns.size() == 2) {
+                    output.add("FD: ${srgOwner}/${columns[1]} ${namedOwner}/${columns[0]}")
+                } else if (columns.size() == 3 && columns[1].startsWith('(')) {
+                    String namedDescriptor = columns[1]
+                    String srgDescriptor = namedDescriptor.replaceAll(/L([^;]+);/) { full, owner ->
+                        "L${classes.get(owner, owner)};"
+                    }
+                    output.add("MD: ${srgOwner}/${columns[2]} ${srgDescriptor} " +
+                            "${namedOwner}/${columns[0]} ${namedDescriptor}")
+                } else {
+                    throw new GradleException("Invalid member mapping: ${line}")
+                }
+            }
+            destination.setText(output.join('\n') + '\n', 'UTF-8')
+        }
+    }
+}
+
+minecraft.runs.configureEach {
+    systemProperty 'mixin.env.remapRefMap', 'true'
+    systemProperty 'mixin.env.refMapRemappingFile', developmentRefmapMappings.get().asFile.absolutePath
+}
+
+tasks.withType(JavaExec).configureEach {
+    if (name in ['runClient', 'runClientCompatibility', 'runServer', 'runData']) {
+        dependsOn prepareDevelopmentMixinMappings
+    }
+}
+tasks.matching { it.name == 'genEclipseRuns' }.configureEach {
+    dependsOn prepareDevelopmentMixinMappings
+}
+
+def verifyDevelopmentMixinMappings = tasks.register('verifyDevelopmentMixinMappings') {
+    group = 'verification'
+    description = 'Checks the SRG-to-readable mapping used by optional mods such as BYG.'
+    dependsOn prepareDevelopmentMixinMappings
+    doLast {
+        String mappings = developmentRefmapMappings.get().asFile.getText('UTF-8')
+        String owner = 'net/minecraft/entity/monster/SlimeEntity'
+        String descriptor = '(Lnet/minecraft/entity/EntityType;Lnet/minecraft/world/IWorld;' +
+                'Lnet/minecraft/entity/SpawnReason;Lnet/minecraft/util/math/BlockPos;Ljava/util/Random;)Z'
+        String expected = "MD: ${owner}/func_223366_c ${descriptor} ${owner}/checkSlimeSpawnRules ${descriptor}"
+        if (!mappings.readLines().contains(expected)) {
+            throw new GradleException('Development mixin mappings cannot translate BYG slime spawning')
+        }
+        if (mappings.readLines().any { !(it.startsWith('CL: ') || it.startsWith('FD: ') || it.startsWith('MD: ')) }) {
+            throw new GradleException('Development mixin mappings contain an unsupported record')
+        }
+    }
+}
+tasks.named('check') { dependsOn verifyDevelopmentMixinMappings }

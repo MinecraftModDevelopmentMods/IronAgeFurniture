@@ -1,0 +1,7 @@
+{
+    "parent": "ironagefurniture:block/template_light_metal_ironage_sconce_wall_rocksalt",
+    "textures": {
+        "metal": "minecraft:block/iron_block",
+        "contents": "mineralogy:blocks/rocksalt_lamp"
+    }
+}
