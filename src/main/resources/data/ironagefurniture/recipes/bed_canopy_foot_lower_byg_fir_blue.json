@@ -1,0 +1,33 @@
+{
+    "type": "ironagefurniture:upholstery_upgrade",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_byg_fir_blue"
+        },
+        {
+            "item": "byg:fir_planks"
+        },
+        {
+            "item": "minecraft:blue_carpet"
+        }
+    ],
+    "group": "ironagefurniture:bed_canopy_foot_lower_byg_fir_blue",
+    "result": {
+        "item": "ironagefurniture:bed_canopy_foot_lower_byg_fir_blue",
+        "count": 1
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "byg"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_canopy_foot_lower_byg_fir"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_wood_foot_byg_fir"
+        }
+    ]
+}

@@ -1,0 +1,33 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:pink_carpet"
+        },
+        {
+            "item": "byg:rainbow_eucalyptus_planks"
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_byg_rainbow_eucalyptus_pink"
+        }
+    ],
+    "group": "ironagefurniture:chair_wood_ironage_throne_byg_rainbow_eucalyptus_pink",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_throne_byg_rainbow_eucalyptus_pink",
+        "count": 1
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "byg"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_throne_byg_rainbow_eucalyptus"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_wingback_byg_rainbow_eucalyptus"
+        }
+    ]
+}

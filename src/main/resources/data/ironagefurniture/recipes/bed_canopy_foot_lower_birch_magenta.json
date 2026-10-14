@@ -1,0 +1,29 @@
+{
+    "type": "ironagefurniture:upholstery_upgrade",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_birch_magenta"
+        },
+        {
+            "item": "minecraft:birch_planks"
+        },
+        {
+            "item": "minecraft:magenta_carpet"
+        }
+    ],
+    "group": "ironagefurniture:bed_canopy_foot_lower_birch_magenta",
+    "result": {
+        "item": "ironagefurniture:bed_canopy_foot_lower_birch_magenta",
+        "count": 1
+    },
+    "conditions": [
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_canopy_foot_lower_birch"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_wood_foot_birch"
+        }
+    ]
+}

@@ -1,0 +1,33 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:blue_carpet"
+        },
+        {
+            "item": "byg:green_enchanted_planks"
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_classic_byg_green_enchanted"
+        }
+    ],
+    "group": "ironagefurniture:chair_wood_ironage_wingback_byg_green_enchanted_blue",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_wingback_byg_green_enchanted_blue",
+        "count": 1
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "byg"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_wingback_byg_green_enchanted"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_classic_byg_green_enchanted"
+        }
+    ]
+}

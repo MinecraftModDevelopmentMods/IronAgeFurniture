@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:blue_bed"
+        },
+        {
+            "item": "minecraft:jungle_planks"
+        }
+    ],
+    "group": "ironagefurniture:bed_wood_foot_jungle_blue",
+    "result": {
+        "item": "ironagefurniture:bed_wood_foot_jungle_blue",
+        "count": 1
+    },
+    "conditions": [
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_wood_foot_jungle"
+        }
+    ]
+}

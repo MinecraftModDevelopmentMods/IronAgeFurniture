@@ -1,0 +1,33 @@
+{
+    "type": "ironagefurniture:upholstery_upgrade",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_redwood_gray"
+        },
+        {
+            "item": "biomesoplenty:redwood_planks"
+        },
+        {
+            "item": "minecraft:gray_carpet"
+        }
+    ],
+    "group": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_redwood_gray",
+    "result": {
+        "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_redwood_gray",
+        "count": 1
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_redwood"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_redwood"
+        }
+    ]
+}

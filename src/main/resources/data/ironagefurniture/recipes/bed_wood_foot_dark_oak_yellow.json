@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:yellow_bed"
+        },
+        {
+            "item": "minecraft:dark_oak_planks"
+        }
+    ],
+    "group": "ironagefurniture:bed_wood_foot_dark_oak_yellow",
+    "result": {
+        "item": "ironagefurniture:bed_wood_foot_dark_oak_yellow",
+        "count": 1
+    },
+    "conditions": [
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_wood_foot_dark_oak"
+        }
+    ]
+}

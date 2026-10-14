@@ -1,0 +1,33 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:lime_carpet"
+        },
+        {
+            "item": "byg:fir_planks"
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_classic_byg_fir"
+        }
+    ],
+    "group": "ironagefurniture:chair_wood_ironage_wingback_byg_fir_lime",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_wingback_byg_fir_lime",
+        "count": 1
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "byg"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_wingback_byg_fir"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_classic_byg_fir"
+        }
+    ]
+}

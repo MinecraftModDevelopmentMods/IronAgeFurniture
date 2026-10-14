@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "group": "ironagefurniture:sconce_zinc",
+    "conditions": [
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:light_metal_ironage_sconce_floor_empty_iron"
+        },
+        {
+            "type": "forge:mod_loaded",
+            "modid": "basemetals"
+        },
+        {
+            "type": "ironagefurniture:metal_available",
+            "metal": "zinc"
+        }
+    ],
+    "pattern": [
+        "xxx",
+        "x  ",
+        "x  "
+    ],
+    "key": {
+        "x": {
+            "tag": "forge:nuggets/zinc"
+        }
+    },
+    "result": {
+        "item": "ironagefurniture:light_metal_ironage_sconce_floor_empty_basemetals_zinc",
+        "count": 4
+    }
+}

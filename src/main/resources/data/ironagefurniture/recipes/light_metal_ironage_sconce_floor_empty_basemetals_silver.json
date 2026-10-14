@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "group": "ironagefurniture:sconce_silver",
+    "conditions": [
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:light_metal_ironage_sconce_floor_empty_iron"
+        },
+        {
+            "type": "forge:mod_loaded",
+            "modid": "basemetals"
+        },
+        {
+            "type": "ironagefurniture:metal_available",
+            "metal": "silver"
+        }
+    ],
+    "pattern": [
+        "xxx",
+        "x  ",
+        "x  "
+    ],
+    "key": {
+        "x": {
+            "tag": "forge:nuggets/silver"
+        }
+    },
+    "result": {
+        "item": "ironagefurniture:light_metal_ironage_sconce_floor_empty_basemetals_silver",
+        "count": 4
+    }
+}

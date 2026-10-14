@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_chair_wingback_upper",
+    "textures": {
+        "log": "byg:blocks/aspen_log",
+        "planks": "byg:blocks/aspen_planks",
+        "particle": "byg:blocks/aspen_log",
+        "cloth": "minecraft:block/purple_wool"
+    }
+}

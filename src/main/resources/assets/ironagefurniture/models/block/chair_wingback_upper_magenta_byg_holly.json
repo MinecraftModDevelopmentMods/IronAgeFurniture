@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_chair_wingback_upper",
+    "textures": {
+        "log": "byg:blocks/holly_log",
+        "planks": "byg:blocks/holly_planks",
+        "particle": "byg:blocks/holly_log",
+        "cloth": "minecraft:block/magenta_wool"
+    }
+}

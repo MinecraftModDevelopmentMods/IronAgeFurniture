@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_bed_canopy_head_left_lower",
+    "textures": {
+        "log": "byg:blocks/ebony_log",
+        "planks": "byg:blocks/ebony_planks",
+        "particle": "byg:blocks/ebony_log",
+        "cloth": "minecraft:block/red_wool"
+    }
+}

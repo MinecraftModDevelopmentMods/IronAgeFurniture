@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_chair_throne_upper",
+    "textures": {
+        "log": "byg:blocks/cika_log",
+        "planks": "byg:blocks/cika_planks",
+        "particle": "byg:blocks/cika_log",
+        "cloth": "minecraft:block/purple_wool"
+    }
+}

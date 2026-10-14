@@ -2,6 +2,30 @@
   "minecraft": "1.15.2",
   "mods": [
     {
+      "modId": "mineralogy",
+      "role": "integration",
+      "version": "6.0.1.115021",
+      "file": "Mineralogy-6.0.1.115021.jar",
+      "sha256": "7993F2FA846A54EB6F7DF4F2FAE44B49D4AFB720E534FB240A65ECF63400619B",
+      "source": "https://github.com/MinecraftModDevelopmentMods/MinecraftMineralogy/releases/tag/6.0.1.115021"
+    },
+    {
+      "modId": "orespawn",
+      "role": "library",
+      "version": "4.1.0.115021",
+      "file": "OreSpawn-4.1.0.115021.jar",
+      "sha256": "F7C9A110E834EC3F73D55C20E8F52EEA1CF48C4E3ACCFBE8FCEFB60E78ABE387",
+      "source": "https://www.curseforge.com/minecraft/mc-mods/mmd-orespawn/files/9073591"
+    },
+    {
+      "modId": "cfm",
+      "role": "integration",
+      "version": "7.0.0-pre16",
+      "file": "furniture-7.0.0-pre16-1.15.1.jar",
+      "sha256": "22969DDE47B96ECECB4F2523D6EB782E585441E41AD7D5A9DB57E3718DC1E825",
+      "source": "https://www.curseforge.com/minecraft/mc-mods/mrcrayfish-furniture-mod/files/2853267"
+    },
+    {
       "modId": "biomesoplenty",
       "role": "integration",
       "version": "1.15.2-10.0.0.366",
