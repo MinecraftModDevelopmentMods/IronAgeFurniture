@@ -61,7 +61,7 @@ public class LightSourceSconceRedFloor extends LightSourceSconceGlowFloor implem
 	public LightSourceSconceRedFloor(Properties properties) {
 		super(properties);
 
-		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH).setValue(WATERLOGGED, false));
+		this.registerDefaultState(this.defaultBlockState().setValue(DIRECTION, Direction.NORTH).setValue(WATERLOGGED, false));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
 		this.flameParticle = DustParticleOptions.REDSTONE;
 	}
@@ -69,7 +69,7 @@ public class LightSourceSconceRedFloor extends LightSourceSconceGlowFloor implem
 	public LightSourceSconceRedFloor(float hardness, float blastResistance, SoundType sound, String name) {
 		super(zone.moddev.mc.ironagefurniture.init.RegistrationProperties.block(Block.Properties.of().strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> LIGHT_LEVEL) , name));
 
-		this.registerDefaultState(this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
+		this.registerDefaultState(this.defaultBlockState().setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
 		//this.setRegistryName(name);
 		this.flameParticle = DustParticleOptions.REDSTONE;
@@ -147,9 +147,7 @@ public class LightSourceSconceRedFloor extends LightSourceSconceGlowFloor implem
 			LightSourceSconceRedFloor newBlock = getBlockBySignalLevel(signal);
 
 			level.setBlock(pos,
-				newBlock.defaultBlockState()
-					.setValue(DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
-					.setValue(WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)),
+				newBlock.withPropertiesOf(state),
 				UPDATE_ALL);
 
 			Block block = level.getBlockState(pos).getBlock();

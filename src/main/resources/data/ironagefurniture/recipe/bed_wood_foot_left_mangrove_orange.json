@@ -1,0 +1,18 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_left_mangrove_orange",
+    "ingredients": [
+        "ironagefurniture:bed_wood_foot_mangrove_orange",
+        "ironagefurniture:bed_wood_foot_mangrove_orange"
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_wood_foot_left_mangrove_orange",
+        "count": 1
+    },
+    "neoforge:conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
+        }
+    ]
+}

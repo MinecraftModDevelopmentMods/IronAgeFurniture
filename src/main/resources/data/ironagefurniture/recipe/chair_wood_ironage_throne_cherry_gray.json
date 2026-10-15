@@ -1,0 +1,19 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_throne_cherry_gray",
+    "ingredients": [
+        "ironagefurniture:chair_wood_ironage_wingback_cherry_gray",
+        "minecraft:cherry_planks",
+        "minecraft:gray_carpet"
+    ],
+    "result": {
+        "id": "ironagefurniture:chair_wood_ironage_throne_cherry_gray",
+        "count": 1
+    },
+    "neoforge:conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "thrones"
+        }
+    ]
+}

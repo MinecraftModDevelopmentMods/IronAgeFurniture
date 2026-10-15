@@ -94,7 +94,11 @@ public class ModVanillaLights {
 
 		if (registerItem)
 			ModItems.REGISTER.register(name,
-					() -> new BlockItem(registryObject.get(), RegistrationProperties.item(properties, name).useBlockDescriptionPrefix()));
+					() -> name.equals("light_metal_ironage_sconce_floor_empty_iron")
+                        ? new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(registryObject.get(),
+                            RegistrationProperties.item(properties, name).useBlockDescriptionPrefix(),
+                            zone.moddev.mc.ironagefurniture.api.enumerations.SconceMetal.IRON)
+                        : new BlockItem(registryObject.get(), RegistrationProperties.item(properties, name).useBlockDescriptionPrefix()));
 
 		return registryObject;
 	}
@@ -119,7 +123,7 @@ public class ModVanillaLights {
 	public static DeferredHolder<Block, Block> light_metal_ironage_block_floor_glow_clear = register("light_metal_ironage_block_floor_glow_clear", () -> new LightSourceGlowdust(1, 10, SoundType.GLASS, "light_metal_ironage_block_floor_glow_clear"), true);
 	public static DeferredHolder<Block, Block> light_metal_ironage_sconce_floor_glow_iron = register("light_metal_ironage_sconce_floor_glow_iron", () -> new LightSourceSconceGlowFloor(1, 10, SoundType.METAL, "light_metal_ironage_sconce_floor_glow_iron"), false);
 	public static DeferredHolder<Block, Block> light_metal_ironage_sconce_wall_glow_iron = register("light_metal_ironage_sconce_wall_glow_iron", () -> new LightSourceSconceGlowWall(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_glow_iron"), false);
-	public static DeferredHolder<Block, Block> light_metal_ironage_block_floor_lava_clear = registerThrowableLavaLamp("light_metal_ironage_block_floor_lava_clear", () -> new LightSourceLava(1, 10, SoundType.GLASS, "light_metal_ironage_block_floor_lava_clear"));
+	public static DeferredHolder<Block, Block> light_metal_ironage_block_floor_lava_clear = registerThrowableLavaLamp("light_metal_ironage_block_floor_lava_clear", () -> new LightSourceLava(.3F, 1, SoundType.GLASS, "light_metal_ironage_block_floor_lava_clear"));
 	public static DeferredHolder<Block, Block> light_metal_ironage_sconce_floor_lava_iron = register("light_metal_ironage_sconce_floor_lava_iron", () -> new LightSourceSconceLavaFloor(1, 10, SoundType.METAL, "light_metal_ironage_sconce_floor_lava_iron"), false);
 	public static DeferredHolder<Block, Block> light_metal_ironage_sconce_wall_lava_iron = register("light_metal_ironage_sconce_wall_lava_iron", () -> new LightSourceSconceLavaWall(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_lava_iron"), false);
 	public static DeferredHolder<Block, Block> light_metal_ironage_block_floor_red_clear = register("light_metal_ironage_block_floor_red_clear", () -> new LightSourceRed(1, 10, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear"), true);

@@ -30,5 +30,11 @@
         "recipes": [
             "ironagefurniture:chair_wood_ironage_bench_back_padded_light_gray_single_jungle"
         ]
-    }
+    },
+    "neoforge:conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "benches"
+        }
+    ]
 }

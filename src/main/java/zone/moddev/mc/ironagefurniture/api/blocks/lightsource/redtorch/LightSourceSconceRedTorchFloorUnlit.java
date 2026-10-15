@@ -38,9 +38,7 @@ public class LightSourceSconceRedTorchFloorUnlit extends LightSourceSconceRedTor
 			list.remove(0);
 
 		level.setBlock(pos,
-				ModVanillaLights.light_metal_ironage_sconce_floor_redtorch_iron.get().defaultBlockState()
-						.setValue(FurnitureBlock.DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
-						.setValue(FurnitureBlock.WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)),
+				ModVanillaLights.light_metal_ironage_sconce_floor_redtorch_iron.get().withPropertiesOf(state),
 				Block.UPDATE_ALL);
 	}
 
@@ -56,7 +54,7 @@ public class LightSourceSconceRedTorchFloorUnlit extends LightSourceSconceRedTor
 		super(zone.moddev.mc.ironagefurniture.init.RegistrationProperties.block(Block.Properties.of().strength(hardness, blastResistance).sound(sound)
 				.lightLevel((p_50886_) -> 0), name));
 
-		this.registerDefaultState(this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
+		this.registerDefaultState(this.defaultBlockState().setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
 		//this.setRegistryName(name);
 		this.flameParticle = ParticleTypes.FLAME;

@@ -30,5 +30,11 @@
         "recipes": [
             "ironagefurniture:chair_wood_ironage_bench_back_padded_blue_single_mangrove"
         ]
-    }
+    },
+    "neoforge:conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "benches"
+        }
+    ]
 }

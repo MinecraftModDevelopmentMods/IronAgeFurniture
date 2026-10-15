@@ -19,7 +19,7 @@ public class LightSourceSconceSoulTorchWall extends LightSourceSconceTorchWall {
 		super(properties);
 
 		this.registerDefaultState(
-			this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH).setValue(FurnitureBlock.WATERLOGGED, false));
+			this.defaultBlockState().setValue(FurnitureBlock.DIRECTION, Direction.NORTH).setValue(FurnitureBlock.WATERLOGGED, false));
 
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
 		this.flameParticle = ParticleTypes.SOUL_FIRE_FLAME;
@@ -29,7 +29,7 @@ public class LightSourceSconceSoulTorchWall extends LightSourceSconceTorchWall {
 		super(zone.moddev.mc.ironagefurniture.init.RegistrationProperties.block(Block.Properties.of().strength(hardness, blastResistance).sound(sound)
 			.lightLevel((p_50886_) -> 12), name));
 
-		this.registerDefaultState(this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
+		this.registerDefaultState(this.defaultBlockState().setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
 		//this.setRegistryName(name);
 		this.flameParticle = ParticleTypes.SOUL_FIRE_FLAME;

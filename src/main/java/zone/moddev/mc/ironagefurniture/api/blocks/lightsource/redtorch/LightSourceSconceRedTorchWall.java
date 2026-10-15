@@ -53,7 +53,7 @@ public class LightSourceSconceRedTorchWall extends LightSourceSconceTorchWall {
 		super(properties);
 
 		this.registerDefaultState(
-			this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH).setValue(FurnitureBlock.WATERLOGGED, false));
+			this.defaultBlockState().setValue(FurnitureBlock.DIRECTION, Direction.NORTH).setValue(FurnitureBlock.WATERLOGGED, false));
 
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
 		this.flameParticle = DustParticleOptions.REDSTONE;
@@ -114,9 +114,7 @@ public class LightSourceSconceRedTorchWall extends LightSourceSconceTorchWall {
 			return;
 
 		level.setBlock(pos,
-			UnlitVariant().defaultBlockState()
-				.setValue(FurnitureBlock.DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
-				.setValue(FurnitureBlock.WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)),
+			UnlitVariant().withPropertiesOf(state),
 			Block.UPDATE_ALL);
 
 		if (!isToggledTooFrequently(level, pos, true))
@@ -187,7 +185,7 @@ public class LightSourceSconceRedTorchWall extends LightSourceSconceTorchWall {
 		super(zone.moddev.mc.ironagefurniture.init.RegistrationProperties.block(Block.Properties.of().strength(hardness, blastResistance).sound(sound)
 			.lightLevel((p_50886_) -> 8), name));
 
-		this.registerDefaultState(this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
+		this.registerDefaultState(this.defaultBlockState().setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
 		//this.setRegistryName(name);
 		this.flameParticle = DustParticleOptions.REDSTONE;

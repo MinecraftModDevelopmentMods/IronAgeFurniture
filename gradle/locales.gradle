@@ -1,0 +1,37 @@
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+
+// Keep existing translations for names available on this branch. New names
+// fall back to the English catalog until a translation has been contributed.
+def localeNames = ['de_au', 'de_de', 'en_ca', 'en_pt', 'es_es', 'es_mx', 'fr_ca',
+                   'fr_fr', 'ja_jp', 'ko_kr', 'pt_br', 'pt_pt', 'ru_ru', 'zh_cn']
+def localeResources = {
+    Map english = new JsonSlurper().parse(file('src/main/resources/assets/ironagefurniture/lang/en_us.json')) as Map
+    localeNames.collectEntries { locale ->
+        Map translated = new JsonSlurper().parse(file("gradle/locales/${locale}.json")) as Map
+        Map combined = new TreeMap(english)
+        combined.putAll(translated.findAll { key, value -> english.containsKey(key) })
+        [("src/main/resources/assets/ironagefurniture/lang/${locale}.json".toString()):
+                JsonOutput.prettyPrint(JsonOutput.toJson(combined)) + '\n']
+    }
+}
+tasks.register('updateLocales') {
+    group = 'generation'
+    description = 'Updates supported translations and English fallbacks.'
+    mustRunAfter 'updateFurnitureCatalog'
+    doLast {
+        localeResources().each { path, text -> file(path).setText(text, 'UTF-8') }
+    }
+}
+tasks.register('verifyLocales') {
+    group = 'verification'
+    description = 'Checks complete, deterministic language files.'
+    doLast {
+        localeResources().each { path, text ->
+            if (!file(path).isFile() || file(path).getText('UTF-8').replace('\r\n', '\n') != text)
+                throw new GradleException("Missing or stale language file: ${path}; run updateLocales")
+        }
+    }
+}
+tasks.named('updateFurnitureCatalog') { finalizedBy 'updateLocales' }
+tasks.named('check') { dependsOn 'verifyLocales' }
