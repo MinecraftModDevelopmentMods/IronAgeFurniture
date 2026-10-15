@@ -1,5 +1,5 @@
 [![Discord](https://img.shields.io/badge/Discord-MMD-green.svg?style=flat&logo=Discord)](https://discord.moddev.zone)
-[![CurseForge](https://img.shields.io/badge/CurseForge-Iron%20Age%20Furniture-orange.svg)](https://www.curseforge.com/minecraft/mc-mods/iron-age-furniture)
+[![CurseForge](https://img.shields.io/badge/CurseForge-Iron%20Age%20Furniture-orange.svg)](https://www.curseforge.com/minecraft/mc-mods/ironagefurniture)
 [![Build, test, and audit](https://github.com/MinecraftModDevelopmentMods/IronAgeFurniture/actions/workflows/ci.yml/badge.svg?branch=master-1.17)](https://github.com/MinecraftModDevelopmentMods/IronAgeFurniture/actions/workflows/ci.yml?query=branch%3Amaster-1.17)
 
 # IronAgeFurniture
@@ -9,19 +9,56 @@ olde-style furniture to Minecraft. Seating is functional, furniture supports
 the appropriate vanilla and optional-mod materials, and lighting includes
 falling and throwable lava lamps.
 
-This branch provides IronAgeFurniture `0.3.0.117011` for Minecraft 1.17.1 and
+This branch provides IronAgeFurniture `0.4.0.117011` for Minecraft 1.17.1 and
 Forge 37.1.1. It requires Java 16 and can be installed on both clients and
 dedicated servers.
+
+## Phase 4 furniture and lighting
+
+The four creative tabs are Chairs, Benches, Beds and Lights. Wooden and canopy
+beds, matching doubles, wingbacks and thrones use all 19 existing woods and all
+sixteen upholstery colours. Shield-chair backs are removable real shields,
+preserving designs, damage, enchantments, names and other item data.
+
+- Vanilla bed + matching plank makes a wooden bed of the same colour.
+- Wooden bed + matching plank + matching carpet makes a canopy bed.
+- Two identical singles make a matching double bed.
+- Classic chair + matching plank + carpet makes a wingback.
+- Wingback + matching plank + matching carpet makes a throne.
+- Five matching nuggets make four sconces.
+
+Chair upgrades are shapeless. Owning or crafting the matching single bed or
+wingback reveals its upgrade while the table remains open. Manual bed
+recolouring remains available with carpet, but stays out of the recipe book.
+
+Candles, twin-torch and multi-candle sconces, rock-salt sconces and metal frames
+join the existing lights. Survival mining and support removal recover the
+frame and contents, except for intentional lava-lamp shattering. Silk Touch
+recovers an intact lamp; ordinary wall-sconce mining releases the lamp to fall
+and shatter. Right-click removal is safe.
+
+Water buckets extinguish candles without placing water or emptying the bucket.
+Powered wet candle and torch sconces relight, then go out again when power stops.
+Glass lamps break quickly, while frames retain their metal's toughness.
+
+IAF candles still have their own items and saved identities, separate from
+vanilla 1.17 candles. Held candles have small flame and smoke effects; the mod
+does not include its own dynamic-lighting engine.
 
 ## Optional integrations
 
 IronAgeFurniture adds matching furniture and recipes when these mods are
 installed:
 
-- Biomes O' Plenty
+- Biomes O' Plenty adds its supported woods.
+- Base Metals supplies additional sconce metals.
+- Mineralogy supplies rock-salt lamps.
+- MrCrayfish's Furniture Mod adds supported chair-conversion recipes.
 
-It is optional. Its recipes and recipe advancements are conditionally loaded,
-so a normal installation does not need it.
+None is required. Unavailable recipes and creative entries stay hidden. Known
+metals remain saved if Base Metals is temporarily removed. Forced CFM world
+conversion is off by default; removed-mod recovery covers supported wooden
+chairs, not every CFM block.
 
 ## Compatibility
 
@@ -38,7 +75,9 @@ inventories, containers, and dropped items.
 
 Only furniture with a matching 1.17.1 implementation can be carried forward.
 In particular, the separate 1.12.2 Oh The Biomes Add-On does not have a 1.17.1
-target catalog and is not imported by this branch.
+target catalog and is not imported by this branch. Older Immersive Engineering
+furniture is also unsupported here. See [docs/UPGRADING.md](docs/UPGRADING.md)
+for the tested upgrade paths and limitations.
 
 Always back up a world before moving it to a newer Minecraft version. Once the
 world has been saved by 1.17.1 it cannot safely be reopened in an older version.
@@ -47,7 +86,7 @@ The supported Java source namespace is now
 `zone.moddev.mc.ironagefurniture`. Add-ons compiled against the former
 `com.mcmoddev.ironagefurniture` packages must update their imports. The Maven
 coordinate is
-`zone.moddev.mc:iron-age-furniture:0.3.0.117011`.
+`zone.moddev.mc:iron-age-furniture:0.4.0.117011`.
 
 See [CHANGELOG.md](CHANGELOG.md) for the release notes and
 [docs/VERSIONS.md](docs/VERSIONS.md) for the versioning scheme. Bugs can be
@@ -70,6 +109,11 @@ Generate reproducible Eclipse/Buildship metadata with:
 ```text
 gradlew.bat prepareEclipse verifyEclipseProductionClasspath
 ```
+
+The build scripts are described in [gradle/README.md](gradle/README.md).
+`runClient` uses a core-only folder; `runClientCompatibility` uses the separate
+optional-mod folder, preserving existing development saves. Restart the client
+after changing classes or resources.
 
 Release publication is initiated manually from the protected default-branch
 dispatcher after the exact target commit has passed hosted CI. Building

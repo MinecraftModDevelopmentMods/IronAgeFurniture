@@ -45,6 +45,7 @@ def normalizedRecipe = { File file ->
     if (parsed.group == 'furniture') {
         parsed.remove('group')
     }
+    if (parsed.conditions instanceof List && parsed.conditions.any { it.type == 'forge:item_exists' }) return parsed
     if (modId != null) {
         Map reordered = new LinkedHashMap()
         reordered.type = parsed.type
@@ -195,15 +196,15 @@ tasks.register('verifyFurnitureCatalog') {
             }
         }
 
-        Map expectedCounts = [biomesoplenty: 429]
+        Map expectedCounts = [biomesoplenty: [recipes: 2189, advancements: 1485]]
         expectedCounts.each { modId, count ->
             int recipes = fileTree(recipeDirectory) {
                 include "*_${modId}_*.json"
             }.files.size()
-            int advancements = fileTree(advancementDirectory) {
-                include "*_${modId}_*.json"
+            int advancements = fileTree('src/main/resources/data/ironagefurniture/advancements') {
+                include "**/*_${modId}_*.json"
             }.files.size()
-            if (recipes != count || advancements != count) {
+            if (recipes != count.recipes || advancements != count.advancements) {
                 throw new GradleException("Unexpected ${modId} catalog coverage: " +
                         "${recipes} recipes, ${advancements} advancements; expected ${count}")
             }

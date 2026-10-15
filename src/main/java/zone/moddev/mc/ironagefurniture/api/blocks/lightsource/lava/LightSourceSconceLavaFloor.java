@@ -13,7 +13,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
@@ -21,7 +20,6 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlockContainer;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -33,7 +31,6 @@ import oshi.util.tuples.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 public class LightSourceSconceLavaFloor extends LightSourceSconceGlowFloor implements LiquidBlockContainer {
@@ -54,28 +51,24 @@ public class LightSourceSconceLavaFloor extends LightSourceSconceGlowFloor imple
 	}
 
 	@Override
-	public void playerDestroy(Level level, Player player, BlockPos pos, BlockState state,
-			BlockEntity blockEntity, ItemStack tool) {
+	public boolean removedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest,
+									   FluidState fluid) {
 
-		boolean isSilkTouch = false;
+		boolean isSilkTouch = EnchantmentHelper.getItemEnchantmentLevel(
+                Enchantments.SILK_TOUCH, player.getMainHandItem()) > 0;
 
-		if (!tool.isEmpty()) {
-			Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(tool);
-
-			if (enchantments != null && !enchantments.isEmpty())
-				isSilkTouch = enchantments.get(Enchantments.SILK_TOUCH) > 0;
+		boolean destroyed = super.removedByPlayer(state, level, pos, player, willHarvest, fluid);
+		// Fire and intact-lamp drops are server results, not client mining predictions.
+		if (destroyed && !level.isClientSide && !player.isCreative()) {
+			if (isSilkTouch)
+				Block.popResource(level, pos, new ItemStack(LightDrop(), 1));
+			else {
+				level.playSound(player, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, 1.0F, 1.0F);
+				level.setBlock(pos, Blocks.FIRE.defaultBlockState(), 3);
+			}
 		}
 
-		if (isSilkTouch && !player.isCreative())
-			Block.popResource(level, pos, new ItemStack(LightDrop(), 1));
-
-		super.playerDestroy(level, player, pos, state, blockEntity, tool);
-
-		if (!isSilkTouch && !player.isCreative()) {
-			level.playSound(player, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, friction, explosionResistance);
-			level.setBlock(pos, Blocks.FIRE.defaultBlockState(), Block.UPDATE_ALL_IMMEDIATE, Block.UPDATE_ALL);
-		}
-
+		return destroyed;
 	}
 
 	@Override
@@ -88,13 +81,13 @@ public class LightSourceSconceLavaFloor extends LightSourceSconceGlowFloor imple
 
 		drops.add(stack);
 
-		return drops;
+		return zone.moddev.mc.ironagefurniture.api.SconceMetalData.preserveDrops(state, drops);
 	}
 
 	public LightSourceSconceLavaFloor(float hardness, float blastResistance, SoundType sound, String name) {
 		super(Block.Properties.of(Material.METAL).strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> 14));
 
-		this.registerDefaultState(this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
+		this.registerDefaultState(this.defaultBlockState() .setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
 		this.setRegistryName(name);
 	}
@@ -136,15 +129,16 @@ public class LightSourceSconceLavaFloor extends LightSourceSconceGlowFloor imple
 
 		world.setBlock(pos, EmptyVariant().defaultBlockState()
 			.setValue(FurnitureBlock.DIRECTION, blockState.getValue(BlockStateProperties.HORIZONTAL_FACING))
-			.setValue(FurnitureBlock.WATERLOGGED, true), Block.UPDATE_ALL);
+			.setValue(FurnitureBlock.WATERLOGGED, true)
+            .setValue(zone.moddev.mc.ironagefurniture.api.SconceMetalData.METAL, zone.moddev.mc.ironagefurniture.api.SconceMetalData.get(blockState)), 3);
 
 		world.playSound(null, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, friction, explosionResistance);
 		world.playSound(null, pos, SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, friction, explosionResistance);
 
 		if (world instanceof ServerLevel) {
-			ServerLevel serverLevel = (ServerLevel) world;
-			serverLevel.getServer().tell(new TickTask(serverLevel.getServer().getTickCount() + 1, () -> {
-				Block.popResource(serverLevel, pos, new ItemStack(BlockObjectHolder.obsidian_chunk, 1));
+			ServerLevel serverWorld = (ServerLevel) world;
+			serverWorld.getServer().tell(new TickTask(serverWorld.getServer().getTickCount() + 1, () -> {
+				Block.popResource(serverWorld, pos, new ItemStack(BlockObjectHolder.obsidian_chunk, 1));
 			}));
 		}
 

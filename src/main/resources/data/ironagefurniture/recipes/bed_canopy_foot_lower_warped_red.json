@@ -1,0 +1,29 @@
+{
+    "type": "ironagefurniture:upholstery_upgrade",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_warped"
+        },
+        {
+            "item": "minecraft:warped_planks"
+        },
+        {
+            "item": "minecraft:red_carpet"
+        }
+    ],
+    "group": "ironagefurniture:bed_canopy_foot_lower_warped_red",
+    "result": {
+        "item": "ironagefurniture:bed_canopy_foot_lower_warped",
+        "count": 1
+    },
+    "conditions": [
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_canopy_foot_lower_warped"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_wood_foot_warped"
+        }
+    ]
+}

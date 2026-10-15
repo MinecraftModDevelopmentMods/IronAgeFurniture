@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:green_bed"
+        },
+        {
+            "item": "minecraft:oak_planks"
+        }
+    ],
+    "group": "ironagefurniture:bed_wood_foot_oak_green",
+    "result": {
+        "item": "ironagefurniture:bed_wood_foot_oak_green",
+        "count": 1
+    },
+    "conditions": [
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_wood_foot_oak"
+        }
+    ]
+}

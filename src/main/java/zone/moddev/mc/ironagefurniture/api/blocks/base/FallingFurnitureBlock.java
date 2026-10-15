@@ -1,72 +1,99 @@
 package zone.moddev.mc.ironagefurniture.api.blocks.base;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.core.particles.BlockParticleOption;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.world.entity.item.FallingBlockEntity;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.Fallable;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.block.FallingBlock;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.block.Rotation;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 
-import java.util.Random;
+/**
+ * Chairs, benches and lamps share facing and waterlogging with other furniture,
+ * but also fall when their support disappears.
+ */
+public abstract class FallingFurnitureBlock extends FallingBlock implements SimpleWaterloggedBlock {
+    public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+    public static final DirectionProperty DIRECTION = BlockStateProperties.HORIZONTAL_FACING;
 
-public abstract class FallingFurnitureBlock extends FurnitureBlock implements Fallable {
+    public ImmutableMap<BlockState, VoxelShape> _shapes;
 
-	public FallingFurnitureBlock(Properties properties) {
-		super(properties);
-	}
+    protected FallingFurnitureBlock(Properties properties) {
+        super(properties);
+    }
 
-	@Override
-	public void onPlace(BlockState state, Level level, BlockPos pos, BlockState blockState, boolean flag) {
-		level.getBlockTicks().scheduleTick(pos, this, this.getDelayAfterPlace());
-	}
+    @Override
+    public VoxelShape getShape(BlockState state, BlockGetter reader, BlockPos pos, CollisionContext context) {
+        return _shapes.get(state);
+    }
 
-	@Override
-	public BlockState updateShape(BlockState state, Direction direction, BlockState blockState, LevelAccessor levelAccessor, BlockPos blockPos, BlockPos pos) {
-		levelAccessor.getBlockTicks().scheduleTick(blockPos, this, this.getDelayAfterPlace());
+    @Override
+    public VoxelShape getOcclusionShape(BlockState state, BlockGetter reader, BlockPos pos) {
+        return _shapes.get(state);
+    }
 
-		return super.updateShape(state, direction, blockState, levelAccessor, blockPos, pos);
-	}
+    @Override
+    public boolean triggerEvent(BlockState state, Level world, BlockPos pos, int id, int type) {
+        super.triggerEvent(state, world, pos, id, type);
+        return world.getBlockEntity(pos) != null && world.getBlockEntity(pos).triggerEvent(id, type);
+    }
 
-	@Override
-	public void tick(BlockState state, ServerLevel level, BlockPos pos, Random rnd) {
-		if (isFree(level.getBlockState(pos.below())) && pos.getY() >= level.getMinBuildHeight()) {
-			FallingBlockEntity fallingblockentity = new FallingBlockEntity(level,
-					(double) pos.getX() + 0.5D, (double) pos.getY(),
-					(double) pos.getZ() + 0.5D, state);
-			this.falling(fallingblockentity);
-			level.addFreshEntity(fallingblockentity);
-		}
-	}
+    @Override
+    public FluidState getFluidState(BlockState state) {
+        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
+    }
 
-	protected void falling(FallingBlockEntity fallingBlockEntity) {
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        super.createBlockStateDefinition(builder);
+        builder.add(DIRECTION, WATERLOGGED);
+    }
 
-	}
+    protected abstract void generateShapes(ImmutableList<BlockState> states);
 
-	protected int getDelayAfterPlace() {
-		return 2;
-	}
+    @Override
+    public BlockState rotate(BlockState state, Rotation rotation) {
+        return state.setValue(DIRECTION, rotation.rotate(state.getValue(DIRECTION)));
+    }
 
-	public static boolean isFree(BlockState state) {
-		Material material = state.getMaterial();
+    @Override
+    public BlockState mirror(BlockState state, Mirror mirror) {
+        return state.rotate(mirror.getRotation(state.getValue(DIRECTION)));
+    }
 
-		return state.isAir() || state.is(BlockTags.FIRE) || material.isLiquid() || material.isReplaceable();
-	}
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        return defaultBlockState()
+                .setValue(WATERLOGGED,
+                        context.getLevel().getFluidState(context.getClickedPos()).getType() == Fluids.WATER)
+                .setValue(DIRECTION, context.getHorizontalDirection());
+    }
 
-	public void animateTick(BlockState state, Level level, BlockPos pos, Random rnd) {
-		if (rnd.nextInt(16) == 0) {
-			BlockPos blockpos = pos.below();
-			if (isFree(level.getBlockState(blockpos))) {
-				double d0 = (double) pos.getX() + rnd.nextDouble();
-				double d1 = (double) pos.getY() - 0.05D;
-				double d2 = (double) pos.getZ() + rnd.nextDouble();
-				level.addParticle(new BlockParticleOption(ParticleTypes.FALLING_DUST, state), d0, d1, d2, 0.0D, 0.0D, 0.0D);
-			}
-		}
-	}
+    public static VoxelShape rotate(VoxelShape source, Direction direction) {
+        return FurnitureBlock.rotate(source, direction);
+    }
+
+    public static VoxelShape[] getShapes(VoxelShape source) {
+        return new VoxelShape[] {
+                rotate(source, Direction.SOUTH),
+                rotate(source, Direction.WEST),
+                rotate(source, Direction.NORTH),
+                rotate(source, Direction.EAST)
+        };
+    }
 }

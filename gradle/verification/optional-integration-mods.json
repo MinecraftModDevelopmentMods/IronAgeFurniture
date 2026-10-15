@@ -8,6 +8,22 @@
       "file": "BiomesOPlenty-1.17.1-14.0.0.43-universal.jar",
       "sha256": "12f142c44b38e189866288308aedf8e1d0079236616cdc0b65bdaf3bae6bcbd5",
       "source": "https://modrinth.com/mod/biomes-o-plenty/version/pQdjbQ4V"
+    },
+    {
+      "modId": "cfm",
+      "role": "integration",
+      "version": "7.0.0-pre25",
+      "file": "furniture-7.0.0-pre25-1.17.1.jar",
+      "sha256": "2522C333F2F4970441D0CCB025C30FFD5422CC12604851742A472D6FA1EFE57A",
+      "source": "https://github.com/MrCrayfish/MrCrayfishFurnitureMod/releases/tag/7.0.0pre25-1.17.1"
+    },
+    {
+      "modId": "mineralogy",
+      "role": "runtime",
+      "version": "6.1.4.117011",
+      "file": "Mineralogy-6.1.4.117011.jar",
+      "sha256": "E59B48D73B43C8A9471FD86878883A20EB8C6DE1554BB96ABB18BDBAE80BD2A8",
+      "source": "https://github.com/MinecraftModDevelopmentMods/MinecraftMineralogy/releases/tag/6.1.4.117011"
     }
   ]
 }

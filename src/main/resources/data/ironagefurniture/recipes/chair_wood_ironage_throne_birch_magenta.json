@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:magenta_carpet"
+        },
+        {
+            "item": "minecraft:birch_planks"
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_birch_magenta"
+        }
+    ],
+    "group": "ironagefurniture:chair_wood_ironage_throne_birch_magenta",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_throne_birch_magenta",
+        "count": 1
+    },
+    "conditions": [
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_throne_birch"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_wingback_birch"
+        }
+    ]
+}

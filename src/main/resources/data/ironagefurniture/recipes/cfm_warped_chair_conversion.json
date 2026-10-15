@@ -1,0 +1,26 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "cfm"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "cfm:warped_chair"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_classic_warped"
+        }
+    ],
+    "ingredients": [
+        {
+            "item": "cfm:warped_chair"
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_classic_warped",
+        "count": 1
+    }
+}

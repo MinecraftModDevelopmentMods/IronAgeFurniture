@@ -1,0 +1,8 @@
+{
+    "parent": "ironagefurniture:block/template_light_metal_ironage_sconce_floor_candle_four",
+    "textures": {
+        "metal": "minecraft:block/iron_block",
+        "wax": "ironagefurniture:block/candle_wax",
+        "torchtexture": "minecraft:block/torch"
+    }
+}

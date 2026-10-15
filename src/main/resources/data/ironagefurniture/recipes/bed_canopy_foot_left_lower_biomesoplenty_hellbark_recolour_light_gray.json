@@ -1,0 +1,76 @@
+{
+    "type": "ironagefurniture:bed_recolour",
+    "ingredients": [
+        [
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_hellbark_black"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_hellbark_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_hellbark_brown"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_hellbark_cyan"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_hellbark_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_hellbark_green"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_hellbark_light_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_hellbark_light_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_hellbark_lime"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_hellbark_magenta"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_hellbark_orange"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_hellbark_pink"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_hellbark_purple"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_hellbark"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_hellbark_white"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_hellbark_yellow"
+            }
+        ],
+        {
+            "item": "minecraft:light_gray_carpet"
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_hellbark"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_hellbark"
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_hellbark_light_gray",
+        "count": 1
+    }
+}

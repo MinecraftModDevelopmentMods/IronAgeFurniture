@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:lime_carpet"
+        },
+        {
+            "item": "minecraft:dark_oak_planks"
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_dark_oak_lime"
+        }
+    ],
+    "group": "ironagefurniture:chair_wood_ironage_throne_dark_oak_lime",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_throne_dark_oak_lime",
+        "count": 1
+    },
+    "conditions": [
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_throne_dark_oak"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_wingback_dark_oak"
+        }
+    ]
+}

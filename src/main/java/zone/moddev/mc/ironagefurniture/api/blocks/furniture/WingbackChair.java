@@ -1,0 +1,15 @@
+package zone.moddev.mc.ironagefurniture.api.blocks.furniture;
+
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.phys.shapes.Shapes;
+import zone.moddev.mc.ironagefurniture.api.enumerations.ChairPart;
+
+public final class WingbackChair extends MultiBlockChair {
+    public WingbackChair(String name) { super(name); }
+    @Override public int getChairHeight() { return 2; }
+    @Override protected VoxelShape upperShape(ChairPart part) {
+        return Shapes.or(Block.box(0, 0, 8, 2, 12, 16),
+                Block.box(14, 0, 8, 16, 12, 16), Block.box(2, 0, 14, 14, 12, 16));
+    }
+}

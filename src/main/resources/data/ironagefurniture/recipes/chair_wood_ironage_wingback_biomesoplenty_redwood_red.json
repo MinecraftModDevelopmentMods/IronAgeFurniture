@@ -1,0 +1,33 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:red_carpet"
+        },
+        {
+            "item": "biomesoplenty:redwood_planks"
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_redwood"
+        }
+    ],
+    "group": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_redwood_red",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_redwood",
+        "count": 1
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_redwood"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_redwood"
+        }
+    ]
+}

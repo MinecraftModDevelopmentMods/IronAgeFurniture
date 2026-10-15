@@ -27,7 +27,7 @@ public class LegacyMigrationContractTest {
 		String events = text("src/main/java/zone/moddev/mc/ironagefurniture/migration/LegacyMigrationEvents.java");
 		String items = text("src/main/java/zone/moddev/mc/ironagefurniture/migration/LegacyPaddedItemMigration.java");
 		assertTrue(hook.contains("BlockStateData"));
-		assertTrue(hook.contains("ensurePaddedBenchBlockEntities"));
+		assertTrue(hook.contains("ensurePaddedBenchTileEntities"));
 		assertTrue(hook.contains("migrateChunkContents"));
 		assertTrue(hook.contains("ironagefurniture_legacy_registry.dat"));
 		assertTrue(events.contains("PlayerLoggedInEvent"));

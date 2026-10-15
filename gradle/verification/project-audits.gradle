@@ -1,0 +1,397 @@
+import groovy.json.JsonSlurper
+import groovy.xml.XmlSlurper
+import java.nio.charset.StandardCharsets
+import java.security.MessageDigest
+import java.util.Arrays
+import java.util.jar.Manifest
+import java.util.zip.ZipFile
+import org.gradle.api.publish.maven.tasks.PublishToMavenRepository
+// Check the target's identities, resources and workflow before packaging a release.
+def java16Compiler = buildSupport.java16Compiler
+def java16Launcher = buildSupport.java16Launcher
+def sha256Of = buildSupport.sha256Of
+def optionalIntegrationExpectedCounts = buildSupport.optionalIntegrationExpectedCounts
+def expectedReleaseFiles = buildSupport.expectedReleaseFiles
+def preparedReleaseDir = buildSupport.preparedReleaseDir
+def expectedMavenGroup = buildSupport.expectedMavenGroup
+def expectedMavenArtifact = buildSupport.expectedMavenArtifact
+def expectedMavenCoordinate = buildSupport.expectedMavenCoordinate
+def eclipseWorkspaceProjectName = buildSupport.eclipseWorkspaceProjectName
+def archiveTextPatterns = buildSupport.archiveTextPatterns
+def archiveTextSuffixes = buildSupport.archiveTextSuffixes
+def normalizeArchiveLineEndings = buildSupport.normalizeArchiveLineEndings
+def releaseJar = buildSupport.releaseJar
+tasks.register('verifyReleaseConfiguration') {
+    group = 'verification'
+    description = 'Verifies the exact IronAgeFurniture 1.17.1 release identity.'
+    doLast {
+        Map<String, String> expected = [
+                mod_version            : '0.4.0.117011',
+                mod_group              : 'zone.moddev.mc',
+                mod_archive_name       : 'iron-age-furniture',
+                mod_id                 : 'ironagefurniture',
+                minecraft_version      : '1.17.1',
+                loader_name            : 'forge',
+                loader_code            : '1',
+                forge_version          : '37.1.1',
+                forge_version_range    : '[37.1.1,38)',
+                loader_version_range   : '[37,)',
+                mcp_mappings_channel   : 'official',
+                mcp_mappings_version   : '1.17.1',
+                java_version           : '16',
+                java_toolchain_version : '16.0.2+7',
+                gradle_java_version    : '17',
+                curseforge_project_id  : '341834',
+                mod_license            : 'LGPL-2.1'
+        ]
+        expected.each { key, value ->
+            if (!project.hasProperty(key) || project.property(key).toString() != value) {
+                throw new GradleException("Unexpected ${key}: ${project.findProperty(key)}")
+            }
+        }
+    }
+}
+
+tasks.register('verifyRepositoryHygiene') {
+    group = 'verification'
+    description = 'Rejects tracked generated output, IDE state, secrets, legacy CI, and machine paths.'
+    doLast {
+        byte[] trackedBytes = providers.exec {
+            commandLine 'git', 'ls-files', '-z'
+        }.standardOutput.asBytes.get()
+        List<String> tracked = new String(trackedBytes, StandardCharsets.UTF_8)
+                .split('\u0000').findAll { !it.isEmpty() }
+        Set<String> forbiddenDirectories = [
+                '.agent', '.agents', '.ci-dependencies', '.claude', '.codex', '.eclipse',
+                '.gradle', '.gradle-home', '.idea', '.metadata', '.settings', 'agent-notes',
+                'bin', 'build', 'classes', 'crash-reports', 'eclipse', 'evidence', 'logs',
+                'mcmodsrepo', 'out', 'reports', 'run', 'run-data', 'test-output', 'test-results'
+        ] as Set<String>
+        Set<String> forbiddenFiles = [
+                '.classpath', '.project', '.travis.yml', 'agent.md', 'agents.md',
+                'local.properties', 'secret.json'
+        ] as Set<String>
+        List<String> forbidden = tracked.findAll { path ->
+            if (!file(path).exists()) return false
+            List<String> segments = path.tokenize('/')
+            String fileName = segments.last().toLowerCase(Locale.ROOT)
+            List<String> parents = segments.size() > 1 ? segments[0..-2] : []
+            parents.any { forbiddenDirectories.contains(it.toLowerCase(Locale.ROOT)) }
+                    || forbiddenFiles.contains(fileName)
+                    || fileName ==~ /(?:agent|codex)-.*\.md/
+                    || ['.launch', '.keystore', '.jks', '.p12', '.jfr', '.hprof', '.log']
+                            .any { fileName.endsWith(it) }
+        }
+        if (!forbidden.isEmpty()) {
+            throw new GradleException("Tracked generated, IDE, legacy CI, or secret files: ${forbidden}")
+        }
+        tracked.findAll { path ->
+            String fileName = new File(path).name
+            file(path).isFile() && (archiveTextSuffixes.any { fileName.endsWith(it) }
+                    || ['.gitattributes', '.gitignore', 'gradlew'].contains(fileName))
+        }.each { path ->
+            String contents = file(path).getText('UTF-8')
+            if (contents ==~ /(?s).*(?:[A-Za-z]:[\\\/]Users[\\\/]|\/home\/[^\/]+\/).*/) {
+                throw new GradleException("Tracked text file contains an absolute machine path: ${path}")
+            }
+        }
+    }
+}
+
+tasks.register('verifyObjectHolderContract') {
+    group = 'verification'
+    description = 'Ensures optional furniture cannot create missing ObjectHolder lookup noise.'
+    doLast {
+        File holderFile = file('src/main/java/zone/moddev/mc/ironagefurniture/BlockObjectHolder.java')
+        String holder = holderFile.getText('UTF-8')
+        List<String> furnitureHolders = (holder =~ /public static final Block\s+(chair_wood_[A-Za-z0-9_]+)/)
+                .collect { it[1] }
+        if (furnitureHolders != ['chair_wood_ironage_classic_dark_oak']) {
+            throw new GradleException('Furniture ObjectHolders create missing-registry startup noise: ' +
+                    furnitureHolders)
+        }
+        List<String> obsoleteStates = (holder =~ /public static final Block\s+([A-Za-z0-9_]*(?:_left_|_middle_|_right_)[A-Za-z0-9_]*)/)
+                .collect { it[1] }
+        if (!obsoleteStates.isEmpty()) {
+            throw new GradleException('Obsolete connected-bench ObjectHolders remain: ' + obsoleteStates)
+        }
+
+        String itemInitialiser = file(
+                'src/main/java/zone/moddev/mc/ironagefurniture/init/ItemInitialiser.java').getText('UTF-8')
+        if (itemInitialiser.contains('BlockObjectHolder.class.getDeclaredField')
+                || !itemInitialiser.contains('ForgeRegistries.BLOCKS.getValue')) {
+            throw new GradleException('Furniture items must resolve registered blocks without reflective ObjectHolder lookup')
+        }
+    }
+}
+
+tasks.register('verifyResourceJson') {
+    group = 'verification'
+    description = 'Parses resources and validates recipe advancements, locale parity, and optional conditions.'
+    doLast {
+        List<File> jsonFiles = fileTree('src/main/resources') {
+            include '**/*.json'
+            include 'pack.mcmeta'
+        }.files.sort { it.path }
+        if (jsonFiles.size() != 23613) {
+            throw new GradleException("Expected 23613 runtime JSON documents, found ${jsonFiles.size()}")
+        }
+        jsonFiles.each { candidate ->
+            try {
+                new JsonSlurper().parseText(candidate.getText('UTF-8').replaceFirst(/^\uFEFF/, ''))
+            } catch (Exception ex) {
+                throw new GradleException("Invalid resource JSON: ${candidate}", ex)
+            }
+        }
+        List<String> localeNames = ['en_en.json', 'en_gb.json', 'en_us.json']
+        List<Map> locales = localeNames.collect { name ->
+            new JsonSlurper().parse(file("src/main/resources/assets/ironagefurniture/lang/${name}")) as Map
+        }
+        if (!locales.every { it.size() == 5224 }
+                || !locales.tail().every { it.keySet() == locales.first().keySet() }) {
+            throw new GradleException('English locale files must retain 5224 identical translation keys')
+        }
+
+        Map<String, Map<String, Integer>> optionalIntegrations = optionalIntegrationExpectedCounts
+        def hasModLoadedCondition = { Object conditions, String modId ->
+            conditions instanceof List && conditions.any { condition ->
+                condition instanceof Map && condition.type == 'forge:mod_loaded'
+                        && condition.modid == modId
+            }
+        }
+        File recipeRoot = file('src/main/resources/data/ironagefurniture/recipes')
+        File advancementRoot = file('src/main/resources/data/ironagefurniture/advancements')
+        Map<File, Map> recipeDocuments = fileTree(recipeRoot) { include '**/*.json' }.files.collectEntries {
+            [(it): new JsonSlurper().parse(it) as Map]
+        }
+        Map<File, Map> advancementDocuments = fileTree(advancementRoot) { include '**/*.json' }.files.collectEntries {
+            [(it): new JsonSlurper().parse(it) as Map]
+        }
+        def advancementPayloads = { Map document ->
+            if (document.advancements instanceof List) {
+                return document.advancements.collect { branch ->
+                    branch instanceof Map ? branch.advancement : null
+                }.findAll { it instanceof Map } as List<Map>
+            }
+            [document]
+        }
+        advancementDocuments.each { advancementFile, document ->
+            advancementPayloads(document).each { Map advancement ->
+                List<String> rewards = advancement.rewards instanceof Map
+                        && advancement.rewards.recipes instanceof List
+                        ? advancement.rewards.recipes as List<String> : []
+                if (rewards.isEmpty()) {
+                    return
+                }
+                if (!(advancement.criteria instanceof Map)) {
+                    throw new GradleException("Recipe advancement has no criteria: ${advancementFile}")
+                }
+                Map criteria = advancement.criteria as Map
+                criteria.each { criterionName, criterion ->
+                    if (criterion instanceof Map && criterion.trigger == 'minecraft:inventory_changed') {
+                        Object predicates = criterion.conditions instanceof Map
+                                ? criterion.conditions.items : null
+                        if (!(predicates instanceof List) || predicates.isEmpty()) {
+                            throw new GradleException("Recipe advancement has no item predicates at " +
+                                    "${advancementFile}:${criterionName}")
+                        }
+                        predicates.each { predicate ->
+                            List exactItems = predicate instanceof Map && predicate.items instanceof List
+                                    ? predicate.items as List : null
+                            boolean hasExactItem = exactItems != null && exactItems.size() == 1
+                                    && exactItems[0] instanceof String
+                            boolean hasExactTag = predicate instanceof Map
+                                    && predicate.tag instanceof String
+                            if (!(predicate instanceof Map) || (!hasExactItem && !hasExactTag)
+                                    || predicate.containsKey('item')) {
+                                throw new GradleException("Invalid item predicate at " +
+                                        "${advancementFile}:${criterionName}; use the 1.17 items or tag schema")
+                            }
+                        }
+                    }
+                }
+                Map recipeCriteria = criteria.findAll { criterionName, criterion ->
+                    criterion instanceof Map && criterion.trigger == 'minecraft:recipe_unlocked'
+                }
+                List<String> requirements = advancement.requirements instanceof List
+                        ? advancement.requirements.flatten().findAll { it instanceof String } as List<String> : []
+                rewards.each { recipeId ->
+                    String recipePath = recipeId.startsWith('ironagefurniture:')
+                            ? recipeId.substring('ironagefurniture:'.length()) : null
+                    if (recipePath == null || !new File(recipeRoot, "${recipePath}.json").isFile()) {
+                        throw new GradleException("Recipe advancement rewards missing recipe ${recipeId}: " +
+                                advancementFile)
+                    }
+                    List matchingCriteria = recipeCriteria.findAll { criterionName, criterion ->
+                        criterion.conditions instanceof Map && criterion.conditions.recipe == recipeId
+                    }.keySet() as List
+                    if (matchingCriteria.isEmpty() || !matchingCriteria.any { requirements.contains(it) }) {
+                        throw new GradleException("Recipe advancement must require a matching recipe_unlocked " +
+                                "criterion for ${recipeId}: ${advancementFile}")
+                    }
+                }
+            }
+        }
+        if (recipeDocuments.any { recipeFile, recipe -> recipe.type == 'forge:conditional' }) {
+            throw new GradleException('Optional recipes must use top-level conditions, not forge:conditional, ' +
+                    'because an unmet wrapper condition is logged once per recipe at info level')
+        }
+        optionalIntegrations.each { modId, expectedCounts ->
+            Set<File> recipes = recipeDocuments.findAll { recipeFile, recipe ->
+                hasModLoadedCondition(recipe.conditions, modId)
+            }.keySet()
+            if (recipes.size() != expectedCounts.recipes) {
+                throw new GradleException("Expected ${expectedCounts.recipes} ${modId} recipes, " +
+                        "found ${recipes.size()}")
+            }
+            recipes.each { recipeFile ->
+                Map recipe = recipeDocuments[recipeFile]
+                if (!(recipe.type instanceof String) || recipe.type == 'forge:conditional'
+                        || !(recipe.conditions instanceof List) || recipe.conditions.isEmpty()
+                        || !hasModLoadedCondition(recipe.conditions, modId)) {
+                    throw new GradleException(
+                            "Optional recipe lacks one top-level forge:mod_loaded condition for ${modId}: " +
+                                    recipeFile)
+                }
+            }
+
+            Set<File> advancements = advancementDocuments.findAll { advancementFile, advancement ->
+                hasModLoadedCondition(advancement.advancements instanceof List
+                        ? advancement.advancements.collectMany { it.conditions ?: [] } : advancement.conditions, modId)
+            }.keySet()
+            if (advancements.size() != expectedCounts.advancements) {
+                throw new GradleException("Expected ${expectedCounts.advancements} ${modId} advancements, " +
+                        "found ${advancements.size()}")
+            }
+            advancements.each { advancementFile ->
+                Map wrapper = advancementDocuments[advancementFile]
+                Map advancement = wrapper.advancements instanceof List && wrapper.advancements.size() == 1
+                        ? (wrapper.advancements[0].advancement + [conditions: wrapper.advancements[0].conditions]) : wrapper
+                if (!(advancement.conditions instanceof List)
+                        || advancement.conditions.isEmpty()
+                        || !hasModLoadedCondition(advancement.conditions, modId)
+                        || !(advancement.criteria instanceof Map)) {
+                    throw new GradleException(
+                            "Optional advancement lacks a forge:mod_loaded condition for ${modId}: " +
+                                    advancementFile)
+                }
+            }
+        }
+        int conditionalRecipeCount = optionalIntegrations.values().sum { it.recipes } as int
+        int conditionalAdvancementCount = optionalIntegrations.values().sum { it.advancements } as int
+        logger.lifecycle('Validated {} resource JSON documents, {} locale keys, {} conditional recipes, ' +
+                        'and {} conditional advancements.', jsonFiles.size(), locales.first().size(),
+                conditionalRecipeCount, conditionalAdvancementCount)
+    }
+}
+
+tasks.register('verifyNamespace') {
+    group = 'verification'
+    description = 'Requires the maintained Java namespace while preserving the runtime mod namespace.'
+    doLast {
+        String legacyPackage = 'com.mcmoddev.ironagefurniture'
+        String maintainedPackage = 'zone.moddev.mc.ironagefurniture'
+        String maintainedPath = "src/main/java/${maintainedPackage.replace('.', '/')}/"
+        List<File> sources = fileTree('src/main/java') { include '**/*.java' }.files.sort { it.path }
+        if (sources.size() < 104) {
+            throw new GradleException("Expected at least 104 production Java sources, found ${sources.size()}")
+        }
+        sources.each { sourceFile ->
+            String relativePath = project.relativePath(sourceFile).replace('\\', '/')
+            String contents = sourceFile.getText('UTF-8').replaceFirst(/^\uFEFF/, '')
+            if (!relativePath.startsWith(maintainedPath) || contents.contains(legacyPackage)) {
+                throw new GradleException("Legacy or misplaced IronAgeFurniture source: ${relativePath}")
+            }
+            def packageMatch = contents =~ /(?m)^package\s+([^;]+);/
+            if (!packageMatch.find()) {
+                throw new GradleException("Java source has no package declaration: ${relativePath}")
+            }
+            String expectedPackage = relativePath.substring('src/main/java/'.length(),
+                    relativePath.lastIndexOf('/')).replace('/', '.')
+            if (packageMatch.group(1) != expectedPackage) {
+                throw new GradleException("Package/path mismatch in ${relativePath}: ${packageMatch.group(1)}")
+            }
+        }
+        ['assets/ironagefurniture', 'data/ironagefurniture'].each { path ->
+            if (!file("src/main/resources/${path}").isDirectory()) {
+                throw new GradleException("Persistent resource namespace is missing: ${path}")
+            }
+        }
+    }
+}
+
+tasks.register('verifyVersionMetadata') {
+    group = 'verification'
+    description = 'Checks authoritative version and generated Forge metadata.'
+    dependsOn tasks.named('processResources')
+    doLast {
+        String source = file(
+                'src/main/java/zone/moddev/mc/ironagefurniture/Ironagefurniture.java').getText('UTF-8')
+        if (!source.contains("VERSION = \"${project.version}\"")) {
+            throw new GradleException('Java VERSION constant is not synchronized')
+        }
+        ['README.md', 'CHANGELOG.md', 'docs/VERSIONS.md'].each { path ->
+            if (!file(path).getText('UTF-8').contains(project.version.toString())) {
+                throw new GradleException("Version is missing from ${path}")
+            }
+        }
+        File generated = layout.buildDirectory.file('resources/main/META-INF/mods.toml').get().asFile
+        String metadata = generated.getText('UTF-8')
+        [
+                'modId="ironagefurniture"',
+                "version=\"${project.version}\"",
+                'license="LGPL-2.1"',
+                'versionRange="[37.1.1,38)"',
+                'versionRange="[1.17.1]"'
+        ].each { required ->
+            if (!metadata.contains(required)) {
+                throw new GradleException("Generated mods.toml is missing ${required}")
+            }
+        }
+        if (metadata.contains('${')) {
+            throw new GradleException('Generated mods.toml contains unresolved properties')
+        }
+    }
+}
+
+tasks.register('verifyDedicatedServerBoundaries') {
+    group = 'verification'
+    description = 'Keeps common proxy code free of client-only Minecraft and Forge types.'
+    doLast {
+        String commonProxy = file(
+                'src/main/java/zone/moddev/mc/ironagefurniture/proxy/CommonProxy.java').getText('UTF-8')
+        ['net.minecraft.client.', 'net.minecraftforge.client.', 'SeatRenderer', 'EntityRenderers']
+                .each { forbidden ->
+                    if (commonProxy.contains(forbidden)) {
+                        throw new GradleException("CommonProxy contains client-only reference ${forbidden}")
+                    }
+                }
+        String entrypoint = file(
+                'src/main/java/zone/moddev/mc/ironagefurniture/Ironagefurniture.java').getText('UTF-8')
+        if (!entrypoint.contains('DistExecutor.runForDist')) {
+            throw new GradleException('Client renderer registration is not guarded by Dist.CLIENT')
+        }
+    }
+}
+
+tasks.register('verifyWorkflowPins') {
+    group = 'verification'
+    description = 'Requires third-party GitHub Actions to be pinned to full commit SHAs.'
+    doLast {
+        File workflows = file('.github/workflows')
+        if (!workflows.isDirectory()) {
+            throw new GradleException('Missing GitHub Actions workflows')
+        }
+        fileTree(workflows) { include '*.yml'; include '*.yaml' }.each { workflow ->
+            workflow.readLines('UTF-8').eachWithIndex { line, index ->
+                def match = line =~ /^\s*uses:\s*([^#\s]+).*/
+                if (match.matches()) {
+                    String action = match.group(1)
+                    if (!action.startsWith('./') && !(action ==~ /[^@]+@[0-9a-f]{40}/)) {
+                        throw new GradleException("Unpinned action ${action} at ${workflow}:${index + 1}")
+                    }
+                }
+            }
+        }
+    }
+}

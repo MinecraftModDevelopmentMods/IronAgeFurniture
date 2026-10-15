@@ -1,0 +1,26 @@
+{
+    "type": "ironagefurniture:upholstery_upgrade",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_birch_pink"
+        },
+        {
+            "item": "ironagefurniture:bed_wood_foot_birch_pink"
+        }
+    ],
+    "group": "ironagefurniture:bed_wood_foot_left_birch_pink",
+    "result": {
+        "item": "ironagefurniture:bed_wood_foot_left_birch_pink",
+        "count": 1
+    },
+    "conditions": [
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_wood_foot_left_birch"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_wood_foot_birch"
+        }
+    ]
+}

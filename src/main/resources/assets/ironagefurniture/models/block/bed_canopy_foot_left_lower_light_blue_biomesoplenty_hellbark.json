@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_bed_canopy_foot_left_lower",
+    "textures": {
+        "log": "biomesoplenty:block/hellbark_log",
+        "planks": "biomesoplenty:block/hellbark_planks",
+        "particle": "biomesoplenty:block/hellbark_log",
+        "cloth": "minecraft:block/light_blue_wool"
+    }
+}

@@ -14,12 +14,13 @@ import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.fmllegacy.network.NetworkHooks;
 import net.minecraft.world.level.block.BaseFireBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.fmllegacy.network.NetworkHooks;
 import zone.moddev.mc.ironagefurniture.BlockObjectHolder;
 import zone.moddev.mc.ironagefurniture.registers.entities;
 
@@ -82,12 +83,26 @@ public class ThrownLavaLamp extends ThrowableItemProjectile {
     @Override
     protected void onHit(HitResult result) {
         super.onHit(result);
-        if (!level.isClientSide) {
-            level.playSound(null, getX(), getY(), getZ(), SoundEvents.GLASS_BREAK,
-                    SoundSource.BLOCKS, 1.0F, 1.0F);
-            level.broadcastEntityEvent(this, (byte) 3);
-            discard();
+        if (!level.isClientSide) shatter(false);
+    }
+
+    @Override public void tick() {
+        super.tick();
+        if (!level.isClientSide && !isRemoved() && isInWater()) {
+            level.setBlock(blockPosition(), BlockObjectHolder.obsidian_chunk.defaultBlockState()
+                    .setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.fromYRot(getYRot()))
+                    .setValue(BlockStateProperties.WATERLOGGED, true), 3);
+            shatter(true);
         }
+    }
+
+    private void shatter(boolean extinguished) {
+        level.playSound(null, getX(), getY(), getZ(), SoundEvents.GLASS_BREAK,
+                SoundSource.BLOCKS, 1.0F, 1.0F);
+        if (extinguished) level.playSound(null, getX(), getY(), getZ(), SoundEvents.LAVA_EXTINGUISH,
+                SoundSource.BLOCKS, .5F, 2.6F);
+        level.broadcastEntityEvent(this, (byte)3);
+        discard();
     }
 
     private void placeImpactFire(BlockHitResult result) {

@@ -27,7 +27,7 @@ public class LightHolderSconceWall extends LightHolderSconceFloor {
 	public LightHolderSconceWall(float hardness, float blastResistance, SoundType sound, String name) {
 		super(Block.Properties.of(Material.METAL).strength(hardness, blastResistance).sound(sound));
 
-		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
+		this.registerDefaultState(this.defaultBlockState() .setValue(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
 		this.setRegistryName(name);
 	}
@@ -68,7 +68,7 @@ public class LightHolderSconceWall extends LightHolderSconceFloor {
 
 		drops.add(stack);
 
-		return drops;
+		return zone.moddev.mc.ironagefurniture.api.SconceMetalData.preserveDrops(state, drops);
 	}
 
 	@Override

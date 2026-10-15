@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:yellow_carpet"
+        },
+        {
+            "item": "minecraft:jungle_planks"
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_classic_jungle"
+        }
+    ],
+    "group": "ironagefurniture:chair_wood_ironage_wingback_jungle_yellow",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_wingback_jungle_yellow",
+        "count": 1
+    },
+    "conditions": [
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_wingback_jungle"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_classic_jungle"
+        }
+    ]
+}

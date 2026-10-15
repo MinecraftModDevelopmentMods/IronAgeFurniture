@@ -32,7 +32,6 @@ public abstract class FurnitureBlock extends Block implements SimpleWaterloggedB
 
 	public FurnitureBlock(Properties properties) {
 		super(properties);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

@@ -1,0 +1,42 @@
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+
+// Keep the translations inherited from the 1.12 release. Untranslated names
+// fall back to the current English catalog, so new furniture still has a name.
+def localeNames = ['de_au', 'de_de', 'en_ca', 'en_pt', 'es_es', 'es_mx', 'fr_ca',
+                   'fr_fr', 'ja_jp', 'ko_kr', 'pt_br', 'pt_pt', 'ru_ru', 'zh_cn']
+def localeResources = {
+    Map english = new JsonSlurper().parse(file('src/main/resources/assets/ironagefurniture/lang/en_us.json')) as Map
+    localeNames.collectEntries { locale ->
+        Map translated = new JsonSlurper().parse(file("gradle/locales/${locale}.json")) as Map
+        if (!english.keySet().containsAll(translated.keySet())) throw new GradleException("Obsolete translation keys in ${locale}")
+        Map combined = new TreeMap(english)
+        combined.putAll(translated)
+        [("src/main/resources/assets/ironagefurniture/lang/${locale}.json".toString()):
+                JsonOutput.prettyPrint(JsonOutput.toJson(combined)) + '\n']
+    }
+}
+tasks.register('updateLocales') {
+    group = 'generation'
+    description = 'Updates every supported language from the current catalog and retained translations.'
+    mustRunAfter 'updatePhaseFourMetals', 'updatePhaseFourCfmRecipes', 'updatePhaseFourLightingCatalog',
+            'updatePhaseFourShieldCatalog', 'updatePhaseFourUpholsteryCatalog'
+    doLast {
+        localeResources().each { path, text ->
+            File target = file(path)
+            if (!target.isFile() || target.getText('UTF-8').replace('\r\n','\n') != text) target.setText(text, 'UTF-8')
+        }
+    }
+}
+tasks.register('verifyLocales') {
+    group = 'verification'
+    description = 'Checks language choices, complete key sets and deterministic English fallbacks.'
+    doLast {
+        localeResources().each { path, text ->
+            if (!file(path).isFile() || file(path).getText('UTF-8').replace('\r\n','\n') != text)
+                throw new GradleException("Missing or stale language file: ${path}; run updateLocales")
+        }
+    }
+}
+tasks.named('updateFurnitureCatalog') { dependsOn 'updateLocales' }
+tasks.named('check') { dependsOn 'verifyLocales' }

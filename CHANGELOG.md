@@ -1,4 +1,23 @@
-# IronAgeFurniture 0.3.0.117011
+# IronAgeFurniture 0.4.0.117011
+
+Phase 4 for Minecraft 1.17.1 and Forge 37.1.1. Requires Java 16.
+
+- Add wooden and canopy beds, matching doubles, wingbacks and thrones for all 19 existing woods and sixteen colours.
+- Keep crimson and warped furniture fireproof and retain soul-torch sconces.
+- Preserve a shield's complete item data when attaching, removing, mining or dropping a shield chair.
+- Add held-candle effects, candles, twin torches, multi-candle and rock-salt sconces, and gold/Base Metals frames.
+- Carry forward the final 1.16 light fixes: safe hand-mining particles, fragile glass lamps, metal-specific textures and toughness, reliable frame/content drops, water buckets, wet redstone relighting and Silk Touch recovery.
+- Let mined wall lava sconces release their lamps to fall and shatter; right-click removal remains safe.
+- Use matching bed upgrades, shapeless wingback/throne recipes and four sconces from five matching nuggets.
+- Reveal matching upgrades while the crafting table remains open. Keep manual bed recolouring out of the recipe book, including recipes learned before upgrading.
+- Split the creative inventory into Chairs, Benches, Beds and Lights, with safe icons and optional-content filtering.
+- Add seventeen locales with English fallbacks and smaller, documented build scripts.
+- Extend supported legacy imports to Phase 4 beds, tall chairs, shields and metals, preserving stored and nested items before vanilla datafixing.
+- Preserve dropped and nested chair stacks in 1.17's separate entity files, including opt-in CFM conversion and recovery after CFM is removed.
+- Add optional Base Metals, Mineralogy and CFM support without requiring those mods. Unsupported older BYG/IE furniture remains outside this target's import scope.
+- Retain IAF candles and their saved identities separately from vanilla 1.17 candles.
+
+## Previous release: 0.3.0.117011
 
 Phase 3 lighting release for Minecraft 1.17.1 and Forge 37.1.1.
 

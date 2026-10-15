@@ -25,17 +25,12 @@ public class LightSourceSconceTorchFloorUnlit extends LightSourceSconceTorchFloo
 	public LightSourceSconceTorchFloorUnlit(float hardness, float blastResistance, SoundType sound, String name) {
 		super(Block.Properties.of(Material.METAL).strength(hardness, blastResistance).sound(sound));
 
-		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
+		this.registerDefaultState(this.defaultBlockState() .setValue(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
 		this.setRegistryName(name);
 	}
 
-	@Override
-	public void animateTick(BlockState state, Level level, BlockPos pos, Random random)
-	{
-		if (level.hasNeighborSignal(pos))
-			Light(state, level, pos);
-	}
+    @Override protected boolean HasFlame() { return false; }
 
 	protected Block GetLitVariant() {
 		return BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron;
@@ -47,8 +42,8 @@ public class LightSourceSconceTorchFloorUnlit extends LightSourceSconceTorchFloo
 
 	private void Light(BlockState state, Level world, BlockPos pos) {
 		world.setBlock(pos, GetLitVariant().defaultBlockState()
-				.setValue(DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
-				.setValue(WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)), UPDATE_ALL);
+				 .setValue(DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
+				 .setValue(WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)).setValue(zone.moddev.mc.ironagefurniture.api.SconceMetalData.METAL, zone.moddev.mc.ironagefurniture.api.SconceMetalData.get(state)), 3);
 	}
 
 	@Override
@@ -58,8 +53,10 @@ public class LightSourceSconceTorchFloorUnlit extends LightSourceSconceTorchFloo
 		ItemStack stackInHand = player.getItemInHand(hand);
 		boolean isWaterlogged = state.getValue(BlockStateProperties.WATERLOGGED);
 
+        if (stackInHand.getItem() == Items.WATER_BUCKET) return InteractionResult.SUCCESS;
 
-		if (stackInHand.is(Items.FLINT_AND_STEEL) && !isWaterlogged) {
+
+		if (stackInHand.getItem() == Items.FLINT_AND_STEEL && !isWaterlogged) {
 
 			if (!player.isCreative())
 				stackInHand.setDamageValue(stackInHand.getDamageValue()+1);
@@ -69,18 +66,18 @@ public class LightSourceSconceTorchFloorUnlit extends LightSourceSconceTorchFloo
 			return InteractionResult.SUCCESS;
 		}
 
-		if (stackInHand.is(Blocks.TORCH.asItem()) && !isWaterlogged) {
+		if (stackInHand.getItem() == Blocks.TORCH.asItem() && !isWaterlogged) {
 			Light(state, world, pos);
 
 			return InteractionResult.SUCCESS;
 		}
 
-		if (player.isCreative() && (stackInHand.is(Blocks.TORCH.asItem()) || stackInHand.isEmpty())) {
+		if (player.isCreative() && (stackInHand.getItem() == Blocks.TORCH.asItem() || stackInHand.isEmpty())) {
 			world.setBlock(pos, GetEmptyVariant().defaultBlockState()
-					.setValue(DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
-					.setValue(WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)), UPDATE_ALL);
+					 .setValue(DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
+					 .setValue(WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)).setValue(zone.moddev.mc.ironagefurniture.api.SconceMetalData.METAL, zone.moddev.mc.ironagefurniture.api.SconceMetalData.get(state)), 3);
 
-			return InteractionResult.CONSUME_PARTIAL;
+			return InteractionResult.CONSUME;
 		}
 
 		return InteractionResult.FAIL;

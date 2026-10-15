@@ -1,0 +1,26 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:light_blue_bed"
+        },
+        {
+            "item": "biomesoplenty:magic_planks"
+        }
+    ],
+    "group": "ironagefurniture:bed_wood_foot_biomesoplenty_magic_light_blue",
+    "result": {
+        "item": "ironagefurniture:bed_wood_foot_biomesoplenty_magic_light_blue",
+        "count": 1
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_magic"
+        }
+    ]
+}

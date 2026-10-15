@@ -27,33 +27,37 @@ public class LightSourceSconceTorchWall extends LightSourceSconceTorchFloor {
 	public LightSourceSconceTorchWall(Properties properties) {
 		super(properties);
 
-		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH).setValue(WATERLOGGED, false));
+		this.registerDefaultState(this.defaultBlockState() .setValue(DIRECTION, Direction.NORTH) .setValue(WATERLOGGED, false));
         this.generateShapes(this.getStateDefinition().getPossibleStates());
         this.flameParticle = ParticleTypes.FLAME;
 	}
 
     @Override
 	public void animateTick(BlockState state, Level level, BlockPos pos, Random rand) {
-	if (HasFlame()) {
-		Direction direction = state.getValue(DIRECTION);
+		if (HasFlame()) {
+				Direction direction = state.getValue(DIRECTION);
 
-		Pair<Double, Double> rotated = rotate(0.6D, 0.5D, state.getValue(DIRECTION));
+				Pair<Double, Double> rotated = rotate(0.6D, 0.5D, state.getValue(DIRECTION));
 
-		double d0 = (double)pos.getX() + rotated.getA();
-		double d1 = (double)pos.getY() + 0.8D;
-		double d2 = (double)pos.getZ() + rotated.getB();
+				double d0 = (double)pos.getX() + rotated.getA();
+				double d1 = (double)pos.getY() + 0.8D;
+				double d2 = (double)pos.getZ() + rotated.getB();
 
-		Direction direction1 = direction.getOpposite();
+				Direction direction1 = direction.getOpposite();
 
-		level.addParticle(ParticleTypes.SMOKE, d0 + 0.27D * (double)direction1.getStepX(), d1 + 0.22D, d2 + 0.27D * (double)direction1.getStepZ(), 0.0D, 0.0D, 0.0D);
-		level.addParticle(this.flameParticle, d0 + 0.27D * (double)direction1.getStepX(), d1 + 0.22D, d2 + 0.27D * (double)direction1.getStepZ(), 0.0D, 0.0D, 0.0D);
-		}
+				level.addParticle(ParticleTypes.SMOKE, d0 + 0.27D * (double)direction1.getStepX(), d1 + 0.22D, d2 + 0.27D * (double)direction1.getStepZ(), 0.0D, 0.0D, 0.0D);
+				level.addParticle(this.flameParticle, d0 + 0.27D * (double)direction1.getStepX(), d1 + 0.22D, d2 + 0.27D * (double)direction1.getStepZ(), 0.0D, 0.0D, 0.0D);
+				}
     }
 
 	@Override
 	protected Block UnlitVariant() {
 		return BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron_unlit;
 	}
+
+    @Override protected Block GetLitVariant() {
+        return BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron;
+    }
 
 	@Override
 	protected Block EmptyVariant() {
@@ -67,23 +71,23 @@ public class LightSourceSconceTorchWall extends LightSourceSconceTorchFloor {
 
 	@Override
 	protected void generateShapes(ImmutableList<BlockState> states) {
-		ImmutableMap.Builder<BlockState, VoxelShape> builder = new ImmutableMap.Builder<>();
-		for (BlockState state : states)
-		{
-			VoxelShape shapes = Shapes.empty();
+		 ImmutableMap.Builder<BlockState, VoxelShape> builder = new ImmutableMap.Builder<>();
+	        for(BlockState state : states)
+	        {
+				VoxelShape shapes = Shapes.empty();
 
-			shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(6, 3, 9, 10, 13, 13), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // torch
+				shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(6, 3, 9, 10, 13, 13), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // torch
 
-			builder.put(state, shapes.optimize());
-		}
+	            builder.put(state, shapes.optimize());
+	        }
 
-		_shapes = builder.build();
+	        _shapes = builder.build();
 	}
 
 	public LightSourceSconceTorchWall(float hardness, float blastResistance, SoundType sound, String name) {
 		super(Block.Properties.of(Material.METAL).strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> 14) );
 
-		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
+		this.registerDefaultState(this.defaultBlockState() .setValue(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
 		this.setRegistryName(name);
 		this.flameParticle = ParticleTypes.FLAME;

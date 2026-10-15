@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:purple_carpet"
+        },
+        {
+            "item": "minecraft:acacia_planks"
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_acacia_purple"
+        }
+    ],
+    "group": "ironagefurniture:chair_wood_ironage_throne_acacia_purple",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_throne_acacia_purple",
+        "count": 1
+    },
+    "conditions": [
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_throne_acacia"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_wingback_acacia"
+        }
+    ]
+}

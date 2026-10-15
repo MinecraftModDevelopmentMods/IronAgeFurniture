@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:light_gray_carpet"
+        },
+        {
+            "item": "minecraft:acacia_planks"
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_classic_acacia"
+        }
+    ],
+    "group": "ironagefurniture:chair_wood_ironage_wingback_acacia_light_gray",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_wingback_acacia_light_gray",
+        "count": 1
+    },
+    "conditions": [
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_wingback_acacia"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_classic_acacia"
+        }
+    ]
+}

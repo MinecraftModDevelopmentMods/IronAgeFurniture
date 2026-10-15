@@ -1,0 +1,76 @@
+{
+    "type": "ironagefurniture:bed_recolour",
+    "ingredients": [
+        [
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_palm_black"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_palm_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_palm_brown"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_palm_cyan"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_palm_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_palm_green"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_palm_light_blue"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_palm_light_gray"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_palm_lime"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_palm_magenta"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_palm_orange"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_palm_pink"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_palm_purple"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_palm"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_palm_white"
+            },
+            {
+                "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_palm_yellow"
+            }
+        ],
+        {
+            "item": "minecraft:gray_carpet"
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_palm"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_palm"
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_palm_gray",
+        "count": 1
+    }
+}

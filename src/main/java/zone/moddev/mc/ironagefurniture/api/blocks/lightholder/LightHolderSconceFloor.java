@@ -36,20 +36,19 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
-import javax.annotation.Nonnull;
 
 public class LightHolderSconceFloor extends LightHolderSconce {
 	public LightHolderSconceFloor(Properties properties) {
 		super(properties);
 
-		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH).setValue(WATERLOGGED, false));
+		this.registerDefaultState(this.defaultBlockState() .setValue(DIRECTION, Direction.NORTH) .setValue(WATERLOGGED, false));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
 	}
 
 	public LightHolderSconceFloor(float hardness, float blastResistance, SoundType sound, String name) {
 		super(Block.Properties.of(Material.METAL).strength(hardness, blastResistance).sound(sound));
 
-		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
+		this.registerDefaultState(this.defaultBlockState() .setValue(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
 		this.setRegistryName(name);
 	}
@@ -152,7 +151,12 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 
 		ItemStack stackInHand = player.getItemInHand(hand);
 
-		if (stackInHand.is(Blocks.TORCH.asItem())) {
+        if (zone.moddev.mc.ironagefurniture.init.PhaseFourLighting.insertCandle(state, world, pos, player, hand,
+                this instanceof LightHolderSconceWall)) return InteractionResult.SUCCESS;
+        if (zone.moddev.mc.ironagefurniture.init.PhaseFourLighting.insertRockSalt(state, world, pos, player, hand,
+                this instanceof LightHolderSconceWall)) return InteractionResult.SUCCESS;
+
+		if (stackInHand.getItem() == Blocks.TORCH.asItem()) {
 			Block torchSconce;
 
 			if (state.getValue(BlockStateProperties.WATERLOGGED))
@@ -163,10 +167,10 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 			return getInteractionResult(state, world, pos, player, stackInHand, torchSconce);
 		}
 
-		if (stackInHand.is(BlockObjectHolder.light_metal_ironage_block_floor_glow_clear.asItem()))
+		if (stackInHand.getItem() == BlockObjectHolder.light_metal_ironage_block_floor_glow_clear.asItem())
 			return getInteractionResult(state, world, pos, player, stackInHand, GetGlowVariant());
 
-		if (stackInHand.is(BlockObjectHolder.light_metal_ironage_block_floor_lava_clear.asItem())) {
+		if (stackInHand.getItem() == BlockObjectHolder.light_metal_ironage_block_floor_lava_clear.asItem()) {
 			if (state.getValue(BlockStateProperties.WATERLOGGED)) {
 				world.playSound(player, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, friction, explosionResistance);
 				world.playSound(player, pos, SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, friction, explosionResistance);
@@ -176,7 +180,7 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 
 				Block.popResource(world, pos, new ItemStack(BlockObjectHolder.obsidian_chunk, 1));
 
-				return InteractionResult.CONSUME_PARTIAL;
+				return InteractionResult.CONSUME;
 			}
 			else
 			{
@@ -184,28 +188,27 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 			}
 		}
 
-		if (stackInHand.is(Blocks.REDSTONE_TORCH.asItem()))
+		if (stackInHand.getItem() == Blocks.REDSTONE_TORCH.asItem())
 			return getInteractionResult(state, world, pos, player, stackInHand, GetRedTorchVariant());
 
-		if (stackInHand.is(Blocks.SOUL_TORCH.asItem()))
+		if (stackInHand.getItem() == Blocks.SOUL_TORCH.asItem())
 			return getInteractionResult(state, world, pos, player, stackInHand, GetSoulTorchVariant());
 
-		if (stackInHand.is(BlockObjectHolder.light_metal_ironage_block_floor_red_clear.asItem()))
+		if (stackInHand.getItem() == BlockObjectHolder.light_metal_ironage_block_floor_red_clear.asItem())
 			return getInteractionResult(state, world, pos, player, stackInHand, GetRedVariant());
 
 		return InteractionResult.FAIL;
 	}
 
-	@Nonnull
 	private static InteractionResult getInteractionResult(BlockState state, Level world, BlockPos pos, Player player, ItemStack stackInHand, Block sconce) {
 		world.setBlock(pos, sconce.defaultBlockState()
-			.setValue(DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
-			.setValue(WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)), UPDATE_ALL);
+			 .setValue(DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
+			 .setValue(WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)).setValue(zone.moddev.mc.ironagefurniture.api.SconceMetalData.METAL, zone.moddev.mc.ironagefurniture.api.SconceMetalData.get(state)), 3);
 
 		if (!player.isCreative())
 			stackInHand.setCount(stackInHand.getCount() - 1);
 
-		return InteractionResult.CONSUME_PARTIAL;
+		return InteractionResult.CONSUME;
 	}
 
 	@Override
@@ -217,6 +220,6 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 		drops = new ArrayList<>();
 		drops.add(stack);
 
-		return drops;
+		return zone.moddev.mc.ironagefurniture.api.SconceMetalData.preserveDrops(state, drops);
 	}
 }

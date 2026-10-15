@@ -2,6 +2,10 @@ package zone.moddev.mc.ironagefurniture;
 
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -19,25 +23,40 @@ import net.minecraftforge.fml.config.ModConfig;
 public class Ironagefurniture
 {
     public static final String MODID = "ironagefurniture";
-    public static final String VERSION = "0.3.0.117011";
+    public static final String VERSION = "0.4.0.117011";
     public static final CommonProxy PROXY = DistExecutor.runForDist(() -> zone.moddev.mc.ironagefurniture.proxy.ClientProxy::new, () -> CommonProxy::new);
 
-	public static final CreativeModeTab IAF_GROUP = new CreativeModeTab(MODID) {
-	    @Override
-	    public ItemStack makeIcon() {
-	        return new ItemStack(BlockObjectHolder.chair_wood_ironage_classic_dark_oak);
-	    }
-	};
-	
+    public static final CreativeModeTab IAF_CHAIRS_GROUP = furnitureGroup("chairs", "chair_wood_ironage_classic_dark_oak", Items.OAK_STAIRS);
+    public static final CreativeModeTab IAF_BENCHES_GROUP = furnitureGroup("benches", "chair_wood_ironage_bench_single_dark_oak", Items.OAK_SLAB);
+    public static final CreativeModeTab IAF_BEDS_GROUP = furnitureGroup("beds", "bed_wood_foot_dark_oak", Items.RED_BED);
+    public static final CreativeModeTab IAF_LIGHTS_GROUP = furnitureGroup("lights", "light_metal_ironage_sconce_floor_empty_iron", Items.TORCH);
+
+    /** @deprecated Use the category-specific groups for new furniture. */
+    @Deprecated
+    public static final CreativeModeTab IAF_GROUP = IAF_CHAIRS_GROUP;
+
+    private static CreativeModeTab furnitureGroup(String category, String icon, Item fallback) {
+        return new CreativeModeTab(MODID + "." + category) {
+            @Override public ItemStack makeIcon() {
+                // A disabled furniture family must not leave its tab with an air icon.
+                Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, icon));
+                return new ItemStack(item == null || item == Items.AIR
+                        || !zone.moddev.mc.ironagefurniture.api.items.FurnitureCreativeVisibility.isVisible(item) ? fallback : item);
+            }
+        };
+    }
+
 	public Ironagefurniture() {
+        net.minecraftforge.common.crafting.CraftingHelper.register(
+                new zone.moddev.mc.ironagefurniture.api.recipes.SconceMetalCondition.Serializer());
         entities.REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
-		
+
 		ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, IronAgeFurnitureConfiguration.clientSpec);
 		ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, IronAgeFurnitureConfiguration.clientSpec);
-		
+
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onCommonSetup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientSetup);
-		
+
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new CreativeModeBreakTracker());
         MinecraftForge.EVENT_BUS.addListener(LegacyWorldDataHook::onServerAboutToStart);

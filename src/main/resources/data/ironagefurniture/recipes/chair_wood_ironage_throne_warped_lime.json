@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:lime_carpet"
+        },
+        {
+            "item": "minecraft:warped_planks"
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_warped_lime"
+        }
+    ],
+    "group": "ironagefurniture:chair_wood_ironage_throne_warped_lime",
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_throne_warped_lime",
+        "count": 1
+    },
+    "conditions": [
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_throne_warped"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:chair_wood_ironage_wingback_warped"
+        }
+    ]
+}

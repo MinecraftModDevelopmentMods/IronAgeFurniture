@@ -1,0 +1,29 @@
+{
+    "type": "ironagefurniture:upholstery_upgrade",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_oak_green"
+        },
+        {
+            "item": "minecraft:oak_planks"
+        },
+        {
+            "item": "minecraft:green_carpet"
+        }
+    ],
+    "group": "ironagefurniture:bed_canopy_foot_lower_oak_green",
+    "result": {
+        "item": "ironagefurniture:bed_canopy_foot_lower_oak_green",
+        "count": 1
+    },
+    "conditions": [
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_canopy_foot_lower_oak"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "ironagefurniture:bed_wood_foot_oak"
+        }
+    ]
+}
