@@ -81,8 +81,16 @@ tasks.register('verifyReleaseArtifacts') {
             itemDefinitions.each { definitionName ->
                 String id = definitionName.tokenize('/').last().replaceFirst(/\.json$/, '')
                 Map definition = new JsonSlurper().parse(zip.getInputStream(zip.getEntry(definitionName))) as Map
-                if (definition.model?.type != 'minecraft:model'
-                        || definition.model?.model != "ironagefurniture:item/${id}") {
+                Map model = definition.model as Map
+                boolean valid = model?.type == 'minecraft:model' && model.model == "ironagefurniture:item/${id}"
+                if (id.startsWith('chair_wood_ironage_shield_')) {
+                    valid = model?.type == 'minecraft:condition' && model.property == 'minecraft:component'
+                            && model.predicate == 'minecraft:container' && model.value?.items?.size == 0
+                            && model.on_true?.type == 'minecraft:model' && model.on_true.model == "ironagefurniture:block/${id}_frame"
+                            && model.on_false?.type == 'minecraft:model' && model.on_false.model == "ironagefurniture:item/${id}"
+                            && zip.getEntry("assets/ironagefurniture/models/block/${id}_frame.json") != null
+                }
+                if (!valid) {
                     throw new GradleException("Invalid NeoForge 26.3 item definition: ${definitionName}")
                 }
             }
@@ -143,6 +151,10 @@ tasks.register('writeReleaseChecksums') {
     group = 'verification'
     description = 'Writes SHA-256 checksums for the audited release jars.'
     dependsOn tasks.named('verifyReleaseArtifacts')
+    // Refresh the manifest whenever an incremental build changes a jar.
+    inputs.files(expectedReleaseFiles.map { names ->
+        names.collect { name -> layout.buildDirectory.file("libs/${name}").get().asFile }
+    }).withPropertyName('releaseJars').withPathSensitivity(PathSensitivity.NAME_ONLY)
     outputs.file(layout.buildDirectory.file('release/SHA256SUMS'))
     doLast {
         File output = layout.buildDirectory.file('release/SHA256SUMS').get().asFile

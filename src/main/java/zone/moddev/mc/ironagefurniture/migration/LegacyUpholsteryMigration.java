@@ -10,6 +10,7 @@ public final class LegacyUpholsteryMigration {
     private static final String TILE_MARKER = "IronAgeFurnitureLegacyUpholstery";
     private static final String SHIELD_MARKER = "IronAgeFurnitureLegacyShield";
     private static final String METAL_MARKER = "IronAgeFurnitureLegacySconceMetal";
+    private static final String METAL_TILE_ID = "IronAgeFurnitureLegacyMetalTileId";
     private LegacyUpholsteryMigration() { }
 
     public static boolean isUpholsteredPath(String path) {
@@ -22,13 +23,30 @@ public final class LegacyUpholsteryMigration {
             String id = tile.getStringOr("id", "");
             boolean upholstery = id.equals("ironagefurniture:upholstery_colour") || id.equals("iafbygaddon:upholstery_colour") || id.equals("UpholsteryColour");
             boolean shield = id.equals("ironagefurniture:shield_chair") || id.equals("iafbygaddon:shield_chair") || id.equals("ShieldChair");
-            boolean metal = id.equals("ironagefurniture:sconce_metal") || id.equals("SconceMetal");
+            boolean metal = isLegacyMetalTile(tile);
             if (!upholstery && !shield && !metal) continue;
             if (upholstery) NativeLegacyBridge.preserveTileColour(tile);
+            if (metal) tile.putString(METAL_TILE_ID, id);
             // Vanilla's schemas retain a sign's unknown fields. Keep the real
             // identity private until the chunk has crossed those schemas.
             tile.putString("id", oldIds ? "Sign" : "minecraft:sign");
             tile.putBoolean(upholstery ? TILE_MARKER : metal ? METAL_MARKER : SHIELD_MARKER, true);
+        }
+    }
+    private static boolean isLegacyMetalTile(CompoundTag tile) {
+        String id = tile.getStringOr("id", "");
+        return id.equals("ironagefurniture:metal_variant") || id.equals("MetalVariant")
+                || id.equals("ironagefurniture:sconce_metal") || id.equals("SconceMetal")
+                || id.equals("ironagefurniture:metal_sconce") && tile.contains("Metal");
+    }
+    static void prepareMetalTiles(CompoundTag level) {
+        // The released 1.10 tile was metal_variant; 1.12 renamed it sconce_metal.
+        // Also cover same-version chunks that reach the final decoder directly.
+        for (var value : level.getListOrEmpty("TileEntities")) {
+            CompoundTag tile = (CompoundTag)value;
+            if (!isLegacyMetalTile(tile)) continue;
+            tile.putString(METAL_TILE_ID, tile.getStringOr("id", ""));
+            tile.putString("id", "minecraft:sign"); tile.putBoolean(METAL_MARKER, true);
         }
     }
     static int finishTiles(CompoundTag level) {
@@ -42,12 +60,13 @@ public final class LegacyUpholsteryMigration {
             } else if (tile.getBooleanOr(TILE_MARKER, false) || tile.getBooleanOr(METAL_MARKER, false)) {
                 if (applyColour(level, tile)) {
                     if (tile.getBooleanOr("IronAgeFurnitureCandleStorage", false)) {
-                        tile.remove(TILE_MARKER); tile.remove(METAL_MARKER); tile.remove("Color"); tile.remove("Metal");
+                        tile.remove(TILE_MARKER); tile.remove(METAL_MARKER); tile.remove(METAL_TILE_ID); tile.remove("Color"); tile.remove("Metal");
                     } else tiles.remove(index);
                     converted++;
                 } else {
                     // Do not silently discard an unconverted tile's colour.
-                    tile.putString("id", tile.getBooleanOr(METAL_MARKER, false) ? "ironagefurniture:sconce_metal" : "ironagefurniture:upholstery_colour");
+                    tile.putString("id", tile.getBooleanOr(METAL_MARKER, false) ? tile.getStringOr(METAL_TILE_ID, "ironagefurniture:sconce_metal") : "ironagefurniture:upholstery_colour");
+                    tile.remove(METAL_TILE_ID);
                     tile.remove(TILE_MARKER);
                     tile.remove(METAL_MARKER);
                 }

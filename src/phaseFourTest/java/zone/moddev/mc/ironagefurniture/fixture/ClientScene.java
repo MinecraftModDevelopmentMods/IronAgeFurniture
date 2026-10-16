@@ -16,10 +16,12 @@ import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import zone.moddev.mc.ironagefurniture.api.blocks.lightsource.phasefour.CandleSconceBlock;
 import zone.moddev.mc.ironagefurniture.api.tile.CandleSconceBlockEntity;
 import zone.moddev.mc.ironagefurniture.init.PhaseFourLighting;
+import zone.moddev.mc.ironagefurniture.init.ModVanillaLights;
 
 /** A disposable gallery for checking real client packets and baked candle models. */
 public final class ClientScene {
     private static int observers, connectedTicks, emptyTicks;
+    private static int releaseTicks;
     private static boolean updated;
     public static List<net.minecraft.world.level.block.Block> shieldChairs() {
         return BuiltInRegistries.BLOCK.stream().filter(block -> block instanceof zone.moddev.mc.ironagefurniture.api.blocks.furniture.ShieldChair).toList();
@@ -32,6 +34,7 @@ public final class ClientScene {
         ItemStack stack = new ItemStack(net.minecraft.world.item.Items.SHIELD);
         stack.set(DataComponents.CUSTOM_NAME, Component.literal((update ? "Updated gallery shield " : "Gallery shield ") + index));
         stack.setDamageValue(index + (update ? 73 : 31)); stack.set(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, !update);
+        stack.set(DataComponents.BASE_COLOR, net.minecraft.world.item.DyeColor.byId(index % 16));
         return stack;
     }
     public static final List<String> TYPES = List.of("candle", "white_candle", "orange_candle", "magenta_candle", "light_blue_candle",
@@ -78,6 +81,20 @@ public final class ClientScene {
         player.getAbilities().flying = true; player.onUpdateAbilities();
     }
     public static void tick(MinecraftServer server) {
+        if (!Boolean.getBoolean("iaf.probe.multiplayer") && server.getPlayerList().getPlayerCount() > 0 && ++releaseTicks == 80) {
+            var level = server.overworld();
+            for (boolean wall : new boolean[]{false, true}) {
+                BlockPos pos = new BlockPos(38, 104, wall ? 8 : 4);
+                BlockPos support = wall ? pos.north() : pos.below();
+                level.setBlockAndUpdate(pos.below(4), Blocks.STONE.defaultBlockState());
+                level.setBlockAndUpdate(support, Blocks.STONE.defaultBlockState());
+                var block = wall ? ModVanillaLights.light_metal_ironage_sconce_wall_lava_iron.get()
+                        : ModVanillaLights.light_metal_ironage_sconce_floor_lava_iron.get();
+                level.setBlockAndUpdate(pos, block.defaultBlockState().setValue(CandleSconceBlock.DIRECTION, Direction.SOUTH));
+                level.setBlockAndUpdate(support, Blocks.AIR.defaultBlockState());
+            }
+            System.out.println("IAF_CLIENT_LAVA_RELEASED holders=2");
+        }
         if (!Boolean.getBoolean("iaf.probe.multiplayer")) return;
         int players = server.getPlayerList().getPlayerCount();
         observers = Math.max(observers, players);

@@ -131,14 +131,18 @@ final class SavedWorldProbe {
     private void verifyBlock(MinecraftServer server, JsonObject expected, boolean afterTicks) throws Exception {
         BlockState actual = level(server, expected).getBlockState(pos(expected));
         String id = BuiltInRegistries.BLOCK.getKey(actual.getBlock()).toString();
-        String saved = expected.get("id").getAsString();
+        String saved = fixedSconce(expected.get("id").getAsString(), expected);
         boolean matches = id.equals(saved);
         if (afterTicks && expected.has("alternatives"))
-            for (JsonElement alternative : expected.getAsJsonArray("alternatives")) matches |= id.equals(alternative.getAsString());
-        if (afterTicks && saved.matches("ironagefurniture:light_metal_ironage_sconce_(floor|wall)_torch_iron(_unlit)?"))
+            for (JsonElement alternative : expected.getAsJsonArray("alternatives")) matches |= id.equals(fixedSconce(alternative.getAsString(), expected));
+        if (afterTicks && saved.matches("ironagefurniture:light_metal_ironage_sconce_(floor|wall)_torch_[a-z_]+"))
             matches |= saved.replaceFirst("_unlit$", "").equals(id.replaceFirst("_unlit$", ""));
         require(matches, "Block identity changed: " + expected + " -> " + actual);
         for (Map.Entry<String, JsonElement> property : expected.getAsJsonObject("properties").entrySet()) {
+            if (saved.startsWith("ironagefurniture:light_metal_ironage_sconce_") && property.getKey().equals("metal")) {
+                require(actual.getBlock().getStateDefinition().getProperty("metal") == null, "Metal is now a saved block identity");
+                continue;
+            }
             Property<?> key = actual.getBlock().getStateDefinition().getProperty(property.getKey());
             boolean enteredWater = afterTicks && expected.has("adjacent_source_water") && property.getKey().equals("waterlogged")
                     && key != null && propertyName(actual, key).equals("true");
@@ -165,6 +169,12 @@ final class SavedWorldProbe {
                 require(ItemStack.matches(expectedStack(level(server, expected), expected.getAsJsonArray("candles").get(slot).getAsJsonObject(),
                         SharedConstants.getCurrentVersion().dataVersion().version()), candles.get(slot)), "Exact migrated candle stack");
         }
+    }
+    private static String fixedSconce(String id, JsonObject expected) {
+        if (!id.startsWith("ironagefurniture:light_metal_ironage_sconce_") || !expected.getAsJsonObject("properties").has("metal")) return id;
+        String metal = expected.getAsJsonObject("properties").get("metal").getAsString();
+        String token = java.util.Set.of("iron", "gold", "copper").contains(metal) ? metal : "basemetals_" + metal;
+        return id.replaceFirst("_iron(?=_|$)", "_" + token);
     }
     private void compareStack(ServerLevel level, JsonObject source, ItemStack actual) throws Exception {
         compareStack(level, source, actual, sourceVersion);

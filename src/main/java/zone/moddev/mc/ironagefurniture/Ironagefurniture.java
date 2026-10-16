@@ -66,7 +66,6 @@ public class Ironagefurniture
 		NeoForge.EVENT_BUS.register(new CreativeModeBreakTracker());
         
         modContainer.registerConfig(ModConfig.Type.SYNCED, IronAgeFurnitureConfiguration.SYNCED_SPEC);
-        modContainer.registerConfig(ModConfig.Type.CLIENT, IronAgeFurnitureConfiguration.CLIENT_SPEC);
         
     }
     

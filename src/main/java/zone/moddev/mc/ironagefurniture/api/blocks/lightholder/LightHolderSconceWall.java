@@ -1,8 +1,5 @@
 package zone.moddev.mc.ironagefurniture.api.blocks.lightholder;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import zone.moddev.mc.ironagefurniture.init.ModVanillaLights;
@@ -11,14 +8,11 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.storage.loot.LootParams.Builder;
 import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ScheduledTickAccess;
@@ -62,19 +56,6 @@ public class LightHolderSconceWall extends LightHolderSconceFloor {
 		}
 
 		_shapes = builder.build();
-	}
-
-	@Override
-	public List<ItemStack> getDrops(BlockState state, Builder builder) {
-		List<ItemStack> drops;
-		drops = new ArrayList<ItemStack>();
-
-		Item item = ModVanillaLights.light_metal_ironage_sconce_floor_empty_iron.get().asItem();
-		ItemStack stack = new ItemStack(item, 1);
-
-		drops.add(stack);
-
-		return drops;
 	}
 
 	@Override

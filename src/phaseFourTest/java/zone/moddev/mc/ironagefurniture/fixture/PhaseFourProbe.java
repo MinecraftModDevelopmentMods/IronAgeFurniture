@@ -85,6 +85,16 @@ public final class PhaseFourProbe {
     private void run(MinecraftServer server) {
         try {
             ServerLevel level = server.overworld();
+            if (Boolean.getBoolean("iaf.probe.shieldInteractionOnly")) {
+                ShieldChairInteractionProbe.run(level, this::check);
+                System.out.println("IAF_PHASE4_PROBE_PASS checks=" + checks);
+                return;
+            }
+            if (Boolean.getBoolean("iaf.probe.sconceMigrationOnly")) {
+                zone.moddev.mc.ironagefurniture.fixture.migration.MigrationProbe.run(level, this::check);
+                System.out.println("IAF_PHASE4_PROBE_PASS checks=" + checks);
+                return;
+            }
             if (Boolean.getBoolean("iaf.probe.roundTrip")) {
                 WorldRoundTripProbe.run(level, this::check);
                 System.out.println("IAF_PHASE4_PROBE_PASS checks=" + checks);
@@ -153,8 +163,10 @@ public final class PhaseFourProbe {
             zone.moddev.mc.ironagefurniture.fixture.migration.MigrationProbe.run(level, this::check);
             FurnitureProbe.run(level, this::check);
             PlayerMiningProbe.run(level, this::check);
+            SconceDropProbe.run(level, this::check);
             PlayerLightInteractionProbe.run(level, this::check);
             PlayerFurnitureInteractionProbe.run(level, this::check);
+            ShieldChairInteractionProbe.run(level, this::check);
             RecipeBookProbe.run(level, this::check);
             System.out.println("IAF_PHASE4_PROBE_PASS checks=" + checks);
         } catch (Throwable failure) {

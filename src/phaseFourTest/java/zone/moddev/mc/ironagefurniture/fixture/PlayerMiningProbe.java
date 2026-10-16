@@ -26,6 +26,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import zone.moddev.mc.ironagefurniture.api.SconceMetalData;
 import zone.moddev.mc.ironagefurniture.api.blocks.base.FurnitureBlock;
 import zone.moddev.mc.ironagefurniture.api.entity.ReleasedLavaLamp;
@@ -47,8 +48,8 @@ final class PlayerMiningProbe {
             BlockPos support = wall ? pos.relative(facing.getOpposite()) : pos.below();
             Block block = wall ? ModVanillaLights.light_metal_ironage_sconce_wall_lava_iron.get()
                     : ModVanillaLights.light_metal_ironage_sconce_floor_lava_iron.get();
-            BlockState state = block.defaultBlockState().setValue(FurnitureBlock.DIRECTION, facing)
-                    .setValue(FurnitureBlock.WATERLOGGED, false).setValue(SconceMetalData.METAL, metal);
+            BlockState state = SconceMetalData.withMetal(block.defaultBlockState().setValue(FurnitureBlock.DIRECTION, facing)
+                    .setValue(FurnitureBlock.WATERLOGGED, false), metal);
             level.setBlockAndUpdate(pos.below(3), Blocks.STONE.defaultBlockState());
             level.setBlockAndUpdate(support, Blocks.STONE.defaultBlockState());
             level.setBlockAndUpdate(pos, state);
@@ -60,7 +61,7 @@ final class PlayerMiningProbe {
             check.accept(!state.getShape(level, pos).isEmpty() && state.getShape(level, pos).bounds().getYsize() > 0,
                     "Lava-sconce hand-hit particles have nonempty bounds");
             check.accept(state.getDestroyProgress(player, level, pos) > 0, "Lava sconces are mineable with hands and tools");
-            float ironProgress = state.setValue(SconceMetalData.METAL, SconceMetal.IRON).getDestroyProgress(player, level, pos);
+            float ironProgress = SconceMetalData.withMetal(state, SconceMetal.IRON).getDestroyProgress(player, level, pos);
             check.accept(Math.abs(state.getDestroyProgress(player, level, pos) - ironProgress / metal.hardness(1)) < .00001F,
                     "Mining speed follows the saved metal's relative hardness");
             check.accept(player.gameMode.destroyBlock(pos), "Normal player mining removes the lava sconce");
@@ -68,6 +69,19 @@ final class PlayerMiningProbe {
             ItemStack frame = SconceMetalData.frame(state);
             check.accept(drops.stream().filter(item -> item.getItem().is(frame.getItem())).mapToInt(item -> item.getItem().getCount()).sum() == 1,
                     "Normal player mining returns the correct metal frame");
+            var droppedFrame = drops.stream().filter(item -> item.getItem().is(frame.getItem())).findFirst().orElseThrow();
+            check.accept(droppedFrame.fireImmune() && !droppedFrame.hurtServer(level, level.damageSources().inFire(), 10)
+                    && !droppedFrame.isRemoved(), "Shattered-lamp fire cannot destroy the dropped metal frame");
+            if (!wall && !silk) {
+                droppedFrame.setNoGravity(true);
+                for (int tick = 0; tick < 120; tick++) {
+                    droppedFrame.setPos(pos.getX() + .5, pos.getY() + .1, pos.getZ() + .5);
+                    droppedFrame.setDeltaMovement(Vec3.ZERO);
+                    droppedFrame.tick();
+                }
+                check.accept(!droppedFrame.isRemoved() && droppedFrame.getItem().is(frame.getItem()),
+                        "The original-metal frame still exists after six seconds in the lamp's fire");
+            }
             int lamps = drops.stream().filter(item -> item.getItem().is(ModVanillaLights.light_metal_ironage_block_floor_lava_clear.get().asItem()))
                     .mapToInt(item -> item.getItem().getCount()).sum();
             check.accept(lamps == (silk ? 1 : 0), "Only Silk Touch returns an intact lamp");
@@ -95,8 +109,8 @@ final class PlayerMiningProbe {
             level.setBlockAndUpdate(support, Blocks.STONE.defaultBlockState());
             Block block = twin ? PhaseFourLighting.twin(wall, lit) : BuiltInRegistries.BLOCK.getValue(net.minecraft.resources.Identifier.parse(
                     "ironagefurniture:light_metal_ironage_sconce_" + (wall ? "wall" : "floor") + "_torch_iron" + (lit ? "" : "_unlit")));
-            BlockState state = block.defaultBlockState().setValue(FurnitureBlock.DIRECTION, facing)
-                    .setValue(FurnitureBlock.WATERLOGGED, wet).setValue(SconceMetalData.METAL, metal);
+            BlockState state = SconceMetalData.withMetal(block.defaultBlockState().setValue(FurnitureBlock.DIRECTION, facing)
+                    .setValue(FurnitureBlock.WATERLOGGED, wet), metal);
             level.setBlockAndUpdate(pos, state);
             check.accept(!state.getShape(level, pos).isEmpty(), "Single/twin torch hit particles have bounds in every wet and lit state");
             check.accept(player.gameMode.destroyBlock(pos), "Normal hand mining removes single/twin torch holders");

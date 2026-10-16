@@ -16,6 +16,8 @@ import zone.moddev.mc.ironagefurniture.api.enumerations.UpholsteryColour;
 public final class MigrationProbe {
     public static void run(ServerLevel level, BiConsumer<Boolean, String> check) {
         numericStates(check);
+        NumericSconceMigrationProbe.run(level, check);
+        SconceMigrationProbe.run(level, check);
         denseCandlePalette(check);
         oldShieldPlayer(level, check);
         cfmContracts(level, check);
@@ -71,7 +73,7 @@ public final class MigrationProbe {
             root.getCompoundOrEmpty("Level").getListOrEmpty("TileEntities").add(metal);
             NativeLegacyBridge.prepareChunk(root, 2730); NativeLegacyBridge.finishChunk(root);
             CompoundTag state = cell(root), properties = state.getCompoundOrEmpty("Properties");
-            check.accept(properties.getStringOr("metal", "").equals("antimony"), "Candle import preserves metal");
+            check.accept(state.getStringOr("Name", "").endsWith("_candle_basemetals_antimony") && !properties.contains("metal"), "Candle import preserves metal as a block identity");
             check.accept(properties.getStringOr("lit", "").equals(Boolean.toString(lit)), "Candle import preserves light");
             CompoundTag stored = root.getCompoundOrEmpty("Level").getListOrEmpty("TileEntities").getCompoundOrEmpty(0);
             check.accept(stored.getStringOr("id", "").equals("ironagefurniture:candle_sconce") && stored.getListOrEmpty("Candles").size() == count, "Old count becomes exact stored candles");
@@ -293,7 +295,7 @@ public final class MigrationProbe {
     private static CompoundTag tile(String id) {
         CompoundTag tile = new CompoundTag(); tile.putString("id", id); tile.putInt("x", 0); tile.putInt("y", 96); tile.putInt("z", 0); return tile;
     }
-    private static CompoundTag chunk(String id, boolean modern) {
+    static CompoundTag chunk(String id, boolean modern) {
         CompoundTag root = new CompoundTag(), level = new CompoundTag(), section = new CompoundTag(), state = new CompoundTag(), properties = new CompoundTag();
         root.putInt("DataVersion", modern ? 5006 : 2730); level.putInt("xPos", 0); level.putInt("zPos", 0);
         properties.putString("facing", "north"); properties.putString("waterlogged", "false");
@@ -307,7 +309,7 @@ public final class MigrationProbe {
         if (modern) { root.merge(level); } else root.put("Level", level);
         return root;
     }
-    private static CompoundTag cell(CompoundTag root) {
+    static CompoundTag cell(CompoundTag root) {
         CompoundTag section = root.getCompoundOrEmpty("Level").getListOrEmpty("Sections").getCompoundOrEmpty(0);
         ListTag palette = section.getListOrEmpty("Palette");
         int bits = Math.max(4, 32 - Integer.numberOfLeadingZeros(palette.size() - 1));

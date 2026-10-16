@@ -31,7 +31,7 @@ final class LightingProbe {
             Block[] blocks = {wall ? ModVanillaLights.light_metal_ironage_sconce_wall_torch_iron.get() : ModVanillaLights.light_metal_ironage_sconce_floor_torch_iron.get(),
                     PhaseFourLighting.twin(wall, true), wall ? PhaseFourLighting.WALL_CANDLES.get() : PhaseFourLighting.FLOOR_CANDLES.get()};
             for (Block block : blocks) {
-                BlockState state = block.defaultBlockState().setValue(FurnitureBlock.DIRECTION, facing).setValue(SconceMetalData.METAL, metal).setValue(FurnitureBlock.WATERLOGGED, false);
+                BlockState state = SconceMetalData.withMetal(block.defaultBlockState().setValue(FurnitureBlock.DIRECTION, facing), metal).setValue(FurnitureBlock.WATERLOGGED, false);
                 level.setBlockAndUpdate(pos, state);
                 if (level.getBlockEntity(pos) instanceof CandleSconceBlockEntity storage) {
                     check.accept(storage.insert(new ItemStack(Items.CANDLE)), "Insert first candle");
@@ -84,8 +84,8 @@ final class LightingProbe {
                     : ModVanillaLights.light_metal_ironage_sconce_floor_redtorch_iron.get()};
             for (Block light : lights) {
                 level.setBlockAndUpdate(support, Blocks.STONE.defaultBlockState());
-                BlockState original = light.defaultBlockState().setValue(FurnitureBlock.DIRECTION, facing)
-                        .setValue(SconceMetalData.METAL, metal).setValue(FurnitureBlock.WATERLOGGED, false);
+                BlockState original = SconceMetalData.withMetal(light.defaultBlockState().setValue(FurnitureBlock.DIRECTION, facing)
+                        , metal).setValue(FurnitureBlock.WATERLOGGED, false);
                 level.setBlockAndUpdate(pos, original);
                 level.setBlockAndUpdate(support, Blocks.REDSTONE_BLOCK.defaultBlockState());
                 level.getBlockState(pos).tick(level, pos, level.getRandom());

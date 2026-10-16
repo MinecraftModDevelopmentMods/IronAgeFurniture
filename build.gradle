@@ -9,6 +9,7 @@ plugins {
 
 // Start here for toolchains, dependencies and local Minecraft launch settings.
 apply from: 'gradle/build-environment.gradle'
+apply from: 'gradle/manual-client-runs.gradle'
 
 // Metadata, packaging and publication checks are kept together.
 apply from: 'gradle/artifacts.gradle'

@@ -28,6 +28,8 @@ public final class MetalSconceRenderer implements BlockEntityRenderer<MetalSconc
     private static final double[][] WALL = {{1.5,9,6.5,2.5,10,9.5},{5.5,9,6.5,6.5,10,9.5},
             {2.5,9,9.5,5.5,10,10.5},{2.5,9,5.5,5.5,10,6.5},{.5,2,7.5,2.5,3,8.5},
             {-.5,3,7.5,2.5,4,8.5},{-.5,10,7.5,2.5,11,8.5},{-.5,4,7.5,.5,10,8.5}};
+    private static final double[][] CANDLE_DISH = {{6,9,6,10,10,10},{6,10,5,10,11,6},
+            {6,10,10,10,11,11},{5,10,6,6,11,10},{10,10,6,11,11,10}};
     private final BlockModelResolver models;
     public MetalSconceRenderer(BlockEntityRendererProvider.Context context) { models = context.blockModelResolver(); }
     public static final class State extends BlockEntityRenderState {
@@ -35,7 +37,7 @@ public final class MetalSconceRenderer implements BlockEntityRenderer<MetalSconc
     }
     static final class Frame {
         final BlockModelRenderState material = new BlockModelRenderState();
-        boolean visible, wall;
+        boolean visible, wall, candleDish;
         int rotation;
         final BlockModelRenderState lamp = new BlockModelRenderState();
         boolean hasLamp;
@@ -44,6 +46,7 @@ public final class MetalSconceRenderer implements BlockEntityRenderer<MetalSconc
     static void extractFrame(Frame frame, BlockState state, BlockModelResolver models) {
         frame.visible = SconceMetalData.get(state).isBaseMetal();
         frame.wall = BuiltInRegistries.BLOCK.getKey(state.getBlock()).getPath().contains("sconce_wall");
+        frame.candleDish = state.getBlock() instanceof zone.moddev.mc.ironagefurniture.api.blocks.lightsource.phasefour.CandleSconceBlock;
         frame.hasLamp = state.getBlock() instanceof zone.moddev.mc.ironagefurniture.api.blocks.lightsource.phasefour.RockSaltSconce
                 && BuiltInRegistries.BLOCK.containsKey(zone.moddev.mc.ironagefurniture.api.blocks.lightsource.phasefour.RockSaltSconce.LAMP);
         if (frame.hasLamp) {
@@ -73,6 +76,18 @@ public final class MetalSconceRenderer implements BlockEntityRenderer<MetalSconc
             poses.translate(box[0]/16, box[1]/16, box[2]/16);
             poses.scale((float)(box[3]-box[0])/16, (float)(box[4]-box[1])/16, (float)(box[5]-box[2])/16);
             frame.material.submit(poses, collector, light, OverlayTexture.NO_OVERLAY, 0);
+            poses.popPose();
+        }
+        if (frame.candleDish) {
+            poses.pushPose();
+            if (frame.wall) poses.translate(-.25, 0, 0);
+            for (double[] box : CANDLE_DISH) {
+                poses.pushPose();
+                poses.translate(box[0]/16, box[1]/16, box[2]/16);
+                poses.scale((float)(box[3]-box[0])/16, (float)(box[4]-box[1])/16, (float)(box[5]-box[2])/16);
+                frame.material.submit(poses, collector, light, OverlayTexture.NO_OVERLAY, 0);
+                poses.popPose();
+            }
             poses.popPose();
         }
         poses.popPose();

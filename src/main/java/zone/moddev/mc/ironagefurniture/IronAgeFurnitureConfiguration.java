@@ -5,11 +5,9 @@ import net.neoforged.neoforge.common.ModConfigSpec;
 /** Server choices affect availability, never the identities stored in a world. */
 public final class IronAgeFurnitureConfiguration {
     public static final ModConfigSpec SYNCED_SPEC;
-    public static final ModConfigSpec CLIENT_SPEC;
     public static final ModConfigSpec.BooleanValue CLASSIC_CHAIRS, SHIELD_CHAIRS, STOOLS, BENCHES;
     public static final ModConfigSpec.BooleanValue WINGBACKS, THRONES, WOOD_BEDS, CANOPY_BEDS, LIGHTS;
     public static final ModConfigSpec.BooleanValue BASE_METALS, MINERALOGY, FORCE_CFM_CONVERSION;
-    public static final ModConfigSpec.BooleanValue HELD_CANDLE_EFFECTS;
 
     static {
         ModConfigSpec.Builder server = new ModConfigSpec.Builder();
@@ -30,18 +28,11 @@ public final class IronAgeFurnitureConfiguration {
                 .define("forceCfmChairConversion", false);
         server.pop();
         SYNCED_SPEC = server.build();
-        ModConfigSpec.Builder client = new ModConfigSpec.Builder();
-        HELD_CANDLE_EFFECTS = client.comment("Show flame and smoke above held vanilla candles. This does not add dynamic lighting.")
-                .define("heldCandleEffects", true);
-        CLIENT_SPEC = client.build();
     }
 
     public static boolean enabled(ModConfigSpec.BooleanValue value) {
         // Registry setup runs before a world loads its synchronised settings.
         return SYNCED_SPEC.isLoaded() ? value.get() : value.getDefault();
-    }
-    public static boolean heldCandleEffects() {
-        return CLIENT_SPEC.isLoaded() ? HELD_CANDLE_EFFECTS.get() : true;
     }
     private IronAgeFurnitureConfiguration() { }
 }

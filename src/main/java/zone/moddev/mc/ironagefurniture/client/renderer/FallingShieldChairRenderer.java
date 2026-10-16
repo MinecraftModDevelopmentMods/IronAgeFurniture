@@ -8,12 +8,9 @@ import net.minecraft.client.renderer.block.model.BlockDisplayContext;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
-import net.minecraft.client.renderer.item.ItemModelResolver;
-import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
-import net.minecraft.world.item.ItemDisplayContext;
 import zone.moddev.mc.ironagefurniture.api.blocks.base.FurnitureBlock;
 import zone.moddev.mc.ironagefurniture.api.entity.FallingShieldChair;
 
@@ -21,15 +18,15 @@ import zone.moddev.mc.ironagefurniture.api.entity.FallingShieldChair;
 public final class FallingShieldChairRenderer extends EntityRenderer<FallingShieldChair, FallingShieldChairRenderer.State> {
     private static final BlockDisplayContext DISPLAY = BlockDisplayContext.create();
     private final BlockModelResolver blocks;
-    private final ItemModelResolver items;
+    private final ShieldChairRenderer shields;
     public FallingShieldChairRenderer(EntityRendererProvider.Context context) {
         super(context);
         blocks = context.getBlockModelResolver();
-        items = context.getItemModelResolver();
+        shields = new ShieldChairRenderer(context.getModelSet(), context.getSprites());
     }
     public static final class State extends EntityRenderState {
         private final BlockModelRenderState frame = new BlockModelRenderState();
-        private final ItemStackRenderState shield = new ItemStackRenderState();
+        private ShieldChairRenderer.ShieldState shield = ShieldChairRenderer.extractShield(net.minecraft.world.item.ItemStack.EMPTY);
         private Direction facing = Direction.NORTH;
     }
     @Override public State createRenderState() { return new State(); }
@@ -37,13 +34,13 @@ public final class FallingShieldChairRenderer extends EntityRenderer<FallingShie
         super.extractRenderState(entity, state, partialTicks);
         blocks.update(state.frame, entity.visibleState(), DISPLAY);
         if (entity.visibleState().hasProperty(FurnitureBlock.DIRECTION)) state.facing = entity.visibleState().getValue(FurnitureBlock.DIRECTION);
-        items.updateForTopItem(state.shield, entity.shield(), ItemDisplayContext.FIXED, entity.level(), null, 0);
+        state.shield = ShieldChairRenderer.extractShield(entity.shield());
     }
     @Override public void submit(State state, PoseStack poses, SubmitNodeCollector collector, CameraRenderState camera) {
         poses.pushPose();
         poses.translate(-.5, 0, -.5);
         state.frame.submit(poses, collector, state.lightCoords, OverlayTexture.NO_OVERLAY, 0);
-        ShieldChairRenderer.submitShield(state.shield, state.facing, poses, collector, state.lightCoords);
+        shields.submitShield(state.shield, state.facing, poses, collector, state.lightCoords);
         poses.popPose();
         super.submit(state, poses, collector, camera);
     }

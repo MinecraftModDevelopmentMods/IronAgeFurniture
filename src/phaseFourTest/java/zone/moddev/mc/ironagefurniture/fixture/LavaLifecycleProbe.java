@@ -22,7 +22,7 @@ final class LavaLifecycleProbe {
         for (SconceMetal metal : SconceMetal.values()) for (boolean wall : new boolean[]{false, true})
                 for (Direction facing : Direction.Plane.HORIZONTAL) {
             var block = wall ? ModVanillaLights.light_metal_ironage_sconce_wall_lava_iron.get() : ModVanillaLights.light_metal_ironage_sconce_floor_lava_iron.get();
-            var state = block.defaultBlockState().setValue(FurnitureBlock.DIRECTION, facing).setValue(SconceMetalData.METAL, metal);
+            var state = SconceMetalData.withMetal(block.defaultBlockState().setValue(FurnitureBlock.DIRECTION, facing), metal);
             BlockPos support = wall ? pos.relative(facing.getOpposite()) : pos.below();
             level.setBlockAndUpdate(pos.below(3), Blocks.STONE.defaultBlockState());
             level.setBlockAndUpdate(support, Blocks.STONE.defaultBlockState()); level.setBlockAndUpdate(pos, state);
@@ -64,8 +64,13 @@ final class LavaLifecycleProbe {
         var lamps = level.getEntitiesOfClass(ReleasedLavaLamp.class, new AABB(pos).inflate(5));
         check.accept(lamps.size() == 1, "Exactly one lamp falls");
         var lamp = lamps.getFirst();
+        var saved = net.minecraft.world.level.storage.TagValueOutput.createWithContext(net.minecraft.util.ProblemReporter.DISCARDING, level.registryAccess());
+        lamp.save(saved);
+        lamp.discard();
+        lamp = new ReleasedLavaLamp(zone.moddev.mc.ironagefurniture.api.entity.Entities.RELEASED_LAVA_LAMP.get(), level);
+        lamp.load(net.minecraft.world.level.storage.TagValueInput.create(net.minecraft.util.ProblemReporter.DISCARDING, level.registryAccess(), saved.buildResult()));
         for (int tick = 0; tick < 80 && !lamp.isRemoved(); tick++) lamp.tick();
-        check.accept(lamp.isRemoved() && level.getBlockState(pos.below(2)).is(Blocks.FIRE), "The released lamp falls, shatters and ignites its landing");
+        check.accept(lamp.isRemoved() && level.getBlockState(pos.below(2)).is(Blocks.FIRE), "The saved/reloaded released lamp falls, shatters and ignites its landing");
     }
     private LavaLifecycleProbe() { }
 }

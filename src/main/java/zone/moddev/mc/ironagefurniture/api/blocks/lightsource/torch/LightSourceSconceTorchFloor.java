@@ -90,7 +90,7 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
         if (isLit() != next) replace(state, level, pos, next ? LitVariant() : UnlitVariant());
     }
     protected void replace(BlockState state, LevelAccessor level, BlockPos pos, Block block) {
-        level.setBlock(pos, block.defaultBlockState().withPropertiesOf(state), UPDATE_ALL);
+        level.setBlock(pos, zone.moddev.mc.ironagefurniture.api.SconceMetalData.transition(block, state), UPDATE_ALL);
     }
     @Override public boolean placeLiquid(LevelAccessor level, BlockPos pos, BlockState state, FluidState fluid) {
         if (state.getValue(WATERLOGGED) || !fluid.is(Fluids.WATER)) return false;
@@ -98,7 +98,7 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
             Block target = CanEx() ? UnlitVariant() : this;
             replace(state.setValue(WATERLOGGED, true), level, pos, target);
             level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
-            level.scheduleTick(pos, target, 2);
+            level.scheduleTick(pos, level.getBlockState(pos).getBlock(), 2);
         }
         return true;
     }
@@ -117,7 +117,7 @@ public class LightSourceSconceTorchFloor extends LightHolderSconceFloor {
             return InteractionResult.SUCCESS_SERVER;
         }
         if (held.isEmpty() || held.is(LightDrop().asItem())) {
-            BlockState empty = EmptyVariant().defaultBlockState().withPropertiesOf(state);
+            BlockState empty = zone.moddev.mc.ironagefurniture.api.SconceMetalData.transition(EmptyVariant(), state);
             if (InvertDirection()) empty = empty.setValue(DIRECTION, state.getValue(DIRECTION).getOpposite());
             level.setBlock(pos, empty, UPDATE_ALL);
             if (!player.isCreative()) {

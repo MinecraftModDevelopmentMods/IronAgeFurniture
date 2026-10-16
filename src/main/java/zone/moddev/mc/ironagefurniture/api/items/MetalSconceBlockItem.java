@@ -9,19 +9,20 @@ import net.minecraft.world.level.block.state.BlockState;
 import zone.moddev.mc.ironagefurniture.api.SconceMetalData;
 import zone.moddev.mc.ironagefurniture.api.enumerations.SconceMetal;
 
-/** Normal metal-specific items place the same persistent sconce frame. */
+/** The existing item IDs now place the matching fixed-metal frame. */
 public final class MetalSconceBlockItem extends BlockItem {
     private final SconceMetal metal;
     public MetalSconceBlockItem(Block block, Properties properties, SconceMetal metal) {
-        super(block, properties);
+        // A shattered lava lamp must not burn away its surviving metal frame.
+        super(block, properties.fireResistant());
         this.metal = metal;
     }
     public SconceMetal getMetal() { return metal; }
     @Override public void registerBlocks(Map<Block, Item> map, Item item) {
-        if (metal == SconceMetal.IRON) super.registerBlocks(map, item);
+        super.registerBlocks(map, item);
     }
     @Override protected BlockState getPlacementState(BlockPlaceContext context) {
         BlockState state = super.getPlacementState(context);
-        return state == null ? null : state.setValue(SconceMetalData.METAL, metal);
+        return state == null ? null : SconceMetalData.withMetal(state, metal);
     }
 }

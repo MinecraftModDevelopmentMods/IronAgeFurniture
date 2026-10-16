@@ -44,7 +44,7 @@ public final class TwinTorchSconce extends LightHolderSconceFloor {
     public boolean isWall() { return wall; }
     public boolean isLit() { return lit; }
     private void replace(LevelAccessor level, BlockPos pos, BlockState state, boolean lit) {
-        level.setBlock(pos, PhaseFourLighting.twin(wall, lit).defaultBlockState().withPropertiesOf(state), Block.UPDATE_ALL);
+        level.setBlock(pos, zone.moddev.mc.ironagefurniture.api.SconceMetalData.transition(PhaseFourLighting.twin(wall, lit), state), Block.UPDATE_ALL);
     }
     @Override protected InteractionResult ActivateSconce(BlockState state, Level level, BlockPos pos,
             Player player, InteractionHand hand, BlockHitResult hit) {

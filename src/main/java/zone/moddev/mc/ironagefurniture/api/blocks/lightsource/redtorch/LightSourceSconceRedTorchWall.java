@@ -114,7 +114,7 @@ public class LightSourceSconceRedTorchWall extends LightSourceSconceTorchWall {
 			return;
 
 		level.setBlock(pos,
-			UnlitVariant().withPropertiesOf(state),
+			zone.moddev.mc.ironagefurniture.api.SconceMetalData.transition(UnlitVariant(), state),
 			Block.UPDATE_ALL);
 
 		if (!isToggledTooFrequently(level, pos, true))

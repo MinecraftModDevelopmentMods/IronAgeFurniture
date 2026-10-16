@@ -55,7 +55,9 @@ public final class CandleSconceRenderer implements BlockEntityRenderer<CandleSco
         MetalSconceRenderer.submitFrame(state.frame, poses, collector, state.lightCoords);
         for (Part part : state.candles) {
             poses.pushPose();
-            poses.translate(part.origin.x - .5, part.origin.y, part.origin.z - .5);
+            poses.translate(part.origin.x, part.origin.y, part.origin.z);
+            poses.scale(CandleSconceBlock.CANDLE_SCALE, CandleSconceBlock.CANDLE_SCALE, CandleSconceBlock.CANDLE_SCALE);
+            poses.translate(-.5, 0, -.5);
             part.model.submit(poses, collector, state.lightCoords, OverlayTexture.NO_OVERLAY, 0);
             poses.popPose();
         }

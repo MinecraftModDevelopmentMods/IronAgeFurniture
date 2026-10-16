@@ -98,7 +98,7 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 		Direction clickedFace = context.getClickedFace();
 
 		if (clickedFace.getAxis().isHorizontal()) {
-			BlockState wallState = GetWallVariant().defaultBlockState().setValue(DIRECTION, clickedFace).setValue(WATERLOGGED, levelReader.getFluidState(clickedPos).getType() == Fluids.WATER);
+			BlockState wallState = zone.moddev.mc.ironagefurniture.api.SconceMetalData.transition(GetWallVariant(), defaultBlockState()).setValue(DIRECTION, clickedFace).setValue(WATERLOGGED, levelReader.getFluidState(clickedPos).getType() == Fluids.WATER);
 			
 			if (wallState.canSurvive(levelReader, clickedPos)) {
 				return wallState;
@@ -207,7 +207,7 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 
 	@NotNull
 	private static InteractionResult getInteractionResult(BlockState state, Level world, BlockPos pos, Player player, ItemStack stackInHand, Block sconce) {
-		world.setBlock(pos, sconce.defaultBlockState().withPropertiesOf(state), UPDATE_ALL);
+		world.setBlock(pos, zone.moddev.mc.ironagefurniture.api.SconceMetalData.transition(sconce, state), UPDATE_ALL);
 
 		if (!player.isCreative())
 			stackInHand.setCount(stackInHand.getCount() - 1);

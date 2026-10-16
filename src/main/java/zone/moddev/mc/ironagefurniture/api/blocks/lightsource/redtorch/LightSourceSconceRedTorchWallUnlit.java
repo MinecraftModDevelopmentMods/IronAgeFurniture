@@ -41,7 +41,7 @@ public class LightSourceSconceRedTorchWallUnlit extends LightSourceSconceRedTorc
 			list.remove(0);
 
 		level.setBlock(pos,
-				ModVanillaLights.light_metal_ironage_sconce_wall_redtorch_iron.get().withPropertiesOf(state),
+				zone.moddev.mc.ironagefurniture.api.SconceMetalData.transition(ModVanillaLights.light_metal_ironage_sconce_wall_redtorch_iron.get(), state),
 				Block.UPDATE_ALL);
 	}
 

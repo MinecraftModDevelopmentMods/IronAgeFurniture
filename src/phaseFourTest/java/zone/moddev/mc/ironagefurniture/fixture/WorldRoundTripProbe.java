@@ -47,8 +47,8 @@ final class WorldRoundTripProbe {
                 for (Direction facing : Direction.Plane.HORIZONTAL) for (int colour = 0; colour < colours.size(); colour++) {
             BlockPos pos = position(index++);
             level.setBlockAndUpdate(wall ? pos.relative(facing.getOpposite()) : pos.below(), Blocks.STONE.defaultBlockState());
-            BlockState state = (wall ? PhaseFourLighting.WALL_CANDLES.get() : PhaseFourLighting.FLOOR_CANDLES.get()).defaultBlockState()
-                    .setValue(FurnitureBlock.DIRECTION, facing).setValue(SconceMetalData.METAL, metal);
+            BlockState state = SconceMetalData.withMetal((wall ? PhaseFourLighting.WALL_CANDLES.get() : PhaseFourLighting.FLOOR_CANDLES.get()).defaultBlockState()
+                    .setValue(FurnitureBlock.DIRECTION, facing), metal);
             level.setBlockAndUpdate(pos, state);
             CandleSconceBlockEntity storage = (CandleSconceBlockEntity)level.getBlockEntity(pos);
             for (int slot = 0; slot < 4; slot++) {
@@ -109,8 +109,18 @@ final class WorldRoundTripProbe {
         check.accept(records.size() > 4000, "Disk-round-trip expectations are complete");
         for (int index = 0; index < records.size(); index++) {
             CompoundTag expected = records.getCompoundOrEmpty(index);
+            CompoundTag state = expected.getCompoundOrEmpty("State");
+            String idKey = state.contains("id") ? "id" : "Name", propertiesKey = state.contains("properties") ? "properties" : "Properties";
+            String id = state.getStringOr(idKey, "");
+            CompoundTag properties = state.getCompoundOrEmpty(propertiesKey);
+            if (id.startsWith("ironagefurniture:light_metal_ironage_sconce_") && properties.contains("metal")) {
+                String metal = properties.getStringOr("metal", "iron");
+                String token = java.util.Set.of("iron", "gold", "copper").contains(metal) ? metal : "basemetals_" + metal;
+                state.putString(idKey, id.replaceFirst("_iron(?=_|$)", "_" + token)); properties.remove("metal");
+            }
             BlockPos pos = new BlockPos(expected.getIntOr("X", 0), expected.getIntOr("Y", 0), expected.getIntOr("Z", 0));
-            check.accept(expected.equals(record(level, pos)), "Exact state and complete stored components survive disk reload at " + pos);
+            CompoundTag actual = record(level, pos);
+            check.accept(expected.equals(actual), "Exact state and complete stored components survive disk reload at " + pos + " expected=" + expected + " actual=" + actual);
         }
         System.out.println("IAF_ROUNDTRIP_PASS blocks=" + records.size());
     }

@@ -137,14 +137,18 @@ public final class NativeLegacyBridge {
         commit(root, level);
     }
     public static CompoundTag finishChunk(CompoundTag root) {
+        root.remove("IronAgeFurniturePreparedDataVersion");
+        root.getCompoundOrEmpty("Level").remove("IronAgeFurniturePreparedDataVersion");
         if (!root.contains("Level") && !root.contains("sections")) { finishItems(root); return root; }
         CompoundTag level = view(root);
         restoreTileColours(level);
         LegacyWorldDataHook.normalizeLegacyVanillaTileEntityIds(level);
         LegacyPaddedPaletteMigration.migrate(level);
+        LegacyUpholsteryMigration.prepareMetalTiles(level);
         LegacyUpholsteryMigration.finishTiles(level);
         candles(level, false);
         normalizeUnusedLegacyPaletteEntries(level);
+        LegacySconceMigration.migrate(level);
         for (Tag value : level.getListOrEmpty("TileEntities")) {
             CompoundTag tile = (CompoundTag)value;
             if (tile.getBooleanOr(CANDLE_TILE, false)) {
@@ -168,7 +172,8 @@ public final class NativeLegacyBridge {
                 var old = net.minecraft.resources.Identifier.tryParse(tick.getStringOr("i", ""));
                 if (old == null) continue;
                 boolean padded = old.getNamespace().equals("ironagefurniture") && LegacyPaddedBenchIds.isLegacyPaddedPath(old.getPath());
-                if (!padded && net.minecraft.core.registries.BuiltInRegistries.BLOCK.containsKey(old)) continue;
+                boolean sconce = old.getNamespace().equals("ironagefurniture") && old.getPath().startsWith("light_metal_ironage_sconce_");
+                if (!padded && !sconce && net.minecraft.core.registries.BuiltInRegistries.BLOCK.containsKey(old)) continue;
                 if (!old.getNamespace().equals("ironagefurniture") && CfmChairMigration.legacyTarget(old.toString()) == null) continue;
                 String actual = paletteNameAt(level, tick.getIntOr("x", 0), tick.getIntOr("y", 0), tick.getIntOr("z", 0));
                 var current = net.minecraft.resources.Identifier.tryParse(actual);
@@ -209,7 +214,9 @@ public final class NativeLegacyBridge {
                     current = old.getPath().startsWith("light_metal_ironage_candle_") && !wall
                             ? net.minecraft.resources.Identifier.withDefaultNamespace("candle")
                             : net.minecraft.resources.Identifier.fromNamespaceAndPath("ironagefurniture",
-                                "light_metal_ironage_sconce_" + (wall ? "wall" : "floor") + "_candle_iron");
+                                zone.moddev.mc.ironagefurniture.api.SconceMetalData.blockPath("light_metal_ironage_sconce_"
+                                    + (wall ? "wall" : "floor") + "_candle_iron",
+                                    zone.moddev.mc.ironagefurniture.api.SconceMetalData.material(old.getPath())));
                 }
                 if (net.minecraft.core.registries.BuiltInRegistries.BLOCK.containsKey(current)) state.putString("Name", current.toString());
             }
@@ -299,9 +306,10 @@ public final class NativeLegacyBridge {
                     properties.putString("candles", Integer.toString(Math.max(1, Math.min(4, count)))); properties.putString("lit", Boolean.toString(lit));
                 } else {
                     count = Math.max(1, Math.min(4, count));
-                    state.putString("Name", "ironagefurniture:light_metal_ironage_sconce_" + (wall ? "wall" : "floor") + "_candle_iron");
+                    state.putString("Name", "ironagefurniture:" + zone.moddev.mc.ironagefurniture.api.SconceMetalData.blockPath(
+                            "light_metal_ironage_sconce_" + (wall ? "wall" : "floor") + "_candle_iron",
+                            zone.moddev.mc.ironagefurniture.api.SconceMetalData.material(id.substring("ironagefurniture:".length()))));
                     properties.putString("candles", Integer.toString(count)); properties.putString("lit", Boolean.toString(lit));
-                    if (!properties.contains("metal")) properties.putString("metal", "iron");
                     if (tile == null) {
                         tile = new CompoundTag(); tile.putInt("x", x); tile.putInt("y", y); tile.putInt("z", z);
                         tiles.add(tile); byPosition.put(position(tile), tile);

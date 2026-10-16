@@ -36,7 +36,6 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import zone.moddev.mc.ironagefurniture.api.CandleInventory;
 import zone.moddev.mc.ironagefurniture.api.SconceMetalData;
-import zone.moddev.mc.ironagefurniture.api.blocks.furniture.UprightFurnitureShapes;
 import zone.moddev.mc.ironagefurniture.api.blocks.lightholder.LightHolderSconceFloor;
 import zone.moddev.mc.ironagefurniture.api.tile.CandleSconceBlockEntity;
 import zone.moddev.mc.ironagefurniture.init.RegistrationProperties;
@@ -45,6 +44,7 @@ import zone.moddev.mc.ironagefurniture.init.RegistrationProperties;
 public final class CandleSconceBlock extends LightHolderSconceFloor implements EntityBlock {
     public static final IntegerProperty COUNT = IntegerProperty.create("candles", 1, 4);
     public static final BooleanProperty LIT = BooleanProperty.create("lit");
+    public static final float CANDLE_SCALE = .75F;
     private final boolean wall;
 
     public CandleSconceBlock(String name, boolean wall) {
@@ -137,29 +137,29 @@ public final class CandleSconceBlock extends LightHolderSconceFloor implements E
         return SconceMetalData.frame(state);
     }
     @Override public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
-        VoxelShape shape = wall ? Block.box(-.5, 2, 4.5, 7.5, 16, 11.5) : Block.box(4.5, 0, 4.5, 11.5, 15, 11.5);
+        VoxelShape shape = wall ? Block.box(-.5, 2, 5, 7, 11, 11) : Block.box(5, 0, 5, 11, 11, 11);
         return zone.moddev.mc.ironagefurniture.api.blocks.base.FurnitureBlock.rotate(shape, state.getValue(DIRECTION));
     }
     @Override protected VoxelShape getOcclusionShape(BlockState state) { return net.minecraft.world.phys.shapes.Shapes.empty(); }
 
     public Vec3 candleOrigin(BlockState state, int slot, int count) {
-        double x = count == 1 ? .5 : .5 + ((slot & 1) == 0 ? -.11 : .11);
-        double z = count <= 2 ? .5 : .5 + (slot < 2 ? -.11 : .11);
+        // Four small candles fit inside the original dish's four-pixel centre.
+        double spacing = 1.25D / 16D;
+        double x = count == 1 || count == 3 && slot == 2 ? .5 : .5 + ((slot & 1) == 0 ? -spacing : spacing);
+        double z = count <= 2 ? .5 : .5 + (slot < 2 ? -spacing : spacing);
         if (wall) x -= .25;
         oshi.util.tuples.Pair<Double, Double> point = zone.moddev.mc.ironagefurniture.api.blocks.base.FurnitureBlock.rotate(x, z, state.getValue(DIRECTION));
-        return new Vec3(point.getA(), (wall ? 10D : 9D) / 16D, point.getB());
+        return new Vec3(point.getA(), 10D / 16D, point.getB());
     }
-    private static double[] rotatePoint(double x, double z, Direction facing) {
-        int turns = (facing.get2DDataValue() + 2) & 3;
-        for (int turn = 0; turn < turns; turn++) { double oldX = x; x = 1 - z; z = oldX; }
-        return new double[]{x, z};
+    public Vec3 candleWick(BlockState state, int slot, int count) {
+        return candleOrigin(state, slot, count).add(0, 7D / 16D * CANDLE_SCALE, 0);
     }
     @Override public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {
         if (!state.getValue(LIT)) return;
         if (!(world.getBlockEntity(pos) instanceof CandleSconceBlockEntity storage)) return;
         int count = storage.candles().size();
         for (int slot = 0; slot < count; slot++) {
-            Vec3 wick = candleOrigin(state, slot, count).add(0, 8D / 16D, 0);
+            Vec3 wick = candleWick(state, slot, count);
             world.addParticle(ParticleTypes.SMALL_FLAME, pos.getX() + wick.x, pos.getY() + wick.y, pos.getZ() + wick.z, 0, 0, 0);
             if (random.nextInt(4) == 0) world.addParticle(ParticleTypes.SMOKE, pos.getX() + wick.x,
                     pos.getY() + wick.y + .04, pos.getZ() + wick.z, 0, 0, 0);

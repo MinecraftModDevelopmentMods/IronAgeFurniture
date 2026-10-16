@@ -51,12 +51,27 @@ final class PlayerLightInteractionProbe {
                 for (Direction facing : Direction.Plane.HORIZONTAL) for (boolean creative : new boolean[]{false, true}) {
             player.gameMode.changeGameModeForPlayer(creative ? GameType.CREATIVE : GameType.SURVIVAL);
             BlockPos support = wall ? pos.relative(facing.getOpposite()) : pos.below();
+            for (boolean wet : new boolean[]{false, true}) {
+                reset(level, pos, support, player);
+                level.setBlockAndUpdate(support, Blocks.STONE.defaultBlockState());
+                if (wet) level.setBlockAndUpdate(pos, Blocks.WATER.defaultBlockState());
+                String itemPath = "light_metal_ironage_sconce_floor_empty_" + (metal.isBaseMetal() ? "basemetals_" : "") + metal.getName();
+                ItemStack held = new ItemStack(BuiltInRegistries.ITEM.getValue(net.minecraft.resources.Identifier.fromNamespaceAndPath("ironagefurniture", itemPath)), 3);
+                player.setItemInHand(InteractionHand.MAIN_HAND, held); player.setYRot(facing.toYRot());
+                Direction face = wall ? facing : Direction.UP;
+                var hit = new BlockHitResult(Vec3.atCenterOf(support).add(face.getStepX() * .5, face.getStepY() * .5, face.getStepZ() * .5), face, support, false);
+                check.accept(player.gameMode.useItemOn(player, level, held, InteractionHand.MAIN_HAND, hit).consumesAction(), "Normal item use places every metal frame");
+                BlockState placed = level.getBlockState(pos);
+                check.accept(SconceMetalData.get(placed) == metal && placed.getValue(FurnitureBlock.DIRECTION) == facing
+                        && placed.getValue(FurnitureBlock.WATERLOGGED) == wet, "Actual floor/wall item placement preserves metal, facing and water");
+                check.accept(held.getCount() == (creative ? 3 : 2), "Frame placement consumes exactly one item outside Creative");
+            }
             for (int colour = 0; colour < colours.size(); colour++) {
                 reset(level, pos, support, player);
                 level.setBlockAndUpdate(support, Blocks.STONE.defaultBlockState());
-                BlockState frame = (wall ? ModVanillaLights.light_metal_ironage_sconce_wall_empty_iron.get()
+                BlockState frame = SconceMetalData.withMetal((wall ? ModVanillaLights.light_metal_ironage_sconce_wall_empty_iron.get()
                         : ModVanillaLights.light_metal_ironage_sconce_floor_empty_iron.get()).defaultBlockState()
-                        .setValue(FurnitureBlock.DIRECTION, facing).setValue(SconceMetalData.METAL, metal);
+                        .setValue(FurnitureBlock.DIRECTION, facing), metal);
                 level.setBlockAndUpdate(pos, frame);
                 List<ItemStack> originals = new ArrayList<>();
                 for (int slot = 0; slot < 4; slot++) {

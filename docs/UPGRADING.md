@@ -2,9 +2,19 @@
 
 Keep the original world and its mod installation. Test an upgrade on a disposable copy, and do not reopen a world saved by 26.3 in an older Minecraft version.
 
-The Phase 4 candidate is `0.4.0.2603002`. Its upgrade bridge covers supported placed furniture, structure parts, upholstery, sconce metals, stored shields and saved item stacks. It runs before obsolete item IDs or subtype data can be discarded. Item handling includes player and Ender Chest storage, containers, nested inventories and dropped stacks.
+Phase 4 is version `0.4.0.2603002`. Its upgrade bridge covers supported placed furniture, structure parts, upholstery, sconce metals, stored shields and saved item stacks. It runs before obsolete item IDs or subtype data can be discarded. Item handling includes player and Ender Chest storage, containers, nested inventories and dropped stacks.
 
 Old colourless furniture defaults to red and sconces without metal data default to iron. Known Base Metals materials remain recoverable while their provider is absent. A repeated load must not repeat a conversion.
+
+## Sconce metals
+
+Phase 4 now gives each frame material its own placed-block identity. Existing frame item IDs and the original iron block IDs are retained. Old item subtype numbers, `Metal` tags and shared-block `metal` properties are converted before Minecraft can discard them.
+
+Conversion keeps the installed light, facing, water state and any stored candle stacks. A saved Base Metals frame is not converted to iron merely because Base Metals is missing: it keeps its material identity and uses a safe visual fallback until a compatible provider returns.
+
+The migration tests cover all 23 materials, including 1.10 and 1.12 numeric chunks passed through the real vanilla datafixer. A released 26.3 jar was also used to save a separate fixture containing every one of its 48 sconce forms in four facings, plus stored frame items. Its first and second upgrades pass.
+
+The earlier shared-metal Phase 4 world passes both upgrades with all 5,104 expected state/storage records retained. This includes mixed-colour candles with names and typed custom components. The full integration stack is included because another migration hook can bypass the ordinary storage-return path; IAF also finishes conversion immediately before palette decoding.
 
 ## Candles
 
@@ -49,6 +59,6 @@ All 2,496 core/add-on Phase 4 construction recipes pass native recipe-book place
 
 The fourteen supported legacy CFM chair IDs pass removed-provider, nested-item, count, facing and idempotence contracts, including native player datafixing. The installed-provider conversion gate remains opt-in. There is no live CFM or Base Metals 26.3 compatibility claim.
 
-Both projects pass their build, catalog, resource, locale, metadata, hygiene, workflow, artifact and Eclipse gates. Main, sources and Javadoc hashes match across two clean builds for each project. The add-on pins the exact tested core artifact.
+The core and add-on use build, catalog, resource, locale, metadata, hygiene, workflow, artifact and Eclipse checks. Repeated builds are checked for identical main, sources and Javadoc hashes. The add-on pins the exact matching core artifact so the tested combination cannot silently change.
 
-These are local candidates for [hands-on testing](../MANUAL_TESTING.md), not published releases. Keep the source backup until you have checked your own copied world.
+Use the [in-game checklist](../MANUAL_TESTING.md) to check your own copied world, and keep the original backup until you are satisfied with the result.

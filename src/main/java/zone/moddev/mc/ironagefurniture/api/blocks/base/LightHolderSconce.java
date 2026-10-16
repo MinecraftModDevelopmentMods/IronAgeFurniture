@@ -1,9 +1,7 @@
 package zone.moddev.mc.ironagefurniture.api.blocks.base;
 
 import net.minecraft.core.Direction;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
 import zone.moddev.mc.ironagefurniture.api.SconceMetalData;
 
 public abstract class LightHolderSconce extends LightHolder implements net.minecraft.world.level.block.EntityBlock {
@@ -14,9 +12,9 @@ public abstract class LightHolderSconce extends LightHolder implements net.minec
             net.minecraft.core.BlockPos pos, net.minecraft.world.level.Explosion explosion) {
         return SconceMetalData.get(state).resistance(super.getExplosionResistance(state, level, pos, explosion));
     }
-    @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        super.createBlockStateDefinition(builder);
-        builder.add(SconceMetalData.METAL);
+    @Override public net.minecraft.world.item.ItemStack getCloneItemStack(net.minecraft.world.level.LevelReader level,
+            net.minecraft.core.BlockPos pos, BlockState state, boolean includeData, net.minecraft.world.entity.player.Player player) {
+        return SconceMetalData.frame(state);
     }
 
     @Override protected float getDestroyProgress(BlockState state, net.minecraft.world.entity.player.Player player,
