@@ -1,0 +1,18 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_crimson_blue",
+    "ingredients": [
+        "minecraft:blue_bed",
+        "minecraft:crimson_planks"
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_wood_foot_crimson_blue",
+        "count": 1
+    },
+    "neoforge:conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
+        }
+    ]
+}

@@ -1,0 +1,10 @@
+modLoader="javafml"
+license="LGPL-2.1"
+[[mods]]
+modId="iafworldcontrol"
+version="1"
+displayName="IAF world-upgrade control probe"
+[[dependencies.iafworldcontrol]]
+modId="neoforge"
+type="required"
+versionRange="[26.3.0.77,26.3.1)"

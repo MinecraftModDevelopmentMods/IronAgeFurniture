@@ -1,0 +1,18 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_oak_green",
+    "ingredients": [
+        "minecraft:green_bed",
+        "minecraft:oak_planks"
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_wood_foot_oak_green",
+        "count": 1
+    },
+    "neoforge:conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
+        }
+    ]
+}

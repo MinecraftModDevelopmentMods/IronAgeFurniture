@@ -1,0 +1,13 @@
+modLoader="javafml"
+license="LGPL-2.1"
+[[mods]]
+modId="iafphasefourprobe"
+version="1"
+displayName="Iron Age Furniture development probes"
+[[mixins]]
+config="iaf-client-probes.mixins.json"
+[[dependencies.iafphasefourprobe]]
+modId="ironagefurniture"
+type="required"
+versionRange="[0.4,0.5)"
+side="BOTH"

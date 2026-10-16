@@ -1,0 +1,18 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_left_lower_warped",
+    "ingredients": [
+        "ironagefurniture:bed_canopy_foot_lower_warped",
+        "ironagefurniture:bed_canopy_foot_lower_warped"
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_canopy_foot_left_lower_warped",
+        "count": 1
+    },
+    "neoforge:conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "canopyBeds"
+        }
+    ]
+}

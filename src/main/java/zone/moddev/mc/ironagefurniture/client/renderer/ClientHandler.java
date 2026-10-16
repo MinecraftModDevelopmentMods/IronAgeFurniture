@@ -15,5 +15,10 @@ public class ClientHandler {
 	    {
 	        event.registerEntityRenderer(Entities.SEAT.get(), SeatRenderer::new);
 	        event.registerEntityRenderer(Entities.THROWN_LAVA_LAMP.get(), ThrownItemRenderer::new);
+            event.registerBlockEntityRenderer(zone.moddev.mc.ironagefurniture.init.PhaseFourLighting.CANDLE_STORAGE.get(), CandleSconceRenderer::new);
+            event.registerBlockEntityRenderer(zone.moddev.mc.ironagefurniture.init.PhaseFourLighting.METAL_FRAME.get(), MetalSconceRenderer::new);
+            event.registerBlockEntityRenderer(zone.moddev.mc.ironagefurniture.init.PhaseFourBlockEntities.SHIELD_CHAIR.get(), ShieldChairRenderer::new);
+            event.registerEntityRenderer(Entities.FALLING_SHIELD_CHAIR.get(), FallingShieldChairRenderer::new);
+            event.registerEntityRenderer(Entities.RELEASED_LAVA_LAMP.get(), ReleasedLavaLampRenderer::new);
 	    }
 }

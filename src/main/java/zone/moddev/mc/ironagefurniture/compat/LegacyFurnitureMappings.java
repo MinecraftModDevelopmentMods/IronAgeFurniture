@@ -9,9 +9,8 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import zone.moddev.mc.ironagefurniture.Ironagefurniture;
 
 /**
- * Registers aliases for IronAgeFurniture's retired Biomes O' Plenty cherry
- * furniture names. Minecraft now owns the cherry family, so those IDs resolve
- * to the corresponding vanilla-cherry furniture.
+ * Keeps retired registry names readable, including old mining and crafting
+ * statistics. Aliases point to existing items and do not add creative entries.
  */
 public final class LegacyFurnitureMappings {
     private static final DeferredRegister<Block> BLOCK_ALIASES =
@@ -32,6 +31,32 @@ public final class LegacyFurnitureMappings {
     }
 
     public static void registerAliases(IEventBus modBus) {
+        for (String family : BASIC_FAMILIES) if (!family.contains("padded"))
+            registerAlias("chair_wood_ironage_" + family + "_big_oak", "chair_wood_ironage_" + family + "_dark_oak");
+        for (String form : new String[]{"bed_wood_foot_", "bed_wood_foot_left_", "bed_canopy_foot_lower_", "bed_canopy_foot_left_lower_",
+                "chair_wood_ironage_wingback_", "chair_wood_ironage_throne_"})
+            registerAlias(form + "big_oak", form + "dark_oak");
+        for (String wood : zone.moddev.mc.ironagefurniture.init.PhaseFourFurniture.VANILLA_WOODS) {
+            for (String family : new String[]{"bench_padded", "bench_back_padded"}) {
+                String old = "chair_wood_ironage_" + family + "_single_" + wood;
+                String target = "chair_wood_ironage_" + family + "_red_single_" + wood;
+                registerAlias(old, target);
+                if (wood.equals("dark_oak")) registerAlias(old.replace("_dark_oak", "_big_oak"), target);
+            }
+        }
+        for (String position : new String[]{"floor", "floor_unlit", "wall", "wall_unlit"}) {
+            Identifier old = Identifier.fromNamespaceAndPath(Ironagefurniture.MODID, "light_metal_ironage_candle_" + position);
+            ITEM_ALIASES.addAlias(old, Identifier.withDefaultNamespace("candle"));
+            BLOCK_ALIASES.addAlias(old, position.startsWith("floor") ? Identifier.withDefaultNamespace("candle")
+                    : Identifier.fromNamespaceAndPath(Ironagefurniture.MODID, "light_metal_ironage_sconce_wall_candle_iron"));
+        }
+        for (String position : new String[]{"floor", "wall"}) for (String count : new String[]{"", "_two", "_three", "_four"}) {
+            String target = "light_metal_ironage_sconce_" + position + "_candle_iron";
+            if (!count.isEmpty()) BLOCK_ALIASES.addAlias(Identifier.fromNamespaceAndPath(Ironagefurniture.MODID, target + count),
+                    Identifier.fromNamespaceAndPath(Ironagefurniture.MODID, target));
+            BLOCK_ALIASES.addAlias(Identifier.fromNamespaceAndPath(Ironagefurniture.MODID, target + count + "_unlit"),
+                    Identifier.fromNamespaceAndPath(Ironagefurniture.MODID, target));
+        }
         for (String family : BASIC_FAMILIES) {
             registerCherryAlias("chair_wood_ironage_" + family + "_cherry");
         }

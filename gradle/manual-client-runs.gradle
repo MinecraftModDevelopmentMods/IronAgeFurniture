@@ -1,0 +1,129 @@
+// These clients share the core source, but keep their mods and saves separate.
+Properties localRunSettings = new Properties()
+File localSettingsFile = file('local.properties')
+if (localSettingsFile.isFile()) {
+    localSettingsFile.withInputStream { localRunSettings.load(it) }
+}
+def bopRuntimeDirectory = providers.gradleProperty('bopRuntimeDirectory').orElse(
+        localRunSettings.getProperty('bopRuntimeDirectory', 'libs/bop-runtime'))
+
+// Use the same add-on and dependencies as the qualified manual-testing bundle.
+Map<String, String> bopRuntimeJars = [
+        'iron-age-furniture-biomes-o-plenty-addon-0.4.0.2603002.jar':
+                '91E43259C5A1FC4C5DED42C58766915095721704C52EDD36F74AC682EC340172',
+        'BiomesOPlenty-neoforge-26.3-26.3.0.0.15.jar':
+                '350A8086EED80756AA59C8F618B00FC1F126A98BB9CDA88452FF21E925BDC62A',
+        'GlitchCore-neoforge-26.3-26.3.0.0.5.jar':
+                'A0459020EFB2DF6DA15A6C86A8DD6B9A5E0F86CA7ABD29F2B69BAD07A14E09B5',
+        'TerraBlender-neoforge-26.3-26.3.0.0.9.jar':
+                'F8D063D0AA56017246FFCC94F7C7C6914B60FCD3DF45B3534E3B751C0EC6F276'
+]
+def baseClientDirectory = layout.projectDirectory.dir('run')
+def bopClientDirectory = layout.projectDirectory.dir('run-bop')
+def checkManualClientMode = {
+    if (providers.gradleProperty('packagedRuntime').map { it.toBoolean() }.getOrElse(false)
+            || providers.gradleProperty('clientProbe').map { it.toBoolean() }.getOrElse(false)) {
+        throw new GradleException('Manual clients use core source output, not packaged-runtime or probe mode')
+    }
+}
+def jarNamesIn = { File modsDirectory ->
+    fileTree(modsDirectory) { include '**/*.jar' }.files.collect {
+        modsDirectory.toPath().relativize(it.toPath()).toString().replace('\\', '/')
+    }.sort()
+}
+
+def verifyBaseClientMods = tasks.register('verifyBaseClientMods') {
+    group = 'verification'
+    description = 'Checks that the core-only client has no extra mod jars.'
+    doLast {
+        checkManualClientMode()
+        List<String> extraJars = jarNamesIn(baseClientDirectory.dir('mods').asFile)
+        if (!extraJars.isEmpty()) {
+            throw new GradleException("Core-only run/mods must be empty; move these jars before launching: ${extraJars}")
+        }
+    }
+}
+
+def prepareBopClientMods = tasks.register('prepareBopClientMods') {
+    group = 'ide'
+    description = 'Checksums and stages the tested BOP add-on and its three dependencies for the BOP client.'
+    doLast {
+        checkManualClientMode()
+        File sourceDirectory = file(bopRuntimeDirectory.get())
+        File modsDirectory = bopClientDirectory.dir('mods').asFile
+        if (sourceDirectory.canonicalFile.toPath().startsWith(bopClientDirectory.asFile.canonicalFile.toPath())) {
+            throw new GradleException('bopRuntimeDirectory must be separate from the run-bop destination')
+        }
+        bopRuntimeJars.each { name, expectedHash ->
+            File jar = new File(sourceDirectory, name)
+            if (!jar.isFile()) {
+                throw new GradleException("Missing ${name}. Set bopRuntimeDirectory in ignored local.properties " +
+                        'or with -PbopRuntimeDirectory to the tested bundle mods folder.')
+            }
+            if (sha256Of(jar) != expectedHash) {
+                throw new GradleException("BOP client checksum mismatch: ${name}")
+            }
+        }
+        List<String> extraJars = jarNamesIn(modsDirectory).findAll { !bopRuntimeJars.containsKey(it) }
+        if (!extraJars.isEmpty()) {
+            throw new GradleException("Unexpected jars in run-bop/mods; move them before launching: ${extraJars}")
+        }
+        // Copy only these four jars: the core is supplied by this project's source.
+        project.copy {
+            from sourceDirectory
+            include bopRuntimeJars.keySet()
+            into modsDirectory
+        }
+        bopRuntimeJars.each { name, expectedHash ->
+            if (sha256Of(new File(modsDirectory, name)) != expectedHash) {
+                throw new GradleException("Staged BOP client checksum mismatch: ${name}")
+            }
+        }
+        logger.lifecycle('BOP client ready: core source + BOP add-on + BOP + GlitchCore + TerraBlender (run-bop).')
+    }
+}
+
+runs {
+    clientBase {
+        runType 'client'
+        workingDirectory baseClientDirectory
+        dependsOn verifyBaseClientMods.get()
+    }
+    clientWithBop {
+        runType 'client'
+        workingDirectory bopClientDirectory
+        dependsOn prepareBopClientMods.get()
+    }
+}
+
+// NeoGradle finishes naming its generated tasks after evaluating the build.
+gradle.projectsEvaluated {
+    ['runClientBase', 'runClientWithBop'].each { taskName ->
+        tasks.named(taskName).configure {
+            group = 'neogradle/runs'
+            description = taskName == 'runClientBase'
+                    ? 'Runs Iron Age Furniture alone, using the existing run folder.'
+                    : 'Runs Iron Age Furniture with BOP and its add-on, using the separate run-bop folder.'
+        }
+    }
+}
+
+tasks.register('verifyManualClientProfiles') {
+    group = 'verification'
+    description = 'Verifies isolated core-only and BOP manual client profiles without starting Minecraft.'
+    dependsOn verifyBaseClientMods, prepareBopClientMods
+    doLast {
+        ['runClientBase': baseClientDirectory, 'runClientWithBop': bopClientDirectory].each { name, directory ->
+            def launch = tasks.named(name, JavaExec).get()
+            Set<File> runtimeFiles = launch.classpath.files.collect { it.canonicalFile } as Set<File>
+            if (launch.mainClass.get() != 'net.neoforged.fml.startup.Client'
+                    || launch.workingDir.canonicalFile != directory.asFile.canonicalFile
+                    || !sourceSets.main.output.files.every { runtimeFiles.contains(it.canonicalFile) }
+                    || runtimeFiles.any { it.path.contains('phaseFourTest')
+                            || it.name.contains('iaf-phase-four-probes')
+                            || it.name.startsWith('iron-age-furniture-') }) {
+                throw new GradleException("Incorrect working directory or probe output in ${name}")
+            }
+        }
+    }
+}

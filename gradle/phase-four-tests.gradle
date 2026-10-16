@@ -1,0 +1,59 @@
+// The probe mod is development-only. It never enters a released jar or a normal launch.
+sourceSets {
+    phaseFourTest {
+        compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+        runtimeClasspath += output + compileClasspath + sourceSets.main.runtimeClasspath
+    }
+}
+if (providers.gradleProperty('phaseFourProbe').map { it.toBoolean() }.getOrElse(false)) {
+    tasks.register('stagePhaseFourProbe', Copy) {
+        dependsOn tasks.named('phaseFourProbeJar')
+        from tasks.named('phaseFourProbeJar')
+        into providers.gradleProperty('runDirectory').map { new File(it, 'mods') }
+        doFirst {
+            File destination = destinationDir.canonicalFile
+            if (destination.toPath().startsWith(project.projectDir.canonicalFile.toPath()))
+                throw new GradleException('Use an external disposable directory for the probe installation')
+        }
+    }
+    tasks.matching { it.name == 'runServer' }.configureEach { dependsOn tasks.named('stagePhaseFourProbe') }
+}
+tasks.register('phaseFourProbeJar', Jar) {
+    dependsOn tasks.named('phaseFourTestClasses')
+    from sourceSets.phaseFourTest.output
+    exclude 'control/**', '**/fixture/control/**'
+    archiveFileName = 'iaf-phase-four-probes.jar'
+    destinationDirectory = layout.buildDirectory.dir('phaseFourTest')
+    doLast {
+        // Mixin owns its whole package: ordinary probe classes must live elsewhere.
+        new java.util.zip.ZipFile(archiveFile.get().asFile).withCloseable { archive ->
+            archive.entries().findAll { it.name.endsWith('.mixins.json') }.each { configEntry ->
+                def config = new groovy.json.JsonSlurper().parse(archive.getInputStream(configEntry))
+                String prefix = config.package.replace('.', '/') + '/'
+                Set<String> mixins = ((config.mixins ?: []) + (config.client ?: []) + (config.server ?: []))
+                        .collect { prefix + it.replace('.', '/') } as Set
+                mixins.each { mixin ->
+                    if (archive.getEntry(mixin + '.class') == null)
+                        throw new GradleException("Probe Mixin is missing: ${mixin}")
+                }
+                archive.entries().findAll { it.name.startsWith(prefix) && it.name.endsWith('.class') }.each { entry ->
+                    String type = entry.name.substring(0, entry.name.length() - '.class'.length()).split('\\$')[0]
+                    if (!mixins.contains(type))
+                        throw new GradleException("Ordinary probe class is inside a Mixin-owned package: ${entry.name}")
+                }
+            }
+        }
+    }
+}
+
+tasks.register('worldControlProbeJar', Jar) {
+    dependsOn tasks.named('phaseFourTestClasses')
+    from(sourceSets.phaseFourTest.output.classesDirs) { include '**/fixture/control/**' }
+    from('src/phaseFourTest/resources/control')
+    archiveFileName = 'iaf-world-control.jar'
+    destinationDirectory = layout.buildDirectory.dir('phaseFourTest')
+}
+
+eclipse.classpath.file.whenMerged { classpath ->
+    classpath.entries.removeAll { entry -> entry.hasProperty('path') && entry.path.startsWith('src/phaseFourTest') }
+}

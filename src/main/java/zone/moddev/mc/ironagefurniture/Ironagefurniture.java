@@ -9,6 +9,8 @@ import zone.moddev.mc.ironagefurniture.api.CreativeModeBreakTracker;
 import zone.moddev.mc.ironagefurniture.api.entity.Entities;
 import zone.moddev.mc.ironagefurniture.compat.LegacyFurnitureMappings;
 import zone.moddev.mc.ironagefurniture.init.ModCreativeTab;
+import zone.moddev.mc.ironagefurniture.init.PhaseFourFurniture;
+import zone.moddev.mc.ironagefurniture.init.PhaseFourLighting;
 import zone.moddev.mc.ironagefurniture.init.ModVanillaBackBench;
 import zone.moddev.mc.ironagefurniture.init.ModVanillaBench;
 import zone.moddev.mc.ironagefurniture.init.ModVanillaChairs;
@@ -46,17 +48,24 @@ public class Ironagefurniture
 		ModVanillaPaddedBench.REGISTER.register(modEventBus);
 		ModVanillaPaddedBackBench.REGISTER.register(modEventBus);
 		
+        PhaseFourFurniture.REGISTER.register(modEventBus);
+        PhaseFourLighting.BLOCKS.register(modEventBus);
+        PhaseFourLighting.BLOCK_ENTITIES.register(modEventBus);
+        zone.moddev.mc.ironagefurniture.init.PhaseFourBlockEntities.REGISTER.register(modEventBus);
+        zone.moddev.mc.ironagefurniture.init.PhaseFourRecipes.CONDITIONS.register(modEventBus);
+        zone.moddev.mc.ironagefurniture.init.PhaseFourRecipes.SERIALIZERS.register(modEventBus);
         ModItems.REGISTER.register(modEventBus);
         ModCreativeTab.REGISTER.register(modEventBus);
         Entities.REGISTER.register(modEventBus);
         LegacyFurnitureMappings.registerAliases(modEventBus);
         
         modEventBus.addListener(this::commonSetup);
+        modEventBus.addListener(zone.moddev.mc.ironagefurniture.compat.FurnitureConfigurationReload::configReloaded);
 
         NeoForge.EVENT_BUS.register(this);
 		NeoForge.EVENT_BUS.register(new CreativeModeBreakTracker());
         
-        modContainer.registerConfig(ModConfig.Type.COMMON, IronAgeFurnitureConfiguration.SPEC);
+        modContainer.registerConfig(ModConfig.Type.SYNCED, IronAgeFurnitureConfiguration.SYNCED_SPEC);
         
     }
     

@@ -28,7 +28,7 @@ public class LightSourceSconceTorchWall extends LightSourceSconceTorchFloor {
 	public LightSourceSconceTorchWall(Properties properties) {
 		super(properties);
 
-		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH).setValue(WATERLOGGED, false));
+		this.registerDefaultState(this.defaultBlockState().setValue(DIRECTION, Direction.NORTH).setValue(WATERLOGGED, false));
         this.generateShapes(this.getStateDefinition().getPossibleStates());
         this.flameParticle = ParticleTypes.FLAME;
 	}
@@ -55,6 +55,10 @@ public class LightSourceSconceTorchWall extends LightSourceSconceTorchFloor {
 	protected Block UnlitVariant() {
 		return ModVanillaLights.light_metal_ironage_sconce_wall_torch_iron_unlit.get();
 	}
+
+    @Override protected Block LitVariant() {
+        return ModVanillaLights.light_metal_ironage_sconce_wall_torch_iron.get();
+    }
 
 	@Override
 	protected Block EmptyVariant() {
@@ -84,7 +88,7 @@ public class LightSourceSconceTorchWall extends LightSourceSconceTorchFloor {
 	public LightSourceSconceTorchWall(float hardness, float blastResistance, SoundType sound, String name) {
 		super(zone.moddev.mc.ironagefurniture.init.RegistrationProperties.block(Block.Properties.of().strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> 14) , name));
 
-		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
+		this.registerDefaultState(this.defaultBlockState().setValue(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
 		//this.setRegistryName(name);
 		this.flameParticle = ParticleTypes.FLAME;
@@ -93,6 +97,8 @@ public class LightSourceSconceTorchWall extends LightSourceSconceTorchFloor {
 	@Override
 	protected BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess ticks, BlockPos pos,
 			Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random) {
+        if (state.getValue(WATERLOGGED)) ticks.scheduleTick(pos, net.minecraft.world.level.material.Fluids.WATER,
+                net.minecraft.world.level.material.Fluids.WATER.getTickDelay(level));
 		return direction.getOpposite() == state.getValue(DIRECTION) && !state.canSurvive(level, pos) ? Blocks.AIR.defaultBlockState() : state;
 	}
 
