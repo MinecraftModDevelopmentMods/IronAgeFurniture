@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_left_lower_jungle_orange",
+    "ingredients": [
+        "ironagefurniture:bed_canopy_foot_lower_jungle_orange",
+        "ironagefurniture:bed_canopy_foot_lower_jungle_orange"
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_canopy_foot_left_lower_jungle_orange",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "canopyBeds"
+    }
+}

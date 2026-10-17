@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_wingback_cherry_magenta",
+    "ingredients": [
+        "ironagefurniture:chair_wood_ironage_classic_cherry",
+        "minecraft:cherry_planks",
+        "minecraft:magenta_carpet"
+    ],
+    "result": {
+        "id": "ironagefurniture:chair_wood_ironage_wingback_cherry_magenta",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "wingbacks"
+    }
+}

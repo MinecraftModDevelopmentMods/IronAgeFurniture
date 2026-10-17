@@ -23,8 +23,9 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import oshi.util.tuples.Pair;
+import net.minecraftforge.common.extensions.IForgeBlock;
 
-public abstract class FurnitureBlock extends Block implements SimpleWaterloggedBlock {
+public abstract class FurnitureBlock extends Block implements SimpleWaterloggedBlock, IForgeBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final EnumProperty<Direction> DIRECTION = BlockStateProperties.HORIZONTAL_FACING;
 

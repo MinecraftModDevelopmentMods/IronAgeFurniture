@@ -1,0 +1,52 @@
+import groovy.json.JsonSlurper
+
+tasks.register('verifySconceCatalog') {
+    group = 'verification'
+    description = 'Checks every fixed-metal sconce family without adding hidden inventory items.'
+    doLast {
+        String base = 'src/main/resources/assets/ironagefurniture'
+        String registrations = file('src/main/java/zone/moddev/mc/ironagefurniture/init/ModVanillaLights.java').getText('UTF-8')
+        List<String> families = (registrations =~ /register\("(light_metal_ironage_sconce_[^"]+)"/).collect { it[1] }
+        ['floor', 'wall'].each { place ->
+            families.addAll(["light_metal_ironage_sconce_${place}_candle_iron".toString(), "light_metal_ironage_sconce_${place}_rocksalt_iron".toString(),
+                    "light_metal_ironage_sconce_${place}_torch_iron_twin".toString(), "light_metal_ironage_sconce_${place}_torch_iron_twin_unlit".toString()])
+        }
+        List<String> metals = ['iron','gold','adamantine','antimony','aquarium','bismuth','brass','bronze','coldiron','copper','cupronickel','electrum','invar','lead','mithril','nickel','pewter','platinum','silver','starsteel','steel','tin','zinc']
+        if (families.size() != 56 || families.toSet().size() != 56) throw new GradleException('Expected 56 distinct sconce forms')
+        families.each { family -> metals.each { metal ->
+            String token = metal in ['iron', 'gold', 'copper'] ? metal : "basemetals_${metal}"
+            String id = family.replaceFirst(/_iron(?=_|$)/, "_${token}")
+            File source = file("${base}/blockstates/${id}.json")
+            if (!source.isFile()) throw new GradleException("Missing fixed-metal sconce: ${id}")
+            Map definition = new JsonSlurper().parse(source) as Map
+            if (!definition.variants || definition.variants.keySet().any { it.contains('metal=') })
+                throw new GradleException("Sconce material must be the block identity: ${id}")
+            if (metal != 'iron' && !family.contains('_floor_empty_') && file("${base}/items/${id}.json").exists())
+                throw new GradleException("A hidden sconce form acquired an inventory item: ${id}")
+        } }
+        logger.lifecycle('Validated 1288 fixed-metal sconce blocks and unchanged visible item identities.')
+    }
+}
+tasks.named('check') { dependsOn 'verifySconceCatalog' }
+
+tasks.register('verifyShieldChairItems') {
+    group = 'verification'
+    description = 'Keeps empty shield chairs frame-only and the obsidian chunk angled in inventories.'
+    doLast {
+        Set<File> chairs = fileTree('src/main/resources/assets/ironagefurniture/items') { include 'chair_wood_ironage_shield_*.json' }.files
+        if (chairs.size() != 12) throw new GradleException('Expected all twelve core shield-chair item definitions')
+        chairs.each { source ->
+            String id = source.name[0..-6]
+            Map model = new JsonSlurper().parse(source).model
+            if (model.type != 'minecraft:condition' || model.property != 'minecraft:component'
+                    || model.predicate != 'minecraft:container' || model.value?.items?.size != 0
+                    || model.on_true?.model != "ironagefurniture:block/${id}_frame"
+                    || model.on_false?.model != "ironagefurniture:item/${id}")
+                throw new GradleException("Empty shield storage does not select the bare-frame model: ${id}")
+        }
+        Map chunk = new JsonSlurper().parse(file('src/main/resources/assets/ironagefurniture/models/item/obsidian_chunk.json'))
+        if (chunk.parent != 'ironagefurniture:block/obsidian_chunk' || chunk.display?.gui?.rotation != [35, 45, 0])
+            throw new GradleException('Obsidian chunks must retain their angled cuboid inventory model')
+    }
+}
+tasks.named('check') { dependsOn 'verifyShieldChairItems' }

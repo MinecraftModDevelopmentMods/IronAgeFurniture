@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_throne_pale_oak_pink",
+    "ingredients": [
+        "ironagefurniture:chair_wood_ironage_wingback_pale_oak_pink",
+        "minecraft:pale_oak_planks",
+        "minecraft:pink_carpet"
+    ],
+    "result": {
+        "id": "ironagefurniture:chair_wood_ironage_throne_pale_oak_pink",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "thrones"
+    }
+}

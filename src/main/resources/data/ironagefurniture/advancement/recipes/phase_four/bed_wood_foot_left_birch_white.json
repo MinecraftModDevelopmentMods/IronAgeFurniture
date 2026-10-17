@@ -1,0 +1,36 @@
+{
+    "parent": "minecraft:recipes/root",
+    "criteria": {
+        "has_ingredient": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": "ironagefurniture:bed_wood_foot_birch_white"
+                    }
+                ]
+            }
+        },
+        "has_the_recipe": {
+            "trigger": "minecraft:recipe_unlocked",
+            "conditions": {
+                "recipes": "ironagefurniture:bed_wood_foot_left_birch_white"
+            }
+        }
+    },
+    "requirements": [
+        [
+            "has_ingredient",
+            "has_the_recipe"
+        ]
+    ],
+    "rewards": {
+        "recipes": [
+            "ironagefurniture:bed_wood_foot_left_birch_white"
+        ]
+    },
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "woodenBeds"
+    }
+}

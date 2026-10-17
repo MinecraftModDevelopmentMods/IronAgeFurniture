@@ -1,0 +1,36 @@
+{
+    "parent": "minecraft:recipes/root",
+    "criteria": {
+        "has_ingredient": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": "minecraft:lime_bed"
+                    }
+                ]
+            }
+        },
+        "has_the_recipe": {
+            "trigger": "minecraft:recipe_unlocked",
+            "conditions": {
+                "recipes": "ironagefurniture:bed_wood_foot_spruce_lime"
+            }
+        }
+    },
+    "requirements": [
+        [
+            "has_ingredient",
+            "has_the_recipe"
+        ]
+    ],
+    "rewards": {
+        "recipes": [
+            "ironagefurniture:bed_wood_foot_spruce_lime"
+        ]
+    },
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "woodenBeds"
+    }
+}

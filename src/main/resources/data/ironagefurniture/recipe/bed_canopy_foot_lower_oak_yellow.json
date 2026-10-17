@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_lower_oak_yellow",
+    "ingredients": [
+        "ironagefurniture:bed_wood_foot_oak_yellow",
+        "minecraft:oak_planks",
+        "minecraft:yellow_carpet"
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_canopy_foot_lower_oak_yellow",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "canopyBeds"
+    }
+}

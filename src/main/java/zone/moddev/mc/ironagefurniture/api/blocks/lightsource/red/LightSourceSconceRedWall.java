@@ -61,7 +61,7 @@ public class LightSourceSconceRedWall extends LightSourceSconceTorchWall {
 	public LightSourceSconceRedWall(Properties properties) {
 		super(properties);
 
-		this.registerDefaultState(this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH).setValue(FurnitureBlock.WATERLOGGED, false));
+		this.registerDefaultState(this.defaultBlockState().setValue(FurnitureBlock.DIRECTION, Direction.NORTH).setValue(FurnitureBlock.WATERLOGGED, false));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
 	}
 
@@ -88,7 +88,7 @@ public class LightSourceSconceRedWall extends LightSourceSconceTorchWall {
 	public LightSourceSconceRedWall(float hardness, float blastResistance, SoundType sound, String name) {
 		super(zone.moddev.mc.ironagefurniture.init.RegistrationProperties.block(Properties.of().strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> LIGHT_LEVEL), name));
 
-		this.registerDefaultState(this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
+		this.registerDefaultState(this.defaultBlockState().setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
 		//this.setRegistryName(name);
 	}
@@ -169,9 +169,7 @@ public class LightSourceSconceRedWall extends LightSourceSconceTorchWall {
 			LightSourceSconceRedWall newBlock = getBlockBySignalLevel(signal);
 
 			level.setBlock(pos,
-				newBlock.defaultBlockState()
-					.setValue(DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
-					.setValue(WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)),
+				zone.moddev.mc.ironagefurniture.api.SconceMetalData.transition(newBlock, state),
 				UPDATE_ALL);
 
 			Block block = level.getBlockState(pos).getBlock();

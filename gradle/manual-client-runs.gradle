@@ -1,0 +1,70 @@
+// Manual clients share the core source but never share their mods or saves.
+Properties settings = new Properties()
+if (file('local.properties').isFile()) file('local.properties').withInputStream { settings.load(it) }
+boolean bopSelected = gradle.startParameter.taskNames.any { it.tokenize(':').last() == 'runClientWithBop' }
+boolean baseSelected = gradle.startParameter.taskNames.any { it.tokenize(':').last() == 'runClientBase' }
+if (bopSelected && baseSelected) throw new GradleException('Launch one manual client profile at a time')
+boolean packaged = providers.gradleProperty('packagedRuntime').map { it.toBoolean() }.getOrElse(false)
+File baseDirectory = file(providers.gradleProperty('runDirectory').getOrElse('run'))
+File bopDirectory = file('run-bop')
+if (bopSelected || baseSelected) {
+    if (packaged || providers.gradleProperty('clientProbe').map { it.toBoolean() }.getOrElse(false))
+        throw new GradleException('Manual client profiles cannot be combined with packaged probes')
+    minecraft.runs.named('client').configure { workingDir.set(bopSelected ? bopDirectory : baseDirectory) }
+}
+def jarNames = { File directory -> fileTree(directory) { include '**/*.jar' }.files.collect { it.name }.sort() }
+def baseCheck = tasks.register('verifyBaseClientMods') {
+    group = 'verification'
+    description = 'Checks that the core-only client does not load extra mod jars.'
+    doLast {
+        List<String> jars = jarNames(new File(baseDirectory, 'mods'))
+        if (!jars.isEmpty()) throw new GradleException("Core-only run/mods must be empty; move these jars first: ${jars}")
+    }
+}
+def bopPreparation = tasks.register('prepareBopClientMods') {
+    group = 'ide'
+    description = 'Checksums and stages the Forge BOP add-on and its dependencies in run-bop.'
+    doLast {
+        String source = providers.gradleProperty('bopRuntimeDirectory').getOrElse(settings.getProperty('bopRuntimeDirectory', 'libs/bop-runtime'))
+        String addonHash = providers.gradleProperty('bopAddonSha256').getOrElse(settings.getProperty('bopAddonSha256', '')).toUpperCase()
+        // The add-on pins this core's hash. Keep its reciprocal staging hash in
+        // ignored local settings so neither release embeds a circular checksum.
+        if (!(addonHash ==~ /[A-F0-9]{64}/)) throw new GradleException('Set bopAddonSha256 to the tested add-on checksum in local.properties')
+        Map<String, String> expected = [
+            'iron-age-furniture-biomes-o-plenty-addon-0.4.0.2603001.jar': addonHash,
+            'BiomesOPlenty-forge-26.3-26.3.0.0.7.jar': '21FD459CF3A0A9A2AF392729FE1AE6941EEA988FADC0EBC265621E0FA16F8E76',
+            'GlitchCore-forge-26.3-26.3.0.0.5.jar': 'A62915B9D333039D0CC0C520CF999F71CFD5E5AA8BF7406A60F959CC167BDD2A',
+            'TerraBlender-forge-26.3-26.3.0.0.9.jar': 'BFE24B485D0657AC9A398B784242449D7F209CB7A3A8793781D673C73537DAB6'
+        ]
+        File sourceDirectory = file(source).canonicalFile
+        File destination = new File(bopDirectory, 'mods').canonicalFile
+        if (sourceDirectory.toPath().startsWith(bopDirectory.canonicalFile.toPath()))
+            throw new GradleException('Keep the verified bundle outside run-bop')
+        expected.each { name, hash ->
+            File jar = new File(sourceDirectory, name)
+            if (!jar.isFile() || sha256Of(jar) != hash) throw new GradleException("Missing or changed manual-client dependency: ${name}")
+        }
+        List<String> extras = jarNames(destination).findAll { !expected.containsKey(it) }
+        if (!extras.isEmpty()) throw new GradleException("Unexpected run-bop/mods jars; move these first: ${extras}")
+        project.copy { from sourceDirectory; include expected.keySet(); into destination }
+        expected.each { name, hash ->
+            if (sha256Of(new File(destination, name)) != hash) throw new GradleException("Staged checksum mismatch: ${name}")
+        }
+    }
+}
+tasks.register('runClientBase') {
+    group = 'forge/runs'
+    description = 'Runs Iron Age Furniture alone, using run.'
+    dependsOn 'runClient'
+}
+tasks.register('runClientWithBop') {
+    group = 'forge/runs'
+    description = 'Runs the core with BOP and its add-on, using run-bop.'
+    dependsOn 'runClient'
+}
+if (!packaged) tasks.matching { it.name == 'runClient' }.configureEach {
+    // Keep the Gradle process and Forge's launcher metadata on the same profile.
+    // Otherwise JavaExec reports the project root until the launcher starts.
+    workingDir(bopSelected ? bopDirectory : baseDirectory)
+    dependsOn bopSelected ? bopPreparation : baseCheck
+}
