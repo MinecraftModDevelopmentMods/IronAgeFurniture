@@ -1,0 +1,8 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "zone.moddev.mc.ironagefurniture.fixture.client.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": ["ProbeMouseCaptureMixin"],
+  "injectors": {"defaultRequire": 1}
+}

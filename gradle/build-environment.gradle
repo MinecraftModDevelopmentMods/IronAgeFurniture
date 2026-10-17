@@ -1,0 +1,331 @@
+import groovy.json.JsonSlurper
+import groovy.xml.XmlSlurper
+import java.nio.charset.StandardCharsets
+import java.security.MessageDigest
+import java.util.Arrays
+import java.util.jar.Manifest
+import java.util.zip.ZipFile
+import org.apache.tools.ant.filters.FixCrLfFilter
+import org.gradle.api.publish.maven.tasks.PublishToMavenRepository
+import org.gradle.jvm.toolchain.JvmVendorSpec
+
+// Toolchains, Forge dependencies and development launches.
+ext.sha256Of = { File inputFile ->
+    MessageDigest digest = MessageDigest.getInstance('SHA-256')
+    inputFile.withInputStream { input ->
+        byte[] buffer = new byte[8192]
+        for (int read = input.read(buffer); read >= 0; read = input.read(buffer)) {
+            if (read > 0) digest.update(buffer, 0, read)
+        }
+    }
+    digest.digest().encodeHex().toString().toUpperCase()
+}
+
+ext.mavenizerToolsDirectory = layout.projectDirectory.dir('ci-fixtures/tools')
+ext.mavenizerCompatibilityJar = mavenizerToolsDirectory.file(
+        'minecraft-mavenizer-0.5.21-orespawn-compat.jar')
+ext.mavenizerRuleManifest = mavenizerToolsDirectory.file(
+        'minecraft-source-compatibility.json')
+ext.mavenizerSourcePatch = mavenizerToolsDirectory.file(
+        'minecraft-mavenizer-0.5.21-orespawn-compat.patch')
+ext.mavenizerLicense = mavenizerToolsDirectory.file('LICENSE-MAVENIZER.txt')
+ext.mavenizerReadme = mavenizerToolsDirectory.file('README.md')
+ext.mavenizerFixtureChecksums = [
+        (mavenizerCompatibilityJar.asFile):
+                '9DA1F44821D89B16B3E181CA89057F44CD3FC3F3383EA5A16442872E67E30F35',
+        (mavenizerRuleManifest.asFile):
+                'C765A5F65FB9CD176F3CE08CB0CFCA814D06E649940E2BF169CD8943AFC30B26',
+        (mavenizerSourcePatch.asFile):
+                'BBD82C6BD96206DEA2FE2673F4D7E76FBA92884032455BBFD5CCD59045C5E271',
+        (mavenizerLicense.asFile):
+                '20C17D8B8C48A600800DFD14F95D5CB9FF47066A9641DDEAB48DC54AEC96E331',
+        (mavenizerReadme.asFile):
+                'A611E2BF14E29761B99BF7D3F0FD44AF151DD09A69968C0CFAEC384BD0E7A666'
+]
+
+[mavenizerCompatibilityJar.asFile, mavenizerRuleManifest.asFile].each { fixture ->
+    if (!fixture.isFile()) {
+        throw new GradleException("Missing Mavenizer compatibility fixture: ${fixture}")
+    }
+    String actual = sha256Of(fixture)
+    String expected = mavenizerFixtureChecksums[fixture]
+    if (actual != expected) {
+        throw new GradleException("Mavenizer compatibility fixture checksum mismatch for " +
+                "${fixture.name}: expected ${expected}, found ${actual}")
+    }
+}
+
+fgtools.configure('mavenizer') {
+    classpath.from(mavenizerCompatibilityJar)
+    mainClass.set('net.minecraftforge.mcmaven.cli.Main')
+    javaLauncher.set(javaToolchains.launcherFor {
+        languageVersion = JavaLanguageVersion.of(25)
+        vendor = JvmVendorSpec.ADOPTIUM
+    })
+}
+
+group = project.mod_group
+version = project.mod_version
+base.archivesName = project.mod_archive_name
+
+ext.versionParts = project.mod_version.toString().tokenize('.')
+if (versionParts.size() != 4 || !versionParts.every { it ==~ /\d+/ }) {
+    throw new GradleException("mod_version must use Major.Minor.Bug.Target numeric form: ${project.mod_version}")
+}
+ext.minecraftVersionParts = project.minecraft_version.toString().tokenize('.')
+if (minecraftVersionParts.size() < 2 || minecraftVersionParts.size() > 3
+        || !minecraftVersionParts.every { it ==~ /\d+/ }) {
+    throw new GradleException("minecraft_version must use major.minor or major.minor.patch numeric form: ${project.minecraft_version}")
+}
+ext.minecraftPatch = minecraftVersionParts.size() == 3 ? minecraftVersionParts[2] : '0'
+ext.expectedTargetVersion = "${minecraftVersionParts[0]}" +
+        "${minecraftVersionParts[1].padLeft(2, '0')}" +
+        "${minecraftPatch.padLeft(2, '0')}" + project.loader_code
+if (versionParts[3] != expectedTargetVersion) {
+    throw new GradleException("mod_version target ${versionParts[3]} does not match " +
+            "Minecraft ${project.minecraft_version} ${project.loader_name} target ${expectedTargetVersion}")
+}
+
+ext.functional_version = versionParts[0..2].join('.')
+ext.display_version = project.mod_version
+ext.release_tag = project.mod_version
+
+if (GradleVersion.current() != GradleVersion.version('9.7.1')) {
+    throw new GradleException("This build requires Gradle 9.7.1, found ${GradleVersion.current()}")
+}
+// The daemon criteria select Java 25 before this script is evaluated, even
+// when Buildship runs inside an Eclipse installation using Java 21.
+if (!JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_25)) {
+    throw new GradleException("Gradle requires Java 25 or newer, found ${System.getProperty('java.version')}")
+}
+
+ext.java25Compiler = javaToolchains.compilerFor {
+    languageVersion = JavaLanguageVersion.of(25)
+    vendor = JvmVendorSpec.ADOPTIUM
+}
+ext.java25Launcher = javaToolchains.launcherFor {
+    languageVersion = JavaLanguageVersion.of(25)
+    vendor = JvmVendorSpec.ADOPTIUM
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+        vendor = JvmVendorSpec.ADOPTIUM
+    }
+    withSourcesJar()
+    withJavadocJar()
+}
+
+// Forge 66 and Minecraft 26.3 require Java 25 for generated development
+// launches as well as compilation.
+fgtools.configure('slimelauncher') {
+    javaLauncher.set(javaToolchains.launcherFor {
+        languageVersion = JavaLanguageVersion.of(25)
+        vendor = JvmVendorSpec.ADOPTIUM
+    })
+}
+
+tasks.withType(JavaCompile).configureEach {
+    javaCompiler = java25Compiler
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
+    options.encoding = 'UTF-8'
+    options.compilerArgs.addAll(['-Xlint:deprecation', '-Xmaxerrs', '1000'])
+}
+
+tasks.named('compileTestJava', JavaCompile) {
+    options.compilerArgs.add('-proc:none')
+}
+
+tasks.withType(Javadoc).configureEach {
+    failOnError = false
+    options.encoding = 'UTF-8'
+    options.addStringOption('Xdoclint:none', '-quiet')
+    options.addBooleanOption('notimestamp', true)
+}
+
+tasks.withType(AbstractArchiveTask).configureEach {
+    preserveFileTimestamps = false
+    reproducibleFileOrder = true
+    includeEmptyDirs = false
+}
+
+ext.archiveTextSuffixes = [
+        '.cfg', '.css', '.html', '.info', '.java', '.js', '.json', '.lang',
+        '.mcmeta', '.md', '.properties', '.txt', '.xml', '.toml'
+]
+ext.archiveTextPatterns = archiveTextSuffixes.collect { "**/*${it}".toString() }
+archiveTextPatterns.addAll(['**/element-list', '**/package-list'])
+ext.optionalIntegrationExpectedCounts = [:]
+ext.normalizeArchiveLineEndings = { details ->
+    details.filter(FixCrLfFilter,
+            eol: FixCrLfFilter.CrLf.newInstance('lf'),
+            eof: FixCrLfFilter.AddAsisRemove.newInstance('asis'))
+}
+
+tasks.register('verifyBuildEnvironment') {
+    group = 'verification'
+    description = 'Verifies the supported Gradle runtime and exact Java 25 compiler toolchain.'
+    inputs.file layout.projectDirectory.file('gradle/gradle-daemon-jvm.properties')
+    doLast {
+        Properties daemonCriteria = new Properties()
+        file('gradle/gradle-daemon-jvm.properties').withInputStream { daemonCriteria.load(it) }
+        if (daemonCriteria.getProperty('toolchainVersion') != project.gradle_java_version.toString()
+                || daemonCriteria.getProperty('toolchainVendor') != 'ADOPTIUM'
+                || daemonCriteria.keySet().any { it.toString().startsWith('toolchainUrl.') }) {
+            throw new GradleException('Gradle daemon criteria must select a local Adoptium Java 25 without download URLs')
+        }
+        def metadata = java25Compiler.get().metadata
+        String actual = metadata.javaRuntimeVersion.toString()
+        String normalizedActual = actual.replaceFirst(/-LTS$/, '')
+        if (normalizedActual != project.java_toolchain_version.toString()
+                || !metadata.vendor.toString().toLowerCase(Locale.ROOT).contains('temurin')) {
+            throw new GradleException("Java compiler toolchain must be ${project.java_toolchain_version}; " +
+                    "found ${metadata.vendor} ${actual} at ${metadata.installationPath}")
+        }
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    dependsOn tasks.named('verifyBuildEnvironment')
+}
+
+ext.processedMainResourcesDirectory = { sourceSets.main.output.resourcesDir }
+ext.processedMainResourcesPath = {
+    project.relativePath(processedMainResourcesDirectory()).replace('\\', '/')
+}
+
+ext.eclipseWorkspaceProjectName = 'IronAgeFurniture'
+eclipse {
+    project {
+        name = eclipseWorkspaceProjectName
+        buildCommand 'org.eclipse.buildship.core.gradleprojectbuilder'
+        natures 'org.eclipse.buildship.core.gradleprojectnature'
+    }
+    classpath {
+        downloadSources = true
+        downloadJavadoc = true
+        defaultOutputDir = file('bin/default')
+        file.whenMerged { classpath ->
+            classpath.entries.findAll { entry ->
+                entry instanceof org.gradle.plugins.ide.eclipse.model.Output
+            }.each { entry -> entry.path = 'bin/default' }
+            classpath.entries.removeAll { entry ->
+                entry instanceof org.gradle.plugins.ide.eclipse.model.SourceFolder
+                        && ['src/main/resources', 'src/generated/resources'].contains(entry.path)
+            }
+            String resourcesPath = processedMainResourcesPath()
+            if (!classpath.entries.any { entry -> entry.path == resourcesPath }) {
+                classpath.entries.add(new org.gradle.plugins.ide.eclipse.model.SourceFolder(
+                        resourcesPath, 'bin/main'))
+            }
+            classpath.entries.findAll { entry ->
+                entry instanceof org.gradle.plugins.ide.eclipse.model.SourceFolder
+            }.each { entry ->
+                if (entry.path == 'src/main/java' || entry.path == resourcesPath) {
+                    entry.output = 'bin/main'
+                } else if (entry.path.startsWith('src/test/')) {
+                    entry.output = 'bin/test'
+                }
+            }
+        }
+    }
+    synchronizationTasks 'isolateEclipseProductionRuns'
+}
+
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+    }
+}
+
+minecraft {
+    mappings channel: project.mcp_mappings_channel, version: project.mcp_mappings_version
+
+    runs {
+        configureEach {
+            workingDir.convention layout.projectDirectory.dir(
+                    providers.gradleProperty('runDirectory').getOrElse('run'))
+            jvmArgs '--add-opens', 'java.base/java.lang.invoke=ALL-UNNAMED'
+            systemProperty 'forge.logging.markers', 'REGISTRIES'
+            systemProperty 'forge.logging.console.level', 'debug'
+            if (!providers.gradleProperty('packagedRuntime').map { it.toBoolean() }.getOrElse(false)) {
+                mods { ironagefurniture { source sourceSets.main } }
+            }
+        }
+        register('client')
+        register('server') {
+            args '--nogui'
+        }
+        register('data') {
+            workingDir.convention layout.projectDirectory.dir('run-data')
+            args '--mod', project.mod_id, '--all', '--output',
+                    file('src/generated/resources/'), '--existing', file('src/main/resources/')
+        }
+    }
+}
+
+sourceSets.main.resources.srcDir 'src/generated/resources'
+
+ext.developmentModOutput = layout.buildDirectory.dir('forge-run-mod-classes/main')
+ext.prepareDevelopmentMod = tasks.register('prepareDevelopmentMod', Sync) {
+    group = 'ide'
+    description = 'Merges production classes and resources for Forge 66 development discovery.'
+    dependsOn tasks.named('classes')
+    from sourceSets.main.output.classesDirs
+    from sourceSets.main.output.resourcesDir
+    into developmentModOutput
+}
+
+tasks.withType(JavaExec).configureEach { JavaExec runTask ->
+    if (['runClient', 'runServer', 'runData'].contains(runTask.name)) {
+        runTask.dependsOn prepareDevelopmentMod
+        runTask.doFirst {
+            Set<String> splitOutputs = sourceSets.main.output.files.collect {
+                it.canonicalFile.absolutePath
+            } as Set
+            Collection<File> targetClasspath = runTask.classpath.files.findAll {
+                !splitOutputs.contains(it.canonicalFile.absolutePath)
+            }
+            boolean packaged = providers.gradleProperty('packagedRuntime').map { it.toBoolean() }.getOrElse(false)
+            runTask.classpath = packaged ? files(targetClasspath) : files(developmentModOutput, targetClasspath)
+            runTask.environment 'MOD_CLASSES', packaged ? '' : "${project.mod_id}%%${developmentModOutput.get().asFile}"
+            if (packaged && providers.gradleProperty('launchManifest').isPresent()) {
+                File manifest = file(providers.gradleProperty('launchManifest').get()).canonicalFile
+                if (manifest.toPath().startsWith(projectDir.canonicalFile.toPath()))
+                    throw new GradleException('Keep packaged launch receipts outside the checkout')
+                manifest.parentFile.mkdirs()
+                manifest.setText(groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson([
+                    java: runTask.executable, main: runTask.mainClass.get(),
+                    directory: runTask.workingDir.absolutePath,
+                    classpath: runTask.classpath.files.collect { it.absolutePath },
+                    jvmArgs: runTask.allJvmArgs.collect { it.toString() },
+                    args: runTask.args.collect { it.toString() },
+                    environment: ['MOD_CLASSES': '']
+                ])) + '\n', 'UTF-8')
+            }
+            File modsDirectory = new File(runTask.workingDir, 'mods')
+            if (!modsDirectory.isDirectory() && !modsDirectory.mkdirs()) {
+                throw new GradleException("Could not create development mods directory: ${modsDirectory}")
+            }
+        }
+    }
+}
+
+repositories {
+    minecraft.mavenizer(it)
+    maven fg.forgeMaven
+    maven fg.minecraftLibsMaven
+    mavenCentral()
+}
+
+dependencies {
+    implementation minecraft.dependency(
+            "net.minecraftforge:forge:${project.minecraft_version}-${project.forge_version}")
+}
+
+tasks.withType(Test).configureEach {
+    workingDir = project.projectDir
+}

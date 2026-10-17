@@ -30,5 +30,9 @@
         "recipes": [
             "ironagefurniture:chair_wood_ironage_bench_padded_gray_single_birch"
         ]
+    },
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "benches"
     }
 }

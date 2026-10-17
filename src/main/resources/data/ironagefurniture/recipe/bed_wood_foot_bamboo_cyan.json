@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_bamboo_cyan",
+    "ingredients": [
+        "minecraft:cyan_bed",
+        "minecraft:bamboo_planks"
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_wood_foot_bamboo_cyan",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "woodenBeds"
+    }
+}

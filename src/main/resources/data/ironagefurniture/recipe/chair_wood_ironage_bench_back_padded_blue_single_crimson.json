@@ -6,5 +6,10 @@
     ],
     "result": {
         "id": "ironagefurniture:chair_wood_ironage_bench_back_padded_blue_single_crimson"
+    },
+    "group": "ironagefurniture:chair_wood_ironage_bench_back_padded_blue_single_crimson",
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "benches"
     }
 }

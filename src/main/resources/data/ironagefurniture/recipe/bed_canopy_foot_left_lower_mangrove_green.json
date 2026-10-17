@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_left_lower_mangrove_green",
+    "ingredients": [
+        "ironagefurniture:bed_canopy_foot_lower_mangrove_green",
+        "ironagefurniture:bed_canopy_foot_lower_mangrove_green"
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_canopy_foot_left_lower_mangrove_green",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "canopyBeds"
+    }
+}

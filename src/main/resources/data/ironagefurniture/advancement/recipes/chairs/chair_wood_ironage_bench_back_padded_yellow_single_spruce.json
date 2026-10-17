@@ -30,5 +30,9 @@
         "recipes": [
             "ironagefurniture:chair_wood_ironage_bench_back_padded_yellow_single_spruce"
         ]
+    },
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "benches"
     }
 }

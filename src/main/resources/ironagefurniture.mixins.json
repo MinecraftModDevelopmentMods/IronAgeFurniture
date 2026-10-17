@@ -1,0 +1,8 @@
+{
+  "required": true,
+  "minVersion": "0.8.7",
+  "package": "zone.moddev.mc.ironagefurniture.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": ["BlockStateDataAccessor", "BlockStateDataMixin", "CommonHooksMixin", "LevelStorageAccessMixin", "SimpleRegionStorageMixin", "SerializableChunkDataMixin", "DataFixTypesMixin"],
+  "injectors": { "defaultRequire": 1 }
+}

@@ -1,0 +1,20 @@
+// Automated probes use disposable installations outside the Eclipse project.
+// Normal client and server launches never load the development probe mod.
+tasks.withType(JavaExec).configureEach { task ->
+    if (task.name == 'runServer') task.standardInput = System.in
+    if (task.name in ['runClient', 'runServer']) {
+        if (providers.gradleProperty('packagedRuntime').map { it.toBoolean() }.getOrElse(false)) {
+            if (!providers.gradleProperty('runDirectory').isPresent()
+                    || file(providers.gradleProperty('runDirectory').get()).canonicalFile.toPath().startsWith(projectDir.canonicalFile.toPath()))
+                throw new GradleException('Packaged probes require an external disposable runDirectory')
+            System.properties.findAll { key, value -> key.toString().startsWith('iaf.probe.') }.each { key, value ->
+                task.systemProperty key.toString(), value.toString()
+            }
+        }
+        if (task.name == 'runClient' && providers.gradleProperty('clientProbe').map { it.toBoolean() }.getOrElse(false)) {
+            task.systemProperty 'iaf.probe.clientRendering', 'true'
+            task.systemProperty 'fml.earlyprogresswindow', 'false'
+            task.args '--quickPlaySingleplayer', 'Phase4RenderProbe', '--username', 'IAFRenderProbe', '--width', '1280', '--height', '960'
+        }
+    }
+}

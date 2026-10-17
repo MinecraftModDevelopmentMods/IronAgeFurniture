@@ -70,7 +70,7 @@ public class LightSourceRed extends FallingFurnitureBlock {
 	public LightSourceRed(Properties properties) {
 		super(properties);
 
-		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH).setValue(WATERLOGGED, false));
+		this.registerDefaultState(this.defaultBlockState().setValue(DIRECTION, Direction.NORTH).setValue(WATERLOGGED, false));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
 		this.flameParticle = DustParticleOptions.REDSTONE;
 	}
@@ -78,7 +78,7 @@ public class LightSourceRed extends FallingFurnitureBlock {
 	public LightSourceRed(float hardness, float blastResistance, SoundType sound, String name) {
 		super(zone.moddev.mc.ironagefurniture.init.RegistrationProperties.block(Block.Properties.of().strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> LIGHT_LEVEL), name));
 
-		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
+		this.registerDefaultState(this.defaultBlockState().setValue(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
 		//this.setRegistryName(name);
 		this.flameParticle = DustParticleOptions.REDSTONE;

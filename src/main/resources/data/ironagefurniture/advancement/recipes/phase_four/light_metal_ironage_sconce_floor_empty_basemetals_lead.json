@@ -1,0 +1,45 @@
+{
+    "parent": "minecraft:recipes/root",
+    "criteria": {
+        "has_ingredient": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": "#c:nuggets/lead"
+                    }
+                ]
+            }
+        },
+        "has_the_recipe": {
+            "trigger": "minecraft:recipe_unlocked",
+            "conditions": {
+                "recipes": "ironagefurniture:light_metal_ironage_sconce_floor_empty_basemetals_lead"
+            }
+        }
+    },
+    "requirements": [
+        [
+            "has_ingredient",
+            "has_the_recipe"
+        ]
+    ],
+    "rewards": {
+        "recipes": [
+            "ironagefurniture:light_metal_ironage_sconce_floor_empty_basemetals_lead"
+        ]
+    },
+    "forge:condition": {
+        "type": "forge:and",
+        "values": [
+            {
+                "type": "ironagefurniture:feature_enabled",
+                "feature": "lights"
+            },
+            {
+                "type": "ironagefurniture:metal_available",
+                "metal": "lead"
+            }
+        ]
+    }
+}

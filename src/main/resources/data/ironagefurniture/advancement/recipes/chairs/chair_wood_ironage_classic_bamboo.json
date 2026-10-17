@@ -30,5 +30,9 @@
         "recipes": [
             "ironagefurniture:chair_wood_ironage_classic_bamboo"
         ]
+    },
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "classicChairs"
     }
 }

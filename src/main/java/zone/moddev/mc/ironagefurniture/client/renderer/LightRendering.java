@@ -1,16 +1,10 @@
 package zone.moddev.mc.ironagefurniture.client.renderer;
 
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-
 /**
- * Marker for the client setup boundary. Forge 66 reads the cutout render type
- * from the block model JSON, so no runtime layer registration is required.
+ * Marker for the 26.3 client rendering boundary. NeoForge reads the
+ * translucent/cutout layer from each block model's {@code render_type} field.
  */
 public final class LightRendering {
-    private LightRendering() {
-    }
-
-    public static void clientSetup(FMLClientSetupEvent event) {
-        // Render layers are declared by the light models.
-    }
+	private LightRendering() {
+	}
 }

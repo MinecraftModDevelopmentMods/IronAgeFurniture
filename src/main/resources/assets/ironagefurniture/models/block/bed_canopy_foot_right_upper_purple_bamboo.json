@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_bed_canopy_foot_right_upper",
+    "textures": {
+        "log": "minecraft:block/bamboo_block",
+        "planks": "minecraft:block/bamboo_planks",
+        "particle": "minecraft:block/bamboo_block",
+        "cloth": "minecraft:block/purple_wool"
+    }
+}

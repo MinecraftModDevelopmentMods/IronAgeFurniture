@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_wingback_mangrove_light_blue",
+    "ingredients": [
+        "ironagefurniture:chair_wood_ironage_classic_mangrove",
+        "minecraft:mangrove_planks",
+        "minecraft:light_blue_carpet"
+    ],
+    "result": {
+        "id": "ironagefurniture:chair_wood_ironage_wingback_mangrove_light_blue",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "wingbacks"
+    }
+}

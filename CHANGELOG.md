@@ -1,3 +1,18 @@
+# Iron Age Furniture 0.4.0.2603001
+
+- Brings the complete Phase 4 furniture and lighting range to Forge 26.3, including the final NeoForge shield, candle and sconce corrections.
+- Adds wingbacks, thrones, wooden and canopy beds, and doubles across all twelve vanilla wood families and sixteen upholstery colours.
+- Preserves removable shield items, including their damage, names, patterns, enchantments and other components. Empty shield chairs show the bare wooden frame.
+- Adds four-slot mixed-colour vanilla candle sconces with matching-metal support dishes. Insertion, removal, mining and support loss preserve the original candle items.
+- Gives every sconce metal its own placed-block identity, while keeping existing item IDs and recovering older saved metal data.
+- Carries forward redstone, waterlogging, bucket, hand-mining, support-loss, Silk Touch, lava-lamp shattering and fire-resistant frame drops.
+- Keeps held candles free of flame and smoke effects. IAF does not add dynamic lighting.
+- Preserves the matching bed and chair upgrade recipes, immediate recipe discovery and separate Chairs, Benches, Beds and Lights tabs.
+- Adds server-synchronised gameplay settings, complete language fallbacks, and build scripts organised by responsibility.
+- Keeps Biomes O' Plenty furniture in the separate matching add-on.
+
+Back up worlds before upgrading; the [upgrade guide](docs/UPGRADING.md) explains the supported scope.
+
 # IronAgeFurniture 0.3.0.2603001
 
 - Port IronAgeFurniture to Minecraft 26.3 and Forge 66.0.2 on Java 25.

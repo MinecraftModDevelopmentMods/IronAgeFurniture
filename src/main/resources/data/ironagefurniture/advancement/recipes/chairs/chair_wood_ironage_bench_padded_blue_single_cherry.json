@@ -30,5 +30,9 @@
         "recipes": [
             "ironagefurniture:chair_wood_ironage_bench_padded_blue_single_cherry"
         ]
+    },
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "benches"
     }
 }
