@@ -425,3 +425,21 @@ tasks.register('verifyWorkflowPins') {
         }
     }
 }
+
+tasks.register('verifyCiArtifactPaths') {
+    group = 'verification'
+    description = 'Keeps the CI release bundle aligned with the current artifact version.'
+    doLast {
+        String workflow = file('.github/workflows/ci.yml').getText('UTF-8')
+        ['', '-sources', '-javadoc'].each { classifier ->
+            String path = "build/libs/${base.archivesName.get()}-${project.version}${classifier}.jar"
+            if (!workflow.contains(path)) {
+                throw new GradleException("CI does not upload the current release artifact: ${path}")
+            }
+        }
+        ['build/release/SHA256SUMS', 'CHANGELOG.md'].each { path ->
+            if (!workflow.contains(path)) throw new GradleException("CI bundle is missing ${path}")
+        }
+    }
+}
+tasks.named('check') { dependsOn 'verifyCiArtifactPaths' }
