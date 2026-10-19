@@ -31,7 +31,7 @@ def bopPreparation = tasks.register('prepareBopClientMods') {
         // ignored local settings so neither release embeds a circular checksum.
         if (!(addonHash ==~ /[A-F0-9]{64}/)) throw new GradleException('Set bopAddonSha256 to the tested add-on checksum in local.properties')
         Map<String, String> expected = [
-            'iron-age-furniture-biomes-o-plenty-addon-0.4.0.2603001.jar': addonHash,
+            'iron-age-furniture-biomes-o-plenty-addon-0.4.1.2603001.jar': addonHash,
             'BiomesOPlenty-forge-26.3-26.3.0.0.7.jar': '21FD459CF3A0A9A2AF392729FE1AE6941EEA988FADC0EBC265621E0FA16F8E76',
             'GlitchCore-forge-26.3-26.3.0.0.5.jar': 'A62915B9D333039D0CC0C520CF999F71CFD5E5AA8BF7406A60F959CC167BDD2A',
             'TerraBlender-forge-26.3-26.3.0.0.9.jar': 'BFE24B485D0657AC9A398B784242449D7F209CB7A3A8793781D673C73537DAB6'

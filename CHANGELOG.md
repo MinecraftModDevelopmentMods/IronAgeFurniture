@@ -1,4 +1,9 @@
-# Iron Age Furniture 0.4.0.2603001
+# Iron Age Furniture 0.4.1.2603001
+
+- Adds translated names for every registered block and item in all seventeen language files, including filled sconces, lamp brightness states and hidden furniture parts shown by HUD mods.
+- Keeps existing furniture, recipes, registry identities and world-upgrade behaviour unchanged.
+
+## Iron Age Furniture 0.4.0.2603001
 
 - Brings the complete Phase 4 furniture and lighting range to Forge 26.3, including the final NeoForge shield, candle and sconce corrections.
 - Adds wingbacks, thrones, wooden and canopy beds, and doubles across all twelve vanilla wood families and sixteen upholstery colours.
