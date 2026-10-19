@@ -3,6 +3,8 @@ import groovy.json.JsonSlurper
 import java.nio.file.Files
 import java.nio.file.StandardCopyOption
 
+apply from: 'gradle/block-names.gradle'
+
 def furnitureCatalogFile = layout.projectDirectory.file('gradle/furniture-catalog.json')
 def furnitureTemplateDirectory = layout.projectDirectory.dir('gradle/furniture-templates')
 def furnitureResourceDirectories = [
@@ -343,11 +345,6 @@ def renderFurnitureCatalog = { File outputRoot ->
         }
     }
     generated.addAll(renderPhaseFourCatalog(outputRoot, language, catalog))
-    String languageJson = JsonOutput.prettyPrint(JsonOutput.toJson(language)) + '\n'
-    ['en_en.json', 'en_gb.json', 'en_us.json'].each { locale ->
-        writeFurnitureFile(outputRoot,
-                "src/main/resources/assets/ironagefurniture/lang/${locale}", languageJson, generated)
-    }
 
     if (catalog.itemDefinitions) {
         Set<String> visibleItems = new TreeSet<>()
@@ -372,6 +369,12 @@ def renderFurnitureCatalog = { File outputRoot ->
         }
     }
 
+    blockNameAdditions(language, [:], 'en_us').each { key, value -> language.putIfAbsent(key, value) }
+    String languageJson = JsonOutput.prettyPrint(JsonOutput.toJson(language)) + '\n'
+    ['en_en.json', 'en_gb.json', 'en_us.json'].each { locale ->
+        writeFurnitureFile(outputRoot,
+                "src/main/resources/assets/ironagefurniture/lang/${locale}", languageJson, generated)
+    }
     generated
 }
 

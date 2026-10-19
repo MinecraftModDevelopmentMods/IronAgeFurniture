@@ -2,7 +2,7 @@
 
 Iron Age Furniture adds wooden chairs, stools, benches, beds and lighting with a simple, old-fashioned style.
 
-This branch provides Phase 4, version **0.4.0.2603001**, for Minecraft **26.3**, Forge **66** (minimum `66.0.2`), and Java **25**. Install the Forge build of each optional mod; NeoForge jars are not interchangeable.
+This branch provides Phase 4, version **0.4.1.2603001**, for Minecraft **26.3**, Forge **66** (minimum `66.0.2`), and Java **25**. Install the Forge build of each optional mod; NeoForge jars are not interchangeable.
 
 ## Furniture and lighting
 
@@ -71,4 +71,4 @@ The profiles keep separate worlds and settings and never load development probes
 
 Close the previous client and refresh the Gradle project before retesting a new build. Run `prepareEclipse` to synchronise the production classes and resources used by Eclipse.
 
-The Maven coordinate is `zone.moddev.mc:iron-age-furniture:0.4.0.2603001`. The Java API lives under `zone.moddev.mc.ironagefurniture`; persistent mod, registry, resource and save identities remain under `ironagefurniture`. Building locally does not publish or tag a release.
+The Maven coordinate is `zone.moddev.mc:iron-age-furniture:0.4.1.2603001`. The Java API lives under `zone.moddev.mc.ironagefurniture`; persistent mod, registry, resource and save identities remain under `ironagefurniture`. Building locally does not publish or tag a release.
