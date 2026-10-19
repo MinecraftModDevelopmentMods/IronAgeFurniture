@@ -1,0 +1,18 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_acacia_orange",
+    "ingredients": [
+        "minecraft:orange_bed",
+        "minecraft:acacia_planks"
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_wood_foot_acacia_orange",
+        "count": 1
+    },
+    "neoforge:conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
+        }
+    ]
+}

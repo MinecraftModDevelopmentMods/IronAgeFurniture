@@ -6,5 +6,12 @@
     ],
     "result": {
         "id": "ironagefurniture:chair_wood_ironage_bench_padded_magenta_single_acacia"
-    }
+    },
+    "group": "ironagefurniture:chair_wood_ironage_bench_padded_magenta_single_acacia",
+    "neoforge:conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "benches"
+        }
+    ]
 }

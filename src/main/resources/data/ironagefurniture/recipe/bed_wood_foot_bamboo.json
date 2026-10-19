@@ -1,0 +1,18 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_bamboo",
+    "ingredients": [
+        "minecraft:red_bed",
+        "minecraft:bamboo_planks"
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_wood_foot_bamboo",
+        "count": 1
+    },
+    "neoforge:conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
+        }
+    ]
+}
