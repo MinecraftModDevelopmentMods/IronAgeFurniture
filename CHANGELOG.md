@@ -1,4 +1,9 @@
-# Iron Age Furniture 0.4.0.2603002
+# Iron Age Furniture 0.4.1.2603002
+
+- Adds translated names for every registered block and item in all seventeen language files, including filled sconces, lamp brightness states and hidden furniture parts shown by HUD mods.
+- Keeps existing furniture, recipes, registry identities and world-upgrade behaviour unchanged.
+
+## Iron Age Furniture 0.4.0.2603002
 
 - Removes flame and smoke from held candles. Placed lighting keeps its existing behaviour.
 - Restores the matching-metal dish beneath sconce candles and makes the candles smaller, with particles aligned to their wicks.

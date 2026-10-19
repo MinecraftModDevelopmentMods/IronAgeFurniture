@@ -2,7 +2,7 @@
 
 Iron Age Furniture adds wooden chairs, stools, benches, beds and lighting with a simple, old-fashioned style.
 
-This branch provides Phase 4, version **0.4.0.2603002**, for Minecraft **26.3**, NeoForge **26.3** (minimum `26.3.0.77`), and Java **25**. The supported NeoForge range is `[26.3.0.77,26.3.1)`; builds use `26.3.0.83`.
+This branch provides Phase 4, version **0.4.1.2603002**, for Minecraft **26.3**, NeoForge **26.3** (minimum `26.3.0.77`), and Java **25**. The supported NeoForge range is `[26.3.0.77,26.3.1)`; builds use `26.3.0.83`.
 
 ## Furniture and lighting
 
@@ -73,4 +73,4 @@ For the BOP launcher, set `bopRuntimeDirectory` in an ignored `local.properties`
 
 Run `gradlew.bat verifyManualClientProfiles` to check both setups without opening Minecraft. When switching profiles, close the previous client first; worlds are not shared automatically.
 
-The Maven coordinate is `zone.moddev.mc:iron-age-furniture:0.4.0.2603002`. The Java API lives under `zone.moddev.mc.ironagefurniture`; persistent mod, registry, resource and save identities remain under `ironagefurniture`. Building locally does not publish or tag a release.
+The Maven coordinate is `zone.moddev.mc:iron-age-furniture:0.4.1.2603002`. The Java API lives under `zone.moddev.mc.ironagefurniture`; persistent mod, registry, resource and save identities remain under `ironagefurniture`. Building locally does not publish or tag a release.

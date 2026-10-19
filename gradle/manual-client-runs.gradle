@@ -9,8 +9,8 @@ def bopRuntimeDirectory = providers.gradleProperty('bopRuntimeDirectory').orElse
 
 // Use the same add-on and dependencies as the qualified manual-testing bundle.
 Map<String, String> bopRuntimeJars = [
-        'iron-age-furniture-biomes-o-plenty-addon-0.4.0.2603002.jar':
-                '91E43259C5A1FC4C5DED42C58766915095721704C52EDD36F74AC682EC340172',
+        'iron-age-furniture-biomes-o-plenty-addon-0.4.2.2603002.jar':
+                'CC8F6CF13423D027014FE2481280E5C382EFAF1953429A6E5E56DF880E155069',
         'BiomesOPlenty-neoforge-26.3-26.3.0.0.15.jar':
                 '350A8086EED80756AA59C8F618B00FC1F126A98BB9CDA88452FF21E925BDC62A',
         'GlitchCore-neoforge-26.3-26.3.0.0.5.jar':
