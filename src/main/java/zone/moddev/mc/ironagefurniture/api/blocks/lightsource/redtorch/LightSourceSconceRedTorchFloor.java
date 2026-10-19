@@ -48,7 +48,7 @@ public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor 
 	public LightSourceSconceRedTorchFloor(BlockBehaviour.Properties properties) {
 		super(properties);
 
-		this.registerDefaultState(this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH).setValue(FurnitureBlock.WATERLOGGED, false));
+		this.registerDefaultState(this.defaultBlockState().setValue(FurnitureBlock.DIRECTION, Direction.NORTH).setValue(FurnitureBlock.WATERLOGGED, false));
         this.generateShapes(this.getStateDefinition().getPossibleStates());
         this.flameParticle = DustParticleOptions.REDSTONE;
 	}
@@ -56,7 +56,7 @@ public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor 
 	public LightSourceSconceRedTorchFloor(float hardness, float blastResistance, SoundType sound, String name) {
 		super(zone.moddev.mc.ironagefurniture.init.RegistrationProperties.block(Block.Properties.of().strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> 8) , name));
 
-		this.registerDefaultState(this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
+		this.registerDefaultState(this.defaultBlockState().setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
 		// this.setRegistryName(name);
 		this.flameParticle = DustParticleOptions.REDSTONE;
@@ -108,9 +108,7 @@ public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor 
 
 		if (flag) {
 			level.setBlock(pos,
-					ModVanillaLights.light_metal_ironage_sconce_floor_redtorch_iron_unlit.get().defaultBlockState()
-							.setValue(FurnitureBlock.DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
-							.setValue(FurnitureBlock.WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)),
+					zone.moddev.mc.ironagefurniture.api.SconceMetalData.transition(UnlitVariant(), state),
 					Block.UPDATE_ALL);
 
 			if (isToggledTooFrequently(level, pos, true)) {

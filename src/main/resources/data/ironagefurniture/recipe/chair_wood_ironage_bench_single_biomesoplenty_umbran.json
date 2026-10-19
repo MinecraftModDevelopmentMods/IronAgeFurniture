@@ -1,6 +1,6 @@
 {
     "type": "minecraft:crafting_shaped",
-    "group": "furniture",
+    "group": "ironagefurniture:chair_wood_ironage_bench_single_biomesoplenty_umbran",
     "pattern": [
         "xx",
         "yy"
@@ -17,6 +17,10 @@
         {
             "modid": "biomesoplenty",
             "type": "neoforge:mod_loaded"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "benches"
         }
     ]
 }

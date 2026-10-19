@@ -6,5 +6,12 @@
     ],
     "result": {
         "id": "ironagefurniture:chair_wood_ironage_bench_back_padded_lime_single_warped"
-    }
+    },
+    "group": "ironagefurniture:chair_wood_ironage_bench_back_padded_lime_single_warped",
+    "neoforge:conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "benches"
+        }
+    ]
 }

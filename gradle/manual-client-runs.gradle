@@ -1,0 +1,124 @@
+// Manual clients use production source output and keep their mods and saves separate.
+Properties localRunSettings = new Properties()
+File localSettingsFile = file('local.properties')
+if (localSettingsFile.isFile()) {
+    localSettingsFile.withInputStream { localRunSettings.load(it) }
+}
+def bopRuntimeDirectory = providers.gradleProperty('bopRuntimeDirectory').orElse(
+        localRunSettings.getProperty('bopRuntimeDirectory', 'libs/bop-runtime'))
+
+// BOP is integrated into this core branch. Stage only its real published dependencies.
+Map<String, String> bopRuntimeJars = [
+        'BiomesOPlenty-neoforge-26.1.2-26.1.2.0.22.jar':
+                '9F0853D3BA2BD9EAF25EEE5438D601F8222BB4BD3EF62E8D3AFE56011C761209',
+        'GlitchCore-neoforge-26.1.2-26.1.2.0.2.jar':
+                '5EE72FD30A43F6C71B7EFDE17054B93686EBB95604709F912075EDBD56B1722B',
+        'TerraBlender-neoforge-26.1.2-26.1.2.0.3.jar':
+                '2B9A081FA64EDF137B3B059E71AA01568FCC2A330F3471078655EECD328CB587'
+]
+def baseClientDirectory = layout.projectDirectory.dir('run-core-only-26.1.2')
+def bopClientDirectory = layout.projectDirectory.dir('run-bop-26.1.2-phase4')
+def checkManualClientMode = {
+    if (providers.gradleProperty('packagedRuntime').map { it.toBoolean() }.getOrElse(false)
+            || providers.gradleProperty('clientProbe').map { it.toBoolean() }.getOrElse(false)) {
+        throw new GradleException('Manual clients use core source output, not packaged-runtime or probe mode')
+    }
+}
+def jarNamesIn = { File modsDirectory ->
+    fileTree(modsDirectory) { include '**/*.jar' }.files.collect {
+        modsDirectory.toPath().relativize(it.toPath()).toString().replace('\\', '/')
+    }.sort()
+}
+def verifyBaseClientMods = tasks.register('verifyBaseClientMods') {
+    group = 'verification'
+    description = 'Checks that the isolated core-only client has no extra mod jars.'
+    doLast {
+        checkManualClientMode()
+        List<String> extraJars = jarNamesIn(baseClientDirectory.dir('mods').asFile)
+        if (!extraJars.isEmpty()) {
+            throw new GradleException("Core-only mods must be empty; preserve and move these jars before launching: ${extraJars}")
+        }
+    }
+}
+def prepareBopClientMods = tasks.register('prepareBopClientMods') {
+    group = 'ide'
+    description = 'Checksums and stages BOP, GlitchCore and TerraBlender for the built-in integration.'
+    doLast {
+        checkManualClientMode()
+        File sourceDirectory = file(bopRuntimeDirectory.get())
+        File modsDirectory = bopClientDirectory.dir('mods').asFile
+        if (sourceDirectory.canonicalFile.toPath().startsWith(bopClientDirectory.asFile.canonicalFile.toPath())) {
+            throw new GradleException('bopRuntimeDirectory must be separate from the BOP launch destination')
+        }
+        bopRuntimeJars.each { name, expectedHash ->
+            File jar = new File(sourceDirectory, name)
+            if (!jar.isFile() || sha256Of(jar) != expectedHash) {
+                throw new GradleException("Missing or incorrect ${name}; set bopRuntimeDirectory to the exact candidate bundle")
+            }
+        }
+        List<String> extraJars = jarNamesIn(modsDirectory).findAll { !bopRuntimeJars.containsKey(it) }
+        if (!extraJars.isEmpty()) {
+            throw new GradleException("Unexpected BOP launch jars; preserve and move them before launching: ${extraJars}")
+        }
+        // Never replace an existing different jar or alter any save.
+        bopRuntimeJars.each { name, expectedHash ->
+            File staged = new File(modsDirectory, name)
+            if (staged.exists() && sha256Of(staged) != expectedHash) {
+                throw new GradleException("Existing BOP launch jar differs; preserve it before updating: ${name}")
+            }
+        }
+        modsDirectory.mkdirs()
+        bopRuntimeJars.each { name, expectedHash ->
+            File staged = new File(modsDirectory, name)
+            if (!staged.exists()) java.nio.file.Files.copy(new File(sourceDirectory, name).toPath(), staged.toPath())
+            if (sha256Of(staged) != expectedHash) throw new GradleException("Staged BOP checksum mismatch: ${name}")
+        }
+        logger.lifecycle('BOP client ready: integrated core source + BOP + GlitchCore + TerraBlender.')
+    }
+}
+runs {
+    clientBase {
+        runType 'client'
+        workingDirectory baseClientDirectory
+        dependsOn verifyBaseClientMods.get()
+    }
+    clientWithBop {
+        runType 'client'
+        workingDirectory bopClientDirectory
+        dependsOn prepareBopClientMods.get()
+    }
+}
+gradle.projectsEvaluated {
+    ['runClientBase', 'runClientWithBop'].each { taskName ->
+        tasks.named(taskName).configure {
+            group = 'neogradle/runs'
+            description = taskName == 'runClientBase'
+                    ? 'Runs the core alone in run-core-only-26.1.2.'
+                    : 'Runs the built-in BOP integration in run-bop-26.1.2-phase4.'
+        }
+    }
+}
+tasks.register('verifyManualClientProfiles') {
+    group = 'verification'
+    description = 'Verifies isolated core-only and BOP launch profiles without starting Minecraft.'
+    dependsOn verifyBaseClientMods, prepareBopClientMods
+    doLast {
+        ['runClientBase': baseClientDirectory, 'runClientWithBop': bopClientDirectory].each { name, directory ->
+            def launch = tasks.named(name, JavaExec).get()
+            Set<File> runtimeFiles = launch.classpath.files.collect { it.canonicalFile } as Set<File>
+            if (launch.mainClass.get() != 'net.neoforged.fml.startup.Client'
+                    || launch.workingDir.canonicalFile != directory.asFile.canonicalFile
+                    || !sourceSets.main.output.files.every { runtimeFiles.contains(it.canonicalFile) }
+                    || runtimeFiles.any { it.path.contains('phaseFourTest')
+                            || it.name.contains('iaf-phase-four-probes')
+                            || it.name.startsWith('iron-age-furniture-') }) {
+                throw new GradleException("Incorrect working directory or non-production output in ${name}")
+            }
+            List<String> arguments = launch.args.collect { it.toString() }
+            int assetIndex = arguments.indexOf('--assetIndex')
+            if (assetIndex < 0 || assetIndex + 1 >= arguments.size()
+                    || !(arguments[assetIndex + 1] ==~ /minecraft-26\.1\.2-[a-f0-9]{40}/))
+                throw new GradleException("${name} must use this target's content-addressed asset index")
+        }
+    }
+}

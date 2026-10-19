@@ -1,6 +1,6 @@
 {
     "type": "minecraft:crafting_shaped",
-    "group": "furniture",
+    "group": "ironagefurniture:chair_wood_ironage_stool_tall_biomesoplenty_palm",
     "pattern": [
         " x ",
         "yyy",
@@ -18,6 +18,10 @@
         {
             "modid": "biomesoplenty",
             "type": "neoforge:mod_loaded"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "stools"
         }
     ]
 }

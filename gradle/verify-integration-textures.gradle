@@ -5,9 +5,11 @@ import java.util.zip.ZipFile
 def integrationTextureCatalogFile = layout.projectDirectory.file('gradle/furniture-catalog.json')
 def integrationTextureManifestFile = layout.projectDirectory.file(
         'gradle/verification/optional-integration-mods.json')
-def integrationTextureServerDirectory = providers.gradleProperty('optionalIntegrationServerDir')
+Properties integrationTextureSettings = new Properties()
+if (file('local.properties').isFile()) file('local.properties').withInputStream { integrationTextureSettings.load(it) }
+def integrationTextureModsDirectory = providers.gradleProperty('bopRuntimeDirectory')
+        .orElse(integrationTextureSettings.getProperty('bopRuntimeDirectory', 'libs/bop-runtime'))
         .map { project.file(it) }
-        .orElse(layout.projectDirectory.dir('run-optional-integrations').asFile)
 def selectedTextureIntegrations = providers.gradleProperty('optionalIntegrationProbeMods')
         .map { value ->
             value.split(',').collect { it.trim() }.findAll { !it.isEmpty() } as Set<String>
@@ -88,6 +90,22 @@ tasks.register('verifyModelTexturePaths') {
     }
 }
 
+tasks.register('verifyOptionalIntegrationMods') {
+    group = 'verification'
+    description = 'Checks the exact target-version optional provider and dependency digests.'
+    doLast {
+        Map manifest = new JsonSlurper().parse(integrationTextureManifestFile.asFile) as Map
+        if (manifest.minecraft != project.minecraft_version
+                || manifest.mods.collect { it.modId }.toSet() != ['biomesoplenty', 'glitchcore', 'terrablender'].toSet())
+            throw new GradleException('Optional integration manifest does not describe the complete 26.1.2 BOP stack')
+        manifest.mods.each { mod ->
+            File jar = new File(integrationTextureModsDirectory.get(), mod.file.toString())
+            if (!jar.isFile() || sha256Of(jar) != mod.sha256.toString().toUpperCase(Locale.ROOT))
+                throw new GradleException("Missing or changed pinned optional integration dependency: ${mod.file}")
+        }
+    }
+}
+
 tasks.register('verifyOptionalIntegrationTextures') {
     group = 'verification'
     description = 'Checks generated optional-integration texture mappings against pinned mod jars.'
@@ -112,7 +130,7 @@ tasks.register('verifyOptionalIntegrationTextures') {
             throw new GradleException("Unknown or empty optional-integration texture selection: ${selected}")
         }
 
-        File modsDirectory = new File(integrationTextureServerDirectory.get(), 'mods')
+        File modsDirectory = integrationTextureModsDirectory.get()
         Map<String, Set<String>> jarEntriesByNamespace = [:]
         manifest.mods.findAll { mod ->
             mod.role == 'integration' && selected.contains(mod.modId.toString())
@@ -195,10 +213,6 @@ tasks.register('verifyOptionalIntegrationTextures') {
         logger.lifecycle("Verified ${blockModels.size()} block models against " +
                 "${jarEntriesByNamespace.keySet().sort().join(', ')} texture jars")
     }
-}
-
-tasks.named('stageOptionalIntegrationFixture') {
-    dependsOn tasks.named('verifyOptionalIntegrationTextures')
 }
 
 tasks.named('check') {

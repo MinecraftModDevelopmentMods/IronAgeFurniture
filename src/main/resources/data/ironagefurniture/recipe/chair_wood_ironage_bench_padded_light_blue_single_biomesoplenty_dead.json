@@ -7,10 +7,15 @@
     "result": {
         "id": "ironagefurniture:chair_wood_ironage_bench_padded_light_blue_single_biomesoplenty_dead"
     },
+    "group": "ironagefurniture:chair_wood_ironage_bench_padded_light_blue_single_biomesoplenty_dead",
     "neoforge:conditions": [
         {
             "modid": "biomesoplenty",
             "type": "neoforge:mod_loaded"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "benches"
         }
     ]
 }

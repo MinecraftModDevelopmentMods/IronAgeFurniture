@@ -6,5 +6,12 @@
     ],
     "result": {
         "id": "ironagefurniture:chair_wood_ironage_bench_padded_orange_single_dark_oak"
-    }
+    },
+    "group": "ironagefurniture:chair_wood_ironage_bench_padded_orange_single_dark_oak",
+    "neoforge:conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "benches"
+        }
+    ]
 }
