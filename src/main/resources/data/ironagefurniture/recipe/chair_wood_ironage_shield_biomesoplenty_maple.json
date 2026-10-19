@@ -1,5 +1,5 @@
 {
-    "type": "minecraft:crafting_shapeless",
+    "type": "ironagefurniture:shield_chair",
     "ingredients": [
         "minecraft:shield",
         "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_maple"
@@ -7,10 +7,15 @@
     "result": {
         "id": "ironagefurniture:chair_wood_ironage_shield_biomesoplenty_maple"
     },
+    "group": "ironagefurniture:chair_wood_ironage_shield_biomesoplenty_maple",
     "neoforge:conditions": [
         {
             "modid": "biomesoplenty",
             "type": "neoforge:mod_loaded"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "shieldChairs"
         }
     ]
 }
