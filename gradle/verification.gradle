@@ -23,7 +23,7 @@ tasks.register('verifyReleaseConfiguration') {
     description = 'Verifies the exact IronAgeFurniture 26.3 NeoForge release identity.'
     doLast {
         Map<String, String> expected = [
-                mod_version            : '0.4.0.2603002',
+                mod_version            : '0.4.1.2603002',
                 mod_group              : 'zone.moddev.mc',
                 mod_archive_name       : 'iron-age-furniture',
                 mod_id                 : 'ironagefurniture',

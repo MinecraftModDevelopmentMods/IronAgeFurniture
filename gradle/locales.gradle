@@ -10,6 +10,7 @@ def localeResources = {
     localeNames.collectEntries { locale ->
         Map translated = new JsonSlurper().parse(file("gradle/locales/${locale}.json")) as Map
         Map combined = new TreeMap(english)
+        combined.putAll(blockNameAdditions(english, translated, locale))
         combined.putAll(translated.findAll { key, value -> english.containsKey(key) })
         [("src/main/resources/assets/ironagefurniture/lang/${locale}.json".toString()):
                 JsonOutput.prettyPrint(JsonOutput.toJson(combined)) + '\n']
