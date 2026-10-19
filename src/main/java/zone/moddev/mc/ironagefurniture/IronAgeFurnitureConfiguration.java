@@ -1,59 +1,38 @@
 package zone.moddev.mc.ironagefurniture;
 
 import net.neoforged.neoforge.common.ModConfigSpec;
-public class IronAgeFurnitureConfiguration
-{
-	private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
-	
-//	private static final ModConfigSpec.BooleanValue GENERATE_CLASSIC_CHAIRS = BUILDER
-//            .comment("Generate classic chairs.")
-//            .translation("ironagefurniture.generation.generateClassicChairs")
-//            .define("generateClassicChairs", true);
-//	
-//	private static final ModConfigSpec.BooleanValue GENERATE_SHIELD_CHAIRS = BUILDER
-//	        .comment("Generate shield chairs.")
-//	        .translation("ironagefurniture.generation.generateShieldChairs")
-//	        .define("generateShieldChairs", true);
-//
-//	private static final ModConfigSpec.BooleanValue GENERATE_SHORT_STOOLS = BUILDER
-//	        .comment("Generate short stools.")
-//	        .translation("ironagefurniture.generation.generateShortStools")
-//	        .define("generateShortStools", true);
-//
-//	private static final ModConfigSpec.BooleanValue GENERATE_TALL_STOOLS = BUILDER
-//	        .comment("Generate tall stools.")
-//	        .translation("ironagefurniture.generation.generateTallStools")
-//	        .define("generateTallStools", true);
-//
-//	private static final ModConfigSpec.BooleanValue GENERATE_BENCHES = BUILDER
-//	        .comment("Generate benches.")
-//	        .translation("ironagefurniture.generation.generateBenches")
-//	        .define("generateBenches", true);
-//
-//	private static final ModConfigSpec.BooleanValue INTEGRATION_BIOMESOPLENTY = BUILDER
-//	        .comment("Integrate with Biomes O Plenty.")
-//	        .translation("ironagefurniture.integration.bopIntegration")
-//	        .define("bopIntegration", true);
-//
-//	private static final ModConfigSpec.BooleanValue INTEGRATION_BIOMESYOUGO = BUILDER
-//	        .comment("Integrate with Oh The Biomes You Go.")
-//	        .translation("ironagefurniture.integration.bygIntegration")
-//	        .define("bygIntegration", true);
-//
-//	private static final ModConfigSpec.BooleanValue INTEGRATION_IMMERSIVEENGINEERING = BUILDER
-//	        .comment("Integrate with Immersive Engineering.")
-//	        .translation("ironagefurniture.integration.ieIntegration")
-//	        .define("ieIntegration", true);
 
-	static final ModConfigSpec SPEC = BUILDER.build();
-	
-//	public static boolean generateClassicChairs;
-//	public static boolean generateShieldChairs;
-//	public static boolean generateShortStools;
-//	public static boolean generateTallStools;
-//	public static boolean generateBenches;
-//	public static boolean bopIntegration;
-//	public static boolean bygIntegration;
-//	public static boolean ieIntegration;
-	
+/** Server choices affect availability, never the identities stored in a world. */
+public final class IronAgeFurnitureConfiguration {
+    public static final ModConfigSpec SYNCED_SPEC;
+    public static final ModConfigSpec.BooleanValue CLASSIC_CHAIRS, SHIELD_CHAIRS, STOOLS, BENCHES;
+    public static final ModConfigSpec.BooleanValue WINGBACKS, THRONES, WOOD_BEDS, CANOPY_BEDS, LIGHTS;
+    public static final ModConfigSpec.BooleanValue BASE_METALS, MINERALOGY, FORCE_CFM_CONVERSION;
+
+    static {
+        ModConfigSpec.Builder server = new ModConfigSpec.Builder();
+        server.comment("Choose the furniture available for crafting. Existing furniture is kept.").push("furniture");
+        CLASSIC_CHAIRS = server.define("classicChairs", true);
+        SHIELD_CHAIRS = server.define("shieldChairs", true);
+        STOOLS = server.define("stools", true);
+        BENCHES = server.define("benches", true);
+        WINGBACKS = server.define("wingbacks", true);
+        THRONES = server.define("thrones", true);
+        WOOD_BEDS = server.define("woodenBeds", true);
+        CANOPY_BEDS = server.define("canopyBeds", true);
+        LIGHTS = server.define("lights", true);
+        server.pop().push("integration");
+        BASE_METALS = server.comment("Use installed Base Metals materials for additional sconces.").define("baseMetals", true);
+        MINERALOGY = server.comment("Allow Mineralogy rock-salt lamps in sconces.").define("mineralogy", true);
+        FORCE_CFM_CONVERSION = server.comment("Convert supported old Crayfish chairs even while their provider is installed. Back up the world first.")
+                .define("forceCfmChairConversion", false);
+        server.pop();
+        SYNCED_SPEC = server.build();
+    }
+
+    public static boolean enabled(ModConfigSpec.BooleanValue value) {
+        // Registry setup runs before a world loads its synchronised settings.
+        return SYNCED_SPEC.isLoaded() ? value.get() : value.getDefault();
+    }
+    private IronAgeFurnitureConfiguration() { }
 }

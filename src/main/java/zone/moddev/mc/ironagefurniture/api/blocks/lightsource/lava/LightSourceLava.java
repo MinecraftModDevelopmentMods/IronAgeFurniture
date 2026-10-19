@@ -70,7 +70,7 @@ public class LightSourceLava extends LightSourceGlowdust {
 	public LightSourceLava(float hardness, float blastResistance, SoundType sound, String name) {
 		super(zone.moddev.mc.ironagefurniture.init.RegistrationProperties.block(Block.Properties.of().strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> 15), name));
 
-		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH).setValue(WATERLOGGED, false));
+		this.registerDefaultState(this.defaultBlockState().setValue(DIRECTION, Direction.NORTH).setValue(WATERLOGGED, false));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
 		//this.setRegistryName(name);
 	}
@@ -108,14 +108,11 @@ public class LightSourceLava extends LightSourceGlowdust {
 					.lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.SILK_TOUCH), tool) > 0;
 		}
 
-		if (isSilkTouch && !player.isCreative())
-			Block.popResource(level, pos, new ItemStack(state.getBlock().asItem(), 1));
-
 		boolean destroyed = super.onDestroyedByPlayer(state, level, pos, player, tool, willHarvest, fluid);
-
-		if (!isSilkTouch && !player.isCreative()) {
-			breakIntoFire(level, pos, player);
-		}
+        if (destroyed && !level.isClientSide() && !player.isCreative()) {
+            if (isSilkTouch) Block.popResource(level, pos, new ItemStack(state.getBlock().asItem()));
+            else breakIntoFire(level, pos, player);
+        }
 
 		return destroyed;
 	}

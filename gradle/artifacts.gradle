@@ -1,0 +1,148 @@
+// Expand mod metadata and package the main, sources and Javadoc jars.
+tasks.named('processResources', ProcessResources) {
+    filteringCharset = 'UTF-8'
+    def replaceProperties = [
+            version                : project.version,
+            minecraft_version      : project.minecraft_version,
+            minecraft_version_range: project.minecraft_version_range,
+            neo_version            : project.neo_version,
+            neo_version_range      : project.neo_version_range,
+            mod_id                 : project.mod_id,
+            mod_name               : project.mod_name,
+            mod_license            : project.mod_license,
+            mod_authors            : project.mod_authors,
+            mod_description        : project.mod_description
+    ]
+    inputs.properties replaceProperties
+
+    filesMatching(['META-INF/neoforge.mods.toml', 'pack.mcmeta']) {
+        expand replaceProperties
+    }
+    filesMatching(archiveTextPatterns, normalizeArchiveLineEndings)
+
+    from('README.md') {
+        into 'META-INF/ironagefurniture/docs'
+    }
+    from('CHANGELOG.md') {
+        into 'META-INF/ironagefurniture/docs'
+    }
+    from('docs/VERSIONS.md') {
+        into 'META-INF/ironagefurniture/docs'
+    }
+}
+
+ext.commonManifest = {
+    attributes([
+            'Specification-Title'       : project.mod_name,
+            'Specification-Vendor'      : project.mod_authors,
+            'Specification-Version'     : versionParts[0],
+            'Implementation-Title'      : base.archivesName.get(),
+            'Implementation-Version'    : project.version,
+            'Implementation-Vendor'     : project.mod_authors,
+            'Maven-Artifact'             : "${project.group}:${base.archivesName.get()}:${project.version}",
+            'Built-On-Java'              : project.java_version,
+            'Built-On'                   : "${project.minecraft_version}-${project.neo_version}"
+    ])
+}
+
+tasks.named('jar', Jar) {
+    archiveClassifier = ''
+    destinationDirectory = layout.buildDirectory.dir('libs')
+    manifest(commonManifest)
+}
+
+ext.releaseJar = tasks.named('jar', Jar)
+
+tasks.named('sourcesJar', Jar) {
+    filteringCharset = 'UTF-8'
+    includeEmptyDirs = false
+    archiveClassifier = 'sources'
+    filesMatching(archiveTextPatterns, normalizeArchiveLineEndings)
+    manifest {
+        attributes([
+                'Maven-Artifact'        : "${project.group}:${base.archivesName.get()}:${project.version}:sources",
+                'Implementation-Title'  : "${project.mod_name}-sources",
+                'Implementation-Version': project.version
+        ])
+    }
+}
+
+tasks.named('javadocJar', Jar) {
+    filteringCharset = 'UTF-8'
+    archiveClassifier = 'javadoc'
+    filesMatching(archiveTextPatterns, normalizeArchiveLineEndings)
+    manifest {
+        attributes([
+                'Maven-Artifact'        : "${project.group}:${base.archivesName.get()}:${project.version}:javadoc",
+                'Implementation-Title'  : "${project.mod_name}-javadoc",
+                'Implementation-Version': project.version
+        ])
+    }
+}
+
+['apiElements', 'runtimeElements'].each { configurationName ->
+    configurations.named(configurationName) { artifacts.clear() }
+    artifacts { add(configurationName, releaseJar) }
+}
+
+tasks.named('assemble') {
+    dependsOn releaseJar
+    dependsOn tasks.named('sourcesJar')
+    dependsOn tasks.named('javadocJar')
+}
+
+ext.expectedReleaseFiles = providers.provider {
+    String prefix = "${base.archivesName.get()}-${project.version}"
+    ["${prefix}.jar", "${prefix}-sources.jar", "${prefix}-javadoc.jar"]
+}
+ext.preparedReleaseDir = providers.gradleProperty('preparedReleaseDir')
+ext.expectedMavenGroup = 'zone.moddev.mc'
+ext.expectedMavenArtifact = 'iron-age-furniture'
+ext.expectedMavenCoordinate = "${expectedMavenGroup}:${expectedMavenArtifact}:${project.version}"
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = project.group.toString()
+            artifactId = base.archivesName.get()
+            version = project.version.toString()
+            if (preparedReleaseDir.isPresent()) {
+                File prepared = file(preparedReleaseDir.get())
+                artifact(new File(prepared, expectedReleaseFiles.get()[0]))
+                artifact(new File(prepared, expectedReleaseFiles.get()[1])) { classifier = 'sources' }
+                artifact(new File(prepared, expectedReleaseFiles.get()[2])) { classifier = 'javadoc' }
+            } else {
+                artifact(releaseJar)
+                artifact(tasks.named('sourcesJar'))
+                artifact(tasks.named('javadocJar'))
+            }
+            pom {
+                name = project.mod_name
+                description = project.mod_description
+                url = 'https://github.com/MinecraftModDevelopmentMods/IronAgeFurniture'
+                licenses {
+                    license {
+                        name = 'GNU Lesser General Public License, Version 2.1'
+                        url = 'https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:https://github.com/MinecraftModDevelopmentMods/IronAgeFurniture.git'
+                    developerConnection = 'scm:git:ssh://git@github.com/MinecraftModDevelopmentMods/IronAgeFurniture.git'
+                    url = 'https://github.com/MinecraftModDevelopmentMods/IronAgeFurniture'
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            name = 'release'
+            url = uri(providers.environmentVariable('MAVEN_UPLOAD_URL')
+                    .orElse('https://invalid.invalid/missing-maven-upload-url').get())
+            credentials {
+                username = providers.environmentVariable('MAVEN_UPLOAD_USERNAME').orNull ?: ''
+                password = providers.environmentVariable('MAVEN_UPLOAD_PASSWORD').orNull ?: ''
+            }
+        }
+    }
+}

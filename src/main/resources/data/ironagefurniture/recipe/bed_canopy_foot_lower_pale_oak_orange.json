@@ -1,0 +1,19 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_lower_pale_oak_orange",
+    "ingredients": [
+        "ironagefurniture:bed_wood_foot_pale_oak_orange",
+        "minecraft:pale_oak_planks",
+        "minecraft:orange_carpet"
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_canopy_foot_lower_pale_oak_orange",
+        "count": 1
+    },
+    "neoforge:conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "canopyBeds"
+        }
+    ]
+}

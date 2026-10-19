@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        "ironagefurniture:tallow",
+        "minecraft:string"
+    ],
+    "result": {
+        "id": "minecraft:candle",
+        "count": 8
+    },
+    "neoforge:conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "lights"
+        }
+    ]
+}

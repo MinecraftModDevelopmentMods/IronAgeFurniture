@@ -1,0 +1,18 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_dark_oak_purple",
+    "ingredients": [
+        "minecraft:purple_bed",
+        "minecraft:dark_oak_planks"
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_wood_foot_dark_oak_purple",
+        "count": 1
+    },
+    "neoforge:conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
+        }
+    ]
+}

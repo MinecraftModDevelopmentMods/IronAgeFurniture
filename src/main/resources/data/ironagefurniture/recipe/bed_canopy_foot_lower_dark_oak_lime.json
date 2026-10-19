@@ -1,0 +1,19 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_lower_dark_oak_lime",
+    "ingredients": [
+        "ironagefurniture:bed_wood_foot_dark_oak_lime",
+        "minecraft:dark_oak_planks",
+        "minecraft:lime_carpet"
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_canopy_foot_lower_dark_oak_lime",
+        "count": 1
+    },
+    "neoforge:conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "canopyBeds"
+        }
+    ]
+}
