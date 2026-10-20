@@ -7,10 +7,15 @@
     "result": {
         "id": "ironagefurniture:chair_wood_ironage_bench_back_padded_yellow_single_biomeswevegone_mahogany"
     },
+    "group": "ironagefurniture:chair_wood_ironage_bench_back_padded_yellow_single_biomeswevegone_mahogany",
     "neoforge:conditions": [
         {
             "modid": "biomeswevegone",
             "type": "neoforge:mod_loaded"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "benches"
         }
     ]
 }

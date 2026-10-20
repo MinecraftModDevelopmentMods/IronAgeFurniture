@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_bed_canopy_foot_lower",
+    "textures": {
+        "log": "biomeswevegone:block/ebony/log",
+        "planks": "biomeswevegone:block/ebony/planks",
+        "particle": "biomeswevegone:block/ebony/log",
+        "cloth": "minecraft:block/white_wool"
+    }
+}

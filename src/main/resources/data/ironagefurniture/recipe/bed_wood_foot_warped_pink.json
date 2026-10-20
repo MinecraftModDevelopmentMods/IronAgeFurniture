@@ -1,0 +1,18 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_warped_pink",
+    "ingredients": [
+        "minecraft:pink_bed",
+        "minecraft:warped_planks"
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_wood_foot_warped_pink",
+        "count": 1
+    },
+    "neoforge:conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
+        }
+    ]
+}

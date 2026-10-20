@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_left_lower_biomeswevegone_pine_pink",
+    "ingredients": [
+        "ironagefurniture:bed_canopy_foot_lower_biomeswevegone_pine_pink",
+        "ironagefurniture:bed_canopy_foot_lower_biomeswevegone_pine_pink"
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_canopy_foot_left_lower_biomeswevegone_pine_pink",
+        "count": 1
+    },
+    "neoforge:conditions": [
+        {
+            "type": "neoforge:mod_loaded",
+            "modid": "biomeswevegone"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "canopyBeds"
+        }
+    ]
+}

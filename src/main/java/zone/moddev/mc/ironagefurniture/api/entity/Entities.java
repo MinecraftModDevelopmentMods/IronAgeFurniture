@@ -19,6 +19,13 @@ public class Entities
 	public static final DeferredHolder<EntityType<?>, EntityType<ThrownLavaLamp>> THROWN_LAVA_LAMP = register("thrown_lava_lamp",
 		EntityType.Builder.<ThrownLavaLamp>of(ThrownLavaLamp::new, MobCategory.MISC)
 			.sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(10));
+    public static final DeferredHolder<EntityType<?>, EntityType<FallingShieldChair>> FALLING_SHIELD_CHAIR = register("falling_shield_chair",
+            EntityType.Builder.<FallingShieldChair>of(FallingShieldChair::new, MobCategory.MISC)
+                    .sized(.98F, .98F).clientTrackingRange(10).updateInterval(1));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<ReleasedLavaLamp>> RELEASED_LAVA_LAMP = register("released_lava_lamp",
+            EntityType.Builder.<ReleasedLavaLamp>of(ReleasedLavaLamp::new, MobCategory.MISC)
+                    .sized(.25F, .375F).clientTrackingRange(10).updateInterval(1));
 
     private static <T extends Entity> DeferredHolder<EntityType<?>, EntityType<T>> register(String name, EntityType.Builder<T> builder)
     {

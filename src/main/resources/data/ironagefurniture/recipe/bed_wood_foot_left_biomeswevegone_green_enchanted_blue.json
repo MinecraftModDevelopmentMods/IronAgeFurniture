@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_left_biomeswevegone_green_enchanted_blue",
+    "ingredients": [
+        "ironagefurniture:bed_wood_foot_biomeswevegone_green_enchanted_blue",
+        "ironagefurniture:bed_wood_foot_biomeswevegone_green_enchanted_blue"
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_wood_foot_left_biomeswevegone_green_enchanted_blue",
+        "count": 1
+    },
+    "neoforge:conditions": [
+        {
+            "type": "neoforge:mod_loaded",
+            "modid": "biomeswevegone"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
+        }
+    ]
+}

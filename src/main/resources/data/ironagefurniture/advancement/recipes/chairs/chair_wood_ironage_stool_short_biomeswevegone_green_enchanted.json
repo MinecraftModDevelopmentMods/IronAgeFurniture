@@ -33,6 +33,10 @@
         {
             "type": "neoforge:mod_loaded",
             "modid": "biomeswevegone"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "stools"
         }
     ],
     "sends_telemetry_event": false

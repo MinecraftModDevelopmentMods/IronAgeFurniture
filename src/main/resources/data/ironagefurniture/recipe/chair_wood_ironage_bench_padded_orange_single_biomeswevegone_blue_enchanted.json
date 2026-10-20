@@ -7,10 +7,15 @@
     "result": {
         "id": "ironagefurniture:chair_wood_ironage_bench_padded_orange_single_biomeswevegone_blue_enchanted"
     },
+    "group": "ironagefurniture:chair_wood_ironage_bench_padded_orange_single_biomeswevegone_blue_enchanted",
     "neoforge:conditions": [
         {
             "modid": "biomeswevegone",
             "type": "neoforge:mod_loaded"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "benches"
         }
     ]
 }

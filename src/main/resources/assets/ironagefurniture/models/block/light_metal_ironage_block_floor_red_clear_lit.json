@@ -1,4 +1,5 @@
 {
+	"render_type": "minecraft:cutout",
 	"parent": "ironagefurniture:block/template_light_metal_ironage_block_floor_vial",
 	"textures": {
 		"contents": "minecraft:block/redstone_block"

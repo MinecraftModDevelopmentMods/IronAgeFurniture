@@ -1,5 +1,5 @@
 {
-    "type": "minecraft:crafting_shapeless",
+    "type": "ironagefurniture:shield_chair",
     "ingredients": [
         "minecraft:shield",
         "ironagefurniture:chair_wood_ironage_classic_biomeswevegone_cika"
@@ -7,10 +7,15 @@
     "result": {
         "id": "ironagefurniture:chair_wood_ironage_shield_biomeswevegone_cika"
     },
+    "group": "ironagefurniture:chair_wood_ironage_shield_biomeswevegone_cika",
     "neoforge:conditions": [
         {
             "modid": "biomeswevegone",
             "type": "neoforge:mod_loaded"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "shieldChairs"
         }
     ]
 }

@@ -43,8 +43,12 @@ jobs:
       - name: Compile production code
         run: |
           chmod +x ./gradlew
+          ./gradlew clean --no-daemon --stacktrace --max-workers=2 \
+            "-Dorg.gradle.java.installations.paths=$JAVA_HOME" \
+            -Dorg.gradle.java.installations.auto-detect=false \
+            -Dorg.gradle.java.installations.auto-download=false
           gradle_args=(
-            clean classes --rerun-tasks --no-build-cache --no-daemon --stacktrace
+            classes --rerun-tasks --no-build-cache --no-daemon --stacktrace --max-workers=2
             "-Dorg.gradle.java.installations.paths=$JAVA_HOME"
             -Dorg.gradle.java.installations.auto-detect=false
             -Dorg.gradle.java.installations.auto-download=false

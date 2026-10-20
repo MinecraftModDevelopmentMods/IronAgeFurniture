@@ -1,0 +1,19 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_throne_spruce_brown",
+    "ingredients": [
+        "ironagefurniture:chair_wood_ironage_wingback_spruce_brown",
+        "minecraft:spruce_planks",
+        "minecraft:brown_carpet"
+    ],
+    "result": {
+        "id": "ironagefurniture:chair_wood_ironage_throne_spruce_brown",
+        "count": 1
+    },
+    "neoforge:conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "thrones"
+        }
+    ]
+}

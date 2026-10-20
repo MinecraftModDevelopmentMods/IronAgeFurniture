@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_left_lower_biomeswevegone_baobab",
+    "ingredients": [
+        "ironagefurniture:bed_canopy_foot_lower_biomeswevegone_baobab",
+        "ironagefurniture:bed_canopy_foot_lower_biomeswevegone_baobab"
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_canopy_foot_left_lower_biomeswevegone_baobab",
+        "count": 1
+    },
+    "neoforge:conditions": [
+        {
+            "type": "neoforge:mod_loaded",
+            "modid": "biomeswevegone"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "canopyBeds"
+        }
+    ]
+}

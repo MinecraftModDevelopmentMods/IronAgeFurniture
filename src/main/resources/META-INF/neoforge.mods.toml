@@ -3,6 +3,9 @@ loaderVersion="${loader_version_range}"
 license="${mod_license}"
 issueTrackerURL="https://github.com/MinecraftModDevelopmentMods/IronAgeFurniture/issues"
 
+[[mixins]]
+config="ironagefurniture.mixins.json"
+
 [[mods]]
 modId="${mod_id}"
 version="${version}"
@@ -31,12 +34,13 @@ ${mod_description}
 [[dependencies.ironagefurniture]]
     modId="biomesoplenty"
     type="optional"
-    versionRange="[0,)"
+    versionRange="[21.11.0.31,)"
     ordering="AFTER"
     side="BOTH"
+
 [[dependencies.ironagefurniture]]
     modId="biomeswevegone"
     type="optional"
-    versionRange="[0,)"
+    versionRange="[4.4.0,)"
     ordering="AFTER"
     side="BOTH"

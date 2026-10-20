@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_left_biomesoplenty_umbran_cyan",
+    "ingredients": [
+        "ironagefurniture:bed_wood_foot_biomesoplenty_umbran_cyan",
+        "ironagefurniture:bed_wood_foot_biomesoplenty_umbran_cyan"
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_wood_foot_left_biomesoplenty_umbran_cyan",
+        "count": 1
+    },
+    "neoforge:conditions": [
+        {
+            "type": "neoforge:mod_loaded",
+            "modid": "biomesoplenty"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
+        }
+    ]
+}

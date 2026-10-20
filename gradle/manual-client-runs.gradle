@@ -1,0 +1,90 @@
+import groovy.json.JsonSlurper
+
+// Manual launches contain production output only. Keep their worlds and logs
+// outside the checkout, and never overwrite a different installed dependency.
+Properties settings = new Properties()
+if (file('local.properties').isFile()) file('local.properties').withInputStream { settings.load(it) }
+def runtimeDirectory = providers.gradleProperty('optionalRuntimeDirectory')
+        .orElse(providers.gradleProperty('bopRuntimeDirectory'))
+        .orElse(settings.getProperty('bopRuntimeDirectory', 'libs/optional-runtime'))
+File manualRoot = file(providers.gradleProperty('manualRunRoot').getOrElse('../manual-runs/1.21.11-phase4'))
+Map manifest = new JsonSlurper().parse(file('gradle/verification/optional-integration-mods.json')) as Map
+Map profiles = [
+        clientBase: [folder: 'core-only', mods: []],
+        clientWithBop: [folder: 'bop', mods: ['biomesoplenty', 'glitchcore', 'terrablender']],
+        clientWithBwg: [folder: 'bwg', mods: ['biomeswevegone', 'terrablender', 'corgilib', 'ohthetreesyoullgrow', 'geckolib']],
+        clientWithIntegrations: [folder: 'bop-and-bwg', mods: manifest.mods.collect { it.modId }]
+]
+Map prepareTasks = [:]
+profiles.each { name, profile ->
+    File directory = new File(manualRoot, profile.folder)
+    profile.directory = directory
+    prepareTasks[name] = tasks.register("prepare${name.capitalize()}Mods") {
+        group = 'ide'
+        description = "Verifies and stages only the pinned optional dependencies for ${name}."
+        doLast {
+            if (providers.gradleProperty('packagedRuntime').map { it.toBoolean() }.getOrElse(false)
+                    || providers.gradleProperty('clientProbe').map { it.toBoolean() }.getOrElse(false))
+                throw new GradleException('Manual profiles use production output, not packaged probes')
+            if (directory.canonicalFile.toPath().startsWith(projectDir.canonicalFile.toPath()))
+                throw new GradleException('Manual worlds and logs must remain outside the checkout')
+            List selected = manifest.mods.findAll { it.modId in profile.mods }
+            if (selected.size() != profile.mods.size()) throw new GradleException("Incomplete pinned stack for ${name}")
+            File source = file(runtimeDirectory.get())
+            File mods = new File(directory, 'mods')
+            if (source.canonicalFile.toPath().startsWith(directory.canonicalFile.toPath()))
+                throw new GradleException('Dependency source must be separate from the launch destination')
+            List<File> existing = fileTree(mods) { include '**/*.jar' }.files as List
+            List unknown = existing.findAll { jar -> !selected.any { it.file == jar.name && jar.parentFile.canonicalFile == mods.canonicalFile } }
+            if (!unknown.isEmpty()) throw new GradleException("Preserve and move unexpected launch jars before continuing: ${unknown}")
+            selected.each { mod ->
+                File original = new File(source, mod.file)
+                File staged = new File(mods, mod.file)
+                String expected = mod.sha256.toUpperCase(Locale.ROOT)
+                if (!original.isFile() || sha256Of(original) != expected)
+                    throw new GradleException("Missing or changed pinned dependency: ${original}")
+                if (staged.exists() && (!staged.isFile() || sha256Of(staged) != expected))
+                    throw new GradleException("Existing launch dependency differs; preserved: ${staged}")
+            }
+            if (!selected.isEmpty()) mods.mkdirs()
+            selected.each { mod ->
+                File staged = new File(mods, mod.file)
+                if (!staged.exists()) java.nio.file.Files.copy(new File(source, mod.file).toPath(), staged.toPath())
+                if (sha256Of(staged) != mod.sha256.toUpperCase(Locale.ROOT))
+                    throw new GradleException("Staged dependency checksum mismatch: ${staged}")
+            }
+        }
+    }
+}
+runs {
+    profiles.each { profileName, profile ->
+        create(profileName) {
+            runType 'client'
+            workingDirectory profile.directory
+            dependsOn prepareTasks[profileName].get()
+        }
+    }
+}
+tasks.register('verifyManualClientProfiles') {
+    group = 'verification'
+    description = 'Checks isolated production-only core, BOP, BWG and combined launch profiles without starting Minecraft.'
+    dependsOn prepareTasks.values()
+    doLast {
+        profiles.each { profileName, profile ->
+            String taskName = 'run' + profileName.capitalize()
+            def launch = tasks.named(taskName, JavaExec).get()
+            Set<File> runtime = launch.classpath.files.collect { it.canonicalFile } as Set
+            if (launch.mainClass.get() != 'net.neoforged.fml.startup.Client'
+                    || launch.workingDir.canonicalFile != profile.directory.canonicalFile
+                    || !sourceSets.main.output.files.every { runtime.contains(it.canonicalFile) }
+                    || runtime.any { it.path.contains('optionalIntegrationTest') || it.path.contains('phaseFourTest')
+                            || it.name.contains('probe') || it.name.startsWith('iron-age-furniture-') })
+                throw new GradleException("Non-production output or wrong working directory in ${taskName}")
+            List arguments = launch.args.collect { it.toString() }
+            int index = arguments.indexOf('--assetIndex')
+            if (index < 0 || index + 1 >= arguments.size()
+                    || !(arguments[index + 1] ==~ /minecraft-1\.21\.11-[a-f0-9]{40}/))
+                throw new GradleException("Wrong target-native asset index in ${taskName}")
+        }
+    }
+}

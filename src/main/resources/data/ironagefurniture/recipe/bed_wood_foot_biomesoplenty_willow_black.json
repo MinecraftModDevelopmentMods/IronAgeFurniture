@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_biomesoplenty_willow_black",
+    "ingredients": [
+        "minecraft:black_bed",
+        "biomesoplenty:willow_planks"
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_wood_foot_biomesoplenty_willow_black",
+        "count": 1
+    },
+    "neoforge:conditions": [
+        {
+            "type": "neoforge:mod_loaded",
+            "modid": "biomesoplenty"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
+        }
+    ]
+}

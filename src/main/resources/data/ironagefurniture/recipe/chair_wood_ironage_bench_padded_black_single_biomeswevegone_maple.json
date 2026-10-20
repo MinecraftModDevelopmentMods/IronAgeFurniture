@@ -7,10 +7,15 @@
     "result": {
         "id": "ironagefurniture:chair_wood_ironage_bench_padded_black_single_biomeswevegone_maple"
     },
+    "group": "ironagefurniture:chair_wood_ironage_bench_padded_black_single_biomeswevegone_maple",
     "neoforge:conditions": [
         {
             "modid": "biomeswevegone",
             "type": "neoforge:mod_loaded"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "benches"
         }
     ]
 }
