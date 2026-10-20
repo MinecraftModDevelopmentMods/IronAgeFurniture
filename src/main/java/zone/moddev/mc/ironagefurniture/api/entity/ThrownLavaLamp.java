@@ -44,7 +44,7 @@ public class ThrownLavaLamp extends ThrowableItemProjectile {
 			return;
 		}
 
-		ItemParticleOption itemParticle = new ItemParticleOption(ParticleTypes.ITEM, getItem());
+		ItemParticleOption itemParticle = new ItemParticleOption(ParticleTypes.ITEM, new ItemStack(getDefaultItem()));
 		for (int i = 0; i < 8; i++) {
 			level().addParticle(itemParticle, getX(), getY(), getZ(),
 				(random.nextDouble() - 0.5D) * 0.08D,

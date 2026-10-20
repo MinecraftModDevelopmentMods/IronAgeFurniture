@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_left_biomesoplenty_hellbark_lime",
+    "ingredients": [
+        "ironagefurniture:bed_wood_foot_biomesoplenty_hellbark_lime",
+        "ironagefurniture:bed_wood_foot_biomesoplenty_hellbark_lime"
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_wood_foot_left_biomesoplenty_hellbark_lime",
+        "count": 1
+    },
+    "neoforge:conditions": [
+        {
+            "type": "neoforge:mod_loaded",
+            "modid": "biomesoplenty"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
+        }
+    ]
+}

@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_biomeswevegone_maple_magenta",
+    "ingredients": [
+        "minecraft:magenta_bed",
+        "biomeswevegone:maple_planks"
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_wood_foot_biomeswevegone_maple_magenta",
+        "count": 1
+    },
+    "neoforge:conditions": [
+        {
+            "type": "neoforge:mod_loaded",
+            "modid": "biomeswevegone"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
+        }
+    ]
+}

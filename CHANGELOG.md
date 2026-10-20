@@ -1,3 +1,16 @@
+# IronAgeFurniture 0.4.0.121112
+
+- Added wooden beds, double beds, canopy beds, wingbacks and thrones to NeoForge 1.21.11, with sixteen upholstery colours and matching wood recipes.
+- Added the new furniture for all fourteen BOP woods and twenty-five BWG woods without changing existing furniture IDs.
+- Shield chairs now keep the shield's name, patterns, damage and other components when crafted, placed, retrieved or broken. Empty frames have their own item appearance and snug shape.
+- Candle sconces now hold up to four vanilla candles, with mixed colours and individual components. Candles are removed newest first, and the light level rises from 12 to 15. Held candles don't produce flames.
+- Sconces keep their metal when filled, emptied, broken or reloaded. Older furniture data is preserved, including recoverable item data when an optional mod is missing.
+- Kept water-bucket and redstone behaviour for wet candles and torches, support-loss drops, safe lava removal, falling-lamp shattering and lava-water conversion.
+- Fixed the red lamp turning grey when powered. Its glass now stays transparent at every signal strength.
+- Added separate Chairs, Benches, Beds and Lights tabs, server-controlled furniture availability and immediate recipe discovery.
+- Added HUD names for every block and item, including hidden lighting variants, in all seventeen language files. New names use English where a translation isn't available.
+- Updated rendering and save handling for 1.21.11, kept Minecraft's shared asset cache intact, and added separate core-only, BOP, BWG and combined development launches.
+
 # IronAgeFurniture 0.3.0.121112
 
 - Advance IronAgeFurniture to Minecraft 1.21.11 and NeoForge 21.11.45 on Java 21.

@@ -1,0 +1,247 @@
+import java.security.MessageDigest
+import org.apache.tools.ant.filters.FixCrLfFilter
+import org.gradle.jvm.toolchain.JvmVendorSpec
+
+// Minecraft and Java versions, dependency checks, and local run profiles.
+ext.sha256Of = { File inputFile ->
+    MessageDigest digest = MessageDigest.getInstance('SHA-256')
+    inputFile.withInputStream { input ->
+        byte[] buffer = new byte[8192]
+        for (int read = input.read(buffer); read >= 0; read = input.read(buffer)) {
+            if (read > 0) digest.update(buffer, 0, read)
+        }
+    }
+    digest.digest().encodeHex().toString().toUpperCase()
+}
+
+group = project.mod_group
+version = project.mod_version
+base.archivesName = project.mod_archive_name
+
+ext.versionParts = project.mod_version.toString().tokenize('.')
+if (versionParts.size() != 4 || !versionParts.every { it ==~ /\d+/ }) {
+    throw new GradleException("mod_version must use Major.Minor.Bug.Target numeric form: ${project.mod_version}")
+}
+def minecraftVersionParts = project.minecraft_version.toString().tokenize('.')
+if (minecraftVersionParts.size() < 2 || minecraftVersionParts.size() > 3
+        || !minecraftVersionParts.every { it ==~ /\d+/ }) {
+    throw new GradleException("minecraft_version must use major.minor or major.minor.patch numeric form: ${project.minecraft_version}")
+}
+def minecraftPatch = minecraftVersionParts.size() == 3 ? minecraftVersionParts[2] : '0'
+def expectedTargetVersion = "${minecraftVersionParts[0]}" +
+        "${minecraftVersionParts[1].padLeft(2, '0')}" +
+        "${minecraftPatch.padLeft(2, '0')}" + project.loader_code
+if (versionParts[3] != expectedTargetVersion) {
+    throw new GradleException("mod_version target ${versionParts[3]} does not match " +
+            "Minecraft ${project.minecraft_version} ${project.loader_name} target ${expectedTargetVersion}")
+}
+
+ext.functional_version = versionParts[0..2].join('.')
+ext.display_version = project.mod_version
+ext.release_tag = project.mod_version
+
+if (GradleVersion.current() != GradleVersion.version('9.2.1')) {
+    throw new GradleException("This build requires Gradle 9.2.1, found ${GradleVersion.current()}")
+}
+// Buildship normally launches Gradle with the JVM that runs Eclipse. Gradle 9.2.1
+// supports newer JVMs, while compilation remains pinned to the exact Java 21
+// toolchain below and in verifyBuildEnvironment.
+if (!JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_21)) {
+    throw new GradleException("Gradle requires Java 21 or newer, found ${System.getProperty('java.version')}")
+}
+
+ext.java21Compiler = javaToolchains.compilerFor {
+    languageVersion = JavaLanguageVersion.of(21)
+    vendor = JvmVendorSpec.ADOPTIUM
+}
+ext.java21Launcher = javaToolchains.launcherFor {
+    languageVersion = JavaLanguageVersion.of(21)
+    vendor = JvmVendorSpec.ADOPTIUM
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+        vendor = JvmVendorSpec.ADOPTIUM
+    }
+    withSourcesJar()
+    withJavadocJar()
+}
+
+tasks.withType(JavaCompile).configureEach {
+    javaCompiler = java21Compiler
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+    options.encoding = 'UTF-8'
+    options.compilerArgs.addAll(['-Xlint:deprecation', '-Xmaxerrs', '1000'])
+}
+
+tasks.named('compileTestJava', JavaCompile) {
+    options.compilerArgs.add('-proc:none')
+}
+
+// NeoGradle stores downloaded vanilla executables in its project-local cache.
+// Preserve complete cached executables during an offline rerun; missing or
+// incomplete entries still execute normally and retain NeoGradle's diagnostic.
+tasks.matching { task -> task.name.startsWith('cacheVersionExecutable') }.configureEach {
+    onlyIf {
+        Set<File> cachedOutputs = outputs.files.files
+        !gradle.startParameter.offline || cachedOutputs.isEmpty()
+                || !cachedOutputs.every { it.exists() }
+    }
+}
+
+// NeoGradle defaults every game version to the shared name "asset-index".
+// Keep indexes content-addressed so another checkout or an older language
+// snapshot cannot silently change this target's client resources.
+tasks.matching { it.name.endsWith('DownloadAssets') }.configureEach { download ->
+    download.assetIndex.set(download.versionJson.map { metadata ->
+        "minecraft-${project.minecraft_version}-${metadata.assetIndex.sha1}".toString()
+    })
+}
+
+tasks.withType(Javadoc).configureEach {
+    failOnError = false
+    options.encoding = 'UTF-8'
+    options.addStringOption('Xdoclint:none', '-quiet')
+    options.addBooleanOption('notimestamp', true)
+}
+
+tasks.withType(AbstractArchiveTask).configureEach {
+    preserveFileTimestamps = false
+    reproducibleFileOrder = true
+    includeEmptyDirs = false
+}
+
+ext.archiveTextSuffixes = [
+        '.cfg', '.css', '.html', '.info', '.java', '.js', '.json', '.lang',
+        '.mcmeta', '.md', '.properties', '.txt', '.xml', '.toml'
+]
+ext.archiveTextPatterns = archiveTextSuffixes.collect { "**/*${it}".toString() }
+archiveTextPatterns.addAll(['**/element-list', '**/package-list'])
+ext.optionalIntegrationExpectedCounts = [biomesoplenty: [recipes: 14 * 135, advancements: 14 * 135],
+        biomeswevegone: [recipes: 25 * 135, advancements: 25 * 135]]
+ext.normalizeArchiveLineEndings = { details ->
+    details.filter(FixCrLfFilter,
+            eol: FixCrLfFilter.CrLf.newInstance('lf'),
+            eof: FixCrLfFilter.AddAsisRemove.newInstance('asis'))
+}
+
+tasks.register('verifyBuildEnvironment') {
+    group = 'verification'
+    description = 'Verifies the supported Gradle runtime and exact Java 21 compiler toolchain.'
+    doLast {
+        def metadata = java21Compiler.get().metadata
+        String actual = metadata.javaRuntimeVersion.toString()
+        String normalizedActual = actual.replaceFirst(/-LTS$/, '')
+        if (normalizedActual != project.java_toolchain_version.toString()
+                || !metadata.vendor.toString().toLowerCase(Locale.ROOT).contains('temurin')) {
+            throw new GradleException("Java compiler toolchain must be ${project.java_toolchain_version}; " +
+                    "found ${metadata.vendor} ${actual} at ${metadata.installationPath}")
+        }
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    dependsOn tasks.named('verifyBuildEnvironment')
+}
+
+ext.eclipseWorkspaceProjectName = 'IronAgeFurniture'
+eclipse {
+    project {
+        name = eclipseWorkspaceProjectName
+        buildCommand 'org.eclipse.buildship.core.gradleprojectbuilder'
+        natures 'org.eclipse.buildship.core.gradleprojectnature'
+    }
+    classpath {
+        downloadSources = true
+        downloadJavadoc = true
+        file.whenMerged { classpath ->
+            classpath.entries.removeAll { entry ->
+                entry instanceof org.gradle.plugins.ide.eclipse.model.SourceFolder
+                        && entry.path == 'src/main/resources'
+            }
+            Set<String> libraryPaths = new LinkedHashSet<>()
+            classpath.entries.removeAll { entry ->
+                if (!(entry instanceof org.gradle.plugins.ide.eclipse.model.Library)) return false
+                String normalizedPath = entry.path.replace('\\', '/').toLowerCase(Locale.ROOT)
+                return !libraryPaths.add(normalizedPath)
+            }
+            if (!classpath.entries.any { entry -> entry.path == 'build/resources/main' }) {
+                classpath.entries.add(new org.gradle.plugins.ide.eclipse.model.SourceFolder(
+                        'build/resources/main', 'bin/main'))
+            }
+        }
+    }
+}
+
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+    }
+}
+
+runs {
+    configureEach {
+        workingDirectory project.layout.projectDirectory.dir(
+                providers.gradleProperty('runDirectory').getOrElse('run'))
+        systemProperty 'forge.logging.markers', 'REGISTRIES'
+        systemProperty 'forge.logging.console.level', 'debug'
+        if (!providers.gradleProperty('packagedRuntime').map { it.toBoolean() }.getOrElse(false))
+            modSource project.sourceSets.main
+    }
+    client {
+        if (providers.gradleProperty('clientProbe').map { it.toBoolean() }.getOrElse(false)) {
+            if (!providers.gradleProperty('packagedRuntime').map { it.toBoolean() }.getOrElse(false)
+                    || !providers.gradleProperty('runDirectory').isPresent()
+                    || file(providers.gradleProperty('runDirectory').get()).canonicalFile.toPath().startsWith(projectDir.canonicalFile.toPath()))
+                throw new GradleException('Client probes require an external packaged-runtime directory')
+            systemProperty 'iaf.probe.clientRendering', 'true'
+            systemProperty 'fml.earlyprogresswindow', 'false'
+            if (providers.gradleProperty('clientProbeServer').isPresent()) {
+                systemProperty 'iaf.probe.multiplayer', 'true'
+                argument '--quickPlayMultiplayer'
+                argument providers.gradleProperty('clientProbeServer').get()
+            } else {
+                argument '--quickPlaySingleplayer'
+                argument 'Phase4RenderProbe'
+            }
+            argument '--username'
+            argument providers.gradleProperty('clientProbeName').getOrElse('IAFRenderProbe')
+            argument '--width'
+            argument '1280'
+            argument '--height'
+            argument '960'
+        }
+    }
+    server {
+        argument '--nogui'
+    }
+}
+
+tasks.withType(JavaExec).configureEach {
+    if (name == 'runServer') standardInput = System.in
+    if (providers.gradleProperty('packagedRuntime').map { it.toBoolean() }.getOrElse(false)) {
+        doFirst {
+            // Packaged probes load the jar in mods, never the project's loose classes.
+            environment 'MOD_CLASSES', ''
+            Set<File> developmentOutput = sourceSets.main.output.files.collect { it.canonicalFile } as Set
+            classpath = classpath.filter { !developmentOutput.contains(it.canonicalFile) }
+        }
+    }
+}
+
+sourceSets.main.resources.srcDir 'src/generated/resources'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "net.neoforged:neoforge:${project.neo_version}"
+}
+
+tasks.withType(Test).configureEach {
+    workingDir = project.projectDir
+}

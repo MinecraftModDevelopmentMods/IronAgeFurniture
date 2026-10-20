@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_biomeswevegone_zelkova_light_gray",
+    "ingredients": [
+        "minecraft:light_gray_bed",
+        "biomeswevegone:zelkova_planks"
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_wood_foot_biomeswevegone_zelkova_light_gray",
+        "count": 1
+    },
+    "neoforge:conditions": [
+        {
+            "type": "neoforge:mod_loaded",
+            "modid": "biomeswevegone"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
+        }
+    ]
+}

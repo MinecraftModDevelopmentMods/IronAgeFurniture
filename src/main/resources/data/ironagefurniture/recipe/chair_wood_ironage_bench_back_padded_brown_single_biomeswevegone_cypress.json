@@ -7,10 +7,15 @@
     "result": {
         "id": "ironagefurniture:chair_wood_ironage_bench_back_padded_brown_single_biomeswevegone_cypress"
     },
+    "group": "ironagefurniture:chair_wood_ironage_bench_back_padded_brown_single_biomeswevegone_cypress",
     "neoforge:conditions": [
         {
             "modid": "biomeswevegone",
             "type": "neoforge:mod_loaded"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "benches"
         }
     ]
 }

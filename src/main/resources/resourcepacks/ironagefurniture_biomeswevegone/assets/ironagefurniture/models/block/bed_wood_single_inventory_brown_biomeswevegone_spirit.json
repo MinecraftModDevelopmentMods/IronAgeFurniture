@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_bed_wood_single_inventory",
+    "textures": {
+        "log": "biomeswevegone:block/spirit/log",
+        "planks": "biomeswevegone:block/spirit/planks",
+        "particle": "biomeswevegone:block/spirit/log",
+        "cloth": "minecraft:block/brown_wool"
+    }
+}

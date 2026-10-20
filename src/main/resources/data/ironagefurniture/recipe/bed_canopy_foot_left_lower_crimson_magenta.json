@@ -1,0 +1,18 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_left_lower_crimson_magenta",
+    "ingredients": [
+        "ironagefurniture:bed_canopy_foot_lower_crimson_magenta",
+        "ironagefurniture:bed_canopy_foot_lower_crimson_magenta"
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_canopy_foot_left_lower_crimson_magenta",
+        "count": 1
+    },
+    "neoforge:conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "canopyBeds"
+        }
+    ]
+}

@@ -30,5 +30,11 @@
         "recipes": [
             "ironagefurniture:chair_wood_ironage_bench_log_single_birch"
         ]
-    }
+    },
+    "neoforge:conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "benches"
+        }
+    ]
 }

@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_bed_canopy_head_lower",
+    "textures": {
+        "log": "biomeswevegone:block/baobab/log",
+        "planks": "biomeswevegone:block/baobab/planks",
+        "particle": "biomeswevegone:block/baobab/log",
+        "cloth": "minecraft:block/orange_wool"
+    }
+}

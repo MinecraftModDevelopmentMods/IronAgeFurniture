@@ -1,0 +1,19 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_throne_cherry_pink",
+    "ingredients": [
+        "ironagefurniture:chair_wood_ironage_wingback_cherry_pink",
+        "minecraft:cherry_planks",
+        "minecraft:pink_carpet"
+    ],
+    "result": {
+        "id": "ironagefurniture:chair_wood_ironage_throne_cherry_pink",
+        "count": 1
+    },
+    "neoforge:conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "thrones"
+        }
+    ]
+}

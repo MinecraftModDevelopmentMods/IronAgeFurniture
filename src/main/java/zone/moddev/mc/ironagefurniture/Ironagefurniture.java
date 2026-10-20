@@ -2,17 +2,21 @@ package zone.moddev.mc.ironagefurniture;
 
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.ModList;
 import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import zone.moddev.mc.ironagefurniture.api.CreativeModeBreakTracker;
 import zone.moddev.mc.ironagefurniture.api.entity.Entities;
 import zone.moddev.mc.ironagefurniture.compat.LegacyFurnitureMappings;
-import zone.moddev.mc.ironagefurniture.client.OptionalIntegrationResourcePacks;
-import zone.moddev.mc.ironagefurniture.init.ModBOPBlocks;
-import zone.moddev.mc.ironagefurniture.init.ModBWGBlocks;
 import zone.moddev.mc.ironagefurniture.init.ModCreativeTab;
+import zone.moddev.mc.ironagefurniture.init.PhaseFourFurniture;
+import zone.moddev.mc.ironagefurniture.init.PhaseFourLighting;
+import zone.moddev.mc.ironagefurniture.init.ModBOPBlocks;
+import zone.moddev.mc.ironagefurniture.init.PhaseFourBopFurniture;
+import zone.moddev.mc.ironagefurniture.init.ModBWGBlocks;
+import zone.moddev.mc.ironagefurniture.init.PhaseFourBwgFurniture;
+import zone.moddev.mc.ironagefurniture.client.OptionalIntegrationResourcePacks;
 import zone.moddev.mc.ironagefurniture.init.ModVanillaBackBench;
 import zone.moddev.mc.ironagefurniture.init.ModVanillaBench;
 import zone.moddev.mc.ironagefurniture.init.ModVanillaChairs;
@@ -50,28 +54,35 @@ public class Ironagefurniture
 		ModVanillaPaddedBench.REGISTER.register(modEventBus);
 		ModVanillaPaddedBackBench.REGISTER.register(modEventBus);
 		
-		if (ModList.get().isLoaded("biomesoplenty")) {
-			LOGGER.info("Iron Age Furniture Biomes O Plenty Integration is loading...");
-			ModBOPBlocks.REGISTER.register(modEventBus);
-		}
-
-		if (ModList.get().isLoaded("biomeswevegone")) {
-			LOGGER.info("Iron Age Furniture Oh The Biomes We've Gone integration is loading...");
-			ModBWGBlocks.REGISTER.register(modEventBus);
-		}
-
+        PhaseFourFurniture.REGISTER.register(modEventBus);
+        if (ModList.get().isLoaded("biomesoplenty")) {
+            ModBOPBlocks.REGISTER.register(modEventBus);
+            PhaseFourBopFurniture.REGISTER.register(modEventBus);
+        }
+        if (ModList.get().isLoaded("biomeswevegone")) {
+            ModBWGBlocks.REGISTER.register(modEventBus);
+            PhaseFourBwgFurniture.REGISTER.register(modEventBus);
+        }
+        OptionalIntegrationResourcePacks.register(modEventBus);
+        PhaseFourLighting.BLOCKS.register(modEventBus);
+        PhaseFourLighting.BLOCK_ENTITIES.register(modEventBus);
+        zone.moddev.mc.ironagefurniture.init.PhaseFourBlockEntities.REGISTER.register(modEventBus);
+        zone.moddev.mc.ironagefurniture.init.PhaseFourRecipes.CONDITIONS.register(modEventBus);
+        zone.moddev.mc.ironagefurniture.init.PhaseFourRecipes.SERIALIZERS.register(modEventBus);
         ModItems.REGISTER.register(modEventBus);
         ModCreativeTab.REGISTER.register(modEventBus);
         Entities.REGISTER.register(modEventBus);
         LegacyFurnitureMappings.registerAliases(modEventBus);
-        OptionalIntegrationResourcePacks.register(modEventBus);
         
         modEventBus.addListener(this::commonSetup);
+        modEventBus.addListener(zone.moddev.mc.ironagefurniture.compat.FurnitureConfigurationReload::configReloaded);
 
         NeoForge.EVENT_BUS.register(this);
 		NeoForge.EVENT_BUS.register(new CreativeModeBreakTracker());
         
-        modContainer.registerConfig(ModConfig.Type.COMMON, IronAgeFurnitureConfiguration.SPEC);
+        // 1.21.11 synchronizes gameplay settings through its world/server config;
+        // the newer global SYNCED config type does not exist on this loader.
+        modContainer.registerConfig(ModConfig.Type.SERVER, IronAgeFurnitureConfiguration.SYNCED_SPEC);
         
     }
     
