@@ -11,10 +11,15 @@
     "result": {
         "id": "ironagefurniture:chair_wood_ironage_bench_padded_purple_single_immersiveengineering_treated_wood"
     },
+    "group": "ironagefurniture:chair_wood_ironage_bench_padded_purple_single_immersiveengineering_treated_wood",
     "neoforge:conditions": [
         {
             "modid": "immersiveengineering",
             "type": "neoforge:mod_loaded"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "benches"
         }
     ]
 }

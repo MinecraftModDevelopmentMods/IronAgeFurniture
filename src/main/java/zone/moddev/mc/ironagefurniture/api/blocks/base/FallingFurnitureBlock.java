@@ -16,8 +16,6 @@ import net.minecraft.world.level.block.Fallable;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 
-import java.util.Random;
-
 public abstract class FallingFurnitureBlock extends FurnitureBlock implements Fallable {
 
 	public FallingFurnitureBlock(Properties properties) {
@@ -66,7 +64,8 @@ public abstract class FallingFurnitureBlock extends FurnitureBlock implements Fa
 		return state.isAir() || state.is(BlockTags.FIRE) || state.liquid() || state.canBeReplaced();
 	}
 
-	public void animateTick(BlockState state, Level level, BlockPos pos, Random rnd) {
+	@Override
+	public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource rnd) {
 		if (rnd.nextInt(16) == 0) {
 			BlockPos blockpos = pos.below();
 			if (isFree(level.getBlockState(blockpos))) {

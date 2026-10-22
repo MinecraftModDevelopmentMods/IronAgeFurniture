@@ -1,7 +1,24 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "group": "obsidian",
-  "pattern": ["yyy", "yyy", "yyy"],
-  "key": { "y": { "item": "ironagefurniture:obsidian_chunk" } },
-  "result": { "id": "minecraft:obsidian", "count": 1 }
+    "type": "minecraft:crafting_shaped",
+    "group": "minecraft:obsidian",
+    "pattern": [
+        "yyy",
+        "yyy",
+        "yyy"
+    ],
+    "key": {
+        "y": {
+            "item": "ironagefurniture:obsidian_chunk"
+        }
+    },
+    "result": {
+        "id": "minecraft:obsidian",
+        "count": 1
+    },
+    "neoforge:conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "lights"
+        }
+    ]
 }

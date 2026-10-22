@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_warped_brown",
+    "ingredients": [
+        {
+            "item": "minecraft:brown_bed"
+        },
+        {
+            "item": "minecraft:warped_planks"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_wood_foot_warped_brown",
+        "count": 1
+    },
+    "neoforge:conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
+        }
+    ]
+}

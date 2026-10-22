@@ -1,0 +1,26 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_biomeswevegone_aspen_lime",
+    "ingredients": [
+        {
+            "item": "minecraft:lime_bed"
+        },
+        {
+            "item": "biomeswevegone:aspen_planks"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_wood_foot_biomeswevegone_aspen_lime",
+        "count": 1
+    },
+    "neoforge:conditions": [
+        {
+            "type": "neoforge:mod_loaded",
+            "modid": "biomeswevegone"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
+        }
+    ]
+}

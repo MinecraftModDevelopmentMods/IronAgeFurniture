@@ -77,12 +77,14 @@ public class LightSourceSconceRedTorchWall extends LightSourceSconceTorchWall {
 
 	@Override
 	public void onPlace(BlockState state, Level level, BlockPos pos, BlockState state2, boolean flag) {
+		super.onPlace(state, level, pos, state2, flag);
 		for (Direction direction : Direction.values())
 			level.updateNeighborsAt(pos.relative(direction), this);
 	}
 
 	@Override
 	public void onRemove(BlockState state, Level level, BlockPos pos, BlockState state2, boolean flag) {
+		super.onRemove(state, level, pos, state2, flag);
 		if (flag)
 			return;
 
@@ -112,9 +114,7 @@ public class LightSourceSconceRedTorchWall extends LightSourceSconceTorchWall {
 			return;
 
 		level.setBlock(pos,
-			UnlitVariant().defaultBlockState()
-				.setValue(FurnitureBlock.DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
-				.setValue(FurnitureBlock.WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)),
+			zone.moddev.mc.ironagefurniture.api.SconceMetalData.transition(UnlitVariant(), state),
 			Block.UPDATE_ALL);
 
 		if (!isToggledTooFrequently(level, pos, true))
@@ -129,7 +129,7 @@ public class LightSourceSconceRedTorchWall extends LightSourceSconceTorchWall {
 		return true;
 	}
 
-	private static boolean isToggledTooFrequently(Level level, BlockPos pos, boolean flag) {
+	protected static boolean isToggledTooFrequently(Level level, BlockPos pos, boolean flag) {
 		List<LightSourceSconceRedTorchWall.Toggle> list = RECENT_TOGGLES.computeIfAbsent(level, (p_55680_) -> Lists.newArrayList());
 
 		if (flag)

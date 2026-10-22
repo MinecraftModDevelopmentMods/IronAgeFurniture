@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_left_acacia",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_acacia"
+        },
+        {
+            "item": "ironagefurniture:bed_wood_foot_acacia"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_wood_foot_left_acacia",
+        "count": 1
+    },
+    "neoforge:conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
+        }
+    ]
+}

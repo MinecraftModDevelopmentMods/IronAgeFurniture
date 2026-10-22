@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_cherry_white",
+    "ingredients": [
+        {
+            "item": "minecraft:white_bed"
+        },
+        {
+            "item": "minecraft:cherry_planks"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_wood_foot_cherry_white",
+        "count": 1
+    },
+    "neoforge:conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
+        }
+    ]
+}

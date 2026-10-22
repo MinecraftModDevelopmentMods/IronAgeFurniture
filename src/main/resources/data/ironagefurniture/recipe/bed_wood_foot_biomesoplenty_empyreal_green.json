@@ -1,0 +1,26 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_biomesoplenty_empyreal_green",
+    "ingredients": [
+        {
+            "item": "minecraft:green_bed"
+        },
+        {
+            "item": "biomesoplenty:empyreal_planks"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_wood_foot_biomesoplenty_empyreal_green",
+        "count": 1
+    },
+    "neoforge:conditions": [
+        {
+            "type": "neoforge:mod_loaded",
+            "modid": "biomesoplenty"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
+        }
+    ]
+}

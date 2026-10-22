@@ -1,0 +1,26 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_left_immersiveengineering_treated_wood_blue",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_immersiveengineering_treated_wood_blue"
+        },
+        {
+            "item": "ironagefurniture:bed_wood_foot_immersiveengineering_treated_wood_blue"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_wood_foot_left_immersiveengineering_treated_wood_blue",
+        "count": 1
+    },
+    "neoforge:conditions": [
+        {
+            "type": "neoforge:mod_loaded",
+            "modid": "immersiveengineering"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
+        }
+    ]
+}
