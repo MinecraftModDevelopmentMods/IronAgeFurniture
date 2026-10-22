@@ -11,10 +11,15 @@
     "result": {
         "id": "ironagefurniture:chair_wood_ironage_bench_padded_gray_single_biomeswevegone_redwood"
     },
+    "group": "ironagefurniture:chair_wood_ironage_bench_padded_gray_single_biomeswevegone_redwood",
     "neoforge:conditions": [
         {
             "modid": "biomeswevegone",
             "type": "neoforge:mod_loaded"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "benches"
         }
     ]
 }

@@ -10,5 +10,12 @@
     ],
     "result": {
         "id": "ironagefurniture:chair_wood_ironage_bench_padded_magenta_single_oak"
-    }
+    },
+    "group": "ironagefurniture:chair_wood_ironage_bench_padded_magenta_single_oak",
+    "neoforge:conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "benches"
+        }
+    ]
 }

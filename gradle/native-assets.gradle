@@ -1,0 +1,77 @@
+import groovy.json.JsonSlurper
+import java.nio.file.Files
+import java.security.MessageDigest
+
+// NeoGradle 7.1.38's cached asset stage clears its output directory, including
+// shared objects required by other Minecraft versions. Verify existing official
+// content in place and download only missing files; never replace or prune it.
+tasks.matching { it.name.endsWith('DownloadAssets') }.configureEach { download ->
+    download.assetIndex.set(download.versionJson.map { metadata ->
+        "minecraft-${project.minecraft_version}-${metadata.assetIndex.sha1}".toString()
+    })
+    download.actions.clear()
+    download.outputs.upToDateWhen { false }
+    download.outputs.doNotCacheIf('Shared content-addressed assets are verified in place') { true }
+    download.doLast {
+        def sha1 = { File file ->
+            MessageDigest digest = MessageDigest.getInstance('SHA-1')
+            file.withInputStream { input ->
+                byte[] buffer = new byte[32768]
+                for (int count = input.read(buffer); count >= 0; count = input.read(buffer)) {
+                    if (count > 0) digest.update(buffer, 0, count)
+                }
+            }
+            digest.digest().encodeHex().toString()
+        }
+        def ensureFile = { File destination, String hash, Long size, String address ->
+            if (!(hash ==~ /[0-9a-f]{40}/) || size < 0)
+                throw new GradleException('Invalid official asset hash or size')
+            if (destination.exists()) {
+                if (!destination.isFile() || destination.length() != size || sha1(destination) != hash)
+                    throw new GradleException("Asset checksum drift; preserved for inspection: ${destination}")
+                return
+            }
+            if (gradle.startParameter.offline)
+                throw new GradleException("Official asset missing offline: ${destination}")
+            URI uri = URI.create(address)
+            if (uri.scheme != 'https' || !(uri.host in ['resources.download.minecraft.net',
+                    'piston-meta.mojang.com', 'launchermeta.mojang.com']))
+                throw new GradleException("Unexpected official asset host: ${uri.host}")
+            Files.createDirectories(destination.parentFile.toPath())
+            File temporary = File.createTempFile('.iaf-asset-', '.part', destination.parentFile)
+            try {
+                def connection = uri.toURL().openConnection()
+                connection.connectTimeout = 15000
+                connection.readTimeout = 30000
+                connection.setRequestProperty('User-Agent', 'IronAgeFurniture-Gradle/1.0')
+                connection.inputStream.withCloseable { input ->
+                    temporary.withOutputStream { output -> input.transferTo(output) }
+                }
+                if (temporary.length() != size || sha1(temporary) != hash)
+                    throw new GradleException("Official asset download checksum mismatch: ${hash}")
+                // No replacement: another build may have completed this hash.
+                try { Files.move(temporary.toPath(), destination.toPath()) }
+                catch (java.nio.file.FileAlreadyExistsException ignored) {
+                    if (destination.length() != size || sha1(destination) != hash)
+                        throw new GradleException("Concurrent asset checksum mismatch: ${destination}")
+                }
+            } finally {
+                // Only this invocation's newly created temporary download.
+                Files.deleteIfExists(temporary.toPath())
+            }
+        }
+        def expected = download.versionJson.get().assetIndex
+        File index = download.assetIndexFile.get().asFile
+        ensureFile(index, expected.sha1 as String, expected.size as long, expected.url as String)
+        Map document = new JsonSlurper().parse(index) as Map
+        File root = new File(gradle.gradleUserHomeDir, 'caches/minecraft/assets/objects')
+        def objects = document.objects.values().toList().unique { it.hash }
+        objects.each { asset ->
+            String hash = asset.hash
+            File object = new File(root, "${hash.substring(0, 2)}/${hash}")
+            ensureFile(object, hash, asset.size as long,
+                    "https://resources.download.minecraft.net/${hash.substring(0, 2)}/${hash}")
+        }
+        logger.lifecycle("Verified ${objects.size()} official native assets; no shared-cache cleanup (${expected.sha1})")
+    }
+}

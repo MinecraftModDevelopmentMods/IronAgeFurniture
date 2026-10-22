@@ -24,7 +24,7 @@ side="SERVER"
 [[dependencies.ironagefurnitureintegrationprobe]]
 modId="ironagefurniture"
 type="required"
-versionRange="[0.3.0.121012]"
+versionRange="[0.4.0.121012]"
 ordering="AFTER"
 side="SERVER"
 

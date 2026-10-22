@@ -114,9 +114,9 @@ def archiveTextSuffixes = [
 def archiveTextPatterns = archiveTextSuffixes.collect { "**/*${it}".toString() }
 archiveTextPatterns.addAll(['**/element-list', '**/package-list'])
 def optionalIntegrationExpectedCounts = [
-        biomesoplenty     : [recipes: 507, advancements: 507],
-        biomeswevegone    : [recipes: 975, advancements: 975],
-        immersiveengineering: [recipes: 54, advancements: 38]
+        biomesoplenty     : [recipes: 1755, advancements: 1755],
+        biomeswevegone    : [recipes: 3375, advancements: 3375],
+        immersiveengineering: [recipes: 150, advancements: 150]
 ]
 def optionalIntegrationProbeMods = providers.gradleProperty('optionalIntegrationProbeMods')
         .orElse(optionalIntegrationExpectedCounts.keySet().join(','))
@@ -305,7 +305,7 @@ tasks.register('generateOptionalIntegrationFixtureData') {
             Map recipe = new JsonSlurper().parse(recipeFile) as Map
             List conditions = recipe['neoforge:conditions'] instanceof List
                     ? recipe['neoforge:conditions'] as List : []
-            Map condition = conditions.size() == 1 ? conditions[0] as Map : null
+            Map condition = conditions.find { it.type == 'neoforge:mod_loaded' } as Map
             if (condition?.type == 'neoforge:mod_loaded' && selected.contains(condition.modid)
                     && optionalIntegrationExpectedCounts.containsKey(condition.modid)) {
                 String modId = condition.modid
@@ -320,7 +320,7 @@ tasks.register('generateOptionalIntegrationFixtureData') {
             Map advancement = new JsonSlurper().parse(advancementFile) as Map
             List conditions = advancement['neoforge:conditions'] instanceof List
                     ? advancement['neoforge:conditions'] as List : []
-            Map condition = conditions.size() == 1 ? conditions[0] as Map : null
+            Map condition = conditions.find { it.type == 'neoforge:mod_loaded' } as Map
             if (condition?.type == 'neoforge:mod_loaded' && selected.contains(condition.modid)
                     && optionalIntegrationExpectedCounts.containsKey(condition.modid)) {
                 String modId = condition.modid
@@ -603,7 +603,7 @@ tasks.register('verifyReleaseConfiguration') {
     description = 'Verifies the exact IronAgeFurniture 1.21.1 NeoForge release identity.'
     doLast {
         Map<String, String> expected = [
-                mod_version            : '0.3.0.121012',
+                mod_version            : '0.4.0.121012',
                 mod_group              : 'zone.moddev.mc',
                 mod_archive_name       : 'iron-age-furniture',
                 mod_id                 : 'ironagefurniture',
@@ -678,10 +678,11 @@ tasks.register('verifyResourceJson') {
     doLast {
         List<File> jsonFiles = fileTree('src/main/resources') {
             include '**/*.json'
-            include 'pack.mcmeta'
+            include '**/pack.mcmeta'
         }.files.sort { it.path }
-        if (jsonFiles.size() != 15348) {
-            throw new GradleException("Expected 15348 runtime JSON documents, found ${jsonFiles.size()}")
+        // Includes the copper-ingot fallback recipe and its discovery advancement.
+        if (jsonFiles.size() != 54827) {
+            throw new GradleException("Expected 54827 runtime JSON documents, found ${jsonFiles.size()}")
         }
         jsonFiles.each { candidate ->
             try {
@@ -690,19 +691,34 @@ tasks.register('verifyResourceJson') {
                 throw new GradleException("Invalid resource JSON: ${candidate}", ex)
             }
         }
-        List<String> localeNames = ['en_en.json', 'en_gb.json', 'en_us.json']
+        List<String> localeNames = ['de_au', 'de_de', 'en_ca', 'en_en', 'en_gb', 'en_pt', 'en_us',
+                                    'es_es', 'es_mx', 'fr_ca', 'fr_fr', 'ja_jp', 'ko_kr',
+                                    'pt_br', 'pt_pt', 'ru_ru', 'zh_cn'].collect { it + '.json' }
+        Set<String> actualLocales = fileTree('src/main/resources/assets/ironagefurniture/lang') {
+            include '*.json'
+        }.files.collect { it.name } as Set
+        if (actualLocales != localeNames.toSet())
+            throw new GradleException("Expected exactly seventeen supported locales, found ${actualLocales}")
         List<Map> locales = localeNames.collect { name ->
             new JsonSlurper().parse(file("src/main/resources/assets/ironagefurniture/lang/${name}")) as Map
         }
-        if (!locales.every { it.size() == 7206 }
+        if (!locales.every { it.size() == 13391 }
                 || !locales.tail().every { it.keySet() == locales.first().keySet() }) {
-            throw new GradleException('English locale files must retain 7206 identical translation keys')
+            throw new GradleException('All seventeen locale files must retain 13391 identical translation keys')
         }
 
         Map<String, Map<String, Integer>> optionalIntegrations = optionalIntegrationExpectedCounts
         def hasModLoadedCondition = { Object condition, String modId ->
             condition instanceof Map && condition.type == 'neoforge:mod_loaded'
                     && condition.modid == modId
+        }
+        def validOptionalConditions = { Object conditions, String modId ->
+            conditions instanceof List && conditions.count { hasModLoadedCondition(it, modId) } == 1 &&
+                    conditions.every { hasModLoadedCondition(it, modId) ||
+                            (it instanceof Map && it.type == 'ironagefurniture:feature_enabled' &&
+                                    it.feature in ['classicChairs', 'shieldChairs', 'stools', 'benches',
+                                                   'wingbacks', 'thrones', 'woodenBeds', 'canopyBeds', 'lights']) } &&
+                    conditions.size() in [1, 2]
         }
         File recipeRoot = file('src/main/resources/data/ironagefurniture/recipe')
         File advancementRoot = file('src/main/resources/data/ironagefurniture/advancement')
@@ -712,11 +728,87 @@ tasks.register('verifyResourceJson') {
         Map<File, Map> advancementDocuments = fileTree(advancementRoot) { include '**/*.json' }.files.collectEntries {
             [(it): new JsonSlurper().parse(it) as Map]
         }
+        List<String> frameMetals = ['iron', 'gold', 'adamantine', 'antimony', 'aquarium', 'bismuth',
+                'brass', 'bronze', 'coldiron', 'copper', 'cupronickel', 'electrum', 'invar', 'lead',
+                'mithril', 'nickel', 'pewter', 'platinum', 'silver', 'starsteel', 'steel', 'tin', 'zinc']
+        Map<String, String> frameRecipes = frameMetals.collectEntries { metal ->
+            boolean optional = !(metal in ['iron', 'gold', 'copper'])
+            [("light_metal_ironage_sconce_floor_empty_${optional ? 'basemetals_' : ''}${metal}.json".toString()): metal]
+        }
+        Map<String, Integer> tallowYields = [porkchop: 3, beef: 2, mutton: 2, rabbit: 1, chicken: 1, rotten_flesh: 1]
+        Set<String> waxRecipes = (tallowYields.keySet().collect { "tallow_from_${it}.json".toString() }
+                + ['candles_from_tallow.json']).toSet()
+        if (!recipeDocuments.keySet()*.name.containsAll(frameRecipes.keySet() + waxRecipes)) {
+            throw new GradleException('All 23 fixed-material frame recipes and seven tallow/candle recipes are required')
+        }
         recipeDocuments.each { recipeFile, document ->
+            if (recipeFile.name == 'bed_recolour.json') {
+                if (document != [type: 'ironagefurniture:bed_recolour'])
+                    throw new GradleException('Manual bed recolouring must retain its exact special recipe identity')
+                return
+            }
             if (document.result instanceof Map
                     && (document.result.id == null || document.result.item != null)) {
                 throw new GradleException(
                         "Minecraft 1.21.1 recipe result must use id rather than item: ${recipeFile}")
+            }
+            String feature = recipeFile.name.startsWith('chair_wood_ironage_wingback_') ? 'wingbacks' :
+                    recipeFile.name.startsWith('chair_wood_ironage_throne_') ? 'thrones' :
+                    recipeFile.name.startsWith('bed_wood_foot_') ? 'woodenBeds' :
+                    recipeFile.name.startsWith('bed_canopy_foot_') ? 'canopyBeds' :
+                    recipeFile.name.contains('_shield_') ? 'shieldChairs' :
+                    recipeFile.name.contains('_stool_') ? 'stools' :
+                    recipeFile.name.contains('_bench_') ? 'benches' :
+                    recipeFile.name.startsWith('chair_') ? 'classicChairs' :
+                    recipeFile.name.startsWith('light_') || recipeFile.name == 'obsidian.json'
+                            || waxRecipes.contains(recipeFile.name) ? 'lights' : null
+            if (feature == null) throw new GradleException("Unclassified furniture recipe: ${recipeFile}")
+            if (frameRecipes.containsKey(recipeFile.name)) {
+                String metal = frameRecipes[recipeFile.name]
+                boolean optional = !(metal in ['iron', 'gold', 'copper'])
+                List expectedConditions = [[type: 'ironagefurniture:feature_enabled', feature: 'lights']]
+                if (optional) expectedConditions.add([type: 'ironagefurniture:metal_available', metal: metal])
+                if (metal == 'copper') expectedConditions.add([type: 'neoforge:not',
+                        value: [type: 'neoforge:tag_empty', tag: 'c:nuggets/copper']])
+                Map ingredient = optional || metal == 'copper' ? [tag: "c:nuggets/${metal}".toString()]
+                        : [item: "minecraft:${metal}_nugget".toString()]
+                String id = 'ironagefurniture:' + recipeFile.name.substring(0, recipeFile.name.length() - 5)
+                if (document['neoforge:conditions'] != expectedConditions
+                        || document.type != 'minecraft:crafting_shaped' || document.pattern != ['xxx', 'x  ', 'x  ']
+                        || document.key != [x: ingredient] || document.result != [id: id, count: 4]) {
+                    throw new GradleException("Frame recipe must retain exact native provider/tag conditions and five-nugget/four-frame economy: ${recipeFile}")
+                }
+            } else if (recipeFile.name == 'light_metal_ironage_sconce_floor_empty_copper_from_ingots.json') {
+                String id = 'ironagefurniture:light_metal_ironage_sconce_floor_empty_copper'
+                if (document.type != 'minecraft:crafting_shaped' || document.pattern != ['xxx', 'x  ', 'x  ']
+                        || document.key != [x: [item: 'minecraft:copper_ingot']]
+                        || document.result != [id: id, count: 32] || document.group != id
+                        || document['neoforge:conditions'] != [[type: 'ironagefurniture:feature_enabled', feature: 'lights'],
+                            [type: 'neoforge:tag_empty', tag: 'c:nuggets/copper']])
+                    throw new GradleException('Copper fallback must require an empty nugget tag and yield 32 sconces from five ingots')
+            } else if (feature != null) {
+                List conditions = document['neoforge:conditions'] as List
+                if (conditions == null || conditions.count { it.type == 'ironagefurniture:feature_enabled' &&
+                        it.feature == feature } != 1 || conditions.size() !=
+                        (recipeFile.name =~ /_(biomesoplenty|biomeswevegone|immersiveengineering)_/ ? 2 : 1)) {
+                    throw new GradleException("Missing exact native furniture feature condition: ${recipeFile}")
+                }
+            }
+            if (waxRecipes.contains(recipeFile.name)) {
+                if (recipeFile.name == 'candles_from_tallow.json') {
+                    if (document.type != 'minecraft:crafting_shapeless'
+                            || document.ingredients != [[item: 'ironagefurniture:tallow'], [item: 'minecraft:string']]
+                            || document.result != [id: 'minecraft:candle', count: 8]) {
+                        throw new GradleException('Tallow plus string must retain the eight native vanilla candles recipe')
+                    }
+                } else {
+                    String meat = recipeFile.name.substring('tallow_from_'.length(), recipeFile.name.length() - 5)
+                    if (document.type != 'minecraft:smelting' || document.ingredient != [item: "minecraft:${meat}".toString()]
+                            || document.result != [id: 'ironagefurniture:tallow', count: tallowYields[meat]]
+                            || document.experience != 0.1 || document.cookingtime != 200) {
+                        throw new GradleException("Tallow smelting input, yield or native cooking contract changed: ${recipeFile}")
+                    }
+                }
             }
         }
         def advancementPayloads = { Map document ->
@@ -767,6 +859,9 @@ tasks.register('verifyResourceJson') {
                         throw new GradleException("Recipe advancement rewards missing recipe ${recipeId}: " +
                                 advancementFile)
                     }
+                    if (document['neoforge:conditions'] != recipeDocuments[new File(recipeRoot, "${recipePath}.json")]['neoforge:conditions']) {
+                        throw new GradleException("Furniture recipe/discovery conditions differ: ${advancementFile}")
+                    }
                     List matchingCriteria = recipeCriteria.findAll { criterionName, criterion ->
                         criterion.conditions instanceof Map && criterion.conditions.recipe == recipeId
                     }.keySet() as List
@@ -780,8 +875,7 @@ tasks.register('verifyResourceJson') {
         optionalIntegrations.each { modId, expectedCounts ->
             Set<File> recipes = recipeDocuments.findAll { recipeFile, recipe ->
                 recipe['neoforge:conditions'] instanceof List
-                        && recipe['neoforge:conditions'].size() == 1
-                        && hasModLoadedCondition(recipe['neoforge:conditions'][0], modId)
+                        && recipe['neoforge:conditions'].any { hasModLoadedCondition(it, modId) }
             }.keySet()
             if (recipes.size() != expectedCounts.recipes) {
                 throw new GradleException("Expected ${expectedCounts.recipes} ${modId} recipes, " +
@@ -789,22 +883,19 @@ tasks.register('verifyResourceJson') {
             }
             recipes.each { recipeFile ->
                 Map recipe = recipeDocuments[recipeFile]
-                if (!(recipe['neoforge:conditions'] instanceof List)
-                        || recipe['neoforge:conditions'].size() != 1
-                        || !hasModLoadedCondition(recipe['neoforge:conditions'][0], modId)
+                if (!validOptionalConditions(recipe['neoforge:conditions'], modId)
                         || recipe.type == 'forge:conditional'
                         || recipe.result?.id == null
                         || recipe.result?.item != null) {
                     throw new GradleException(
-                            "Optional recipe lacks one top-level neoforge:mod_loaded condition for ${modId}: " +
+                            "Optional recipe lacks exact provider/feature conditions for ${modId}: " +
                                     recipeFile)
                 }
             }
 
             Set<File> advancements = advancementDocuments.findAll { advancementFile, advancement ->
                 advancement['neoforge:conditions'] instanceof List
-                        && advancement['neoforge:conditions'].size() == 1
-                        && hasModLoadedCondition(advancement['neoforge:conditions'][0], modId)
+                        && advancement['neoforge:conditions'].any { hasModLoadedCondition(it, modId) }
             }.keySet()
             if (advancements.size() != expectedCounts.advancements) {
                 throw new GradleException("Expected ${expectedCounts.advancements} ${modId} advancements, " +
@@ -812,9 +903,7 @@ tasks.register('verifyResourceJson') {
             }
             advancements.each { advancementFile ->
                 Map advancement = advancementDocuments[advancementFile]
-                if (!(advancement['neoforge:conditions'] instanceof List)
-                        || advancement['neoforge:conditions'].size() != 1
-                        || !hasModLoadedCondition(advancement['neoforge:conditions'][0], modId)
+                if (!validOptionalConditions(advancement['neoforge:conditions'], modId)
                         || advancement.advancements != null
                         || advancement.parent == null) {
                     throw new GradleException(
@@ -839,8 +928,8 @@ tasks.register('verifyNamespace') {
         String maintainedPackage = 'zone.moddev.mc.ironagefurniture'
         String maintainedPath = "src/main/java/${maintainedPackage.replace('.', '/')}/"
         List<File> sources = fileTree('src/main/java') { include '**/*.java' }.files.sort { it.path }
-        if (sources.size() != 119) {
-            throw new GradleException("Expected 119 production Java sources, found ${sources.size()}")
+        if (sources.size() != 190) {
+            throw new GradleException("Expected 190 production Java sources, found ${sources.size()}")
         }
         sources.each { sourceFile ->
             String relativePath = project.relativePath(sourceFile).replace('\\', '/')
@@ -1049,6 +1138,10 @@ tasks.register('writeReleaseChecksums') {
     group = 'verification'
     description = 'Writes SHA-256 checksums for the audited release jars.'
     dependsOn tasks.named('verifyReleaseArtifacts')
+    // Refresh the manifest whenever an incremental build changes a jar.
+    inputs.files(expectedReleaseFiles.map { names ->
+        names.collect { name -> layout.buildDirectory.file("libs/${name}").get().asFile }
+    }).withPropertyName('releaseJars').withPathSensitivity(PathSensitivity.NAME_ONLY)
     outputs.file(layout.buildDirectory.file('release/SHA256SUMS'))
     doLast {
         File output = layout.buildDirectory.file('release/SHA256SUMS').get().asFile
@@ -1135,8 +1228,9 @@ tasks.withType(PublishToMavenRepository).configureEach {
 
 def prepareEclipseResources = tasks.register('prepareEclipseResources', Sync) {
     group = 'ide'
-    description = 'Copies token-expanded production resources into Eclipse bin/main.'
-    dependsOn tasks.named('processResources')
+    description = 'Synchronizes compiled production classes and token-expanded resources into Eclipse bin/main.'
+    dependsOn tasks.named('classes')
+    from sourceSets.main.output.classesDirs
     from layout.buildDirectory.dir('resources/main')
     into layout.projectDirectory.dir('bin/main')
 }
@@ -1261,6 +1355,24 @@ tasks.register('verifyEclipseProductionClasspath') {
                 || !metadataText.contains("version=\"${project.version}\"")) {
             throw new GradleException('Eclipse output contains unexpanded NeoForge metadata')
         }
+        Map<String, String> expectedClasses = [:]
+        sourceSets.main.output.classesDirs.files.each { classesDirectory ->
+            fileTree(classesDirectory) { include '**/*.class' }.files.each { classFile ->
+                String relative = classesDirectory.toPath().relativize(classFile.toPath())
+                        .toString().replace('\\', '/')
+                expectedClasses[relative] = sha256Of(classFile)
+            }
+        }
+        File eclipseOutput = file('bin/main')
+        Map<String, String> actualClasses = [:]
+        fileTree(eclipseOutput) { include '**/*.class' }.files.each { classFile ->
+            String relative = eclipseOutput.toPath().relativize(classFile.toPath())
+                    .toString().replace('\\', '/')
+            actualClasses[relative] = sha256Of(classFile)
+        }
+        if (expectedClasses.isEmpty() || actualClasses != expectedClasses) {
+            throw new GradleException('Eclipse classes must exactly match compiled production output, without stale or probe classes')
+        }
         List<String> forbidden = [
                 'src/test', 'bin/test', 'build/classes/java/test',
                 'optionalIntegrationTest', 'junit-', 'hamcrest-',
@@ -1288,4 +1400,6 @@ tasks.named('check') {
 }
 
 apply from: 'gradle/furniture-catalog.gradle'
+apply from: 'gradle/locales.gradle'
 apply from: 'gradle/verify-integration-textures.gradle'
+apply from: 'gradle/native-assets.gradle'

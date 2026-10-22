@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_chair_throne_upper",
+    "textures": {
+        "log": "biomeswevegone:block/green_enchanted/log",
+        "planks": "biomeswevegone:block/green_enchanted/planks",
+        "particle": "biomeswevegone:block/green_enchanted/log",
+        "cloth": "minecraft:block/pink_wool"
+    }
+}

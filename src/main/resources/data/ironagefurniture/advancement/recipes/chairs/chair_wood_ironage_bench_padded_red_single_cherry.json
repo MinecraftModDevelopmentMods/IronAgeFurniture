@@ -30,5 +30,11 @@
         "recipes": [
             "ironagefurniture:chair_wood_ironage_bench_padded_red_single_cherry"
         ]
-    }
+    },
+    "neoforge:conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "benches"
+        }
+    ]
 }

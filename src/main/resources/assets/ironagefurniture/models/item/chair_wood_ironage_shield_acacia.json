@@ -1,3 +1,11 @@
 {
-  "parent": "ironagefurniture:block/chair_wood_ironage_shield_acacia"
+    "parent": "ironagefurniture:block/chair_wood_ironage_shield_acacia",
+    "overrides": [
+        {
+            "predicate": {
+                "ironagefurniture:empty_shield_frame": 1.0
+            },
+            "model": "ironagefurniture:block/chair_wood_ironage_shield_acacia_frame"
+        }
+    ]
 }

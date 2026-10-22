@@ -1,6 +1,6 @@
 {
     "type": "minecraft:crafting_shaped",
-    "group": "furniture",
+    "group": "ironagefurniture:chair_wood_ironage_stool_short_crimson",
     "pattern": [
         " x ",
         "yyy"
@@ -16,5 +16,11 @@
     "result": {
         "count": 1,
         "id": "ironagefurniture:chair_wood_ironage_stool_short_crimson"
-    }
+    },
+    "neoforge:conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "stools"
+        }
+    ]
 }

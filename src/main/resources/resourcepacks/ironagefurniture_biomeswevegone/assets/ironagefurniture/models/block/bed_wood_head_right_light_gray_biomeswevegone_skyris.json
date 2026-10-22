@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_bed_wood_head_right",
+    "textures": {
+        "log": "biomeswevegone:block/skyris/log",
+        "planks": "biomeswevegone:block/skyris/planks",
+        "particle": "biomeswevegone:block/skyris/log",
+        "cloth": "minecraft:block/light_gray_wool"
+    }
+}

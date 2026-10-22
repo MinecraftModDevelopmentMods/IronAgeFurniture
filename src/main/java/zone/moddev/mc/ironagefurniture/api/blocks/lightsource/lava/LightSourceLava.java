@@ -78,7 +78,7 @@ public class LightSourceLava extends LightSourceGlowdust {
 	}
 
 	@Override
-	public void animateTick(BlockState state, Level level, BlockPos pos, Random rnd) {
+	public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource rnd) {
 		BlockPos blockpos = pos.above();
 		if (level.getBlockState(blockpos).isAir() && !level.getBlockState(blockpos).isSolidRender(level, blockpos)) {
 			if (rnd.nextInt(25) == 0) {
@@ -111,13 +111,11 @@ public class LightSourceLava extends LightSourceGlowdust {
 					.registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.SILK_TOUCH), tool) > 0;
 		}
 
-		if (isSilkTouch && !player.isCreative())
-			Block.popResource(level, pos, new ItemStack(state.getBlock().asItem(), 1));
-
 		boolean destroyed = super.onDestroyedByPlayer(state, level, pos, player, willHarvest, fluid);
 
-		if (!isSilkTouch && !player.isCreative()) {
-			breakIntoFire(level, pos, player);
+		if (destroyed && !level.isClientSide() && !player.isCreative()) {
+			if (isSilkTouch) Block.popResource(level, pos, new ItemStack(state.getBlock().asItem()));
+			else breakIntoFire(level, pos, player);
 		}
 
 		return destroyed;

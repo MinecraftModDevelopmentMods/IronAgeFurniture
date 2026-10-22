@@ -1,7 +1,8 @@
 {
 	"credit": "Made by FoxNekitsune",
 	"textures": {
-		"0": "minecraft:block/obsidian"
+		"0": "minecraft:block/obsidian",
+		"particle": "minecraft:block/obsidian"
 	},
 	"elements": [
 		{

@@ -25,7 +25,8 @@ packaged Iron Age Furniture jar and generated probe; the server installation and
 third-party jars remain local.
 
 The default probes the combined BOP, BWG, and Immersive Engineering stack. Each
-integration can also be selected independently; dependency jars may remain installed:
+integration can also be selected independently. Remove the other integration mods
+from that disposable server first; their library dependencies may remain installed:
 
 ```text
 gradlew.bat runOptionalIntegrationServer -PoptionalIntegrationProbeMods=biomesoplenty
@@ -38,9 +39,9 @@ server starts. It builds and stages
 `ironagefurniture-optional-integration-probe.jar`, removes any stale result, and
 accepts success only when the probe writes
 `optional-integration-pass.properties` in the selected server directory with all
-selected conditional resources present. The exact expectations are 507 recipes and
-507 advancements for BOP, 975 and 975 for BWG, and 54 and 38 for Immersive
-Engineering. The combined stack contains 1,536 recipes and 1,520 advancements.
+selected conditional resources present. The expectations are 1,755 recipes and
+1,755 advancements for BOP, 3,375 and 3,375 for BWG, and 150 and 150 for Immersive
+Engineering. The combined stack contains 5,280 recipes and 5,280 advancements.
 
 The probe also records the loaded versions and per-integration counts. It is built
 from `src/optionalIntegrationTest` and is explicitly excluded from all release
