@@ -30,5 +30,11 @@
         "recipes": [
             "ironagefurniture:chair_wood_ironage_bench_padded_magenta_single_crimson"
         ]
-    }
+    },
+    "neoforge:conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "benches"
+        }
+    ]
 }

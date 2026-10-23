@@ -1,0 +1,25 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_lower_acacia_black",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_acacia_black"
+        },
+        {
+            "item": "minecraft:acacia_planks"
+        },
+        {
+            "item": "minecraft:black_carpet"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_canopy_foot_lower_acacia_black",
+        "count": 1
+    },
+    "neoforge:conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "canopyBeds"
+        }
+    ]
+}

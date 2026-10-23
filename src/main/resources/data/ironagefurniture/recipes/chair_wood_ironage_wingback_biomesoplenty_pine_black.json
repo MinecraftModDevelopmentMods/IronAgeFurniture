@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_pine_black",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_pine"
+        },
+        {
+            "item": "biomesoplenty:pine_planks"
+        },
+        {
+            "item": "minecraft:black_carpet"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_pine_black",
+        "count": 1
+    },
+    "neoforge:conditions": [
+        {
+            "type": "neoforge:mod_loaded",
+            "modid": "biomesoplenty"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "wingbacks"
+        }
+    ]
+}

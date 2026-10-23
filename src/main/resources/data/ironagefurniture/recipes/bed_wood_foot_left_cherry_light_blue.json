@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_left_cherry_light_blue",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_cherry_light_blue"
+        },
+        {
+            "item": "ironagefurniture:bed_wood_foot_cherry_light_blue"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_wood_foot_left_cherry_light_blue",
+        "count": 1
+    },
+    "neoforge:conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
+        }
+    ]
+}

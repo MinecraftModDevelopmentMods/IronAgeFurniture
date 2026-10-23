@@ -1,18 +1,24 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "group": "sconce",
-  "pattern": [
-    "xxx",
-    "x  ",
-    "x  "
-  ],
-  "key": {
-    "x": {
-      "item": "minecraft:iron_nugget"
-    }
-  },
-  "result": {
-    "id": "ironagefurniture:light_metal_ironage_sconce_floor_empty_iron",
-    "count": 5
-  }
+    "type": "minecraft:crafting_shaped",
+    "group": "ironagefurniture:light_metal_ironage_sconce_floor_empty_iron",
+    "pattern": [
+        "xxx",
+        "x  ",
+        "x  "
+    ],
+    "key": {
+        "x": {
+            "item": "minecraft:iron_nugget"
+        }
+    },
+    "result": {
+        "id": "ironagefurniture:light_metal_ironage_sconce_floor_empty_iron",
+        "count": 4
+    },
+    "neoforge:conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "lights"
+        }
+    ]
 }

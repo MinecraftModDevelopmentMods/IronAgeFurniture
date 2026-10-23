@@ -1,6 +1,6 @@
 {
     "type": "minecraft:crafting_shaped",
-    "group": "furniture",
+    "group": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_jacaranda",
     "pattern": [
         "x  ",
         "xxx",
@@ -22,6 +22,10 @@
         {
             "modid": "biomesoplenty",
             "type": "neoforge:mod_loaded"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "classicChairs"
         }
     ]
 }

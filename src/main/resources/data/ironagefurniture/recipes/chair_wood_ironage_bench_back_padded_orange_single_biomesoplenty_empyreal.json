@@ -11,10 +11,15 @@
     "result": {
         "id": "ironagefurniture:chair_wood_ironage_bench_back_padded_orange_single_biomesoplenty_empyreal"
     },
+    "group": "ironagefurniture:chair_wood_ironage_bench_back_padded_orange_single_biomesoplenty_empyreal",
     "neoforge:conditions": [
         {
             "modid": "biomesoplenty",
             "type": "neoforge:mod_loaded"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "benches"
         }
     ]
 }

@@ -1,0 +1,28 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "group": "ironagefurniture:light_metal_ironage_sconce_floor_empty_basemetals_starsteel",
+    "pattern": [
+        "xxx",
+        "x  ",
+        "x  "
+    ],
+    "key": {
+        "x": {
+            "tag": "c:nuggets/starsteel"
+        }
+    },
+    "result": {
+        "id": "ironagefurniture:light_metal_ironage_sconce_floor_empty_basemetals_starsteel",
+        "count": 4
+    },
+    "neoforge:conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "lights"
+        },
+        {
+            "type": "ironagefurniture:metal_available",
+            "metal": "starsteel"
+        }
+    ]
+}

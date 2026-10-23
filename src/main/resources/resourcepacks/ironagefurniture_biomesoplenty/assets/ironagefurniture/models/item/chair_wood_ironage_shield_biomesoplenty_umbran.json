@@ -1,0 +1,11 @@
+{
+    "parent": "ironagefurniture:block/chair_wood_ironage_shield_biomesoplenty_umbran",
+    "overrides": [
+        {
+            "predicate": {
+                "ironagefurniture:empty_shield_frame": 1.0
+            },
+            "model": "ironagefurniture:block/chair_wood_ironage_shield_biomesoplenty_umbran_frame"
+        }
+    ]
+}

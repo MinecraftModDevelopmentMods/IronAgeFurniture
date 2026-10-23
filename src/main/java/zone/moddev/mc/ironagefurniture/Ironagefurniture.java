@@ -9,6 +9,11 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import zone.moddev.mc.ironagefurniture.api.CreativeModeBreakTracker;
 import zone.moddev.mc.ironagefurniture.api.entity.Entities;
 import zone.moddev.mc.ironagefurniture.compat.LegacyFurnitureMappings;
+import zone.moddev.mc.ironagefurniture.compat.FurnitureConfigurationReload;
+import zone.moddev.mc.ironagefurniture.client.OptionalIntegrationResourcePacks;
+import zone.moddev.mc.ironagefurniture.init.PhaseFourFurniture;
+import zone.moddev.mc.ironagefurniture.init.PhaseFourBopFurniture;
+import zone.moddev.mc.ironagefurniture.init.PhaseFourRecipes;
 import zone.moddev.mc.ironagefurniture.init.ModBOPBlocks;
 import zone.moddev.mc.ironagefurniture.init.ModCreativeTab;
 import zone.moddev.mc.ironagefurniture.init.ModVanillaBackBench;
@@ -44,26 +49,36 @@ public class Ironagefurniture
 		ModVanillaBench.REGISTER.register(modEventBus);
 		ModVanillaBackBench.REGISTER.register(modEventBus);
 		ModVanillaLights.REGISTER.register(modEventBus);
+		zone.moddev.mc.ironagefurniture.init.PhaseFourLighting.BLOCKS.register(modEventBus);
+		zone.moddev.mc.ironagefurniture.init.PhaseFourLighting.BLOCK_ENTITIES.register(modEventBus);
 		ModVanillaLogBench.REGISTER.register(modEventBus);
 		ModVanillaPaddedBench.REGISTER.register(modEventBus);
 		ModVanillaPaddedBackBench.REGISTER.register(modEventBus);
+		PhaseFourFurniture.REGISTER.register(modEventBus);
+		zone.moddev.mc.ironagefurniture.init.PhaseFourBlockEntities.REGISTER.register(modEventBus);
+		PhaseFourRecipes.CONDITIONS.register(modEventBus);
+		PhaseFourRecipes.SERIALIZERS.register(modEventBus);
+		OptionalIntegrationResourcePacks.register(modEventBus);
+		zone.moddev.mc.ironagefurniture.compat.FurnitureConfigurationSync.register(modEventBus);
 		
 		if (ModList.get().isLoaded("biomesoplenty")) {
 			LOGGER.info("Iron Age Furniture Biomes O Plenty Integration is loading...");
 			ModBOPBlocks.REGISTER.register(modEventBus);
+			PhaseFourBopFurniture.REGISTER.register(modEventBus);
 		}
-		
+
         ModItems.REGISTER.register(modEventBus);
         ModCreativeTab.REGISTER.register(modEventBus);
         Entities.REGISTER.register(modEventBus);
         LegacyFurnitureMappings.registerAliases(modEventBus);
         
         modEventBus.addListener(this::commonSetup);
+        modEventBus.addListener(FurnitureConfigurationReload::configReloaded);
 
         NeoForge.EVENT_BUS.register(this);
 		NeoForge.EVENT_BUS.register(new CreativeModeBreakTracker());
         
-        modContainer.registerConfig(ModConfig.Type.COMMON, IronAgeFurnitureConfiguration.SPEC);
+        modContainer.registerConfig(ModConfig.Type.SERVER, IronAgeFurnitureConfiguration.SYNCED_SPEC);
         
     }
     

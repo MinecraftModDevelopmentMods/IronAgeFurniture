@@ -1,0 +1,25 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_wingback_spruce_light_gray",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:chair_wood_ironage_classic_spruce"
+        },
+        {
+            "item": "minecraft:spruce_planks"
+        },
+        {
+            "item": "minecraft:light_gray_carpet"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:chair_wood_ironage_wingback_spruce_light_gray",
+        "count": 1
+    },
+    "neoforge:conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "wingbacks"
+        }
+    ]
+}

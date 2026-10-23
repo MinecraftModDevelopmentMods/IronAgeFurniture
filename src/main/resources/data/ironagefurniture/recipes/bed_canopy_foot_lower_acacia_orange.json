@@ -1,0 +1,25 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_lower_acacia_orange",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_acacia_orange"
+        },
+        {
+            "item": "minecraft:acacia_planks"
+        },
+        {
+            "item": "minecraft:orange_carpet"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_canopy_foot_lower_acacia_orange",
+        "count": 1
+    },
+    "neoforge:conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "canopyBeds"
+        }
+    ]
+}

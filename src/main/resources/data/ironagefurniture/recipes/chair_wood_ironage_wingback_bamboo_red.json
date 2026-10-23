@@ -1,0 +1,25 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_wingback_bamboo_red",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:chair_wood_ironage_classic_bamboo"
+        },
+        {
+            "item": "minecraft:bamboo_planks"
+        },
+        {
+            "item": "minecraft:red_carpet"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:chair_wood_ironage_wingback_bamboo",
+        "count": 1
+    },
+    "neoforge:conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "wingbacks"
+        }
+    ]
+}

@@ -1,0 +1,25 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_wingback_jungle_cyan",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:chair_wood_ironage_classic_jungle"
+        },
+        {
+            "item": "minecraft:jungle_planks"
+        },
+        {
+            "item": "minecraft:cyan_carpet"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:chair_wood_ironage_wingback_jungle_cyan",
+        "count": 1
+    },
+    "neoforge:conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "wingbacks"
+        }
+    ]
+}

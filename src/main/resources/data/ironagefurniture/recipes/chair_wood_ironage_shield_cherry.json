@@ -1,5 +1,5 @@
 {
-    "type": "minecraft:crafting_shapeless",
+    "type": "ironagefurniture:shield_chair",
     "ingredients": [
         {
             "item": "minecraft:shield"
@@ -10,5 +10,12 @@
     ],
     "result": {
         "id": "ironagefurniture:chair_wood_ironage_shield_cherry"
-    }
+    },
+    "group": "ironagefurniture:chair_wood_ironage_shield_cherry",
+    "neoforge:conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "shieldChairs"
+        }
+    ]
 }
