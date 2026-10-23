@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_left_lower_bamboo_lime",
+    "ingredients": [
+        "ironagefurniture:bed_canopy_foot_lower_bamboo_lime",
+        "ironagefurniture:bed_canopy_foot_lower_bamboo_lime"
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_canopy_foot_left_lower_bamboo_lime",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "canopyBeds"
+    }
+}

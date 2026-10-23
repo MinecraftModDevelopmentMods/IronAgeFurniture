@@ -1,6 +1,20 @@
 {
     "model": {
-        "type": "minecraft:model",
-        "model": "ironagefurniture:item/chair_wood_ironage_shield_acacia"
+        "type": "minecraft:condition",
+        "property": "minecraft:component",
+        "predicate": "minecraft:container",
+        "value": {
+            "items": {
+                "size": 0
+            }
+        },
+        "on_true": {
+            "type": "minecraft:model",
+            "model": "ironagefurniture:block/chair_wood_ironage_shield_acacia_frame"
+        },
+        "on_false": {
+            "type": "minecraft:model",
+            "model": "ironagefurniture:item/chair_wood_ironage_shield_acacia"
+        }
     }
 }

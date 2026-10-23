@@ -1,3 +1,17 @@
+# Iron Age Furniture 0.4.1.2602001
+
+- Bring the Phase 4 furniture and lighting improvements to Forge 26.2.
+- Add wingback chairs, thrones, wooden beds, double beds and canopies in all sixteen colours, across twelve vanilla and fourteen optional BOP wood families.
+- Remove and replace shields without losing their names, patterns, damage or enchantments. Empty shield chairs show the bare wooden frame.
+- Add sconces with up to four mixed-colour candles, matching-metal dishes and newest-first candle removal.
+- Keep each sconce's metal and saved contents when placing, removing or upgrading it.
+- Keep waterlogging, redstone, bucket, support-loss, Silk Touch, lava-lamp and fire-resistant frame behaviour.
+- Include the refined recipes, ingredient discovery, four creative tabs and server-controlled gameplay settings.
+- Keep BOP support built into this target, with its resources loaded only when BOP is installed.
+- Carry forward recovery of older furniture and saved items, and include names for HUD mods in all seventeen language files.
+
+Back up existing worlds and try upgrades on a copy first. Worlds from newer Minecraft versions cannot be downgraded.
+
 # IronAgeFurniture 0.3.0.2602001
 
 - Port IronAgeFurniture to Minecraft 26.2 and Forge 65.1.0 on Java 25.

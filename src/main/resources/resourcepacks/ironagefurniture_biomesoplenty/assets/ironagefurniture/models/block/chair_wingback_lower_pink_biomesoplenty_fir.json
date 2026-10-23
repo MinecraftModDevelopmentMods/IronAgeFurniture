@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_chair_wingback_lower",
+    "textures": {
+        "log": "biomesoplenty:block/fir_log",
+        "planks": "biomesoplenty:block/fir_planks",
+        "particle": "biomesoplenty:block/fir_log",
+        "cloth": "minecraft:block/pink_wool"
+    }
+}

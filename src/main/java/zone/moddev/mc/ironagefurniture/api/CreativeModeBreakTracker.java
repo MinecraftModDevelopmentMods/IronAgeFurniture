@@ -13,7 +13,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.event.level.BlockEvent;
+import net.minecraftforge.event.level.BlockEvent.BreakEvent;
 
 /**
  * Associates a falling lava light with the creative-mode support break that
@@ -24,11 +24,7 @@ public class CreativeModeBreakTracker {
 	private static final long RECENT_BREAK_TICKS = 200L;
 	private static final Map<Level, List<BreakRecord>> BREAKS = new WeakHashMap<>();
 
-	public static void registerRuntimeListener() {
-		BlockEvent.BreakEvent.BUS.addListener(CreativeModeBreakTracker::onBlockBreak);
-	}
-
-	private static void onBlockBreak(BlockEvent.BreakEvent event) {
+	public void onBlockBreak(BreakEvent event) {
 		Player player = event.getPlayer();
 
 		if (!(event.getLevel() instanceof Level level) || level.isClientSide() || player == null || !player.getAbilities().instabuild)

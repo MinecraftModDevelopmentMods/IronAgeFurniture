@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_throne_dark_oak_blue",
+    "ingredients": [
+        "ironagefurniture:chair_wood_ironage_wingback_dark_oak_blue",
+        "minecraft:dark_oak_planks",
+        "minecraft:blue_carpet"
+    ],
+    "result": {
+        "id": "ironagefurniture:chair_wood_ironage_throne_dark_oak_blue",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "thrones"
+    }
+}
