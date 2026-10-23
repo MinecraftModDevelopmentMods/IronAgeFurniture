@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_left_bamboo_yellow",
+    "ingredients": [
+        "ironagefurniture:bed_wood_foot_bamboo_yellow",
+        "ironagefurniture:bed_wood_foot_bamboo_yellow"
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_wood_foot_left_bamboo_yellow",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "woodenBeds"
+    }
+}

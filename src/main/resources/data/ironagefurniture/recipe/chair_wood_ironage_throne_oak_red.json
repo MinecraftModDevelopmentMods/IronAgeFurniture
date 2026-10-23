@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_throne_oak_red",
+    "ingredients": [
+        "ironagefurniture:chair_wood_ironage_wingback_oak",
+        "minecraft:oak_planks",
+        "minecraft:red_carpet"
+    ],
+    "result": {
+        "id": "ironagefurniture:chair_wood_ironage_throne_oak",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "thrones"
+    }
+}

@@ -1,0 +1,25 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_left_biomesoplenty_hellbark_purple",
+    "ingredients": [
+        "ironagefurniture:bed_wood_foot_biomesoplenty_hellbark_purple",
+        "ironagefurniture:bed_wood_foot_biomesoplenty_hellbark_purple"
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_wood_foot_left_biomesoplenty_hellbark_purple",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "forge:and",
+        "values": [
+            {
+                "type": "forge:mod_loaded",
+                "modid": "biomesoplenty"
+            },
+            {
+                "type": "ironagefurniture:feature_enabled",
+                "feature": "woodenBeds"
+            }
+        ]
+    }
+}

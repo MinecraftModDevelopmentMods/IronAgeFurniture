@@ -29,9 +29,18 @@
             "ironagefurniture:chair_wood_ironage_stool_tall_biomesoplenty_maple"
         ]
     },
+    "sends_telemetry_event": false,
     "forge:condition": {
-        "type": "forge:mod_loaded",
-        "modid": "biomesoplenty"
-    },
-    "sends_telemetry_event": false
+        "type": "forge:and",
+        "values": [
+            {
+                "type": "forge:mod_loaded",
+                "modid": "biomesoplenty"
+            },
+            {
+                "type": "ironagefurniture:feature_enabled",
+                "feature": "stools"
+            }
+        ]
+    }
 }

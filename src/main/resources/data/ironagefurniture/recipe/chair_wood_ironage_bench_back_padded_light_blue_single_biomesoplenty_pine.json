@@ -7,8 +7,18 @@
     "result": {
         "id": "ironagefurniture:chair_wood_ironage_bench_back_padded_light_blue_single_biomesoplenty_pine"
     },
+    "group": "ironagefurniture:chair_wood_ironage_bench_back_padded_light_blue_single_biomesoplenty_pine",
     "forge:condition": {
-        "modid": "biomesoplenty",
-        "type": "forge:mod_loaded"
+        "type": "forge:and",
+        "values": [
+            {
+                "modid": "biomesoplenty",
+                "type": "forge:mod_loaded"
+            },
+            {
+                "type": "ironagefurniture:feature_enabled",
+                "feature": "benches"
+            }
+        ]
     }
 }

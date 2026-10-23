@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_throne_acacia_brown",
+    "ingredients": [
+        "ironagefurniture:chair_wood_ironage_wingback_acacia_brown",
+        "minecraft:acacia_planks",
+        "minecraft:brown_carpet"
+    ],
+    "result": {
+        "id": "ironagefurniture:chair_wood_ironage_throne_acacia_brown",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "thrones"
+    }
+}

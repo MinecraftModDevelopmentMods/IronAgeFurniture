@@ -6,5 +6,10 @@
     ],
     "result": {
         "id": "ironagefurniture:chair_wood_ironage_bench_padded_lime_single_mangrove"
+    },
+    "group": "ironagefurniture:chair_wood_ironage_bench_padded_lime_single_mangrove",
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "benches"
     }
 }

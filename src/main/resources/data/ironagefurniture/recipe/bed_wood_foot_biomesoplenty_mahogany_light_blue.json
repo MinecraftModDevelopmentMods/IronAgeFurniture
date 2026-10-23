@@ -1,0 +1,25 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_biomesoplenty_mahogany_light_blue",
+    "ingredients": [
+        "minecraft:light_blue_bed",
+        "biomesoplenty:mahogany_planks"
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_wood_foot_biomesoplenty_mahogany_light_blue",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "forge:and",
+        "values": [
+            {
+                "type": "forge:mod_loaded",
+                "modid": "biomesoplenty"
+            },
+            {
+                "type": "ironagefurniture:feature_enabled",
+                "feature": "woodenBeds"
+            }
+        ]
+    }
+}

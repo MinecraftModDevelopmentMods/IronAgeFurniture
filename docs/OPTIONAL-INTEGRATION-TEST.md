@@ -36,7 +36,7 @@ server starts. It builds and stages
 accepts success only when the probe writes
 `optional-integration-pass.properties` in the selected server directory with all
 selected conditional recipes and recipe advancements present. The exact expected
-count is 546 recipes and 546 advancements for BOP.
+count is 1,890 recipes and 1,890 advancements for BOP.
 
 The probe also records the loaded versions and per-integration counts. It is built
 from `src/optionalIntegrationTest` and is explicitly excluded from all release
