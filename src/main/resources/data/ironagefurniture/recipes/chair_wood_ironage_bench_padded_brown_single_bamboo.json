@@ -10,5 +10,12 @@
     ],
     "result": {
         "id": "ironagefurniture:chair_wood_ironage_bench_padded_brown_single_bamboo"
-    }
+    },
+    "group": "ironagefurniture:chair_wood_ironage_bench_padded_brown_single_bamboo",
+    "neoforge:conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "benches"
+        }
+    ]
 }

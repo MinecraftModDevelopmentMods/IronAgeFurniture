@@ -38,11 +38,10 @@ public class LightSourceSconceRedTorchWallUnlit extends LightSourceSconceRedTorc
 		while (list != null && !list.isEmpty() && level.getGameTime() - (list.get(0)).when > 60L)
 			list.remove(0);
 
-		level.setBlock(pos,
-				ModVanillaLights.light_metal_ironage_sconce_wall_redtorch_iron.get().defaultBlockState()
-						.setValue(FurnitureBlock.DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
-						.setValue(FurnitureBlock.WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)),
-				Block.UPDATE_ALL);
+		if (!hasNeighborSignal(level, pos, state) && !isToggledTooFrequently(level, pos, false)) {
+			level.setBlock(pos, zone.moddev.mc.ironagefurniture.api.SconceMetalData.transition(
+					ModVanillaLights.light_metal_ironage_sconce_wall_redtorch_iron.get(), state), Block.UPDATE_ALL);
+		}
 	}
 
 	@Override

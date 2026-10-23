@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_left_crimson_magenta",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_crimson_magenta"
+        },
+        {
+            "item": "ironagefurniture:bed_wood_foot_crimson_magenta"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_wood_foot_left_crimson_magenta",
+        "count": 1
+    },
+    "neoforge:conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
+        }
+    ]
+}

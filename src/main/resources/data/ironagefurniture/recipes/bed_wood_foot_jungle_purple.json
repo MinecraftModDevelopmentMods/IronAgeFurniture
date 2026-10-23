@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_jungle_purple",
+    "ingredients": [
+        {
+            "item": "minecraft:purple_bed"
+        },
+        {
+            "item": "minecraft:jungle_planks"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_wood_foot_jungle_purple",
+        "count": 1
+    },
+    "neoforge:conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
+        }
+    ]
+}

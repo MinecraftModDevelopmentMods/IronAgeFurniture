@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_spruce",
+    "ingredients": [
+        {
+            "item": "minecraft:red_bed"
+        },
+        {
+            "item": "minecraft:spruce_planks"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_wood_foot_spruce",
+        "count": 1
+    },
+    "neoforge:conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
+        }
+    ]
+}

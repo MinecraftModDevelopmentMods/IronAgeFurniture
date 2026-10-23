@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_birch_black",
+    "ingredients": [
+        {
+            "item": "minecraft:black_bed"
+        },
+        {
+            "item": "minecraft:birch_planks"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_wood_foot_birch_black",
+        "count": 1
+    },
+    "neoforge:conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
+        }
+    ]
+}

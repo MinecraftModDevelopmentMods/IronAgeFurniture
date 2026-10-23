@@ -11,6 +11,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import zone.moddev.mc.ironagefurniture.Ironagefurniture;
 import zone.moddev.mc.ironagefurniture.ModItems;
 import zone.moddev.mc.ironagefurniture.api.blocks.furniture.Chair;
+import zone.moddev.mc.ironagefurniture.api.blocks.furniture.ShieldChair;
 import zone.moddev.mc.ironagefurniture.api.blocks.furniture.ChairNether;
 
 import java.util.function.Supplier;
