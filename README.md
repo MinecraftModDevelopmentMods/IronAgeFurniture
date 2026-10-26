@@ -2,7 +2,7 @@
 
 Iron Age Furniture adds wooden chairs, stools, benches, beds and lighting with a simple, old-fashioned style.
 
-This branch provides Phase 4, version **0.4.1.2603002**, for Minecraft **26.3**, NeoForge **26.3** (minimum `26.3.0.77`), and Java **25**. The supported NeoForge range is `[26.3.0.77,26.3.1)`; builds use `26.3.0.83`.
+This branch provides Phase 4, version **0.4.2.2603002**, for Minecraft **26.3**, NeoForge **26.3** (minimum `26.3.0.77`), and Java **25**. The supported NeoForge range is `[26.3.0.77,26.3.1)`; builds use `26.3.0.99`.
 
 ## Furniture and lighting
 
@@ -54,7 +54,7 @@ Gameplay choices are synchronised from the server. Disabling a furniture family 
 Use the checked-in Gradle wrapper and Temurin Java `25.0.3+9`. This target uses NeoGradle directly; it does not require the legacy Forge Mavenizer.
 
 ```text
-gradlew.bat clean check build javadoc verifyReleaseArtifacts verifyReleaseChecksums
+gradlew.bat check build javadoc verifyReleaseArtifacts verifyReleaseChecksums
 gradlew.bat prepareEclipse verifyEclipseProductionClasspath
 ```
 
@@ -67,10 +67,10 @@ Refresh the Gradle Tasks view, then expand `neogradle/runs` in the core project:
 - `runClientBase` starts the core alone, using the existing `run` folder. Its `mods` folder must contain no jars.
 - `runClientWithBop` starts the core with the tested BOP add-on, BOP `26.3.0.0.15`, GlitchCore `26.3.0.0.5` and TerraBlender `26.3.0.0.9`. It uses `run-bop`, with separate worlds and settings.
 
-Both launchers use this project's current core source. The BOP launcher uses the packaged add-on candidate, not the add-on project's source. Neither launcher includes development probes. The original `runClient` remains available.
+Both launchers use this project's current core source. The BOP launcher uses the packaged add-on `0.4.3.2603002`, not the add-on project's source. Neither launcher includes development probes. The original `runClient` remains available.
 
 For the BOP launcher, set `bopRuntimeDirectory` in an ignored `local.properties` file to the manual-testing bundle's `mods` folder, or pass `-PbopRuntimeDirectory=<folder>`. The launcher checks all four dependency hashes before copying them into `run-bop/mods`; it does not copy the packaged core or optional Mineralogy/OreSpawn jars. Another checkout can instead put those four tested jars in `libs/bop-runtime`. Missing, changed or unexpected runtime jars stop the launch rather than silently changing the test setup. Existing worlds and extra jars are never deleted.
 
 Run `gradlew.bat verifyManualClientProfiles` to check both setups without opening Minecraft. When switching profiles, close the previous client first; worlds are not shared automatically.
 
-The Maven coordinate is `zone.moddev.mc:iron-age-furniture:0.4.1.2603002`. The Java API lives under `zone.moddev.mc.ironagefurniture`; persistent mod, registry, resource and save identities remain under `ironagefurniture`. Building locally does not publish or tag a release.
+The Maven coordinate is `zone.moddev.mc:iron-age-furniture:0.4.2.2603002`. The Java API lives under `zone.moddev.mc.ironagefurniture`; persistent mod, registry, resource and save identities remain under `ironagefurniture`. Building locally does not publish or tag a release.

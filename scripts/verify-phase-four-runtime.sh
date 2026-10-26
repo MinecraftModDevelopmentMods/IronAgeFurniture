@@ -20,13 +20,13 @@ args=(--no-daemon --stacktrace --max-workers=2 "${java_args[@]}" "$@")
 probe="$(pwd)/build/phaseFourTest/iaf-phase-four-probes.jar"
 test -f "$probe"
 
-for loader in 26.3.0.77 26.3.0.83; do
+for loader in 26.3.0.77 26.3.0.99; do
   installation="$(mktemp -d "${RUNNER_TEMP:-${TMPDIR:-/tmp}}/iaf-phase4-$loader.XXXXXX")"
   # Test a normal installed server. Switching NeoGradle versions in one checkout
   # can reuse generated Minecraft classes from the other loader version.
   case "$loader" in
     26.3.0.77) installer_sha=c2eac3cc8a8a5393178f28ad2971ff0cf6be29971fc7e7749a561e43f3dee50b ;;
-    26.3.0.83) installer_sha=560574da38d0db4fe67bfdf1ccc43239e2c3bb5282a4447ef259100aea4f5ea9 ;;
+    26.3.0.99) installer_sha=7eeb74544422b757aa1611f6487a74bf9f4a8c7e04b2023c2080a6e637dfd218 ;;
   esac
   installer="$installation/installer.jar"
   curl --fail --location --retry 3 --output "$installer" \
