@@ -1,4 +1,10 @@
-# Iron Age Furniture 0.4.1.2603002
+# Iron Age Furniture 0.4.2.2603002
+
+- Builds against NeoForge `26.3.0.99` while keeping the existing `.77` minimum.
+- Updates the optional BOP client setup to add-on `0.4.3.2603002`, which accepts compatible core fixes within the `0.4` series.
+- Keeps furniture, recipes and existing-world compatibility unchanged.
+
+## Iron Age Furniture 0.4.1.2603002
 
 - Adds translated names for every registered block and item in all seventeen language files, including filled sconces, lamp brightness states and hidden furniture parts shown by HUD mods.
 - Keeps existing furniture, recipes, registry identities and world-upgrade behaviour unchanged.
