@@ -1,0 +1,131 @@
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+
+// Share light geometry, but give each frame material its own saved block identity.
+ext.renderLightingCatalog = { File outputRoot, Map language ->
+    Set<String> generated = new LinkedHashSet<>()
+    String assets = 'src/main/resources/assets/ironagefurniture'
+    String data = 'src/main/resources/data/ironagefurniture'
+    def write = { String path, Object document ->
+        File target = new File(outputRoot, path)
+        target.parentFile.mkdirs()
+        target.setText(JsonOutput.prettyPrint(JsonOutput.toJson(forgeConditionalData(document))).replaceAll(/(?m)[ \t]+$/, '') + '\n', 'UTF-8')
+        generated.add(path)
+    }
+    def read = { File path -> new JsonSlurper().parse(path) as Map }
+    List lightConditions = [[type: 'ironagefurniture:feature_enabled', feature: 'lights']]
+    def discover = { String id, String ingredient, List conditions ->
+        write("${data}/advancement/recipes/phase_four/${id}.json", [parent: 'minecraft:recipes/root',
+            criteria: [has_ingredient: [trigger: 'minecraft:inventory_changed', conditions: [items: [[items: ingredient]]]],
+                       has_the_recipe: [trigger: 'minecraft:recipe_unlocked', conditions: [recipes: "ironagefurniture:${id}"]]],
+            requirements: [['has_ingredient', 'has_the_recipe']], rewards: [recipes: ["ironagefurniture:${id}"]],
+            'forge:conditions': conditions])
+    }
+    Map<String, Map> models = [:]
+    fileTree('gradle/lighting-templates/models') { include '*.json' }.files.sort { it.name }.each { source -> models[source.name[0..-6]] = read(source) }
+    def resolve
+    resolve = { String name ->
+        Map model = models[name]
+        if (!model) throw new GradleException("Missing canonical lighting model ${name}")
+        if (!model.elements && model.parent?.startsWith('ironagefurniture:block/')) {
+            Map parent = resolve(model.parent.tokenize('/').last())
+            return parent + model + [elements: parent.elements, textures: (parent.textures ?: [:]) + (model.textures ?: [:])]
+        }
+        model
+    }
+    ['floor', 'wall'].each { place ->
+        Map twin = read(file("gradle/lighting-templates/template_light_metal_ironage_sconce_${place}_torch_twin.json"))
+        twin.textures = ['1': 'minecraft:block/iron_block', '2': 'minecraft:block/torch', metal: 'minecraft:block/iron_block', torch: 'minecraft:block/torch', torchtexture: 'minecraft:block/torch', particle: 'minecraft:block/iron_block']
+        models["light_metal_ironage_sconce_${place}_torch_iron_twin".toString()] = twin
+        Map unlit = new JsonSlurper().parseText(JsonOutput.toJson(twin)) as Map
+        models["light_metal_ironage_sconce_${place}_torch_iron_twin_unlit".toString()] = unlit
+    }
+    Map<String, Map> states = [:]
+    String registrations = file('src/main/java/zone/moddev/mc/ironagefurniture/init/ModVanillaLights.java').getText('UTF-8')
+    fileTree('gradle/lighting-templates/states') { include '*.json' }.files.sort { it.name }.each { source ->
+        if (!source.name.contains('candle') && registrations.contains('"' + source.name[0..-6] + '"')) states[source.name[0..-6]] = read(source)
+    }
+    ['floor', 'wall'].each { place -> [false, true].each { unlit ->
+        String id = "light_metal_ironage_sconce_${place}_torch_iron_twin" + (unlit ? '_unlit' : '')
+        states[id] = [variants: read(file("gradle/lighting-templates/states/light_metal_ironage_sconce_${place}_empty_iron.json")).variants.collectEntries { key, value -> [(key): value + [model: "ironagefurniture:block/${id}"]] }]
+    } }
+    Map metals = [iron: 'minecraft:block/iron_block', gold: 'minecraft:block/gold_block', copper: 'minecraft:block/copper_block']
+    List<String> allMetals = ['iron','gold','adamantine','antimony','aquarium','bismuth','brass','bronze','coldiron','copper','cupronickel','electrum','invar','lead','mithril','nickel','pewter','platinum','silver','starsteel','steel','tin','zinc']
+    def materialId = { String iron, String metal ->
+        int start = iron.indexOf('_iron', 'light_metal_ironage_sconce_'.length())
+        if (start < 0) throw new GradleException("Missing sconce material: ${iron}")
+        iron.substring(0, start) + '_' + (metals.containsKey(metal) ? '' : 'basemetals_') + metal + iron.substring(start + 5)
+    }
+    Set<String> emitted = [] as Set
+    def materialModel = { String original, String metal ->
+        String base = original.tokenize('/').last()
+        String material = metals.containsKey(metal) ? metal : 'optional'
+        String id = "phase4_${base}_${material}"
+        if (emitted.add(id)) {
+            Map model = new JsonSlurper().parseText(JsonOutput.toJson(resolve(base))) as Map
+            model.remove('parent')
+            if (material == 'optional') model.elements = model.elements.findAll { element -> !element.faces.values().any { it.texture in ['#1', '#metal'] } }
+            else model.textures = (model.textures ?: [:]) + ['1': metals[metal], metal: metals[metal], particle: metals[metal]]
+            model.render_type = 'minecraft:cutout'
+            write("${assets}/models/block/${id}.json", model)
+        }
+        "ironagefurniture:block/${id}"
+    }
+    states.each { String id, Map definition ->
+        if (!id.startsWith('light_metal_ironage_sconce_')) {
+            write("${assets}/blockstates/${id}.json", definition)
+        } else allMetals.each { metal ->
+            Map variants = definition.variants.collectEntries { String key, Map entry -> [(key): entry + [model: materialModel(entry.model, metal)]] }
+            write("${assets}/blockstates/${materialId(id, metal)}.json", [variants: variants])
+        }
+    }
+    ['floor', 'wall'].each { place ->
+        String id = "light_metal_ironage_sconce_${place}_candle_iron"
+        // Keep the familiar bracket and shallow wax dish below the smaller vanilla candles.
+        String frameId = "light_metal_ironage_sconce_${place}_candle_frame_iron"
+        Map frame = new JsonSlurper().parseText(JsonOutput.toJson(resolve("light_metal_ironage_sconce_${place}_empty_iron"))) as Map
+        int offset = place == 'wall' ? -4 : 0
+        List dish = [[6,9,6,10,10,10], [6,10,5,10,11,6], [6,10,10,10,11,11], [5,10,6,6,11,10], [10,10,6,11,11,10]]
+        frame.elements += dish.collect { box ->
+            [from: [box[0] + offset, box[1], box[2]], to: [box[3] + offset, box[4], box[5]],
+             faces: ['north', 'south', 'east', 'west', 'up', 'down'].collectEntries { face -> [(face): [texture: '#1']] }]
+        }
+        models[frameId] = frame
+        allMetals.each { metal ->
+            Map variants = [:], salt = [:]
+            read(file("gradle/lighting-templates/states/light_metal_ironage_sconce_${place}_empty_iron.json")).variants.each { String key, Map entry ->
+                (1..4).each { count -> [false, true].each { lit ->
+                    variants["${key},candles=${count},lit=${lit}".toString()] = entry + [model: materialModel("ironagefurniture:block/${frameId}", metal)]
+                } }
+                salt[key] = entry + [model: materialModel(entry.model, metal)]
+            }
+            write("${assets}/blockstates/${materialId(id, metal)}.json", [variants: variants])
+            write("${assets}/blockstates/${materialId("light_metal_ironage_sconce_${place}_rocksalt_iron", metal)}.json", [variants: salt])
+        }
+    }
+    allMetals.each { metal ->
+        boolean optional = !metals.containsKey(metal)
+        String id = "light_metal_ironage_sconce_floor_empty_${optional ? 'basemetals_' : ''}${metal}"
+        String preview = materialModel('ironagefurniture:block/light_metal_ironage_sconce_floor_empty_iron', optional ? 'iron' : metal)
+        write("${assets}/models/item/${id}.json", [parent: preview])
+        write("${assets}/items/${id}.json", [model: [type: 'minecraft:model', model: "ironagefurniture:item/${id}"]])
+        language["block.ironagefurniture.${id}".toString()] = "${metal.capitalize()} Sconce".toString()
+        String ingredient = optional ? "#c:nuggets/${metal}" : "minecraft:${metal}_nugget"
+        List conditions = [[type: 'ironagefurniture:feature_enabled', feature: 'lights']]
+        if (optional) conditions.add([type: 'ironagefurniture:metal_available', metal: metal])
+        write("${data}/recipe/${id}.json", [type: 'minecraft:crafting_shaped', group: "ironagefurniture:${id}", pattern: ['xxx', 'x  ', 'x  '], key: [x: ingredient], result: [id: "ironagefurniture:${id}", count: 4], 'forge:conditions': conditions])
+        discover(id, ingredient, conditions)
+    }
+    language['item.ironagefurniture.tallow'] = 'Tallow'
+    write("${assets}/models/item/obsidian_chunk.json", [parent: 'ironagefurniture:block/obsidian_chunk',
+            display: [gui: [rotation: [35, 45, 0], translation: [0, 9.84, 8.62], scale: [2, 2, 2]]]])
+    write("${assets}/models/item/tallow.json", [parent: 'minecraft:item/generated', textures: [layer0: 'ironagefurniture:item/tallow']])
+    write("${assets}/items/tallow.json", [model: [type: 'minecraft:model', model: 'ironagefurniture:item/tallow']])
+    write("${data}/recipe/candles_from_tallow.json", [type: 'minecraft:crafting_shapeless', ingredients: ['ironagefurniture:tallow', 'minecraft:string'], result: [id: 'minecraft:candle', count: 8], 'forge:conditions': lightConditions])
+    discover('candles_from_tallow', 'ironagefurniture:tallow', lightConditions)
+    [porkchop: 3, beef: 2, mutton: 2, rabbit: 1, chicken: 1, rotten_flesh: 1].each { meat, count ->
+        write("${data}/recipe/tallow_from_${meat}.json", [type: 'minecraft:smelting', category: 'food', ingredient: "minecraft:${meat}", result: [id: 'ironagefurniture:tallow', count: count], experience: .1, cookingtime: 200, 'forge:conditions': lightConditions])
+        discover("tallow_from_${meat}".toString(), "minecraft:${meat}".toString(), lightConditions)
+    }
+    generated
+}

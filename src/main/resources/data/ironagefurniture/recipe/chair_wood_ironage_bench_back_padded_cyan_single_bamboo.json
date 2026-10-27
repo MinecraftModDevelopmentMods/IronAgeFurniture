@@ -6,5 +6,10 @@
     ],
     "result": {
         "id": "ironagefurniture:chair_wood_ironage_bench_back_padded_cyan_single_bamboo"
+    },
+    "group": "ironagefurniture:chair_wood_ironage_bench_back_padded_cyan_single_bamboo",
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "benches"
     }
 }
