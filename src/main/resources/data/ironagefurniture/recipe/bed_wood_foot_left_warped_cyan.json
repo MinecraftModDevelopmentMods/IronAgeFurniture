@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_left_warped_cyan",
+    "ingredients": [
+        "ironagefurniture:bed_wood_foot_warped_cyan",
+        "ironagefurniture:bed_wood_foot_warped_cyan"
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_wood_foot_left_warped_cyan",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "woodenBeds"
+    }
+}

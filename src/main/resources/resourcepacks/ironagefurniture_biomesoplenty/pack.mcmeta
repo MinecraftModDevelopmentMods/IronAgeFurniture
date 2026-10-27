@@ -1,10 +1,10 @@
 {
     "pack": {
         "description": "IronAgeFurniture biomesoplenty integration resources",
-        "max_format": 101,
+        "max_format": 84,
         "min_format": [
-            101,
-            1
+            84,
+            0
         ]
     }
 }

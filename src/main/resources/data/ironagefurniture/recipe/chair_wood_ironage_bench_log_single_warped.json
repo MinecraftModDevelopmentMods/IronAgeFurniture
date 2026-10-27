@@ -1,6 +1,6 @@
 {
     "type": "minecraft:crafting_shaped",
-    "group": "furniture",
+    "group": "ironagefurniture:chair_wood_ironage_bench_log_single_warped",
     "pattern": [
         "xxx"
     ],
@@ -10,5 +10,9 @@
     "result": {
         "count": 3,
         "id": "ironagefurniture:chair_wood_ironage_bench_log_single_warped"
+    },
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "benches"
     }
 }

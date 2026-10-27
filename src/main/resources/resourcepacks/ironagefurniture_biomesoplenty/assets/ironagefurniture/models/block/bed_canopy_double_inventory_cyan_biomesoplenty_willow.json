@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_bed_canopy_double_inventory",
+    "textures": {
+        "log": "biomesoplenty:block/willow_log",
+        "planks": "biomesoplenty:block/willow_planks",
+        "particle": "biomesoplenty:block/willow_log",
+        "cloth": "minecraft:block/cyan_wool"
+    }
+}

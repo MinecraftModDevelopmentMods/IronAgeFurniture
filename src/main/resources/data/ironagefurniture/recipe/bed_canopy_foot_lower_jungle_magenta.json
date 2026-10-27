@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_lower_jungle_magenta",
+    "ingredients": [
+        "ironagefurniture:bed_wood_foot_jungle_magenta",
+        "minecraft:jungle_planks",
+        "minecraft:magenta_carpet"
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_canopy_foot_lower_jungle_magenta",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "canopyBeds"
+    }
+}

@@ -1,3 +1,16 @@
+# Iron Age Furniture 0.4.1.2601021
+
+- Bring the Phase 4 furniture and lighting improvements to Forge 26.1.2.
+- Add wingback chairs, thrones, wooden beds, double beds and canopies in all sixteen colours.
+- Fix the bed-placement crash on Minecraft 26.1.2.
+- Keep removable shields and their saved details, bare empty chair frames, and sconces with up to four mixed-colour candles.
+- Include the refined recipes, ingredient discovery, four creative tabs and server-controlled gameplay settings.
+- Retain all twelve vanilla and fourteen optional Biomes O' Plenty wood families, including Origin Oak.
+- Keep waterlogging, redstone, buckets, support-loss drops, lava lamps and fire-resistant metal frames.
+- Carry forward older furniture and saved-item recovery using the Minecraft 26.1.2 save format.
+
+Back up existing worlds and try upgrades on a copy first. Worlds from newer Minecraft versions cannot be downgraded.
+
 # IronAgeFurniture 0.3.0.2601021
 
 - Port IronAgeFurniture to Minecraft 26.1.2 and Forge 64.0.9 on Java 25.
