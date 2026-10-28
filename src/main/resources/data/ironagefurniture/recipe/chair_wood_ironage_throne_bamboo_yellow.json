@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_throne_bamboo_yellow",
+    "ingredients": [
+        "ironagefurniture:chair_wood_ironage_wingback_bamboo_yellow",
+        "minecraft:bamboo_planks",
+        "minecraft:yellow_carpet"
+    ],
+    "result": {
+        "id": "ironagefurniture:chair_wood_ironage_throne_bamboo_yellow",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "thrones"
+    }
+}

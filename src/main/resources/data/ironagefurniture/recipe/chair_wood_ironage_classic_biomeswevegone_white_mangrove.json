@@ -1,6 +1,6 @@
 {
     "type": "minecraft:crafting_shaped",
-    "group": "furniture",
+    "group": "ironagefurniture:chair_wood_ironage_classic_biomeswevegone_white_mangrove",
     "pattern": [
         "x  ",
         "xxx",
@@ -8,14 +8,23 @@
     ],
     "key": {
         "y": "#c:rods/wooden",
-        "x": "biomeswevegone:white_mangrove/planks"
+        "x": "biomeswevegone:white_mangrove_planks"
     },
     "result": {
         "count": 1,
         "id": "ironagefurniture:chair_wood_ironage_classic_biomeswevegone_white_mangrove"
     },
     "forge:condition": {
-        "modid": "biomeswevegone",
-        "type": "forge:mod_loaded"
+        "type": "forge:and",
+        "values": [
+            {
+                "modid": "biomeswevegone",
+                "type": "forge:mod_loaded"
+            },
+            {
+                "type": "ironagefurniture:feature_enabled",
+                "feature": "classicChairs"
+            }
+        ]
     }
 }

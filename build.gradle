@@ -157,9 +157,10 @@ def archiveTextSuffixes = [
 def archiveTextPatterns = archiveTextSuffixes.collect { "**/*${it}".toString() }
 archiveTextPatterns.addAll(['**/element-list', '**/package-list'])
 def optionalIntegrationExpectedCounts = [
-        biomesoplenty : [recipes: 546, advancements: 546],
-        biomeswevegone: [recipes: 975, advancements: 975]
+        biomesoplenty: [recipes: 1890, advancements: 1890],
+        biomeswevegone: [recipes: 3375, advancements: 3375]
 ]
+
 def optionalIntegrationProbeMods = providers.gradleProperty('optionalIntegrationProbeMods')
         .orElse(optionalIntegrationExpectedCounts.keySet().join(','))
         .map { value ->
@@ -250,6 +251,8 @@ minecraft {
             jvmArgs '--add-opens', 'java.base/java.lang.invoke=ALL-UNNAMED'
             systemProperty 'forge.logging.markers', 'REGISTRIES'
             systemProperty 'forge.logging.console.level', 'debug'
+            // Exploded development outputs do not carry the packaged jar manifest.
+            args '--mixin', 'ironagefurniture.mixins.json'
             mods {
                 ironagefurniture { source sourceSets.main }
             }
@@ -387,13 +390,19 @@ tasks.register('generateOptionalIntegrationFixtureData') {
         }
         Set<String> selected = optionalIntegrationProbeMods.get()
         List<String> recipes = []
+        Closure<String> loadedProvider
+        loadedProvider = { Object rule ->
+            if (!(rule instanceof Map)) return null
+            if (rule.type == 'forge:mod_loaded') return rule.modid as String
+            if (rule.type == 'forge:and') return rule.values.collect { loadedProvider(it) }.find { it != null }
+            null
+        }
         fileTree(recipeRoot) { include '**/*.json' }.files.each { recipeFile ->
             Map recipe = new JsonSlurper().parse(recipeFile) as Map
             Map condition = recipe['forge:condition'] instanceof Map
                     ? recipe['forge:condition'] as Map : null
-            if (condition?.type == 'forge:mod_loaded' && selected.contains(condition.modid)
-                    && optionalIntegrationExpectedCounts.containsKey(condition.modid)) {
-                String modId = condition.modid
+            String modId = loadedProvider(condition)
+            if (selected.contains(modId) && optionalIntegrationExpectedCounts.containsKey(modId)) {
                 String path = recipeRoot.toPath().relativize(recipeFile.toPath()).toString()
                         .replace('\\', '/').replaceFirst(/\.json$/, '')
                 recipes.add("${modId}=ironagefurniture:${path}")
@@ -405,9 +414,8 @@ tasks.register('generateOptionalIntegrationFixtureData') {
             Map advancement = new JsonSlurper().parse(advancementFile) as Map
             Map condition = advancement['forge:condition'] instanceof Map
                     ? advancement['forge:condition'] as Map : null
-            if (condition?.type == 'forge:mod_loaded' && selected.contains(condition.modid)
-                    && optionalIntegrationExpectedCounts.containsKey(condition.modid)) {
-                String modId = condition.modid
+            String modId = loadedProvider(condition)
+            if (selected.contains(modId) && optionalIntegrationExpectedCounts.containsKey(modId)) {
                 String path = advancementRoot.toPath().relativize(advancementFile.toPath()).toString()
                         .replace('\\', '/').replaceFirst(/\.json$/, '')
                 advancements.add("${modId}=ironagefurniture:${path}")
@@ -572,6 +580,7 @@ def commonManifest = {
             'Implementation-Vendor'     : project.mod_authors,
             'Maven-Artifact'             : "${project.group}:${base.archivesName.get()}:${project.version}",
             'Built-On-Java'              : project.java_version,
+            'MixinConfigs'               : 'ironagefurniture.mixins.json',
             'Built-On'                   : "${project.minecraft_version}-${project.forge_version}"
     ])
 }
@@ -750,7 +759,7 @@ tasks.register('verifyReleaseConfiguration') {
     dependsOn tasks.named('verifyMavenizerCompatibilityFixture')
     doLast {
         Map<String, String> expected = [
-                mod_version            : '0.3.0.121111',
+                mod_version            : '0.4.1.121111',
                 mod_group              : 'zone.moddev.mc',
                 mod_archive_name       : 'iron-age-furniture',
                 mod_id                 : 'ironagefurniture',
@@ -829,8 +838,8 @@ tasks.register('verifyResourceJson') {
             include '**/*.json'
             include 'pack.mcmeta'
         }.files.sort { it.path }
-        if (jsonFiles.size() != 17698) {
-            throw new GradleException("Expected 17698 runtime JSON documents, found ${jsonFiles.size()}")
+        if (jsonFiles.size() != 62834) {
+            throw new GradleException("Expected 62834 runtime JSON documents, found ${jsonFiles.size()}")
         }
         jsonFiles.each { candidate ->
             try {
@@ -839,19 +848,25 @@ tasks.register('verifyResourceJson') {
                 throw new GradleException("Invalid resource JSON: ${candidate}", ex)
             }
         }
-        List<String> localeNames = ['en_en.json', 'en_gb.json', 'en_us.json']
+        List<String> localeNames = ['de_au', 'de_de', 'en_ca', 'en_en', 'en_gb', 'en_pt', 'en_us',
+                'es_es', 'es_mx', 'fr_ca', 'fr_fr', 'ja_jp', 'ko_kr', 'pt_br', 'pt_pt', 'ru_ru', 'zh_cn']
+                .collect { it + '.json' }
         List<Map> locales = localeNames.collect { name ->
             new JsonSlurper().parse(file("src/main/resources/assets/ironagefurniture/lang/${name}")) as Map
         }
-        if (!locales.every { it.size() == 7350 }
+        if (!locales.every { it.size() == 13629 }
                 || !locales.tail().every { it.keySet() == locales.first().keySet() }) {
-            throw new GradleException('English locale files must retain 7350 identical translation keys')
+            throw new GradleException('All 17 locale files must retain 13629 identical translation keys')
         }
 
         Map<String, Map<String, Integer>> optionalIntegrations = optionalIntegrationExpectedCounts
-        def hasModLoadedCondition = { Object condition, String modId ->
+        Closure<Boolean> hasModLoadedCondition
+        hasModLoadedCondition = { Object condition, String modId ->
             condition instanceof Map && condition.type == 'forge:mod_loaded'
                     && condition.modid == modId
+                    || condition instanceof Map && condition.type == 'forge:and'
+                    && condition.values instanceof List
+                    && condition.values.any { hasModLoadedCondition(it, modId) }
         }
         File recipeRoot = file('src/main/resources/data/ironagefurniture/recipe')
         File advancementRoot = file('src/main/resources/data/ironagefurniture/advancement')
@@ -992,8 +1007,8 @@ tasks.register('verifyNamespace') {
         String maintainedPackage = 'zone.moddev.mc.ironagefurniture'
         String maintainedPath = "src/main/java/${maintainedPackage.replace('.', '/')}/"
         List<File> sources = fileTree('src/main/java') { include '**/*.java' }.files.sort { it.path }
-        if (sources.size() != 121) {
-            throw new GradleException("Expected 121 production Java sources, found ${sources.size()}")
+        if (sources.size() != 187) {
+            throw new GradleException("Expected 187 production Java sources, found ${sources.size()}")
         }
         sources.each { sourceFile ->
             String relativePath = project.relativePath(sourceFile).replace('\\', '/')
@@ -1067,7 +1082,7 @@ tasks.register('verifyDedicatedServerBoundaries') {
                 }
         String entrypoint = file(
                 'src/main/java/zone/moddev/mc/ironagefurniture/Ironagefurniture.java').getText('UTF-8')
-        if (!entrypoint.contains('DistExecutor.unsafeRunWhenOn(Dist.CLIENT')) {
+        if (!entrypoint.contains('FMLEnvironment.dist == Dist.CLIENT')) {
             throw new GradleException('Client renderer registration is not guarded by Dist.CLIENT')
         }
     }
@@ -1155,14 +1170,25 @@ tasks.register('verifyReleaseArtifacts') {
             List<String> itemDefinitions = names.findAll {
                 it ==~ /(?:resourcepacks\/ironagefurniture_[^\/]+\/)?assets\/ironagefurniture\/items\/[^\/]+\.json/
             }
-            if (itemModels.size() != 2085 || itemDefinitions.size() != 2058) {
-                throw new GradleException('Release jar must contain 2,085 item models and 2,058 visible-item definitions')
+            if (itemModels.size() != 7004 || itemDefinitions.size() != 6977) {
+                throw new GradleException('Release jar must contain 7,004 item models and 6,977 visible-item definitions')
             }
             itemDefinitions.each { definitionName ->
                 String id = definitionName.tokenize('/').last().replaceFirst(/\.json$/, '')
                 Map definition = new JsonSlurper().parse(zip.getInputStream(zip.getEntry(definitionName))) as Map
-                if (definition.model?.type != 'minecraft:model'
-                        || definition.model?.model != "ironagefurniture:item/${id}") {
+                boolean shieldChair = id.startsWith('chair_wood_ironage_shield_')
+                boolean valid = shieldChair
+                        ? definition.model?.type == 'minecraft:condition'
+                            && definition.model?.property == 'minecraft:component'
+                            && definition.model?.predicate == 'minecraft:container'
+                            && definition.model?.value?.items?.size == 0
+                            && definition.model?.on_true?.type == 'minecraft:model'
+                            && definition.model?.on_true?.model == "ironagefurniture:block/${id}_frame"
+                            && definition.model?.on_false?.type == 'minecraft:model'
+                            && definition.model?.on_false?.model == "ironagefurniture:item/${id}"
+                        : definition.model?.type == 'minecraft:model'
+                            && definition.model?.model == "ironagefurniture:item/${id}"
+                if (!valid) {
                     throw new GradleException("Invalid Forge 61 item definition: ${definitionName}")
                 }
             }
@@ -1185,6 +1211,7 @@ tasks.register('verifyReleaseArtifacts') {
             Manifest manifest = new Manifest(zip.getInputStream(zip.getEntry('META-INF/MANIFEST.MF')))
             if (manifest.mainAttributes.getValue('Implementation-Version') != project.version.toString()
                     || manifest.mainAttributes.getValue('Maven-Artifact') != expectedMavenCoordinate
+                    || manifest.mainAttributes.getValue('MixinConfigs') != 'ironagefurniture.mixins.json'
                     || manifest.mainAttributes.getValue('Implementation-Timestamp') != null
                     || manifest.mainAttributes.getValue('Timestamp') != null) {
                 throw new GradleException('Release manifest identity is incorrect or volatile')
@@ -1219,6 +1246,8 @@ tasks.register('writeReleaseChecksums') {
     group = 'verification'
     description = 'Writes SHA-256 checksums for the audited release jars.'
     dependsOn tasks.named('verifyReleaseArtifacts')
+    inputs.files(tasks.named('jar'), tasks.named('sourcesJar'), tasks.named('javadocJar'))
+            .withPropertyName('releaseJars').withPathSensitivity(PathSensitivity.NAME_ONLY)
     outputs.file(layout.buildDirectory.file('release/SHA256SUMS'))
     doLast {
         File output = layout.buildDirectory.file('release/SHA256SUMS').get().asFile
@@ -1306,7 +1335,7 @@ tasks.withType(PublishToMavenRepository).configureEach {
 tasks.register('syncForge61EclipseLaunches') {
     group = 'ide'
     description = 'Synchronizes processed resources and hardens Forge 61 Eclipse launches.'
-    dependsOn tasks.named('processResources')
+    dependsOn tasks.named('classes')
     dependsOn tasks.named('verifyBuildEnvironment')
     mustRunAfter tasks.named('genEclipseRuns')
     doLast {
@@ -1335,10 +1364,9 @@ tasks.register('syncForge61EclipseLaunches') {
                 ''
         ].join('\r\n'), 'UTF-8')
 
-        File processedResources = processedMainResourcesDirectory()
-        copy {
-            from processedResources
-            into mainOutput
+        project.sync { spec ->
+            spec.from(sourceSets.main.output)
+            spec.into(mainOutput)
         }
 
         ['Client', 'Server', 'Data'].each { runName ->
@@ -1373,6 +1401,35 @@ tasks.register('syncForge61EclipseLaunches') {
                     java.util.regex.Matcher.quoteReplacement(
                             "<mapEntry key=\"MOD_CLASSES\" value=\"${modClasses}\"/>"))
 
+            // Buildship's container also exposes compile-only dependencies. Forge already
+            // supplies MixinExtras at runtime, so leaking its common compile jar creates
+            // a split module. Keep the editor model, but launch with the native run task's
+            // runtime jars and the synchronized production output only.
+            List<File> runtimeFiles = ([file(mainOutput)] + tasks.named("run${runName}").get()
+                    .classpath.files.findAll { it.isFile() }).unique { it.canonicalPath }
+            def xmlAttribute = { String value ->
+                value.replace('&', '&amp;').replace('"', '&quot;')
+                        .replace('<', '&lt;').replace('>', '&gt;')
+            }
+            StringWriter classpathWriter = new StringWriter()
+            new groovy.xml.MarkupBuilder(classpathWriter).listAttribute(
+                    key: 'org.eclipse.jdt.launching.CLASSPATH') {
+                runtimeFiles.each { runtimeFile ->
+                    String source = runtimeFile == file(mainOutput)
+                            ? " sourceAttachmentPath=\"${xmlAttribute(file('src/main/java').absolutePath)}\"" : ''
+                    listEntry(value: '<runtimeClasspathEntry externalArchive="'
+                            + xmlAttribute(runtimeFile.absolutePath) + '" type="2" path="5"'
+                            + source + '/>')
+                }
+                listEntry(value: '<runtimeClasspathEntry containerPath="org.eclipse.jdt.launching.JRE_CONTAINER/'
+                        + 'org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-21" type="4" path="5"/>')
+            }
+            def launchClasspath = text =~ /(?s)<listAttribute key=["']org\.eclipse\.jdt\.launching\.CLASSPATH["']>.*?<\/listAttribute>/
+            if (launchClasspath.count != 1) {
+                throw new GradleException("Missing or ambiguous Eclipse runtime classpath in ${launch.name}")
+            }
+            text = text.replace(launchClasspath[0].toString(), classpathWriter.toString())
+
             def programArguments = text =~ /(<stringAttribute key="org\.eclipse\.jdt\.launching\.PROGRAM_ARGUMENTS" value=")([^"]*)("\/>)/
             if (programArguments.count != 1) {
                 throw new GradleException("ForgeGradle generated malformed program arguments in ${launch.name}")
@@ -1381,14 +1438,44 @@ tasks.register('syncForge61EclipseLaunches') {
             ['cache', 'metadata', 'to-srg', 'to-obf'].each { flag ->
                 String prefix = "--${flag} "
                 int valueStart = arguments.indexOf(prefix)
-                int valueEnd = valueStart < 0 ? -1 : arguments.indexOf(' --', valueStart + prefix.length())
-                if (valueStart < 0 || valueEnd < 0) {
-                    throw new GradleException("ForgeGradle omitted --${flag} from ${launch.name}")
+                if (valueStart < 0) {
+                    if (flag in ['to-srg', 'to-obf']) {
+                        return
+                    }
+                    throw new GradleException("ForgeGradle omitted required --${flag} from ${launch.name}")
                 }
                 valueStart += prefix.length()
+                int valueEnd = arguments.indexOf(' --', valueStart)
+                if (valueEnd < 0) {
+                    throw new GradleException("ForgeGradle generated an unterminated --${flag} path in ${launch.name}")
+                }
                 String value = arguments.substring(valueStart, valueEnd)
                 if (!value.startsWith('&quot;') || !value.endsWith('&quot;')) {
                     arguments = "${arguments.substring(0, valueStart)}&quot;${value}&quot;${arguments.substring(valueEnd)}"
+                }
+            }
+            if (runName == 'Client') {
+                File nativeJar = runtimeFiles.find {
+                    it.name == "forge-${project.minecraft_version}-${project.forge_version}.jar"
+                }
+                File nativeMetadata = new File(nativeJar.parentFile,
+                        "forge-${project.minecraft_version}-${project.forge_version}-metadata.zip")
+                Map nativeVersion
+                new ZipFile(nativeMetadata).withCloseable { zip ->
+                    nativeVersion = new JsonSlurper().parse(
+                            zip.getInputStream(zip.getEntry('minecraft/version.json'))) as Map
+                }
+                String indexId = nativeVersion.assetIndex.id.toString()
+                File installedAssets = project.hasProperty('minecraftAssetsDir')
+                        ? file(project.property('minecraftAssetsDir'))
+                        : new File(System.getenv('APPDATA') ?: System.getProperty('user.home'),
+                                '.minecraft/assets')
+                // Reuse installed assets without modifying or downloading their contents.
+                // CI can still generate launch metadata without a local game installation.
+                if (new File(installedAssets, "indexes/${indexId}.json").isFile()) {
+                    arguments = arguments.replace('{asset_index}', indexId)
+                            .replace('{assets_root}', '&quot;'
+                                    + xmlAttribute(installedAssets.absolutePath) + '&quot;')
                 }
             }
             text = text.replace(programArguments[0][0],
@@ -1489,15 +1576,39 @@ tasks.register('verifyEclipseProductionClasspath') {
             File launch = [file("run${runName}.launch"), file(".eclipse/run${runName}.launch")]
                     .find { it.isFile() }
             String text = launch.getText('UTF-8')
+            def launchXml = new XmlSlurper(false, false).parseText(text)
+            def runtimeEntries = launchXml.listAttribute.find {
+                it.@key.text() == 'org.eclipse.jdt.launching.CLASSPATH'
+            }.listEntry.collect { new XmlSlurper(false, false).parseText(it.@value.text()) }
+            List<String> actualRuntimeFiles = runtimeEntries.findAll {
+                it.@type.text() == '2'
+            }.collect { file(it.@externalArchive.text()).canonicalPath }
+            List<String> expectedRuntimeFiles = ([file('bin/main')] + tasks.named("run${runName}").get()
+                    .classpath.files.findAll { it.isFile() }).collect { it.canonicalPath }.unique()
+            if (actualRuntimeFiles != expectedRuntimeFiles
+                    || actualRuntimeFiles.any { it.contains('mixinextras-common') }
+                    || runtimeEntries.any { it.@type.text() == '1'
+                        || it.@containerPath.text().contains('org.eclipse.buildship') }
+                    || runtimeEntries.count { it.@type.text() == '4'
+                        && it.@containerPath.text().endsWith("/JavaSE-${project.java_version}") } != 1
+                    || !text.contains('key="org.eclipse.jdt.launching.DEFAULT_CLASSPATH" value="false"')) {
+                throw new GradleException("Eclipse ${runName} must use exactly the native production runtime classpath")
+            }
             if (!text.contains('ATTR_EXCLUDE_TEST_CODE')
+                    || !text.contains('--mixin ironagefurniture.mixins.json')
                     || text ==~ /(?s).*(?:junit|mockito|src[\\\/]test).*/
                     || !text.contains("key=\"MOD_CLASSES\" value=\"${project.mod_id}%%${new File(projectDir, 'bin/main').absolutePath}\"")
                     || !text.contains("key=\"org.eclipse.jdt.launching.PROJECT_ATTR\" value=\"${eclipseWorkspaceProjectName}\"")) {
                 throw new GradleException("Eclipse launch is not production-only: ${launch.name}")
             }
-            ['cache', 'metadata', 'to-srg', 'to-obf'].each { flag ->
+            ['cache', 'metadata'].each { flag ->
                 if (!text.contains("--${flag} &quot;")) {
                     throw new GradleException("Eclipse launch does not quote --${flag}: ${launch.name}")
+                }
+            }
+            ['to-srg', 'to-obf'].each { flag ->
+                if (text.contains("--${flag} ") && !text.contains("--${flag} &quot;")) {
+                    throw new GradleException("Eclipse launch does not quote optional --${flag}: ${launch.name}")
                 }
             }
             if (text.contains('-DlegacyClassPath.file=')
@@ -1544,5 +1655,10 @@ tasks.named('check') {
     dependsOn tasks.named('verifyDedicatedServerBoundaries')
 }
 
+apply from: 'gradle/forge-conditions.gradle'
+apply from: 'gradle/phase-four-catalog.gradle'
+apply from: 'gradle/lighting-catalog.gradle'
 apply from: 'gradle/furniture-catalog.gradle'
+apply from: 'gradle/locales.gradle'
+apply from: 'gradle/phase-four-verification.gradle'
 apply from: 'gradle/verify-integration-textures.gradle'

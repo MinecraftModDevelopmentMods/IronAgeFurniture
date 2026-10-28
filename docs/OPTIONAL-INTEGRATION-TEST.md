@@ -39,7 +39,7 @@ server starts. It builds and stages
 accepts success only when the probe writes
 `optional-integration-pass.properties` in the selected server directory with all
 selected conditional recipes and recipe advancements present. The exact expected
-counts are 546 for BOP, 975 for BWG, and 1,521 for the combined stack.
+counts are 1,890 for BOP, 3,375 for BWG, and 5,265 for the combined stack.
 
 The probe also records the loaded versions and per-integration counts. It is built
 from `src/optionalIntegrationTest` and is explicitly excluded from all release

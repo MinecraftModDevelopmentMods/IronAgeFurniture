@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_lower_dark_oak_red",
+    "ingredients": [
+        "ironagefurniture:bed_wood_foot_dark_oak",
+        "minecraft:dark_oak_planks",
+        "minecraft:red_carpet"
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_canopy_foot_lower_dark_oak",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "canopyBeds"
+    }
+}

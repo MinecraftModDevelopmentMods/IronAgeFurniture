@@ -6,5 +6,10 @@
     ],
     "result": {
         "id": "ironagefurniture:chair_wood_ironage_bench_padded_purple_single_spruce"
+    },
+    "group": "ironagefurniture:chair_wood_ironage_bench_padded_purple_single_spruce",
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "benches"
     }
 }

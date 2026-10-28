@@ -1,0 +1,25 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_left_biomeswevegone_zelkova_brown",
+    "ingredients": [
+        "ironagefurniture:bed_wood_foot_biomeswevegone_zelkova_brown",
+        "ironagefurniture:bed_wood_foot_biomeswevegone_zelkova_brown"
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_wood_foot_left_biomeswevegone_zelkova_brown",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "forge:and",
+        "values": [
+            {
+                "type": "forge:mod_loaded",
+                "modid": "biomeswevegone"
+            },
+            {
+                "type": "ironagefurniture:feature_enabled",
+                "feature": "woodenBeds"
+            }
+        ]
+    }
+}

@@ -2,13 +2,29 @@
 
 IronAgeFurniture adds chairs, stools, benches, lighting, and other ye olde-style furniture to Minecraft.
 
-This branch targets Minecraft 1.21.11 with Forge 61.1.0. Its current complete version is `0.3.0.121111` and its Maven coordinate is `zone.moddev.mc:iron-age-furniture:0.3.0.121111`.
+This version brings Phase 4 to Minecraft 1.21.11 with Forge 61.1.0 and Java 21. The version is `0.4.1.121111`.
+
+## Furniture and lighting
+
+Phase 4 adds wingback chairs, thrones, single and double wooden beds, and canopy beds in all sixteen upholstery colours. Furniture is organised into four creative tabs: Chairs, Benches, Beds and Lights. Gameplay settings are controlled by the server without deleting existing furniture.
+
+Shield chairs hold a real shield, including its damage, banner patterns, enchantments, name and other saved details. Sneak-right-click with an empty hand to remove it. Empty chairs show the bare wooden frame, both placed and in your inventory.
+
+Sconces hold torches, twin torches, lamps or up to four vanilla candles in any colour combination. Empty-hand clicks remove candles newest first, keeping their saved item details. They share a flame state and give light levels 12, 13, 14 and 15 as the holder fills. Iron, gold and copper frames work without another mod; other materials require their matching provider.
+
+Water, redstone and buckets work with the lighting as before. Lava lamps can shatter and start fires; retrieve one from its sconce, or use Silk Touch to recover it intact. Metal frames resist fire and lava. Held candles do not emit flame or smoke, and IAF does not add dynamic lighting.
+
+Placed glass lamps and lamp sconces keep their transparent shells in both Fast and Fancy graphics.
+
+Matching bed and chair upgrades retain their wood and upholstery colour. Different furniture has its own recipe-book entry, and upgrades become available as their ingredients are collected. All seventeen language files include the new names and hidden states used by HUD mods, with English fallbacks where a translation is not yet available.
 
 ## Optional integrations
 
-Biomes O' Plenty and Oh The Biomes We've Gone furniture is enabled only when the corresponding mod is present. Neither mod is a hard dependency. This target supports the contemporary BOP wood family, including Origin Oak, and the BWG wood family, including Spirit wood. Immersive Engineering furniture is intentionally unavailable on this target because there is no compatible integration release.
+Biomes O' Plenty and Oh The Biomes We've Gone furniture is enabled only when the corresponding mod is present. Neither mod is required to run IronAgeFurniture. All fourteen supported BOP wood families and twenty-five BWG wood families are included, including Origin Oak and Spirit wood. Immersive Engineering furniture is not supported in this version.
 
 Recipes and recipe advancements for optional furniture are loaded conditionally with their integration. Existing IronAgeFurniture BOP Cherry furniture remaps to vanilla Cherry, while supported legacy BYG furniture names remap to their BWG replacements when BWG is installed.
+
+Back up worlds before changing Minecraft or mod versions and test upgrades on a copy. The port carries forward older furniture, shield, candle, recipe and advancement recovery, but missing third-party blocks do not automatically gain a replacement. Never downgrade a world from a newer Minecraft version.
 
 ## Build
 
@@ -29,3 +45,5 @@ Release publication is initiated manually from the protected default-branch disp
 Furniture registrations and their matching blockstates, models, recipes, advancements, and translations are generated from `gradle/furniture-catalog.json`. Normal builds verify committed output without changing it; run `gradlew.bat updateFurnitureCatalog` only when intentionally changing the catalog.
 
 The Java API namespace is `zone.moddev.mc.ironagefurniture`. The persistent Forge mod, registry, resource, data, configuration, and saved-world namespace remains `ironagefurniture`.
+
+The Maven coordinate is `zone.moddev.mc:iron-age-furniture:0.4.1.121111`. Local builds do not publish or tag releases.

@@ -1,0 +1,25 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_left_lower_biomeswevegone_cika_gray",
+    "ingredients": [
+        "ironagefurniture:bed_canopy_foot_lower_biomeswevegone_cika_gray",
+        "ironagefurniture:bed_canopy_foot_lower_biomeswevegone_cika_gray"
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_canopy_foot_left_lower_biomeswevegone_cika_gray",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "forge:and",
+        "values": [
+            {
+                "type": "forge:mod_loaded",
+                "modid": "biomeswevegone"
+            },
+            {
+                "type": "ironagefurniture:feature_enabled",
+                "feature": "canopyBeds"
+            }
+        ]
+    }
+}

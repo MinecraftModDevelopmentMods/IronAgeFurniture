@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_left_oak",
+    "ingredients": [
+        "ironagefurniture:bed_wood_foot_oak",
+        "ironagefurniture:bed_wood_foot_oak"
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_wood_foot_left_oak",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "woodenBeds"
+    }
+}

@@ -6,5 +6,10 @@
     ],
     "result": {
         "id": "ironagefurniture:chair_wood_ironage_bench_back_padded_light_blue_single_warped"
+    },
+    "group": "ironagefurniture:chair_wood_ironage_bench_back_padded_light_blue_single_warped",
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "benches"
     }
 }

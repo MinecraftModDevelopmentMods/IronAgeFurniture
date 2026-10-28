@@ -5,7 +5,7 @@
             "conditions": {
                 "items": [
                     {
-                        "items": "biomeswevegone:rainbow_eucalyptus/planks"
+                        "items": "biomeswevegone:rainbow_eucalyptus_planks"
                     }
                 ]
             },
@@ -29,9 +29,18 @@
             "ironagefurniture:chair_wood_ironage_bench_padded_brown_single_biomeswevegone_rainbow_eucalyptus"
         ]
     },
+    "sends_telemetry_event": false,
     "forge:condition": {
-        "type": "forge:mod_loaded",
-        "modid": "biomeswevegone"
-    },
-    "sends_telemetry_event": false
+        "type": "forge:and",
+        "values": [
+            {
+                "type": "forge:mod_loaded",
+                "modid": "biomeswevegone"
+            },
+            {
+                "type": "ironagefurniture:feature_enabled",
+                "feature": "benches"
+            }
+        ]
+    }
 }

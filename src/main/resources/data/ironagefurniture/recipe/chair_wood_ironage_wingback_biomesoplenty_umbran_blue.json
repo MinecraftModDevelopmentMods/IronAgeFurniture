@@ -1,0 +1,26 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_umbran_blue",
+    "ingredients": [
+        "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_umbran",
+        "biomesoplenty:umbran_planks",
+        "minecraft:blue_carpet"
+    ],
+    "result": {
+        "id": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_umbran_blue",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "forge:and",
+        "values": [
+            {
+                "type": "forge:mod_loaded",
+                "modid": "biomesoplenty"
+            },
+            {
+                "type": "ironagefurniture:feature_enabled",
+                "feature": "wingbacks"
+            }
+        ]
+    }
+}

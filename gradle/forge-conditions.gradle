@@ -1,0 +1,66 @@
+// Forge 61 reads one condition object; combine shared catalog rules explicitly.
+ext.forgeConditionalData = { Object document ->
+    def normalize
+    normalize = { Object value ->
+        if (value instanceof List) return value.collect { normalize(it) }
+        if (!(value instanceof Map)) return value
+        Map output = value.collectEntries { key, child -> [(key): normalize(child)] }
+        if (output.trigger == 'minecraft:recipe_unlocked' && output.conditions?.containsKey('recipes'))
+            output.conditions.recipe = output.conditions.remove('recipes')
+        if (output.criteria instanceof Map && output.rewards instanceof Map)
+            output.sends_telemetry_event = false
+        List rules = []
+        rules.addAll((output.remove('forge:conditions') ?: []) as List)
+        rules.addAll((output.remove('neoforge:conditions') ?: []) as List)
+        if (!rules.isEmpty()) {
+            if (output['forge:condition'] != null) rules.add(0, output.remove('forge:condition'))
+            output['forge:condition'] = rules.size() == 1 ? rules[0] : [type: 'forge:and', values: rules]
+        }
+        output
+    }
+    normalize(document)
+}
+
+tasks.register('verifyNativeConditions') {
+    group = 'verification'
+    description = 'Checks Forge 61 condition objects in recipes and advancements.'
+    inputs.dir 'src/main/resources/data/ironagefurniture'
+    doLast {
+        int count = 0
+        Closure validate
+        validate = { Object rule, File source ->
+            if (!(rule instanceof Map)) throw new GradleException("Condition is not an object: ${source}")
+            switch (rule.type) {
+                case 'forge:and':
+                    if (!(rule.values instanceof List) || rule.values.isEmpty())
+                        throw new GradleException("AND condition has no children: ${source}")
+                    rule.values.each { validate(it, source) }
+                    break
+                case 'forge:mod_loaded':
+                    if (!(rule.modid instanceof String) || rule.modid.isEmpty())
+                        throw new GradleException("Mod condition has no provider: ${source}")
+                    break
+                case 'ironagefurniture:feature_enabled':
+                    if (!(rule.feature in ['classicChairs','shieldChairs','stools','benches','wingbacks','thrones','woodenBeds','canopyBeds','lights','baseMetals','mineralogy']))
+                        throw new GradleException("Unknown furniture setting ${rule.feature}: ${source}")
+                    break
+                case 'ironagefurniture:metal_available':
+                    if (!(rule.metal in ['iron','gold','adamantine','antimony','aquarium','bismuth','brass','bronze','coldiron','copper','cupronickel','electrum','invar','lead','mithril','nickel','pewter','platinum','silver','starsteel','steel','tin','zinc']))
+                        throw new GradleException("Unknown sconce metal ${rule.metal}: ${source}")
+                    break
+                default: throw new GradleException("Unsupported Forge condition ${rule.type}: ${source}")
+            }
+        }
+        ['recipe','advancement'].each { directory ->
+            fileTree("src/main/resources/data/ironagefurniture/${directory}") { include '**/*.json' }.each { source ->
+                Map data = new groovy.json.JsonSlurper().parse(source) as Map
+                if (data.containsKey('neoforge:conditions') || data.containsKey('forge:conditions'))
+                    throw new GradleException("Forge requires one singular forge:condition object: ${source}")
+                if (data.containsKey('forge:condition')) { validate(data['forge:condition'], source); count++ }
+            }
+        }
+        if (count == 0) throw new GradleException('No conditional furniture data was audited')
+        logger.lifecycle("Validated ${count} native Forge conditional recipes and advancements.")
+    }
+}
+tasks.named('check') { dependsOn 'verifyNativeConditions' }
