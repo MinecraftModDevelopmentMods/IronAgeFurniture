@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_chair_wingback_upper",
+    "textures": {
+        "log": "biomeswevegone:block/florus/stem",
+        "planks": "biomeswevegone:block/florus/planks",
+        "particle": "biomeswevegone:block/florus/stem",
+        "cloth": "minecraft:block/gray_wool"
+    }
+}

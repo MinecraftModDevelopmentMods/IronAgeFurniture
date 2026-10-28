@@ -1,6 +1,6 @@
 {
     "type": "minecraft:crafting_shaped",
-    "group": "furniture",
+    "group": "ironagefurniture:chair_wood_ironage_classic_oak",
     "pattern": [
         "x  ",
         "xxx",
@@ -8,7 +8,7 @@
     ],
     "key": {
         "y": {
-            "tag": "c:rods/wooden"
+            "tag": "forge:rods/wooden"
         },
         "x": {
             "item": "minecraft:oak_planks"
@@ -17,5 +17,9 @@
     "result": {
         "count": 1,
         "id": "ironagefurniture:chair_wood_ironage_classic_oak"
+    },
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "classicChairs"
     }
 }

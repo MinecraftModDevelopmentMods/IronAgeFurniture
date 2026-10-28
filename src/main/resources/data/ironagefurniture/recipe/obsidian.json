@@ -1,18 +1,22 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "group": "obsidian",
-  "pattern": [
-    "yyy",
-    "yyy",
-    "yyy"
-  ],
-  "key": {
-    "y": {
-      "item": "ironagefurniture:obsidian_chunk"
+    "type": "minecraft:crafting_shaped",
+    "group": "minecraft:obsidian",
+    "pattern": [
+        "yyy",
+        "yyy",
+        "yyy"
+    ],
+    "key": {
+        "y": {
+            "item": "ironagefurniture:obsidian_chunk"
+        }
+    },
+    "result": {
+        "id": "minecraft:obsidian",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "lights"
     }
-  },
-  "result": {
-    "id": "minecraft:obsidian",
-    "count": 1
-  }
 }

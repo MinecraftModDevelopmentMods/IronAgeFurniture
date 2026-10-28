@@ -1,25 +1,28 @@
 {
-    "type": "forge:conditional",
-    "forge:condition": {
-        "modid": "biomeswevegone",
-        "type": "forge:mod_loaded"
-    },
-    "recipes": [
+    "type": "ironagefurniture:shield_chair",
+    "ingredients": [
         {
-            "recipe": {
-                "type": "minecraft:crafting_shapeless",
-                "ingredients": [
-                    {
-                        "item": "minecraft:shield"
-                    },
-                    {
-                        "item": "ironagefurniture:chair_wood_ironage_classic_biomeswevegone_ironwood"
-                    }
-                ],
-                "result": {
-                    "id": "ironagefurniture:chair_wood_ironage_shield_biomeswevegone_ironwood"
-                }
-            }
+            "item": "minecraft:shield"
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_classic_biomeswevegone_ironwood"
         }
-    ]
+    ],
+    "result": {
+        "id": "ironagefurniture:chair_wood_ironage_shield_biomeswevegone_ironwood"
+    },
+    "group": "ironagefurniture:chair_wood_ironage_shield_biomeswevegone_ironwood",
+    "forge:condition": {
+        "type": "forge:and",
+        "values": [
+            {
+                "modid": "biomeswevegone",
+                "type": "forge:mod_loaded"
+            },
+            {
+                "type": "ironagefurniture:feature_enabled",
+                "feature": "shieldChairs"
+            }
+        ]
+    }
 }

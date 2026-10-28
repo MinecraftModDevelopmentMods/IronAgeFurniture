@@ -1,25 +1,28 @@
 {
-    "type": "forge:conditional",
-    "forge:condition": {
-        "modid": "biomeswevegone",
-        "type": "forge:mod_loaded"
-    },
-    "recipes": [
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
         {
-            "recipe": {
-                "type": "minecraft:crafting_shapeless",
-                "ingredients": [
-                    {
-                        "item": "minecraft:blue_carpet"
-                    },
-                    {
-                        "item": "ironagefurniture:chair_wood_ironage_bench_single_biomeswevegone_fir"
-                    }
-                ],
-                "result": {
-                    "id": "ironagefurniture:chair_wood_ironage_bench_padded_blue_single_biomeswevegone_fir"
-                }
-            }
+            "item": "minecraft:blue_carpet"
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_bench_single_biomeswevegone_fir"
         }
-    ]
+    ],
+    "result": {
+        "id": "ironagefurniture:chair_wood_ironage_bench_padded_blue_single_biomeswevegone_fir"
+    },
+    "group": "ironagefurniture:chair_wood_ironage_bench_padded_blue_single_biomeswevegone_fir",
+    "forge:condition": {
+        "type": "forge:and",
+        "values": [
+            {
+                "modid": "biomeswevegone",
+                "type": "forge:mod_loaded"
+            },
+            {
+                "type": "ironagefurniture:feature_enabled",
+                "feature": "benches"
+            }
+        ]
+    }
 }

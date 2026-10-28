@@ -63,15 +63,7 @@ public class LightHolderSconceWall extends LightHolderSconceFloor {
 
 	@Override
 	public List<ItemStack> getDrops(BlockState state, Builder builder) {
-		List<ItemStack> drops;
-		drops = new ArrayList<ItemStack>();
-
-		Item item = ModVanillaLights.light_metal_ironage_sconce_floor_empty_iron.get().asItem();
-		ItemStack stack = new ItemStack(item, 1);
-
-		drops.add(stack);
-
-		return drops;
+		return List.of(zone.moddev.mc.ironagefurniture.api.SconceMetalData.frame(state));
 	}
 
 	@Override
