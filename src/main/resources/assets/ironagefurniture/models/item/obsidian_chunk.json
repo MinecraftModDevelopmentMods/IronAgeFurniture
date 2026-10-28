@@ -1,3 +1,22 @@
 {
-  "parent": "ironagefurniture:block/obsidian_chunk"
+    "parent": "ironagefurniture:block/obsidian_chunk",
+    "display": {
+        "gui": {
+            "rotation": [
+                35,
+                45,
+                0
+            ],
+            "translation": [
+                0,
+                9.84,
+                8.62
+            ],
+            "scale": [
+                2,
+                2,
+                2
+            ]
+        }
+    }
 }

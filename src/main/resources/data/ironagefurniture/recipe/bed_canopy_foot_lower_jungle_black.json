@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_lower_jungle_black",
+    "ingredients": [
+        "ironagefurniture:bed_wood_foot_jungle_black",
+        "minecraft:jungle_planks",
+        "minecraft:black_carpet"
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_canopy_foot_lower_jungle_black",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "canopyBeds"
+    }
+}

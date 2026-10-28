@@ -23,12 +23,14 @@ public abstract class LightHolder extends FurnitureBlock
 
 	@Override
     protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+        if (world.isClientSide()) return InteractionResult.SUCCESS;
         return ActivateSconce(state, world, pos, player, InteractionHand.MAIN_HAND, hit);
     }
 
 	@Override
     protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level world, BlockPos pos,
                                                Player player, InteractionHand hand, BlockHitResult hit) {
+        if (world.isClientSide()) return InteractionResult.SUCCESS;
         return ActivateSconce(state, world, pos, player, hand, hit);
     }
 }

@@ -1,0 +1,26 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_lower_biomeswevegone_willow_cyan",
+    "ingredients": [
+        "ironagefurniture:bed_wood_foot_biomeswevegone_willow_cyan",
+        "biomeswevegone:willow_planks",
+        "minecraft:cyan_carpet"
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_canopy_foot_lower_biomeswevegone_willow_cyan",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "forge:and",
+        "values": [
+            {
+                "type": "forge:mod_loaded",
+                "modid": "biomeswevegone"
+            },
+            {
+                "type": "ironagefurniture:feature_enabled",
+                "feature": "canopyBeds"
+            }
+        ]
+    }
+}

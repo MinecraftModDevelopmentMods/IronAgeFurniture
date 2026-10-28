@@ -1,0 +1,26 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_wingback_biomeswevegone_ebony_cyan",
+    "ingredients": [
+        "ironagefurniture:chair_wood_ironage_classic_biomeswevegone_ebony",
+        "biomeswevegone:ebony_planks",
+        "minecraft:cyan_carpet"
+    ],
+    "result": {
+        "id": "ironagefurniture:chair_wood_ironage_wingback_biomeswevegone_ebony_cyan",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "forge:and",
+        "values": [
+            {
+                "type": "forge:mod_loaded",
+                "modid": "biomeswevegone"
+            },
+            {
+                "type": "ironagefurniture:feature_enabled",
+                "feature": "wingbacks"
+            }
+        ]
+    }
+}

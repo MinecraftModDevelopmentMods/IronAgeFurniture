@@ -1,0 +1,25 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_biomeswevegone_spirit_magenta",
+    "ingredients": [
+        "minecraft:magenta_bed",
+        "biomeswevegone:spirit_planks"
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_wood_foot_biomeswevegone_spirit_magenta",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "forge:and",
+        "values": [
+            {
+                "type": "forge:mod_loaded",
+                "modid": "biomeswevegone"
+            },
+            {
+                "type": "ironagefurniture:feature_enabled",
+                "feature": "woodenBeds"
+            }
+        ]
+    }
+}

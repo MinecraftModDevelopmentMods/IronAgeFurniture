@@ -1,5 +1,5 @@
 {
-    "type": "minecraft:crafting_shapeless",
+    "type": "ironagefurniture:shield_chair",
     "ingredients": [
         "minecraft:shield",
         "ironagefurniture:chair_wood_ironage_classic_biomeswevegone_sakura"
@@ -7,8 +7,18 @@
     "result": {
         "id": "ironagefurniture:chair_wood_ironage_shield_biomeswevegone_sakura"
     },
+    "group": "ironagefurniture:chair_wood_ironage_shield_biomeswevegone_sakura",
     "forge:condition": {
-        "modid": "biomeswevegone",
-        "type": "forge:mod_loaded"
+        "type": "forge:and",
+        "values": [
+            {
+                "modid": "biomeswevegone",
+                "type": "forge:mod_loaded"
+            },
+            {
+                "type": "ironagefurniture:feature_enabled",
+                "feature": "shieldChairs"
+            }
+        ]
     }
 }

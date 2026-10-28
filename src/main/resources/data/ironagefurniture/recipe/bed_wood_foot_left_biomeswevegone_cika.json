@@ -1,0 +1,25 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_left_biomeswevegone_cika",
+    "ingredients": [
+        "ironagefurniture:bed_wood_foot_biomeswevegone_cika",
+        "ironagefurniture:bed_wood_foot_biomeswevegone_cika"
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_wood_foot_left_biomeswevegone_cika",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "forge:and",
+        "values": [
+            {
+                "type": "forge:mod_loaded",
+                "modid": "biomeswevegone"
+            },
+            {
+                "type": "ironagefurniture:feature_enabled",
+                "feature": "woodenBeds"
+            }
+        ]
+    }
+}

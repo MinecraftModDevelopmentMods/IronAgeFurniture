@@ -1,0 +1,26 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_lower_biomeswevegone_white_mangrove_brown",
+    "ingredients": [
+        "ironagefurniture:bed_wood_foot_biomeswevegone_white_mangrove_brown",
+        "biomeswevegone:white_mangrove_planks",
+        "minecraft:brown_carpet"
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_canopy_foot_lower_biomeswevegone_white_mangrove_brown",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "forge:and",
+        "values": [
+            {
+                "type": "forge:mod_loaded",
+                "modid": "biomeswevegone"
+            },
+            {
+                "type": "ironagefurniture:feature_enabled",
+                "feature": "canopyBeds"
+            }
+        ]
+    }
+}

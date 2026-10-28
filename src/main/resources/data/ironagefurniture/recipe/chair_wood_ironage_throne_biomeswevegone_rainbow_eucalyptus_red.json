@@ -1,0 +1,26 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_throne_biomeswevegone_rainbow_eucalyptus_red",
+    "ingredients": [
+        "ironagefurniture:chair_wood_ironage_wingback_biomeswevegone_rainbow_eucalyptus",
+        "biomeswevegone:rainbow_eucalyptus_planks",
+        "minecraft:red_carpet"
+    ],
+    "result": {
+        "id": "ironagefurniture:chair_wood_ironage_throne_biomeswevegone_rainbow_eucalyptus",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "forge:and",
+        "values": [
+            {
+                "type": "forge:mod_loaded",
+                "modid": "biomeswevegone"
+            },
+            {
+                "type": "ironagefurniture:feature_enabled",
+                "feature": "thrones"
+            }
+        ]
+    }
+}

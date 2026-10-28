@@ -1,0 +1,26 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_wingback_biomeswevegone_blue_enchanted_gray",
+    "ingredients": [
+        "ironagefurniture:chair_wood_ironage_classic_biomeswevegone_blue_enchanted",
+        "biomeswevegone:blue_enchanted_planks",
+        "minecraft:gray_carpet"
+    ],
+    "result": {
+        "id": "ironagefurniture:chair_wood_ironage_wingback_biomeswevegone_blue_enchanted_gray",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "forge:and",
+        "values": [
+            {
+                "type": "forge:mod_loaded",
+                "modid": "biomeswevegone"
+            },
+            {
+                "type": "ironagefurniture:feature_enabled",
+                "feature": "wingbacks"
+            }
+        ]
+    }
+}

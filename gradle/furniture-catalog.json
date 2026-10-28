@@ -57,7 +57,7 @@
         { "wood": "cypress", "externalWood": "cypress", "display": "Cypress" },
         { "wood": "ebony", "externalWood": "ebony", "display": "Ebony" },
         { "wood": "fir", "externalWood": "fir", "display": "Fir" },
-        { "wood": "florus", "externalWood": "florus", "externalLog": "florus/stem", "externalLogTop": "florus/stem_top", "display": "Florus" },
+        { "wood": "florus", "externalWood": "florus", "externalLog": "florus/stem", "externalLogTop": "florus/stem_top", "externalLogItem": "florus_stem", "display": "Florus" },
         { "wood": "green_enchanted", "externalWood": "green_enchanted", "display": "Green Enchanted" },
         { "wood": "holly", "externalWood": "holly", "display": "Holly" },
         { "wood": "ironwood", "externalWood": "ironwood", "display": "Ironwood" },

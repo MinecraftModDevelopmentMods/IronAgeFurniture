@@ -1,0 +1,26 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_throne_biomeswevegone_witch_hazel_light_gray",
+    "ingredients": [
+        "ironagefurniture:chair_wood_ironage_wingback_biomeswevegone_witch_hazel_light_gray",
+        "biomeswevegone:witch_hazel_planks",
+        "minecraft:light_gray_carpet"
+    ],
+    "result": {
+        "id": "ironagefurniture:chair_wood_ironage_throne_biomeswevegone_witch_hazel_light_gray",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "forge:and",
+        "values": [
+            {
+                "type": "forge:mod_loaded",
+                "modid": "biomeswevegone"
+            },
+            {
+                "type": "ironagefurniture:feature_enabled",
+                "feature": "thrones"
+            }
+        ]
+    }
+}

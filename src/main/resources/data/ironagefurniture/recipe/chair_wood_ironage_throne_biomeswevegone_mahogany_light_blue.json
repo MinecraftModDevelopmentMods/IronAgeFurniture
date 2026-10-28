@@ -1,0 +1,26 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_throne_biomeswevegone_mahogany_light_blue",
+    "ingredients": [
+        "ironagefurniture:chair_wood_ironage_wingback_biomeswevegone_mahogany_light_blue",
+        "biomeswevegone:mahogany_planks",
+        "minecraft:light_blue_carpet"
+    ],
+    "result": {
+        "id": "ironagefurniture:chair_wood_ironage_throne_biomeswevegone_mahogany_light_blue",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "forge:and",
+        "values": [
+            {
+                "type": "forge:mod_loaded",
+                "modid": "biomeswevegone"
+            },
+            {
+                "type": "ironagefurniture:feature_enabled",
+                "feature": "thrones"
+            }
+        ]
+    }
+}

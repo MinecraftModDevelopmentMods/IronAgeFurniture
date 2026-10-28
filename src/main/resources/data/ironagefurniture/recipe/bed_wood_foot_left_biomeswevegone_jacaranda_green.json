@@ -1,0 +1,25 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_left_biomeswevegone_jacaranda_green",
+    "ingredients": [
+        "ironagefurniture:bed_wood_foot_biomeswevegone_jacaranda_green",
+        "ironagefurniture:bed_wood_foot_biomeswevegone_jacaranda_green"
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_wood_foot_left_biomeswevegone_jacaranda_green",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "forge:and",
+        "values": [
+            {
+                "type": "forge:mod_loaded",
+                "modid": "biomeswevegone"
+            },
+            {
+                "type": "ironagefurniture:feature_enabled",
+                "feature": "woodenBeds"
+            }
+        ]
+    }
+}

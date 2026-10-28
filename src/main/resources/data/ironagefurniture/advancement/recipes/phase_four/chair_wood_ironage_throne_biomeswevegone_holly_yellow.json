@@ -1,0 +1,46 @@
+{
+    "parent": "minecraft:recipes/root",
+    "criteria": {
+        "has_ingredient": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": "ironagefurniture:chair_wood_ironage_wingback_biomeswevegone_holly_yellow"
+                    }
+                ]
+            }
+        },
+        "has_the_recipe": {
+            "trigger": "minecraft:recipe_unlocked",
+            "conditions": {
+                "recipe": "ironagefurniture:chair_wood_ironage_throne_biomeswevegone_holly_yellow"
+            }
+        }
+    },
+    "requirements": [
+        [
+            "has_ingredient",
+            "has_the_recipe"
+        ]
+    ],
+    "rewards": {
+        "recipes": [
+            "ironagefurniture:chair_wood_ironage_throne_biomeswevegone_holly_yellow"
+        ]
+    },
+    "sends_telemetry_event": false,
+    "forge:condition": {
+        "type": "forge:and",
+        "values": [
+            {
+                "type": "forge:mod_loaded",
+                "modid": "biomeswevegone"
+            },
+            {
+                "type": "ironagefurniture:feature_enabled",
+                "feature": "thrones"
+            }
+        ]
+    }
+}

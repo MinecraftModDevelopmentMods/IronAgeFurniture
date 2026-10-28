@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_cherry_yellow",
+    "ingredients": [
+        "minecraft:yellow_bed",
+        "minecraft:cherry_planks"
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_wood_foot_cherry_yellow",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "woodenBeds"
+    }
+}

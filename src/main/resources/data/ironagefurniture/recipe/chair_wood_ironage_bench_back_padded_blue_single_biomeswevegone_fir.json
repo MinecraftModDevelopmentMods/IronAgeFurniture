@@ -7,8 +7,18 @@
     "result": {
         "id": "ironagefurniture:chair_wood_ironage_bench_back_padded_blue_single_biomeswevegone_fir"
     },
+    "group": "ironagefurniture:chair_wood_ironage_bench_back_padded_blue_single_biomeswevegone_fir",
     "forge:condition": {
-        "modid": "biomeswevegone",
-        "type": "forge:mod_loaded"
+        "type": "forge:and",
+        "values": [
+            {
+                "modid": "biomeswevegone",
+                "type": "forge:mod_loaded"
+            },
+            {
+                "type": "ironagefurniture:feature_enabled",
+                "feature": "benches"
+            }
+        ]
     }
 }

@@ -1,0 +1,26 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_lower_biomeswevegone_zelkova_pink",
+    "ingredients": [
+        "ironagefurniture:bed_wood_foot_biomeswevegone_zelkova_pink",
+        "biomeswevegone:zelkova_planks",
+        "minecraft:pink_carpet"
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_canopy_foot_lower_biomeswevegone_zelkova_pink",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "forge:and",
+        "values": [
+            {
+                "type": "forge:mod_loaded",
+                "modid": "biomeswevegone"
+            },
+            {
+                "type": "ironagefurniture:feature_enabled",
+                "feature": "canopyBeds"
+            }
+        ]
+    }
+}

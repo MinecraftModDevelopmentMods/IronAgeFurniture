@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_wingback_crimson_purple",
+    "ingredients": [
+        "ironagefurniture:chair_wood_ironage_classic_crimson",
+        "minecraft:crimson_planks",
+        "minecraft:purple_carpet"
+    ],
+    "result": {
+        "id": "ironagefurniture:chair_wood_ironage_wingback_crimson_purple",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "wingbacks"
+    }
+}
