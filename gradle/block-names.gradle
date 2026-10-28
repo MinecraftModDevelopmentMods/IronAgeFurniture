@@ -1,0 +1,116 @@
+import groovy.json.JsonSlurper
+
+// HUDs read the placed block, including hidden states, not the item it drops.
+// Share the naming rules across core, add-ons and downward ports.
+def namePatterns = new JsonSlurper().parse(file('gradle/block-name-patterns.json')) as Map
+def assetsPath = 'src/main/resources/assets/ironagefurniture'
+def registryAssetRoots = {
+    [file(assetsPath)] + fileTree('src/main/resources/resourcepacks') {
+        include '*/pack.mcmeta'
+    }.files.sort { it.path }.collect { new File(it.parentFile, 'assets/ironagefurniture') }
+}
+ext.blockNameAdditions = { Map language, Map translated, String locale ->
+    Map patterns = namePatterns[locale] ?: namePatterns.en_us
+    Map result = new TreeMap()
+    def format = { String kind, Object... args -> String.format(Locale.ROOT, patterns[kind].toString(), args) }
+    def title = { String text -> text.tokenize('_').collect { it.capitalize() }.join(' ') }
+    def nameFor = { String id ->
+        // Historical model-only aliases remain harmless resources on 1.21.1.
+        // Name them explicitly without introducing registrations or guessing
+        // names for other, unknown future resources.
+        if (id in ['light_metal_ironage_block_floor_glow_iron', 'light_metal_ironage_block_wall_glow_iron']) {
+            String canonical = 'block.ironagefurniture.light_metal_ironage_block_floor_glow_clear'
+            return translated[canonical] ?: language[canonical]
+        }
+        if (id == 'light_metal_ironage_sconce_wall_glowstone_iron')
+            id = 'light_metal_ironage_sconce_wall_glow_iron'
+        def sconce = id =~ /^light_metal_ironage_sconce_(floor|wall)_(empty|torch|redtorch|soultorch|glow|lava|red|candle|rocksalt|celestial)_((?:basemetals_)?[a-z]+)(?:_(.*))?$/
+        if (sconce.matches()) {
+            String kind = sconce[0][2], metal = sconce[0][3].replaceFirst(/^basemetals_/, '')
+            String suffix = sconce[0][4] ?: ''
+            String baseKey = 'block.ironagefurniture.light_metal_ironage_sconce_floor_empty_iron'
+            String base = translated[baseKey + '.' + metal] ?:
+                    (metal == 'iron' ? translated[baseKey] : null) ?:
+                    language['block.ironagefurniture.light_metal_ironage_sconce_floor_empty_' + sconce[0][3]] ?:
+                    (title(metal) + ' Sconce')
+            String name = kind == 'empty' ? base : format(suffix.startsWith('twin') ? 'twin' : kind, base)
+            if (suffix.endsWith('unlit')) name = format('unlit', name)
+            if (kind == 'red' && suffix) {
+                List levels = ['one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen']
+                if (!levels.contains(suffix)) throw new GradleException("Unknown red-lamp state ${id}")
+                name = format('level', name, levels.indexOf(suffix) + 1)
+            }
+            return name
+        }
+        if (id.startsWith('light_metal_ironage_block_floor_red_clear_')) {
+            List levels = ['one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen']
+            String suffix = id.substring('light_metal_ironage_block_floor_red_clear_'.length())
+            if (!levels.contains(suffix)) throw new GradleException("Unknown red-lamp state ${id}")
+            return format('level', translated['block.ironagefurniture.light_metal_ironage_block_floor_red_clear'] ?:
+                    language['block.ironagefurniture.light_metal_ironage_block_floor_red_clear'], levels.indexOf(suffix) + 1)
+        }
+        if (id.startsWith('bed_canopy_foot_right_lower_')) {
+            String alias = 'block.ironagefurniture.' + id.replace('foot_right_lower_', 'foot_left_lower_')
+            if (translated[alias] || locale.startsWith('en_')) return translated[alias] ?: language[alias]
+            String wood = id.substring('bed_canopy_foot_right_lower_'.length())
+            String classic = translated['block.ironagefurniture.chair_wood_ironage_classic_' + wood] ?: ''
+            def localWood = classic =~ /\(([^)]+)\)$/
+            return format('canopy', localWood.find() ? localWood.group(1) : title(wood.replaceFirst(/^(?:biomesoplenty|biomeswevegone|immersiveengineering)_/, '')))
+        }
+        def bench = id =~ /^chair_wood_ironage_bench_(back_)?padded_single_(.+)$/
+        if (bench.matches()) {
+            String alias = 'block.ironagefurniture.' + id.replace('padded_single_', 'padded_red_single_')
+            if (translated[alias]) return translated[alias]
+            String wood = bench[0][2]
+            String classic = translated['block.ironagefurniture.chair_wood_ironage_classic_' + wood] ?: ''
+            def localWood = classic =~ /\(([^)]+)\)$/
+            return format(bench[0][1] ? 'backBench' : 'bench',
+                    localWood.find() ? localWood.group(1) : title(wood.replaceFirst(/^(?:biomesoplenty|biomeswevegone|immersiveengineering)_/, '')))
+        }
+        null
+    }
+    // Preserve explicit translations. Unknown missing names fail closed, rather
+    // than hiding a future incomplete catalog behind a registry-ID title case.
+    registryAssetRoots().each { assetRoot ->
+      ['blockstates', 'models/item'].each { directory ->
+        fileTree(new File(assetRoot, directory)) { include '*.json' }.files.sort { it.name }.each { source ->
+            String id = source.name[0..-6]
+            String blockKey = 'block.ironagefurniture.' + id
+            String itemKey = 'item.ironagefurniture.' + id
+            boolean block = directory == 'blockstates' || language.containsKey(blockKey) ||
+                    new File(assetRoot, "blockstates/${id}.json").isFile()
+            String key = block ? blockKey : itemKey
+            String name = nameFor(id)
+            if (name && !translated.containsKey(key)) result[key] = name
+            else if (!language.containsKey(key) && !translated.containsKey(key))
+                throw new GradleException("No display name for ${key}; add a localized name or naming rule")
+        }
+      }
+    }
+    result
+}
+
+tasks.register('verifyRegistryNames') {
+    group = 'verification'
+    description = 'Requires a name for every block and item, including hidden states, in every locale.'
+    doLast {
+        Map english = new JsonSlurper().parse(file("${assetsPath}/lang/en_us.json")) as Map
+        fileTree("${assetsPath}/lang") { include '*.json' }.files.each { source ->
+            Map language = new JsonSlurper().parse(source) as Map
+            if (language.keySet() != english.keySet())
+                throw new GradleException("Incomplete language key set: ${source.name}")
+            registryAssetRoots().each { assetRoot ->
+              ['blockstates', 'models/item'].each { directory ->
+                fileTree(new File(assetRoot, directory)) { include '*.json' }.files.each { entry ->
+                    String id = entry.name[0..-6]
+                    boolean block = directory == 'blockstates' || english.containsKey("block.ironagefurniture.${id}".toString())
+                    String key = (block ? 'block.' : 'item.') + 'ironagefurniture.' + id
+                    if (!(language[key] instanceof String) || !language[key].trim() || language[key] == key)
+                        throw new GradleException("Missing display name in ${source.name}: ${key}")
+                }
+              }
+            }
+        }
+    }
+}
+tasks.named('check') { dependsOn 'verifyRegistryNames' }

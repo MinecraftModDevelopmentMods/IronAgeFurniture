@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_throne_biomeswevegone_spirit_brown",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_biomeswevegone_spirit_brown"
+        },
+        {
+            "item": "biomeswevegone:spirit_planks"
+        },
+        {
+            "item": "minecraft:brown_carpet"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:chair_wood_ironage_throne_biomeswevegone_spirit_brown",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "forge:and",
+        "values": [
+            {
+                "type": "forge:mod_loaded",
+                "modid": "biomeswevegone"
+            },
+            {
+                "type": "ironagefurniture:feature_enabled",
+                "feature": "thrones"
+            }
+        ]
+    }
+}

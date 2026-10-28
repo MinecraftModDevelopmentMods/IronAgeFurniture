@@ -1,0 +1,31 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "group": "ironagefurniture:light_metal_ironage_sconce_floor_empty_basemetals_electrum",
+    "pattern": [
+        "xxx",
+        "x  ",
+        "x  "
+    ],
+    "key": {
+        "x": {
+            "tag": "c:nuggets/electrum"
+        }
+    },
+    "result": {
+        "id": "ironagefurniture:light_metal_ironage_sconce_floor_empty_basemetals_electrum",
+        "count": 4
+    },
+    "forge:condition": {
+        "type": "forge:and",
+        "values": [
+            {
+                "type": "ironagefurniture:feature_enabled",
+                "feature": "lights"
+            },
+            {
+                "type": "ironagefurniture:metal_available",
+                "metal": "electrum"
+            }
+        ]
+    }
+}

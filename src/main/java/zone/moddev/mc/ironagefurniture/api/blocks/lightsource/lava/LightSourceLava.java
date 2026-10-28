@@ -15,6 +15,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerLevel;
@@ -45,7 +46,7 @@ public class LightSourceLava extends LightSourceGlowdust {
 		if (CreativeModeBreakTracker.shouldSuppressFallingLavaBreak(level, pos))
 			return;
 
-		if (replacedState.getFluidState().is(Fluids.WATER))
+		if (replacedState.getFluidState().is(FluidTags.WATER))
 			breakIntoObsidianChunk(level, pos, state, null);
 		else
 			breakIntoFire(level, pos, null);
@@ -77,7 +78,7 @@ public class LightSourceLava extends LightSourceGlowdust {
 	}
 
 	@Override
-	public void animateTick(BlockState state, Level level, BlockPos pos, Random rnd) {
+	public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource rnd) {
 		BlockPos blockpos = pos.above();
 		if (level.getBlockState(blockpos).isAir() && !level.getBlockState(blockpos).isSolidRender(level, blockpos)) {
 			if (rnd.nextInt(25) == 0) {
@@ -110,13 +111,11 @@ public class LightSourceLava extends LightSourceGlowdust {
 					.registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.SILK_TOUCH), tool) > 0;
 		}
 
-		if (isSilkTouch && !player.isCreative())
-			Block.popResource(level, pos, new ItemStack(state.getBlock().asItem(), 1));
-
 		boolean destroyed = super.onDestroyedByPlayer(state, level, pos, player, willHarvest, fluid);
 
-		if (!isSilkTouch && !player.isCreative()) {
-			breakIntoFire(level, pos, player);
+		if (destroyed && !level.isClientSide() && !player.isCreative()) {
+			if (isSilkTouch) Block.popResource(level, pos, new ItemStack(state.getBlock().asItem()));
+			else breakIntoFire(level, pos, player);
 		}
 
 		return destroyed;
@@ -136,7 +135,7 @@ public class LightSourceLava extends LightSourceGlowdust {
 		Level level = context.getLevel();
 		BlockState target = level.getBlockState(context.getClickedPos());
 
-		if (target.getFluidState().getType() == Fluids.WATER) {
+		if (target.getFluidState().is(FluidTags.WATER)) {
 			playWaterBreakSounds(level, context.getClickedPos(), context.getPlayer());
 			return ModVanillaLights.obsidian_chunk.get().defaultBlockState()
 				.setValue(DIRECTION, context.getHorizontalDirection())
@@ -148,7 +147,7 @@ public class LightSourceLava extends LightSourceGlowdust {
 
 	@Override
 	public boolean placeLiquid(LevelAccessor world, BlockPos pos, BlockState blockState, FluidState fluidState) {
-		if (!blockState.getValue(BlockStateProperties.WATERLOGGED) && fluidState.getType() == Fluids.WATER) {
+		if (!blockState.getValue(BlockStateProperties.WATERLOGGED) && fluidState.is(FluidTags.WATER)) {
 			if (!world.isClientSide()) {
 				playWaterBreakSounds(world, pos, null);
 				world.setBlock(pos, ModVanillaLights.obsidian_chunk.get().defaultBlockState().setValue(DIRECTION, blockState.getValue(BlockStateProperties.HORIZONTAL_FACING)).setValue(WATERLOGGED, true), UPDATE_ALL);

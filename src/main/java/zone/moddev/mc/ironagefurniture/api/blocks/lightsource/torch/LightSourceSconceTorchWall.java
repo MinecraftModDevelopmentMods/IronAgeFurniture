@@ -55,6 +55,10 @@ public class LightSourceSconceTorchWall extends LightSourceSconceTorchFloor {
 		return ModVanillaLights.light_metal_ironage_sconce_wall_torch_iron_unlit.get();
 	}
 
+    @Override protected Block LitVariant() {
+        return ModVanillaLights.light_metal_ironage_sconce_wall_torch_iron.get();
+    }
+
 	@Override
 	protected Block EmptyVariant() {
 		return ModVanillaLights.light_metal_ironage_sconce_wall_empty_iron.get();
@@ -91,6 +95,8 @@ public class LightSourceSconceTorchWall extends LightSourceSconceTorchFloor {
 
 	@Override
 	public BlockState updateShape(BlockState state, Direction direction, BlockState state2, LevelAccessor level, BlockPos pos1, BlockPos pos2) {
+        if (state.getValue(WATERLOGGED)) level.scheduleTick(pos1, net.minecraft.world.level.material.Fluids.WATER,
+                net.minecraft.world.level.material.Fluids.WATER.getTickDelay(level));
 		return direction.getOpposite() == state.getValue(DIRECTION) && !state.canSurvive(level, pos1) ? Blocks.AIR.defaultBlockState() : state;
 	}
 

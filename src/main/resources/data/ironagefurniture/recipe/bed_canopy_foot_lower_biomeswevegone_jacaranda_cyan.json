@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_lower_biomeswevegone_jacaranda_cyan",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_biomeswevegone_jacaranda_cyan"
+        },
+        {
+            "item": "biomeswevegone:jacaranda_planks"
+        },
+        {
+            "item": "minecraft:cyan_carpet"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_canopy_foot_lower_biomeswevegone_jacaranda_cyan",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "forge:and",
+        "values": [
+            {
+                "type": "forge:mod_loaded",
+                "modid": "biomeswevegone"
+            },
+            {
+                "type": "ironagefurniture:feature_enabled",
+                "feature": "canopyBeds"
+            }
+        ]
+    }
+}

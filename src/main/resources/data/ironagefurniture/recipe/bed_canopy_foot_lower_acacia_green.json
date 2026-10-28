@@ -1,0 +1,23 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_lower_acacia_green",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_acacia_green"
+        },
+        {
+            "item": "minecraft:acacia_planks"
+        },
+        {
+            "item": "minecraft:green_carpet"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_canopy_foot_lower_acacia_green",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "canopyBeds"
+    }
+}

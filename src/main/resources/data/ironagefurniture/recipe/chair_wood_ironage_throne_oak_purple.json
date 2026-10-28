@@ -1,0 +1,23 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_throne_oak_purple",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_oak_purple"
+        },
+        {
+            "item": "minecraft:oak_planks"
+        },
+        {
+            "item": "minecraft:purple_carpet"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:chair_wood_ironage_throne_oak_purple",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "thrones"
+    }
+}

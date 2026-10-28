@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_biomeswevegone_fir_gray",
+    "ingredients": [
+        {
+            "item": "minecraft:gray_bed"
+        },
+        {
+            "item": "biomeswevegone:fir_planks"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_wood_foot_biomeswevegone_fir_gray",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "forge:and",
+        "values": [
+            {
+                "type": "forge:mod_loaded",
+                "modid": "biomeswevegone"
+            },
+            {
+                "type": "ironagefurniture:feature_enabled",
+                "feature": "woodenBeds"
+            }
+        ]
+    }
+}

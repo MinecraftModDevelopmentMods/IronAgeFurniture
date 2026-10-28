@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_bed_canopy_head_upper",
+    "textures": {
+        "log": "biomeswevegone:block/blue_enchanted/log",
+        "planks": "biomeswevegone:block/blue_enchanted/planks",
+        "particle": "biomeswevegone:block/blue_enchanted/log",
+        "cloth": "minecraft:block/light_gray_wool"
+    }
+}

@@ -1,6 +1,6 @@
 # Optional integration runtime test
 
-This positive-path test starts Forge 1.21.1 with Iron Age Furniture and the supported
+This test starts Forge 1.21.1 with Iron Age Furniture and the supported
 Biomes O' Plenty and Oh The Biomes We've Gone integrations. A test-only Forge mod then checks the live server
 registries for every conditional recipe and recipe advancement and stops the server.
 
@@ -39,7 +39,7 @@ server starts. It builds and stages
 accepts success only when the probe writes
 `optional-integration-pass.properties` in the selected server directory with all
 selected conditional recipes and recipe advancements present. The exact expected
-counts are 507 for BOP, 975 for BWG, and 1,482 for the combined stack.
+counts are 1,755 for BOP, 3,375 for BWG, and 5,130 for the combined stack.
 
 The probe also records the loaded versions and per-integration counts. It is built
 from `src/optionalIntegrationTest` and is explicitly excluded from all release

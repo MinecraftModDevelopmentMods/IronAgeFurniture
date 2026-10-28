@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_biomeswevegone_cypress_magenta",
+    "ingredients": [
+        {
+            "item": "minecraft:magenta_bed"
+        },
+        {
+            "item": "biomeswevegone:cypress_planks"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_wood_foot_biomeswevegone_cypress_magenta",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "forge:and",
+        "values": [
+            {
+                "type": "forge:mod_loaded",
+                "modid": "biomeswevegone"
+            },
+            {
+                "type": "ironagefurniture:feature_enabled",
+                "feature": "woodenBeds"
+            }
+        ]
+    }
+}

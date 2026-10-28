@@ -1,0 +1,23 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_throne_jungle_black",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_jungle_black"
+        },
+        {
+            "item": "minecraft:jungle_planks"
+        },
+        {
+            "item": "minecraft:black_carpet"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:chair_wood_ironage_throne_jungle_black",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "thrones"
+    }
+}

@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_throne_biomeswevegone_maple_cyan",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_biomeswevegone_maple_cyan"
+        },
+        {
+            "item": "biomeswevegone:maple_planks"
+        },
+        {
+            "item": "minecraft:cyan_carpet"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:chair_wood_ironage_throne_biomeswevegone_maple_cyan",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "forge:and",
+        "values": [
+            {
+                "type": "forge:mod_loaded",
+                "modid": "biomeswevegone"
+            },
+            {
+                "type": "ironagefurniture:feature_enabled",
+                "feature": "thrones"
+            }
+        ]
+    }
+}

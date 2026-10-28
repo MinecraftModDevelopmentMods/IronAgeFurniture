@@ -1,31 +1,33 @@
 {
-    "type": "forge:conditional",
-    "forge:condition": {
-        "modid": "biomeswevegone",
-        "type": "forge:mod_loaded"
-    },
-    "recipes": [
-        {
-            "recipe": {
-                "type": "minecraft:crafting_shaped",
-                "group": "furniture",
-                "pattern": [
-                    "xx",
-                    "yy"
-                ],
-                "key": {
-                    "y": {
-                        "tag": "c:rods/wooden"
-                    },
-                    "x": {
-                        "item": "biomeswevegone:jacaranda_planks"
-                    }
-                },
-                "result": {
-                    "count": 1,
-                    "id": "ironagefurniture:chair_wood_ironage_bench_single_biomeswevegone_jacaranda"
-                }
-            }
+    "type": "minecraft:crafting_shaped",
+    "group": "ironagefurniture:chair_wood_ironage_bench_single_biomeswevegone_jacaranda",
+    "pattern": [
+        "xx",
+        "yy"
+    ],
+    "key": {
+        "y": {
+            "tag": "forge:rods/wooden"
+        },
+        "x": {
+            "item": "biomeswevegone:jacaranda_planks"
         }
-    ]
+    },
+    "result": {
+        "count": 1,
+        "id": "ironagefurniture:chair_wood_ironage_bench_single_biomeswevegone_jacaranda"
+    },
+    "forge:condition": {
+        "type": "forge:and",
+        "values": [
+            {
+                "modid": "biomeswevegone",
+                "type": "forge:mod_loaded"
+            },
+            {
+                "type": "ironagefurniture:feature_enabled",
+                "feature": "benches"
+            }
+        ]
+    }
 }

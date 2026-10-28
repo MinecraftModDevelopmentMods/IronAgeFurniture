@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_lower_biomeswevegone_maple_purple",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_biomeswevegone_maple_purple"
+        },
+        {
+            "item": "biomeswevegone:maple_planks"
+        },
+        {
+            "item": "minecraft:purple_carpet"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_canopy_foot_lower_biomeswevegone_maple_purple",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "forge:and",
+        "values": [
+            {
+                "type": "forge:mod_loaded",
+                "modid": "biomeswevegone"
+            },
+            {
+                "type": "ironagefurniture:feature_enabled",
+                "feature": "canopyBeds"
+            }
+        ]
+    }
+}

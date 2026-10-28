@@ -1,27 +1,29 @@
 {
-    "type": "forge:conditional",
-    "forge:condition": {
-        "modid": "biomeswevegone",
-        "type": "forge:mod_loaded"
-    },
-    "recipes": [
-        {
-            "recipe": {
-                "type": "minecraft:crafting_shaped",
-                "group": "furniture",
-                "pattern": [
-                    "xxx"
-                ],
-                "key": {
-                    "x": {
-                        "item": "biomeswevegone:holly_log"
-                    }
-                },
-                "result": {
-                    "count": 3,
-                    "id": "ironagefurniture:chair_wood_ironage_bench_log_single_biomeswevegone_holly"
-                }
-            }
+    "type": "minecraft:crafting_shaped",
+    "group": "ironagefurniture:chair_wood_ironage_bench_log_single_biomeswevegone_holly",
+    "pattern": [
+        "xxx"
+    ],
+    "key": {
+        "x": {
+            "item": "biomeswevegone:holly_log"
         }
-    ]
+    },
+    "result": {
+        "count": 3,
+        "id": "ironagefurniture:chair_wood_ironage_bench_log_single_biomeswevegone_holly"
+    },
+    "forge:condition": {
+        "type": "forge:and",
+        "values": [
+            {
+                "modid": "biomeswevegone",
+                "type": "forge:mod_loaded"
+            },
+            {
+                "type": "ironagefurniture:feature_enabled",
+                "feature": "benches"
+            }
+        ]
+    }
 }
