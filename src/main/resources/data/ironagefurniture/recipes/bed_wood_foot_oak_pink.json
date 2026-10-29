@@ -1,0 +1,20 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_oak_pink",
+    "ingredients": [
+        {
+            "item": "minecraft:pink_bed"
+        },
+        {
+            "item": "minecraft:oak_planks"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_wood_foot_oak_pink",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "woodenBeds"
+    }
+}

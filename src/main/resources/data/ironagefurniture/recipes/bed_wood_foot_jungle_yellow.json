@@ -1,0 +1,20 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_jungle_yellow",
+    "ingredients": [
+        {
+            "item": "minecraft:yellow_bed"
+        },
+        {
+            "item": "minecraft:jungle_planks"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_wood_foot_jungle_yellow",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "woodenBeds"
+    }
+}

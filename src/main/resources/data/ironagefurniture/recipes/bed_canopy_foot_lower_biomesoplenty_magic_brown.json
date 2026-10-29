@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_magic_brown",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_magic_brown"
+        },
+        {
+            "item": "biomesoplenty:magic_planks"
+        },
+        {
+            "item": "minecraft:brown_carpet"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_magic_brown",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "forge:and",
+        "values": [
+            {
+                "type": "forge:mod_loaded",
+                "modid": "biomesoplenty"
+            },
+            {
+                "type": "ironagefurniture:feature_enabled",
+                "feature": "canopyBeds"
+            }
+        ]
+    }
+}

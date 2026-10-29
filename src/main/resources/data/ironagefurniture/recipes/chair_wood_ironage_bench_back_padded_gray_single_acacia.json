@@ -10,5 +10,10 @@
     ],
     "result": {
         "id": "ironagefurniture:chair_wood_ironage_bench_back_padded_gray_single_acacia"
+    },
+    "group": "ironagefurniture:chair_wood_ironage_bench_back_padded_gray_single_acacia",
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "benches"
     }
 }

@@ -1,0 +1,23 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_throne_crimson_gray",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_crimson_gray"
+        },
+        {
+            "item": "minecraft:crimson_planks"
+        },
+        {
+            "item": "minecraft:gray_carpet"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:chair_wood_ironage_throne_crimson_gray",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "thrones"
+    }
+}

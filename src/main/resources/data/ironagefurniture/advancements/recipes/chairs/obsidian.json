@@ -1,33 +1,38 @@
 {
-  "rewards": {
-    "recipes": [
-      "ironagefurniture:obsidian"
-    ]
-  },
-  "criteria": {
-    "has_nugget": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "ironagefurniture:obsidian_chunk"
-            ]
-          }
+    "rewards": {
+        "recipes": [
+            "ironagefurniture:obsidian"
         ]
-      }
     },
-    "has_the_recipe": {
-      "trigger": "minecraft:recipe_unlocked",
-      "conditions": {
-        "recipe": "ironagefurniture:obsidian"
-      }
+    "criteria": {
+        "has_nugget": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": [
+                            "ironagefurniture:obsidian_chunk"
+                        ]
+                    }
+                ]
+            }
+        },
+        "has_the_recipe": {
+            "trigger": "minecraft:recipe_unlocked",
+            "conditions": {
+                "recipe": "ironagefurniture:obsidian"
+            }
+        }
+    },
+    "requirements": [
+        [
+            "has_nugget",
+            "has_the_recipe"
+        ]
+    ],
+    "sends_telemetry_event": false,
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "lights"
     }
-  },
-  "requirements": [
-    [
-      "has_nugget",
-      "has_the_recipe"
-    ]
-  ]
 }

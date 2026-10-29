@@ -1,0 +1,20 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_left_dark_oak_cyan",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_dark_oak_cyan"
+        },
+        {
+            "item": "ironagefurniture:bed_wood_foot_dark_oak_cyan"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_wood_foot_left_dark_oak_cyan",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "woodenBeds"
+    }
+}
