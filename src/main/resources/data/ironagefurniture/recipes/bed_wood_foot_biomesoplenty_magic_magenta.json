@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_biomesoplenty_magic_magenta",
+    "ingredients": [
+        {
+            "item": "minecraft:magenta_bed"
+        },
+        {
+            "item": "biomesoplenty:magic_planks"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_wood_foot_biomesoplenty_magic_magenta",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "forge:and",
+        "values": [
+            {
+                "type": "forge:mod_loaded",
+                "modid": "biomesoplenty"
+            },
+            {
+                "type": "ironagefurniture:feature_enabled",
+                "feature": "woodenBeds"
+            }
+        ]
+    }
+}

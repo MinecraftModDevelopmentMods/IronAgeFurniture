@@ -1,0 +1,23 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_lower_mangrove_purple",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_mangrove_purple"
+        },
+        {
+            "item": "minecraft:mangrove_planks"
+        },
+        {
+            "item": "minecraft:purple_carpet"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_canopy_foot_lower_mangrove_purple",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "canopyBeds"
+    }
+}

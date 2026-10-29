@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_bed_wood_head",
+    "textures": {
+        "log": "minecraft:block/jungle_log",
+        "planks": "minecraft:block/jungle_planks",
+        "particle": "minecraft:block/jungle_log",
+        "cloth": "minecraft:block/cyan_wool"
+    }
+}

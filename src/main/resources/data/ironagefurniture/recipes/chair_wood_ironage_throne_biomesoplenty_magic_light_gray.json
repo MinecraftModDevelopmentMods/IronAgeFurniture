@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_magic_light_gray",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_magic_light_gray"
+        },
+        {
+            "item": "biomesoplenty:magic_planks"
+        },
+        {
+            "item": "minecraft:light_gray_carpet"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_magic_light_gray",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "forge:and",
+        "values": [
+            {
+                "type": "forge:mod_loaded",
+                "modid": "biomesoplenty"
+            },
+            {
+                "type": "ironagefurniture:feature_enabled",
+                "feature": "thrones"
+            }
+        ]
+    }
+}

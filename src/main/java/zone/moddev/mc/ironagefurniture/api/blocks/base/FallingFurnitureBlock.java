@@ -6,14 +6,15 @@ import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Fallable;
 import net.minecraft.world.level.block.state.BlockState;
-
-import java.util.Random;
+import net.minecraft.world.level.material.Fluids;
 
 public abstract class FallingFurnitureBlock extends FurnitureBlock implements Fallable {
 
@@ -45,6 +46,16 @@ public abstract class FallingFurnitureBlock extends FurnitureBlock implements Fa
 
 	}
 
+	@Override
+	public void onLand(Level level, BlockPos pos, BlockState state, BlockState replacedState,
+			FallingBlockEntity fallingEntity) {
+		if (!level.isClientSide && state.hasProperty(WATERLOGGED)
+				&& replacedState.getFluidState().is(FluidTags.WATER)) {
+			level.setBlock(pos, state.setValue(WATERLOGGED, true), Block.UPDATE_ALL);
+			level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
+		}
+	}
+
 	protected int getDelayAfterPlace() {
 		return 2;
 	}
@@ -53,7 +64,8 @@ public abstract class FallingFurnitureBlock extends FurnitureBlock implements Fa
 		return state.isAir() || state.is(BlockTags.FIRE) || state.liquid() || state.canBeReplaced();
 	}
 
-	public void animateTick(BlockState state, Level level, BlockPos pos, Random rnd) {
+	@Override
+	public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource rnd) {
 		if (rnd.nextInt(16) == 0) {
 			BlockPos blockpos = pos.below();
 			if (isFree(level.getBlockState(blockpos))) {

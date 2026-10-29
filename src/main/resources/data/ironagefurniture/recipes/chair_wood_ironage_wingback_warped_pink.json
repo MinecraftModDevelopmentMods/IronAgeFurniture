@@ -1,0 +1,23 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_wingback_warped_pink",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:chair_wood_ironage_classic_warped"
+        },
+        {
+            "item": "minecraft:warped_planks"
+        },
+        {
+            "item": "minecraft:pink_carpet"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:chair_wood_ironage_wingback_warped_pink",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "wingbacks"
+    }
+}

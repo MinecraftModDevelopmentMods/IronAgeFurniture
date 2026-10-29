@@ -1,0 +1,23 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_lower_cherry_black",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_cherry_black"
+        },
+        {
+            "item": "minecraft:cherry_planks"
+        },
+        {
+            "item": "minecraft:black_carpet"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_canopy_foot_lower_cherry_black",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "canopyBeds"
+    }
+}

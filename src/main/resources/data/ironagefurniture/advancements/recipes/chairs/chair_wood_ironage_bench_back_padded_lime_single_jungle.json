@@ -30,5 +30,10 @@
         "recipes": [
             "ironagefurniture:chair_wood_ironage_bench_back_padded_lime_single_jungle"
         ]
+    },
+    "sends_telemetry_event": false,
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "benches"
     }
 }

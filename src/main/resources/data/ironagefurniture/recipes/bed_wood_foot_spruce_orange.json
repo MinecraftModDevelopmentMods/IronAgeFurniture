@@ -1,0 +1,20 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_spruce_orange",
+    "ingredients": [
+        {
+            "item": "minecraft:orange_bed"
+        },
+        {
+            "item": "minecraft:spruce_planks"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_wood_foot_spruce_orange",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "woodenBeds"
+    }
+}

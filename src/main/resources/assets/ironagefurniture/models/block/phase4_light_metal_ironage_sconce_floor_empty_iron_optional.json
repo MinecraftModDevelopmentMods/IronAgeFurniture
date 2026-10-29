@@ -1,0 +1,114 @@
+{
+    "credit": "Made by FoxNekitsune",
+    "ambientocclusion": false,
+    "textures": {
+        "1": "minecraft:block/iron_block",
+        "particle": "minecraft:block/iron_block"
+    },
+    "elements": [
+
+    ],
+    "display": {
+        "thirdperson_righthand": {
+            "rotation": [
+                0,
+                -180,
+                0
+            ],
+            "translation": [
+                0,
+                1,
+                -0.5
+            ]
+        },
+        "thirdperson_lefthand": {
+            "rotation": [
+                0,
+                -180,
+                0
+            ],
+            "translation": [
+                0,
+                1,
+                0.5
+            ]
+        },
+        "firstperson_righthand": {
+            "rotation": [
+                0,
+                -180,
+                0
+            ],
+            "translation": [
+                2.5,
+                1.5,
+                0
+            ]
+        },
+        "firstperson_lefthand": {
+            "rotation": [
+                0,
+                -180,
+                0
+            ],
+            "translation": [
+                2.5,
+                1.5,
+                0
+            ]
+        },
+        "ground": {
+            "scale": [
+                0.5,
+                0.5,
+                0.5
+            ]
+        },
+        "gui": {
+            "rotation": [
+                0,
+                70,
+                35
+            ],
+            "translation": [
+                0,
+                2.75,
+                0
+            ]
+        },
+        "fixed": {
+            "rotation": [
+                0,
+                -90,
+                0
+            ],
+            "translation": [
+                0,
+                2.5,
+                0
+            ]
+        }
+    },
+    "groups": [
+        {
+            "name": "Sconce",
+            "origin": [
+                0,
+                0,
+                0
+            ],
+            "color": 0,
+            "children": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+            ]
+        }
+    ],
+    "render_type": "minecraft:cutout",
+    "render_type_fast": "minecraft:cutout"
+}

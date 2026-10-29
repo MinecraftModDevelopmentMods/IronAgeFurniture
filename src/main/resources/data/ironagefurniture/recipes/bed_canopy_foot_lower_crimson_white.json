@@ -1,0 +1,23 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_lower_crimson_white",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_crimson_white"
+        },
+        {
+            "item": "minecraft:crimson_planks"
+        },
+        {
+            "item": "minecraft:white_carpet"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_canopy_foot_lower_crimson_white",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "ironagefurniture:feature_enabled",
+        "feature": "canopyBeds"
+    }
+}

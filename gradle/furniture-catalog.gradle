@@ -3,6 +3,10 @@ import groovy.json.JsonSlurper
 import java.nio.file.Files
 import java.nio.file.StandardCopyOption
 
+apply from: 'gradle/phase-four-catalog.gradle'
+apply from: 'gradle/lighting-catalog.gradle'
+apply from: 'gradle/block-names.gradle'
+
 def furnitureCatalogFile = layout.projectDirectory.file('gradle/furniture-catalog.json')
 def furnitureTemplateDirectory = layout.projectDirectory.dir('gradle/furniture-templates')
 def furnitureResourceDirectories = [
@@ -24,7 +28,9 @@ def furnitureJavaClasses = [
         ModVanillaPaddedBackBench : 'BackBench'
 ]
 
-def normalizeFurniturePath = { String path -> path.replace('\\', '/') }
+def normalizeFurniturePath = { String path -> path.replace('\\', '/')
+        .replace('data/ironagefurniture/recipe/', 'data/ironagefurniture/recipes/')
+        .replace('data/ironagefurniture/advancement/', 'data/ironagefurniture/advancements/') }
 def readFurnitureCatalog = {
     def parsed = new JsonSlurper().parse(furnitureCatalogFile.asFile)
     if (parsed.schema != 1) {
@@ -42,6 +48,21 @@ def renderFurnitureText = { String template, Map<String, ?> values ->
 }
 def writeFurnitureFile = { File root, String relative, String text, Set<String> generated ->
     String normalized = normalizeFurniturePath(relative)
+    if (normalized.endsWith('.java')) {
+        text = text.replace('import zone.moddev.mc.ironagefurniture.api.blocks.furniture.Chair;',
+                'import zone.moddev.mc.ironagefurniture.api.blocks.furniture.Chair;\nimport zone.moddev.mc.ironagefurniture.api.blocks.furniture.ShieldChair;')
+                .replaceAll(/new Chair(?:Nether)?(?=\(1, 10, SoundType\.WOOD, "chair_wood_ironage_shield_)/, 'new ShieldChair')
+    }
+    // Provider models keep their public resource IDs, but are exposed only with that provider.
+    if (normalized.startsWith('src/main/resources/assets/ironagefurniture/') &&
+            !normalized.contains('/lang/')) {
+        ['biomesoplenty', 'biomeswevegone', 'immersiveengineering'].each { modId ->
+            if (new File(normalized).name.contains("_${modId}_")) {
+                normalized = normalized.replace('src/main/resources/assets/',
+                        "src/main/resources/resourcepacks/ironagefurniture_${modId}/assets/")
+            }
+        }
+    }
     File output = new File(root, normalized)
     output.parentFile.mkdirs()
     output.setText(text.replace('\r\n', '\n'), 'UTF-8')
@@ -50,28 +71,55 @@ def writeFurnitureFile = { File root, String relative, String text, Set<String> 
 def mappedFurnitureResourcePath = { String relative, def catalog ->
     if (catalog.dataLayout == 'singular') {
         return relative
-                .replace('data/ironagefurniture/recipes/', 'data/ironagefurniture/recipe/')
-                .replace('data/ironagefurniture/advancements/', 'data/ironagefurniture/advancement/')
+                .replace('data/ironagefurniture/recipes/', 'data/ironagefurniture/recipes/')
+                .replace('data/ironagefurniture/advancements/', 'data/ironagefurniture/advancements/')
     }
     relative
 }
+def furnitureDataFeature = { String relative ->
+    String id = new File(relative).name.replaceFirst(/\.json$/, '')
+    if (id.contains('_shield_')) return 'shieldChairs'
+    if (id.contains('_stool_')) return 'stools'
+    if (id.contains('_bench_')) return 'benches'
+    if (id.startsWith('chair_')) return 'classicChairs'
+    if (id.startsWith('light_') || id == 'obsidian') return 'lights'
+    throw new GradleException("No explicit furniture feature for data template: ${relative}")
+}
+
 def renderTargetFurnitureData = { String relative, String rendered, def catalog ->
-    if (catalog.dataSchema != 'forge50' || !relative.endsWith('.json')) {
+    if (!['forge50', 'neoforge20', 'forge50'].contains(catalog.dataSchema)
+            || !relative.endsWith('.json')) {
         return rendered
     }
-    if (relative.contains('/advancements/')) {
+    if (catalog.dataSchema == 'forge50') {
+        rendered = rendered.replace('c:rods/wooden', 'forge:rods/wooden')
+    }
+    def targetConditions = { List conditions ->
+        conditions.collect { condition ->
+            Map normalized = new LinkedHashMap(condition as Map)
+            if (normalized.type == 'forge:mod_loaded') normalized.type = 'forge:mod_loaded'
+            normalized
+        }
+    }
+    if (relative.contains('/advancements/') || relative.contains('/advancements/')) {
         Map wrapper = new JsonSlurper().parseText(rendered) as Map
         if (wrapper.advancements instanceof List && wrapper.advancements.size() == 1
                 && wrapper.advancements[0].conditions instanceof List
                 && wrapper.advancements[0].conditions.size() == 1) {
             Map branch = wrapper.advancements[0] as Map
             Map advancement = new LinkedHashMap(branch.advancement as Map)
-            advancement['forge:condition'] = branch.conditions[0]
-            wrapper = [advancements: [advancement]]
+            if (catalog.dataSchema == 'forge50') {
+                advancement['forge:conditions'] = targetConditions(branch.conditions as List)
+                wrapper = advancement
+            }
         }
-        return JsonOutput.prettyPrint(JsonOutput.toJson(wrapper)) + '\n'
+        if (catalog.dataSchema == 'forge50') {
+            wrapper['forge:conditions'] = (wrapper['forge:conditions'] ?: []) +
+                    [[type: 'ironagefurniture:feature_enabled', feature: furnitureDataFeature(relative)]]
+        }
+        return JsonOutput.prettyPrint(JsonOutput.toJson(forgeConditionalData(wrapper))) + '\n'
     }
-    if (relative.contains('/recipes/')) {
+    if (relative.contains('/recipes/') || relative.contains('/recipes/')) {
         Map recipe = new JsonSlurper().parseText(rendered) as Map
         List conditions = recipe.remove('conditions') as List
         if (recipe.type instanceof String && !recipe.type.contains(':')) {
@@ -80,15 +128,27 @@ def renderTargetFurnitureData = { String relative, String rendered, def catalog 
         if (recipe.result instanceof Map && recipe.result.item != null) {
             recipe.result.id = recipe.result.remove('item')
         }
-        Map output = recipe
-        if (conditions != null && conditions.size() == 1) {
-            output = [
-                    type             : 'forge:conditional',
-                    'forge:condition': conditions[0],
-                    recipes          : [[recipe: recipe]]
-            ]
+        // Match the refined branches: separate distinct furniture items in the
+        // book, but keep alternative construction recipes for one item together.
+        if (recipe.result instanceof Map && recipe.result.id) recipe.group = recipe.result.id
+        if (catalog.dataSchema == 'forge50' && relative.contains('/chair_wood_ironage_shield_')) {
+            if (recipe.pattern) {
+                recipe.ingredients = recipe.pattern.join('').toList().findAll { it != ' ' }.collect { recipe.key[it] }
+                recipe.remove('pattern')
+                recipe.remove('key')
+            }
+            if (!(recipe.ingredients instanceof List)) throw new GradleException("Missing shield-chair ingredients: ${relative}")
+            recipe.type = 'ironagefurniture:shield_chair'
         }
-        return JsonOutput.prettyPrint(JsonOutput.toJson(output)) + '\n'
+        Map output = recipe
+        if (catalog.dataSchema == 'forge50' && conditions != null && !conditions.isEmpty()) {
+            recipe['forge:conditions'] = targetConditions(conditions)
+        }
+        if (catalog.dataSchema == 'forge50') {
+            output['forge:conditions'] = (output['forge:conditions'] ?: []) +
+                    [[type: 'ironagefurniture:feature_enabled', feature: furnitureDataFeature(relative)]]
+        }
+        return JsonOutput.prettyPrint(JsonOutput.toJson(forgeConditionalData(output))) + '\n'
     }
     rendered
 }
@@ -97,6 +157,14 @@ def renderFurnitureCatalog = { File outputRoot ->
     def catalog = readFurnitureCatalog()
     Set<String> generated = new TreeSet<>()
     File templates = furnitureTemplateDirectory.asFile
+
+    // Preserve original lighting costs and discovery rules as maintained inputs.
+    new File(templates, 'lighting').eachFileRecurse { File template ->
+        if (!template.isFile()) return
+        String relative = normalizeFurniturePath(new File(templates, 'lighting').toPath().relativize(template.toPath()).toString())
+        writeFurnitureFile(outputRoot, "src/main/resources/${relative}",
+                renderTargetFurnitureData(relative, template.getText('UTF-8'), catalog), generated)
+    }
 
     File vanillaTemplates = new File(templates, 'vanilla')
     vanillaTemplates.eachFileRecurse { File template ->
@@ -162,7 +230,33 @@ def renderFurnitureCatalog = { File outputRoot ->
             if (!template.isFile()) return
             String relative = normalizeFurniturePath(
                     retainedTemplates.toPath().relativize(template.toPath()).toString())
-            writeFurnitureFile(outputRoot, relative, template.getText('UTF-8'), generated)
+            String mappedRelative = mappedFurnitureResourcePath(relative, catalog)
+            String rendered = renderTargetFurnitureData(mappedRelative, template.getText('UTF-8'), catalog)
+            writeFurnitureFile(outputRoot, mappedRelative,
+                    rendered, generated)
+            // The retained IE catalog has sixteen alternative construction IDs
+            // for its treated-wood styles. Keep those IDs and unlock each real
+            // recipe from its actual ingredients, rather than only its result's
+            // canonical recipe.
+            if (catalog.dataSchema == 'forge50' && mappedRelative ==~
+                    /src\/main\/resources\/data\/ironagefurniture\/recipe\/chair_wood_ironage_.+_immersiveengineering_treated_wood_packaged(?:_horizontal|_vertical)?\.json/) {
+                Map recipe = new JsonSlurper().parseText(rendered) as Map
+                String recipeId = 'ironagefurniture:' + template.name.replaceFirst(/\.json$/, '')
+                Collection ingredientDefinitions = recipe.key instanceof Map ? recipe.key.values() : recipe.ingredients
+                if (!(ingredientDefinitions instanceof Collection))
+                    throw new GradleException("No shaped or shapeless ingredients for ${recipeId}")
+                List<String> ingredients = ingredientDefinitions.findAll { it instanceof Map && it.item instanceof String }
+                        .collect { it.item.toString() }.unique().sort()
+                if (ingredients.isEmpty()) throw new GradleException("No exact item ingredients for ${recipeId}")
+                Map advancement = [parent: 'minecraft:recipes/root',
+                        criteria: [has_ingredient: [trigger: 'minecraft:inventory_changed', conditions: [items: [[items: ingredients]]]],
+                                   has_the_recipe: [trigger: 'minecraft:recipe_unlocked', conditions: [recipe: recipeId]]],
+                        requirements: [['has_ingredient', 'has_the_recipe']], rewards: [recipes: [recipeId]],
+                        'forge:conditions': recipe['forge:conditions']]
+                writeFurnitureFile(outputRoot,
+                        "src/main/resources/data/ironagefurniture/advancements/recipes/chairs/${template.name}",
+                        JsonOutput.prettyPrint(JsonOutput.toJson(advancement)) + '\n', generated)
+            }
         }
     }
 
@@ -200,9 +294,22 @@ def renderFurnitureCatalog = { File outputRoot ->
     }
     catalog.retainedIntegrationClasses.each { className ->
         File template = new File(templates, "java/${className}.java")
+        String source = template.getText('UTF-8')
+        if (catalog.loader == 'neoforge') {
+            source = source
+                    .replace('net.minecraftforge.registries.DeferredRegister',
+                            'net.neoforged.neoforge.registries.DeferredRegister')
+                    .replace('net.minecraftforge.registries.ForgeRegistries',
+                            'net.minecraft.core.registries.BuiltInRegistries')
+                    .replace('net.minecraftforge.registries.RegistryObject',
+                            'net.neoforged.neoforge.registries.DeferredHolder')
+                    .replace('DeferredRegister.create(ForgeRegistries.BLOCKS,',
+                            'DeferredRegister.create(BuiltInRegistries.BLOCK,')
+                    .replace('RegistryObject<Block>', 'DeferredHolder<Block, Block>')
+        }
         writeFurnitureFile(outputRoot,
                 "src/main/java/zone/moddev/mc/ironagefurniture/init/${className}.java",
-                template.getText('UTF-8'), generated)
+                source, generated)
     }
 
     Map<String, Object> language = new TreeMap<>()
@@ -229,6 +336,9 @@ def renderFurnitureCatalog = { File outputRoot ->
             }
         }
     }
+    generated.addAll(renderPhaseFourFurnitureCatalog(outputRoot, language, catalog as Map))
+    generated.addAll(renderLightingCatalog(outputRoot, language))
+    blockNameAdditions(language, [:], 'en_us').each { key, value -> language.putIfAbsent(key, value) }
     String languageJson = JsonOutput.prettyPrint(JsonOutput.toJson(language)) + '\n'
     ['en_en.json', 'en_gb.json', 'en_us.json'].each { locale ->
         writeFurnitureFile(outputRoot,
@@ -253,17 +363,37 @@ def renderFurnitureCatalog = { File outputRoot ->
 }
 
 def isManagedFurnitureResource = { File file ->
-    if (!file.isFile() || file.name == null || !file.name.endsWith('.json')
-            || !file.name.startsWith('chair_wood_ironage_')) return false
+    if (!file.isFile() || file.name == null) return false
     String relative = normalizeFurniturePath(project.projectDir.toPath().relativize(file.toPath()).toString())
-    relative.startsWith('src/main/resources/assets/ironagefurniture/blockstates/') ||
-            relative.startsWith('src/main/resources/assets/ironagefurniture/models/block/') ||
-            relative.startsWith('src/main/resources/assets/ironagefurniture/models/item/') ||
-            relative.startsWith('src/main/resources/assets/ironagefurniture/items/') ||
+    if (relative.startsWith('src/main/resources/assets/ironagefurniture/models/block/phase4_')) return true
+    if (relative ==~ /src\/main\/resources\/assets\/ironagefurniture\/models\/item\/(tallow|obsidian_chunk|light_metal_ironage_sconce_floor_empty_(iron|gold|copper|basemetals_[a-z]+))\.json/)
+        return true
+    if (relative.startsWith('src/main/resources/assets/ironagefurniture/blockstates/light_metal_ironage_sconce_')) {
+        String id = file.name[0..-6]
+        String canonical = id.replaceFirst(/_(basemetals_[a-z]+|gold|copper)(?=_|$)/, '_iron')
+        Set<String> additional = ['floor','wall'].collectMany { place ->
+            ["light_metal_ironage_sconce_${place}_candle_iron", "light_metal_ironage_sconce_${place}_rocksalt_iron",
+             "light_metal_ironage_sconce_${place}_torch_iron_twin", "light_metal_ironage_sconce_${place}_torch_iron_twin_unlit"].collect { it.toString() }
+        } as Set
+        String registrations = project.file('src/main/java/zone/moddev/mc/ironagefurniture/init/ModVanillaLights.java').getText('UTF-8')
+        if (additional.contains(canonical) || !canonical.contains('candle') && registrations.contains('"' + canonical + '"')) return true
+    }
+    if (relative ==~ /src\/main\/resources\/data\/ironagefurniture\/(recipes|advancements\/recipes\/phase_four)\/(light_metal_ironage_sconce_floor_empty_(iron|gold|copper(?:_from_ingots)?|basemetals_[a-z]+)|candles_from_tallow|tallow_from_(porkchop|beef|mutton|rabbit|chicken|rotten_flesh))\.json/)
+        return true
+    if (relative ==~ /src\/main\/resources\/resourcepacks\/ironagefurniture_(biomesoplenty|biomeswevegone|immersiveengineering)\/pack\.mcmeta/)
+        return true
+    if (relative ==~ /src\/main\/resources\/data\/ironagefurniture\/(recipes|advancements\/recipes\/chairs)\/(light_metal_ironage_block_floor_(glow|lava|red)_clear|light_metal_ironage_sconce_floor_empty_iron|obsidian)\.json/)
+        return true
+    if (!file.name.endsWith('.json') || !(file.name.startsWith('chair_wood_ironage_') ||
+            file.name.startsWith('chair_wingback_') || file.name.startsWith('chair_throne_') ||
+            file.name.startsWith('bed_wood_') || file.name.startsWith('bed_canopy_') ||
+            file.name ==~ /template_(chair_(wingback|throne)|bed_(wood|canopy))_.+\.json/)) return false
+    relative ==~ /src\/main\/resources\/(resourcepacks\/ironagefurniture_(biomesoplenty|biomeswevegone|immersiveengineering)\/)?assets\/ironagefurniture\/(blockstates|models\/block|models\/item)\/.+\.json/ ||
             relative.startsWith('src/main/resources/data/ironagefurniture/recipes/') ||
-            relative.startsWith('src/main/resources/data/ironagefurniture/recipe/') ||
+            relative.startsWith('src/main/resources/data/ironagefurniture/recipes/') ||
             relative.startsWith('src/main/resources/data/ironagefurniture/advancements/recipes/chairs/') ||
-            relative.startsWith('src/main/resources/data/ironagefurniture/advancement/recipes/chairs/')
+            relative.startsWith('src/main/resources/data/ironagefurniture/advancements/recipes/chairs/') ||
+            relative.startsWith('src/main/resources/data/ironagefurniture/advancements/recipes/phase_four/')
 }
 
 tasks.register('updateFurnitureCatalog') {
@@ -271,9 +401,13 @@ tasks.register('updateFurnitureCatalog') {
     description = 'Explicitly regenerates catalog-owned furniture registrations and resources.'
     inputs.file furnitureCatalogFile
     inputs.dir furnitureTemplateDirectory
+    inputs.file 'gradle/phase-four-catalog.gradle'
+    inputs.dir 'gradle/phase-four-templates'
+    inputs.file 'gradle/lighting-catalog.gradle'
+    inputs.dir 'gradle/lighting-templates'
     doLast {
         def catalog = readFurnitureCatalog()
-        fileTree('src/main/resources').matching { include '**/*.json' }.files
+        fileTree('src/main/resources').matching { include '**/*.json', '**/pack.mcmeta' }.files
                 .findAll(isManagedFurnitureResource)
                 .each { File stale -> Files.delete(stale.toPath()) }
         Set<String> enabledIntegrationClasses = (catalog.integrations.collect { it.className }
@@ -294,6 +428,10 @@ tasks.register('verifyFurnitureCatalog') {
     description = 'Regenerates furniture into a temporary tree and compares it byte-for-byte with committed output.'
     inputs.file furnitureCatalogFile
     inputs.dir furnitureTemplateDirectory
+    inputs.file 'gradle/phase-four-catalog.gradle'
+    inputs.dir 'gradle/phase-four-templates'
+    inputs.file 'gradle/lighting-catalog.gradle'
+    inputs.dir 'gradle/lighting-templates'
     doLast {
         File expectedRoot = layout.buildDirectory.dir('tmp/furnitureCatalog/expected').get().asFile
         project.delete(expectedRoot)
@@ -311,10 +449,14 @@ tasks.register('verifyFurnitureCatalog') {
         Set<String> expectedResources = expected.findAll {
             it.startsWith('src/main/resources/') && !it.contains('/lang/')
         } as Set
-        Set<String> actualResources = fileTree('src/main/resources').matching { include '**/*.json' }.files
+        Set<String> actualResources = fileTree('src/main/resources').matching { include '**/*.json', '**/pack.mcmeta' }.files
                 .findAll(isManagedFurnitureResource)
                 .collect { normalizeFurniturePath(project.projectDir.toPath().relativize(it.toPath()).toString()) } as Set
-        if (actualResources != expectedResources) {
+        // Exact String paths need Java Set equality, not Groovy's quadratic
+        // coercive comparison across tens of thousands of resource paths.
+        if (!actualResources.every { it instanceof String } || !expectedResources.every { it instanceof String })
+            throw new GradleException('Catalog resource inventory must contain exact String paths')
+        if (!java.util.Objects.equals(actualResources, expectedResources)) {
             Set<String> missing = new TreeSet<>(expectedResources); missing.removeAll(actualResources)
             Set<String> stale = new TreeSet<>(actualResources); stale.removeAll(expectedResources)
             throw new GradleException("Catalog resource inventory differs; missing=${missing.take(10)}, stale=${stale.take(10)}")
@@ -325,6 +467,83 @@ tasks.register('verifyFurnitureCatalog') {
     }
 }
 
+tasks.register('verifyFurnitureRecipeBook') {
+    group = 'verification'
+    description = 'Checks distinct recipe-book entries and matching conditional discovery advancements.'
+    inputs.dir 'src/main/resources/data/ironagefurniture/recipes'
+    inputs.dir 'src/main/resources/data/ironagefurniture/advancements'
+    doLast {
+        File recipeRoot = file('src/main/resources/data/ironagefurniture/recipes')
+        Map<String, Map> recipes = [:]
+        Map<String, Set<String>> groupedOutputs = [:]
+        fileTree(recipeRoot).matching { include '**/*.json' }.files.each { source ->
+            String id = 'ironagefurniture:' + normalizeFurniturePath(
+                    recipeRoot.toPath().relativize(source.toPath()).toString()).replaceFirst(/\.json$/, '')
+            Map recipe = new JsonSlurper().parse(source) as Map
+            recipes[id] = recipe
+            String path = id.substring('ironagefurniture:'.length())
+            boolean baselineFurniture = path ==~ /chair_wood_ironage_(classic|shield|stool_short|stool_tall|bench|bench_back|bench_log|bench_padded|bench_back_padded)_.+/
+            if (baselineFurniture && recipe.group != recipe.result?.id)
+                throw new GradleException("Furniture book group must use the output identity: ${source.name}")
+            if (recipe.group && recipe.result instanceof Map && recipe.result.id) {
+                String key = recipe.group.toString()
+                if (!groupedOutputs.containsKey(key)) groupedOutputs[key] = new TreeSet<String>()
+                groupedOutputs[key].add(recipe.result.id.toString())
+            }
+        }
+        Map collapsed = groupedOutputs.findAll { key, outputs -> outputs.size() > 1 }
+        if (!collapsed.isEmpty()) throw new GradleException(
+                "Recipe-book groups collapse distinct furniture outputs: ${collapsed.collectEntries { key, outputs -> [(key): outputs.size()] }}")
+        String copperId = 'ironagefurniture:light_metal_ironage_sconce_floor_empty_copper'
+        Map copper = recipes[copperId], copperFallback = recipes[copperId + '_from_ingots']
+        Map emptyCopperTag = [type: 'forge:tag_empty', tag: 'c:nuggets/copper']
+        List copperLights = [[type: 'ironagefurniture:feature_enabled', feature: 'lights']]
+        if (!copper || !copperFallback || copper.key != [x: [tag: 'c:nuggets/copper']]
+                || copperFallback.key != [x: [item: 'minecraft:copper_ingot']]
+                || copper.pattern != ['xxx', 'x  ', 'x  '] || copperFallback.pattern != copper.pattern
+                || copper.result != [id: copperId, count: 4] || copperFallback.result != [id: copperId, count: 32]
+                || copper.group != copperId || copperFallback.group != copperId
+                || copper['forge:condition'] != [type: 'forge:and', values: copperLights + [[type: 'forge:not', value: emptyCopperTag]]]
+                || copperFallback['forge:condition'] != [type: 'forge:and', values: copperLights + [emptyCopperTag]])
+            throw new GradleException('Copper sconces need mutually exclusive nugget/ingot recipes: five nuggets yield 4, five ingots yield 32, in the same book group')
+        Map<String, Integer> discoveries = [:].withDefault { 0 }
+        int advancements = 0
+        fileTree('src/main/resources/data/ironagefurniture/advancements').matching { include '**/*.json' }.files.each { source ->
+            Map advancement = new JsonSlurper().parse(source) as Map
+            List rewards = advancement.rewards?.recipes as List
+            if (!rewards) return
+            advancements++
+            if (rewards.size() != 1 || !recipes.containsKey(rewards[0]))
+                throw new GradleException("Recipe advancement rewards a missing or ambiguous recipe: ${source.name}")
+            String id = rewards[0]
+            Map unlocked = advancement.criteria?.has_the_recipe as Map
+            if (unlocked?.trigger != 'minecraft:recipe_unlocked'
+                    || unlocked.conditions?.recipe != id)
+                throw new GradleException("Recipe advancement/unlocked criterion mismatch: ${source.name}")
+            Set<String> inventoryCriteria = advancement.criteria.findAll { name, criterion ->
+                criterion.trigger == 'minecraft:inventory_changed'
+            }.keySet() as Set<String>
+            if (inventoryCriteria.isEmpty() || advancement.requirements.size() != 1
+                    || (advancement.requirements[0] as Set) != (inventoryCriteria + ['has_the_recipe'] as Set))
+                throw new GradleException("Discovery must accept an ingredient OR the unlocked recipe: ${source.name}")
+            if (advancement['forge:condition'] != recipes[id]['forge:condition'])
+                throw new GradleException("Recipe/discovery provider or feature conditions differ: ${source.name}")
+            if (id == copperId + '_from_ingots' && advancement.criteria.has_ingredient?.conditions?.items
+                    != [[items: ['minecraft:copper_ingot']]])
+                throw new GradleException('Copper fallback discovery must trigger on obtaining a copper ingot')
+            discoveries[id]++
+        }
+        Set<String> missing = recipes.findAll { id, recipe ->
+            // This native special recipe recolours arbitrary beds dynamically and has no book entry.
+            !(id == 'ironagefurniture:bed_recolour' && recipe.type == 'ironagefurniture:bed_recolour')
+                    && discoveries[id] == 0
+        }.keySet()
+        if (!missing.isEmpty()) throw new GradleException("Recipes lack discovery advancements: ${missing.take(10)}")
+        logger.lifecycle("Furniture recipe book verified: ${recipes.size()} recipes, ${advancements} advancements, no cross-output groups")
+    }
+}
+
 tasks.named('check') {
     dependsOn tasks.named('verifyFurnitureCatalog')
+    dependsOn tasks.named('verifyFurnitureRecipeBook')
 }

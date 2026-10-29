@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_empyreal_green",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_empyreal_green"
+        },
+        {
+            "item": "biomesoplenty:empyreal_planks"
+        },
+        {
+            "item": "minecraft:green_carpet"
+        }
+    ],
+    "result": {
+        "id": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_empyreal_green",
+        "count": 1
+    },
+    "forge:condition": {
+        "type": "forge:and",
+        "values": [
+            {
+                "type": "forge:mod_loaded",
+                "modid": "biomesoplenty"
+            },
+            {
+                "type": "ironagefurniture:feature_enabled",
+                "feature": "canopyBeds"
+            }
+        ]
+    }
+}
