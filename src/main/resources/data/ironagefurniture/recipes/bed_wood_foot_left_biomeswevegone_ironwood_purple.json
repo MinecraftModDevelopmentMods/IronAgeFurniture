@@ -1,0 +1,26 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_left_biomeswevegone_ironwood_purple",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_biomeswevegone_ironwood_purple"
+        },
+        {
+            "item": "ironagefurniture:bed_wood_foot_biomeswevegone_ironwood_purple"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "item": "ironagefurniture:bed_wood_foot_left_biomeswevegone_ironwood_purple"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomeswevegone"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
+        }
+    ]
+}

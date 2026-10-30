@@ -1,0 +1,50 @@
+{
+    "advancements": [
+        {
+            "conditions": [
+                {
+                    "type": "forge:mod_loaded",
+                    "modid": "biomeswevegone"
+                },
+                {
+                    "type": "ironagefurniture:feature_enabled",
+                    "feature": "thrones"
+                }
+            ],
+            "advancement": {
+                "parent": "minecraft:recipes/root",
+                "criteria": {
+                    "has_ingredient": {
+                        "trigger": "minecraft:inventory_changed",
+                        "conditions": {
+                            "items": [
+                                {
+                                    "items": [
+                                        "ironagefurniture:chair_wood_ironage_wingback_biomeswevegone_witch_hazel_blue"
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    "has_the_recipe": {
+                        "trigger": "minecraft:recipe_unlocked",
+                        "conditions": {
+                            "recipe": "ironagefurniture:chair_wood_ironage_throne_biomeswevegone_witch_hazel_blue"
+                        }
+                    }
+                },
+                "requirements": [
+                    [
+                        "has_ingredient",
+                        "has_the_recipe"
+                    ]
+                ],
+                "rewards": {
+                    "recipes": [
+                        "ironagefurniture:chair_wood_ironage_throne_biomeswevegone_witch_hazel_blue"
+                    ]
+                }
+            }
+        }
+    ]
+}

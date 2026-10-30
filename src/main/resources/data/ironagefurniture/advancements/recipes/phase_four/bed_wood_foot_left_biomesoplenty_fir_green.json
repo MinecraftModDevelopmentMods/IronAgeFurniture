@@ -1,0 +1,50 @@
+{
+    "advancements": [
+        {
+            "conditions": [
+                {
+                    "type": "forge:mod_loaded",
+                    "modid": "biomesoplenty"
+                },
+                {
+                    "type": "ironagefurniture:feature_enabled",
+                    "feature": "woodenBeds"
+                }
+            ],
+            "advancement": {
+                "parent": "minecraft:recipes/root",
+                "criteria": {
+                    "has_ingredient": {
+                        "trigger": "minecraft:inventory_changed",
+                        "conditions": {
+                            "items": [
+                                {
+                                    "items": [
+                                        "ironagefurniture:bed_wood_foot_biomesoplenty_fir_green"
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    "has_the_recipe": {
+                        "trigger": "minecraft:recipe_unlocked",
+                        "conditions": {
+                            "recipe": "ironagefurniture:bed_wood_foot_left_biomesoplenty_fir_green"
+                        }
+                    }
+                },
+                "requirements": [
+                    [
+                        "has_ingredient",
+                        "has_the_recipe"
+                    ]
+                ],
+                "rewards": {
+                    "recipes": [
+                        "ironagefurniture:bed_wood_foot_left_biomesoplenty_fir_green"
+                    ]
+                }
+            }
+        }
+    ]
+}

@@ -1,14 +1,21 @@
 {
-  "type": "crafting_shapeless",
-  "ingredients": [
-    {
-      "item": "minecraft:shield"
+    "type": "ironagefurniture:shield_chair",
+    "ingredients": [
+        {
+            "item": "minecraft:shield"
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_classic_spruce"
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_shield_spruce"
     },
-    {
-      "item": "ironagefurniture:chair_wood_ironage_classic_spruce"
-    }
-  ],
-  "result": {
-    "item": "ironagefurniture:chair_wood_ironage_shield_spruce"
-  }
+    "conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "shieldChairs"
+        }
+    ],
+    "group": "ironagefurniture:chair_wood_ironage_shield_spruce"
 }

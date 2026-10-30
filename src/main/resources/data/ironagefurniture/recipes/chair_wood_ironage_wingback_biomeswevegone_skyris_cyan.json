@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_wingback_biomeswevegone_skyris_cyan",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:chair_wood_ironage_classic_biomeswevegone_skyris"
+        },
+        {
+            "item": "biomeswevegone:skyris_planks"
+        },
+        {
+            "item": "minecraft:cyan_carpet"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "item": "ironagefurniture:chair_wood_ironage_wingback_biomeswevegone_skyris_cyan"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomeswevegone"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "wingbacks"
+        }
+    ]
+}

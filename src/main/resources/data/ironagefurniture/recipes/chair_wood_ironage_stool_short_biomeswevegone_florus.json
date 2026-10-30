@@ -1,26 +1,30 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "conditions": [
-    {
-      "modid": "biomeswevegone",
-      "type": "forge:mod_loaded"
-    }
-  ],
-  "group": "furniture",
-  "pattern": [
-    " x ",
-    "yyy"
-  ],
-  "key": {
-    "y": {
-      "tag": "forge:rods/wooden"
+    "type": "minecraft:crafting_shaped",
+    "conditions": [
+        {
+            "modid": "biomeswevegone",
+            "type": "forge:mod_loaded"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "stools"
+        }
+    ],
+    "group": "ironagefurniture:chair_wood_ironage_stool_short_biomeswevegone_florus",
+    "pattern": [
+        " x ",
+        "yyy"
+    ],
+    "key": {
+        "y": {
+            "tag": "forge:rods/wooden"
+        },
+        "x": {
+            "item": "biomeswevegone:florus_planks"
+        }
     },
-    "x": {
-      "item": "biomeswevegone:florus_planks"
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_stool_short_biomeswevegone_florus",
+        "count": 1
     }
-  },
-  "result": {
-    "item": "ironagefurniture:chair_wood_ironage_stool_short_biomeswevegone_florus",
-    "count": 1
-  }
 }

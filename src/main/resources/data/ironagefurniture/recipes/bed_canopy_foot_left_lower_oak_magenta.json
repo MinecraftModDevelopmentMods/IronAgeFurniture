@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_left_lower_oak_magenta",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_canopy_foot_lower_oak_magenta"
+        },
+        {
+            "item": "ironagefurniture:bed_canopy_foot_lower_oak_magenta"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "item": "ironagefurniture:bed_canopy_foot_left_lower_oak_magenta"
+    },
+    "conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "canopyBeds"
+        }
+    ]
+}

@@ -1,27 +1,31 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "conditions": [
-    {
-      "modid": "biomeswevegone",
-      "type": "forge:mod_loaded"
-    }
-  ],
-  "group": "furniture",
-  "pattern": [
-    "x ",
-    "xx",
-    "yy"
-  ],
-  "key": {
-    "y": {
-      "tag": "forge:rods/wooden"
+    "type": "minecraft:crafting_shaped",
+    "conditions": [
+        {
+            "modid": "biomeswevegone",
+            "type": "forge:mod_loaded"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "benches"
+        }
+    ],
+    "group": "ironagefurniture:chair_wood_ironage_bench_back_single_biomeswevegone_cypress",
+    "pattern": [
+        "x ",
+        "xx",
+        "yy"
+    ],
+    "key": {
+        "y": {
+            "tag": "forge:rods/wooden"
+        },
+        "x": {
+            "item": "biomeswevegone:cypress_planks"
+        }
     },
-    "x": {
-      "item": "biomeswevegone:cypress_planks"
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_bench_back_single_biomeswevegone_cypress",
+        "count": 1
     }
-  },
-  "result": {
-    "item": "ironagefurniture:chair_wood_ironage_bench_back_single_biomeswevegone_cypress",
-    "count": 1
-  }
 }

@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_bed_wood_head_left",
+    "textures": {
+        "log": "biomeswevegone:block/aspen/log",
+        "planks": "biomeswevegone:block/aspen/planks",
+        "particle": "biomeswevegone:block/aspen/log",
+        "cloth": "minecraft:block/yellow_wool"
+    }
+}

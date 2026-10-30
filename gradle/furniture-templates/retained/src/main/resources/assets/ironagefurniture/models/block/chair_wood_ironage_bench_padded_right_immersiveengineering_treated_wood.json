@@ -1,7 +1,7 @@
 {
   "credit": "Made with Blockbench",
   "textures": {
-    "3": "minecraft:blocks/wool_colored_red",
+    "3": "minecraft:block/red_wool",
     "4": "immersiveengineering:block/wooden_decoration/treated_wood_packaged",
     "5": "immersiveengineering:block/wooden_decoration/treated_wood_vertical",
     "particle": "immersiveengineering:block/wooden_decoration/treated_wood_packaged"

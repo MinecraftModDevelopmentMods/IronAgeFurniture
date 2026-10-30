@@ -33,10 +33,10 @@ It then builds and stages
 `ironagefurniture-optional-integration-probe.jar`, removes any stale result, and
 accepts success only when the probe writes
 `optional-integration-pass.properties` in the selected server directory with all
-applicable conditional data present. The BOP 18 profile expects 1,380 recipes
-and 1,364 recipe advancements; the BOP 19 profile additionally enables the 117
-Empyreal, Maple, and Pine recipes and advancements, for totals of 1,497 and
-1,481. Version-tiered entries are selected by their public registry capability,
+applicable conditional data present. The shared BOP wood set gives 4,740 recipes
+and 4,740 recipe advancements across all three integrations. The pinned BOP 19
+profile additionally enables 405 Empyreal, Maple and Pine recipes and advancements,
+for totals of 5,145 each. Version-tiered entries are selected by their public registry capability,
 using Forge's `forge:item_exists` condition.
 
 The probe also records the loaded versions and per-integration counts. It is built

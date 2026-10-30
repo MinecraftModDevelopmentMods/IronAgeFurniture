@@ -9,6 +9,10 @@
                 {
                     "type": "forge:item_exists",
                     "item": "biomesoplenty:empyreal_planks"
+                },
+                {
+                    "type": "ironagefurniture:feature_enabled",
+                    "feature": "classicChairs"
                 }
             ],
             "advancement": {

@@ -13,6 +13,7 @@ import zone.moddev.mc.ironagefurniture.ModItems;
 import zone.moddev.mc.ironagefurniture.api.blocks.furniture.BackBench;
 import zone.moddev.mc.ironagefurniture.api.blocks.furniture.Bench;
 import zone.moddev.mc.ironagefurniture.api.blocks.furniture.Chair;
+import zone.moddev.mc.ironagefurniture.api.blocks.furniture.ShieldChair;
 import zone.moddev.mc.ironagefurniture.api.blocks.furniture.ChairNether;
 import zone.moddev.mc.ironagefurniture.api.blocks.furniture.Stool;
 import zone.moddev.mc.ironagefurniture.api.blocks.furniture.TallStool;
@@ -35,7 +36,7 @@ public class ModIEBlocks {
 	}
 	public static RegistryObject<Block> chair_wood_ironage_classic_immersiveengineering_treated_wood = register("chair_wood_ironage_classic_immersiveengineering_treated_wood", () -> new Chair(1, 10, SoundType.WOOD, "chair_wood_ironage_classic_immersiveengineering_treated_wood"));
 
-	public static RegistryObject<Block> chair_wood_ironage_shield_immersiveengineering_treated_wood = register("chair_wood_ironage_shield_immersiveengineering_treated_wood", () -> new Chair(1, 10, SoundType.WOOD, "chair_wood_ironage_shield_immersiveengineering_treated_wood"));
+	public static RegistryObject<Block> chair_wood_ironage_shield_immersiveengineering_treated_wood = register("chair_wood_ironage_shield_immersiveengineering_treated_wood", () -> new ShieldChair(1, 10, SoundType.WOOD, "chair_wood_ironage_shield_immersiveengineering_treated_wood"));
 
 	public static RegistryObject<Block> chair_wood_ironage_stool_short_immersiveengineering_treated_wood = register("chair_wood_ironage_stool_short_immersiveengineering_treated_wood", () -> new Stool(1, 10, SoundType.WOOD, "chair_wood_ironage_stool_short_immersiveengineering_treated_wood"));
 

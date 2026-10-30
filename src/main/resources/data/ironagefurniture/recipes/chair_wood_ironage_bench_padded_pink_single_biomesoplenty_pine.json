@@ -8,6 +8,10 @@
         {
             "type": "forge:item_exists",
             "item": "biomesoplenty:pine_planks"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "benches"
         }
     ],
     "ingredients": [
@@ -20,5 +24,6 @@
     ],
     "result": {
         "item": "ironagefurniture:chair_wood_ironage_bench_padded_pink_single_biomesoplenty_pine"
-    }
+    },
+    "group": "ironagefurniture:chair_wood_ironage_bench_padded_pink_single_biomesoplenty_pine"
 }

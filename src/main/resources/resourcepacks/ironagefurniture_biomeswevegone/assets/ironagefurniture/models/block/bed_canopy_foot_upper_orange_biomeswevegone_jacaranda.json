@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_bed_canopy_foot_upper",
+    "textures": {
+        "log": "biomeswevegone:block/jacaranda/log",
+        "planks": "biomeswevegone:block/jacaranda/planks",
+        "particle": "biomeswevegone:block/jacaranda/log",
+        "cloth": "minecraft:block/orange_wool"
+    }
+}

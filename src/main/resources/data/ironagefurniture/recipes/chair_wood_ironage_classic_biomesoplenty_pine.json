@@ -8,9 +8,13 @@
         {
             "type": "forge:item_exists",
             "item": "biomesoplenty:pine_planks"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "classicChairs"
         }
     ],
-    "group": "furniture",
+    "group": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_pine",
     "pattern": [
         "x  ",
         "xxx",

@@ -1,0 +1,33 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_maple_magenta",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_maple"
+        },
+        {
+            "item": "biomesoplenty:maple_planks"
+        },
+        {
+            "item": "minecraft:magenta_carpet"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_maple_magenta"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "biomesoplenty:maple_planks"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "wingbacks"
+        }
+    ]
+}

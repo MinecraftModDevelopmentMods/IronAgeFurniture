@@ -1,14 +1,21 @@
 {
-  "type": "crafting_shapeless",
-  "ingredients": [
-    {
-      "item": "minecraft:blue_carpet"
+    "type": "crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:blue_carpet"
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_bench_single_jungle"
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_bench_padded_blue_single_jungle"
     },
-    {
-      "item": "ironagefurniture:chair_wood_ironage_bench_single_jungle"
-    }
-  ],
-  "result": {
-    "item": "ironagefurniture:chair_wood_ironage_bench_padded_blue_single_jungle"
-  }
+    "conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "benches"
+        }
+    ],
+    "group": "ironagefurniture:chair_wood_ironage_bench_padded_blue_single_jungle"
 }

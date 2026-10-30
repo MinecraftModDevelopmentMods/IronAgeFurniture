@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_left_bamboo_purple",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_bamboo_purple"
+        },
+        {
+            "item": "ironagefurniture:bed_wood_foot_bamboo_purple"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "item": "ironagefurniture:bed_wood_foot_left_bamboo_purple"
+    },
+    "conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
+        }
+    ]
+}

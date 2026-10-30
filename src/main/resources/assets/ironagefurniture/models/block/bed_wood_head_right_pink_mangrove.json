@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_bed_wood_head_right",
+    "textures": {
+        "log": "minecraft:block/mangrove_log",
+        "planks": "minecraft:block/mangrove_planks",
+        "particle": "minecraft:block/mangrove_log",
+        "cloth": "minecraft:block/pink_wool"
+    }
+}

@@ -5,7 +5,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 import zone.moddev.mc.ironagefurniture.Ironagefurniture;
@@ -16,7 +16,7 @@ import zone.moddev.mc.ironagefurniture.api.blocks.furniture.StoolNether;
 import java.util.function.Supplier;
 
 public class ModVanillaStools {
-	public static final DeferredRegister<Block> REGISTER = DeferredRegister.create(ForgeRegistries.BLOCKS, Ironagefurniture.MODID);
+	public static final DeferredRegister<Block> REGISTER = DeferredRegister.create(net.minecraft.core.registries.Registries.BLOCK, Ironagefurniture.MODID);
 	
 	private static RegistryObject<Block> register(String name, Supplier<Block> block) {
 		return register(name, block, new Item.Properties()); 
