@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_bed_wood_single_inventory",
+    "textures": {
+        "log": "byg:block/baobab/log",
+        "planks": "byg:block/baobab/planks",
+        "particle": "byg:block/baobab/log",
+        "cloth": "minecraft:block/purple_wool"
+    }
+}

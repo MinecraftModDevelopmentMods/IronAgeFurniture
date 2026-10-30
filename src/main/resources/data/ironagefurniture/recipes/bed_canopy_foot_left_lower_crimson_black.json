@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_left_lower_crimson_black",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_canopy_foot_lower_crimson_black"
+        },
+        {
+            "item": "ironagefurniture:bed_canopy_foot_lower_crimson_black"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "item": "ironagefurniture:bed_canopy_foot_left_lower_crimson_black"
+    },
+    "conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "canopyBeds"
+        }
+    ]
+}

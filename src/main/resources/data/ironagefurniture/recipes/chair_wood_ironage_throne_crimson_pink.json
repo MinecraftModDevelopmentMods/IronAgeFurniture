@@ -1,0 +1,25 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_throne_crimson_pink",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_crimson_pink"
+        },
+        {
+            "item": "minecraft:crimson_planks"
+        },
+        {
+            "item": "minecraft:pink_carpet"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "item": "ironagefurniture:chair_wood_ironage_throne_crimson_pink"
+    },
+    "conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "thrones"
+        }
+    ]
+}

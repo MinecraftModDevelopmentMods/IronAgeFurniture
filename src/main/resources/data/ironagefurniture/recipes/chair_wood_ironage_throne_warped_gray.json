@@ -1,0 +1,25 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_throne_warped_gray",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_warped_gray"
+        },
+        {
+            "item": "minecraft:warped_planks"
+        },
+        {
+            "item": "minecraft:gray_carpet"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "item": "ironagefurniture:chair_wood_ironage_throne_warped_gray"
+    },
+    "conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "thrones"
+        }
+    ]
+}

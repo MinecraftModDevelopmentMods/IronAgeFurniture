@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_bed_canopy_head_right_lower",
+    "textures": {
+        "log": "byg:block/jacaranda/log",
+        "planks": "byg:block/jacaranda/planks",
+        "particle": "byg:block/jacaranda/log",
+        "cloth": "minecraft:block/white_wool"
+    }
+}

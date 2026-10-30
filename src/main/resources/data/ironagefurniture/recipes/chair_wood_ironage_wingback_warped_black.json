@@ -1,0 +1,25 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_wingback_warped_black",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:chair_wood_ironage_classic_warped"
+        },
+        {
+            "item": "minecraft:warped_planks"
+        },
+        {
+            "item": "minecraft:black_carpet"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "item": "ironagefurniture:chair_wood_ironage_wingback_warped_black"
+    },
+    "conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "wingbacks"
+        }
+    ]
+}

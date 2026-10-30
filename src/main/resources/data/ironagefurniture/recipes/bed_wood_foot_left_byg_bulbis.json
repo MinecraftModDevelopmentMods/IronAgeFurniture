@@ -1,0 +1,26 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_left_byg_bulbis",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_byg_bulbis"
+        },
+        {
+            "item": "ironagefurniture:bed_wood_foot_byg_bulbis"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "item": "ironagefurniture:bed_wood_foot_left_byg_bulbis"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "byg"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
+        }
+    ]
+}

@@ -29,7 +29,7 @@ server starts. It builds and stages
 `ironagefurniture-optional-integration-probe.jar`, removes any stale result, and
 accepts success only when the probe writes
 `optional-integration-pass.properties` in the selected server directory with all
-1,536 conditional recipes and all 1,520 conditional recipe advancements present.
+5,280 conditional recipes and all 5,280 conditional recipe advancements present.
 
 The probe also records the loaded versions and per-integration counts. It is built
 from `src/optionalIntegrationTest` and is explicitly excluded from all release

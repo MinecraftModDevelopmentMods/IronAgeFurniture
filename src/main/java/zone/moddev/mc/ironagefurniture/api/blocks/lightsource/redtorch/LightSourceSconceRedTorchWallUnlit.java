@@ -8,7 +8,6 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -39,11 +38,10 @@ public class LightSourceSconceRedTorchWallUnlit extends LightSourceSconceRedTorc
 		while (list != null && !list.isEmpty() && level.getGameTime() - (list.get(0)).when > 60L)
 			list.remove(0);
 
-		level.setBlock(pos,
-				ModVanillaLights.light_metal_ironage_sconce_wall_redtorch_iron.get().defaultBlockState()
-						.setValue(FurnitureBlock.DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
-						.setValue(FurnitureBlock.WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)),
-				Block.UPDATE_ALL);
+		if (!hasNeighborSignal(level, pos, state) && !isToggledTooFrequently(level, pos, false)) {
+			level.setBlock(pos, zone.moddev.mc.ironagefurniture.api.SconceMetalData.transition(
+					ModVanillaLights.light_metal_ironage_sconce_wall_redtorch_iron.get(), state), Block.UPDATE_ALL);
+		}
 	}
 
 	@Override
@@ -59,7 +57,7 @@ public class LightSourceSconceRedTorchWallUnlit extends LightSourceSconceRedTorc
 	}
 
 	public LightSourceSconceRedTorchWallUnlit(float hardness, float blastResistance, SoundType sound, String name) {
-		super(Block.Properties.of(Material.METAL).strength(hardness, blastResistance).sound(sound)
+		super(Block.Properties.of(net.minecraft.world.level.material.Material.METAL).strength(hardness, blastResistance).sound(sound)
 				.lightLevel((p_50886_) -> 0));
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH));

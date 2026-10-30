@@ -1,20 +1,25 @@
 {
-  "type": "crafting_shapeless",
-  "conditions": [
-    {
-      "modid": "byg",
-      "type": "forge:mod_loaded"
-    }
-  ],
-  "ingredients": [
-    {
-      "item": "minecraft:brown_carpet"
+    "type": "crafting_shapeless",
+    "conditions": [
+        {
+            "modid": "byg",
+            "type": "forge:mod_loaded"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "benches"
+        }
+    ],
+    "ingredients": [
+        {
+            "item": "minecraft:brown_carpet"
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_bench_back_single_byg_jacaranda"
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_bench_back_padded_brown_single_byg_jacaranda"
     },
-    {
-      "item": "ironagefurniture:chair_wood_ironage_bench_back_single_byg_jacaranda"
-    }
-  ],
-  "result": {
-    "item": "ironagefurniture:chair_wood_ironage_bench_back_padded_brown_single_byg_jacaranda"
-  }
+    "group": "ironagefurniture:chair_wood_ironage_bench_back_padded_brown_single_byg_jacaranda"
 }

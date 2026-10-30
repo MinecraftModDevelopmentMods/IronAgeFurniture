@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_throne_byg_cypress_white",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_byg_cypress_white"
+        },
+        {
+            "item": "byg:cypress_planks"
+        },
+        {
+            "item": "minecraft:white_carpet"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "item": "ironagefurniture:chair_wood_ironage_throne_byg_cypress_white"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "byg"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "thrones"
+        }
+    ]
+}

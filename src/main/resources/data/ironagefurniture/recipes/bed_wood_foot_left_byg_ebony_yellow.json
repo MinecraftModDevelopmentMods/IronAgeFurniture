@@ -1,0 +1,26 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_left_byg_ebony_yellow",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_byg_ebony_yellow"
+        },
+        {
+            "item": "ironagefurniture:bed_wood_foot_byg_ebony_yellow"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "item": "ironagefurniture:bed_wood_foot_left_byg_ebony_yellow"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "byg"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
+        }
+    ]
+}

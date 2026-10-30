@@ -1,14 +1,21 @@
 {
-  "type": "crafting_shapeless",
-  "ingredients": [
-    {
-      "item": "minecraft:lime_carpet"
+    "type": "crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:lime_carpet"
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_bench_single_warped"
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_bench_padded_lime_single_warped"
     },
-    {
-      "item": "ironagefurniture:chair_wood_ironage_bench_single_warped"
-    }
-  ],
-  "result": {
-    "item": "ironagefurniture:chair_wood_ironage_bench_padded_lime_single_warped"
-  }
+    "conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "benches"
+        }
+    ],
+    "group": "ironagefurniture:chair_wood_ironage_bench_padded_lime_single_warped"
 }

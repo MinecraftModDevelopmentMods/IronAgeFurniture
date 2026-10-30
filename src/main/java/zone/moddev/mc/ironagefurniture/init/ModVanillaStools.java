@@ -5,7 +5,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 import zone.moddev.mc.ironagefurniture.Ironagefurniture;
@@ -16,7 +16,7 @@ import zone.moddev.mc.ironagefurniture.api.blocks.furniture.StoolNether;
 import java.util.function.Supplier;
 
 public class ModVanillaStools {
-	public static final DeferredRegister<Block> REGISTER = DeferredRegister.create(ForgeRegistries.BLOCKS, Ironagefurniture.MODID);
+	public static final DeferredRegister<Block> REGISTER = DeferredRegister.create(net.minecraft.core.registries.Registries.BLOCK, Ironagefurniture.MODID);
 	
 	private static RegistryObject<Block> register(String name, Supplier<Block> block) {
 		return register(name, block, new Item.Properties()); 
@@ -31,11 +31,12 @@ public class ModVanillaStools {
 	}
 	
 	public static RegistryObject<Block> chair_wood_ironage_stool_short_oak = register("chair_wood_ironage_stool_short_oak", () -> new Stool(1, 10, SoundType.WOOD, "chair_wood_ironage_stool_short_oak"));
-	public static RegistryObject<Block> chair_wood_ironage_stool_short_acacia = register("chair_wood_ironage_stool_short_acacia", () -> new Stool(1, 10, SoundType.WOOD, "chair_wood_ironage_stool_short_acacia"));
-	public static RegistryObject<Block> chair_wood_ironage_stool_short_dark_oak = register("chair_wood_ironage_stool_short_dark_oak", () -> new Stool(1, 10, SoundType.WOOD, "chair_wood_ironage_stool_short_dark_oak"));
+	public static RegistryObject<Block> chair_wood_ironage_stool_short_spruce = register("chair_wood_ironage_stool_short_spruce", () -> new Stool(1, 10, SoundType.WOOD, "chair_wood_ironage_stool_short_spruce"));
 	public static RegistryObject<Block> chair_wood_ironage_stool_short_birch = register("chair_wood_ironage_stool_short_birch", () -> new Stool(1, 10, SoundType.WOOD, "chair_wood_ironage_stool_short_birch"));
 	public static RegistryObject<Block> chair_wood_ironage_stool_short_jungle = register("chair_wood_ironage_stool_short_jungle", () -> new Stool(1, 10, SoundType.WOOD, "chair_wood_ironage_stool_short_jungle"));
-	public static RegistryObject<Block> chair_wood_ironage_stool_short_spruce = register("chair_wood_ironage_stool_short_spruce", () -> new Stool(1, 10, SoundType.WOOD, "chair_wood_ironage_stool_short_spruce"));
-    public static RegistryObject<Block> chair_wood_ironage_stool_short_warped = register("chair_wood_ironage_stool_short_warped", () -> new StoolNether(1, 10, SoundType.WOOD, "chair_wood_ironage_stool_short_warped"));
-    public static RegistryObject<Block> chair_wood_ironage_stool_short_crimson = register("chair_wood_ironage_stool_short_crimson", () -> new StoolNether(1, 10, SoundType.WOOD, "chair_wood_ironage_stool_short_crimson"));
+	public static RegistryObject<Block> chair_wood_ironage_stool_short_acacia = register("chair_wood_ironage_stool_short_acacia", () -> new Stool(1, 10, SoundType.WOOD, "chair_wood_ironage_stool_short_acacia"));
+	public static RegistryObject<Block> chair_wood_ironage_stool_short_dark_oak = register("chair_wood_ironage_stool_short_dark_oak", () -> new Stool(1, 10, SoundType.WOOD, "chair_wood_ironage_stool_short_dark_oak"));
+	public static RegistryObject<Block> chair_wood_ironage_stool_short_mangrove = register("chair_wood_ironage_stool_short_mangrove", () -> new Stool(1, 10, SoundType.WOOD, "chair_wood_ironage_stool_short_mangrove"));
+	public static RegistryObject<Block> chair_wood_ironage_stool_short_crimson = register("chair_wood_ironage_stool_short_crimson", () -> new StoolNether(1, 10, SoundType.WOOD, "chair_wood_ironage_stool_short_crimson"));
+	public static RegistryObject<Block> chair_wood_ironage_stool_short_warped = register("chair_wood_ironage_stool_short_warped", () -> new StoolNether(1, 10, SoundType.WOOD, "chair_wood_ironage_stool_short_warped"));
 }

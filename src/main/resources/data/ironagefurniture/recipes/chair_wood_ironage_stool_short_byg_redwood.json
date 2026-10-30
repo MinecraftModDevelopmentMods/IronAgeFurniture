@@ -1,26 +1,30 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "conditions": [
-    {
-      "modid": "byg",
-      "type": "forge:mod_loaded"
-    }
-  ],
-  "group": "furniture",
-  "pattern": [
-    " x ",
-    "yyy"
-  ],
-  "key": {
-    "y": {
-      "tag": "forge:rods/wooden"
+    "type": "minecraft:crafting_shaped",
+    "conditions": [
+        {
+            "modid": "byg",
+            "type": "forge:mod_loaded"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "stools"
+        }
+    ],
+    "group": "ironagefurniture:chair_wood_ironage_stool_short_byg_redwood",
+    "pattern": [
+        " x ",
+        "yyy"
+    ],
+    "key": {
+        "y": {
+            "tag": "forge:rods/wooden"
+        },
+        "x": {
+            "item": "byg:redwood_planks"
+        }
     },
-    "x": {
-      "item": "byg:redwood_planks"
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_stool_short_byg_redwood",
+        "count": 1
     }
-  },
-  "result": {
-    "item": "ironagefurniture:chair_wood_ironage_stool_short_byg_redwood",
-    "count": 1
-  }
 }

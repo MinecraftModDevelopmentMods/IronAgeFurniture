@@ -1,0 +1,26 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_left_lower_byg_bulbis_magenta",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_canopy_foot_lower_byg_bulbis_magenta"
+        },
+        {
+            "item": "ironagefurniture:bed_canopy_foot_lower_byg_bulbis_magenta"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "item": "ironagefurniture:bed_canopy_foot_left_lower_byg_bulbis_magenta"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "byg"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "canopyBeds"
+        }
+    ]
+}

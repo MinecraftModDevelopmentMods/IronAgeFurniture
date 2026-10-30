@@ -1,26 +1,30 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "conditions": [
-    {
-      "modid": "byg",
-      "type": "forge:mod_loaded"
-    }
-  ],
-  "group": "furniture",
-  "pattern": [
-    "xx",
-    "yy"
-  ],
-  "key": {
-    "y": {
-      "tag": "forge:rods/wooden"
+    "type": "minecraft:crafting_shaped",
+    "conditions": [
+        {
+            "modid": "byg",
+            "type": "forge:mod_loaded"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "benches"
+        }
+    ],
+    "group": "ironagefurniture:chair_wood_ironage_bench_single_byg_palm",
+    "pattern": [
+        "xx",
+        "yy"
+    ],
+    "key": {
+        "y": {
+            "tag": "forge:rods/wooden"
+        },
+        "x": {
+            "item": "byg:palm_planks"
+        }
     },
-    "x": {
-      "item": "byg:palm_planks"
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_bench_single_byg_palm",
+        "count": 1
     }
-  },
-  "result": {
-    "item": "ironagefurniture:chair_wood_ironage_bench_single_byg_palm",
-    "count": 1
-  }
 }

@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_chair_wingback_inventory",
+    "textures": {
+        "log": "byg:block/redwood/log",
+        "planks": "byg:block/redwood/planks",
+        "particle": "byg:block/redwood/log",
+        "cloth": "minecraft:block/cyan_wool"
+    }
+}

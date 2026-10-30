@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_bed_wood_foot_right",
+    "textures": {
+        "log": "byg:block/bulbis/planks",
+        "planks": "byg:block/bulbis/planks",
+        "particle": "byg:block/bulbis/planks",
+        "cloth": "minecraft:block/purple_wool"
+    }
+}

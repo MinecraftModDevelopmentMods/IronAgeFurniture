@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_throne_byg_bulbis_light_gray",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_byg_bulbis_light_gray"
+        },
+        {
+            "item": "byg:bulbis_planks"
+        },
+        {
+            "item": "minecraft:light_gray_carpet"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "item": "ironagefurniture:chair_wood_ironage_throne_byg_bulbis_light_gray"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "byg"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "thrones"
+        }
+    ]
+}

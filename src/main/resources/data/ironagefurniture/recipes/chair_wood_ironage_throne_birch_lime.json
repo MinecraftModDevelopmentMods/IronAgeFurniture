@@ -1,0 +1,25 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_throne_birch_lime",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_birch_lime"
+        },
+        {
+            "item": "minecraft:birch_planks"
+        },
+        {
+            "item": "minecraft:lime_carpet"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "item": "ironagefurniture:chair_wood_ironage_throne_birch_lime"
+    },
+    "conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "thrones"
+        }
+    ]
+}

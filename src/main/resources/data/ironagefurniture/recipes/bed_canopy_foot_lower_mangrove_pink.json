@@ -1,0 +1,25 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_lower_mangrove_pink",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_mangrove_pink"
+        },
+        {
+            "item": "minecraft:mangrove_planks"
+        },
+        {
+            "item": "minecraft:pink_carpet"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "item": "ironagefurniture:bed_canopy_foot_lower_mangrove_pink"
+    },
+    "conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "canopyBeds"
+        }
+    ]
+}

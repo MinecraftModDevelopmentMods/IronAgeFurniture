@@ -1,20 +1,25 @@
 {
-  "type": "crafting_shapeless",
-  "conditions": [
-    {
-      "modid": "byg",
-      "type": "forge:mod_loaded"
-    }
-  ],
-  "ingredients": [
-    {
-      "item": "minecraft:magenta_carpet"
+    "type": "crafting_shapeless",
+    "conditions": [
+        {
+            "modid": "byg",
+            "type": "forge:mod_loaded"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "benches"
+        }
+    ],
+    "ingredients": [
+        {
+            "item": "minecraft:magenta_carpet"
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_bench_back_single_byg_bulbis"
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_bench_back_padded_magenta_single_byg_bulbis"
     },
-    {
-      "item": "ironagefurniture:chair_wood_ironage_bench_back_single_byg_bulbis"
-    }
-  ],
-  "result": {
-    "item": "ironagefurniture:chair_wood_ironage_bench_back_padded_magenta_single_byg_bulbis"
-  }
+    "group": "ironagefurniture:chair_wood_ironage_bench_back_padded_magenta_single_byg_bulbis"
 }

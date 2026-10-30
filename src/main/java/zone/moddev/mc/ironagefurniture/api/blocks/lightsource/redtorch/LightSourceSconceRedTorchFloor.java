@@ -10,7 +10,6 @@ import net.minecraft.world.level.block.LiquidBlockContainer;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.DustParticleOptions;
@@ -53,7 +52,7 @@ public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor 
 	}
 
 	public LightSourceSconceRedTorchFloor(float hardness, float blastResistance, SoundType sound, String name) {
-		super(Block.Properties.of(Material.METAL).strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> 8) );
+		super(Block.Properties.of(net.minecraft.world.level.material.Material.METAL).strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> 8) );
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
@@ -73,6 +72,7 @@ public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor 
 
 	@Override
 	public void onPlace(BlockState state, Level level, BlockPos pos, BlockState state2, boolean flag) {
+		super.onPlace(state, level, pos, state2, flag);
 		for (Direction direction : Direction.values()) {
 			level.updateNeighborsAt(pos.relative(direction), this);
 		}
@@ -80,6 +80,7 @@ public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor 
 
 	@Override
 	public void onRemove(BlockState state, Level level, BlockPos pos, BlockState state2, boolean flag) {
+		super.onRemove(state, level, pos, state2, flag);
 		if (flag)
 			return;
 
@@ -107,9 +108,7 @@ public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor 
 
 		if (flag) {
 			level.setBlock(pos,
-					ModVanillaLights.light_metal_ironage_sconce_floor_redtorch_iron_unlit.get().defaultBlockState()
-							.setValue(FurnitureBlock.DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
-							.setValue(FurnitureBlock.WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)),
+					zone.moddev.mc.ironagefurniture.api.SconceMetalData.transition(UnlitVariant(), state),
 					Block.UPDATE_ALL);
 
 			if (isToggledTooFrequently(level, pos, true)) {
@@ -124,7 +123,7 @@ public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor 
 		return true;
 	}
 
-	private static boolean isToggledTooFrequently(Level level, BlockPos pos, boolean flag) {
+	protected static boolean isToggledTooFrequently(Level level, BlockPos pos, boolean flag) {
 		List<LightSourceSconceRedTorchFloor.Toggle> list = RECENT_TOGGLES.computeIfAbsent(level, (p_55680_) -> Lists.newArrayList());
 		if (flag) list.add(new LightSourceSconceRedTorchFloor.Toggle(pos.immutable(), level.getGameTime()));
 

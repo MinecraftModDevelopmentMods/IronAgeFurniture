@@ -11,7 +11,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.storage.loot.LootContext.Builder;
 import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
@@ -25,7 +24,7 @@ import net.minecraft.world.level.LevelReader;
 
 public class LightHolderSconceWall extends LightHolderSconceFloor {
 	public LightHolderSconceWall(float hardness, float blastResistance, SoundType sound, String name) {
-		super(Block.Properties.of(Material.METAL).strength(hardness, blastResistance).sound(sound));
+		super(Block.Properties.of(net.minecraft.world.level.material.Material.METAL).strength(hardness, blastResistance).sound(sound));
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
@@ -64,15 +63,7 @@ public class LightHolderSconceWall extends LightHolderSconceFloor {
 
 	@Override
 	public List<ItemStack> getDrops(BlockState state, Builder builder) {
-		List<ItemStack> drops;
-		drops = new ArrayList<ItemStack>();
-
-		Item item = ModVanillaLights.light_metal_ironage_sconce_floor_empty_iron.get().asItem();
-		ItemStack stack = new ItemStack(item, 1);
-
-		drops.add(stack);
-
-		return drops;
+		return List.of(zone.moddev.mc.ironagefurniture.api.SconceMetalData.frame(state));
 	}
 
 	@Override

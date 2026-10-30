@@ -1,0 +1,28 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "group": "ironagefurniture:light_metal_ironage_sconce_floor_empty_basemetals_mithril",
+    "pattern": [
+        "xxx",
+        "x  ",
+        "x  "
+    ],
+    "key": {
+        "x": {
+            "tag": "forge:nuggets/mithril"
+        }
+    },
+    "result": {
+        "count": 4,
+        "item": "ironagefurniture:light_metal_ironage_sconce_floor_empty_basemetals_mithril"
+    },
+    "conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "lights"
+        },
+        {
+            "type": "ironagefurniture:metal_available",
+            "metal": "mithril"
+        }
+    ]
+}

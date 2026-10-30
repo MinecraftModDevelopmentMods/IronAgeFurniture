@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_chair_throne_lower",
+    "textures": {
+        "log": "byg:block/skyris/log",
+        "planks": "byg:block/skyris/planks",
+        "particle": "byg:block/skyris/log",
+        "cloth": "minecraft:block/yellow_wool"
+    }
+}

@@ -1,0 +1,26 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "group": "ironagefurniture:chair_wood_ironage_stool_short_mangrove",
+    "pattern": [
+        " x ",
+        "yyy"
+    ],
+    "key": {
+        "y": {
+            "tag": "forge:rods/wooden"
+        },
+        "x": {
+            "item": "minecraft:mangrove_planks"
+        }
+    },
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_stool_short_mangrove",
+        "count": 1
+    },
+    "conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "stools"
+        }
+    ]
+}

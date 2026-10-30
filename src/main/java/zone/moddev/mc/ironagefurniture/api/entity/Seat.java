@@ -2,13 +2,13 @@ package zone.moddev.mc.ironagefurniture.api.entity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.network.NetworkHooks;
+import net.minecraft.world.phys.Vec3;
 import java.util.List;
 
 public class Seat extends Entity {
@@ -33,13 +33,12 @@ public class Seat extends Entity {
     protected boolean canRide(Entity entity) { return true; }
 
     @Override
-    public Packet getAddEntityPacket() { return NetworkHooks.getEntitySpawningPacket(this); }
-
-    @Override
     protected void defineSynchedData() {}
 
     @Override
-    public double getPassengersRidingOffset() { return 0.0; }
+    public void positionRider(Entity passenger) {
+        if (hasPassenger(passenger)) passenger.setPos(getX(), getY(), getZ());
+    }
 
     @Override
     protected void readAdditionalSaveData(CompoundTag compound) {}
@@ -51,13 +50,13 @@ public class Seat extends Entity {
         if(this.source == null)
             this.source = this.blockPosition();
 
-		if (this.level.isClientSide)
+		if (this.getLevel().isClientSide)
 			return;
 
-		if(this.getPassengers().isEmpty() || this.level.isEmptyBlock(this.source))
+		if(this.getPassengers().isEmpty() || this.getLevel().isEmptyBlock(this.source))
 		{
 			this.remove(RemovalReason.DISCARDED);
-			this.level.updateNeighbourForOutputSignal(blockPosition(), this.level.getBlockState(blockPosition()).getBlock());
+			this.getLevel().updateNeighbourForOutputSignal(blockPosition(), this.getLevel().getBlockState(blockPosition()).getBlock());
 		}
 	}
 

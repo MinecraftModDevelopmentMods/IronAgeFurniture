@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_mangrove",
+    "ingredients": [
+        {
+            "item": "minecraft:red_bed"
+        },
+        {
+            "item": "minecraft:mangrove_planks"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "item": "ironagefurniture:bed_wood_foot_mangrove"
+    },
+    "conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
+        }
+    ]
+}

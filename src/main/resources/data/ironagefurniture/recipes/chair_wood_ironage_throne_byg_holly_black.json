@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_throne_byg_holly_black",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_byg_holly_black"
+        },
+        {
+            "item": "byg:holly_planks"
+        },
+        {
+            "item": "minecraft:black_carpet"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "item": "ironagefurniture:chair_wood_ironage_throne_byg_holly_black"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "byg"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "thrones"
+        }
+    ]
+}
