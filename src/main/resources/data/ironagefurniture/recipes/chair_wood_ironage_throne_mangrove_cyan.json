@@ -1,0 +1,25 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_throne_mangrove_cyan",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_mangrove_cyan"
+        },
+        {
+            "item": "minecraft:mangrove_planks"
+        },
+        {
+            "item": "minecraft:cyan_carpet"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "item": "ironagefurniture:chair_wood_ironage_throne_mangrove_cyan"
+    },
+    "conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "thrones"
+        }
+    ]
+}

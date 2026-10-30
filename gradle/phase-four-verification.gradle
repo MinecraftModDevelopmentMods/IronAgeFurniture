@@ -1,0 +1,81 @@
+import groovy.json.JsonSlurper
+
+tasks.register('verifySconceCatalog') {
+    group = 'verification'
+    description = 'Checks every fixed-metal sconce family without adding hidden inventory items.'
+    doLast {
+        String base = 'src/main/resources/assets/ironagefurniture'
+        String registrations = file('src/main/java/zone/moddev/mc/ironagefurniture/init/ModVanillaLights.java').getText('UTF-8')
+        List<String> families = (registrations =~ /register\("(light_metal_ironage_sconce_[^"]+)"/).collect { it[1] }
+        ['floor', 'wall'].each { place ->
+            families.addAll(["light_metal_ironage_sconce_${place}_candle_iron".toString(), "light_metal_ironage_sconce_${place}_rocksalt_iron".toString(),
+                    "light_metal_ironage_sconce_${place}_torch_iron_twin".toString(), "light_metal_ironage_sconce_${place}_torch_iron_twin_unlit".toString()])
+        }
+        List<String> metals = ['iron','gold','adamantine','antimony','aquarium','bismuth','brass','bronze','coldiron','copper','cupronickel','electrum','invar','lead','mithril','nickel','pewter','platinum','silver','starsteel','steel','tin','zinc']
+        if (families.size() != 56 || families.toSet().size() != 56) throw new GradleException('Expected 56 distinct sconce forms')
+        families.each { family -> metals.each { metal ->
+            String token = metal in ['iron', 'gold', 'copper'] ? metal : "basemetals_${metal}"
+            String id = family.replaceFirst(/_iron(?=_|$)/, "_${token}")
+            File source = file("${base}/blockstates/${id}.json")
+            if (!source.isFile()) throw new GradleException("Missing fixed-metal sconce: ${id}")
+            Map definition = new JsonSlurper().parse(source) as Map
+            if (!definition.variants || definition.variants.keySet().any { it.contains('metal=') })
+                throw new GradleException("Sconce material must be the block identity: ${id}")
+            if (metal != 'iron' && !family.contains('_floor_empty_') && file("${base}/items/${id}.json").exists())
+                throw new GradleException("A hidden sconce form acquired an inventory item: ${id}")
+        } }
+        logger.lifecycle('Validated 1288 fixed-metal sconce blocks and unchanged visible item identities.')
+    }
+}
+tasks.named('check') { dependsOn 'verifySconceCatalog' }
+
+tasks.register('verifyLampRenderLayers') {
+    group = 'verification'
+    description = 'Keeps glass lamps and every placed sconce on the cutout render layer.'
+    doLast {
+        File assets = file('src/main/resources/assets/ironagefurniture')
+        Map<String, String> layers = [:]
+        Closure<String> layer
+        layer = { String id, String field, Set<String> parents ->
+            String cacheKey = "${id}/${field}"
+            if (layers.containsKey(cacheKey)) return layers[cacheKey]
+            if (!id.startsWith('ironagefurniture:') || !parents.add(id))
+                throw new GradleException("Invalid lamp model inheritance: ${id}")
+            File source = new File(assets, "models/${id.substring('ironagefurniture:'.length())}.json")
+            if (!source.isFile()) throw new GradleException("Missing lamp model: ${id}")
+            Map model = new JsonSlurper().parse(source) as Map
+            String resolved = model[field] ?: (model.parent ? layer(model.parent.toString(), field, parents) : 'minecraft:solid')
+            if (!resolved.contains(':')) resolved = "minecraft:${resolved}"
+            layers[cacheKey] = resolved
+            resolved
+        }
+        Set<File> states = fileTree(new File(assets, 'blockstates')) {
+            include 'light_metal_ironage_block_floor_*_clear*.json'
+            include 'light_metal_ironage_sconce_*.json'
+            // This branch retains an old model-only path that never registered a block.
+            exclude 'light_metal_ironage_sconce_wall_celestial_iron.json'
+        }.files
+        int standalone = states.count { it.name.startsWith('light_metal_ironage_block_floor_') }
+        if (standalone != 18 || states.size() - standalone != 1288)
+            throw new GradleException('Expected 18 glass lamp states and 1288 fixed-metal sconce states')
+        int variants = 0
+        Set<String> models = new TreeSet<>()
+        states.each { source ->
+            Map definition = new JsonSlurper().parse(source) as Map
+            definition.variants.each { key, value ->
+                (value instanceof List ? value : [value]).each { entry ->
+                    String id = entry.model
+                    ['render_type', 'render_type_fast'].each { field ->
+                        if (layer(id, field, new LinkedHashSet<String>()) != 'minecraft:cutout')
+                            throw new GradleException("Placed lamp needs cutout glass (${field}): ${source.name} ${key} -> ${id}")
+                    }
+                    variants++
+                    models.add(id)
+                }
+            }
+        }
+        logger.lifecycle("Validated Fancy/Fast cutout layers for ${states.size()} placed lamp/sconce blocks, ${variants} variants and ${models.size()} models.")
+    }
+}
+
+tasks.named('check') { dependsOn 'verifyLampRenderLayers' }

@@ -1,20 +1,25 @@
 {
-  "type": "crafting_shapeless",
-  "conditions": [
-    {
-      "modid": "byg",
-      "type": "forge:mod_loaded"
-    }
-  ],
-  "ingredients": [
-    {
-      "item": "minecraft:yellow_carpet"
+    "type": "crafting_shapeless",
+    "conditions": [
+        {
+            "modid": "byg",
+            "type": "forge:mod_loaded"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "benches"
+        }
+    ],
+    "ingredients": [
+        {
+            "item": "minecraft:yellow_carpet"
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_bench_back_single_byg_cherry"
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_bench_back_padded_yellow_single_byg_cherry"
     },
-    {
-      "item": "ironagefurniture:chair_wood_ironage_bench_back_single_byg_cherry"
-    }
-  ],
-  "result": {
-    "item": "ironagefurniture:chair_wood_ironage_bench_back_padded_yellow_single_byg_cherry"
-  }
+    "group": "ironagefurniture:chair_wood_ironage_bench_back_padded_yellow_single_byg_cherry"
 }

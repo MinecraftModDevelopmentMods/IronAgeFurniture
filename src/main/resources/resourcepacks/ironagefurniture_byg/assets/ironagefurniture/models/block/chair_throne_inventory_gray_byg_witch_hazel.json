@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_chair_throne_inventory",
+    "textures": {
+        "log": "byg:block/witch_hazel/log",
+        "planks": "byg:block/witch_hazel/planks",
+        "particle": "byg:block/witch_hazel/log",
+        "cloth": "minecraft:block/gray_wool"
+    }
+}

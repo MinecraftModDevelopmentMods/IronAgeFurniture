@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_wingback_byg_ebony_gray",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:chair_wood_ironage_classic_byg_ebony"
+        },
+        {
+            "item": "byg:ebony_planks"
+        },
+        {
+            "item": "minecraft:gray_carpet"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "item": "ironagefurniture:chair_wood_ironage_wingback_byg_ebony_gray"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "byg"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "wingbacks"
+        }
+    ]
+}

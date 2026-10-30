@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_lower_byg_skyris_pink",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_byg_skyris_pink"
+        },
+        {
+            "item": "byg:skyris_planks"
+        },
+        {
+            "item": "minecraft:pink_carpet"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "item": "ironagefurniture:bed_canopy_foot_lower_byg_skyris_pink"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "byg"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "canopyBeds"
+        }
+    ]
+}

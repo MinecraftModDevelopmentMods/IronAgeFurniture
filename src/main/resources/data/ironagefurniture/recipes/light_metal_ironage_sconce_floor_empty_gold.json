@@ -1,0 +1,24 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "group": "ironagefurniture:light_metal_ironage_sconce_floor_empty_gold",
+    "pattern": [
+        "xxx",
+        "x  ",
+        "x  "
+    ],
+    "key": {
+        "x": {
+            "item": "minecraft:gold_nugget"
+        }
+    },
+    "result": {
+        "count": 4,
+        "item": "ironagefurniture:light_metal_ironage_sconce_floor_empty_gold"
+    },
+    "conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "lights"
+        }
+    ]
+}

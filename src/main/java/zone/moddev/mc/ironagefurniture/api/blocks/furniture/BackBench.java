@@ -30,7 +30,6 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.storage.loot.LootContext.Builder;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
@@ -48,7 +47,7 @@ public class BackBench extends FurnitureBlock {
 	public static final BenchTypeProperty TYPE = BenchTypeProperty.create("type", BenchType.SINGLE, BenchType.LEFT, BenchType.MIDDLE, BenchType.RIGHT);
 
 	public BackBench(float hardness, float blastResistance, SoundType sound, String name) {
-		super(Block.Properties.of(Material.WOOD).strength(hardness, blastResistance).sound(sound));
+		super(Block.Properties.of(net.minecraft.world.level.material.Material.WOOD).strength(hardness, blastResistance).sound(sound));
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
@@ -469,6 +468,12 @@ public class BackBench extends FurnitureBlock {
 
 	@Override
 	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult rayTraceResult) {
-		return Seat.create(world, pos, 0.3, player);
+		return Seat.create(world, pos, seatYOffset(), player);
+	}
+
+
+
+	protected double seatYOffset() {
+		return 0.3;
 	}
 }

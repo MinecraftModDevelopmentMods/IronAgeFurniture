@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_bed_canopy_foot_lower",
+    "textures": {
+        "log": "byg:block/cika/log",
+        "planks": "byg:block/cika/planks",
+        "particle": "byg:block/cika/log",
+        "cloth": "minecraft:block/purple_wool"
+    }
+}

@@ -45,21 +45,21 @@ public class ThrownLavaLamp extends ThrowableItemProjectile {
 
 		ItemParticleOption itemParticle = new ItemParticleOption(ParticleTypes.ITEM, getItem());
 		for (int i = 0; i < 8; i++) {
-			level.addParticle(itemParticle, getX(), getY(), getZ(),
+			getLevel().addParticle(itemParticle, getX(), getY(), getZ(),
 				(random.nextDouble() - 0.5D) * 0.08D,
 				(random.nextDouble() - 0.5D) * 0.08D,
 				(random.nextDouble() - 0.5D) * 0.08D);
 		}
 
 		for (int i = 0; i < 3; i++)
-			level.addParticle(ParticleTypes.LAVA, getX(), getY(), getZ(), 0.0D, 0.0D, 0.0D);
+			getLevel().addParticle(ParticleTypes.LAVA, getX(), getY(), getZ(), 0.0D, 0.0D, 0.0D);
 	}
 
 	@Override
 	protected void onHitEntity(EntityHitResult result) {
 		super.onHitEntity(result);
 
-		if (!level.isClientSide) {
+		if (!getLevel().isClientSide) {
 			Entity entity = result.getEntity();
 			entity.setSecondsOnFire(ENTITY_FIRE_SECONDS);
 			entity.hurt(damageSources().thrown(this, getOwner()), 0.0F);
@@ -70,7 +70,7 @@ public class ThrownLavaLamp extends ThrowableItemProjectile {
 	protected void onHitBlock(BlockHitResult result) {
 		super.onHitBlock(result);
 
-		if (!level.isClientSide)
+		if (!getLevel().isClientSide)
 			placeImpactFire(result);
 	}
 
@@ -78,9 +78,9 @@ public class ThrownLavaLamp extends ThrowableItemProjectile {
 	protected void onHit(HitResult result) {
 		super.onHit(result);
 
-		if (!level.isClientSide) {
-			level.playSound(null, getX(), getY(), getZ(), SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, 1.0F, 1.0F);
-			level.broadcastEntityEvent(this, (byte)3);
+		if (!getLevel().isClientSide) {
+			getLevel().playSound(null, getX(), getY(), getZ(), SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, 1.0F, 1.0F);
+			getLevel().broadcastEntityEvent(this, (byte)3);
 			discard();
 		}
 	}
@@ -99,11 +99,11 @@ public class ThrownLavaLamp extends ThrowableItemProjectile {
 	}
 
 	private boolean tryPlaceFire(BlockPos pos) {
-		BlockState existing = level.getBlockState(pos);
-		BlockState fire = BaseFireBlock.getState(level, pos);
+		BlockState existing = getLevel().getBlockState(pos);
+		BlockState fire = BaseFireBlock.getState(getLevel(), pos);
 
-		if ((existing.isAir() || existing.canBeReplaced()) && fire.canSurvive(level, pos)) {
-			level.setBlock(pos, fire, 3);
+		if ((existing.isAir() || existing.canBeReplaced()) && fire.canSurvive(getLevel(), pos)) {
+			getLevel().setBlock(pos, fire, 3);
 			return true;
 		}
 

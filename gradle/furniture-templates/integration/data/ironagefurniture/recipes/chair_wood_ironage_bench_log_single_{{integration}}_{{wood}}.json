@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "conditions": [
+    {
+      "modid": "{{modId}}",
+      "type": "forge:mod_loaded"
+    }
+  ],
+  "group": "furniture",
+  "pattern": [
+    "xxx"
+  ],
+  "key": {
+    "x": {
+      "item": "{{namespace}}:{{externalLog}}"
+    }
+  },
+  "result": {
+    "item": "ironagefurniture:chair_wood_ironage_bench_log_single_{{integration}}_{{wood}}",
+    "count": 3
+  }
+}

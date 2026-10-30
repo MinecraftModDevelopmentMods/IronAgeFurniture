@@ -1,0 +1,11 @@
+{
+    "parent": "ironagefurniture:block/chair_wood_ironage_shield_byg_mangrove",
+    "overrides": [
+        {
+            "predicate": {
+                "ironagefurniture:empty_shield_frame": 1.0
+            },
+            "model": "ironagefurniture:block/chair_wood_ironage_shield_byg_mangrove_frame"
+        }
+    ]
+}

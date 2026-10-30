@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_lower_byg_mangrove_yellow",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_byg_mangrove_yellow"
+        },
+        {
+            "item": "byg:white_mangrove_planks"
+        },
+        {
+            "item": "minecraft:yellow_carpet"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "item": "ironagefurniture:bed_canopy_foot_lower_byg_mangrove_yellow"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "byg"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "canopyBeds"
+        }
+    ]
+}

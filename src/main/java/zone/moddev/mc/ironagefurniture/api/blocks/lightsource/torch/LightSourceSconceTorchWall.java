@@ -4,7 +4,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -56,6 +55,10 @@ public class LightSourceSconceTorchWall extends LightSourceSconceTorchFloor {
 		return ModVanillaLights.light_metal_ironage_sconce_wall_torch_iron_unlit.get();
 	}
 
+    @Override protected Block LitVariant() {
+        return ModVanillaLights.light_metal_ironage_sconce_wall_torch_iron.get();
+    }
+
 	@Override
 	protected Block EmptyVariant() {
 		return ModVanillaLights.light_metal_ironage_sconce_wall_empty_iron.get();
@@ -82,7 +85,7 @@ public class LightSourceSconceTorchWall extends LightSourceSconceTorchFloor {
 	}
 
 	public LightSourceSconceTorchWall(float hardness, float blastResistance, SoundType sound, String name) {
-		super(Block.Properties.of(Material.METAL).strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> 14) );
+		super(Block.Properties.of(net.minecraft.world.level.material.Material.METAL).strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> 14) );
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
@@ -92,6 +95,8 @@ public class LightSourceSconceTorchWall extends LightSourceSconceTorchFloor {
 
 	@Override
 	public BlockState updateShape(BlockState state, Direction direction, BlockState state2, LevelAccessor level, BlockPos pos1, BlockPos pos2) {
+        if (state.getValue(WATERLOGGED)) level.scheduleTick(pos1, net.minecraft.world.level.material.Fluids.WATER,
+                net.minecraft.world.level.material.Fluids.WATER.getTickDelay(level));
 		return direction.getOpposite() == state.getValue(DIRECTION) && !state.canSurvive(level, pos1) ? Blocks.AIR.defaultBlockState() : state;
 	}
 

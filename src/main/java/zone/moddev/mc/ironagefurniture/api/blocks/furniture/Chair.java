@@ -21,7 +21,6 @@ import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.storage.loot.LootContext.Builder;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
@@ -90,7 +89,7 @@ public class Chair extends FallingFurnitureBlock implements SimpleWaterloggedBlo
 	}
 
 	public Chair(float hardness, float blastResistance, SoundType sound, String name) {
-		super(Block.Properties.of(Material.WOOD).strength(hardness, blastResistance).sound(sound));
+		super(Block.Properties.of(net.minecraft.world.level.material.Material.WOOD).strength(hardness, blastResistance).sound(sound));
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
@@ -120,6 +119,12 @@ public class Chair extends FallingFurnitureBlock implements SimpleWaterloggedBlo
 
 	@Override
 	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult rayTraceResult) {
-		return Seat.create(world, pos, 0.3, player);
+		return Seat.create(world, pos, seatYOffset(), player);
+	}
+
+
+
+	protected double seatYOffset() {
+		return 0.3;
 	}
 }

@@ -1,0 +1,412 @@
+{
+  "schema": 1,
+  "minecraft": "1.19.4",
+  "loader": "forge",
+  "dataLayout": "plural",
+  "itemDefinitions": false,
+  "vanilla": [
+    {
+      "wood": "oak",
+      "display": "Oak",
+      "log": "oak_log",
+      "logTop": "oak_log_top",
+      "planks": "oak_planks",
+      "nether": false
+    },
+    {
+      "wood": "spruce",
+      "display": "Spruce",
+      "log": "spruce_log",
+      "logTop": "spruce_log_top",
+      "planks": "spruce_planks",
+      "nether": false
+    },
+    {
+      "wood": "birch",
+      "display": "Birch",
+      "log": "birch_log",
+      "logTop": "birch_log_top",
+      "planks": "birch_planks",
+      "nether": false
+    },
+    {
+      "wood": "jungle",
+      "display": "Jungle",
+      "log": "jungle_log",
+      "logTop": "jungle_log_top",
+      "planks": "jungle_planks",
+      "nether": false
+    },
+    {
+      "wood": "acacia",
+      "display": "Acacia",
+      "log": "acacia_log",
+      "logTop": "acacia_log_top",
+      "planks": "acacia_planks",
+      "nether": false
+    },
+    {
+      "wood": "dark_oak",
+      "display": "Dark Oak",
+      "log": "dark_oak_log",
+      "logTop": "dark_oak_log_top",
+      "planks": "dark_oak_planks",
+      "nether": false
+    },
+    {
+      "wood": "mangrove",
+      "display": "Mangrove",
+      "log": "mangrove_log",
+      "logTop": "mangrove_log_top",
+      "planks": "mangrove_planks",
+      "nether": false
+    },
+    {
+      "wood": "crimson",
+      "display": "Crimson",
+      "log": "crimson_stem",
+      "logTop": "crimson_stem_top",
+      "planks": "crimson_planks",
+      "nether": true
+    },
+    {
+      "wood": "warped",
+      "display": "Warped",
+      "log": "warped_stem",
+      "logTop": "warped_stem_top",
+      "planks": "warped_planks",
+      "nether": true
+    }
+  ],
+  "integrations": [
+    {
+      "className": "ModBOPBlocks",
+      "integration": "biomesoplenty",
+      "modId": "biomesoplenty",
+      "namespace": "biomesoplenty",
+      "textureLayout": "flat",
+      "woods": [
+        {
+          "wood": "cherry",
+          "externalWood": "cherry",
+          "display": "Cherry",
+          "externalLogTexture": "block/cherry_log",
+          "externalLogTopTexture": "block/cherry_log_top",
+          "externalPlanksTexture": "block/cherry_planks"
+        },
+        {
+          "wood": "fir",
+          "externalWood": "fir",
+          "display": "Fir",
+          "externalLogTexture": "block/fir_log",
+          "externalLogTopTexture": "block/fir_log_top",
+          "externalPlanksTexture": "block/fir_planks"
+        },
+        {
+          "wood": "hellbark",
+          "externalWood": "hellbark",
+          "display": "Hellbark",
+          "externalLogTexture": "block/hellbark_log",
+          "externalLogTopTexture": "block/hellbark_log_top",
+          "externalPlanksTexture": "block/hellbark_planks"
+        },
+        {
+          "wood": "jacaranda",
+          "externalWood": "jacaranda",
+          "display": "Jacaranda",
+          "externalLogTexture": "block/jacaranda_log",
+          "externalLogTopTexture": "block/jacaranda_log_top",
+          "externalPlanksTexture": "block/jacaranda_planks"
+        },
+        {
+          "wood": "magic",
+          "externalWood": "magic",
+          "display": "Magic",
+          "externalLogTexture": "block/magic_log",
+          "externalLogTopTexture": "block/magic_log_top",
+          "externalPlanksTexture": "block/magic_planks"
+        },
+        {
+          "wood": "mahogany",
+          "externalWood": "mahogany",
+          "display": "Mahogany",
+          "externalLogTexture": "block/mahogany_log",
+          "externalLogTopTexture": "block/mahogany_log_top",
+          "externalPlanksTexture": "block/mahogany_planks"
+        },
+        {
+          "wood": "palm",
+          "externalWood": "palm",
+          "display": "Palm",
+          "externalLogTexture": "block/palm_log",
+          "externalLogTopTexture": "block/palm_log_top",
+          "externalPlanksTexture": "block/palm_planks"
+        },
+        {
+          "wood": "redwood",
+          "externalWood": "redwood",
+          "display": "Redwood",
+          "externalLogTexture": "block/redwood_log",
+          "externalLogTopTexture": "block/redwood_log_top",
+          "externalPlanksTexture": "block/redwood_planks"
+        },
+        {
+          "wood": "umbran",
+          "externalWood": "umbran",
+          "display": "Umbran",
+          "externalLogTexture": "block/umbran_log",
+          "externalLogTopTexture": "block/umbran_log_top",
+          "externalPlanksTexture": "block/umbran_planks"
+        },
+        {
+          "wood": "willow",
+          "externalWood": "willow",
+          "display": "Willow",
+          "externalLogTexture": "block/willow_log",
+          "externalLogTopTexture": "block/willow_log_top",
+          "externalPlanksTexture": "block/willow_planks"
+        },
+        {
+          "wood": "dead",
+          "externalWood": "dead",
+          "display": "Dead",
+          "externalLogTexture": "block/dead_log",
+          "externalLogTopTexture": "block/dead_log_top",
+          "externalPlanksTexture": "block/dead_planks"
+        }
+      ]
+    },
+    {
+      "className": "ModBYGBlocks",
+      "integration": "byg",
+      "modId": "byg",
+      "namespace": "byg",
+      "textureLayout": "nested",
+      "woods": [
+        {
+          "wood": "aspen",
+          "externalWood": "aspen",
+          "display": "Aspen",
+          "externalLogTexture": "block/aspen/log",
+          "externalLogTopTexture": "block/aspen/log_top",
+          "externalPlanksTexture": "block/aspen/planks"
+        },
+        {
+          "wood": "baobab",
+          "externalWood": "baobab",
+          "display": "Baobab",
+          "externalLogTexture": "block/baobab/log",
+          "externalLogTopTexture": "block/baobab/log_top",
+          "externalPlanksTexture": "block/baobab/planks"
+        },
+        {
+          "wood": "blue_enchanted",
+          "externalWood": "blue_enchanted",
+          "display": "Blue Enchanted",
+          "externalLogTexture": "block/blue_enchanted/log",
+          "externalLogTopTexture": "block/blue_enchanted/log_top",
+          "externalPlanksTexture": "block/blue_enchanted/planks"
+        },
+        {
+          "wood": "bulbis",
+          "externalWood": "bulbis",
+          "display": "Bulbis",
+          "externalLogTexture": "block/bulbis/planks",
+          "externalLogTopTexture": "block/bulbis/planks",
+          "externalPlanksTexture": "block/bulbis/planks",
+          "externalLog": "bulbis_stem"
+        },
+        {
+          "wood": "cherry",
+          "externalWood": "cherry",
+          "display": "Cherry",
+          "externalLogTexture": "block/cherry/log",
+          "externalLogTopTexture": "block/cherry/log_top",
+          "externalPlanksTexture": "block/cherry/planks"
+        },
+        {
+          "wood": "cika",
+          "externalWood": "cika",
+          "display": "Cika",
+          "externalLogTexture": "block/cika/log",
+          "externalLogTopTexture": "block/cika/log_top",
+          "externalPlanksTexture": "block/cika/planks"
+        },
+        {
+          "wood": "cypress",
+          "externalWood": "cypress",
+          "display": "Cypress",
+          "externalLogTexture": "block/cypress/log",
+          "externalLogTopTexture": "block/cypress/log_top",
+          "externalPlanksTexture": "block/cypress/planks"
+        },
+        {
+          "wood": "ebony",
+          "externalWood": "ebony",
+          "display": "Ebony",
+          "externalLogTexture": "block/ebony/log",
+          "externalLogTopTexture": "block/ebony/log_top",
+          "externalPlanksTexture": "block/ebony/planks"
+        },
+        {
+          "wood": "embur",
+          "externalWood": "embur",
+          "display": "Embur",
+          "externalLogTexture": "block/embur/planks",
+          "externalLogTopTexture": "block/embur/planks",
+          "externalPlanksTexture": "block/embur/planks",
+          "externalLog": "embur_pedu"
+        },
+        {
+          "wood": "ether",
+          "externalWood": "ether",
+          "display": "Ether",
+          "externalLogTexture": "block/ether/log",
+          "externalLogTopTexture": "block/ether/log_top",
+          "externalPlanksTexture": "block/ether/planks"
+        },
+        {
+          "wood": "fir",
+          "externalWood": "fir",
+          "display": "Fir",
+          "externalLogTexture": "block/fir/log",
+          "externalLogTopTexture": "block/fir/log_top",
+          "externalPlanksTexture": "block/fir/planks"
+        },
+        {
+          "wood": "green_enchanted",
+          "externalWood": "green_enchanted",
+          "display": "Green Enchanted",
+          "externalLogTexture": "block/green_enchanted/log",
+          "externalLogTopTexture": "block/green_enchanted/log_top",
+          "externalPlanksTexture": "block/green_enchanted/planks"
+        },
+        {
+          "wood": "holly",
+          "externalWood": "holly",
+          "display": "Holly",
+          "externalLogTexture": "block/holly/log",
+          "externalLogTopTexture": "block/holly/log_top",
+          "externalPlanksTexture": "block/holly/planks"
+        },
+        {
+          "wood": "jacaranda",
+          "externalWood": "jacaranda",
+          "display": "Jacaranda",
+          "externalLogTexture": "block/jacaranda/log",
+          "externalLogTopTexture": "block/jacaranda/log_top",
+          "externalPlanksTexture": "block/jacaranda/planks"
+        },
+        {
+          "wood": "lament",
+          "externalWood": "lament",
+          "display": "Lament",
+          "externalLogTexture": "block/lament/log",
+          "externalLogTopTexture": "block/lament/log_top",
+          "externalPlanksTexture": "block/lament/planks"
+        },
+        {
+          "wood": "mahogany",
+          "externalWood": "mahogany",
+          "display": "Mahogany",
+          "externalLogTexture": "block/mahogany/log",
+          "externalLogTopTexture": "block/mahogany/log_top",
+          "externalPlanksTexture": "block/mahogany/planks"
+        },
+        {
+          "wood": "mangrove",
+          "externalWood": "white_mangrove",
+          "display": "Mangrove",
+          "externalLogTexture": "block/white_mangrove/log",
+          "externalLogTopTexture": "block/white_mangrove/log_top",
+          "externalPlanksTexture": "block/white_mangrove/planks"
+        },
+        {
+          "wood": "maple",
+          "externalWood": "maple",
+          "display": "Maple",
+          "externalLogTexture": "block/maple/log",
+          "externalLogTopTexture": "block/maple/log_top",
+          "externalPlanksTexture": "block/maple/planks"
+        },
+        {
+          "wood": "nightshade",
+          "externalWood": "nightshade",
+          "display": "Nightshade",
+          "externalLogTexture": "block/nightshade/log",
+          "externalLogTopTexture": "block/nightshade/log_top",
+          "externalPlanksTexture": "block/nightshade/planks"
+        },
+        {
+          "wood": "palm",
+          "externalWood": "palm",
+          "display": "Palm",
+          "externalLogTexture": "block/palm/log",
+          "externalLogTopTexture": "block/palm/log_top",
+          "externalPlanksTexture": "block/palm/planks"
+        },
+        {
+          "wood": "pine",
+          "externalWood": "pine",
+          "display": "Pine",
+          "externalLogTexture": "block/pine/log",
+          "externalLogTopTexture": "block/pine/log_top",
+          "externalPlanksTexture": "block/pine/planks"
+        },
+        {
+          "wood": "rainbow_eucalyptus",
+          "externalWood": "rainbow_eucalyptus",
+          "display": "Rainbow Eucalyptus",
+          "externalLogTexture": "block/rainbow_eucalyptus/log",
+          "externalLogTopTexture": "block/rainbow_eucalyptus/log_top",
+          "externalPlanksTexture": "block/rainbow_eucalyptus/planks"
+        },
+        {
+          "wood": "redwood",
+          "externalWood": "redwood",
+          "display": "Redwood",
+          "externalLogTexture": "block/redwood/log",
+          "externalLogTopTexture": "block/redwood/log_top",
+          "externalPlanksTexture": "block/redwood/planks"
+        },
+        {
+          "wood": "skyris",
+          "externalWood": "skyris",
+          "display": "Skyris",
+          "externalLogTexture": "block/skyris/log",
+          "externalLogTopTexture": "block/skyris/log_top",
+          "externalPlanksTexture": "block/skyris/planks"
+        },
+        {
+          "wood": "willow",
+          "externalWood": "willow",
+          "display": "Willow",
+          "externalLogTexture": "block/willow/log",
+          "externalLogTopTexture": "block/willow/log_top",
+          "externalPlanksTexture": "block/willow/planks"
+        },
+        {
+          "wood": "witch_hazel",
+          "externalWood": "witch_hazel",
+          "display": "Witch Hazel",
+          "externalLogTexture": "block/witch_hazel/log",
+          "externalLogTopTexture": "block/witch_hazel/log_top",
+          "externalPlanksTexture": "block/witch_hazel/planks"
+        },
+        {
+          "wood": "zelkova",
+          "externalWood": "zelkova",
+          "display": "Zelkova",
+          "externalLogTexture": "block/zelkova/log",
+          "externalLogTopTexture": "block/zelkova/log_top",
+          "externalPlanksTexture": "block/zelkova/planks"
+        }
+      ]
+    }
+  ],
+  "retainedIntegrationClasses": [
+    "ModIEBlocks"
+  ],
+  "retainedIntegrationResources": true,
+  "dataSchema": "forge45"
+}

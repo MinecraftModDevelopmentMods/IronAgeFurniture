@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_bed_wood_foot_left",
+    "textures": {
+        "log": "byg:block/witch_hazel/log",
+        "planks": "byg:block/witch_hazel/planks",
+        "particle": "byg:block/witch_hazel/log",
+        "cloth": "minecraft:block/blue_wool"
+    }
+}

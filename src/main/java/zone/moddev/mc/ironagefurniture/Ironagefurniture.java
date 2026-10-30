@@ -1,114 +1,61 @@
 package zone.moddev.mc.ironagefurniture;
 
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import zone.moddev.mc.ironagefurniture.api.entity.Entities;
-import zone.moddev.mc.ironagefurniture.api.CreativeModeBreakTracker;
-import zone.moddev.mc.ironagefurniture.client.renderer.ClientHandler;
-import zone.moddev.mc.ironagefurniture.init.ModBOPBlocks;
-import zone.moddev.mc.ironagefurniture.init.ModBYGBlocks;
-import zone.moddev.mc.ironagefurniture.init.ModIEBlocks;
-import zone.moddev.mc.ironagefurniture.init.ModVanillaBackBench;
-import zone.moddev.mc.ironagefurniture.init.ModVanillaBench;
-import zone.moddev.mc.ironagefurniture.init.ModVanillaChairs;
-import zone.moddev.mc.ironagefurniture.init.ModVanillaLights;
-import zone.moddev.mc.ironagefurniture.init.ModVanillaLogBench;
-import zone.moddev.mc.ironagefurniture.init.ModVanillaPaddedBackBench;
-import zone.moddev.mc.ironagefurniture.init.ModVanillaPaddedBench;
-import zone.moddev.mc.ironagefurniture.init.ModVanillaShieldChairs;
-import zone.moddev.mc.ironagefurniture.init.ModVanillaStools;
-import zone.moddev.mc.ironagefurniture.init.ModVanillaTallStools;
-import zone.moddev.mc.ironagefurniture.proxy.CommonProxy;
-import net.minecraftforge.fml.config.ModConfig;
-
-import com.mojang.logging.LogUtils;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.event.server.ServerStartingEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import org.slf4j.Logger;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLEnvironment;
+import zone.moddev.mc.ironagefurniture.init.*;
+import zone.moddev.mc.ironagefurniture.api.entity.Entities;
 
+/** Forge entry point; persistent furniture stays registered when disabled. */
 @Mod(Ironagefurniture.MODID)
-public class Ironagefurniture
-{
+public final class Ironagefurniture {
     public static final String MODID = "ironagefurniture";
-    public static final String VERSION = "0.3.0.119041";
-    public static final CommonProxy PROXY = DistExecutor.runForDist(() -> zone.moddev.mc.ironagefurniture.proxy.ClientProxy::new, () -> CommonProxy::new);
-    private static final Logger LOGGER = LogUtils.getLogger();
-    
-	public Ironagefurniture(FMLJavaModLoadingContext context) {
-		LOGGER.info("Iron Age Furniture Mod is loading...");
-		
-        IEventBus modEventBus = context.getModEventBus();
-        
-        ModVanillaChairs.REGISTER.register(modEventBus);
-        ModVanillaShieldChairs.REGISTER.register(modEventBus);
-		ModVanillaStools.REGISTER.register(modEventBus);
-		ModVanillaTallStools.REGISTER.register(modEventBus);
-		ModVanillaBench.REGISTER.register(modEventBus);
-		ModVanillaBackBench.REGISTER.register(modEventBus);
-		ModVanillaLights.REGISTER.register(modEventBus);
-		ModVanillaLogBench.REGISTER.register(modEventBus);
-		ModVanillaPaddedBench.REGISTER.register(modEventBus);
-		ModVanillaPaddedBackBench.REGISTER.register(modEventBus);
-		
-		if (ModList.get().isLoaded("biomesoplenty")) {
-			LOGGER.info("Iron Age Furniture Biomes O Plenty Integration is loading...");
-			ModBOPBlocks.REGISTER.register(modEventBus);
-		}
-		
-		if (ModList.get().isLoaded("immersiveengineering")) {
-			
-			LOGGER.info("Iron Age Furniture Immersive Engineering Integration is loading...");
-			ModIEBlocks.REGISTER.register(modEventBus);
-		}
-
-		if (ModList.get().isLoaded("byg")) {
-			LOGGER.info("Iron Age Furniture BYG Integration is loading...");
-			ModBYGBlocks.REGISTER.register(modEventBus);
-		}
-		
-        ModItems.REGISTER.register(modEventBus);
-        Entities.REGISTER.register(modEventBus);
-        
-        modEventBus.addListener(this::commonSetup);
-
-        MinecraftForge.EVENT_BUS.register(this);
-		MinecraftForge.EVENT_BUS.register(new CreativeModeBreakTracker());
-        
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-        	modEventBus.addListener(ClientHandler::onRegisterRenderers);
-        	modEventBus.addListener(ClientHandler::onRegisterCreativeTab);
-        });
-        
-        context.registerConfig(ModConfig.Type.COMMON, IronAgeFurnitureConfiguration.SPEC);
-        
-    }
-    
-    private void commonSetup(final FMLCommonSetupEvent event)
-    {
-
-    }
-
-
-    @SubscribeEvent
-    public void onServerStarting(ServerStartingEvent event)
-    {
-
-    }
-
-    @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-    public static class ClientModEvents
-    {
-        @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent event)
-        {
-
+    public Ironagefurniture() {
+        FMLJavaModLoadingContext context = FMLJavaModLoadingContext.get();
+        IEventBus bus = context.getModEventBus();
+        ModVanillaChairs.REGISTER.register(bus);
+        ModVanillaShieldChairs.REGISTER.register(bus);
+        ModVanillaStools.REGISTER.register(bus);
+        ModVanillaTallStools.REGISTER.register(bus);
+        ModVanillaBench.REGISTER.register(bus);
+        ModVanillaBackBench.REGISTER.register(bus);
+        ModVanillaLights.REGISTER.register(bus);
+        ModVanillaLogBench.REGISTER.register(bus);
+        ModVanillaPaddedBench.REGISTER.register(bus);
+        ModVanillaPaddedBackBench.REGISTER.register(bus);
+        PhaseFourFurniture.REGISTER.register(bus);
+        if (net.minecraftforge.fml.ModList.get().isLoaded("biomesoplenty")) {
+            ModBOPBlocks.REGISTER.register(bus);
+            PhaseFourBopFurniture.REGISTER.register(bus);
+        }
+        if (net.minecraftforge.fml.ModList.get().isLoaded("byg")) {
+            ModBYGBlocks.REGISTER.register(bus);
+            PhaseFourBygFurniture.REGISTER.register(bus);
+        }
+        if (net.minecraftforge.fml.ModList.get().isLoaded("immersiveengineering")) {
+            ModIEBlocks.REGISTER.register(bus);
+            PhaseFourIeFurniture.REGISTER.register(bus);
+        }
+        PhaseFourLighting.BLOCKS.register(bus);
+        PhaseFourLighting.BLOCK_ENTITIES.register(bus);
+        PhaseFourBlockEntities.REGISTER.register(bus);
+        bus.addListener(PhaseFourRecipes::registerConditions);
+        PhaseFourRecipes.SERIALIZERS.register(bus);
+        ModItems.REGISTER.register(bus);
+        ModCreativeTab.register(bus);
+        Entities.REGISTER.register(bus);
+        zone.moddev.mc.ironagefurniture.compat.LegacyFurnitureMappings.registerAliases(bus);
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.register(
+                new zone.moddev.mc.ironagefurniture.api.CreativeModeBreakTracker());
+        bus.addListener(zone.moddev.mc.ironagefurniture.compat.FurnitureConfigurationReload::configReloaded);
+        zone.moddev.mc.ironagefurniture.compat.FurnitureConfigurationSync.register();
+        net.minecraftforge.fml.ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, IronAgeFurnitureConfiguration.SYNCED_SPEC);
+        if (FMLEnvironment.dist == Dist.CLIENT) {
+            zone.moddev.mc.ironagefurniture.client.OptionalIntegrationResourcePacks.register(bus);
+            bus.addListener(zone.moddev.mc.ironagefurniture.client.renderer.LightRendering::clientSetup);
         }
     }
 }

@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_wingback_byg_zelkova_pink",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:chair_wood_ironage_classic_byg_zelkova"
+        },
+        {
+            "item": "byg:zelkova_planks"
+        },
+        {
+            "item": "minecraft:pink_carpet"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "item": "ironagefurniture:chair_wood_ironage_wingback_byg_zelkova_pink"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "byg"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "wingbacks"
+        }
+    ]
+}

@@ -1,0 +1,50 @@
+{
+    "advancements": [
+        {
+            "conditions": [
+                {
+                    "type": "forge:mod_loaded",
+                    "modid": "byg"
+                },
+                {
+                    "type": "ironagefurniture:feature_enabled",
+                    "feature": "canopyBeds"
+                }
+            ],
+            "advancement": {
+                "parent": "minecraft:recipes/root",
+                "criteria": {
+                    "has_ingredient": {
+                        "trigger": "minecraft:inventory_changed",
+                        "conditions": {
+                            "items": [
+                                {
+                                    "items": [
+                                        "ironagefurniture:bed_wood_foot_byg_maple_light_blue"
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    "has_the_recipe": {
+                        "trigger": "minecraft:recipe_unlocked",
+                        "conditions": {
+                            "recipe": "ironagefurniture:bed_canopy_foot_lower_byg_maple_light_blue"
+                        }
+                    }
+                },
+                "requirements": [
+                    [
+                        "has_ingredient",
+                        "has_the_recipe"
+                    ]
+                ],
+                "rewards": {
+                    "recipes": [
+                        "ironagefurniture:bed_canopy_foot_lower_byg_maple_light_blue"
+                    ]
+                }
+            }
+        }
+    ]
+}

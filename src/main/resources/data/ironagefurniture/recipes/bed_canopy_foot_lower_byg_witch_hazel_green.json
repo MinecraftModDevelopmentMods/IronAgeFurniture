@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_lower_byg_witch_hazel_green",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_byg_witch_hazel_green"
+        },
+        {
+            "item": "byg:witch_hazel_planks"
+        },
+        {
+            "item": "minecraft:green_carpet"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "item": "ironagefurniture:bed_canopy_foot_lower_byg_witch_hazel_green"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "byg"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "canopyBeds"
+        }
+    ]
+}

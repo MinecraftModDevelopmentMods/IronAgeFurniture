@@ -1,0 +1,56 @@
+import groovy.json.JsonSlurper
+
+// Forge45 recipes use conditions; advancements use explicit conditional branches.
+ext.forgeConditionalData = { Object document ->
+    Closure normalize
+    normalize = { Object value ->
+        if (value instanceof String) return value.replace('c:rods/', 'forge:rods/').replace('c:nuggets/', 'forge:nuggets/').replace('c:storage_blocks/', 'forge:storage_blocks/')
+        if (value instanceof List) return value.collect { normalize(it) }
+        if (!(value instanceof Map)) return value
+        Map output = value.collectEntries { key, child -> [(key): normalize(child)] }
+        if (output.trigger == 'minecraft:recipe_unlocked' && output.conditions?.containsKey('recipes'))
+            output.conditions.recipe = output.conditions.remove('recipes')
+        if (output.items instanceof String && output.items.startsWith('#')) {
+            output.tag = output.remove('items').substring(1)
+        }
+        if (output.criteria instanceof Map && output.rewards?.recipes instanceof List) {
+            List inventory = output.criteria.findAll { criterionName, criterion -> criterion.trigger == 'minecraft:inventory_changed' }.keySet() as List
+            if (!inventory.isEmpty() && output.criteria.has_the_recipe)
+                output.requirements = [inventory + ['has_the_recipe']]
+        }
+        List rules = []
+        rules.addAll((output.remove('forge:conditions') ?: []) as List)
+        rules.addAll((output.remove('neoforge:conditions') ?: []) as List)
+        if (output.containsKey('forge:condition')) rules.add(output.remove('forge:condition'))
+        if (output.result instanceof Map && output.result.id) output.result.item = output.result.remove('id')
+        if (!rules.isEmpty()) {
+            if (output.criteria instanceof Map && output.rewards instanceof Map)
+                return [advancements: [[conditions: rules, advancement: output]]]
+            output.conditions = (output.conditions ?: []) + rules
+        }
+        output
+    }
+    normalize(document)
+}
+
+tasks.register('verifyNativeConditions') {
+    group = 'verification'
+    description = 'Checks Forge45 recipe conditions and conditional advancement branches.'
+    doLast {
+        int count = 0
+        fileTree('src/main/resources/data/ironagefurniture') { include 'recipes/**/*.json', 'advancements/**/*.json' }.each { source ->
+            Map document = new JsonSlurper().parse(source) as Map
+            if (document.containsKey('forge:condition') || document.containsKey('forge:conditions') || document.containsKey('neoforge:conditions'))
+                throw new GradleException("Newer condition schema in Forge45 data: ${source}")
+            if (document.conditions instanceof List) count++
+            if (document.advancements instanceof List) {
+                if (document.advancements.any { !(it.conditions instanceof List) || !(it.advancement instanceof Map) })
+                    throw new GradleException("Invalid Forge45 conditional advancement: ${source}")
+                count++
+            }
+        }
+        if (!count) throw new GradleException('No native condition data audited')
+        logger.lifecycle("Validated ${count} Forge45 conditional recipes and advancements.")
+    }
+}
+tasks.named('check') { dependsOn 'verifyNativeConditions' }

@@ -1,0 +1,25 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_wingback_dark_oak_orange",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:chair_wood_ironage_classic_dark_oak"
+        },
+        {
+            "item": "minecraft:dark_oak_planks"
+        },
+        {
+            "item": "minecraft:orange_carpet"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "item": "ironagefurniture:chair_wood_ironage_wingback_dark_oak_orange"
+    },
+    "conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "wingbacks"
+        }
+    ]
+}

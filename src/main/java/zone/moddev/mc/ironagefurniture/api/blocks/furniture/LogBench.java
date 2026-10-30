@@ -26,9 +26,9 @@ public class LogBench extends BackBench {
 	}
 
 	@Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult rayTraceResult)
+    protected double seatYOffset()
     {
-        return Seat.create(world, pos, 0.2, player);
+        return 0.2;
     }
 
 	 @Override
