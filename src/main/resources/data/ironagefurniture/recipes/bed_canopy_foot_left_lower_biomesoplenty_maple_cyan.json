@@ -1,0 +1,30 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_maple_cyan",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_maple_cyan"
+        },
+        {
+            "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_maple_cyan"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "item": "ironagefurniture:bed_canopy_foot_left_lower_biomesoplenty_maple_cyan"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "biomesoplenty:maple_planks"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "canopyBeds"
+        }
+    ]
+}

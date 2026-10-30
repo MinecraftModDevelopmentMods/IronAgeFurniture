@@ -5,7 +5,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 import zone.moddev.mc.ironagefurniture.Ironagefurniture;
@@ -14,6 +14,7 @@ import zone.moddev.mc.ironagefurniture.api.blocks.furniture.BackBench;
 import zone.moddev.mc.ironagefurniture.api.blocks.furniture.Bench;
 import zone.moddev.mc.ironagefurniture.api.blocks.furniture.BenchNether;
 import zone.moddev.mc.ironagefurniture.api.blocks.furniture.Chair;
+import zone.moddev.mc.ironagefurniture.api.blocks.furniture.ShieldChair;
 import zone.moddev.mc.ironagefurniture.api.blocks.furniture.LogBench;
 import zone.moddev.mc.ironagefurniture.api.blocks.furniture.Stool;
 import zone.moddev.mc.ironagefurniture.api.blocks.furniture.TallStool;
@@ -21,7 +22,7 @@ import zone.moddev.mc.ironagefurniture.api.blocks.furniture.TallStool;
 import java.util.function.Supplier;
 
 public class ModBOP19Blocks {
-	public static final DeferredRegister<Block> REGISTER = DeferredRegister.create(ForgeRegistries.BLOCKS, Ironagefurniture.MODID);
+	public static final DeferredRegister<Block> REGISTER = DeferredRegister.create(net.minecraft.core.registries.Registries.BLOCK, Ironagefurniture.MODID);
 	
 	private static RegistryObject<Block> register(String name, Supplier<Block> block) {
 		return register(name, block, new Item.Properties()); 
@@ -36,7 +37,7 @@ public class ModBOP19Blocks {
 	}
 	
 	public static RegistryObject<Block> chair_wood_ironage_classic_biomesoplenty_empyreal = register("chair_wood_ironage_classic_biomesoplenty_empyreal", () -> new Chair(1, 10, SoundType.WOOD, "chair_wood_ironage_classic_biomesoplenty_empyreal"));
-	public static RegistryObject<Block> chair_wood_ironage_shield_biomesoplenty_empyreal = register("chair_wood_ironage_shield_biomesoplenty_empyreal", () -> new Chair(1, 10, SoundType.WOOD, "chair_wood_ironage_shield_biomesoplenty_empyreal"));
+	public static RegistryObject<Block> chair_wood_ironage_shield_biomesoplenty_empyreal = register("chair_wood_ironage_shield_biomesoplenty_empyreal", () -> new ShieldChair(1, 10, SoundType.WOOD, "chair_wood_ironage_shield_biomesoplenty_empyreal"));
 	public static RegistryObject<Block> chair_wood_ironage_stool_short_biomesoplenty_empyreal = register("chair_wood_ironage_stool_short_biomesoplenty_empyreal", () -> new Stool(1, 10, SoundType.WOOD, "chair_wood_ironage_stool_short_biomesoplenty_empyreal"));
 	public static RegistryObject<Block> chair_wood_ironage_stool_tall_biomesoplenty_empyreal = register("chair_wood_ironage_stool_tall_biomesoplenty_empyreal", () -> new TallStool(1, 10, SoundType.WOOD, "chair_wood_ironage_stool_tall_biomesoplenty_empyreal"));
 	public static RegistryObject<Block> chair_wood_ironage_bench_single_biomesoplenty_empyreal = register("chair_wood_ironage_bench_single_biomesoplenty_empyreal", () -> new Bench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_single_biomesoplenty_empyreal"));
@@ -75,7 +76,7 @@ public class ModBOP19Blocks {
 	public static RegistryObject<Block> chair_wood_ironage_bench_padded_gray_single_biomesoplenty_empyreal = register("chair_wood_ironage_bench_padded_gray_single_biomesoplenty_empyreal", () -> new Bench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_padded_gray_single_biomesoplenty_empyreal"));
 	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_gray_single_biomesoplenty_empyreal = register("chair_wood_ironage_bench_back_padded_gray_single_biomesoplenty_empyreal", () -> new BackBench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_gray_single_biomesoplenty_empyreal"));
 	public static RegistryObject<Block> chair_wood_ironage_classic_biomesoplenty_maple = register("chair_wood_ironage_classic_biomesoplenty_maple", () -> new Chair(1, 10, SoundType.WOOD, "chair_wood_ironage_classic_biomesoplenty_maple"));
-	public static RegistryObject<Block> chair_wood_ironage_shield_biomesoplenty_maple = register("chair_wood_ironage_shield_biomesoplenty_maple", () -> new Chair(1, 10, SoundType.WOOD, "chair_wood_ironage_shield_biomesoplenty_maple"));
+	public static RegistryObject<Block> chair_wood_ironage_shield_biomesoplenty_maple = register("chair_wood_ironage_shield_biomesoplenty_maple", () -> new ShieldChair(1, 10, SoundType.WOOD, "chair_wood_ironage_shield_biomesoplenty_maple"));
 	public static RegistryObject<Block> chair_wood_ironage_stool_short_biomesoplenty_maple = register("chair_wood_ironage_stool_short_biomesoplenty_maple", () -> new Stool(1, 10, SoundType.WOOD, "chair_wood_ironage_stool_short_biomesoplenty_maple"));
 	public static RegistryObject<Block> chair_wood_ironage_stool_tall_biomesoplenty_maple = register("chair_wood_ironage_stool_tall_biomesoplenty_maple", () -> new TallStool(1, 10, SoundType.WOOD, "chair_wood_ironage_stool_tall_biomesoplenty_maple"));
 	public static RegistryObject<Block> chair_wood_ironage_bench_single_biomesoplenty_maple = register("chair_wood_ironage_bench_single_biomesoplenty_maple", () -> new Bench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_single_biomesoplenty_maple"));
@@ -114,7 +115,7 @@ public class ModBOP19Blocks {
 	public static RegistryObject<Block> chair_wood_ironage_bench_padded_gray_single_biomesoplenty_maple = register("chair_wood_ironage_bench_padded_gray_single_biomesoplenty_maple", () -> new Bench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_padded_gray_single_biomesoplenty_maple"));
 	public static RegistryObject<Block> chair_wood_ironage_bench_back_padded_gray_single_biomesoplenty_maple = register("chair_wood_ironage_bench_back_padded_gray_single_biomesoplenty_maple", () -> new BackBench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_back_padded_gray_single_biomesoplenty_maple"));
 	public static RegistryObject<Block> chair_wood_ironage_classic_biomesoplenty_pine = register("chair_wood_ironage_classic_biomesoplenty_pine", () -> new Chair(1, 10, SoundType.WOOD, "chair_wood_ironage_classic_biomesoplenty_pine"));
-	public static RegistryObject<Block> chair_wood_ironage_shield_biomesoplenty_pine = register("chair_wood_ironage_shield_biomesoplenty_pine", () -> new Chair(1, 10, SoundType.WOOD, "chair_wood_ironage_shield_biomesoplenty_pine"));
+	public static RegistryObject<Block> chair_wood_ironage_shield_biomesoplenty_pine = register("chair_wood_ironage_shield_biomesoplenty_pine", () -> new ShieldChair(1, 10, SoundType.WOOD, "chair_wood_ironage_shield_biomesoplenty_pine"));
 	public static RegistryObject<Block> chair_wood_ironage_stool_short_biomesoplenty_pine = register("chair_wood_ironage_stool_short_biomesoplenty_pine", () -> new Stool(1, 10, SoundType.WOOD, "chair_wood_ironage_stool_short_biomesoplenty_pine"));
 	public static RegistryObject<Block> chair_wood_ironage_stool_tall_biomesoplenty_pine = register("chair_wood_ironage_stool_tall_biomesoplenty_pine", () -> new TallStool(1, 10, SoundType.WOOD, "chair_wood_ironage_stool_tall_biomesoplenty_pine"));
 	public static RegistryObject<Block> chair_wood_ironage_bench_single_biomesoplenty_pine = register("chair_wood_ironage_bench_single_biomesoplenty_pine", () -> new Bench(1, 10, SoundType.WOOD, "chair_wood_ironage_bench_single_biomesoplenty_pine"));

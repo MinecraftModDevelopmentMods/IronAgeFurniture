@@ -1,27 +1,31 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "conditions": [
-    {
-      "modid": "biomesoplenty",
-      "type": "forge:mod_loaded"
-    }
-  ],
-  "group": "furniture",
-  "pattern": [
-    "x ",
-    "xx",
-    "yy"
-  ],
-  "key": {
-    "y": {
-      "tag": "forge:rods/wooden"
+    "type": "minecraft:crafting_shaped",
+    "conditions": [
+        {
+            "modid": "biomesoplenty",
+            "type": "forge:mod_loaded"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "benches"
+        }
+    ],
+    "group": "ironagefurniture:chair_wood_ironage_bench_back_single_biomesoplenty_palm",
+    "pattern": [
+        "x ",
+        "xx",
+        "yy"
+    ],
+    "key": {
+        "y": {
+            "tag": "forge:rods/wooden"
+        },
+        "x": {
+            "item": "biomesoplenty:palm_planks"
+        }
     },
-    "x": {
-      "item": "biomesoplenty:palm_planks"
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_bench_back_single_biomesoplenty_palm",
+        "count": 1
     }
-  },
-  "result": {
-    "item": "ironagefurniture:chair_wood_ironage_bench_back_single_biomesoplenty_palm",
-    "count": 1
-  }
 }

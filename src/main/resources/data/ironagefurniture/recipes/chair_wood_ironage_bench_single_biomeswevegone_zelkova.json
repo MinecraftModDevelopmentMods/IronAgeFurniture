@@ -1,26 +1,30 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "conditions": [
-    {
-      "modid": "biomeswevegone",
-      "type": "forge:mod_loaded"
-    }
-  ],
-  "group": "furniture",
-  "pattern": [
-    "xx",
-    "yy"
-  ],
-  "key": {
-    "y": {
-      "tag": "forge:rods/wooden"
+    "type": "minecraft:crafting_shaped",
+    "conditions": [
+        {
+            "modid": "biomeswevegone",
+            "type": "forge:mod_loaded"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "benches"
+        }
+    ],
+    "group": "ironagefurniture:chair_wood_ironage_bench_single_biomeswevegone_zelkova",
+    "pattern": [
+        "xx",
+        "yy"
+    ],
+    "key": {
+        "y": {
+            "tag": "forge:rods/wooden"
+        },
+        "x": {
+            "item": "biomeswevegone:zelkova_planks"
+        }
     },
-    "x": {
-      "item": "biomeswevegone:zelkova_planks"
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_bench_single_biomeswevegone_zelkova",
+        "count": 1
     }
-  },
-  "result": {
-    "item": "ironagefurniture:chair_wood_ironage_bench_single_biomeswevegone_zelkova",
-    "count": 1
-  }
 }

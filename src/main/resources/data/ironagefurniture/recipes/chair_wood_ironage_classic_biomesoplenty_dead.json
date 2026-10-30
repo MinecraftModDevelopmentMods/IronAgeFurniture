@@ -1,27 +1,31 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "conditions": [
-    {
-      "modid": "biomesoplenty",
-      "type": "forge:mod_loaded"
-    }
-  ],
-  "group": "furniture",
-  "pattern": [
-    "x  ",
-    "xxx",
-    "y y"
-  ],
-  "key": {
-    "y": {
-      "tag": "forge:rods/wooden"
+    "type": "minecraft:crafting_shaped",
+    "conditions": [
+        {
+            "modid": "biomesoplenty",
+            "type": "forge:mod_loaded"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "classicChairs"
+        }
+    ],
+    "group": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_dead",
+    "pattern": [
+        "x  ",
+        "xxx",
+        "y y"
+    ],
+    "key": {
+        "y": {
+            "tag": "forge:rods/wooden"
+        },
+        "x": {
+            "item": "biomesoplenty:dead_planks"
+        }
     },
-    "x": {
-      "item": "biomesoplenty:dead_planks"
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_dead",
+        "count": 1
     }
-  },
-  "result": {
-    "item": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_dead",
-    "count": 1
-  }
 }

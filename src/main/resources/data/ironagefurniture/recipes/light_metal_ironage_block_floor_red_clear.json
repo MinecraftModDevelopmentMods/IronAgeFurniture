@@ -1,15 +1,21 @@
 {
-  "type": "crafting_shapeless",
-  "group": "light_glow",
-  "ingredients": [
-    {
-      "item": "minecraft:redstone"
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:light_metal_ironage_block_floor_red_clear",
+    "ingredients": [
+        {
+            "item": "minecraft:redstone"
+        },
+        {
+            "item": "minecraft:glass_bottle"
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:light_metal_ironage_block_floor_red_clear"
     },
-    {
-      "item": "minecraft:glass_bottle"
-    }
-  ],
-  "result": {
-    "item": "ironagefurniture:light_metal_ironage_block_floor_red_clear"
-  }
+    "conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "lights"
+        }
+    ]
 }

@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_left_cherry",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_cherry"
+        },
+        {
+            "item": "ironagefurniture:bed_wood_foot_cherry"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "item": "ironagefurniture:bed_wood_foot_left_cherry"
+    },
+    "conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
+        }
+    ]
+}

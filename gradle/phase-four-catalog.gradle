@@ -1,0 +1,172 @@
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+
+// Shared geometry and construction costs from the released NeoForge furniture.
+// Native 1.20.1 uses object ingredients and item models, not newer item definitions.
+ext.renderPhaseFourFurnitureCatalog = { File outputRoot, Map language, Map catalog ->
+    if (catalog.minecraft != '1.20.1' || catalog.dataSchema != 'forge47' || catalog.itemDefinitions)
+        throw new GradleException('Phase Four furniture requires the actual 1.20.1 catalog schema')
+    Set<String> generated = new LinkedHashSet<>()
+    def write = { String relative, Object document ->
+        File target = new File(outputRoot, relative)
+        target.parentFile.mkdirs()
+        target.setText(JsonOutput.prettyPrint(JsonOutput.toJson(forgeConditionalData(document))).replaceAll(/(?m)[ \t]+$/, '') + '\n', 'UTF-8')
+        generated.add(relative)
+    }
+    String assets = 'src/main/resources/assets/ironagefurniture'
+    String data = 'src/main/resources/data/ironagefurniture'
+    def documentAt = { String relative, String fallback ->
+        File rendered = new File(outputRoot, relative)
+        File source = rendered.isFile() ? rendered : file(relative)
+        if (!source.isFile() && fallback != null) source = file(fallback)
+        if (!source.isFile()) throw new GradleException("Missing canonical furniture input: ${relative}")
+        new JsonSlurper().parse(source) as Map
+    }
+    List<String> colours = ['red', 'orange', 'magenta', 'light_blue', 'yellow', 'lime', 'pink', 'gray',
+                           'light_gray', 'cyan', 'purple', 'blue', 'brown', 'green', 'white', 'black']
+    def itemId = { String base, String colour -> base + (colour == 'red' ? '' : "_${colour}") }
+    Map<String, Map> templates = [:]
+    fileTree('gradle/phase-four-templates') { include '*.json' }.files.sort { it.name }.each { template ->
+        String stem = template.name.replaceFirst(/^template_/, '').replaceFirst(/\.json$/, '')
+        Map model = new JsonSlurper().parse(template) as Map
+        model.textures = [log: 'minecraft:block/oak_log', planks: 'minecraft:block/oak_planks',
+                cloth: 'minecraft:block/red_wool', particle: 'minecraft:block/oak_log']
+        if (stem.startsWith('bed_')) model.textures.sheet = 'minecraft:block/white_wool'
+        model.render_type = 'minecraft:cutout'
+        templates[stem] = model
+        write("${assets}/models/block/template_${stem}.json", model)
+    }
+    if (templates.size() != 29) throw new GradleException('Expected 29 released bed and tall-chair templates')
+    List<Map> woods = catalog.vanilla.collect { [suffix: it.wood, display: it.display, assets: assets] }
+    catalog.integrations.each { integration ->
+        List<Map> family = integration.woods.collect { it + [minimumVersion: null] }
+        (integration.versionTiers ?: []).each { tier -> family.addAll(tier.woods.collect { it + [minimumVersion: tier.minimumVersion] }) }
+        family.each { wood -> woods.add([suffix: "${integration.integration}_${wood.wood}", display: wood.display,
+                modId: integration.modId, capability: wood.minimumVersion ? "${integration.namespace}:${wood.externalWood}_planks" : null,
+                assets: "src/main/resources/resourcepacks/ironagefurniture_${integration.modId}/assets/ironagefurniture"]) }
+    }
+    woods.add([suffix: 'immersiveengineering_treated_wood', display: 'Treated Wood', modId: 'immersiveengineering',
+            assets: 'src/main/resources/resourcepacks/ironagefurniture_immersiveengineering/assets/ironagefurniture'])
+    if (woods.size() != 49 || woods*.suffix.toSet().size() != 49)
+        throw new GradleException('Expected 11 vanilla, 13 BOP, 24 BWG and one IE wood family')
+    woods.findAll { it.modId }.collect { it.modId }.toSet().each { modId ->
+        write("src/main/resources/resourcepacks/ironagefurniture_${modId}/pack.mcmeta",
+                [pack: [description: "Iron Age Furniture ${modId} integration resources", pack_format: 15]])
+    }
+    [chairs: 'Chairs', benches: 'Benches', beds: 'Beds', lights: 'Lights'].each { key, title ->
+        language["itemGroup.ironagefurniture.${key}".toString()] = "Iron Age Furniture: ${title}".toString()
+    }
+    woods.each { wood ->
+        String suffix = wood.suffix
+        String woodAssets = wood.assets
+        String shieldId = "chair_wood_ironage_shield_${suffix}"
+        Map shieldModel = documentAt("${woodAssets}/models/block/${shieldId}.json", null)
+        Map shieldGeometry = shieldModel
+        while (!shieldGeometry.elements && shieldGeometry.parent?.startsWith('ironagefurniture:block/'))
+            shieldGeometry = documentAt("${assets}/models/block/${shieldGeometry.parent.substring('ironagefurniture:block/'.length())}.json", null)
+        if (!shieldGeometry.elements) throw new GradleException("Missing shield-chair geometry: ${shieldId}")
+        Map frame = new LinkedHashMap(shieldModel)
+        frame.elements = shieldGeometry.elements.findAll { element -> !element.faces.values().any { it.texture == '#2' } }
+        if (frame.elements.size() == shieldGeometry.elements.size()) throw new GradleException("Shield plate not found: ${shieldId}")
+        write("${woodAssets}/models/block/${shieldId}_frame.json", frame)
+        Map shieldItem = documentAt("${woodAssets}/models/item/${shieldId}.json", null)
+        shieldItem.overrides = [[predicate: ['ironagefurniture:empty_shield_frame': 1.0],
+                                model: "ironagefurniture:block/${shieldId}_frame"]]
+        write("${woodAssets}/models/item/${shieldId}.json", shieldItem)
+        Map shieldStates = documentAt("${woodAssets}/blockstates/${shieldId}.json", null)
+        shieldStates.variants.values().each { it.model = "ironagefurniture:block/${shieldId}_frame" }
+        write("${woodAssets}/blockstates/${shieldId}.json", shieldStates)
+        String classicPath = "models/block/chair_wood_ironage_classic_${suffix}.json"
+        Map originalModel = documentAt("${woodAssets}/${classicPath}", "${assets}/${classicPath}")
+        Map textures = new LinkedHashMap(originalModel.textures)
+        if (!textures.log || !textures.planks) throw new GradleException("Missing canonical wood textures: ${suffix}")
+        textures.particle = textures.log
+        Map classic = documentAt("${data}/recipes/chair_wood_ironage_classic_${suffix}.json", null)
+        String plank = classic.key?.x instanceof Map ? classic.key.x.item : null
+        if (!plank) throw new GradleException("Expected native object plank ingredient for ${suffix}")
+        Map forms = [
+            "chair_wood_ironage_wingback_${suffix}": [label: 'Wingback Chair', kind: 'wingback', feature: 'wingbacks'],
+            "chair_wood_ironage_throne_${suffix}": [label: 'Throne', kind: 'throne', feature: 'thrones'],
+            "bed_wood_foot_${suffix}": [label: 'Wooden Bed', kind: 'wood', feature: 'woodenBeds'],
+            "bed_wood_foot_left_${suffix}": [label: 'Double Wooden Bed', kind: 'wood', feature: 'woodenBeds', doubleBed: true],
+            "bed_canopy_foot_lower_${suffix}": [label: 'Canopy Bed', kind: 'canopy', feature: 'canopyBeds'],
+            "bed_canopy_foot_left_lower_${suffix}": [label: 'Double Canopy Bed', kind: 'canopy', feature: 'canopyBeds', doubleBed: true],
+            "bed_canopy_foot_right_lower_${suffix}": [label: 'Double Canopy Bed', kind: 'canopy', doubleBed: true, hidden: true]
+        ]
+        colours.each { colour ->
+            templates.keySet().each { stem ->
+                write("${woodAssets}/models/block/${stem}_${colour}_${suffix}.json",
+                        [parent: "ironagefurniture:block/template_${stem}", textures: textures + [cloth: "minecraft:block/${colour}_wool"]])
+            }
+        }
+        forms.each { String id, Map form ->
+            boolean chair = form.kind in ['wingback', 'throne']
+            Map variants = [:]
+            List parts = chair ? ['lower', 'middle', 'upper'] : ['foot', 'head']
+            colours.each { colour ->
+                parts.each { part ->
+                    (chair ? [null] : ['left', 'right']).each { side ->
+                        (form.kind == 'canopy' ? [false, true] : [false]).each { upper ->
+                            [south: 0, north: 180, east: 270, west: 90].each { facing, rotation ->
+                                [false, true].each { wet ->
+                                    String stem = chair ? "chair_${form.kind}_${form.kind == 'wingback' && part == 'middle' ? 'upper' : part}"
+                                            : "bed_${form.kind}_${part}" + (form.doubleBed ? "_${side}" : '') +
+                                                (form.kind == 'canopy' ? upper ? '_upper' : '_lower' : '')
+                                    String key = "colour=${colour},facing=${facing},part=${part}" +
+                                            (chair ? '' : ",side=${side}") + (form.kind == 'canopy' ? ",upper=${upper}" : '') + ",waterlogged=${wet}"
+                                    Map model = [model: "ironagefurniture:block/${stem}_${colour}_${suffix}"]
+                                    int angle = chair ? rotation : (rotation + 180) % 360
+                                    if (angle) model.y = angle
+                                    variants[key] = model
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            write("${woodAssets}/blockstates/${id}.json", [variants: variants])
+            if (form.hidden) {
+                language["block.ironagefurniture.${id}".toString()] = "${wood.display} ${form.label}".toString()
+                return
+            }
+            colours.each { colour ->
+                String inventory = chair ? "chair_${form.kind}_inventory" : "bed_${form.kind}_${form.doubleBed ? 'double' : 'single'}_inventory"
+                String outputId = itemId(id, colour)
+                write("${woodAssets}/models/item/${outputId}.json", [parent: "ironagefurniture:block/${inventory}_${colour}_${suffix}"])
+                String colourName = colour.tokenize('_').collect { it.capitalize() }.join(' ')
+                language["block.ironagefurniture.${outputId}".toString()] = "${wood.display} ${colourName} ${form.label}".toString()
+                String input
+                List<String> ingredients
+                if (form.kind == 'wingback') {
+                    input = "ironagefurniture:chair_wood_ironage_classic_${suffix}"
+                    ingredients = [input, plank, "minecraft:${colour}_carpet"]
+                } else if (form.kind == 'throne') {
+                    input = "ironagefurniture:${itemId("chair_wood_ironage_wingback_${suffix}", colour)}"
+                    ingredients = [input, plank, "minecraft:${colour}_carpet"]
+                } else if (form.kind == 'wood' && !form.doubleBed) {
+                    input = "minecraft:${colour}_bed"
+                    ingredients = [input, plank]
+                } else {
+                    String base = form.doubleBed && form.kind == 'canopy' ? "bed_canopy_foot_lower_${suffix}" : "bed_wood_foot_${suffix}"
+                    input = "ironagefurniture:${itemId(base, colour)}"
+                    ingredients = form.doubleBed ? [input, input] : [input, plank, "minecraft:${colour}_carpet"]
+                }
+                boolean namedRed = chair || form.kind == 'canopy' && !form.doubleBed
+                String recipeId = id + (colour == 'red' && !namedRed ? '' : "_${colour}")
+                List conditions = [[type: 'ironagefurniture:feature_enabled', feature: form.feature]]
+                if (wood.modId) conditions.add(0, [type: 'forge:mod_loaded', modid: wood.modId])
+                if (wood.capability) conditions.add(1, [type: 'forge:item_exists', item: wood.capability])
+                write("${data}/recipes/${recipeId}.json", [type: 'minecraft:crafting_shapeless',
+                    group: "ironagefurniture:${recipeId}", ingredients: ingredients.collect { [item: it] },
+                    result: [id: "ironagefurniture:${outputId}", count: 1], 'forge:conditions': conditions])
+                write("${data}/advancements/recipes/phase_four/${recipeId}.json", [parent: 'minecraft:recipes/root',
+                    criteria: [has_ingredient: [trigger: 'minecraft:inventory_changed', conditions: [items: [[items: [input]]]]],
+                        has_the_recipe: [trigger: 'minecraft:recipe_unlocked', conditions: [recipe: "ironagefurniture:${recipeId}"]]],
+                    requirements: [['has_ingredient', 'has_the_recipe']], rewards: [recipes: ["ironagefurniture:${recipeId}"]],
+                    'forge:conditions': conditions])
+            }
+        }
+    }
+    write("${data}/recipes/bed_recolour.json", [type: 'ironagefurniture:bed_recolour'])
+    generated
+}

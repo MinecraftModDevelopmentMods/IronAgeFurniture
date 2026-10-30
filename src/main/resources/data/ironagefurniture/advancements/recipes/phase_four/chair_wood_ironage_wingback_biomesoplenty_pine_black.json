@@ -1,0 +1,54 @@
+{
+    "advancements": [
+        {
+            "conditions": [
+                {
+                    "type": "forge:mod_loaded",
+                    "modid": "biomesoplenty"
+                },
+                {
+                    "type": "forge:item_exists",
+                    "item": "biomesoplenty:pine_planks"
+                },
+                {
+                    "type": "ironagefurniture:feature_enabled",
+                    "feature": "wingbacks"
+                }
+            ],
+            "advancement": {
+                "parent": "minecraft:recipes/root",
+                "criteria": {
+                    "has_ingredient": {
+                        "trigger": "minecraft:inventory_changed",
+                        "conditions": {
+                            "items": [
+                                {
+                                    "items": [
+                                        "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_pine"
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    "has_the_recipe": {
+                        "trigger": "minecraft:recipe_unlocked",
+                        "conditions": {
+                            "recipe": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_pine_black"
+                        }
+                    }
+                },
+                "requirements": [
+                    [
+                        "has_ingredient",
+                        "has_the_recipe"
+                    ]
+                ],
+                "rewards": {
+                    "recipes": [
+                        "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_pine_black"
+                    ]
+                }
+            }
+        }
+    ]
+}

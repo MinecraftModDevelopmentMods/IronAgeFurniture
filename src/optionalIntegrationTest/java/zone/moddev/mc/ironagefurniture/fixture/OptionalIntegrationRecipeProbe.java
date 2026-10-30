@@ -54,21 +54,21 @@ public final class OptionalIntegrationRecipeProbe
                         "biomesoplenty:maple_planks",
                         "biomesoplenty:pine_planks")
                 .stream()
-                .map(ResourceLocation::parse)
+                .map(ResourceLocation::new)
                 .filter(ForgeRegistries.ITEMS::containsKey)
                 .count();
-        int expectedBopCount = 390 + (extendedBopWoods * 39);
+        int expectedBopCount = 1350 + (extendedBopWoods * 135);
         require(recipes.getOrDefault("biomesoplenty", 0) == expectedBopCount,
                 "Expected " + expectedBopCount + " BOP recipes, found "
                         + recipes.getOrDefault("biomesoplenty", 0));
         require(advancements.getOrDefault("biomesoplenty", 0) == expectedBopCount,
                 "Expected " + expectedBopCount + " BOP advancements, found "
                         + advancements.getOrDefault("biomesoplenty", 0));
-        require(recipeCount == 990 + expectedBopCount,
-                "Expected " + (990 + expectedBopCount)
+        require(recipeCount == 3390 + expectedBopCount,
+                "Expected " + (3390 + expectedBopCount)
                         + " conditional recipes, found " + recipeCount);
-        require(advancementCount == 974 + expectedBopCount,
-                "Expected " + (974 + expectedBopCount)
+        require(advancementCount == 3390 + expectedBopCount,
+                "Expected " + (3390 + expectedBopCount)
                         + " conditional advancements, found " + advancementCount);
 
         writeMarker(versions, recipes, advancements, recipeCount, advancementCount);
@@ -147,8 +147,8 @@ public final class OptionalIntegrationRecipeProbe
                 require(parts.length == 2, "Invalid probe entry: " + line);
                 String[] selector = parts[0].split("\\|", 2);
                 ResourceLocation requiredItem = selector.length == 2
-                        ? ResourceLocation.parse(selector[1]) : null;
-                result.add(new ExpectedEntry(selector[0], ResourceLocation.parse(parts[1]),
+                        ? new ResourceLocation(selector[1]) : null;
+                result.add(new ExpectedEntry(selector[0], new ResourceLocation(parts[1]),
                         requiredItem));
             }
         }

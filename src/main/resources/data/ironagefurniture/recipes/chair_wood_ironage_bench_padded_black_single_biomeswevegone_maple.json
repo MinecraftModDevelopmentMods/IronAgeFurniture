@@ -1,20 +1,25 @@
 {
-  "type": "crafting_shapeless",
-  "conditions": [
-    {
-      "modid": "biomeswevegone",
-      "type": "forge:mod_loaded"
-    }
-  ],
-  "ingredients": [
-    {
-      "item": "minecraft:black_carpet"
+    "type": "crafting_shapeless",
+    "conditions": [
+        {
+            "modid": "biomeswevegone",
+            "type": "forge:mod_loaded"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "benches"
+        }
+    ],
+    "ingredients": [
+        {
+            "item": "minecraft:black_carpet"
+        },
+        {
+            "item": "ironagefurniture:chair_wood_ironage_bench_single_biomeswevegone_maple"
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_bench_padded_black_single_biomeswevegone_maple"
     },
-    {
-      "item": "ironagefurniture:chair_wood_ironage_bench_single_biomeswevegone_maple"
-    }
-  ],
-  "result": {
-    "item": "ironagefurniture:chair_wood_ironage_bench_padded_black_single_biomeswevegone_maple"
-  }
+    "group": "ironagefurniture:chair_wood_ironage_bench_padded_black_single_biomeswevegone_maple"
 }

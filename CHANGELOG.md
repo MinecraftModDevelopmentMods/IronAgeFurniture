@@ -1,3 +1,16 @@
+# IronAgeFurniture 0.4.1.120011
+
+- Bring Phase 4 to Minecraft 1.20.1 and Forge 47.4.10 on Java 17.
+- Add wingback chairs, thrones, single and double wooden beds, and canopy beds in all sixteen upholstery colours.
+- Add removable shields with their saved details, empty wooden frames, mixed-colour candle sconces and fixed-metal frames.
+- Keep separate recipe-book entries, ingredient discovery, four creative tabs and server-controlled gameplay settings.
+- Add the copper ingot fallback: five ingots make 32 sconces when copper nuggets are unavailable; five nuggets still make four.
+- Keep glass lamps and lamp sconces transparent in Fast and Fancy graphics.
+- Retain all eleven vanilla, thirteen BOP and twenty-four BWG wood families, plus IE treated wood and the existing BOP 18/19 version checks.
+- Include all seventeen language files and hidden HUD names, with native 1.20.1 item NBT and older furniture recovery.
+- Fix loading saved player advancement progress and keep older recipe history when saving.
+- Speed up Eclipse sync by updating changed files instead of recopying the whole furniture catalog.
+
 # IronAgeFurniture 0.3.0.120011
 
 First IronAgeFurniture release for Minecraft 1.20.1 and Forge 47.4.10.

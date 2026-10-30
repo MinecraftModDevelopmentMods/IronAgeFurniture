@@ -1,0 +1,26 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_left_biomesoplenty_mahogany_orange",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_mahogany_orange"
+        },
+        {
+            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_mahogany_orange"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_mahogany_orange"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
+        }
+    ]
+}
