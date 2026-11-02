@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_bed_wood_foot",
+    "textures": {
+        "log": "minecraft:block/warped_stem",
+        "planks": "minecraft:block/warped_planks",
+        "particle": "minecraft:block/warped_stem",
+        "cloth": "minecraft:block/light_gray_wool"
+    }
+}

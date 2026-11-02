@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_chair_wingback_upper",
+    "textures": {
+        "log": "minecraft:block/crimson_stem",
+        "planks": "minecraft:block/crimson_planks",
+        "particle": "minecraft:block/crimson_stem",
+        "cloth": "minecraft:block/green_wool"
+    }
+}

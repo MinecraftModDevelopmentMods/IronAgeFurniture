@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_dead_red",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_dead"
+        },
+        {
+            "item": "biomesoplenty:dead_planks"
+        },
+        {
+            "item": "minecraft:red_carpet"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_dead"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "wingbacks"
+        }
+    ]
+}

@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_bed_wood_single_inventory",
+    "textures": {
+        "log": "byg:block/skyris_log",
+        "planks": "byg:block/skyris_planks",
+        "particle": "byg:block/skyris_log",
+        "cloth": "minecraft:block/yellow_wool"
+    }
+}

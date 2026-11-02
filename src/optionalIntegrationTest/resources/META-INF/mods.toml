@@ -24,7 +24,7 @@ side="SERVER"
 [[dependencies.ironagefurnitureintegrationprobe]]
 modId="ironagefurniture"
 mandatory=true
-versionRange="[0.3.0.118021]"
+versionRange="[0.4.1.118021]"
 ordering="AFTER"
 side="SERVER"
 
@@ -38,6 +38,8 @@ side="SERVER"
 [[dependencies.ironagefurnitureintegrationprobe]]
 modId="byg"
 mandatory=true
+# The published 1.5.1 jar still reports 1.4 in its loader metadata.
+# The verification manifest pins the published file by SHA-256.
 versionRange="[1.4]"
 ordering="AFTER"
 side="SERVER"

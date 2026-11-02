@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_left_lower_acacia_blue",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_canopy_foot_lower_acacia_blue"
+        },
+        {
+            "item": "ironagefurniture:bed_canopy_foot_lower_acacia_blue"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "item": "ironagefurniture:bed_canopy_foot_left_lower_acacia_blue"
+    },
+    "conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "canopyBeds"
+        }
+    ]
+}

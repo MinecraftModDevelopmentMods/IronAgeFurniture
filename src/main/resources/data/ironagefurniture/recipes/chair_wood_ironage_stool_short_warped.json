@@ -1,5 +1,6 @@
 {
     "type": "minecraft:crafting_shaped",
+    "group": "ironagefurniture:chair_wood_ironage_stool_short_warped",
     "pattern": [
         " x ",
         "yyy"
@@ -15,5 +16,11 @@
     "result": {
         "item": "ironagefurniture:chair_wood_ironage_stool_short_warped",
         "count": 1
-    }
+    },
+    "conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "stools"
+        }
+    ]
 }

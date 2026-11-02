@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_wingback_byg_jacaranda_magenta",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:chair_wood_ironage_classic_byg_jacaranda"
+        },
+        {
+            "item": "byg:jacaranda_planks"
+        },
+        {
+            "item": "minecraft:magenta_carpet"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "item": "ironagefurniture:chair_wood_ironage_wingback_byg_jacaranda_magenta"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "byg"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "wingbacks"
+        }
+    ]
+}

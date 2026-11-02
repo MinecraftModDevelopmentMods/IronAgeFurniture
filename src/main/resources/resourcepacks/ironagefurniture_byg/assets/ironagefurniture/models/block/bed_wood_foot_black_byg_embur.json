@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_bed_wood_foot",
+    "textures": {
+        "log": "byg:block/embur_planks",
+        "planks": "byg:block/embur_planks",
+        "particle": "byg:block/embur_planks",
+        "cloth": "minecraft:block/black_wool"
+    }
+}

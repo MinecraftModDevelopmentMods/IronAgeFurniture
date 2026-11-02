@@ -1,0 +1,25 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_throne_spruce_lime",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_spruce_lime"
+        },
+        {
+            "item": "minecraft:spruce_planks"
+        },
+        {
+            "item": "minecraft:lime_carpet"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "item": "ironagefurniture:chair_wood_ironage_throne_spruce_lime"
+    },
+    "conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "thrones"
+        }
+    ]
+}

@@ -1,0 +1,26 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_left_lower_immersiveengineering_treated_wood_black",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_canopy_foot_lower_immersiveengineering_treated_wood_black"
+        },
+        {
+            "item": "ironagefurniture:bed_canopy_foot_lower_immersiveengineering_treated_wood_black"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "item": "ironagefurniture:bed_canopy_foot_left_lower_immersiveengineering_treated_wood_black"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "immersiveengineering"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "canopyBeds"
+        }
+    ]
+}

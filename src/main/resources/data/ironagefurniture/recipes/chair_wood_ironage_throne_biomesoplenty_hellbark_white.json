@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_hellbark_white",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_hellbark_white"
+        },
+        {
+            "item": "biomesoplenty:hellbark_planks"
+        },
+        {
+            "item": "minecraft:white_carpet"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "item": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_hellbark_white"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "thrones"
+        }
+    ]
+}

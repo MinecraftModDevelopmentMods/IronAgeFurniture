@@ -1,0 +1,28 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "group": "ironagefurniture:light_metal_ironage_sconce_floor_empty_basemetals_adamantine",
+    "pattern": [
+        "xxx",
+        "x  ",
+        "x  "
+    ],
+    "key": {
+        "x": {
+            "tag": "forge:nuggets/adamantine"
+        }
+    },
+    "result": {
+        "count": 4,
+        "item": "ironagefurniture:light_metal_ironage_sconce_floor_empty_basemetals_adamantine"
+    },
+    "conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "lights"
+        },
+        {
+            "type": "ironagefurniture:metal_available",
+            "metal": "adamantine"
+        }
+    ]
+}

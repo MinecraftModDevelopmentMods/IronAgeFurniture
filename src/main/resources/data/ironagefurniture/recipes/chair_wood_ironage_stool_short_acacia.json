@@ -1,5 +1,6 @@
 {
     "type": "minecraft:crafting_shaped",
+    "group": "ironagefurniture:chair_wood_ironage_stool_short_acacia",
     "pattern": [
         " x ",
         "yyy"
@@ -15,5 +16,11 @@
     "result": {
         "item": "ironagefurniture:chair_wood_ironage_stool_short_acacia",
         "count": 1
-    }
+    },
+    "conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "stools"
+        }
+    ]
 }

@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_left_jungle_cyan",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_jungle_cyan"
+        },
+        {
+            "item": "ironagefurniture:bed_wood_foot_jungle_cyan"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "item": "ironagefurniture:bed_wood_foot_left_jungle_cyan"
+    },
+    "conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
+        }
+    ]
+}

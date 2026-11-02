@@ -2,17 +2,17 @@ package zone.moddev.mc.ironagefurniture.api.blocks.lightsource.glow;
 
 import zone.moddev.mc.ironagefurniture.api.blocks.base.FurnitureBlock;
 import zone.moddev.mc.ironagefurniture.api.blocks.lightsource.torch.LightSourceSconceTorchFloor;
+import zone.moddev.mc.ironagefurniture.init.ModVanillaLights;
+
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlockContainer;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import zone.moddev.mc.ironagefurniture.BlockObjectHolder;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -34,7 +34,7 @@ public class LightSourceSconceGlowFloor extends LightSourceSconceTorchFloor impl
 
 	@Override
 	protected Block LightDrop() {
-		return BlockObjectHolder.light_metal_ironage_block_floor_glow_clear;
+		return ModVanillaLights.light_metal_ironage_block_floor_glow_clear.get();
 	}
 
 	public LightSourceSconceGlowFloor(BlockBehaviour.Properties properties) {
@@ -45,11 +45,11 @@ public class LightSourceSconceGlowFloor extends LightSourceSconceTorchFloor impl
 	}
 
 	public LightSourceSconceGlowFloor(float hardness, float blastResistance, SoundType sound, String name) {
-		super(Block.Properties.of(Material.METAL).strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> 14) );
+		super(Block.Properties.of(net.minecraft.world.level.material.Material.METAL).strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> 14) );
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
-		this.setRegistryName(name);
+		//this.setRegistryName(name);
 	}
 
 	@Override

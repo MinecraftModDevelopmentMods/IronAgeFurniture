@@ -2,10 +2,15 @@
     "type": "minecraft:crafting_shaped",
     "conditions": [
         {
-            "type": "forge:mod_loaded",
-            "modid": "immersiveengineering"
+            "modid": "immersiveengineering",
+            "type": "forge:mod_loaded"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "stools"
         }
     ],
+    "group": "ironagefurniture:chair_wood_ironage_stool_tall_immersiveengineering_treated_wood",
     "pattern": [
         " x ",
         "yyy",

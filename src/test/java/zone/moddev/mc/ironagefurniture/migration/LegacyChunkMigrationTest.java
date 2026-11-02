@@ -47,7 +47,7 @@ public class LegacyChunkMigrationTest {
 		blockEntities.add(modern);
 		level.put("TileEntities", blockEntities);
 
-		assertEquals(2, LegacyWorldDataHook.normalizeLegacyVanillaBlockEntityIds(level));
+		assertEquals(2, LegacyWorldDataHook.normalizeLegacyVanillaTileEntityIds(level));
 		assertEquals("minecraft:chest", blockEntities.getCompound(0).getString("id"));
 		assertEquals("minecraft:furnace", blockEntities.getCompound(1).getString("id"));
 		assertEquals("minecraft:barrel", blockEntities.getCompound(2).getString("id"));

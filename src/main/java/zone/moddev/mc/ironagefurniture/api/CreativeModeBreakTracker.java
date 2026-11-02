@@ -6,84 +6,103 @@ import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
 
+import zone.moddev.mc.ironagefurniture.init.ModVanillaLights;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import zone.moddev.mc.ironagefurniture.BlockObjectHolder;
+import net.minecraftforge.event.world.BlockEvent;
 
 /**
  * Associates a falling lava light with the creative-mode support break that
- * caused it. This avoids suppressing a survival lamp merely because another
- * creative player happens to be nearby.
+ * caused it. This avoids treating an unrelated nearby creative player as the
+ * cause of a survival player's falling lamp.
  */
-public final class CreativeModeBreakTracker {
-    private static final long RECENT_BREAK_TICKS = 200L;
-    private static final Map<Level, List<BreakRecord>> BREAKS = new WeakHashMap<>();
+public class CreativeModeBreakTracker {
+	private static final long RECENT_BREAK_TICKS = 200L;
+	private static final Map<Level, List<BreakRecord>> BREAKS = new WeakHashMap<>();
 
-    @SubscribeEvent
-    public void onBlockBreak(BlockEvent.BreakEvent event) {
-        Player player = event.getPlayer();
+	@SubscribeEvent
+	public void onBlockBreak(BlockEvent.BreakEvent event) {
+		Player player = event.getPlayer();
 
-        if (!(event.getWorld() instanceof Level) || player == null || !player.getAbilities().instabuild)
-            return;
+		if (!(event.getWorld() instanceof Level level) || level.isClientSide || player == null)
+			return;
 
-        Level level = (Level) event.getWorld();
-        if (!level.isClientSide && isNearLavaFallingLight(level, event.getPos()))
-            remember(level, event.getPos());
-    }
+		// A later survival break at the same support must not inherit earlier Creative authority.
+		List<BreakRecord> records = BREAKS.get(level);
+		long now = level.getGameTime();
+		if (records != null) records.removeIf(record -> now - record.time > RECENT_BREAK_TICKS || record.pos.equals(event.getPos()));
+		if (player.isCreative() && isNearLavaFallingLight(level, event.getPos()))
+			remember(level, event.getPos());
+	}
 
-    public static boolean shouldSuppressFallingLavaBreak(Level level, BlockPos landingPos) {
-        List<BreakRecord> breaks = BREAKS.get(level);
-        if (breaks == null)
-            return false;
+	/** Snapshot the exact synchronous support-break cause into every released vial. */
+	public static boolean isCreativeSupportBreak(Level level, BlockPos support) {
+		List<BreakRecord> records = BREAKS.get(level);
+		if (records == null) return false;
+		long now = level.getGameTime();
+		return records.stream().anyMatch(record -> record.time == now && record.pos.equals(support));
+	}
 
-        long now = level.getGameTime();
-        Iterator<BreakRecord> iterator = breaks.iterator();
-        while (iterator.hasNext()) {
-            BreakRecord record = iterator.next();
-            if (now - record.time > RECENT_BREAK_TICKS) {
-                iterator.remove();
-                continue;
-            }
+	public static boolean shouldSuppressFallingLavaBreak(Level level, BlockPos landingPos) {
+		List<BreakRecord> breaks = BREAKS.get(level);
 
-            if (Math.abs(record.pos.getX() - landingPos.getX()) <= 1
-                    && Math.abs(record.pos.getZ() - landingPos.getZ()) <= 1
-                    && record.pos.getY() >= landingPos.getY()) {
-                iterator.remove();
-                return true;
-            }
-        }
+		if (breaks == null)
+			return false;
 
-        return false;
-    }
+		long now = level.getGameTime();
+		Iterator<BreakRecord> iterator = breaks.iterator();
 
-    private static void remember(Level level, BlockPos pos) {
-        BREAKS.computeIfAbsent(level, ignored -> new ArrayList<>())
-                .add(new BreakRecord(pos.immutable(), level.getGameTime()));
-    }
+		while (iterator.hasNext()) {
+			BreakRecord record = iterator.next();
 
-    private static boolean isNearLavaFallingLight(Level level, BlockPos pos) {
-        if (isLavaFallingLight(level.getBlockState(pos.above()).getBlock())
-                || isLavaFallingLight(level.getBlockState(pos.below()).getBlock()))
-            return true;
+			if (now - record.time > RECENT_BREAK_TICKS) {
+				iterator.remove();
+				continue;
+			}
 
-        for (Direction direction : Direction.Plane.HORIZONTAL) {
-            if (isLavaFallingLight(level.getBlockState(pos.relative(direction)).getBlock()))
-                return true;
-        }
-        return false;
-    }
+			// Released holders already carry their own causal snapshot. Their record must
+			// never protect a different standalone lamp that happens to land nearby later.
+			if (record.standalone && Math.abs(record.pos.getX() - landingPos.getX()) <= 1
+					&& Math.abs(record.pos.getZ() - landingPos.getZ()) <= 1
+					&& record.pos.getY() >= landingPos.getY()) {
+				iterator.remove();
+				return true;
+			}
+		}
 
-    private static boolean isLavaFallingLight(Block block) {
-        return block == BlockObjectHolder.light_metal_ironage_block_floor_lava_clear
-                || block == BlockObjectHolder.light_metal_ironage_sconce_floor_lava_iron
-                || block == BlockObjectHolder.light_metal_ironage_sconce_wall_lava_iron;
-    }
+		return false;
+	}
 
-    private record BreakRecord(BlockPos pos, long time) {
-    }
+	private static void remember(Level level, BlockPos pos) {
+		BREAKS.computeIfAbsent(level, ignored -> new ArrayList<>())
+			.add(new BreakRecord(pos.immutable(), level.getGameTime(),
+				level.getBlockState(pos.above()).is(ModVanillaLights.light_metal_ironage_block_floor_lava_clear.get())));
+	}
+
+	private static boolean isNearLavaFallingLight(Level level, BlockPos pos) {
+		if (isLavaFallingLight(level.getBlockState(pos.above()).getBlock())
+				|| isLavaFallingLight(level.getBlockState(pos.below()).getBlock()))
+			return true;
+
+		for (Direction direction : Direction.Plane.HORIZONTAL) {
+			if (isLavaFallingLight(level.getBlockState(pos.relative(direction)).getBlock()))
+				return true;
+		}
+
+		return false;
+	}
+
+	private static boolean isLavaFallingLight(Block block) {
+		return block == ModVanillaLights.light_metal_ironage_block_floor_lava_clear.get()
+			|| block instanceof zone.moddev.mc.ironagefurniture.api.blocks.lightsource.lava.LightSourceSconceLavaFloor
+			|| block instanceof zone.moddev.mc.ironagefurniture.api.blocks.lightsource.lava.LightSourceSconceLavaWall;
+	}
+
+	private record BreakRecord(BlockPos pos, long time, boolean standalone) {
+	}
 }

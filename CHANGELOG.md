@@ -1,3 +1,16 @@
+# IronAgeFurniture 0.4.1.118021
+
+- Bring Phase 4 to Minecraft 1.18.2 and Forge 40.3.0 on Java 17.
+- Add wingback chairs, thrones, wooden beds and canopies in all sixteen upholstery colours.
+- Add removable shields, empty frames, mixed-colour candle sconces and fixed-metal frames.
+- Keep separate recipe-book entries, ingredient discovery, four creative tabs and server-controlled settings.
+- Keep the copper fallback: five ingots make 32 sconces when nuggets are unavailable; five nuggets make four.
+- Keep transparent lamp glass and all eight vanilla, eleven BOP and twenty-seven BYG wood families, plus IE treated wood.
+- Include all seventeen language files and native item NBT and advancement recovery.
+- Keep the incremental Eclipse sync and separate compiler/runtime output folders.
+- Fix opening existing worlds without the obsolete migration transformer.
+- Fix shield-chair crafting and keep the shield's patterns, name, enchantments and other saved details.
+
 # IronAgeFurniture 0.3.0.118021
 
 Phase 3 lighting release for Minecraft 1.18.2 and Forge 40.3.0.
