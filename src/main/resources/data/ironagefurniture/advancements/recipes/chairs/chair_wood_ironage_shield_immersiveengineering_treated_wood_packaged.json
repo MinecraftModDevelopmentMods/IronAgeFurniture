@@ -1,0 +1,51 @@
+{
+    "advancements": [
+        {
+            "conditions": [
+                {
+                    "modid": "immersiveengineering",
+                    "type": "forge:mod_loaded"
+                },
+                {
+                    "type": "ironagefurniture:feature_enabled",
+                    "feature": "shieldChairs"
+                }
+            ],
+            "advancement": {
+                "parent": "minecraft:recipes/root",
+                "criteria": {
+                    "has_ingredient": {
+                        "trigger": "minecraft:inventory_changed",
+                        "conditions": {
+                            "items": [
+                                {
+                                    "items": [
+                                        "ironagefurniture:chair_wood_ironage_classic_immersiveengineering_treated_wood",
+                                        "minecraft:shield"
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    "has_the_recipe": {
+                        "trigger": "minecraft:recipe_unlocked",
+                        "conditions": {
+                            "recipe": "ironagefurniture:chair_wood_ironage_shield_immersiveengineering_treated_wood_packaged"
+                        }
+                    }
+                },
+                "requirements": [
+                    [
+                        "has_ingredient",
+                        "has_the_recipe"
+                    ]
+                ],
+                "rewards": {
+                    "recipes": [
+                        "ironagefurniture:chair_wood_ironage_shield_immersiveengineering_treated_wood_packaged"
+                    ]
+                }
+            }
+        }
+    ]
+}

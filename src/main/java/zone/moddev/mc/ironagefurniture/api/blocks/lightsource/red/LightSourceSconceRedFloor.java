@@ -1,14 +1,16 @@
 package zone.moddev.mc.ironagefurniture.api.blocks.lightsource.red;
 
 import com.google.common.collect.Lists;
-import zone.moddev.mc.ironagefurniture.BlockObjectHolder;
 import zone.moddev.mc.ironagefurniture.api.blocks.base.FurnitureBlock;
 import zone.moddev.mc.ironagefurniture.api.blocks.lightsource.glow.LightSourceSconceGlowFloor;
+import zone.moddev.mc.ironagefurniture.init.ModVanillaLights;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.server.level.ServerLevel;
+import java.util.Random;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -16,11 +18,9 @@ import net.minecraft.world.level.block.LiquidBlockContainer;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.material.Material;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.WeakHashMap;
 
 public class LightSourceSconceRedFloor extends LightSourceSconceGlowFloor implements LiquidBlockContainer {
@@ -42,7 +42,7 @@ public class LightSourceSconceRedFloor extends LightSourceSconceGlowFloor implem
 
 	@Override
 	protected Block LightDrop() {
-		return BlockObjectHolder.light_metal_ironage_block_floor_red_clear;
+		return ModVanillaLights.light_metal_ironage_block_floor_red_clear.get();
 	}
 
 	@Override
@@ -64,11 +64,11 @@ public class LightSourceSconceRedFloor extends LightSourceSconceGlowFloor implem
 	}
 
 	public LightSourceSconceRedFloor(float hardness, float blastResistance, SoundType sound, String name) {
-		super(Block.Properties.of(Material.METAL).strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> LIGHT_LEVEL) );
+		super(Block.Properties.of(net.minecraft.world.level.material.Material.METAL).strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> LIGHT_LEVEL) );
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
-		this.setRegistryName(name);
+		//this.setRegistryName(name);
 		this.flameParticle = DustParticleOptions.REDSTONE;
 	}
 
@@ -98,37 +98,37 @@ public class LightSourceSconceRedFloor extends LightSourceSconceGlowFloor implem
 	protected LightSourceSconceRedFloor getBlockBySignalLevel(int level) {
 		switch (level) {
 			case 1:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_one;
+				return (LightSourceSconceRedFloor) ModVanillaLights.light_metal_ironage_sconce_floor_red_iron_one.get();
 			case 2:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_two;
+				return (LightSourceSconceRedFloor) ModVanillaLights.light_metal_ironage_sconce_floor_red_iron_two.get();
 			case 3:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_three;
+				return (LightSourceSconceRedFloor) ModVanillaLights.light_metal_ironage_sconce_floor_red_iron_three.get();
 			case 4:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_four;
+				return (LightSourceSconceRedFloor) ModVanillaLights.light_metal_ironage_sconce_floor_red_iron_four.get();
 			case 5:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_five;
+				return (LightSourceSconceRedFloor) ModVanillaLights.light_metal_ironage_sconce_floor_red_iron_five.get();
 			case 6:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_six;
+				return (LightSourceSconceRedFloor) ModVanillaLights.light_metal_ironage_sconce_floor_red_iron_six.get();
 			case 7:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_seven;
+				return (LightSourceSconceRedFloor) ModVanillaLights.light_metal_ironage_sconce_floor_red_iron_seven.get();
 			case 8:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_eight;
+				return (LightSourceSconceRedFloor) ModVanillaLights.light_metal_ironage_sconce_floor_red_iron_eight.get();
 			case 9:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_nine;
+				return (LightSourceSconceRedFloor) ModVanillaLights.light_metal_ironage_sconce_floor_red_iron_nine.get();
 			case 10:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_ten;
+				return (LightSourceSconceRedFloor) ModVanillaLights.light_metal_ironage_sconce_floor_red_iron_ten.get();
 			case 11:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_eleven;
+				return (LightSourceSconceRedFloor) ModVanillaLights.light_metal_ironage_sconce_floor_red_iron_eleven.get();
 			case 12:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_twelve;
+				return (LightSourceSconceRedFloor) ModVanillaLights.light_metal_ironage_sconce_floor_red_iron_twelve.get();
 			case 13:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_thirteen;
+				return (LightSourceSconceRedFloor) ModVanillaLights.light_metal_ironage_sconce_floor_red_iron_thirteen.get();
 			case 14:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_fourteen;
+				return (LightSourceSconceRedFloor) ModVanillaLights.light_metal_ironage_sconce_floor_red_iron_fourteen.get();
 			case 15:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_fifteen;
+				return (LightSourceSconceRedFloor) ModVanillaLights.light_metal_ironage_sconce_floor_red_iron_fifteen.get();
 			default:
-				return (LightSourceSconceRedFloor) BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron;
+				return (LightSourceSconceRedFloor) ModVanillaLights.light_metal_ironage_sconce_floor_red_iron.get();
 		}
 	}
 
@@ -144,9 +144,7 @@ public class LightSourceSconceRedFloor extends LightSourceSconceGlowFloor implem
 			LightSourceSconceRedFloor newBlock = getBlockBySignalLevel(signal);
 
 			level.setBlock(pos,
-				newBlock.defaultBlockState()
-					.setValue(DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
-					.setValue(WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)),
+				zone.moddev.mc.ironagefurniture.api.SconceMetalData.transition(newBlock, state),
 				UPDATE_ALL);
 
 			Block block = level.getBlockState(pos).getBlock();

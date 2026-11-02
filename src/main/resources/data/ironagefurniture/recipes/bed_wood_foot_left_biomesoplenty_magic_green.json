@@ -1,0 +1,26 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_left_biomesoplenty_magic_green",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_magic_green"
+        },
+        {
+            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_magic_green"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "item": "ironagefurniture:bed_wood_foot_left_biomesoplenty_magic_green"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
+        }
+    ]
+}

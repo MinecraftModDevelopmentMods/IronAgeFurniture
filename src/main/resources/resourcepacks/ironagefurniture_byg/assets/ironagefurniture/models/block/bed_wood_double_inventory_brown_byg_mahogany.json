@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_bed_wood_double_inventory",
+    "textures": {
+        "log": "byg:block/mahogany_log",
+        "planks": "byg:block/mahogany_planks",
+        "particle": "byg:block/mahogany_log",
+        "cloth": "minecraft:block/brown_wool"
+    }
+}

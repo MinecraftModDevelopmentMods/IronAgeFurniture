@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_chair_throne_middle",
+    "textures": {
+        "log": "byg:block/zelkova_log",
+        "planks": "byg:block/zelkova_planks",
+        "particle": "byg:block/zelkova_log",
+        "cloth": "minecraft:block/lime_wool"
+    }
+}

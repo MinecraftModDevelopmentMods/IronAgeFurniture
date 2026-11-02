@@ -1,0 +1,9 @@
+{
+    "parent": "ironagefurniture:block/template_bed_wood_foot_left",
+    "textures": {
+        "log": "immersiveengineering:block/wooden_decoration/treated_wood_packaged",
+        "planks": "immersiveengineering:block/wooden_decoration/treated_wood_vertical",
+        "particle": "immersiveengineering:block/wooden_decoration/treated_wood_packaged",
+        "cloth": "minecraft:block/gray_wool"
+    }
+}

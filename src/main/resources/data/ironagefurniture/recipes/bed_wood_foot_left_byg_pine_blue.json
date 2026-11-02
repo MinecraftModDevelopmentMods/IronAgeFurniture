@@ -1,0 +1,26 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_left_byg_pine_blue",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_byg_pine_blue"
+        },
+        {
+            "item": "ironagefurniture:bed_wood_foot_byg_pine_blue"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "item": "ironagefurniture:bed_wood_foot_left_byg_pine_blue"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "byg"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
+        }
+    ]
+}

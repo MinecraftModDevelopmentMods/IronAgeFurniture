@@ -15,7 +15,8 @@
       "version": "1.5.1",
       "file": "Oh_The_Biomes_You'll_Go-forge-1.18.2-1.5.1.jar",
       "sha256": "09530bba0cce33b6b22b0aa3662af954e04f4332d5c80f867e43831623637012",
-      "source": "https://modrinth.com/mod/biomesyougo/version/4Bo5c6or"
+      "source": "https://modrinth.com/mod/biomesyougo/version/4Bo5c6or",
+      "loaderVersion": "1.4"
     },
     {
       "modId": "immersiveengineering",

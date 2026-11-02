@@ -10,6 +10,7 @@ import zone.moddev.mc.ironagefurniture.api.properties.BenchTypeProperty;
 import zone.moddev.mc.ironagefurniture.api.util.Swivel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.Containers;
@@ -29,7 +30,6 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.storage.loot.LootContext.Builder;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
@@ -47,11 +47,11 @@ public class BackBench extends FurnitureBlock {
 	public static final BenchTypeProperty TYPE = BenchTypeProperty.create("type", BenchType.SINGLE, BenchType.LEFT, BenchType.MIDDLE, BenchType.RIGHT);
 
 	public BackBench(float hardness, float blastResistance, SoundType sound, String name) {
-		super(Block.Properties.of(Material.WOOD).strength(hardness, blastResistance).sound(sound));
+		super(Block.Properties.of(net.minecraft.world.level.material.Material.WOOD).strength(hardness, blastResistance).sound(sound));
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
-		this.setRegistryName(name);
+		//this.setRegistryName(name);
 	}
 
 	public BackBench(Properties properties) {
@@ -113,6 +113,10 @@ public class BackBench extends FurnitureBlock {
 		_shapes = builder.build();
 	}
 
+	private ResourceLocation GetResourceLocation(BlockState state) {
+		return Registry.BLOCK.getKey(state.getBlock());
+	}
+	
 	@Override
 	public BlockState getStateForPlacement(BlockPlaceContext context) {
 		Level world = context.getLevel();
@@ -133,7 +137,7 @@ public class BackBench extends FurnitureBlock {
 
 		BlockState blockStateToJoinTo = world.getBlockState(pos.relative(benchAxis));
 
-		if (blockStateToJoinTo.getBlock().getRegistryName().equals(stateForPlacement.getBlock().getRegistryName())) {
+		if (GetResourceLocation(blockStateToJoinTo).equals(GetResourceLocation(stateForPlacement))) {
 			Direction benchFacing = getBenchToJoinToFacing(benchAxis, world, pos);
 
 			boolean defaultFacing = true;
@@ -166,7 +170,7 @@ public class BackBench extends FurnitureBlock {
 	}
 
 	private boolean isIAFBench(BlockState blockstate) {
-		ResourceLocation resource = blockstate.getBlock().getRegistryName();
+		ResourceLocation resource = GetResourceLocation(blockstate);
 
 		return resource.getNamespace().equals("ironagefurniture") && resource.getPath().contains("bench");
 	}
@@ -202,7 +206,7 @@ public class BackBench extends FurnitureBlock {
 			return offset;
 
 		Direction blockFacing = Swivel.Rotate(getBenchDirection(currentlyInspectedBenchState), Rotation.Ninty);
-		String blockName = currentlyInspectedBenchState.getBlock().getRegistryName().getNamespace();
+		String blockName = GetResourceLocation(currentlyInspectedBenchState).getNamespace();
 		currentlyInspectedBlockName = blockName;
 
 		while (isBenchPieceOnAxis(currentlyInspectedBenchType, direction, blockFacing, blockName, currentlyInspectedBlockName)) {
@@ -210,7 +214,7 @@ public class BackBench extends FurnitureBlock {
 
 			currentlyInspectedBenchState = world.getBlockState(pos.relative(direction, offset + 1));
 			currentlyInspectedBenchType = getBenchType(currentlyInspectedBenchState);
-			currentlyInspectedBlockName = currentlyInspectedBenchState.getBlock().getRegistryName().getNamespace();
+			currentlyInspectedBlockName = GetResourceLocation(currentlyInspectedBenchState).getNamespace();
 
 			if (isBenchPiece(currentlyInspectedBenchType))
 				blockFacing = Swivel.Rotate(getBenchDirection(currentlyInspectedBenchState), Rotation.Ninty);
@@ -257,11 +261,11 @@ public class BackBench extends FurnitureBlock {
 			if (workingNegativeOffset == negativeOffset)
 				world.setBlock(workingBlockPos, world.getBlockState(workingBlockPos)
 					.setValue(DIRECTION, benchFacing)
-					.setValue(TYPE, left), 0);
+					.setValue(TYPE, left), Block.UPDATE_ALL);
 			else
 				world.setBlock(workingBlockPos, world.getBlockState(workingBlockPos)
 					.setValue(DIRECTION, benchFacing)
-					.setValue(TYPE, BenchType.MIDDLE), 0);
+					.setValue(TYPE, BenchType.MIDDLE), Block.UPDATE_ALL);
 
 			workingNegativeOffset--;
 		}
@@ -277,11 +281,11 @@ public class BackBench extends FurnitureBlock {
 			if (workingPositiveOffset == positiveOffset)
 				world.setBlock(workingBlockPos, world.getBlockState(workingBlockPos)
 					.setValue(DIRECTION, benchFacing)
-					.setValue(TYPE, right), 0);
+					.setValue(TYPE, right), Block.UPDATE_ALL);
 			else
 				world.setBlock(workingBlockPos, world.getBlockState(workingBlockPos)
 					.setValue(DIRECTION, benchFacing)
-					.setValue(TYPE, BenchType.MIDDLE), 0);
+					.setValue(TYPE, BenchType.MIDDLE), Block.UPDATE_ALL);
 
 			workingPositiveOffset--;
 		}
@@ -409,7 +413,7 @@ public class BackBench extends FurnitureBlock {
 				BlockState offsetBlockState = traceBench2(benchAxis, worldIn, pos.relative(benchAxis), worldIn.getBlockState(pos.relative(benchAxis)), benchFacing);
 
 				if (isBenchPiece(getBenchType(offsetBlockState)))
-					worldIn.setBlock(pos.relative(benchAxis), offsetBlockState, 0);
+					worldIn.setBlock(pos.relative(benchAxis), offsetBlockState, Block.UPDATE_ALL);
 			}
 		}
 
@@ -427,7 +431,7 @@ public class BackBench extends FurnitureBlock {
 		BlockState reverseOffsetBlockState = traceBench2(benchAxis.getOpposite(), worldIn, pos.relative(benchAxis.getOpposite()), worldIn.getBlockState(pos.relative(benchAxis.getOpposite())), benchFacing);
 
 		if (isBenchPiece(getBenchType(reverseOffsetBlockState)))
-			worldIn.setBlock(pos.relative(benchAxis.getOpposite()), reverseOffsetBlockState, 0);
+			worldIn.setBlock(pos.relative(benchAxis.getOpposite()), reverseOffsetBlockState, Block.UPDATE_ALL);
 	}
 
 	@Override
@@ -464,6 +468,12 @@ public class BackBench extends FurnitureBlock {
 
 	@Override
 	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult rayTraceResult) {
-		return Seat.create(world, pos, 0.3, player);
+		return Seat.create(world, pos, seatYOffset(), player);
+	}
+
+
+
+	protected double seatYOffset() {
+		return 0.3;
 	}
 }

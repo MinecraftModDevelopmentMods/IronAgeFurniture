@@ -2,10 +2,15 @@
     "type": "minecraft:crafting_shaped",
     "conditions": [
         {
-            "type": "forge:mod_loaded",
-            "modid": "byg"
+            "modid": "byg",
+            "type": "forge:mod_loaded"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "classicChairs"
         }
     ],
+    "group": "ironagefurniture:chair_wood_ironage_classic_byg_mahogany",
     "pattern": [
         "x  ",
         "xxx",
