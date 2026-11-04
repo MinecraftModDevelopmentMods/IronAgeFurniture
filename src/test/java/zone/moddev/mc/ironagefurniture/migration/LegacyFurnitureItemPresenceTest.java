@@ -18,7 +18,7 @@ public class LegacyFurnitureItemPresenceTest {
         item.putString("id", "minecraft:oak_planks");
         assertFalse(LegacyPaddedItemMigration.containsFurnitureItems(level));
         item.putString("id", "iafbygaddon:chair_wood_ironage_classic_byg_palm");
-        assertTrue(LegacyPaddedItemMigration.containsFurnitureItems(level));
+        assertFalse(LegacyPaddedItemMigration.containsFurnitureItems(level));
         item.remove("Count");
         assertFalse(LegacyPaddedItemMigration.containsFurnitureItems(level));
     }

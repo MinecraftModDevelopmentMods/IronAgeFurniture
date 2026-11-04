@@ -1,29 +1,25 @@
 {
     "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_throne_jungle_brown",
     "ingredients": [
         {
-            "item": "minecraft:brown_carpet"
+            "item": "ironagefurniture:chair_wood_ironage_wingback_jungle_brown"
         },
         {
             "item": "minecraft:jungle_planks"
         },
         {
-            "item": "ironagefurniture:chair_wood_ironage_wingback_jungle_brown"
+            "item": "minecraft:brown_carpet"
         }
     ],
-    "group": "ironagefurniture:chair_wood_ironage_throne_jungle_brown",
     "result": {
-        "item": "ironagefurniture:chair_wood_ironage_throne_jungle_brown",
-        "count": 1
+        "count": 1,
+        "item": "ironagefurniture:chair_wood_ironage_throne_jungle_brown"
     },
     "conditions": [
         {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:chair_wood_ironage_throne_jungle"
-        },
-        {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:chair_wood_ironage_wingback_jungle"
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "thrones"
         }
     ]
 }

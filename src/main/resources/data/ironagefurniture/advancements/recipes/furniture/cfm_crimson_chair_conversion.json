@@ -11,8 +11,8 @@
                     "item": "cfm:crimson_chair"
                 },
                 {
-                    "type": "forge:item_exists",
-                    "item": "ironagefurniture:chair_wood_ironage_classic_crimson"
+                    "type": "ironagefurniture:feature_enabled",
+                    "feature": "classicChairs"
                 }
             ],
             "advancement": {

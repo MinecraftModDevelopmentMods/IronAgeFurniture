@@ -7,10 +7,11 @@ final class LegacyPaletteData {
     private LegacyPaletteData() { }
 
     static BitStorage read(int bits, long[] data) {
+        if (bits < 1 || bits > 32) return null;
         int perLong = 64 / bits;
-        if (data.length == (4096 + perLong - 1) / perLong) return new BitStorage(bits, 4096, data);
+        if (data.length == (4096 + perLong - 1) / perLong) return new net.minecraft.util.BitStorage(bits, 4096, data);
         if (data.length != (4096 * bits + 63) / 64) return null;
-        BitStorage result = new BitStorage(bits, 4096);
+        BitStorage result = new net.minecraft.util.BitStorage(bits, 4096);
         long mask = (1L << bits) - 1;
         for (int cell = 0; cell < 4096; cell++) {
             int word = cell * bits / 64, offset = cell * bits % 64;

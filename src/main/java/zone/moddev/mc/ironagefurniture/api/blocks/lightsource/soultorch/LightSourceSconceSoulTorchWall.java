@@ -10,7 +10,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
 import oshi.util.tuples.Pair;
 
 import java.util.Random;
@@ -20,19 +19,19 @@ public class LightSourceSconceSoulTorchWall extends LightSourceSconceTorchWall {
 		super(properties);
 
 		this.registerDefaultState(
-			this.defaultBlockState().setValue(FurnitureBlock.DIRECTION, Direction.NORTH).setValue(FurnitureBlock.WATERLOGGED, false));
+			this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH).setValue(FurnitureBlock.WATERLOGGED, false));
 
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
 		this.flameParticle = ParticleTypes.SOUL_FIRE_FLAME;
 	}
 
 	public LightSourceSconceSoulTorchWall(float hardness, float blastResistance, SoundType sound, String name) {
-		super(Block.Properties.of(Material.METAL).strength(hardness, blastResistance).sound(sound)
+		super(Block.Properties.of(net.minecraft.world.level.material.Material.METAL).strength(hardness, blastResistance).sound(sound)
 			.lightLevel((p_50886_) -> 12));
 
-		this.registerDefaultState(this.defaultBlockState().setValue(FurnitureBlock.DIRECTION, Direction.NORTH).setValue(FurnitureBlock.WATERLOGGED, false));
+		this.registerDefaultState(this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH).setValue(FurnitureBlock.WATERLOGGED, false));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
-		this.setRegistryName(name);
+		//this.setRegistryName(name);
 		this.flameParticle = ParticleTypes.SOUL_FIRE_FLAME;
 	}
 

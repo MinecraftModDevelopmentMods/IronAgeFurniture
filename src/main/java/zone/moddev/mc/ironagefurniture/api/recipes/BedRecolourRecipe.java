@@ -1,33 +1,48 @@
 package zone.moddev.mc.ironagefurniture.api.recipes;
 
-import com.google.gson.JsonObject;
+import net.minecraft.core.Registry;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.ShapelessRecipe;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.registries.ForgeRegistryEntry;
-import zone.moddev.mc.ironagefurniture.init.PhaseFourRecipes;
+import net.minecraft.world.item.crafting.SimpleRecipeSerializer;
+import net.minecraft.world.level.Level;
+import zone.moddev.mc.ironagefurniture.api.UpholsteryItemData;
+import zone.moddev.mc.ironagefurniture.api.blocks.furniture.FurnitureBed;
+import zone.moddev.mc.ironagefurniture.api.enumerations.UpholsteryColour;
+import zone.moddev.mc.ironagefurniture.api.items.UpholsteredBlockItem;
 
-/** Carpet recolouring stays available at the crafting table, not in the recipe book. */
-public final class BedRecolourRecipe extends ShapelessRecipe {
-    public BedRecolourRecipe(ShapelessRecipe recipe) {
-        super(recipe.getId(), recipe.getGroup(), recipe.getResultItem(), recipe.getIngredients());
-    }
-
-    // Vanilla also ignores previously learned entries when loading a player's book.
-    @Override public boolean isSpecial() { return true; }
-    @Override public RecipeSerializer<?> getSerializer() { return PhaseFourRecipes.bed_recolour; }
-
-    public static final class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>>
-            implements RecipeSerializer<BedRecolourRecipe> {
-        private final ShapelessRecipe.Serializer vanilla = new ShapelessRecipe.Serializer();
-
-        @Override public BedRecolourRecipe fromJson(ResourceLocation id, JsonObject json) {
-            return new BedRecolourRecipe(vanilla.fromJson(id, json));
+/** Manual recolouring never competes with construction in the recipe book. */
+public final class BedRecolourRecipe extends CustomRecipe {
+    public static final RecipeSerializer<BedRecolourRecipe> SERIALIZER =
+            new SimpleRecipeSerializer<>(BedRecolourRecipe::new);
+    public BedRecolourRecipe(net.minecraft.resources.ResourceLocation id) { super(id); }
+    private record Inputs(ItemStack bed, UpholsteryColour colour) { }
+    private Inputs inputs(CraftingContainer input) {
+        if (java.util.stream.IntStream.range(0, input.getContainerSize()).filter(slot -> !input.getItem(slot).isEmpty()).count() != 2) return null;
+        ItemStack bed = ItemStack.EMPTY;
+        UpholsteryColour colour = null;
+        for (int slot = 0; slot < input.getContainerSize(); slot++) {
+            ItemStack stack = input.getItem(slot);
+            if (stack.isEmpty()) continue;
+            if (stack.getItem() instanceof UpholsteredBlockItem item && item.getBlock() instanceof FurnitureBed) {
+                if (!bed.isEmpty()) return null;
+                bed = stack;
+            } else {
+                var id = Registry.ITEM.getKey(stack.getItem());
+                if (!id.getNamespace().equals("minecraft") || !id.getPath().endsWith("_carpet") || colour != null) return null;
+                String name = id.getPath().substring(0, id.getPath().length() - "_carpet".length());
+                for (UpholsteryColour candidate : UpholsteryColour.values()) if (candidate.getName().equals(name)) colour = candidate;
+                if (colour == null) return null;
+            }
         }
-        @Override public BedRecolourRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buffer) {
-            return new BedRecolourRecipe(vanilla.fromNetwork(id, buffer));
-        }
-        @Override public void toNetwork(FriendlyByteBuf buffer, BedRecolourRecipe recipe) { vanilla.toNetwork(buffer, recipe); }
+        return bed.isEmpty() || colour == null ? null : new Inputs(bed, colour);
     }
+    @Override public boolean matches(CraftingContainer input, Level world) { return inputs(input) != null; }
+    @Override public ItemStack assemble(CraftingContainer input) {
+        Inputs found = inputs(input);
+        return found == null ? ItemStack.EMPTY : UpholsteryItemData.recolour(found.bed, found.colour).copy().split(1);
+    }
+    @Override public boolean canCraftInDimensions(int width, int height) { return width * height >= 2; }
+    @Override public RecipeSerializer<BedRecolourRecipe> getSerializer() { return SERIALIZER; }
 }

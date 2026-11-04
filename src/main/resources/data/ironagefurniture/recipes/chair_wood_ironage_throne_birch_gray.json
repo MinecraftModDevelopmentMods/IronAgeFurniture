@@ -1,29 +1,25 @@
 {
     "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_throne_birch_gray",
     "ingredients": [
         {
-            "item": "minecraft:gray_carpet"
+            "item": "ironagefurniture:chair_wood_ironage_wingback_birch_gray"
         },
         {
             "item": "minecraft:birch_planks"
         },
         {
-            "item": "ironagefurniture:chair_wood_ironage_wingback_birch_gray"
+            "item": "minecraft:gray_carpet"
         }
     ],
-    "group": "ironagefurniture:chair_wood_ironage_throne_birch_gray",
     "result": {
-        "item": "ironagefurniture:chair_wood_ironage_throne_birch_gray",
-        "count": 1
+        "count": 1,
+        "item": "ironagefurniture:chair_wood_ironage_throne_birch_gray"
     },
     "conditions": [
         {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:chair_wood_ironage_throne_birch"
-        },
-        {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:chair_wood_ironage_wingback_birch"
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "thrones"
         }
     ]
 }

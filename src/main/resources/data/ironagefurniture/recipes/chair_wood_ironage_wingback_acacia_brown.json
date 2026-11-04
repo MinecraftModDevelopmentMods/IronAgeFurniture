@@ -1,29 +1,25 @@
 {
     "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_wingback_acacia_brown",
     "ingredients": [
         {
-            "item": "minecraft:brown_carpet"
+            "item": "ironagefurniture:chair_wood_ironage_classic_acacia"
         },
         {
             "item": "minecraft:acacia_planks"
         },
         {
-            "item": "ironagefurniture:chair_wood_ironage_classic_acacia"
+            "item": "minecraft:brown_carpet"
         }
     ],
-    "group": "ironagefurniture:chair_wood_ironage_wingback_acacia_brown",
     "result": {
-        "item": "ironagefurniture:chair_wood_ironage_wingback_acacia_brown",
-        "count": 1
+        "count": 1,
+        "item": "ironagefurniture:chair_wood_ironage_wingback_acacia_brown"
     },
     "conditions": [
         {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:chair_wood_ironage_wingback_acacia"
-        },
-        {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:chair_wood_ironage_classic_acacia"
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "wingbacks"
         }
     ]
 }

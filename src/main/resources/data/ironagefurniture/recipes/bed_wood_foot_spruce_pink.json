@@ -1,5 +1,6 @@
 {
     "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_spruce_pink",
     "ingredients": [
         {
             "item": "minecraft:pink_bed"
@@ -8,15 +9,14 @@
             "item": "minecraft:spruce_planks"
         }
     ],
-    "group": "ironagefurniture:bed_wood_foot_spruce_pink",
     "result": {
-        "item": "ironagefurniture:bed_wood_foot_spruce_pink",
-        "count": 1
+        "count": 1,
+        "item": "ironagefurniture:bed_wood_foot_spruce_pink"
     },
     "conditions": [
         {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:bed_wood_foot_spruce"
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
         }
     ]
 }

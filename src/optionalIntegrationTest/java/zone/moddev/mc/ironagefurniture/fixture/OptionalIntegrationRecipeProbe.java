@@ -1,12 +1,13 @@
 package zone.moddev.mc.ironagefurniture.fixture;
 
+import org.apache.logging.log4j.LogManager;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fmlserverevents.FMLServerStartedEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
-import org.apache.logging.log4j.LogManager;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedReader;
@@ -29,8 +30,7 @@ public final class OptionalIntegrationRecipeProbe
 
     private static final Logger LOGGER = LogManager.getLogger();
     private static final List<String> REQUIRED_MODS = List.of(
-            "biomesoplenty");
-    private static final int EXPECTED_CONDITIONAL_ENTRIES = 429;
+            "biomesoplenty", "basemetals", "orespawn", "mineralogy", "cfm");
 
     public OptionalIntegrationRecipeProbe()
     {
@@ -48,11 +48,18 @@ public final class OptionalIntegrationRecipeProbe
 
         int recipeCount = recipes.values().stream().mapToInt(Integer::intValue).sum();
         int advancementCount = advancements.values().stream().mapToInt(Integer::intValue).sum();
-        require(recipeCount == EXPECTED_CONDITIONAL_ENTRIES,
-                "Expected " + EXPECTED_CONDITIONAL_ENTRIES
+        int expectedBopCount = 1485;
+        require(recipes.getOrDefault("biomesoplenty", 0) == expectedBopCount,
+                "Expected " + expectedBopCount + " BOP recipes, found "
+                        + recipes.getOrDefault("biomesoplenty", 0));
+        require(advancements.getOrDefault("biomesoplenty", 0) == expectedBopCount,
+                "Expected " + expectedBopCount + " BOP advancements, found "
+                        + advancements.getOrDefault("biomesoplenty", 0));
+        require(recipeCount == 8 + expectedBopCount,
+                "Expected " + (8 + expectedBopCount)
                         + " conditional recipes, found " + recipeCount);
-        require(advancementCount == EXPECTED_CONDITIONAL_ENTRIES,
-                "Expected " + EXPECTED_CONDITIONAL_ENTRIES
+        require(advancementCount == 8 + expectedBopCount,
+                "Expected " + (8 + expectedBopCount)
                         + " conditional advancements, found " + advancementCount);
 
         writeMarker(versions, recipes, advancements, recipeCount, advancementCount);
@@ -82,6 +89,7 @@ public final class OptionalIntegrationRecipeProbe
         List<String> missing = new ArrayList<>();
         for (ExpectedEntry expected : readExpectedEntries(resourceName))
         {
+            if (!expected.isApplicable()) continue;
             counts.merge(expected.modId(), 1, Integer::sum);
             if (server.getRecipeManager().byKey(expected.id()).isEmpty())
             {
@@ -99,6 +107,7 @@ public final class OptionalIntegrationRecipeProbe
         List<String> missing = new ArrayList<>();
         for (ExpectedEntry expected : readExpectedEntries(resourceName))
         {
+            if (!expected.isApplicable()) continue;
             counts.merge(expected.modId(), 1, Integer::sum);
             if (server.getAdvancements().getAdvancement(expected.id()) == null)
             {
@@ -127,7 +136,11 @@ public final class OptionalIntegrationRecipeProbe
                 if (line.isBlank()) continue;
                 String[] parts = line.split("=", 2);
                 require(parts.length == 2, "Invalid probe entry: " + line);
-                result.add(new ExpectedEntry(parts[0], new ResourceLocation(parts[1])));
+                String[] selector = parts[0].split("\\|", 2);
+                ResourceLocation requiredItem = selector.length == 2
+                        ? new ResourceLocation(selector[1]) : null;
+                result.add(new ExpectedEntry(selector[0], new ResourceLocation(parts[1]),
+                        requiredItem));
             }
         }
         catch (IOException exception)
@@ -152,7 +165,7 @@ public final class OptionalIntegrationRecipeProbe
             result.append("mod.").append(modId).append("=")
                     .append(versions.get(modId)).append('\n');
         }
-        for (String modId : REQUIRED_MODS)
+        for (String modId : List.of("biomesoplenty", "byg", "immersiveengineering"))
         {
             result.append("recipes.").append(modId).append("=")
                     .append(recipes.getOrDefault(modId, 0)).append('\n');
@@ -183,7 +196,12 @@ public final class OptionalIntegrationRecipeProbe
         if (!condition) throw new IllegalStateException(message);
     }
 
-    private record ExpectedEntry(String modId, ResourceLocation id)
+    private record ExpectedEntry(String modId, ResourceLocation id,
+                                 ResourceLocation requiredItem)
     {
+        private boolean isApplicable()
+        {
+            return requiredItem == null || ForgeRegistries.ITEMS.containsKey(requiredItem);
+        }
     }
 }

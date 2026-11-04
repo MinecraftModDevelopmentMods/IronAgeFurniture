@@ -2,8 +2,12 @@
     "type": "crafting_shapeless",
     "conditions": [
         {
-            "type": "forge:mod_loaded",
-            "modid": "biomesoplenty"
+            "modid": "biomesoplenty",
+            "type": "forge:mod_loaded"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "benches"
         }
     ],
     "ingredients": [
@@ -16,5 +20,6 @@
     ],
     "result": {
         "item": "ironagefurniture:chair_wood_ironage_bench_back_padded_blue_single_biomesoplenty_jacaranda"
-    }
+    },
+    "group": "ironagefurniture:chair_wood_ironage_bench_back_padded_blue_single_biomesoplenty_jacaranda"
 }

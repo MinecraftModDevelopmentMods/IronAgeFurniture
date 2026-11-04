@@ -1,0 +1,97 @@
+import groovy.json.JsonSlurper
+
+import java.util.zip.ZipFile
+
+def integrationTextureCatalogFile = layout.projectDirectory.file('gradle/furniture-catalog.json')
+def integrationTextureManifestFile = layout.projectDirectory.file(
+        'gradle/verification/optional-integration-mods.json')
+def integrationTextureServerDirectory = providers.gradleProperty('optionalIntegrationServerDir')
+        .map { project.file(it) }
+        .orElse(layout.projectDirectory.dir('run-optional-integrations').asFile)
+def selectedTextureIntegrations = providers.gradleProperty('optionalIntegrationProbeMods')
+        .map { value ->
+            value.split(',').collect { it.trim() }.findAll { !it.isEmpty() } as Set<String>
+        }
+
+def expectedIntegrationTextures = { Map integration, Map wood ->
+    String layoutName = integration.textureLayout ?: 'flat'
+    if (!(layoutName in ['flat', 'nested', 'wood_directory'])) {
+        throw new GradleException("Unsupported texture layout '${layoutName}' for ${integration.integration}")
+    }
+    boolean directoryTextures = layoutName in ['nested', 'wood_directory']
+    String externalWood = wood.externalWood.toString()
+    String textureRoot = "block/${externalWood}"
+    String externalLog = wood.externalLog ?: "${externalWood}_log"
+    String externalLogTop = wood.externalLogTop ?: "${externalWood}_log_top"
+    String externalPlanks = wood.externalPlanks ?: "${externalWood}_planks"
+    String logTexture = wood.externalLogTexture ?:
+            (directoryTextures
+                    ? (externalLog.toString().contains('/') ? "block/${externalLog}" : "${textureRoot}/log")
+                    : "block/${externalLog}")
+    String logTopTexture = wood.externalLogTopTexture ?:
+            (directoryTextures
+                    ? (externalLogTop.toString().contains('/') ? "block/${externalLogTop}" : "${textureRoot}/log_top")
+                    : "block/${externalLogTop}")
+    String planksTexture = wood.externalPlanksTexture ?:
+            (directoryTextures
+                    ? (externalPlanks.toString().contains('/') ? "block/${externalPlanks}" : "${textureRoot}/planks")
+                    : "block/${externalPlanks}")
+    [
+            "${integration.namespace}:${logTexture}".toString(),
+            "${integration.namespace}:${logTopTexture}".toString(),
+            "${integration.namespace}:${planksTexture}".toString()
+    ] as Set<String>
+}
+
+def blockModelFiles = {
+    fileTree('src/main/resources') {
+        include '**/models/block/*.json'
+        include '**/models/block/**/*.json'
+    }.files.sort { it.absolutePath }
+}
+
+tasks.register('verifyModelTexturePaths') {
+    group = 'verification'
+    description = 'Rejects legacy vanilla texture paths and missing IronAgeFurniture textures.'
+    dependsOn tasks.named('verifyFurnitureCatalog')
+    inputs.files fileTree('src/main/resources') {
+        include '**/models/block/*.json'
+        include '**/models/block/**/*.json'
+        include 'assets/ironagefurniture/textures/**/*.png'
+    }
+    doLast {
+        Set<String> invalidTextures = new TreeSet<>()
+        blockModelFiles().each { modelFile ->
+            Map document = new JsonSlurper().parse(modelFile) as Map
+            if (!(document.textures instanceof Map)) return
+            document.textures.values().findAll { it instanceof String }.each { value ->
+                String reference = value.toString()
+                if (reference.startsWith('#') || !reference.contains(':')) return
+                String namespace = reference.substring(0, reference.indexOf(':'))
+                String texturePath = reference.substring(reference.indexOf(':') + 1)
+                String relativeModel = project.relativePath(modelFile).replace('\\', '/')
+                if (namespace == 'minecraft' && texturePath.startsWith('blocks/')) {
+                    invalidTextures.add("${relativeModel} -> legacy ${reference}")
+                } else if (namespace == 'ironagefurniture') {
+                    File textureFile = file(
+                            "src/main/resources/assets/ironagefurniture/textures/${texturePath}.png")
+                    if (!textureFile.isFile()) {
+                        invalidTextures.add("${relativeModel} -> missing ${reference}")
+                    }
+                }
+            }
+        }
+        if (!invalidTextures.isEmpty()) {
+            throw new GradleException('Invalid built-in model texture paths:\n' +
+                    invalidTextures.take(30).join('\n'))
+        }
+    }
+}
+
+tasks.named('stageOptionalIntegrationFixture') {
+    dependsOn tasks.named('verifyOptionalIntegrationTextures')
+}
+
+tasks.named('check') {
+    dependsOn tasks.named('verifyModelTexturePaths')
+}

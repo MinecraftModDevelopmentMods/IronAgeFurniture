@@ -5,9 +5,9 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.phys.shapes.Shapes;
 
 /** These models face south; rotate each cuboid, keeping gaps in composite shapes. */
-final class UprightFurnitureShapes {
+public final class UprightFurnitureShapes {
     private UprightFurnitureShapes() { }
-    static VoxelShape rotate(VoxelShape shape, Direction facing) {
+    public static VoxelShape rotate(VoxelShape shape, Direction facing) {
         VoxelShape[] result = {Shapes.empty()};
         shape.forAllBoxes((x1, y1, z1, x2, y2, z2) -> {
             VoxelShape box;

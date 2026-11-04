@@ -1,0 +1,31 @@
+import groovy.json.JsonOutput
+
+// Keep the eight native CFM conversions and their saved advancement identities.
+ext.renderCfmCatalog = { File outputRoot, Map language ->
+    Set<String> generated = new LinkedHashSet<>()
+    def write = { String relative, Map document ->
+        File target = new File(outputRoot, relative)
+        target.parentFile.mkdirs()
+        target.setText(JsonOutput.prettyPrint(JsonOutput.toJson(document)) + '\n', 'UTF-8')
+        generated.add(relative)
+    }
+    ['oak', 'spruce', 'birch', 'jungle', 'acacia', 'dark_oak', 'crimson', 'warped'].each { wood ->
+        String id = "cfm_${wood}_chair_conversion"
+        String input = "cfm:${wood}_chair"
+        String result = "ironagefurniture:chair_wood_ironage_classic_${wood}"
+        List conditions = [[type: 'forge:mod_loaded', modid: 'cfm'],
+                [type: 'forge:item_exists', item: input],
+                [type: 'ironagefurniture:feature_enabled', feature: 'classicChairs']]
+        write("src/main/resources/data/ironagefurniture/recipes/${id}.json", [
+                type: 'minecraft:crafting_shapeless', group: result, conditions: conditions,
+                ingredients: [[item: input]], result: [item: result, count: 1]])
+        Map advancement = [parent: 'minecraft:recipes/root', rewards: [recipes: ["ironagefurniture:${id}"]],
+                criteria: [has_ingredient: [trigger: 'minecraft:inventory_changed', conditions: [items: [[items: [input]]]]],
+                           has_the_recipe: [trigger: 'minecraft:recipe_unlocked', conditions: [recipe: "ironagefurniture:${id}"]]],
+                requirements: [['has_ingredient', 'has_the_recipe']]]
+        write("src/main/resources/data/ironagefurniture/advancements/recipes/furniture/${id}.json",
+                [advancements: [[conditions: conditions, advancement: advancement]]])
+    }
+    language['ironagefurniture.integration.forceCfmChairConversion'] = 'Replace Crayfish wooden chairs with IAF chairs'
+    generated
+}

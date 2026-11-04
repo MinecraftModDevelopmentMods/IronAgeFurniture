@@ -1,29 +1,25 @@
 {
     "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_throne_warped_black",
     "ingredients": [
         {
-            "item": "minecraft:black_carpet"
+            "item": "ironagefurniture:chair_wood_ironage_wingback_warped_black"
         },
         {
             "item": "minecraft:warped_planks"
         },
         {
-            "item": "ironagefurniture:chair_wood_ironage_wingback_warped_black"
+            "item": "minecraft:black_carpet"
         }
     ],
-    "group": "ironagefurniture:chair_wood_ironage_throne_warped_black",
     "result": {
-        "item": "ironagefurniture:chair_wood_ironage_throne_warped_black",
-        "count": 1
+        "count": 1,
+        "item": "ironagefurniture:chair_wood_ironage_throne_warped_black"
     },
     "conditions": [
         {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:chair_wood_ironage_throne_warped"
-        },
-        {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:chair_wood_ironage_wingback_warped"
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "thrones"
         }
     ]
 }

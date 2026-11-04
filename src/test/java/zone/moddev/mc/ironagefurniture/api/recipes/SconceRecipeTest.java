@@ -24,7 +24,7 @@ public class SconceRecipeTest {
                     "src/main/resources/data/ironagefurniture/recipes/" + id + ".json"), StandardCharsets.UTF_8)) {
                 recipe = new JsonParser().parse(reader).getAsJsonObject();
             }
-            assertEquals(id, metal.isBaseMetal() ? "ironagefurniture:metal_sconce" : "minecraft:crafting_shaped",
+            assertEquals(id, "minecraft:crafting_shaped",
                     recipe.get("type").getAsString());
             JsonArray pattern = recipe.getAsJsonArray("pattern");
             assertEquals(id, 3, pattern.size());
@@ -35,9 +35,9 @@ public class SconceRecipeTest {
             assertEquals(id, 1, key.entrySet().size());
             JsonObject ingredient = key.getAsJsonObject("x");
             assertEquals(id, 1, ingredient.entrySet().size());
-            String input = metal.isBaseMetal() ? "forge:nuggets/" + metal.getSerializedName()
+            String input = metal.isBaseMetal() || metal == SconceMetal.COPPER ? "forge:nuggets/" + metal.getSerializedName()
                     : "minecraft:" + metal.getSerializedName() + "_nugget";
-            assertEquals(id, input, ingredient.get(metal.isBaseMetal() ? "tag" : "item").getAsString());
+            assertEquals(id, input, ingredient.get(metal.isBaseMetal() || metal == SconceMetal.COPPER ? "tag" : "item").getAsString());
             JsonObject result = recipe.getAsJsonObject("result");
             assertEquals(id, "ironagefurniture:" + id, result.get("item").getAsString());
             assertEquals(id, 4, result.get("count").getAsInt());

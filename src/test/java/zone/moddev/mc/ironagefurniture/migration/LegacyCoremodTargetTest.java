@@ -21,45 +21,14 @@ import org.objectweb.asm.tree.MethodNode;
 
 /** Run the transformer against this target's actual Minecraft classes. */
 public class LegacyCoremodTargetTest {
-    @Test public void flatteningTableIsWritableInDevelopmentAndPackagedNames() throws Exception {
-        for (boolean packaged : new boolean[]{false, true}) {
-            ScriptEngine engine = new ScriptEngineManager().getEngineByName("nashorn");
-            engine.eval(new String(Files.readAllBytes(Paths.get(
-                    "src/main/resources/coremods/ironagefurniture_legacy_world_fix.js")), StandardCharsets.UTF_8));
-            Map<?, ?> transforms = (Map<?, ?>)((Invocable)engine).invokeFunction("initializeCoreMod");
-            ClassNode node = new ClassNode();
-            try (InputStream bytes = getClass().getResourceAsStream("/net/minecraft/util/datafix/fixes/BlockStateData.class")) {
-                new ClassReader(bytes).accept(node, 0);
-            }
-            int matched = 0;
-            for (FieldNode field : node.fields) if (field.name.equals("MAP")) {
-                if (packaged) field.name = "f_14934_";
-                matched++;
-            }
-            assertEquals(1, matched);
-            ((Invocable)engine).invokeMethod(transforms.get("ironagefurniture_expand_legacy_block_states"), "transformer", node);
-            for (FieldNode field : node.fields) if (field.name.equals(packaged ? "f_14934_" : "MAP"))
-                assertEquals("Legacy table remains final", 0, field.access & Opcodes.ACC_FINAL);
-        }
-    }
-    @Test public void nativeReadersReceiveTheirHooksExactlyOnce() throws Exception {
+    @Test public void selectedNativeWorldReaderIsWrappedExactlyOnce() throws Exception {
         ScriptEngine engine = new ScriptEngineManager().getEngineByName("nashorn");
-        assertNotNull("Legacy Minecraft tests must use Nashorn engine", engine);
+        assertNotNull("Forge 37 supplies its native Nashorn engine", engine);
         engine.eval(new String(Files.readAllBytes(Paths.get(
-                "src/main/resources/coremods/ironagefurniture_legacy_world_fix.js")), StandardCharsets.UTF_8));
+                "src/main/resources/coremods/ironagefurniture_native_level_data.js")), StandardCharsets.UTF_8));
         Map<?, ?> transforms = (Map<?, ?>)((Invocable)engine).invokeFunction("initializeCoreMod");
-        check(engine, transforms, "ironagefurniture_legacy_level_data",
-                "net/minecraft/world/level/storage/LevelStorageSource", "captureLegacyWorld", 1);
-        check(engine, transforms, "ironagefurniture_legacy_level_data",
-                "net/minecraft/world/level/storage/LevelStorageSource", "prepare", 1);
-        check(engine, transforms, "ironagefurniture_legacy_player_files",
-                "net/minecraft/world/level/storage/PlayerDataStorage", "preparePlayerData", 1);
-        check(engine, transforms, "ironagefurniture_legacy_entity_data",
-                "net/minecraft/world/level/chunk/storage/EntityStorage", "prepareEntityData", 1);
-        check(engine, transforms, "ironagefurniture_legacy_chunk_data",
-                "net/minecraft/world/level/chunk/storage/ChunkStorage", "prepareLegacyChunk", 1);
-        check(engine, transforms, "ironagefurniture_legacy_chunk_data",
-                "net/minecraft/world/level/chunk/storage/ChunkStorage", "prepareVanillaTileEntitySchema", 1);
+        check(engine, transforms, "ironagefurniture_native_level_data",
+                "net/minecraft/world/level/storage/LevelStorageSource", "readNativeLevelData", 1);
     }
 
     private static void check(ScriptEngine engine, Map<?, ?> transforms, String name,

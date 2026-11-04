@@ -13,7 +13,7 @@ import zone.moddev.mc.ironagefurniture.api.blocks.furniture.*;
 import zone.moddev.mc.ironagefurniture.api.enumerations.*;
 
 public class LegacyUpholsteryMigrationTest {
-    @BeforeClass public static void bootstrap() { net.minecraft.SharedConstants.tryDetectVersion(); Bootstrap.bootStrap(); }
+    @BeforeClass public static void bootstrap() { net.minecraft.SharedConstants.tryDetectVersion(); Bootstrap.bootStrap(); zone.moddev.mc.ironagefurniture.NativeFurnitureFixtures.register(); }
 
     @Test public void unrelatedLegacyItemNamesDoNotBreakFurnitureRecovery() {
         CompoundTag chest = new CompoundTag(), other = new CompoundTag(), furniture = new CompoundTag();
@@ -48,17 +48,18 @@ public class LegacyUpholsteryMigrationTest {
         CanopyBed canopy = new CanopyBed("bed_canopy_foot_right_lower_oak", true);
         ThroneChair throne = new ThroneChair("chair_wood_ironage_throne_oak");
         for (int metadata = 0; metadata < 16; metadata++) {
-            BlockState wood = LegacyWorldDataHook.legacyState(wooden, metadata);
-            assertEquals(Direction.from2DDataValue(metadata & 3), wood.getValue(FurnitureBed.DIRECTION));
+            BlockState wood = LegacyWorldDataHook.legacyState(new net.minecraft.resources.ResourceLocation("ironagefurniture:bed_wood_foot_left_oak"), wooden, metadata);
+            assertEquals(Direction.from2DDataValue(metadata & 3).getOpposite(), wood.getValue(FurnitureBed.DIRECTION));
             assertEquals((metadata & 4) == 0 ? net.minecraft.world.level.block.state.properties.BedPart.FOOT
                     : net.minecraft.world.level.block.state.properties.BedPart.HEAD, wood.getValue(net.minecraft.world.level.block.state.properties.BlockStateProperties.BED_PART));
             assertEquals((metadata & 8) == 0 ? WoodBedSide.LEFT : WoodBedSide.RIGHT, wood.getValue(FurnitureBed.SIDE));
-            assertEquals(WoodBedSide.LEFT, LegacyWorldDataHook.legacyState(single, metadata).getValue(FurnitureBed.SIDE));
-            BlockState canopyState = LegacyWorldDataHook.legacyState(canopy, metadata);
-            assertEquals(CanopyBedPart.values()[metadata >> 2], canopyState.getValue(CanopyBed.PART));
+            assertEquals(WoodBedSide.LEFT, LegacyWorldDataHook.legacyState(new net.minecraft.resources.ResourceLocation("ironagefurniture:bed_wood_foot_oak"), single, metadata).getValue(FurnitureBed.SIDE));
+            BlockState canopyState = LegacyWorldDataHook.legacyState(new net.minecraft.resources.ResourceLocation("ironagefurniture:bed_canopy_foot_right_lower_oak"), canopy, metadata);
+            assertEquals((metadata & 4) != 0, canopyState.getValue(FurnitureBed.UPPER));
+            assertEquals((metadata & 8) == 0 ? net.minecraft.world.level.block.state.properties.BedPart.FOOT : net.minecraft.world.level.block.state.properties.BedPart.HEAD, canopyState.getValue(FurnitureBed.PART));
             assertEquals(WoodBedSide.RIGHT, canopyState.getValue(FurnitureBed.SIDE));
-            assertEquals(Direction.from2DDataValue(metadata & 3), canopyState.getValue(FurnitureBed.DIRECTION));
-            BlockState tall = LegacyWorldDataHook.legacyState(throne, metadata);
+            assertEquals(Direction.from2DDataValue(metadata & 3).getOpposite(), canopyState.getValue(FurnitureBed.DIRECTION));
+            BlockState tall = LegacyWorldDataHook.legacyState(new net.minecraft.resources.ResourceLocation("ironagefurniture:chair_wood_ironage_throne_oak"), throne, metadata);
             assertEquals(metadata >> 2 == 2 ? ChairPart.UPPER : metadata >> 2 == 1 ? ChairPart.MIDDLE : ChairPart.LOWER,
                     tall.getValue(MultiBlockChair.PART));
         }
@@ -163,7 +164,7 @@ public class LegacyUpholsteryMigrationTest {
             ListTag ender = new ListTag(); ender.add(item); player.put("EnderItems", ender);
             LegacyWorldDataHook.preparePlayerData(player);
             assertEquals(bedId(colour), item.getString("id"));
-            assertFalse(tag.contains("Color")); assertFalse(tag.contains("Damage"));
+            assertFalse(item.getCompound("tag").contains("Color")); assertFalse(item.getCompound("tag").contains("Damage"));
             assertEquals("bed", tag.getString("Keep"));
             assertFalse(LegacyPaddedItemMigration.migrateChunkContents(player));
         }

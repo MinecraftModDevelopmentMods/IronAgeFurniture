@@ -1,5 +1,6 @@
 {
     "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_crimson_white",
     "ingredients": [
         {
             "item": "minecraft:white_bed"
@@ -8,15 +9,14 @@
             "item": "minecraft:crimson_planks"
         }
     ],
-    "group": "ironagefurniture:bed_wood_foot_crimson_white",
     "result": {
-        "item": "ironagefurniture:bed_wood_foot_crimson_white",
-        "count": 1
+        "count": 1,
+        "item": "ironagefurniture:bed_wood_foot_crimson_white"
     },
     "conditions": [
         {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:bed_wood_foot_crimson"
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
         }
     ]
 }

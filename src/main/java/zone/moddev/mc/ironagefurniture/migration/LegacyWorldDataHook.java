@@ -4,11 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.Arrays;
 import java.util.BitSet;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -25,11 +23,8 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.datafix.fixes.BlockStateData;
 import net.minecraft.world.level.storage.LevelResource;
 import net.minecraft.world.level.storage.LevelStorageSource;
-import net.minecraftforge.fmlserverevents.FMLServerAboutToStartEvent;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import zone.moddev.mc.ironagefurniture.Ironagefurniture;
@@ -38,6 +33,7 @@ import zone.moddev.mc.ironagefurniture.api.blocks.furniture.BackBench;
 import zone.moddev.mc.ironagefurniture.api.enumerations.BenchType;
 
 /** Converts pre-flattening Iron Age Furniture block IDs before vanilla chunk datafixing. */
+@net.minecraftforge.fml.common.Mod.EventBusSubscriber(modid = Ironagefurniture.MODID)
 public final class LegacyWorldDataHook {
 	private static final Logger LOGGER = LogManager.getLogger();
 	private static final BitSet LEGACY_IAF_BLOCK_IDS = new BitSet();
@@ -48,6 +44,8 @@ public final class LegacyWorldDataHook {
 	private static final String PADDED_TILE_MARKER = "IronAgeFurnitureLegacyPaddedBench";
 	private static final String SIDECAR_NAME = "ironagefurniture_legacy_registry.dat";
 	private static volatile boolean legacyWorldActive;
+    private static final Map<Integer, Dynamic<?>> ORIGINAL_STATES = new HashMap<>();
+    private static final Map<Integer, Dynamic<?>> INSTALLED_STATES = new HashMap<>();
 
 	static {
 		LEGACY_VANILLA_TILE_ENTITY_IDS.put("Airportal", "end_portal");
@@ -75,8 +73,36 @@ public final class LegacyWorldDataHook {
 		LEGACY_VANILLA_TILE_ENTITY_IDS.put("Trap", "dispenser");
 	}
 
+    /** Reads only the selected save, before Forge37 hands its contents to DFU. */
+    public static CompoundTag readNativeLevelData(File file) throws IOException {
+        CompoundTag root = NbtIo.readCompressed(file);
+        int version = root.getCompound("Data").getInt("DataVersion");
+        if (version <= net.minecraft.SharedConstants.getCurrentVersion().getWorldVersion()) {
+            sanitizeForgeSnapshotAliases(root);
+            prepareSelectedWorld(root, file.toPath().getParent());
+            preparePlayerData(root);
+            NativeLegacyBridge.prepareItems(root, version);
+        }
+        return root;
+    }
+
 	private LegacyWorldDataHook() {
 	}
+
+    @net.minecraftforge.eventbus.api.SubscribeEvent
+    public static synchronized void stopped(net.minecraftforge.fmlserverevents.FMLServerStoppedEvent event) {
+        restoreInstalledStates();
+        LEGACY_IAF_BLOCK_IDS.clear(); LEGACY_PADDED_BLOCK_IDS.clear(); LEGACY_CFM_BLOCK_IDS.clear();
+        legacyWorldActive = false;
+    }
+    private static void restoreInstalledStates() {
+        Dynamic<?>[] states = zone.moddev.mc.ironagefurniture.mixin.BlockStateDataAccessor.iaf$getLegacyStateMap();
+        INSTALLED_STATES.forEach((index, installed) -> {
+            // Another migration mod may own an entry now; do not overwrite its work.
+            if (states[index] == installed) states[index] = ORIGINAL_STATES.get(index);
+        });
+        INSTALLED_STATES.clear(); ORIGINAL_STATES.clear();
+    }
 
     /** Save readers call this before vanilla can discard old item subtype data. */
     public static void preparePlayerData(CompoundTag player) {
@@ -87,11 +113,12 @@ public final class LegacyWorldDataHook {
     }
 
     public static void prepareLevelPlayerData(CompoundTag root) {
-        if (root != null && root.getCompound("Data").contains("Player", 10))
-            preparePlayerData(root.getCompound("Data").getCompound("Player"));
+        if (root != null && LegacyNbt.compound(root, "Data").contains("Player"))
+            preparePlayerData(LegacyNbt.compound(LegacyNbt.compound(root, "Data"), "Player"));
     }
 
-	public static void onServerAboutToStart(FMLServerAboutToStartEvent event) {
+	@net.minecraftforge.eventbus.api.SubscribeEvent
+    public static void onServerAboutToStart(net.minecraftforge.fmlserverevents.FMLServerAboutToStartEvent event) {
 		if (legacyWorldActive) {
 			return;
 		}
@@ -104,29 +131,74 @@ public final class LegacyWorldDataHook {
 	 * reading the original level data. By the normal server lifecycle events,
 	 * Forge has already rewritten that data into its current format.
 	 */
-	public static synchronized void captureLegacyWorld(LevelStorageSource.LevelStorageAccess levelSave, CompoundTag root) {
+	public static synchronized void captureLegacyLevelData(CompoundTag root, java.nio.file.Path levelSave) {
 		if (levelSave == null || root == null) {
 			return;
 		}
 		// Forge 1.12 used the upper-case key. Current Forge uses lower-case
 		// "fml", whose snapshot contains current palette IDs and must not be fed
 		// to the pre-flattening block-state table.
-		if (!root.contains("FML", 10)) {
+		if (!root.contains("FML")) {
 			return;
 		}
-		CompoundTag forgeData = root.getCompound("FML");
-		if (!forgeData.contains("Registries", 10)) {
+		CompoundTag forgeData = LegacyNbt.compound(root, "FML");
+		if (!forgeData.contains("Registries")) {
 			return;
 		}
-		CompoundTag registries = forgeData.getCompound("Registries");
-		if (!registries.contains("minecraft:blocks", 10)) {
+		CompoundTag registries = LegacyNbt.compound(forgeData, "Registries");
+		if (!registries.contains("minecraft:blocks")) {
 			return;
 		}
-		File worldDirectory = levelSave.getWorldDir().toFile();
-		CompoundTag blocks = registries.getCompound("minecraft:blocks");
+		File worldDirectory = levelSave.toFile();
+		CompoundTag blocks = LegacyNbt.compound(registries, "minecraft:blocks");
 		install(worldDirectory, blocks);
 		writeSidecar(worldDirectory, blocks);
 	}
+
+    /** Installs the selected save's snapshot before Forge's file-upgrade pass. */
+    public static synchronized void prepareSelectedWorld(CompoundTag root, java.nio.file.Path directory) {
+        if (root.getCompound("Data").getInt("DataVersion")
+                > net.minecraft.SharedConstants.getCurrentVersion().getWorldVersion()) return;
+        restoreInstalledStates();
+        LEGACY_IAF_BLOCK_IDS.clear(); LEGACY_PADDED_BLOCK_IDS.clear(); LEGACY_CFM_BLOCK_IDS.clear();
+        legacyWorldActive = false;
+        captureLegacyLevelData(root, directory);
+        if (!legacyWorldActive && directory != null) readSidecar(directory.toFile());
+    }
+
+    /** A saved fallback alias must not shadow a compatibility block installed later. */
+    public static int sanitizeForgeSnapshotAliases(CompoundTag root) {
+        if (root == null) return 0;
+        if (root.getCompound("Data").getInt("DataVersion")
+                > net.minecraft.SharedConstants.getCurrentVersion().getWorldVersion()) return 0;
+        CompoundTag registries = root.getCompound("fml").getCompound("Registries");
+        int removed = 0;
+        for (String key : new String[]{"minecraft:block", "minecraft:item"}) {
+            CompoundTag snapshot = registries.getCompound(key);
+            ListTag aliases = snapshot.getList("aliases", net.minecraft.nbt.Tag.TAG_COMPOUND);
+            Set<ResourceLocation> registered = key.equals("minecraft:block")
+                    ? net.minecraftforge.registries.ForgeRegistries.BLOCKS.getKeys()
+                    : net.minecraftforge.registries.ForgeRegistries.ITEMS.getKeys();
+            for (int index = aliases.size() - 1; index >= 0; index--) {
+                ResourceLocation oldId = ResourceLocation.tryParse(aliases.getCompound(index).getString("K"));
+                if (oldId != null && oldId.getNamespace().equals(Ironagefurniture.MODID) && registered.contains(oldId)) {
+                    aliases.remove(index);
+                    removed++;
+                }
+            }
+        }
+        return removed;
+    }
+
+    private static void readSidecar(File worldDirectory) {
+        File saved = sidecar(worldDirectory);
+        if (!saved.isFile()) return;
+        try (FileInputStream input = new FileInputStream(saved)) {
+            install(worldDirectory, LegacyNbt.compound(NbtIo.readCompressed(input), "Blocks"));
+        } catch (IOException exception) {
+            LOGGER.warn("Could not read legacy furniture registry data from '{}'", saved, exception);
+        }
+    }
 
 	private static synchronized void prepareLegacyWorld(File levelDat) {
 		legacyWorldActive = false;
@@ -136,10 +208,10 @@ public final class LegacyWorldDataHook {
 
 		try (FileInputStream input = new FileInputStream(levelDat)) {
 			CompoundTag root = NbtIo.readCompressed(input);
-			if (root.contains("FML", 10)) {
-				CompoundTag registries = root.getCompound("FML").getCompound("Registries");
-				if (registries.contains("minecraft:blocks", 10)) {
-					CompoundTag blocks = registries.getCompound("minecraft:blocks");
+			if (root.contains("FML")) {
+				CompoundTag registries = LegacyNbt.compound(LegacyNbt.compound(root, "FML"), "Registries");
+				if (registries.contains("minecraft:blocks")) {
+					CompoundTag blocks = LegacyNbt.compound(registries, "minecraft:blocks");
 					install(levelDat.getParentFile(), blocks);
 					writeSidecar(levelDat.getParentFile(), blocks);
 					return;
@@ -153,7 +225,7 @@ public final class LegacyWorldDataHook {
 		File sidecar = sidecar(levelDat.getParentFile());
 		if (sidecar.isFile()) {
 			try (FileInputStream input = new FileInputStream(sidecar)) {
-				install(levelDat.getParentFile(), NbtIo.readCompressed(input).getCompound("Blocks"));
+				install(levelDat.getParentFile(), LegacyNbt.compound(NbtIo.readCompressed(input), "Blocks"));
 			} catch (IOException e) {
 				LOGGER.warn("Could not read legacy Iron Age Furniture registry sidecar '{}'", sidecar, e);
 			}
@@ -208,11 +280,11 @@ public final class LegacyWorldDataHook {
 
 	/** Called by the chunk-loader coremod immediately before vanilla datafixing. */
 	public static void prepareLegacyChunk(CompoundTag root) {
-		if (root == null || !root.contains("Level", 10)) {
+		if (root == null || !root.contains("Level")) {
 			return;
 		}
 
-		CompoundTag level = root.getCompound("Level");
+		CompoundTag level = LegacyNbt.compound(root, "Level");
         CfmChairMigration.prepareChunk(level);
 		boolean migratedItems = LegacyPaddedItemMigration.migrateChunkContents(level);
         if (!legacyWorldActive || !isPreFlatteningChunk(root)) return;
@@ -222,9 +294,9 @@ public final class LegacyWorldDataHook {
 		if (!containsLegacyIafBlock(level) && !migratedItems && !LegacyPaddedItemMigration.containsFurnitureItems(level)) {
 			return;
 		}
-		ensurePaddedBenchTileEntities(level, root.getInt("DataVersion") < 704);
+		ensurePaddedBenchTileEntities(level, LegacyNbt.integer(root, "DataVersion", 0) < 704);
         CfmChairMigration.recordLegacyBlocks(countLegacyCfmBlocks(level));
-		LegacyUpholsteryMigration.prepareTiles(level, root.getInt("DataVersion") < 704);
+		LegacyUpholsteryMigration.prepareTiles(level, LegacyNbt.integer(root, "DataVersion", 0) < 704);
 		level.putBoolean("TerrainPopulated", true);
 		level.putBoolean("LightPopulated", true);
 		level.putBoolean(PRESERVE_CHUNK_MARKER, true);
@@ -232,15 +304,22 @@ public final class LegacyWorldDataHook {
 
 	/** Called by the chunk-loader coremod after vanilla datafixing. */
 	public static CompoundTag finalizeLegacyChunk(CompoundTag root) {
-		if (root == null || !root.contains("Level", 10)) {
-			return root;
-		}
-		CompoundTag level = root.getCompound("Level");
+		if (root == null) return null;
+		if (!root.contains("Level")) {
+            // 1.18 datafixing removes Level and renames TileEntities.
+            // Restore private markers before the native palette bridge runs.
+            CompoundTag view = new CompoundTag();
+            view.put("TileEntities", LegacyNbt.list(root, "block_entities"));
+            restorePaddedBenchTileEntityIds(view);
+            return root;
+        }
+		CompoundTag level = LegacyNbt.compound(root, "Level");
 		LegacyPaddedItemMigration.migrateChunkContents(level);
+		NativeLegacyBridge.restoreTileColours(level);
 		if (legacyWorldActive) {
 			normalizeLegacyVanillaTileEntityIds(level);
 		}
-		if (level.getBoolean(PRESERVE_CHUNK_MARKER)) {
+		if (LegacyNbt.bool(level, PRESERVE_CHUNK_MARKER, false)) {
 			restorePaddedBenchTileEntityIds(level);
 			LegacyUpholsteryMigration.finishTiles(level);
 			level.putString("Status", "full");
@@ -252,13 +331,13 @@ public final class LegacyWorldDataHook {
 
     /** Give vanilla's pre-704 schema the IDs it expects before it reads inventories. */
     public static void prepareVanillaTileEntitySchema(CompoundTag root) {
-        if (root == null || root.getInt("DataVersion") >= 704 || !root.contains("Level", 10)) return;
+        if (root == null || LegacyNbt.integer(root, "DataVersion", 0) >= 704 || !root.contains("Level")) return;
         // Some optional migration hooks rename vanilla containers early. The
         // old schema knows "Chest", not "minecraft:chest", and otherwise loses
         // its Items before the later ID-renaming fixer can handle them.
-        for (Tag value : root.getCompound("Level").getList("TileEntities", 10)) {
+        for (Tag value : LegacyNbt.list(LegacyNbt.compound(root, "Level"), "TileEntities")) {
             CompoundTag tile = (CompoundTag)value;
-            String id = tile.getString("id");
+            String id = LegacyNbt.string(tile, "id", "");
             for (Map.Entry<String, String> entry : LEGACY_VANILLA_TILE_ENTITY_IDS.entrySet()) {
                 if (id.equals("minecraft:" + entry.getValue()) || id.equals("minecraft:" + entry.getKey())) {
                     tile.putString("id", entry.getKey());
@@ -275,10 +354,10 @@ public final class LegacyWorldDataHook {
 	 */
 	static int normalizeLegacyVanillaTileEntityIds(CompoundTag level) {
 		int changed = 0;
-		ListTag tileEntities = level.getList("TileEntities", 10);
+		ListTag tileEntities = LegacyNbt.list(level, "TileEntities");
 		for (int index = 0; index < tileEntities.size(); ++index) {
-			CompoundTag tileEntity = tileEntities.getCompound(index);
-			String id = tileEntity.getString("id");
+			CompoundTag tileEntity = LegacyNbt.compound(tileEntities, index);
+			String id = LegacyNbt.string(tileEntity, "id", "");
 			String legacyPath = id.startsWith("minecraft:") ? id.substring("minecraft:".length()) : id;
 			String modernPath = LEGACY_VANILLA_TILE_ENTITY_IDS.get(legacyPath);
 			if (modernPath != null) {
@@ -290,15 +369,16 @@ public final class LegacyWorldDataHook {
 	}
 
 	private static int installLegacyBlockStates(CompoundTag blockSnapshot) {
+        restoreInstalledStates();
 		LEGACY_IAF_BLOCK_IDS.clear();
 		LEGACY_PADDED_BLOCK_IDS.clear();
         LEGACY_CFM_BLOCK_IDS.clear();
 		Map<ResourceLocation, Integer> iafIds = new HashMap<>();
-		ListTag savedIds = blockSnapshot.getList("ids", 10);
+		ListTag savedIds = LegacyNbt.list(blockSnapshot, "ids");
 		int highestStateId = 0;
 		for (int index = 0; index < savedIds.size(); ++index) {
-			CompoundTag savedId = savedIds.getCompound(index);
-			String key = savedId.getString("K");
+			CompoundTag savedId = LegacyNbt.compound(savedIds, index);
+			String key = LegacyNbt.string(savedId, "K", "");
 			if (!key.startsWith("ironagefurniture:") && !key.startsWith("iafbygaddon:")
 					&& CfmChairMigration.legacyTarget(key) == null) {
 				continue;
@@ -307,7 +387,7 @@ public final class LegacyWorldDataHook {
 			if (!LegacyPaddedBenchIds.isLegacyNamespace(id.getNamespace()) && CfmChairMigration.legacyTarget(key) == null) {
 				continue;
 			}
-			int numericId = savedId.getInt("V");
+			int numericId = LegacyNbt.integer(savedId, "V", 0);
 			iafIds.put(id, numericId);
 			highestStateId = Math.max(highestStateId, (numericId << 4) | 15);
 		}
@@ -317,9 +397,9 @@ public final class LegacyWorldDataHook {
 			ResourceLocation oldId = entry.getKey();
             String cfmTarget = CfmChairMigration.legacyTarget(oldId.toString());
 			Block block = cfmTarget == null ? resolveCurrentBlock(oldId)
-                    : ForgeRegistries.BLOCKS.getValue(new ResourceLocation(cfmTarget));
+                    : net.minecraft.core.Registry.BLOCK.get(new ResourceLocation(cfmTarget));
 			if (block == null) {
-				LOGGER.warn("Legacy Iron Age Furniture block '{}' has no supported 1.17 replacement", oldId);
+				LOGGER.warn("Legacy Iron Age Furniture block '{}' has no supported 1.17.1 replacement", oldId);
 				continue;
 			}
 			LEGACY_IAF_BLOCK_IDS.set(entry.getValue());
@@ -328,9 +408,18 @@ public final class LegacyWorldDataHook {
 				LEGACY_PADDED_BLOCK_IDS.set(entry.getValue());
 			}
 			for (int meta = 0; meta < 16; ++meta) {
-				String stateNbt = NbtUtils.writeBlockState(legacyState(block, meta)).toString();
+				CompoundTag oldState = NbtUtils.writeBlockState(legacyState(oldId, block, meta));
+                // Native 1.17.1 already emits Name/Properties. Never replace that
+                // valid identity with an absent newer-codec id value.
+                if (oldState.contains("id")) oldState.putString("Name", LegacyNbt.string(oldState, "id", ""));
+                if (LegacyPaddedBenchIds.isLegacyPaddedPath(oldId.getPath()) || oldId.getPath().contains("candle")) oldState.putString("Name", oldId.toString());
+                oldState.remove("id");
+                if (oldState.contains("properties")) { oldState.put("Properties", LegacyNbt.compound(oldState, "properties")); oldState.remove("properties"); }
 				int stateId = (entry.getValue() << 4) | meta;
-				legacyStates[stateId] = BlockStateData.parse(stateNbt);
+                if (!ORIGINAL_STATES.containsKey(stateId)) ORIGINAL_STATES.put(stateId, legacyStates[stateId]);
+                Dynamic<?> installed = new Dynamic<>(net.minecraft.nbt.NbtOps.INSTANCE, oldState);
+                INSTALLED_STATES.put(stateId, installed);
+				legacyStates[stateId] = installed;
 				++mapped;
 			}
 		}
@@ -339,7 +428,7 @@ public final class LegacyWorldDataHook {
 
     private static int countLegacyCfmBlocks(CompoundTag level) {
         int count = 0;
-        for (net.minecraft.nbt.Tag entry : level.getList("Sections", 10)) {
+        for (net.minecraft.nbt.Tag entry : LegacyNbt.list(level, "Sections")) {
             CompoundTag section = (CompoundTag)entry;
             byte[] blocks = section.getByteArray("Blocks"), add = section.getByteArray("Add");
             if (blocks.length != 4096) continue;
@@ -349,12 +438,29 @@ public final class LegacyWorldDataHook {
     }
 
 	private static Block resolveCurrentBlock(ResourceLocation oldId) {
+        if (oldId.getPath().startsWith("light_metal_ironage_") && oldId.getPath().contains("candle")) {
+            boolean wall = oldId.getPath().contains("_wall");
+            if (!wall && oldId.getPath().startsWith("light_metal_ironage_candle_")) return net.minecraft.world.level.block.Blocks.CANDLE;
+            return wall ? zone.moddev.mc.ironagefurniture.init.PhaseFourLighting.WALL_CANDLES.get()
+                    : zone.moddev.mc.ironagefurniture.init.PhaseFourLighting.FLOOR_CANDLES.get();
+        }
 		ResourceLocation target = LegacyPaddedBenchIds.currentId(oldId);
-		return ForgeRegistries.BLOCKS.containsKey(target) ? ForgeRegistries.BLOCKS.getValue(target) : null;
+        if (LegacyPaddedBenchIds.isLegacyPaddedPath(oldId.getPath()))
+            target = new ResourceLocation("ironagefurniture", LegacyPaddedBenchIds.modernPaddedPath(oldId, "red"));
+		return net.minecraft.core.Registry.BLOCK.containsKey(target) ? net.minecraft.core.Registry.BLOCK.get(target) : null;
 	}
 
-	static BlockState legacyState(Block block, int meta) {
+	static BlockState legacyState(ResourceLocation oldId, Block block, int meta) {
 		BlockState state = block.defaultBlockState();
+        String oldPath = oldId.getPath();
+        if (oldPath.startsWith("light_metal_ironage_") && oldPath.contains("candle")) {
+            int count = oldPath.contains("_four") ? 4 : oldPath.contains("_three") ? 3 : oldPath.contains("_two") ? 2 : 1;
+            if (block instanceof zone.moddev.mc.ironagefurniture.api.blocks.lightsource.phasefour.CandleSconceBlock)
+                state = state.setValue(zone.moddev.mc.ironagefurniture.api.blocks.lightsource.phasefour.CandleSconceBlock.COUNT, count)
+                        .setValue(zone.moddev.mc.ironagefurniture.api.blocks.lightsource.phasefour.CandleSconceBlock.LIT, !oldPath.endsWith("_unlit"));
+            else state = state.setValue(net.minecraft.world.level.block.CandleBlock.CANDLES, count)
+                    .setValue(net.minecraft.world.level.block.CandleBlock.LIT, !oldPath.endsWith("_unlit"));
+        }
 		if (state.hasProperty(FurnitureBlock.DIRECTION)) {
 			state = state.setValue(FurnitureBlock.DIRECTION, direction(meta));
 		}
@@ -372,10 +478,11 @@ public final class LegacyWorldDataHook {
 							? zone.moddev.mc.ironagefurniture.api.enumerations.WoodBedSide.LEFT
 							: zone.moddev.mc.ironagefurniture.api.enumerations.WoodBedSide.RIGHT);
 		} else if (block instanceof zone.moddev.mc.ironagefurniture.api.blocks.furniture.CanopyBed) {
-			state = state.setValue(zone.moddev.mc.ironagefurniture.api.blocks.furniture.CanopyBed.PART,
-					zone.moddev.mc.ironagefurniture.api.enumerations.CanopyBedPart.values()[(meta & 15) >> 2])
+			state = state.setValue(zone.moddev.mc.ironagefurniture.api.blocks.furniture.FurnitureBed.PART,
+                    (meta & 8) == 0 ? net.minecraft.world.level.block.state.properties.BedPart.FOOT : net.minecraft.world.level.block.state.properties.BedPart.HEAD)
+					.setValue(zone.moddev.mc.ironagefurniture.api.blocks.furniture.FurnitureBed.UPPER, (meta & 4) != 0)
 					.setValue(zone.moddev.mc.ironagefurniture.api.blocks.furniture.FurnitureBed.SIDE,
-					block.getRegistryName().getPath().startsWith("bed_canopy_foot_right_")
+					oldPath.startsWith("bed_canopy_foot_right_")
 							? zone.moddev.mc.ironagefurniture.api.enumerations.WoodBedSide.RIGHT
 							: zone.moddev.mc.ironagefurniture.api.enumerations.WoodBedSide.LEFT);
 		} else if (block instanceof zone.moddev.mc.ironagefurniture.api.blocks.furniture.MultiBlockChair) {
@@ -385,6 +492,8 @@ public final class LegacyWorldDataHook {
 							: part == 1 ? zone.moddev.mc.ironagefurniture.api.enumerations.ChairPart.MIDDLE
 							: zone.moddev.mc.ironagefurniture.api.enumerations.ChairPart.LOWER);
 		}
+        if (block instanceof zone.moddev.mc.ironagefurniture.api.blocks.furniture.FurnitureBed)
+            state = state.setValue(FurnitureBlock.DIRECTION, state.getValue(FurnitureBlock.DIRECTION).getOpposite());
 		return state;
 	}
 
@@ -402,9 +511,9 @@ public final class LegacyWorldDataHook {
 	}
 
 	private static boolean containsLegacyIafBlock(CompoundTag level) {
-		ListTag sections = level.getList("Sections", 10);
+		ListTag sections = LegacyNbt.list(level, "Sections");
 		for (int sectionIndex = 0; sectionIndex < sections.size(); ++sectionIndex) {
-			CompoundTag section = sections.getCompound(sectionIndex);
+			CompoundTag section = LegacyNbt.compound(sections, sectionIndex);
 			byte[] blocks = section.getByteArray("Blocks");
 			if (blocks.length != 4096) {
 				continue;
@@ -420,29 +529,29 @@ public final class LegacyWorldDataHook {
 	}
 
 	private static void ensurePaddedBenchTileEntities(CompoundTag level, boolean legacyTileEntityIds) {
-		ListTag tileEntities = level.getList("TileEntities", 10);
+		ListTag tileEntities = LegacyNbt.list(level, "TileEntities");
 		Set<Long> occupied = new HashSet<>();
 		for (int index = 0; index < tileEntities.size(); ++index) {
-			CompoundTag tileEntity = tileEntities.getCompound(index);
-			occupied.add(positionKey(tileEntity.getInt("x"), tileEntity.getInt("y"), tileEntity.getInt("z")));
-			int blockId = getLegacyBlockId(level, tileEntity.getInt("x"), tileEntity.getInt("y"),
-					tileEntity.getInt("z"));
+			CompoundTag tileEntity = LegacyNbt.compound(tileEntities, index);
+			occupied.add(positionKey(LegacyNbt.integer(tileEntity, "x", 0), LegacyNbt.integer(tileEntity, "y", 0), LegacyNbt.integer(tileEntity, "z", 0)));
+			int blockId = getLegacyBlockId(level, LegacyNbt.integer(tileEntity, "x", 0), LegacyNbt.integer(tileEntity, "y", 0),
+					LegacyNbt.integer(tileEntity, "z", 0));
 			if (blockId >= 0 && LEGACY_PADDED_BLOCK_IDS.get(blockId)) {
 				markPaddedBenchTileEntity(tileEntity, legacyTileEntityIds);
 			}
 		}
 
-		int chunkX = level.getInt("xPos");
-		int chunkZ = level.getInt("zPos");
-		ListTag sections = level.getList("Sections", 10);
+		int chunkX = LegacyNbt.integer(level, "xPos", 0);
+		int chunkZ = LegacyNbt.integer(level, "zPos", 0);
+		ListTag sections = LegacyNbt.list(level, "Sections");
 		for (int sectionIndex = 0; sectionIndex < sections.size(); ++sectionIndex) {
-			CompoundTag section = sections.getCompound(sectionIndex);
+			CompoundTag section = LegacyNbt.compound(sections, sectionIndex);
 			byte[] blocks = section.getByteArray("Blocks");
 			if (blocks.length != 4096) {
 				continue;
 			}
 			byte[] add = section.getByteArray("Add");
-			int sectionY = section.getByte("Y") & 0xFF;
+			int sectionY = LegacyNbt.byteValue(section, "Y", (byte)0) & 0xFF;
 			for (int blockIndex = 0; blockIndex < blocks.length; ++blockIndex) {
 				if (!LEGACY_PADDED_BLOCK_IDS.get(blockId(blocks, add, blockIndex))) {
 					continue;
@@ -468,10 +577,11 @@ public final class LegacyWorldDataHook {
     static boolean isPreFlatteningChunk(CompoundTag root) {
         // A retained registry sidecar does not make a newly saved palette chunk
         // pre-flattening. Numeric tile lookups are only valid in the old format.
-        return root.getInt("DataVersion") < 1451;
+        return LegacyNbt.integer(root, "DataVersion", 0) < 1451;
     }
 
 	private static void markPaddedBenchTileEntity(CompoundTag tileEntity, boolean legacyTileEntityIds) {
+		NativeLegacyBridge.preserveTileColour(tileEntity);
 		// A sign is present in every vanilla schema crossed by a 1.12-to-1.14
 		// upgrade and its data fixer preserves fields it does not recognise. The
 		// private marker prevents this temporary identity from escaping the chunk
@@ -482,10 +592,10 @@ public final class LegacyWorldDataHook {
 	}
 
 	private static void restorePaddedBenchTileEntityIds(CompoundTag level) {
-		ListTag tileEntities = level.getList("TileEntities", 10);
+		ListTag tileEntities = LegacyNbt.list(level, "TileEntities");
 		for (int index = 0; index < tileEntities.size(); ++index) {
-			CompoundTag tileEntity = tileEntities.getCompound(index);
-			if (!tileEntity.getBoolean(PADDED_TILE_MARKER)) {
+			CompoundTag tileEntity = LegacyNbt.compound(tileEntities, index);
+			if (!LegacyNbt.bool(tileEntity, PADDED_TILE_MARKER, false)) {
 				continue;
 			}
 			tileEntity.putString("id", LegacyPaddedBenchIds.BLOCK_ENTITY_ID.toString());
@@ -501,10 +611,10 @@ public final class LegacyWorldDataHook {
 		if (y < 0 || y > 255) {
 			return -1;
 		}
-		ListTag sections = level.getList("Sections", 10);
+		ListTag sections = LegacyNbt.list(level, "Sections");
 		for (int sectionIndex = 0; sectionIndex < sections.size(); ++sectionIndex) {
-			CompoundTag section = sections.getCompound(sectionIndex);
-			if ((section.getByte("Y") & 0xFF) != y >> 4) {
+			CompoundTag section = LegacyNbt.compound(sections, sectionIndex);
+			if ((LegacyNbt.byteValue(section, "Y", (byte)0) & 0xFF) != y >> 4) {
 				continue;
 			}
 			byte[] blocks = section.getByteArray("Blocks");
@@ -522,34 +632,9 @@ public final class LegacyWorldDataHook {
 		return (blocks[index] & 0xFF) | (highBits << 8);
 	}
 
-	@SuppressWarnings("unchecked")
-	private static Dynamic<?>[] expandFlatteningTable(int requiredLength) {
-		try {
-			Field valuesField = null;
-			Dynamic<?>[] current = null;
-			for (Field candidate : BlockStateData.class.getDeclaredFields()) {
-				if (!candidate.getType().equals(Dynamic[].class)) {
-					continue;
-				}
-				candidate.setAccessible(true);
-				Dynamic<?>[] values = (Dynamic<?>[])candidate.get(null);
-				if (values.length >= 4096) {
-					valuesField = candidate;
-					current = values;
-					break;
-				}
-			}
-			if (valuesField == null) {
-				throw new NoSuchFieldException("Minecraft legacy block-state table");
-			}
-			if (current.length >= requiredLength) {
-				return current;
-			}
-			Dynamic<?>[] expanded = Arrays.copyOf(current, requiredLength);
-			valuesField.set(null, expanded);
-			return expanded;
-		} catch (ReflectiveOperationException e) {
-			throw new IllegalStateException("Could not expand Minecraft's legacy block-state flattening table", e);
-		}
-	}
+    private static Dynamic<?>[] expandFlatteningTable(int length) {
+        Dynamic<?>[] map = zone.moddev.mc.ironagefurniture.mixin.BlockStateDataAccessor.iaf$getLegacyStateMap();
+        if (map.length < length) throw new IllegalStateException("Legacy state index exceeds Minecraft's supported block range");
+        return map;
+    }
 }

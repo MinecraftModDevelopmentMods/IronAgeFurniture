@@ -1,66 +1,62 @@
 package zone.moddev.mc.ironagefurniture.init;
 
-import net.minecraft.world.level.block.Block;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.function.Supplier;
+import net.minecraft.core.Registry;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.world.level.block.Block;
+import net.minecraftforge.fmllegacy.RegistryObject;
+import net.minecraftforge.registries.DeferredRegister;
 import zone.moddev.mc.ironagefurniture.Ironagefurniture;
-import zone.moddev.mc.ironagefurniture.IronAgeFurnitureConfiguration;
-import zone.moddev.mc.ironagefurniture.api.blocks.furniture.*;
-import zone.moddev.mc.ironagefurniture.api.items.UpholsteredBlockItem;
-import zone.moddev.mc.ironagefurniture.api.UpholsteryItemData;
-import zone.moddev.mc.ironagefurniture.api.SconceMetalData;
+import zone.moddev.mc.ironagefurniture.ModItems;
+import zone.moddev.mc.ironagefurniture.api.blocks.furniture.CanopyBed;
+import zone.moddev.mc.ironagefurniture.api.blocks.furniture.ThroneChair;
+import zone.moddev.mc.ironagefurniture.api.blocks.furniture.WingbackChair;
+import zone.moddev.mc.ironagefurniture.api.blocks.furniture.WoodenBed;
 import zone.moddev.mc.ironagefurniture.api.enumerations.UpholsteryColour;
-import zone.moddev.mc.ironagefurniture.api.enumerations.SconceMetal;
-import zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem;
+import zone.moddev.mc.ironagefurniture.api.items.UpholsteredBlockItem;
 
-/** Called from the existing wood catalog, so optional woods use the same gates. */
-@Mod.EventBusSubscriber(modid = Ironagefurniture.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+/** Shared construction for the vanilla and optional-provider furniture families. */
 public final class PhaseFourFurniture {
+    public static final DeferredRegister<Block> REGISTER = DeferredRegister.create(net.minecraftforge.registries.ForgeRegistries.BLOCKS, Ironagefurniture.MODID);
+    public static final String[] VANILLA_WOODS = {"oak", "spruce", "birch", "jungle", "acacia", "dark_oak",
+            "crimson", "warped"};
+    static {
+        for (String wood : VANILLA_WOODS) registerWood(wood, REGISTER, ModItems.REGISTER);
+    }
+
+    public static Map<String, RegistryObject<Block>> registerWood(String wood, DeferredRegister<Block> blocks,
+            DeferredRegister<Item> items) {
+        Map<String, RegistryObject<Block>> result = new LinkedHashMap<>();
+        add(result, blocks, items, "chair_wood_ironage_wingback_" + wood, () -> new WingbackChair("chair_wood_ironage_wingback_" + wood), true);
+        add(result, blocks, items, "chair_wood_ironage_throne_" + wood, () -> new ThroneChair("chair_wood_ironage_throne_" + wood), true);
+        add(result, blocks, items, "bed_wood_foot_" + wood, () -> new WoodenBed("bed_wood_foot_" + wood, false), true);
+        add(result, blocks, items, "bed_wood_foot_left_" + wood, () -> new WoodenBed("bed_wood_foot_left_" + wood, true), true);
+        add(result, blocks, items, "bed_canopy_foot_lower_" + wood, () -> new CanopyBed("bed_canopy_foot_lower_" + wood, false), true);
+        String leftId = "bed_canopy_foot_left_lower_" + wood;
+        String rightId = "bed_canopy_foot_right_lower_" + wood;
+        add(result, blocks, items, leftId, () -> {
+            CanopyBed bed = new CanopyBed(leftId, true);
+            bed.setDoubleBlocks(() -> (CanopyBed)result.get(leftId).get(), () -> (CanopyBed)result.get(rightId).get());
+            return bed;
+        }, true);
+        add(result, blocks, items, rightId, () -> {
+            CanopyBed bed = new CanopyBed(rightId, true);
+            bed.setDoubleBlocks(() -> (CanopyBed)result.get(leftId).get(), () -> (CanopyBed)result.get(rightId).get());
+            return bed;
+        }, false);
+        return result;
+    }
+
+    private static void add(Map<String, RegistryObject<Block>> result, DeferredRegister<Block> blocks,
+            DeferredRegister<Item> items, String path, Supplier<Block> factory, boolean visible) {
+        RegistryObject<Block> block = blocks.register(path, factory);
+        result.put(path, block);
+        if (visible) for (UpholsteryColour colour : UpholsteryColour.values()) {
+            String itemPath = path + (colour == UpholsteryColour.RED ? "" : "_" + colour.getSerializedName());
+            items.register(itemPath, () -> new UpholsteredBlockItem(block.get(), new Item.Properties(), colour));
+        }
+    }
     private PhaseFourFurniture() { }
-    public static void registerBlocks(RegistryEvent.Register<Block> event, String wood) {
-        IronAgeFurnitureConfiguration.Client config = IronAgeFurnitureConfiguration.CLIENT;
-        if (config.GENERATE_CLASSIC_CHAIRS.get() && config.GENERATE_WINGBACK_CHAIRS.get()) {
-            event.getRegistry().register(new WingbackChair("chair_wood_ironage_wingback_" + wood));
-            if (config.GENERATE_THRONES.get()) event.getRegistry().register(new ThroneChair("chair_wood_ironage_throne_" + wood));
-        }
-        if (config.GENERATE_WOOD_BEDS.get()) {
-            event.getRegistry().register(new WoodenBed("bed_wood_foot_" + wood, false));
-            event.getRegistry().register(new WoodenBed("bed_wood_foot_left_" + wood, true));
-        }
-        if (config.GENERATE_CANOPY_BEDS.get()) {
-            CanopyBed single = new CanopyBed("bed_canopy_foot_lower_" + wood, false);
-            CanopyBed left = new CanopyBed("bed_canopy_foot_left_lower_" + wood, true);
-            CanopyBed right = new CanopyBed("bed_canopy_foot_right_lower_" + wood, true);
-            left.setDoubleBlocks(left, right);
-            right.setDoubleBlocks(left, right);
-            event.getRegistry().registerAll(single, left, right);
-        }
-    }
-    @SubscribeEvent(priority = net.minecraftforge.eventbus.api.EventPriority.LOWEST)
-    public static void registerItems(RegistryEvent.Register<Item> event) {
-        for (Block block : ForgeRegistries.BLOCKS.getValues()) {
-            if (!(block instanceof MultiBlockChair) && !(block instanceof FurnitureBed)) continue;
-            if (block instanceof FurnitureBed && ((FurnitureBed)block).itemBlock() != block) continue;
-            for (UpholsteryColour colour : UpholsteryColour.values())
-                event.getRegistry().register(new UpholsteredBlockItem(block,
-                        new Item.Properties().tab(block instanceof FurnitureBed
-                                ? Ironagefurniture.IAF_BEDS_GROUP : Ironagefurniture.IAF_CHAIRS_GROUP), colour)
-                        .setRegistryName(UpholsteryItemData.itemId(block.getRegistryName(), colour)));
-        }
-        // Register even temporarily unavailable metals so removing Base Metals
-        // cannot erase stored sconces. Only their recipes and tab entries hide.
-        for (Item item : new java.util.ArrayList<>(event.getRegistry().getValues())) {
-            if (!(item instanceof MetalSconceBlockItem)) continue;
-            Block block = ((MetalSconceBlockItem)item).getBlock();
-            for (SconceMetal metal : SconceMetal.values()) if (metal != SconceMetal.IRON) {
-                Item.Properties properties = new Item.Properties();
-                if (item.getItemCategory() != null) properties.tab(item.getItemCategory());
-                event.getRegistry().register(new MetalSconceBlockItem(block, properties, metal)
-                        .setRegistryName(SconceMetalData.itemId(item.getRegistryName(), metal)));
-            }
-        }
-    }
 }

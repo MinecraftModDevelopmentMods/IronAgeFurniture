@@ -1,29 +1,25 @@
 {
     "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_wingback_dark_oak_yellow",
     "ingredients": [
         {
-            "item": "minecraft:yellow_carpet"
+            "item": "ironagefurniture:chair_wood_ironage_classic_dark_oak"
         },
         {
             "item": "minecraft:dark_oak_planks"
         },
         {
-            "item": "ironagefurniture:chair_wood_ironage_classic_dark_oak"
+            "item": "minecraft:yellow_carpet"
         }
     ],
-    "group": "ironagefurniture:chair_wood_ironage_wingback_dark_oak_yellow",
     "result": {
-        "item": "ironagefurniture:chair_wood_ironage_wingback_dark_oak_yellow",
-        "count": 1
+        "count": 1,
+        "item": "ironagefurniture:chair_wood_ironage_wingback_dark_oak_yellow"
     },
     "conditions": [
         {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:chair_wood_ironage_wingback_dark_oak"
-        },
-        {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:chair_wood_ironage_classic_dark_oak"
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "wingbacks"
         }
     ]
 }

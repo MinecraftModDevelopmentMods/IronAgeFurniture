@@ -1,5 +1,6 @@
 {
     "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_classic_jungle",
     "conditions": [
         {
             "type": "forge:mod_loaded",
@@ -10,8 +11,8 @@
             "item": "cfm:jungle_chair"
         },
         {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:chair_wood_ironage_classic_jungle"
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "classicChairs"
         }
     ],
     "ingredients": [

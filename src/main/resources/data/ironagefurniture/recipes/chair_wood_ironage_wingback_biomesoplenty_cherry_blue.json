@@ -1,20 +1,20 @@
 {
     "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_cherry_blue",
     "ingredients": [
         {
-            "item": "minecraft:blue_carpet"
+            "item": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_cherry"
         },
         {
             "item": "biomesoplenty:cherry_planks"
         },
         {
-            "item": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_cherry"
+            "item": "minecraft:blue_carpet"
         }
     ],
-    "group": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_cherry_blue",
     "result": {
-        "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_cherry_blue",
-        "count": 1
+        "count": 1,
+        "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_cherry_blue"
     },
     "conditions": [
         {
@@ -22,12 +22,8 @@
             "modid": "biomesoplenty"
         },
         {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_cherry"
-        },
-        {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_cherry"
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "wingbacks"
         }
     ]
 }

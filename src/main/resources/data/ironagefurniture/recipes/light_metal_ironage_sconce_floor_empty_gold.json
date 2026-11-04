@@ -1,12 +1,6 @@
 {
     "type": "minecraft:crafting_shaped",
-    "group": "ironagefurniture:sconce_gold",
-    "conditions": [
-        {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:light_metal_ironage_sconce_floor_empty_iron"
-        }
-    ],
+    "group": "ironagefurniture:light_metal_ironage_sconce_floor_empty_gold",
     "pattern": [
         "xxx",
         "x  ",
@@ -18,7 +12,13 @@
         }
     },
     "result": {
-        "item": "ironagefurniture:light_metal_ironage_sconce_floor_empty_gold",
-        "count": 4
-    }
+        "count": 4,
+        "item": "ironagefurniture:light_metal_ironage_sconce_floor_empty_gold"
+    },
+    "conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "lights"
+        }
+    ]
 }

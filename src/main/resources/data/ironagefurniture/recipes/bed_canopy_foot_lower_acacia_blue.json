@@ -1,5 +1,6 @@
 {
-    "type": "ironagefurniture:upholstery_upgrade",
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_lower_acacia_blue",
     "ingredients": [
         {
             "item": "ironagefurniture:bed_wood_foot_acacia_blue"
@@ -11,19 +12,14 @@
             "item": "minecraft:blue_carpet"
         }
     ],
-    "group": "ironagefurniture:bed_canopy_foot_lower_acacia_blue",
     "result": {
-        "item": "ironagefurniture:bed_canopy_foot_lower_acacia_blue",
-        "count": 1
+        "count": 1,
+        "item": "ironagefurniture:bed_canopy_foot_lower_acacia_blue"
     },
     "conditions": [
         {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:bed_canopy_foot_lower_acacia"
-        },
-        {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:bed_wood_foot_acacia"
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "canopyBeds"
         }
     ]
 }

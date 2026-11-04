@@ -16,13 +16,13 @@ final class LegacyRecipeBookMigration {
     private LegacyRecipeBookMigration() { }
 
     static void prepare(CompoundTag root) {
-        if (root.contains("recipeBook", 10)) {
-            CompoundTag book = root.getCompound("recipeBook");
+        if (root.contains("recipeBook")) {
+            CompoundTag book = LegacyNbt.compound(root, "recipeBook");
             for (String key : new String[]{"recipes", "toBeDisplayed"}) {
-                if (!book.contains(key, 9)) continue;
-                ListTag saved = book.getList(key, 8), current = new ListTag();
+                if (!book.contains(key)) continue;
+                ListTag saved = LegacyNbt.list(book, key), current = new ListTag();
                 for (int index = 0; index < saved.size(); index++) {
-                    String target = currentRecipe(saved.getString(index));
+                    String target = currentRecipe(LegacyNbt.string(saved, index, ""));
                     if (target != null && !current.contains(StringTag.valueOf(target))) current.add(StringTag.valueOf(target));
                 }
                 book.put(key, current);
@@ -39,6 +39,9 @@ final class LegacyRecipeBookMigration {
         if ("minecraft:sign".equals(saved)) return "minecraft:oak_sign";
         // An unavailable add-on owns its recipe names; leave them recoverable.
         if (!saved.startsWith("ironagefurniture:")) return saved;
+        // Standalone IAF wax candles now craft the native vanilla candle item.
+        if ("ironagefurniture:light_metal_ironage_candle_floor".equals(saved))
+            return "ironagefurniture:candles_from_tallow";
         ResourceLocation old = new ResourceLocation(saved);
         String path = old.getPath();
         if (path.startsWith("bed_") && path.contains("_recolour")) return null;

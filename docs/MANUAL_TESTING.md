@@ -4,8 +4,7 @@ Restart the client after rebuilding or refreshing Eclipse output. Use Java 16
 for the game; Buildship runs Gradle on Java 17.
 
 `runClient` is core-only and uses `run-core`. `runClientCompatibility` uses
-`run`, with the separate optional-mod installation and existing development
-saves. Test only copied worlds when upgrading.
+`run-phase4-compat`, with its separate optional-mod installation and saves. Test only copied worlds when upgrading.
 
 The compatibility stack used for automated tests is:
 
@@ -28,8 +27,9 @@ use the original downloaded jars.
 - Craft a wingback and throne with matching wood and carpet. Check immediate
   recipe discovery while the table stays open, including shift-click crafting.
   Carpet recolouring should work manually without cluttering the recipe book.
-- Attach a named, damaged, patterned and enchanted shield. Remove it, mine or
-  drop the chair, then save and reopen. Its complete shield data should survive.
+- Attach a blue or patterned shield, save and reopen the world, then check
+  that the chair shows the same design. Remove the shield and check its name,
+  damage and enchantments.
 
 ## Lights and sconces
 
@@ -44,11 +44,11 @@ use the original downloaded jars.
   Right-click removal should stay safe.
 - Compare iron, gold and Base Metals frame textures and mining toughness.
   Include a gold frame and a hard metal such as adamantine or star steel.
-- Check held-candle flame/smoke placement, rock-salt lamps with Mineralogy and
-  a save/reload of representative filled sconces.
+- Check rock-salt lamps with Mineralogy and reopen a world with mixed-colour
+  candle sconces. Held lights should have no flame or smoke effects.
 
-IAF candles remain separate from vanilla candles for now. IAF supplies their
-visual effects, not a built-in dynamic-lighting engine.
+Legacy IAF candles keep their saved block identities. New multi-candle sconces
+hold vanilla candles.
 
 See [UPGRADING.md](UPGRADING.md) for the tested legacy paths, excluded wood
 families and vanilla structure warnings.

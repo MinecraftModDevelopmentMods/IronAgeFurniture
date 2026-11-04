@@ -3,20 +3,22 @@ package zone.moddev.mc.ironagefurniture.api.blocks.lightsource.red;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
-import zone.moddev.mc.ironagefurniture.BlockObjectHolder;
 import zone.moddev.mc.ironagefurniture.api.blocks.base.FurnitureBlock;
 import zone.moddev.mc.ironagefurniture.api.blocks.lightsource.torch.LightSourceSconceTorchWall;
+import zone.moddev.mc.ironagefurniture.init.ModVanillaLights;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.server.level.ServerLevel;
+import java.util.Random;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.levelgen.feature.RandomSelectorFeature;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -24,7 +26,6 @@ import oshi.util.tuples.Pair;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.WeakHashMap;
 
 public class LightSourceSconceRedWall extends LightSourceSconceTorchWall {
@@ -41,7 +42,7 @@ public class LightSourceSconceRedWall extends LightSourceSconceTorchWall {
 
 	@Override
 	protected Block LightDrop() {
-		return BlockObjectHolder.light_metal_ironage_block_floor_red_clear;
+		return ModVanillaLights.light_metal_ironage_block_floor_red_clear.get();
 	}
 
 	@Override
@@ -57,7 +58,7 @@ public class LightSourceSconceRedWall extends LightSourceSconceTorchWall {
 	public LightSourceSconceRedWall(Properties properties) {
 		super(properties);
 
-		this.registerDefaultState(this.defaultBlockState() .setValue(FurnitureBlock.DIRECTION, Direction.NORTH) .setValue(FurnitureBlock.WATERLOGGED, false));
+		this.registerDefaultState(this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH).setValue(FurnitureBlock.WATERLOGGED, false));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
 	}
 
@@ -82,11 +83,11 @@ public class LightSourceSconceRedWall extends LightSourceSconceTorchWall {
 	}
 
 	public LightSourceSconceRedWall(float hardness, float blastResistance, SoundType sound, String name) {
-		super(Properties.of(Material.METAL).strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> LIGHT_LEVEL));
+		super(Properties.of(net.minecraft.world.level.material.Material.METAL).strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> LIGHT_LEVEL));
 
-		this.registerDefaultState(this.defaultBlockState() .setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
+		this.registerDefaultState(this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
-		this.setRegistryName(name);
+		//this.setRegistryName(name);
 	}
 
 	@Override
@@ -119,37 +120,37 @@ public class LightSourceSconceRedWall extends LightSourceSconceTorchWall {
 	protected LightSourceSconceRedWall getBlockBySignalLevel(int level) {
 		switch (level) {
 			case 1:
-				return (LightSourceSconceRedWall) BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_one;
+				return (LightSourceSconceRedWall) ModVanillaLights.light_metal_ironage_sconce_wall_red_iron_one.get();
 			case 2:
-				return (LightSourceSconceRedWall) BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_two;
+				return (LightSourceSconceRedWall) ModVanillaLights.light_metal_ironage_sconce_wall_red_iron_two.get();
 			case 3:
-				return (LightSourceSconceRedWall) BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_three;
+				return (LightSourceSconceRedWall) ModVanillaLights.light_metal_ironage_sconce_wall_red_iron_three.get();
 			case 4:
-				return (LightSourceSconceRedWall) BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_four;
+				return (LightSourceSconceRedWall) ModVanillaLights.light_metal_ironage_sconce_wall_red_iron_four.get();
 			case 5:
-				return (LightSourceSconceRedWall) BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_five;
+				return (LightSourceSconceRedWall) ModVanillaLights.light_metal_ironage_sconce_wall_red_iron_five.get();
 			case 6:
-				return (LightSourceSconceRedWall) BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_six;
+				return (LightSourceSconceRedWall) ModVanillaLights.light_metal_ironage_sconce_wall_red_iron_six.get();
 			case 7:
-				return (LightSourceSconceRedWall) BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_seven;
+				return (LightSourceSconceRedWall) ModVanillaLights.light_metal_ironage_sconce_wall_red_iron_seven.get();
 			case 8:
-				return (LightSourceSconceRedWall) BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_eight;
+				return (LightSourceSconceRedWall) ModVanillaLights.light_metal_ironage_sconce_wall_red_iron_eight.get();
 			case 9:
-				return (LightSourceSconceRedWall) BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_nine;
+				return (LightSourceSconceRedWall) ModVanillaLights.light_metal_ironage_sconce_wall_red_iron_nine.get();
 			case 10:
-				return (LightSourceSconceRedWall) BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_ten;
+				return (LightSourceSconceRedWall) ModVanillaLights.light_metal_ironage_sconce_wall_red_iron_ten.get();
 			case 11:
-				return (LightSourceSconceRedWall) BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_eleven;
+				return (LightSourceSconceRedWall) ModVanillaLights.light_metal_ironage_sconce_wall_red_iron_eleven.get();
 			case 12:
-				return (LightSourceSconceRedWall) BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_twelve;
+				return (LightSourceSconceRedWall) ModVanillaLights.light_metal_ironage_sconce_wall_red_iron_twelve.get();
 			case 13:
-				return (LightSourceSconceRedWall) BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_thirteen;
+				return (LightSourceSconceRedWall) ModVanillaLights.light_metal_ironage_sconce_wall_red_iron_thirteen.get();
 			case 14:
-				return (LightSourceSconceRedWall) BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_fourteen;
+				return (LightSourceSconceRedWall) ModVanillaLights.light_metal_ironage_sconce_wall_red_iron_fourteen.get();
 			case 15:
-				return (LightSourceSconceRedWall) BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_fifteen;
+				return (LightSourceSconceRedWall) ModVanillaLights.light_metal_ironage_sconce_wall_red_iron_fifteen.get();
 			default:
-				return (LightSourceSconceRedWall) BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron;
+				return (LightSourceSconceRedWall) ModVanillaLights.light_metal_ironage_sconce_wall_red_iron.get();
 		}
 	}
 
@@ -165,18 +166,16 @@ public class LightSourceSconceRedWall extends LightSourceSconceTorchWall {
 			LightSourceSconceRedWall newBlock = getBlockBySignalLevel(signal);
 
 			level.setBlock(pos,
-				newBlock.defaultBlockState()
-					 .setValue(DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
-					 .setValue(WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)).setValue(zone.moddev.mc.ironagefurniture.api.SconceMetalData.METAL, zone.moddev.mc.ironagefurniture.api.SconceMetalData.get(state)),
-				3);
+				zone.moddev.mc.ironagefurniture.api.SconceMetalData.transition(newBlock, state),
+				UPDATE_ALL);
 
 			Block block = level.getBlockState(pos).getBlock();
 
-			level.getBlockTicks().scheduleTick(pos, block, 2);
+			zone.moddev.mc.ironagefurniture.api.NativeTicks.schedule(level, pos, block, 2);
 
 			if (isToggledTooFrequently(level, pos, true)) {
 				level.levelEvent(1502, pos, 0);
-				level.getBlockTicks().scheduleTick(pos, level.getBlockState(pos).getBlock(), 160);
+				zone.moddev.mc.ironagefurniture.api.NativeTicks.schedule(level, pos, level.getBlockState(pos).getBlock(), 160);
 			}
 		}
 
@@ -245,7 +244,7 @@ public class LightSourceSconceRedWall extends LightSourceSconceTorchWall {
 		boolean willTick = level.getBlockTicks().willTickThisTick(pos, this);
 
 		if ((hasSignal || GetLightLevel() > 0) && !willTick)
-			level.getBlockTicks().scheduleTick(pos, this, 2);
+			zone.moddev.mc.ironagefurniture.api.NativeTicks.schedule(level, pos, this, 2);
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 {
     "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_acacia_black",
     "ingredients": [
         {
             "item": "minecraft:black_bed"
@@ -8,15 +9,14 @@
             "item": "minecraft:acacia_planks"
         }
     ],
-    "group": "ironagefurniture:bed_wood_foot_acacia_black",
     "result": {
-        "item": "ironagefurniture:bed_wood_foot_acacia_black",
-        "count": 1
+        "count": 1,
+        "item": "ironagefurniture:bed_wood_foot_acacia_black"
     },
     "conditions": [
         {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:bed_wood_foot_acacia"
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
         }
     ]
 }

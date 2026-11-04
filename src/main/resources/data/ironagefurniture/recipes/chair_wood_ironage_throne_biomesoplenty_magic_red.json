@@ -1,20 +1,20 @@
 {
     "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_magic_red",
     "ingredients": [
         {
-            "item": "minecraft:red_carpet"
+            "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_magic"
         },
         {
             "item": "biomesoplenty:magic_planks"
         },
         {
-            "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_magic"
+            "item": "minecraft:red_carpet"
         }
     ],
-    "group": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_magic_red",
     "result": {
-        "item": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_magic",
-        "count": 1
+        "count": 1,
+        "item": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_magic"
     },
     "conditions": [
         {
@@ -22,12 +22,8 @@
             "modid": "biomesoplenty"
         },
         {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_magic"
-        },
-        {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_magic"
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "thrones"
         }
     ]
 }

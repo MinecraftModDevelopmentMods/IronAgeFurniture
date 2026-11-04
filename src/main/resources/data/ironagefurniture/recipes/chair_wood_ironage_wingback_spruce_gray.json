@@ -1,29 +1,25 @@
 {
     "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_wingback_spruce_gray",
     "ingredients": [
         {
-            "item": "minecraft:gray_carpet"
+            "item": "ironagefurniture:chair_wood_ironage_classic_spruce"
         },
         {
             "item": "minecraft:spruce_planks"
         },
         {
-            "item": "ironagefurniture:chair_wood_ironage_classic_spruce"
+            "item": "minecraft:gray_carpet"
         }
     ],
-    "group": "ironagefurniture:chair_wood_ironage_wingback_spruce_gray",
     "result": {
-        "item": "ironagefurniture:chair_wood_ironage_wingback_spruce_gray",
-        "count": 1
+        "count": 1,
+        "item": "ironagefurniture:chair_wood_ironage_wingback_spruce_gray"
     },
     "conditions": [
         {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:chair_wood_ironage_wingback_spruce"
-        },
-        {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:chair_wood_ironage_classic_spruce"
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "wingbacks"
         }
     ]
 }

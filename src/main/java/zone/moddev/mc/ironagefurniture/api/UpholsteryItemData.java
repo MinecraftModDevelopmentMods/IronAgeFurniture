@@ -1,54 +1,43 @@
 package zone.moddev.mc.ironagefurniture.api;
 
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.registries.ForgeRegistries;
-import zone.moddev.mc.ironagefurniture.api.items.UpholsteredBlockItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import zone.moddev.mc.ironagefurniture.api.enumerations.UpholsteryColour;
+import zone.moddev.mc.ironagefurniture.api.items.UpholsteredBlockItem;
 
-/** Colour-specific items, with support for the old portable Color field. */
+/** Ordinary item identities select colours; the old Color field is import-only. */
 public final class UpholsteryItemData {
     public static final String COLOR = "Color";
     public static final EnumProperty<UpholsteryColour> COLOUR = EnumProperty.create("colour", UpholsteryColour.class);
     private UpholsteryItemData() { }
+
     public static UpholsteryColour getColour(ItemStack stack) {
-        if (stack.getItem() instanceof UpholsteredBlockItem) {
-            UpholsteryColour fixed = ((UpholsteredBlockItem)stack.getItem()).getColour();
-            if (fixed != UpholsteryColour.RED) return fixed;
-        }
-        CompoundTag tag = stack.getTag();
-        return tag != null && tag.contains(COLOR, 8) ? UpholsteryColour.byName(tag.getString(COLOR))
-                : UpholsteryColour.RED;
+        if (stack.getItem() instanceof UpholsteredBlockItem item) return item.getColour();
+        return UpholsteryColour.byName(stack.hasTag() ? stack.getTag().getString(COLOR) : "");
     }
-    public static ItemStack create(Block block, UpholsteryColour colour) {
-        net.minecraft.world.item.Item item = ForgeRegistries.ITEMS.getValue(itemId(block.getRegistryName(), colour));
-        if (item instanceof UpholsteredBlockItem) return new ItemStack(item);
-        ItemStack stack = new ItemStack(block);
-        stack.getOrCreateTag().putString(COLOR, colour.getSerializedName());
-        return stack;
-    }
-    public static ItemStack recolour(ItemStack original, UpholsteryColour colour) {
-        if (original.getItem() instanceof UpholsteredBlockItem) {
-            ItemStack result = create(((UpholsteredBlockItem)original.getItem()).getBlock(), colour);
-            result.setCount(original.getCount());
-            if (original.hasTag()) result.setTag(original.getTag().copy());
-            removeLegacyField(result);
-            return result;
-        }
-        ItemStack result = original.copy();
-        result.getOrCreateTag().putString(COLOR, colour.getSerializedName());
-        return result;
-    }
+
     public static ResourceLocation itemId(ResourceLocation block, UpholsteryColour colour) {
         return colour == UpholsteryColour.RED ? block
                 : new ResourceLocation(block.getNamespace(), block.getPath() + "_" + colour.getSerializedName());
     }
+
+    public static ItemStack create(Block block, UpholsteryColour colour) {
+        return new ItemStack(Registry.ITEM.get(itemId(Registry.BLOCK.getKey(block), colour)));
+    }
+
+    public static ItemStack recolour(ItemStack original, UpholsteryColour colour) {
+        if (!(original.getItem() instanceof UpholsteredBlockItem item)) return original.copy();
+        net.minecraft.nbt.CompoundTag saved = original.save(new net.minecraft.nbt.CompoundTag());
+        saved.putString("id", Registry.ITEM.getKey(create(item.getBlock(), colour).getItem()).toString());
+        ItemStack result = ItemStack.of(saved);
+        removeLegacyField(result);
+        return result;
+    }
+
     public static void removeLegacyField(ItemStack stack) {
-        if (!stack.hasTag()) return;
-        stack.getTag().remove(COLOR);
-        if (stack.getTag().isEmpty()) stack.setTag(null);
+        if (stack.hasTag()) stack.getTag().remove(COLOR);
     }
 }

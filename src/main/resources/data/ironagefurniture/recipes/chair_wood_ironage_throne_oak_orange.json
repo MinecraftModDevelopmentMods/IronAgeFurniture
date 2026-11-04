@@ -1,29 +1,25 @@
 {
     "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_throne_oak_orange",
     "ingredients": [
         {
-            "item": "minecraft:orange_carpet"
+            "item": "ironagefurniture:chair_wood_ironage_wingback_oak_orange"
         },
         {
             "item": "minecraft:oak_planks"
         },
         {
-            "item": "ironagefurniture:chair_wood_ironage_wingback_oak_orange"
+            "item": "minecraft:orange_carpet"
         }
     ],
-    "group": "ironagefurniture:chair_wood_ironage_throne_oak_orange",
     "result": {
-        "item": "ironagefurniture:chair_wood_ironage_throne_oak_orange",
-        "count": 1
+        "count": 1,
+        "item": "ironagefurniture:chair_wood_ironage_throne_oak_orange"
     },
     "conditions": [
         {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:chair_wood_ironage_throne_oak"
-        },
-        {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:chair_wood_ironage_wingback_oak"
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "thrones"
         }
     ]
 }

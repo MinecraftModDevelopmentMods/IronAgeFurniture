@@ -1,20 +1,20 @@
 {
     "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_palm_white",
     "ingredients": [
         {
-            "item": "minecraft:white_carpet"
+            "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_palm_white"
         },
         {
             "item": "biomesoplenty:palm_planks"
         },
         {
-            "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_palm_white"
+            "item": "minecraft:white_carpet"
         }
     ],
-    "group": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_palm_white",
     "result": {
-        "item": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_palm_white",
-        "count": 1
+        "count": 1,
+        "item": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_palm_white"
     },
     "conditions": [
         {
@@ -22,12 +22,8 @@
             "modid": "biomesoplenty"
         },
         {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_palm"
-        },
-        {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_palm"
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "thrones"
         }
     ]
 }

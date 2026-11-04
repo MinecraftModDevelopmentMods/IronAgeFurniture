@@ -1,5 +1,6 @@
 {
     "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_birch_yellow",
     "ingredients": [
         {
             "item": "minecraft:yellow_bed"
@@ -8,15 +9,14 @@
             "item": "minecraft:birch_planks"
         }
     ],
-    "group": "ironagefurniture:bed_wood_foot_birch_yellow",
     "result": {
-        "item": "ironagefurniture:bed_wood_foot_birch_yellow",
-        "count": 1
+        "count": 1,
+        "item": "ironagefurniture:bed_wood_foot_birch_yellow"
     },
     "conditions": [
         {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:bed_wood_foot_birch"
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
         }
     ]
 }

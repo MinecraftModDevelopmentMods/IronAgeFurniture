@@ -1,29 +1,25 @@
 {
     "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_throne_acacia_red",
     "ingredients": [
         {
-            "item": "minecraft:red_carpet"
+            "item": "ironagefurniture:chair_wood_ironage_wingback_acacia"
         },
         {
             "item": "minecraft:acacia_planks"
         },
         {
-            "item": "ironagefurniture:chair_wood_ironage_wingback_acacia"
+            "item": "minecraft:red_carpet"
         }
     ],
-    "group": "ironagefurniture:chair_wood_ironage_throne_acacia_red",
     "result": {
-        "item": "ironagefurniture:chair_wood_ironage_throne_acacia",
-        "count": 1
+        "count": 1,
+        "item": "ironagefurniture:chair_wood_ironage_throne_acacia"
     },
     "conditions": [
         {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:chair_wood_ironage_throne_acacia"
-        },
-        {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:chair_wood_ironage_wingback_acacia"
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "thrones"
         }
     ]
 }

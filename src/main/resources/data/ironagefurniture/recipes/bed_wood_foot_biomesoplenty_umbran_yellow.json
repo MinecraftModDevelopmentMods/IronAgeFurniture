@@ -1,5 +1,6 @@
 {
     "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_biomesoplenty_umbran_yellow",
     "ingredients": [
         {
             "item": "minecraft:yellow_bed"
@@ -8,10 +9,9 @@
             "item": "biomesoplenty:umbran_planks"
         }
     ],
-    "group": "ironagefurniture:bed_wood_foot_biomesoplenty_umbran_yellow",
     "result": {
-        "item": "ironagefurniture:bed_wood_foot_biomesoplenty_umbran_yellow",
-        "count": 1
+        "count": 1,
+        "item": "ironagefurniture:bed_wood_foot_biomesoplenty_umbran_yellow"
     },
     "conditions": [
         {
@@ -19,8 +19,8 @@
             "modid": "biomesoplenty"
         },
         {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_umbran"
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
         }
     ]
 }

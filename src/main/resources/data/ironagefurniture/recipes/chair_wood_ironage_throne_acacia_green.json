@@ -1,29 +1,25 @@
 {
     "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_throne_acacia_green",
     "ingredients": [
         {
-            "item": "minecraft:green_carpet"
+            "item": "ironagefurniture:chair_wood_ironage_wingback_acacia_green"
         },
         {
             "item": "minecraft:acacia_planks"
         },
         {
-            "item": "ironagefurniture:chair_wood_ironage_wingback_acacia_green"
+            "item": "minecraft:green_carpet"
         }
     ],
-    "group": "ironagefurniture:chair_wood_ironage_throne_acacia_green",
     "result": {
-        "item": "ironagefurniture:chair_wood_ironage_throne_acacia_green",
-        "count": 1
+        "count": 1,
+        "item": "ironagefurniture:chair_wood_ironage_throne_acacia_green"
     },
     "conditions": [
         {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:chair_wood_ironage_throne_acacia"
-        },
-        {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:chair_wood_ironage_wingback_acacia"
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "thrones"
         }
     ]
 }

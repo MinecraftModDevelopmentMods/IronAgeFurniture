@@ -1,20 +1,20 @@
 {
     "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_fir_purple",
     "ingredients": [
         {
-            "item": "minecraft:purple_carpet"
+            "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_fir_purple"
         },
         {
             "item": "biomesoplenty:fir_planks"
         },
         {
-            "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_fir_purple"
+            "item": "minecraft:purple_carpet"
         }
     ],
-    "group": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_fir_purple",
     "result": {
-        "item": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_fir_purple",
-        "count": 1
+        "count": 1,
+        "item": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_fir_purple"
     },
     "conditions": [
         {
@@ -22,12 +22,8 @@
             "modid": "biomesoplenty"
         },
         {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:chair_wood_ironage_throne_biomesoplenty_fir"
-        },
-        {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_fir"
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "thrones"
         }
     ]
 }

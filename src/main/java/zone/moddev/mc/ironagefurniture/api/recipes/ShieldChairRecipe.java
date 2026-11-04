@@ -1,46 +1,44 @@
 package zone.moddev.mc.ironagefurniture.api.recipes;
 
-import com.google.gson.JsonObject;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.crafting.CraftingRecipe;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.registries.ForgeRegistryEntry;
+import net.minecraft.world.level.Level;
 import zone.moddev.mc.ironagefurniture.api.ShieldChairItemData;
-import zone.moddev.mc.ironagefurniture.init.PhaseFourRecipes;
 
-/** The usual chair upgrade, but the supplied shield is copied without losing NBT. */
-public final class ShieldChairRecipe extends ShapelessRecipe {
-    public ShieldChairRecipe(ShapelessRecipe recipe) {
-        super(recipe.getId(), recipe.getGroup(), recipe.getResultItem(), recipe.getIngredients());
+/** Keep native matching and recipe-book ingredients, copying the actual input shield. */
+public record ShieldChairRecipe(ShapelessRecipe recipe) implements CraftingRecipe {
+    public static final RecipeSerializer<ShieldChairRecipe> SERIALIZER = new Serializer();
+    private static final class Serializer extends net.minecraftforge.registries.ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<ShieldChairRecipe> {
+        private final ShapelessRecipe.Serializer nativeSerializer = new ShapelessRecipe.Serializer();
+        @Override public ShieldChairRecipe fromJson(net.minecraft.resources.ResourceLocation id, com.google.gson.JsonObject json) {
+            return new ShieldChairRecipe(nativeSerializer.fromJson(id, json));
+        }
+        @Override public ShieldChairRecipe fromNetwork(net.minecraft.resources.ResourceLocation id, net.minecraft.network.FriendlyByteBuf buffer) {
+            return new ShieldChairRecipe(nativeSerializer.fromNetwork(id, buffer));
+        }
+        @Override public void toNetwork(net.minecraft.network.FriendlyByteBuf buffer, ShieldChairRecipe recipe) {
+            nativeSerializer.toNetwork(buffer, recipe.recipe());
+        }
     }
+    @Override public net.minecraft.resources.ResourceLocation getId() { return recipe.getId(); }
 
-    @Override public ItemStack assemble(CraftingContainer inventory) {
-        for (int slot = 0; slot < inventory.getContainerSize(); slot++) {
-            ItemStack shield = inventory.getItem(slot);
-            if (shield.getItem() == Items.SHIELD) {
-                return ShieldChairItemData.createChair(Block.byItem(getResultItem().getItem()), shield);
-            }
+    @Override public boolean matches(CraftingContainer input, Level world) { return recipe.matches(input, world); }
+    @Override public ItemStack assemble(CraftingContainer input) {
+        for (int slot = 0; slot < input.getContainerSize(); slot++) {
+            ItemStack stack = input.getItem(slot);
+            if (stack.is(Items.SHIELD)) return ShieldChairItemData.withShield(recipe.assemble(input), stack);
         }
         return ItemStack.EMPTY;
     }
-
-    @Override public RecipeSerializer<?> getSerializer() { return PhaseFourRecipes.shield_chair; }
-
-    public static final class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>>
-            implements RecipeSerializer<ShieldChairRecipe> {
-        private final ShapelessRecipe.Serializer vanilla = new ShapelessRecipe.Serializer();
-
-        @Override public ShieldChairRecipe fromJson(ResourceLocation id, JsonObject json) {
-            return new ShieldChairRecipe(vanilla.fromJson(id, json));
-        }
-        @Override public ShieldChairRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buffer) {
-            return new ShieldChairRecipe(vanilla.fromNetwork(id, buffer));
-        }
-        @Override public void toNetwork(FriendlyByteBuf buffer, ShieldChairRecipe recipe) { vanilla.toNetwork(buffer, recipe); }
-    }
+    @Override public boolean canCraftInDimensions(int width, int height) { return recipe.canCraftInDimensions(width, height); }
+    @Override public ItemStack getResultItem() { return recipe.getResultItem(); }
+    @Override public NonNullList<Ingredient> getIngredients() { return recipe.getIngredients(); }
+    @Override public String getGroup() { return recipe.getGroup(); }
+    @Override public RecipeSerializer<ShieldChairRecipe> getSerializer() { return SERIALIZER; }
 }

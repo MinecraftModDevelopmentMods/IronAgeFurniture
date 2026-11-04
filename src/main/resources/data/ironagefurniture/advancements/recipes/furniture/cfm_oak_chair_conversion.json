@@ -11,8 +11,8 @@
                     "item": "cfm:oak_chair"
                 },
                 {
-                    "type": "forge:item_exists",
-                    "item": "ironagefurniture:chair_wood_ironage_classic_oak"
+                    "type": "ironagefurniture:feature_enabled",
+                    "feature": "classicChairs"
                 }
             ],
             "advancement": {

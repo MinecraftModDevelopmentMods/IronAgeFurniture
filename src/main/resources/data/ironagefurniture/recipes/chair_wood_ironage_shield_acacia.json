@@ -10,5 +10,12 @@
     ],
     "result": {
         "item": "ironagefurniture:chair_wood_ironage_shield_acacia"
-    }
+    },
+    "conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "shieldChairs"
+        }
+    ],
+    "group": "ironagefurniture:chair_wood_ironage_shield_acacia"
 }

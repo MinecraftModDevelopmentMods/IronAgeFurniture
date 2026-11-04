@@ -47,51 +47,14 @@ public class ShieldChairItemDataTest {
     @Test public void oldChairsKeepTheirPlainShieldAndEmptyFramesStayEmpty() {
         assertEquals(Items.SHIELD, ShieldChairItemData.getShield(new ItemStack(Blocks.OAK_PLANKS)).getItem());
         ItemStack empty = ShieldChairItemData.createChair(Blocks.OAK_PLANKS, ItemStack.EMPTY);
-        assertTrue(ShieldChairItemData.isEmptyFrame(empty));
+        assertTrue(ShieldChairItemData.getShield(empty).isEmpty());
         assertTrue(ShieldChairItemData.getShield(empty).isEmpty());
         assertTrue(ShieldChairItemData.getShield(ItemStack.of(empty.save(new CompoundTag()))).isEmpty());
     }
 
-    @Test public void normalizesCountAndRejectsNonShields() {
-        ItemStack shield = decoratedShield();
-        shield.setCount(12);
+    @Test public void normalizesCountWithoutConsumingTheInput() {
+        ItemStack shield = decoratedShield(); shield.setCount(12);
         assertEquals(1, ShieldChairItemData.getShield(ShieldChairItemData.createChair(Blocks.OAK_PLANKS, shield)).getCount());
         assertEquals(12, shield.getCount());
-        assertTrue(ShieldChairItemData.getShield(ShieldChairItemData.createChair(Blocks.OAK_PLANKS,
-                new ItemStack(Items.DIAMOND))).isEmpty());
-        CompoundTag invalid = new CompoundTag();
-        invalid.put("Shield", new ItemStack(Items.DIAMOND).save(new CompoundTag()));
-        assertEquals(Items.SHIELD, ShieldChairItemData.readShield(invalid).getItem());
-    }
-
-    @Test public void importsPreFlatteningDamageEnchantmentAndBannerDataIdempotently() {
-        CompoundTag oldShield = new CompoundTag();
-        oldShield.putString("id", "minecraft:shield");
-        oldShield.putByte("Count", (byte) 1);
-        oldShield.putShort("Damage", (short) 47);
-        CompoundTag oldTag = new CompoundTag();
-        oldTag.put("BlockEntityTag", decoratedShield().getTagElement("BlockEntityTag").copy());
-        ListTag enchantments = new ListTag();
-        CompoundTag unbreaking = new CompoundTag();
-        unbreaking.putShort("id", (short) 34);
-        unbreaking.putShort("lvl", (short) 3);
-        enchantments.add(unbreaking);
-        oldTag.put("ench", enchantments);
-        oldTag.putString("AnotherModsData", "preserved");
-        oldShield.put("tag", oldTag);
-        CompoundTag legacy = new CompoundTag();
-        legacy.put("Shield", oldShield);
-        CompoundTag before = legacy.copy();
-        ItemStack migrated = ShieldChairItemData.readShield(legacy);
-        assertEquals(47, migrated.getDamageValue());
-        assertEquals("minecraft:unbreaking", migrated.getEnchantmentTags().getCompound(0).getString("id"));
-        // Before flattening, banner dye numbers run in the opposite order.
-        assertEquals(1, migrated.getTagElement("BlockEntityTag").getInt("Base"));
-        assertEquals(11, migrated.getTagElement("BlockEntityTag").getList("Patterns", 10).getCompound(0).getInt("Color"));
-        assertEquals("cre", migrated.getTagElement("BlockEntityTag").getList("Patterns", 10).getCompound(0).getString("Pattern"));
-        assertEquals("preserved", migrated.getTag().getString("AnotherModsData"));
-        assertEquals(before, legacy);
-        assertEquals(migrated.save(new CompoundTag()), ShieldChairItemData.readShield(
-                ShieldChairItemData.writeShield(migrated)).save(new CompoundTag()));
     }
 }

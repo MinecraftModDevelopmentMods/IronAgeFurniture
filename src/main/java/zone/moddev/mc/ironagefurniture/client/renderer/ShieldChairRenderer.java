@@ -1,69 +1,64 @@
 package zone.moddev.mc.ironagefurniture.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.entity.ItemRenderer;
-import net.minecraft.client.renderer.RenderType;
 import com.mojang.math.Vector3f;
-import net.minecraft.client.model.ShieldModel;
-import net.minecraft.client.resources.model.Material;
-import net.minecraft.client.resources.model.ModelBakery;
+import net.minecraft.client.model.geom.EntityModelSet;
+import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BannerRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ShieldItem;
-import net.minecraft.world.level.block.entity.BannerBlockEntity;
+import net.minecraft.client.resources.model.Material;
+import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.core.Direction;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import zone.moddev.mc.ironagefurniture.api.blocks.furniture.ShieldChair;
-import zone.moddev.mc.ironagefurniture.api.tile.ShieldChairTileEntity;
+import net.minecraft.nbt.Tag;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BannerBlockEntity;
+import zone.moddev.mc.ironagefurniture.api.blocks.base.FurnitureBlock;
+import zone.moddev.mc.ironagefurniture.api.tile.ShieldChairBlockEntity;
 
-/** Draw the saved shield with vanilla banner patterns, but without its hand grip. */
-@OnlyIn(Dist.CLIENT)
-public final class ShieldChairRenderer implements BlockEntityRenderer<ShieldChairTileEntity> {
+/** Native immediate rendering of the complete shield plate, without its handle. */
+public final class ShieldChairRenderer implements BlockEntityRenderer<ShieldChairBlockEntity> {
     private final ModelPart plate;
+
     public ShieldChairRenderer(BlockEntityRendererProvider.Context context) { this(context.getModelSet()); }
-    public ShieldChairRenderer(net.minecraft.client.model.geom.EntityModelSet models) {
-        plate = new ShieldModel(models.bakeLayer(net.minecraft.client.model.geom.ModelLayers.SHIELD)).plate();
+    public ShieldChairRenderer(EntityModelSet models) { plate = models.bakeLayer(ModelLayers.SHIELD).getChild("plate"); }
+
+    @Override public void render(ShieldChairBlockEntity entity, float partialTicks, PoseStack poses,
+            MultiBufferSource buffers, int light, int overlay) {
+        renderShield(entity.shield(), entity.getBlockState().getValue(FurnitureBlock.DIRECTION), poses, buffers, light, overlay);
     }
 
-    @Override public void render(ShieldChairTileEntity tile, float partialTicks, PoseStack stack,
-            MultiBufferSource buffers, int light, int overlay) {
-        if (tile.getLevel() == null || !tile.hasShield()) return;
-        BlockState state = tile.getLevel().getBlockState(tile.getBlockPos());
-        if (state.getBlock() instanceof ShieldChair)
-            renderShield(tile.getShield(), state, stack, buffers, light, overlay);
-    }
 
-    public void renderShield(ItemStack shield, BlockState state, PoseStack stack,
-            MultiBufferSource buffers, int light, int overlay) {
+
+    public void renderShield(ItemStack shield, Direction facing, PoseStack poses, MultiBufferSource buffers, int light, int overlay) {
         if (shield.isEmpty()) return;
-        boolean patterned = shield.getTagElement("BlockEntityTag") != null;
-        Material material = patterned ? ModelBakery.SHIELD_BASE : ModelBakery.NO_PATTERN_SHIELD;
-        stack.pushPose();
+        poses.pushPose();
         try {
-            stack.translate(.5, 1, .5);
-            stack.mulPose(Vector3f.YP.rotationDegrees(yaw(state.getValue(ShieldChair.DIRECTION))));
-            stack.translate(0, 0, .34);
-            stack.scale(10F / 12F, -16F / 22F, -.75F);
-            plate.render(stack, material.sprite().wrap(ItemRenderer.getFoilBuffer(buffers,
-                    material.renderType(RenderType::entitySolid), false, shield.hasFoil())), light, overlay);
-            if (patterned) BannerRenderer.renderPatterns(stack, buffers, light, overlay,
-                    plate, material, false, BannerBlockEntity.createPatterns(ShieldItem.getColor(shield),
-                            BannerBlockEntity.getItemPatterns(shield)));
-        } finally { stack.popPose(); }
-    }
-
-    private static float yaw(Direction facing) {
-        switch (facing) {
-        case NORTH: return 180;
-        case EAST: return 90;
-        case WEST: return 270;
-        default: return 0;
-        }
+            poses.translate(.5, 1, .5);
+            float yaw = switch (facing) { case NORTH -> 180; case EAST -> 90; case WEST -> 270; default -> 0; };
+            poses.mulPose(Vector3f.YP.rotationDegrees(yaw));
+            poses.translate(0, 0, .34);
+            poses.scale(10F / 12F, -16F / 22F, -.75F);
+            var decoration = shield.getTagElement("BlockEntityTag");
+            var itemPatterns = BannerBlockEntity.getItemPatterns(shield);
+            // Older renderer calls could leave an empty banner tag on a plain shield.
+            boolean patterned = decoration != null && (decoration.contains("Base", Tag.TAG_ANY_NUMERIC)
+                    || (itemPatterns != null && !itemPatterns.isEmpty()));
+            Material base = patterned ? ModelBakery.SHIELD_BASE : ModelBakery.NO_PATTERN_SHIELD;
+            if (patterned) {
+                var patterns = BannerBlockEntity.createPatterns(DyeColor.byId(decoration.getInt("Base")), itemPatterns);
+                BannerRenderer.renderPatterns(poses, buffers, light, overlay, plate, base, false,
+                        patterns, false);
+            } else {
+                plate.render(poses, base.buffer(buffers, RenderType::entitySolid), light, overlay);
+            }
+            // Keep foil separate from, and after, the opaque pattern layers.
+            if (shield.hasFoil())
+                plate.render(poses, base.sprite().wrap(buffers.getBuffer(RenderType.entityGlint())), light, overlay);
+        } finally { poses.popPose(); }
     }
 }

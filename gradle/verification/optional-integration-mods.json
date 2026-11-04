@@ -24,6 +24,20 @@
       "file": "Mineralogy-6.1.4.117011.jar",
       "sha256": "E59B48D73B43C8A9471FD86878883A20EB8C6DE1554BB96ABB18BDBAE80BD2A8",
       "source": "https://github.com/MinecraftModDevelopmentMods/MinecraftMineralogy/releases/tag/6.1.4.117011"
+    },
+    {
+      "modId": "basemetals",
+      "version": "3.1.0.117011",
+      "file": "BaseMetals-3.1.0.117011.jar",
+      "sha256": "9276FA7E8A1E5BD6B9E336CF83CFEE9B178167DA09CE2B231C8DFF733F351B0C",
+      "source": "https://www.curseforge.com/minecraft/mc-mods/base-metals/files/9108513"
+    },
+    {
+      "modId": "orespawn",
+      "version": "4.1.0.117011",
+      "file": "OreSpawn-4.1.0.117011.jar",
+      "sha256": "1BDEDCBB179CB5A3B169E5C8A6B301E3888AE15B94108B0AEC627D705CFAD833",
+      "source": "https://github.com/MinecraftModDevelopmentMods/OreSpawn/releases/tag/4.1.0.117011"
     }
   ]
 }

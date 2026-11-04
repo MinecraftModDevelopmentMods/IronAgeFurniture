@@ -15,7 +15,11 @@ Engineering and the separate 1.12 Oh The Biomes furniture catalog are outside
 its supported scope. Do not assume that an entire older modpack can run here
 just because its supported IAF furniture can be upgraded.
 
-## Tested upgrade paths
+## Previous upgrade checks
+
+The earlier 0.4.0 edition was tested with the fixtures below. These are the
+recorded results for that edition, rather than a claim that every fixture was
+repeated for this update.
 
 Disposable copies were checked on their first load and after saving and
 reopening. The original worlds were fingerprinted and left unchanged.

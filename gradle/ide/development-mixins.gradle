@@ -63,6 +63,11 @@ minecraft.runs.configureEach {
 tasks.withType(JavaExec).configureEach {
     if (name in ['runClient', 'runClientCompatibility', 'runServer', 'runData']) {
         dependsOn prepareDevelopmentMixinMappings
+        doFirst {
+            // Apply after Renamer has supplied its archive-mapping defaults.
+            systemProperty 'mixin.env.remapRefMap', 'true'
+            systemProperty 'mixin.env.refMapRemappingFile', developmentRefmapMappings.get().asFile.absolutePath
+        }
     }
 }
 tasks.matching { it.name == 'genEclipseRuns' }.configureEach {

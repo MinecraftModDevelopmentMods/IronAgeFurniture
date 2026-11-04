@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "conditions": [
+    {
+      "modid": "immersiveengineering",
+      "type": "forge:mod_loaded"
+    }
+  ],
+  "group": "furniture",
+  "pattern": [
+    "x ",
+    "xx",
+    "yy"
+  ],
+  "key": {
+    "y": {
+      "tag": "forge:rods/wooden"
+    },
+    "x": {
+      "item": "immersiveengineering:treated_wood_vertical"
+    }
+  },
+  "result": {
+    "item": "ironagefurniture:chair_wood_ironage_bench_back_single_immersiveengineering_treated_wood",
+    "count": 1
+  }
+}

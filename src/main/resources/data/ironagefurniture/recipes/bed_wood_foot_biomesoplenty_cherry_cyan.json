@@ -1,5 +1,6 @@
 {
     "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_biomesoplenty_cherry_cyan",
     "ingredients": [
         {
             "item": "minecraft:cyan_bed"
@@ -8,10 +9,9 @@
             "item": "biomesoplenty:cherry_planks"
         }
     ],
-    "group": "ironagefurniture:bed_wood_foot_biomesoplenty_cherry_cyan",
     "result": {
-        "item": "ironagefurniture:bed_wood_foot_biomesoplenty_cherry_cyan",
-        "count": 1
+        "count": 1,
+        "item": "ironagefurniture:bed_wood_foot_biomesoplenty_cherry_cyan"
     },
     "conditions": [
         {
@@ -19,8 +19,8 @@
             "modid": "biomesoplenty"
         },
         {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_cherry"
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
         }
     ]
 }

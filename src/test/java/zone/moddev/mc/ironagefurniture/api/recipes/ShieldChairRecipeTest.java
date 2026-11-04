@@ -25,7 +25,7 @@ public class ShieldChairRecipeTest {
     }
 
     private static ShieldChairRecipe recipe() {
-        return new ShieldChairRecipe.Serializer().fromJson(new ResourceLocation("ironagefurniture:test"),
+        return ShieldChairRecipe.SERIALIZER.fromJson(new ResourceLocation("ironagefurniture:test"),
                 new JsonParser().parse("{\"ingredients\":[{\"item\":\"minecraft:shield\"},"
                         + "{\"item\":\"minecraft:oak_planks\"}],\"result\":{\"item\":\"minecraft:oak_planks\"}}")
                         .getAsJsonObject());
@@ -59,7 +59,7 @@ public class ShieldChairRecipeTest {
         ShieldChairRecipe original = recipe();
         FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
         try {
-            ShieldChairRecipe.Serializer serializer = new ShieldChairRecipe.Serializer();
+            net.minecraft.world.item.crafting.RecipeSerializer<ShieldChairRecipe> serializer = ShieldChairRecipe.SERIALIZER;
             serializer.toNetwork(buffer, original);
             ShieldChairRecipe restored = serializer.fromNetwork(original.getId(), buffer);
             assertEquals(original.getId(), restored.getId());

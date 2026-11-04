@@ -2,24 +2,24 @@ package zone.moddev.mc.ironagefurniture.api.blocks.lightsource.glow;
 
 import zone.moddev.mc.ironagefurniture.api.blocks.base.FurnitureBlock;
 import zone.moddev.mc.ironagefurniture.api.blocks.lightsource.torch.LightSourceSconceTorchWall;
+import zone.moddev.mc.ironagefurniture.init.ModVanillaLights;
+
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.core.Direction;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import zone.moddev.mc.ironagefurniture.BlockObjectHolder;
 
 public class LightSourceSconceGlowWall extends LightSourceSconceTorchWall {
 	public LightSourceSconceGlowWall(BlockBehaviour.Properties properties) {
 		super(properties);
 
-		this.registerDefaultState(this.defaultBlockState() .setValue(FurnitureBlock.DIRECTION, Direction.NORTH) .setValue(FurnitureBlock.WATERLOGGED, false));
+		this.registerDefaultState(this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH).setValue(FurnitureBlock.WATERLOGGED, false));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
 	}
 
@@ -35,7 +35,7 @@ public class LightSourceSconceGlowWall extends LightSourceSconceTorchWall {
 
 	@Override
 	protected Block LightDrop() {
-		return BlockObjectHolder.light_metal_ironage_block_floor_glow_clear;
+		return ModVanillaLights.light_metal_ironage_block_floor_glow_clear.get();
 	}
 
 	@Override
@@ -54,10 +54,10 @@ public class LightSourceSconceGlowWall extends LightSourceSconceTorchWall {
 	}
 
 	public LightSourceSconceGlowWall(float hardness, float blastResistance, SoundType sound, String name) {
-		super(Block.Properties.of(Material.METAL).strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> 14));
+		super(Block.Properties.of(net.minecraft.world.level.material.Material.METAL).strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> 14));
 
-		this.registerDefaultState(this.defaultBlockState() .setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
+		this.registerDefaultState(this.getStateDefinition().any().setValue(FurnitureBlock.DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
-		this.setRegistryName(name);
+		//this.setRegistryName(name);
 	}
 }

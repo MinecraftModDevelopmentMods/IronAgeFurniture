@@ -1,20 +1,20 @@
 {
     "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_mahogany_green",
     "ingredients": [
         {
-            "item": "minecraft:green_carpet"
+            "item": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_mahogany"
         },
         {
             "item": "biomesoplenty:mahogany_planks"
         },
         {
-            "item": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_mahogany"
+            "item": "minecraft:green_carpet"
         }
     ],
-    "group": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_mahogany_green",
     "result": {
-        "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_mahogany_green",
-        "count": 1
+        "count": 1,
+        "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_mahogany_green"
     },
     "conditions": [
         {
@@ -22,12 +22,8 @@
             "modid": "biomesoplenty"
         },
         {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:chair_wood_ironage_wingback_biomesoplenty_mahogany"
-        },
-        {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:chair_wood_ironage_classic_biomesoplenty_mahogany"
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "wingbacks"
         }
     ]
 }

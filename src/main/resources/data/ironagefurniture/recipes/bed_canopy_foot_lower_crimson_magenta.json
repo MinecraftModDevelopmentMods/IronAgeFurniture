@@ -1,5 +1,6 @@
 {
-    "type": "ironagefurniture:upholstery_upgrade",
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_lower_crimson_magenta",
     "ingredients": [
         {
             "item": "ironagefurniture:bed_wood_foot_crimson_magenta"
@@ -11,19 +12,14 @@
             "item": "minecraft:magenta_carpet"
         }
     ],
-    "group": "ironagefurniture:bed_canopy_foot_lower_crimson_magenta",
     "result": {
-        "item": "ironagefurniture:bed_canopy_foot_lower_crimson_magenta",
-        "count": 1
+        "count": 1,
+        "item": "ironagefurniture:bed_canopy_foot_lower_crimson_magenta"
     },
     "conditions": [
         {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:bed_canopy_foot_lower_crimson"
-        },
-        {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:bed_wood_foot_crimson"
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "canopyBeds"
         }
     ]
 }

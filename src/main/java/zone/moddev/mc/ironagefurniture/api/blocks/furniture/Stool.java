@@ -25,8 +25,8 @@ public class Stool extends Chair {
 	}
 
 	@Override
-	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult rayTraceResult) {
-		return Seat.create(world, pos, 0.2, player);
+	protected double seatYOffset() {
+		return 0.2;
 	}
 
 	@Override

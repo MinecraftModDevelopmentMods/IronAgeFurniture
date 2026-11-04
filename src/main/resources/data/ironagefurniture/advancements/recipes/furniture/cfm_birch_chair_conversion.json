@@ -11,8 +11,8 @@
                     "item": "cfm:birch_chair"
                 },
                 {
-                    "type": "forge:item_exists",
-                    "item": "ironagefurniture:chair_wood_ironage_classic_birch"
+                    "type": "ironagefurniture:feature_enabled",
+                    "feature": "classicChairs"
                 }
             ],
             "advancement": {

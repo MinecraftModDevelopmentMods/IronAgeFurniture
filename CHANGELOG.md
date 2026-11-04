@@ -1,21 +1,18 @@
-# IronAgeFurniture 0.4.0.117011
+# IronAgeFurniture 0.4.1.117011
 
 Phase 4 for Minecraft 1.17.1 and Forge 37.1.1. Requires Java 16.
 
-- Add wooden and canopy beds, matching doubles, wingbacks and thrones for all 19 existing woods and sixteen colours.
-- Keep crimson and warped furniture fireproof and retain soul-torch sconces.
-- Preserve a shield's complete item data when attaching, removing, mining or dropping a shield chair.
-- Add held-candle effects, candles, twin torches, multi-candle and rock-salt sconces, and gold/Base Metals frames.
-- Carry forward the final 1.16 light fixes: safe hand-mining particles, fragile glass lamps, metal-specific textures and toughness, reliable frame/content drops, water buckets, wet redstone relighting and Silk Touch recovery.
-- Let mined wall lava sconces release their lamps to fall and shatter; right-click removal remains safe.
-- Use matching bed upgrades, shapeless wingback/throne recipes and four sconces from five matching nuggets.
-- Reveal matching upgrades while the crafting table remains open. Keep manual bed recolouring out of the recipe book, including recipes learned before upgrading.
-- Split the creative inventory into Chairs, Benches, Beds and Lights, with safe icons and optional-content filtering.
-- Add seventeen locales with English fallbacks and smaller, documented build scripts.
-- Extend supported legacy imports to Phase 4 beds, tall chairs, shields and metals, preserving stored and nested items before vanilla datafixing.
-- Preserve dropped and nested chair stacks in 1.17's separate entity files, including opt-in CFM conversion and recovery after CFM is removed.
-- Add optional Base Metals, Mineralogy and CFM support without requiring those mods. Unsupported older BYG/IE furniture remains outside this target's import scope.
-- Retain IAF candles and their saved identities separately from vanilla 1.17 candles.
+- Add wooden and canopy beds, matching doubles, wingback chairs and thrones in all 19 woods and sixteen colours.
+- Sit at the right height on chairs, benches and stools.
+- Attach and remove real shields. Chairs keep the shield's design, name, damage and enchantments, and show the right design after a world reload.
+- Add twin-torch, candle and rock-salt sconces. Candle sconces hold up to four vanilla candles and give the newest one back first.
+- Give each sconce metal its own block. Existing sconces keep their metal, facing and contents when the world loads.
+- Make four sconces from five matching nuggets, or thirty-two copper sconces from five copper ingots when copper nuggets are unavailable.
+- Keep the glass clear on lamps, preserve frame and contents when supports break, and let wet redstone lights relight when powered.
+- Keep wall lava lamps safe to remove by hand. Ordinary mining lets them fall and shatter, while Silk Touch recovers the lamp intact.
+- Split the creative inventory into Chairs, Benches, Beds and Lights. Group recipes by furniture form and show matching upgrades while the crafting table is open.
+- Keep supported legacy furniture and saved item data during upgrades. See the upgrade guide for supported worlds and optional mods.
+- Speed up Eclipse synchronisation by preparing development dependencies only when their inputs change.
 
 ## Previous release: 0.3.0.117011
 

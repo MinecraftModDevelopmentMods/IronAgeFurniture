@@ -2,10 +2,15 @@
     "type": "minecraft:crafting_shaped",
     "conditions": [
         {
-            "type": "forge:mod_loaded",
-            "modid": "biomesoplenty"
+            "modid": "biomesoplenty",
+            "type": "forge:mod_loaded"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "benches"
         }
     ],
+    "group": "ironagefurniture:chair_wood_ironage_bench_back_single_biomesoplenty_magic",
     "pattern": [
         "x ",
         "xx",

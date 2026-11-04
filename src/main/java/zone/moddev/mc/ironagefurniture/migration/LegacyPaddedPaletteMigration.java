@@ -9,45 +9,44 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.util.BitStorage;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.registries.ForgeRegistries;
 
 /** Old red-only benches may have no tile; finish them before chunk construction. */
 public final class LegacyPaddedPaletteMigration {
     private LegacyPaddedPaletteMigration() { }
     static int migrate(CompoundTag level) {
-        return migrate(level, ForgeRegistries.BLOCKS::containsKey);
+        return migrate(level, id -> net.minecraft.core.Registry.BLOCK.containsKey(id));
     }
     static int migrate(CompoundTag level, Predicate<ResourceLocation> available) {
         Map<String, CompoundTag> tiles = new HashMap<>();
-        ListTag savedTiles = level.getList("TileEntities", 10);
+        ListTag savedTiles = LegacyNbt.list(level, "TileEntities");
         for (int i = 0; i < savedTiles.size(); i++) {
-            CompoundTag tile = savedTiles.getCompound(i);
-            tiles.put(key(tile.getInt("x"), tile.getInt("y"), tile.getInt("z")), tile);
+            CompoundTag tile = LegacyNbt.compound(savedTiles, i);
+            tiles.put(key(LegacyNbt.integer(tile, "x", 0), LegacyNbt.integer(tile, "y", 0), LegacyNbt.integer(tile, "z", 0)), tile);
         }
         Set<CompoundTag> convertedTiles = new HashSet<>();
         int converted = 0;
-        ListTag sections = level.getList("Sections", 10);
+        ListTag sections = LegacyNbt.list(level, "Sections");
         for (int s = 0; s < sections.size(); s++) {
-            CompoundTag section = sections.getCompound(s);
-            ListTag palette = section.getList("Palette", 10);
+            CompoundTag section = LegacyNbt.compound(sections, s);
+            ListTag palette = LegacyNbt.list(section, "Palette");
             if (palette.isEmpty()) continue;
             boolean legacy = false;
-            for (int i = 0; i < palette.size(); i++) legacy |= oldId(palette.getCompound(i).getString("Name"));
+            for (int i = 0; i < palette.size(); i++) legacy |= oldId(LegacyNbt.string(LegacyNbt.compound(palette, i), "Name", ""));
             if (!legacy) continue;
             int bits = Math.max(4, 32 - Integer.numberOfLeadingZeros(palette.size() - 1));
             long[] data = section.getLongArray("BlockStates");
-            BitStorage states = palette.size() == 1 && data.length == 0 ? new BitStorage(bits, 4096)
+            BitStorage states = palette.size() == 1 && data.length == 0 ? new net.minecraft.util.BitStorage(bits, 4096)
                     : LegacyPaletteData.read(bits, data);
             if (states == null) continue;
             for (int cell = 0; cell < 4096; cell++) {
-                CompoundTag old = palette.getCompound(states.get(cell));
-                String id = old.getString("Name");
+                CompoundTag old = LegacyNbt.compound(palette, states.get(cell));
+                String id = LegacyNbt.string(old, "Name", "");
                 if (!oldId(id)) continue;
-                int x = (level.getInt("xPos") << 4) + (cell & 15);
-                int y = ((section.getByte("Y") & 255) << 4) + (cell >> 8);
-                int z = (level.getInt("zPos") << 4) + ((cell >> 4) & 15);
+                int x = (LegacyNbt.integer(level, "xPos", 0) << 4) + (cell & 15);
+                int y = (LegacyNbt.integer(section, "Y", 0) << 4) + (cell >> 8);
+                int z = (LegacyNbt.integer(level, "zPos", 0) << 4) + ((cell >> 4) & 15);
                 CompoundTag tile = tiles.get(key(x, y, z));
-                String colour = tile == null ? "red" : LegacyPaddedBenchIds.normalizeColour(tile.getString("Color"));
+                String colour = tile == null ? "red" : LegacyPaddedBenchIds.normalizeColour(LegacyNbt.string(tile, "Color", ""));
                 ResourceLocation target = new ResourceLocation("ironagefurniture",
                         LegacyPaddedBenchIds.modernPaddedPath(new ResourceLocation(id), colour));
                 if (!available.test(target)) continue;
@@ -57,7 +56,7 @@ public final class LegacyPaddedPaletteMigration {
                 if (index < 0) { index = palette.size(); palette.add(replacement); }
                 int width = Math.max(4, 32 - Integer.numberOfLeadingZeros(palette.size() - 1));
                 if (width != bits) {
-                    BitStorage larger = new BitStorage(width, 4096);
+                    BitStorage larger = new net.minecraft.util.BitStorage(width, 4096);
                     for (int i = 0; i < 4096; i++) larger.set(i, states.get(i));
                     states = larger; bits = width;
                 }

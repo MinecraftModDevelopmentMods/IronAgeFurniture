@@ -19,7 +19,7 @@ public enum SconceMetal implements StringRepresentable {
     public float hardness(float iron) { return Math.max(0.1F, iron * hardness / 8F); }
     public float resistance(float iron) { return Math.max(1F, iron * strength / 8F); }
     public int harvestLevel() { return this == GOLD ? 0 : 1; }
-    public boolean isBaseMetal() { return this != IRON && this != GOLD; }
+    public boolean isBaseMetal() { return this != IRON && this != GOLD && this != COPPER; }
     public String getName() { return getSerializedName(); }
     public static SconceMetal byName(String name) {
         for (SconceMetal metal : values()) if (metal.name.equals(name)) return metal;

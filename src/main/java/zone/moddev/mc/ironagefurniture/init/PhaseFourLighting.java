@@ -1,108 +1,102 @@
 package zone.moddev.mc.ironagefurniture.init;
 
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.core.particles.ParticleType;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.fmllegacy.RegistryObject;
+import net.minecraftforge.registries.DeferredRegister;
 import zone.moddev.mc.ironagefurniture.Ironagefurniture;
-import zone.moddev.mc.ironagefurniture.api.blocks.lightsource.phasefour.Candle;
-import zone.moddev.mc.ironagefurniture.api.blocks.lightsource.phasefour.AdditionalSconce;
-import zone.moddev.mc.ironagefurniture.api.blocks.lightsource.phasefour.LightInteractions;
-import zone.moddev.mc.ironagefurniture.api.blocks.lightsource.phasefour.RockSaltSconce;
-import zone.moddev.mc.ironagefurniture.api.MineralogyCompat;
+import zone.moddev.mc.ironagefurniture.ModItems;
+import zone.moddev.mc.ironagefurniture.api.CandleInventory;
+import zone.moddev.mc.ironagefurniture.api.SconceMetalData;
+import zone.moddev.mc.ironagefurniture.api.blocks.base.FurnitureBlock;
+import zone.moddev.mc.ironagefurniture.api.blocks.lightsource.phasefour.CandleSconceBlock;
+import zone.moddev.mc.ironagefurniture.api.blocks.lightsource.phasefour.TwinTorchSconce;
+import zone.moddev.mc.ironagefurniture.api.enumerations.SconceMetal;
+import zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem;
+import zone.moddev.mc.ironagefurniture.api.tile.CandleSconceBlockEntity;
 
-/** New light identities remain compatible with the accepted 1.10/1.12 release. */
-@Mod.EventBusSubscriber(modid = Ironagefurniture.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+/** Additional light families keep the original sconce frame identities. */
 public final class PhaseFourLighting {
-    public static final SimpleParticleType CANDLE_FLAME = new SimpleParticleType(false);
-    private PhaseFourLighting() { }
-    public static Block block(String path) {
-        return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(Ironagefurniture.MODID, path));
-    }
-    public static String candleId(boolean wall, boolean lit) {
-        return "light_metal_ironage_candle_" + (wall ? "wall" : "floor") + (lit ? "" : "_unlit");
-    }
-    public static Block candle(boolean wall, boolean lit) { return block(candleId(wall, lit)); }
-    public static String sconceId(boolean wall, boolean lit, boolean twinTorch, int count) {
-        String path = "light_metal_ironage_sconce_" + (wall ? "wall" : "floor") + (twinTorch ? "_torch_iron_twin" : "_candle_iron");
-        if (!twinTorch && count > 1) path += "_" + new String[]{"", "", "two", "three", "four"}[count];
-        return path + (lit ? "" : "_unlit");
-    }
-    public static Block sconce(boolean wall, boolean lit, boolean twinTorch, int count) { return block(sconceId(wall, lit, twinTorch, count)); }
-    public static String rockSaltId(boolean wall) { return "light_metal_ironage_sconce_" + (wall ? "wall" : "floor") + "_rocksalt_iron"; }
-    public static Block rockSalt(boolean wall) { return block(rockSaltId(wall)); }
-    public static boolean isLightItem(ItemStack stack) {
-        net.minecraft.world.item.Item item = stack.getItem();
-        return item == net.minecraft.world.item.Items.TORCH || item == net.minecraft.world.item.Items.REDSTONE_TORCH
-                || item == net.minecraft.world.item.Items.SOUL_TORCH
-                || item == candle(false, true).asItem() || MineralogyCompat.isRockSaltLamp(stack)
-                || item == zone.moddev.mc.ironagefurniture.BlockObjectHolder.light_metal_ironage_block_floor_glow_clear.asItem()
-                || item == zone.moddev.mc.ironagefurniture.BlockObjectHolder.light_metal_ironage_block_floor_lava_clear.asItem()
-                || item == zone.moddev.mc.ironagefurniture.BlockObjectHolder.light_metal_ironage_block_floor_red_clear.asItem();
-    }
-    public static boolean insertRockSalt(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, boolean wall) {
-        ItemStack held = player.getItemInHand(hand);
-        if (!MineralogyCompat.isRockSaltLamp(held)) return false;
-        if (!world.isClientSide) {
-            LightInteractions.replace(world, pos, state, rockSalt(wall));
-            if (!player.isCreative()) held.shrink(1);
+    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(net.minecraftforge.registries.ForgeRegistries.BLOCKS, Ironagefurniture.MODID);
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(net.minecraftforge.registries.ForgeRegistries.BLOCK_ENTITIES, Ironagefurniture.MODID);
+    public static final RegistryObject<CandleSconceBlock> FLOOR_CANDLES = SconceVariants.register(BLOCKS, "light_metal_ironage_sconce_floor_candle_iron",
+            path -> new CandleSconceBlock(path, false));
+    public static final RegistryObject<CandleSconceBlock> WALL_CANDLES = SconceVariants.register(BLOCKS, "light_metal_ironage_sconce_wall_candle_iron",
+            path -> new CandleSconceBlock(path, true));
+    public static final RegistryObject<BlockEntityType<CandleSconceBlockEntity>> CANDLE_STORAGE =
+            BLOCK_ENTITIES.register("candle_sconce", () -> BlockEntityType.Builder.of(CandleSconceBlockEntity::new,
+                    Registry.BLOCK.stream().filter(block -> block instanceof CandleSconceBlock).toArray(Block[]::new)).build(null));
+    public static final RegistryObject<BlockEntityType<zone.moddev.mc.ironagefurniture.api.tile.MetalSconceBlockEntity>> METAL_FRAME =
+            BLOCK_ENTITIES.register("metal_sconce", () -> BlockEntityType.Builder.of(zone.moddev.mc.ironagefurniture.api.tile.MetalSconceBlockEntity::new,
+                    Registry.BLOCK.stream().filter(block -> block instanceof zone.moddev.mc.ironagefurniture.api.blocks.base.LightHolderSconce
+                            && !(block instanceof CandleSconceBlock)).toArray(Block[]::new)).build(null));
+    public static final RegistryObject<Item> TALLOW = ModItems.REGISTER.register("tallow",
+            () -> new Item(new Item.Properties().tab(ModCreativeTab.LIGHTS.get())) {
+                @Override public void fillItemCategory(net.minecraft.world.item.CreativeModeTab tab,
+                        net.minecraft.core.NonNullList<ItemStack> output) {
+                    if (ModCreativeTab.visible(this)) super.fillItemCategory(tab, output);
+                }
+            });
+    public static final RegistryObject<zone.moddev.mc.ironagefurniture.api.blocks.lightsource.phasefour.RockSaltSconce> FLOOR_SALT =
+            SconceVariants.register(BLOCKS, "light_metal_ironage_sconce_floor_rocksalt_iron", path -> new zone.moddev.mc.ironagefurniture.api.blocks.lightsource.phasefour.RockSaltSconce(path, false));
+    public static final RegistryObject<zone.moddev.mc.ironagefurniture.api.blocks.lightsource.phasefour.RockSaltSconce> WALL_SALT =
+            SconceVariants.register(BLOCKS, "light_metal_ironage_sconce_wall_rocksalt_iron", path -> new zone.moddev.mc.ironagefurniture.api.blocks.lightsource.phasefour.RockSaltSconce(path, true));
+    private static final java.util.Map<String, RegistryObject<TwinTorchSconce>> TWINS = new java.util.HashMap<>();
+    static {
+        for (boolean wall : new boolean[]{false, true}) for (boolean lit : new boolean[]{false, true}) {
+            String path = "light_metal_ironage_sconce_" + (wall ? "wall" : "floor") + "_torch_iron_twin" + (lit ? "" : "_unlit");
+            TWINS.put(wall + ":" + lit, SconceVariants.register(BLOCKS, path, name -> new TwinTorchSconce(name, wall, lit)));
         }
-        return true;
-    }
-    public static boolean insertCandle(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, boolean wall) {
-        ItemStack held = player.getItemInHand(hand);
-        if (held.getItem() != candle(false, true).asItem()) return false;
-        if (!world.isClientSide) {
-            LightInteractions.replace(world, pos, state, sconce(wall, !state.getValue(Candle.WATERLOGGED), false, 1));
-            if (!player.isCreative()) held.shrink(1);
+        for (SconceMetal metal : SconceMetal.values()) if (metal != SconceMetal.IRON) {
+            String path = SconceMetalData.itemId(metal).getPath();
+            ModItems.REGISTER.register(path, () -> new MetalSconceBlockItem(SconceVariants.material(ModVanillaLights.light_metal_ironage_sconce_floor_empty_iron.get(), metal),
+                    new Item.Properties(), metal));
         }
-        return true;
     }
+    public static TwinTorchSconce twin(boolean wall, boolean lit) { return TWINS.get(wall + ":" + lit).get(); }
     public static boolean addSecondTorch(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand) {
-        String path = state.getBlock().getRegistryName().getPath();
-        boolean single = path.equals("light_metal_ironage_sconce_floor_torch_iron") || path.equals("light_metal_ironage_sconce_wall_torch_iron");
-        if (!single || player.getItemInHand(hand).getItem() != net.minecraft.world.item.Items.TORCH) return false;
-        if (!world.isClientSide) {
-            LightInteractions.replace(world, pos, state, sconce(path.contains("_wall_"), !state.getValue(Candle.WATERLOGGED), true, 2));
+        if (!player.getItemInHand(hand).is(net.minecraft.world.item.Items.TORCH)) return false;
+        boolean wall = SconceVariants.isFamily(state.getBlock(), ModVanillaLights.light_metal_ironage_sconce_wall_torch_iron.get());
+        if (!wall && !SconceVariants.isFamily(state.getBlock(), ModVanillaLights.light_metal_ironage_sconce_floor_torch_iron.get())) return false;
+        if (!world.isClientSide()) {
+            world.setBlock(pos, SconceMetalData.transition(twin(wall, !state.getValue(FurnitureBlock.WATERLOGGED)), state), Block.UPDATE_ALL);
             if (!player.isCreative()) player.getItemInHand(hand).shrink(1);
         }
         return true;
     }
-    @SubscribeEvent public static void registerParticles(RegistryEvent.Register<ParticleType<?>> event) {
-        event.getRegistry().register(CANDLE_FLAME.setRegistryName(Ironagefurniture.MODID, "candle_flame"));
+    public static boolean insertCandle(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand) {
+        ItemStack held = player.getItemInHand(hand);
+        if (!CandleInventory.accepts(held)) return false;
+        boolean wall = SconceVariants.isFamily(state.getBlock(), ModVanillaLights.light_metal_ironage_sconce_wall_empty_iron.get());
+        if (!wall && !SconceVariants.isFamily(state.getBlock(), ModVanillaLights.light_metal_ironage_sconce_floor_empty_iron.get())) return false;
+        if (world.isClientSide()) return true;
+        CandleSconceBlock block = wall ? WALL_CANDLES.get() : FLOOR_CANDLES.get();
+        world.setBlock(pos, SconceMetalData.transition(block, state), Block.UPDATE_ALL);
+        if (world.getBlockEntity(pos) instanceof CandleSconceBlockEntity storage && storage.insert(held)) {
+            if (!player.isCreative()) held.shrink(1);
+        } else world.setBlock(pos, state, Block.UPDATE_ALL);
+        return true;
     }
-    @SubscribeEvent public static void registerBlocks(RegistryEvent.Register<Block> event) {
-        if (MineralogyCompat.isEnabled()) for (boolean wall : new boolean[]{false, true})
-            event.getRegistry().register(new RockSaltSconce(rockSaltId(wall), wall));
-        for (boolean wall : new boolean[]{false, true}) for (boolean lit : new boolean[]{false, true})
-            event.getRegistry().register(new Candle(candleId(wall, lit), wall, lit));
-        for (boolean wall : new boolean[]{false, true}) for (boolean lit : new boolean[]{false, true}) {
-            event.getRegistry().register(new AdditionalSconce(sconceId(wall, lit, true, 2), wall, lit, true, 2));
-            for (int count = 1; count <= 4; count++)
-                event.getRegistry().register(new AdditionalSconce(sconceId(wall, lit, false, count), wall, lit, false, count));
+    public static boolean insertRockSalt(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand) {
+        if (!net.minecraftforge.fml.ModList.get().isLoaded("mineralogy") || !zone.moddev.mc.ironagefurniture.IronAgeFurnitureConfiguration.enabled(
+                zone.moddev.mc.ironagefurniture.IronAgeFurnitureConfiguration.MINERALOGY)) return false;
+        Item lamp = Registry.ITEM.get(zone.moddev.mc.ironagefurniture.api.blocks.lightsource.phasefour.RockSaltSconce.LAMP);
+        if (lamp == net.minecraft.world.item.Items.AIR || !player.getItemInHand(hand).is(lamp)) return false;
+        boolean wall = SconceVariants.isFamily(state.getBlock(), ModVanillaLights.light_metal_ironage_sconce_wall_empty_iron.get());
+        if (!wall && !SconceVariants.isFamily(state.getBlock(), ModVanillaLights.light_metal_ironage_sconce_floor_empty_iron.get())) return false;
+        if (!world.isClientSide()) {
+            world.setBlock(pos, SconceMetalData.transition((wall ? WALL_SALT : FLOOR_SALT).get(), state), Block.UPDATE_ALL);
+            if (!player.isCreative()) player.getItemInHand(hand).shrink(1);
         }
+        return true;
     }
-    @SubscribeEvent public static void registerItems(RegistryEvent.Register<Item> event) {
-        for (boolean wall : new boolean[]{false, true}) for (boolean lit : new boolean[]{false, true}) {
-            Item.Properties properties = new Item.Properties();
-            if (!wall && lit) properties.tab(Ironagefurniture.IAF_LIGHTS_GROUP);
-            event.getRegistry().register(new BlockItem(candle(wall, lit), properties).setRegistryName(candle(wall, lit).getRegistryName()));
-        }
-        event.getRegistry().register(new Item(new Item.Properties().tab(Ironagefurniture.IAF_LIGHTS_GROUP))
-                .setRegistryName(Ironagefurniture.MODID, "tallow"));
-        for (Block block : ForgeRegistries.BLOCKS.getValues()) if (block instanceof AdditionalSconce || block instanceof RockSaltSconce)
-            event.getRegistry().register(new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(block, new Item.Properties()).setRegistryName(block.getRegistryName()));
-    }
+    private PhaseFourLighting() { }
 }

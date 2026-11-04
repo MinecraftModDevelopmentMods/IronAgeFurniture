@@ -10,7 +10,7 @@ import org.junit.Test;
 import zone.moddev.mc.ironagefurniture.api.enumerations.UpholsteryColour;
 
 public class UpholsteryItemDataTest {
-    @BeforeClass public static void bootstrap() { net.minecraft.SharedConstants.tryDetectVersion(); Bootstrap.bootStrap(); }
+    @BeforeClass public static void bootstrap() { net.minecraft.SharedConstants.tryDetectVersion(); Bootstrap.bootStrap(); zone.moddev.mc.ironagefurniture.NativeFurnitureFixtures.register(); }
 
     @Test public void everyColourHasTheSameLegacyMetadataAndStableName() {
         String[] names = {"red", "orange", "magenta", "light_blue", "yellow", "lime", "pink", "gray",
@@ -22,12 +22,12 @@ public class UpholsteryItemDataTest {
             assertEquals(index, colour.getItemMetadata());
             assertEquals(dyes[index], colour.getDyeMetadata());
             assertEquals(colour, UpholsteryColour.byName(names[index]));
-            ItemStack stack = UpholsteryItemData.create(Blocks.OAK_PLANKS, colour);
+            ItemStack stack = UpholsteryItemData.create(zone.moddev.mc.ironagefurniture.NativeFurnitureFixtures.OAK_BED, colour);
             assertEquals(colour, UpholsteryItemData.getColour(ItemStack.of(stack.save(new CompoundTag()))));
         }
     }
     @Test public void missingOrInvalidDataIsRedAndCopiesKeepOtherItemData() {
-        ItemStack original = new ItemStack(Blocks.OAK_PLANKS, 5);
+        ItemStack original = new ItemStack(zone.moddev.mc.ironagefurniture.NativeFurnitureFixtures.OAK_BED, 5);
         original.getOrCreateTag().putString("OtherModsData", "keep");
         assertEquals(UpholsteryColour.RED, UpholsteryItemData.getColour(original));
         original.getTag().putString("Color", "unknown");

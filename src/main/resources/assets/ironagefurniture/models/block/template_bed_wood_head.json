@@ -1353,5 +1353,6 @@
                 18
             ]
         }
-    ]
+    ],
+    "render_type": "minecraft:cutout"
 }

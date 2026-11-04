@@ -1,6 +1,8 @@
 {
-    "pack": {
-        "description": "IronAgeFurniture resources",
-        "pack_format": 7
-    }
+  "pack": {
+    "description": "IronAgeFurniture resources",
+    "pack_format": 7,
+    "forge:resource_pack_format": 8,
+    "forge:data_pack_format": 9
+  }
 }

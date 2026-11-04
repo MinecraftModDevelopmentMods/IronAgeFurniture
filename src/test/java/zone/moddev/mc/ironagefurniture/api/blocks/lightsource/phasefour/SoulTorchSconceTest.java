@@ -16,7 +16,7 @@ public class SoulTorchSconceTest {
         for (Block block : new Block[]{
                 new LightSourceSconceSoulTorchFloor(1, 10, SoundType.METAL, "soul_floor_test"),
                 new LightSourceSconceSoulTorchWall(1, 10, SoundType.METAL, "soul_wall_test")}) {
-            assertFalse(block.defaultBlockState().getValue(Candle.WATERLOGGED));
+            assertFalse(block.defaultBlockState().getValue(zone.moddev.mc.ironagefurniture.api.blocks.base.FurnitureBlock.WATERLOGGED));
             assertEquals(SconceMetal.IRON, SconceMetalData.get(block.defaultBlockState()));
             assertEquals(12, block.defaultBlockState().getLightEmission());
         }

@@ -1,29 +1,25 @@
 {
     "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_wingback_jungle_red",
     "ingredients": [
         {
-            "item": "minecraft:red_carpet"
+            "item": "ironagefurniture:chair_wood_ironage_classic_jungle"
         },
         {
             "item": "minecraft:jungle_planks"
         },
         {
-            "item": "ironagefurniture:chair_wood_ironage_classic_jungle"
+            "item": "minecraft:red_carpet"
         }
     ],
-    "group": "ironagefurniture:chair_wood_ironage_wingback_jungle_red",
     "result": {
-        "item": "ironagefurniture:chair_wood_ironage_wingback_jungle",
-        "count": 1
+        "count": 1,
+        "item": "ironagefurniture:chair_wood_ironage_wingback_jungle"
     },
     "conditions": [
         {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:chair_wood_ironage_wingback_jungle"
-        },
-        {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:chair_wood_ironage_classic_jungle"
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "wingbacks"
         }
     ]
 }

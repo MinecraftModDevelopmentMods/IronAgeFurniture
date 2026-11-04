@@ -1,5 +1,6 @@
 {
     "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_classic_birch",
     "conditions": [
         {
             "type": "forge:mod_loaded",
@@ -10,8 +11,8 @@
             "item": "cfm:birch_chair"
         },
         {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:chair_wood_ironage_classic_birch"
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "classicChairs"
         }
     ],
     "ingredients": [

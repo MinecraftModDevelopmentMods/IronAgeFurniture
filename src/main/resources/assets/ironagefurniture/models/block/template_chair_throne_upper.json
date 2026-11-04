@@ -1591,5 +1591,6 @@
         18,
         19,
         20
-    ]
+    ],
+    "render_type": "minecraft:cutout"
 }

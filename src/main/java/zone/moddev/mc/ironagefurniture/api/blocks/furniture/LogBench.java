@@ -26,15 +26,10 @@ public class LogBench extends BackBench {
 	}
 
 	@Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult rayTraceResult)
+    protected double seatYOffset()
     {
-        return Seat.create(world, pos, 0.2, player);
+        return 0.2;
     }
-
-	@Override
-	public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
-		return true;
-	}
 
 	 @Override
 	protected void generateShapes(ImmutableList<BlockState> states)
@@ -42,9 +37,9 @@ public class LogBench extends BackBench {
         ImmutableMap.Builder<BlockState, VoxelShape> builder = new ImmutableMap.Builder<>();
         for(BlockState state : states)
         {
-	VoxelShape shapes = Shapes.empty();
+        	VoxelShape shapes = Shapes.empty();
 
-	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(0, 0, 1, 16, 7, 15), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR);
+        	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(0, 0, 1, 16, 7, 15), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR);
 
             builder.put(state, shapes.optimize());
         }

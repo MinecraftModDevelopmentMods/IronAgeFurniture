@@ -1,88 +1,101 @@
 package zone.moddev.mc.ironagefurniture.api.entity;
 
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.item.FallingBlockEntity;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.fmllegacy.common.registry.IEntityAdditionalSpawnData;
-import net.minecraftforge.fmllegacy.network.NetworkHooks;
-import zone.moddev.mc.ironagefurniture.registers.entities;
+import net.minecraft.world.level.block.BaseFireBlock;
+import zone.moddev.mc.ironagefurniture.init.ModVanillaLights;
 
-/** A wall-sconce vial falls independently of the empty frame left behind. */
-public final class ReleasedLavaLamp extends FallingBlockEntity implements IEntityAdditionalSpawnData {
-    private static final double VIAL_HEIGHT = 6.0D / 16.0D;
-    private static final double HOLDER_BOTTOM = 9.0D / 16.0D;
-    private static final ThreadLocal<ReleasedLavaLamp> CURRENT_FALL = new ThreadLocal<>();
-    private int sourceY;
+/** Server-owned native physics; the vial clears its holder before collision. */
+public final class ReleasedLavaLamp extends Entity {
+    @Override public net.minecraft.network.protocol.Packet<?> getAddEntityPacket() {
+        return net.minecraftforge.fmllegacy.network.NetworkHooks.getEntitySpawningPacket(this);
+    }
+
+    private int sourceY, age;
     private boolean preserveOnLanding;
+    private int lerpSteps;
+    private double lerpX, lerpY, lerpZ;
+    private float lerpYRot, lerpXRot;
 
-    public ReleasedLavaLamp(EntityType<? extends ReleasedLavaLamp> type, Level world) { super(type, world); }
-
-    public ReleasedLavaLamp(Level world, double x, double y, double z, BlockState state,
-            int sourceY, boolean preserveOnLanding) {
-        this(entities.RELEASED_LAVA_LAMP.get(), world);
-        CompoundTag saved = new CompoundTag();
-        saved.put("BlockState", NbtUtils.writeBlockState(state));
-        // The source is already an empty sconce. Skip vanilla's source-removal tick.
-        saved.putInt("Time", 1);
-        saved.putBoolean("DropItem", false);
-        saved.putInt("SconceSourceY", sourceY);
-        saved.putBoolean("PreserveOnLanding", preserveOnLanding);
-        readAdditionalSaveData(saved);
+    public ReleasedLavaLamp(EntityType<? extends ReleasedLavaLamp> type, Level level) { super(type, level); }
+    public ReleasedLavaLamp(Level level, double x, double y, double z, int sourceY, boolean preserve) {
+        this(Entities.RELEASED_LAVA_LAMP.get(), level);
+        this.sourceY = sourceY;
+        preserveOnLanding = preserve;
         setPos(x, y, z);
-        setStartPos(new BlockPos(x, sourceY, z));
-        xo = x;
-        yo = y;
-        zo = z;
-    }
-
-    @Override public void tick() {
-        // The vial starts partly inside its holder; collision resumes once clear.
-        if (noPhysics && hasClearedHolder(getY(), sourceY)) noPhysics = false;
-        ReleasedLavaLamp previous = CURRENT_FALL.get();
-        CURRENT_FALL.set(this);
-        try { super.tick(); }
-        finally {
-            if (previous == null) CURRENT_FALL.remove();
-            else CURRENT_FALL.set(previous);
-        }
-    }
-
-    static boolean hasClearedHolder(double bottomY, int sourceY) {
-        return bottomY + VIAL_HEIGHT < sourceY + HOLDER_BOTTOM;
-    }
-
-    /** Null means an ordinary falling lamp, whose existing policy still applies. */
-    public static Boolean preserveCurrentLanding(Level world, BlockPos pos) {
-        ReleasedLavaLamp lamp = CURRENT_FALL.get();
-        return lamp != null && lamp.level == world && lamp.blockPosition().equals(pos)
-                ? Boolean.valueOf(lamp.preserveOnLanding) : null;
-    }
-
-    @Override protected void addAdditionalSaveData(CompoundTag saved) {
-        super.addAdditionalSaveData(saved);
-        saved.putInt("SconceSourceY", sourceY);
-        saved.putBoolean("PreserveOnLanding", preserveOnLanding);
-    }
-    @Override protected void readAdditionalSaveData(CompoundTag saved) {
-        super.readAdditionalSaveData(saved);
-        sourceY = saved.contains("SconceSourceY") ? saved.getInt("SconceSourceY") : (int)Math.floor(getY());
-        preserveOnLanding = saved.getBoolean("PreserveOnLanding");
+        xo = x; yo = y; zo = z;
         noPhysics = true;
     }
-    @Override public Packet<?> getAddEntityPacket() { return NetworkHooks.getEntitySpawningPacket(this); }
-    @Override public void writeSpawnData(FriendlyByteBuf buffer) {
-        CompoundTag saved = new CompoundTag();
-        addAdditionalSaveData(saved);
-        buffer.writeNbt(saved);
+    @Override protected void defineSynchedData() { }
+    @Override public boolean hurt(DamageSource source, float amount) { return false; }
+    @Override public void lerpTo(double x, double y, double z, float yaw, float pitch, int steps, boolean teleport) {
+        if (!level.isClientSide() || steps <= 0) {
+            lerpSteps = 0;
+            super.lerpTo(x, y, z, yaw, pitch, steps, teleport);
+            return;
+        }
+        lerpX = x; lerpY = y; lerpZ = z;
+        lerpYRot = yaw; lerpXRot = pitch;
+        lerpSteps = steps;
     }
-    @Override public void readSpawnData(FriendlyByteBuf buffer) {
-        CompoundTag saved = buffer.readNbt();
-        if (saved != null) readAdditionalSaveData(saved);
+    @Override protected void readAdditionalSaveData(CompoundTag input) {
+        lerpSteps = 0;
+        sourceY = input.contains("SconceSourceY") ? input.getInt("SconceSourceY") : (int)getY();
+        age = input.getInt("Age");
+        preserveOnLanding = input.getBoolean("PreserveOnLanding");
+        noPhysics = getY() + .375 >= sourceY + .5625;
+    }
+    @Override protected void addAdditionalSaveData(CompoundTag output) {
+        output.putInt("SconceSourceY", sourceY);
+        output.putInt("Age", age);
+        output.putBoolean("PreserveOnLanding", preserveOnLanding);
+    }
+    @Override public void tick() {
+        super.tick();
+        if (!(level instanceof ServerLevel server)) {
+            // Only interpolate authoritative packets; never run gravity, collision or impact here.
+            if (lerpSteps > 0) {
+                double amount = 1.0D / lerpSteps;
+                setPos(net.minecraft.util.Mth.lerp(amount, getX(), lerpX),
+                        net.minecraft.util.Mth.lerp(amount, getY(), lerpY),
+                        net.minecraft.util.Mth.lerp(amount, getZ(), lerpZ));
+                setRot(getYRot() + net.minecraft.util.Mth.wrapDegrees(lerpYRot - getYRot()) / lerpSteps,
+                        getXRot() + (lerpXRot - getXRot()) / lerpSteps);
+                lerpSteps--;
+            }
+            return;
+        }
+        if (noPhysics && getY() + .375 < sourceY + .5625) noPhysics = false;
+        setDeltaMovement(getDeltaMovement().add(0, -.04, 0));
+        move(MoverType.SELF, getDeltaMovement());
+        setDeltaMovement(getDeltaMovement().scale(.98));
+        boolean wet = server.getFluidState(blockPosition()).is(FluidTags.WATER);
+        if (wet || onGround || ++age > 600 || getY() < server.getMinBuildHeight() - 32) {
+            BlockPos pos = blockPosition();
+            // Cause is captured before leaving the holder and survives save/reload; never consume
+            // another falling lamp's nearby break record at an unrelated eventual landing.
+            boolean preserve = preserveOnLanding;
+            if (preserve) spawnAtLocation(new ItemStack(ModVanillaLights.light_metal_ironage_block_floor_lava_clear.get()));
+            else if (wet) {
+                spawnAtLocation(new ItemStack(ModVanillaLights.obsidian_chunk.get()));
+                server.playSound(null, pos, SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, .5F, 2.6F);
+            } else {
+                var fire = BaseFireBlock.getState(server, pos);
+                if (server.getBlockState(pos).getMaterial().isReplaceable() && fire.canSurvive(server, pos)) server.setBlockAndUpdate(pos, fire);
+            }
+            if (!preserve) server.playSound(null, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, 1, 1);
+            discard();
+        }
     }
 }

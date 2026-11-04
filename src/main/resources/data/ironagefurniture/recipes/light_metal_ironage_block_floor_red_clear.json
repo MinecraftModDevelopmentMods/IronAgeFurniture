@@ -1,6 +1,6 @@
 {
-    "type": "crafting_shapeless",
-    "group": "light_glow",
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:light_metal_ironage_block_floor_red_clear",
     "ingredients": [
         {
             "item": "minecraft:redstone"
@@ -11,5 +11,11 @@
     ],
     "result": {
         "item": "ironagefurniture:light_metal_ironage_block_floor_red_clear"
-    }
+    },
+    "conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "lights"
+        }
+    ]
 }

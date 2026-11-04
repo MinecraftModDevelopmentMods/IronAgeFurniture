@@ -1,5 +1,6 @@
 {
     "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_biomesoplenty_mahogany_magenta",
     "ingredients": [
         {
             "item": "minecraft:magenta_bed"
@@ -8,10 +9,9 @@
             "item": "biomesoplenty:mahogany_planks"
         }
     ],
-    "group": "ironagefurniture:bed_wood_foot_biomesoplenty_mahogany_magenta",
     "result": {
-        "item": "ironagefurniture:bed_wood_foot_biomesoplenty_mahogany_magenta",
-        "count": 1
+        "count": 1,
+        "item": "ironagefurniture:bed_wood_foot_biomesoplenty_mahogany_magenta"
     },
     "conditions": [
         {
@@ -19,8 +19,8 @@
             "modid": "biomesoplenty"
         },
         {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_mahogany"
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
         }
     ]
 }

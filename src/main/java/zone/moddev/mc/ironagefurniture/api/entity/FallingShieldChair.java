@@ -1,60 +1,103 @@
 package zone.moddev.mc.ironagefurniture.api.entity;
 
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.nbt.NbtUtils;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.fmllegacy.common.registry.IEntityAdditionalSpawnData;
-import net.minecraftforge.fmllegacy.network.NetworkHooks;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import zone.moddev.mc.ironagefurniture.api.ShieldChairItemData;
-import zone.moddev.mc.ironagefurniture.api.tile.ShieldChairTileEntity;
-import zone.moddev.mc.ironagefurniture.registers.entities;
+import zone.moddev.mc.ironagefurniture.api.tile.ShieldChairBlockEntity;
 
-/** A falling shield chair carries the same saved shield as a placed chair. */
-public final class FallingShieldChair extends FallingBlockEntity implements IEntityAdditionalSpawnData {
-    public FallingShieldChair(EntityType<? extends FallingShieldChair> type, Level world) {
-        super(type, world);
+/** Native falling physics with complete shield data on landing, failed landing and reload. */
+public final class FallingShieldChair extends FallingBlockEntity {
+    private static final EntityDataAccessor<java.util.Optional<BlockState>> FRAME = SynchedEntityData.defineId(FallingShieldChair.class, EntityDataSerializers.BLOCK_STATE);
+    private static final EntityDataAccessor<ItemStack> SHIELD = SynchedEntityData.defineId(FallingShieldChair.class, EntityDataSerializers.ITEM_STACK);
+
+    public FallingShieldChair(EntityType<? extends FallingShieldChair> type, Level level) { super(type, level); }
+
+    @Override protected void defineSynchedData() {
+        super.defineSynchedData();
+        entityData.define(FRAME, java.util.Optional.of(Blocks.AIR.defaultBlockState()));
+        entityData.define(SHIELD, ItemStack.EMPTY);
     }
 
-    public FallingShieldChair(Level world, BlockPos pos, BlockState state, ShieldChairTileEntity tile) {
-        this(entities.FALLING_SHIELD_CHAIR.get(), world);
-        CompoundTag saved = new CompoundTag();
-        saved.put("BlockState", NbtUtils.writeBlockState(state));
-        saved.putInt("Time", 0);
-        saved.putBoolean("DropItem", true);
-        saved.put("TileEntityData", tile == null ? ShieldChairItemData.writeShield(ShieldChairItemData.getShield(ItemStack.EMPTY))
-                : tile.save(new CompoundTag()));
-        readAdditionalSaveData(saved);
-        setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-        setStartPos(pos);
-        xo = getX();
-        yo = getY();
-        zo = getZ();
-    }
-
-    @Override public ItemEntity spawnAtLocation(ItemStack stack, float offsetY) {
-        if (!level.isClientSide && !stack.isEmpty() && getBlockState().getBlock().asItem() == stack.getItem()) {
-            stack = ShieldChairItemData.createChair(getBlockState().getBlock(),
-                    ShieldChairItemData.readShield(blockData == null ? new CompoundTag() : blockData));
+    public static void fallWithShield(ServerLevel level, BlockPos pos, BlockState state) {
+        if (!(level.getBlockEntity(pos) instanceof ShieldChairBlockEntity storage)) return;
+        CompoundTag contents = zone.moddev.mc.ironagefurniture.api.NativeBlockEntityData.saveWithoutMetadata(storage);
+        ItemStack shield = storage.shield();
+        FallingShieldChair entity = new FallingShieldChair(Entities.FALLING_SHIELD_CHAIR.get(), level);
+        CompoundTag data = new CompoundTag();
+        BlockState fallingState = state.hasProperty(BlockStateProperties.WATERLOGGED)
+                ? state.setValue(BlockStateProperties.WATERLOGGED, false) : state;
+        data.put("BlockState", NbtUtils.writeBlockState(fallingState));
+        data.put("TileEntityData", contents);
+        data.putBoolean("DropItem", true);
+        entity.readAdditionalSaveData(data);
+        entity.blocksBuilding = true;
+        entity.setPos(pos.getX() + .5, pos.getY(), pos.getZ() + .5);
+        entity.setStartPos(pos);
+        entity.xo = entity.getX(); entity.yo = entity.getY(); entity.zo = entity.getZ();
+        // Clear the placed owner before its native removal hook can drop anything.
+        storage.setShield(ItemStack.EMPTY);
+        if (!level.setBlock(pos, state.getFluidState().createLegacyBlock(), Block.UPDATE_ALL)) {
+            storage.setShield(shield);
+            return;
         }
-        return super.spawnAtLocation(stack, offsetY);
+        if (!level.addFreshEntity(entity)) {
+            level.setBlockAndUpdate(pos, state);
+            if (level.getBlockEntity(pos) instanceof ShieldChairBlockEntity restored) {
+                restored.load(contents);
+                restored.setChanged();
+                level.sendBlockUpdated(pos, state, state, Block.UPDATE_CLIENTS);
+            }
+        }
     }
 
-    @Override public Packet<?> getAddEntityPacket() { return NetworkHooks.getEntitySpawningPacket(this); }
-    @Override public void writeSpawnData(FriendlyByteBuf buffer) {
-        CompoundTag saved = new CompoundTag();
-        addAdditionalSaveData(saved);
-        buffer.writeNbt(saved);
+    public ItemStack shield() { return entityData.get(SHIELD).copy(); }
+    public BlockState visibleState() { return entityData.get(FRAME).orElse(Blocks.AIR.defaultBlockState()); }
+
+    @Override public void tick() {
+        super.tick();
+        if (!isAlive() && getLevel() instanceof ServerLevel server
+                && server.getBlockEntity(blockPosition()) instanceof ShieldChairBlockEntity storage
+                && ItemStack.isSameItemSameTags(storage.shield(), shield())) {
+            BlockState landed = server.getBlockState(blockPosition());
+            server.sendBlockUpdated(blockPosition(), landed, landed, Block.UPDATE_CLIENTS);
+        }
     }
-    @Override public void readSpawnData(FriendlyByteBuf buffer) {
-        CompoundTag saved = buffer.readNbt();
-        if (saved != null) readAdditionalSaveData(saved);
+
+    @Override protected void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        entityData.set(FRAME, java.util.Optional.of(getBlockState()));
+        entityData.set(SHIELD, blockData != null && blockData.contains("Shield")
+                ? ItemStack.of(blockData.getCompound("Shield"))
+                : ItemStack.EMPTY);
+    }
+
+    @Override public void onSyncedDataUpdated(EntityDataAccessor<?> accessor) {
+        super.onSyncedDataUpdated(accessor);
+        if (getLevel().isClientSide() && accessor.equals(FRAME)) {
+            CompoundTag data = new CompoundTag();
+            data.put("BlockState", NbtUtils.writeBlockState(visibleState()));
+            super.readAdditionalSaveData(data);
+        }
+    }
+
+    @Override public ItemEntity spawnAtLocation(ItemStack stack, float offset) {
+        if (stack.is(getBlockState().getBlock().asItem()))
+            stack = ShieldChairItemData.createChair(getBlockState().getBlock(), shield());
+        return super.spawnAtLocation(stack, offset);
     }
 }

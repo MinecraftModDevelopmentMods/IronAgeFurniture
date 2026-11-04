@@ -4,7 +4,7 @@ IronAgeFurniture releases use `Major.Minor.Bug.Target`. The first three componen
 
 The target is calculated as `MmmppL`: Minecraft major without padding, two-digit minor, two-digit patch, and a one-digit loader code. Forge uses loader code `1`; NeoForge uses `2`.
 
-For Minecraft 1.17.1 Forge, the target is `117011`, so Phase 4 is `0.4.0.117011`. The release tag, when published, is exactly that complete version.
+For Minecraft 1.17.1 Forge, the target is `117011`, so Phase 4 is `0.4.1.117011`. The release tag, when published, is exactly that complete version.
 
 Equivalent Phase 4 forward ports retain `0.4.0` and change only the target. A player-visible feature or fix changes Major, Minor, or Bug independently of the target.
 

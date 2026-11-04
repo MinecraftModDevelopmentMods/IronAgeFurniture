@@ -1,5 +1,6 @@
 {
     "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_biomesoplenty_willow_brown",
     "ingredients": [
         {
             "item": "minecraft:brown_bed"
@@ -8,10 +9,9 @@
             "item": "biomesoplenty:willow_planks"
         }
     ],
-    "group": "ironagefurniture:bed_wood_foot_biomesoplenty_willow_brown",
     "result": {
-        "item": "ironagefurniture:bed_wood_foot_biomesoplenty_willow_brown",
-        "count": 1
+        "count": 1,
+        "item": "ironagefurniture:bed_wood_foot_biomesoplenty_willow_brown"
     },
     "conditions": [
         {
@@ -19,8 +19,8 @@
             "modid": "biomesoplenty"
         },
         {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_willow"
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
         }
     ]
 }

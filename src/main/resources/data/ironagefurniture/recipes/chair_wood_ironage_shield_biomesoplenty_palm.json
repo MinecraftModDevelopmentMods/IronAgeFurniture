@@ -2,8 +2,12 @@
     "type": "ironagefurniture:shield_chair",
     "conditions": [
         {
-            "type": "forge:mod_loaded",
-            "modid": "biomesoplenty"
+            "modid": "biomesoplenty",
+            "type": "forge:mod_loaded"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "shieldChairs"
         }
     ],
     "ingredients": [
@@ -16,5 +20,6 @@
     ],
     "result": {
         "item": "ironagefurniture:chair_wood_ironage_shield_biomesoplenty_palm"
-    }
+    },
+    "group": "ironagefurniture:chair_wood_ironage_shield_biomesoplenty_palm"
 }

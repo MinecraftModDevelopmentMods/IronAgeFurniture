@@ -1,5 +1,6 @@
 {
     "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_oak",
     "ingredients": [
         {
             "item": "minecraft:red_bed"
@@ -8,15 +9,14 @@
             "item": "minecraft:oak_planks"
         }
     ],
-    "group": "ironagefurniture:bed_wood_foot_oak",
     "result": {
-        "item": "ironagefurniture:bed_wood_foot_oak",
-        "count": 1
+        "count": 1,
+        "item": "ironagefurniture:bed_wood_foot_oak"
     },
     "conditions": [
         {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:bed_wood_foot_oak"
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
         }
     ]
 }

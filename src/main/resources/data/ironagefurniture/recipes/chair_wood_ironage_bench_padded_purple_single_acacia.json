@@ -10,5 +10,12 @@
     ],
     "result": {
         "item": "ironagefurniture:chair_wood_ironage_bench_padded_purple_single_acacia"
-    }
+    },
+    "conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "benches"
+        }
+    ],
+    "group": "ironagefurniture:chair_wood_ironage_bench_padded_purple_single_acacia"
 }

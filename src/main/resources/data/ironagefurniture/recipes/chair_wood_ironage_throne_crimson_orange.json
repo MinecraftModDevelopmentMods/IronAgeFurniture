@@ -1,29 +1,25 @@
 {
     "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_throne_crimson_orange",
     "ingredients": [
         {
-            "item": "minecraft:orange_carpet"
+            "item": "ironagefurniture:chair_wood_ironage_wingback_crimson_orange"
         },
         {
             "item": "minecraft:crimson_planks"
         },
         {
-            "item": "ironagefurniture:chair_wood_ironage_wingback_crimson_orange"
+            "item": "minecraft:orange_carpet"
         }
     ],
-    "group": "ironagefurniture:chair_wood_ironage_throne_crimson_orange",
     "result": {
-        "item": "ironagefurniture:chair_wood_ironage_throne_crimson_orange",
-        "count": 1
+        "count": 1,
+        "item": "ironagefurniture:chair_wood_ironage_throne_crimson_orange"
     },
     "conditions": [
         {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:chair_wood_ironage_throne_crimson"
-        },
-        {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:chair_wood_ironage_wingback_crimson"
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "thrones"
         }
     ]
 }

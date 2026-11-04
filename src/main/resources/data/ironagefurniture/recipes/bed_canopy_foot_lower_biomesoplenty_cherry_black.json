@@ -1,5 +1,6 @@
 {
-    "type": "ironagefurniture:upholstery_upgrade",
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_cherry_black",
     "ingredients": [
         {
             "item": "ironagefurniture:bed_wood_foot_biomesoplenty_cherry_black"
@@ -11,10 +12,9 @@
             "item": "minecraft:black_carpet"
         }
     ],
-    "group": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_cherry_black",
     "result": {
-        "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_cherry_black",
-        "count": 1
+        "count": 1,
+        "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_cherry_black"
     },
     "conditions": [
         {
@@ -22,12 +22,8 @@
             "modid": "biomesoplenty"
         },
         {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:bed_canopy_foot_lower_biomesoplenty_cherry"
-        },
-        {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:bed_wood_foot_biomesoplenty_cherry"
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "canopyBeds"
         }
     ]
 }

@@ -1,29 +1,25 @@
 {
     "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_wingback_birch_red",
     "ingredients": [
         {
-            "item": "minecraft:red_carpet"
+            "item": "ironagefurniture:chair_wood_ironage_classic_birch"
         },
         {
             "item": "minecraft:birch_planks"
         },
         {
-            "item": "ironagefurniture:chair_wood_ironage_classic_birch"
+            "item": "minecraft:red_carpet"
         }
     ],
-    "group": "ironagefurniture:chair_wood_ironage_wingback_birch_red",
     "result": {
-        "item": "ironagefurniture:chair_wood_ironage_wingback_birch",
-        "count": 1
+        "count": 1,
+        "item": "ironagefurniture:chair_wood_ironage_wingback_birch"
     },
     "conditions": [
         {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:chair_wood_ironage_wingback_birch"
-        },
-        {
-            "type": "forge:item_exists",
-            "item": "ironagefurniture:chair_wood_ironage_classic_birch"
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "wingbacks"
         }
     ]
 }
