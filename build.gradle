@@ -735,7 +735,7 @@ tasks.register('verifyReleaseConfiguration') {
     dependsOn tasks.named('verifyMavenizerCompatibilityFixture')
     doLast {
         Map<String, String> expected = [
-                mod_version            : '0.4.1.118021',
+                mod_version            : '0.4.2.118021',
                 mod_group              : 'zone.moddev.mc',
                 mod_archive_name       : 'iron-age-furniture',
                 mod_id                 : 'ironagefurniture',
