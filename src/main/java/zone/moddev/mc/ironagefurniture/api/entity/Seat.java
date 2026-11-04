@@ -2,13 +2,11 @@ package zone.moddev.mc.ironagefurniture.api.entity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 import java.util.List;
 
 public class Seat extends Entity {
@@ -35,10 +33,9 @@ public class Seat extends Entity {
     @Override
     protected void defineSynchedData() {}
 
+    // Keep vanilla passenger placement so the player riding offset is applied.
     @Override
-    protected void positionRider(Entity passenger, Entity.MoveFunction move) {
-        if (hasPassenger(passenger)) move.accept(passenger, getX(), getY(), getZ());
-    }
+    public double getPassengersRidingOffset() { return 0.0D; }
 
     @Override
     protected void readAdditionalSaveData(CompoundTag compound) {}
