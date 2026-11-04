@@ -1,3 +1,7 @@
+# IronAgeFurniture 0.4.2.120011
+
+- Fix players floating above chairs, benches and stools when sitting down.
+
 # IronAgeFurniture 0.4.1.120011
 
 - Bring Phase 4 to Minecraft 1.20.1 and Forge 47.4.10 on Java 17.
