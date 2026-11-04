@@ -3,20 +3,21 @@ package zone.moddev.mc.ironagefurniture.api.blocks.lightsource.red;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.WeakHashMap;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
-import zone.moddev.mc.ironagefurniture.BlockObjectHolder;
 
 import zone.moddev.mc.ironagefurniture.api.blocks.base.FallingFurnitureBlock;
+import zone.moddev.mc.ironagefurniture.init.ModVanillaLights;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.server.level.ServerLevel;
+import java.util.Random;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
@@ -25,7 +26,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.storage.loot.LootContext.Builder;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -57,7 +57,7 @@ public class LightSourceRed extends FallingFurnitureBlock {
 	public List<ItemStack> getDrops(BlockState state, Builder builder) {
 		List<ItemStack> drops;
 
-		Item item = BlockObjectHolder.light_metal_ironage_block_floor_red_clear.asItem();
+		Item item = ModVanillaLights.light_metal_ironage_block_floor_red_clear.get().asItem();
 		ItemStack stack = new ItemStack(item, 1);
 		drops = new ArrayList<>();
 		drops.add(stack);
@@ -74,11 +74,11 @@ public class LightSourceRed extends FallingFurnitureBlock {
 	}
 
 	public LightSourceRed(float hardness, float blastResistance, SoundType sound, String name) {
-		super(Block.Properties.of(Material.GLASS).strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> LIGHT_LEVEL));
+		super(Block.Properties.of(net.minecraft.world.level.material.Material.GLASS).strength(hardness, blastResistance).sound(sound).lightLevel((p_50886_) -> LIGHT_LEVEL));
 
 		this.registerDefaultState(this.getStateDefinition().any().setValue(DIRECTION, Direction.NORTH));
 		this.generateShapes(this.getStateDefinition().getPossibleStates());
-		this.setRegistryName(name);
+		//this.setRegistryName(name);
 		this.flameParticle = DustParticleOptions.REDSTONE;
 	}
 
@@ -135,37 +135,37 @@ public class LightSourceRed extends FallingFurnitureBlock {
 	protected LightSourceRed getBlockBySignalLevel(int level) {
 		switch (level) {
 			case 1:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_one;
+				return (LightSourceRed) ModVanillaLights.light_metal_ironage_block_floor_red_clear_one.get();
 			case 2:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_two;
+				return (LightSourceRed) ModVanillaLights.light_metal_ironage_block_floor_red_clear_two.get();
 			case 3:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_three;
+				return (LightSourceRed) ModVanillaLights.light_metal_ironage_block_floor_red_clear_three.get();
 			case 4:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_four;
+				return (LightSourceRed) ModVanillaLights.light_metal_ironage_block_floor_red_clear_four.get();
 			case 5:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_five;
+				return (LightSourceRed) ModVanillaLights.light_metal_ironage_block_floor_red_clear_five.get();
 			case 6:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_six;
+				return (LightSourceRed) ModVanillaLights.light_metal_ironage_block_floor_red_clear_six.get();
 			case 7:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_seven;
+				return (LightSourceRed) ModVanillaLights.light_metal_ironage_block_floor_red_clear_seven.get();
 			case 8:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_eight;
+				return (LightSourceRed) ModVanillaLights.light_metal_ironage_block_floor_red_clear_eight.get();
 			case 9:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_nine;
+				return (LightSourceRed) ModVanillaLights.light_metal_ironage_block_floor_red_clear_nine.get();
 			case 10:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_ten;
+				return (LightSourceRed) ModVanillaLights.light_metal_ironage_block_floor_red_clear_ten.get();
 			case 11:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_eleven;
+				return (LightSourceRed) ModVanillaLights.light_metal_ironage_block_floor_red_clear_eleven.get();
 			case 12:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_twelve;
+				return (LightSourceRed) ModVanillaLights.light_metal_ironage_block_floor_red_clear_twelve.get();
 			case 13:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_thirteen;
+				return (LightSourceRed) ModVanillaLights.light_metal_ironage_block_floor_red_clear_thirteen.get();
 			case 14:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_fourteen;
+				return (LightSourceRed) ModVanillaLights.light_metal_ironage_block_floor_red_clear_fourteen.get();
 			case 15:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear_fifteen;
+				return (LightSourceRed) ModVanillaLights.light_metal_ironage_block_floor_red_clear_fifteen.get();
 			default:
-				return (LightSourceRed) BlockObjectHolder.light_metal_ironage_block_floor_red_clear;
+				return (LightSourceRed) ModVanillaLights.light_metal_ironage_block_floor_red_clear.get();
 		}
 	}
 
@@ -188,11 +188,11 @@ public class LightSourceRed extends FallingFurnitureBlock {
 
 			Block block = level.getBlockState(pos).getBlock();
 
-			level.getBlockTicks().scheduleTick(pos, block, newBlock.getDelayAfterPlace());
+			zone.moddev.mc.ironagefurniture.api.NativeTicks.schedule(level, pos, block, newBlock.getDelayAfterPlace());
 
 			if (isToggledTooFrequently(level, pos, true)) {
 				level.levelEvent(1502, pos, 0);
-				level.getBlockTicks().scheduleTick(pos, level.getBlockState(pos).getBlock(), 160);
+				zone.moddev.mc.ironagefurniture.api.NativeTicks.schedule(level, pos, level.getBlockState(pos).getBlock(), 160);
 			}
 		}
 
@@ -251,7 +251,7 @@ public class LightSourceRed extends FallingFurnitureBlock {
 
 	    if (hasSignal || GetLightLevel() > 0) {
 	        if (!willTick) {
-	            level.getBlockTicks().scheduleTick(pos, this, 2);
+	            zone.moddev.mc.ironagefurniture.api.NativeTicks.schedule(level, pos, this, 2);
 	        }
 	    }
 	}

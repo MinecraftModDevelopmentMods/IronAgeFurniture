@@ -2,16 +2,18 @@ package zone.moddev.mc.ironagefurniture.api.entity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.fmllegacy.network.NetworkHooks;
 import java.util.List;
 
 public class Seat extends Entity {
+    @Override public net.minecraft.network.protocol.Packet<?> getAddEntityPacket() {
+        return net.minecraftforge.fmllegacy.network.NetworkHooks.getEntitySpawningPacket(this);
+    }
+
 	private BlockPos source;
 
     public Seat(Level world) {
@@ -33,13 +35,11 @@ public class Seat extends Entity {
     protected boolean canRide(Entity entity) { return true; }
 
     @Override
-    public Packet<?> getAddEntityPacket() { return NetworkHooks.getEntitySpawningPacket(this); }
-
-    @Override
     protected void defineSynchedData() {}
 
+    // Keep vanilla passenger placement so the player riding offset is applied.
     @Override
-    public double getPassengersRidingOffset() { return 0.0; }
+    public double getPassengersRidingOffset() { return 0.0D; }
 
     @Override
     protected void readAdditionalSaveData(CompoundTag compound) {}

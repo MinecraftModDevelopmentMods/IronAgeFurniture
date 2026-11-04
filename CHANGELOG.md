@@ -1,4 +1,20 @@
-# IronAgeFurniture 0.3.0.117011
+# IronAgeFurniture 0.4.1.117011
+
+Phase 4 for Minecraft 1.17.1 and Forge 37.1.1. Requires Java 16.
+
+- Add wooden and canopy beds, matching doubles, wingback chairs and thrones in all 19 woods and sixteen colours.
+- Sit at the right height on chairs, benches and stools.
+- Attach and remove real shields. Chairs keep the shield's design, name, damage and enchantments, and show the right design after a world reload.
+- Add twin-torch, candle and rock-salt sconces. Candle sconces hold up to four vanilla candles and give the newest one back first.
+- Give each sconce metal its own block. Existing sconces keep their metal, facing and contents when the world loads.
+- Make four sconces from five matching nuggets, or thirty-two copper sconces from five copper ingots when copper nuggets are unavailable.
+- Keep the glass clear on lamps, preserve frame and contents when supports break, and let wet redstone lights relight when powered.
+- Keep wall lava lamps safe to remove by hand. Ordinary mining lets them fall and shatter, while Silk Touch recovers the lamp intact.
+- Split the creative inventory into Chairs, Benches, Beds and Lights. Group recipes by furniture form and show matching upgrades while the crafting table is open.
+- Keep supported legacy furniture and saved item data during upgrades. See the upgrade guide for supported worlds and optional mods.
+- Speed up Eclipse synchronisation by preparing development dependencies only when their inputs change.
+
+## Previous release: 0.3.0.117011
 
 Phase 3 lighting release for Minecraft 1.17.1 and Forge 37.1.1.
 

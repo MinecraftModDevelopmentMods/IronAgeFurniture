@@ -25,9 +25,9 @@ public class TallStool extends Chair {
 	}
 
 	 @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult rayTraceResult)
+    protected double seatYOffset()
     {
-        return Seat.create(world, pos, 0.6, player);
+        return 0.6;
     }
 
 	@Override
@@ -36,13 +36,13 @@ public class TallStool extends Chair {
         ImmutableMap.Builder<BlockState, VoxelShape> builder = new ImmutableMap.Builder<>();
         for(BlockState state : states)
         {
-	VoxelShape shapes = Shapes.empty();
+        	VoxelShape shapes = Shapes.empty();
 
-		// tall stool body
-	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(3, 12, 3, 13, 13, 13), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // chair base
+    		// tall stool body
+        	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(3, 12, 3, 13, 13, 13), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR); // chair base
 
-	//tall stool legs
-	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(7, 0, 11, 9, 12, 12), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR);
+        	//tall stool legs
+        	shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(7, 0, 11, 9, 12, 12), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR);
             shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(10, 0, 5, 13, 12, 8), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR);
             shapes = Shapes.joinUnoptimized(shapes, getShapes(rotate(Block.box(4, 0, 5,6, 12, 8), Direction.SOUTH))[state.getValue(DIRECTION).get2DDataValue()], BooleanOp.OR);
 

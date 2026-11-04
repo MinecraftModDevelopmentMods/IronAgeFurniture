@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:bed_wood_foot_left_crimson_brown",
+    "ingredients": [
+        {
+            "item": "ironagefurniture:bed_wood_foot_crimson_brown"
+        },
+        {
+            "item": "ironagefurniture:bed_wood_foot_crimson_brown"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "item": "ironagefurniture:bed_wood_foot_left_crimson_brown"
+    },
+    "conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "woodenBeds"
+        }
+    ]
+}

@@ -1,0 +1,43 @@
+package zone.moddev.mc.ironagefurniture.api;
+
+import static org.junit.Assert.*;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.Bootstrap;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import zone.moddev.mc.ironagefurniture.api.enumerations.UpholsteryColour;
+
+public class UpholsteryItemDataTest {
+    @BeforeClass public static void bootstrap() { net.minecraft.SharedConstants.tryDetectVersion(); Bootstrap.bootStrap(); zone.moddev.mc.ironagefurniture.NativeFurnitureFixtures.register(); }
+
+    @Test public void everyColourHasTheSameLegacyMetadataAndStableName() {
+        String[] names = {"red", "orange", "magenta", "light_blue", "yellow", "lime", "pink", "gray",
+                "light_gray", "cyan", "purple", "blue", "brown", "green", "white", "black"};
+        int[] dyes = {14, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 0, 15};
+        for (int index = 0; index < names.length; index++) {
+            UpholsteryColour colour = UpholsteryColour.byItemMetadata(index);
+            assertEquals(names[index], colour.getSerializedName());
+            assertEquals(index, colour.getItemMetadata());
+            assertEquals(dyes[index], colour.getDyeMetadata());
+            assertEquals(colour, UpholsteryColour.byName(names[index]));
+            ItemStack stack = UpholsteryItemData.create(zone.moddev.mc.ironagefurniture.NativeFurnitureFixtures.OAK_BED, colour);
+            assertEquals(colour, UpholsteryItemData.getColour(ItemStack.of(stack.save(new CompoundTag()))));
+        }
+    }
+    @Test public void missingOrInvalidDataIsRedAndCopiesKeepOtherItemData() {
+        ItemStack original = new ItemStack(zone.moddev.mc.ironagefurniture.NativeFurnitureFixtures.OAK_BED, 5);
+        original.getOrCreateTag().putString("OtherModsData", "keep");
+        assertEquals(UpholsteryColour.RED, UpholsteryItemData.getColour(original));
+        original.getTag().putString("Color", "unknown");
+        assertEquals(UpholsteryColour.RED, UpholsteryItemData.getColour(original));
+        ItemStack pink = UpholsteryItemData.recolour(original, UpholsteryColour.PINK);
+        assertEquals(5, pink.getCount());
+        assertEquals("keep", pink.getTag().getString("OtherModsData"));
+        assertEquals("unknown", original.getTag().getString("Color"));
+        assertEquals(UpholsteryColour.PINK, UpholsteryItemData.getColour(pink));
+        assertEquals(UpholsteryColour.RED, UpholsteryColour.byItemMetadata(16));
+        assertEquals(UpholsteryColour.RED, UpholsteryColour.byItemMetadata(-1));
+    }
+}

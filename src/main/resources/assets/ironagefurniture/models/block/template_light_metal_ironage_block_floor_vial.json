@@ -1,5 +1,7 @@
 {
 	"credit": "Made by FoxNekitsune",
+	"render_type": "minecraft:cutout",
+	"render_type_fast": "minecraft:cutout",
 	"textures": {
 				"1": "minecraft:block/glass",
 				"2": "#contents",

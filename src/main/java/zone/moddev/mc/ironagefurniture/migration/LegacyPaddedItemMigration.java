@@ -1,108 +1,123 @@
 package zone.moddev.mc.ironagefurniture.migration;
 
 import java.util.ArrayList;
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.registries.ForgeRegistries;
-import zone.moddev.mc.ironagefurniture.Ironagefurniture;
+import zone.moddev.mc.ironagefurniture.api.enumerations.SconceMetal;
+import zone.moddev.mc.ironagefurniture.api.enumerations.UpholsteryColour;
+import zone.moddev.mc.ironagefurniture.api.SconceMetalData;
 
-/** Converts the shared 1.10/1.12 padded item format to flattened colour-specific items. */
+/** Rewrite saved identities before vanilla discards obsolete item subtype numbers. */
 public final class LegacyPaddedItemMigration {
-	private LegacyPaddedItemMigration() {
-	}
+    static boolean containsFurnitureItems(Tag value) {
+        if (value instanceof CompoundTag tag) {
+            String id = LegacyNbt.string(tag, "id", "");
+            if ((tag.contains("Count") || tag.contains("count")) && id.startsWith("ironagefurniture:")) return true;
+            for (String key : tag.getAllKeys()) if (containsFurnitureItems(tag.get(key))) return true;
+        } else if (value instanceof ListTag list) for (Tag child : list) if (containsFurnitureItems(child)) return true;
+        return false;
+    }
+    public static boolean migrateChunkContents(CompoundTag root) {
+        if (unavailableProviderItem(root)) return false;
+        boolean changed = false;
+        if ((root.contains("Count") || root.contains("count")) && root.contains("id")) changed |= migrateItemCompound(root);
+        for (String key : new ArrayList<>(root.getAllKeys())) {
+            Tag child = root.get(key);
+            if (child instanceof CompoundTag compound) changed |= migrateChunkContents(compound);
+            else if (child instanceof ListTag list) changed |= migrateList(list);
+        }
+        return changed;
+    }
+    private static boolean migrateList(ListTag list) {
+        boolean changed = false;
+        for (Tag child : list) {
+            if (child instanceof CompoundTag tag) changed |= migrateChunkContents(tag);
+            else if (child instanceof ListTag nested) changed |= migrateList(nested);
+        }
+        return changed;
+    }
+    public static boolean migrateItemCompound(CompoundTag stack) {
+        // Providers are optional. Do not consume subtype data or rename
+        // an unavailable item before its provider can be restored on a later load.
+        CompoundTag migrated = stack.copy();
+        if (!rewriteItemCompound(migrated)) return false;
+        ResourceLocation target = ResourceLocation.tryParse(migrated.getString("id"));
+        // Check the entire candidate BEFORE consuming subtype/component payload.
+        // Historical provider IDs stay intact until a real replacement exists.
+        if (target == null || !net.minecraft.core.Registry.ITEM.containsKey(target)) return false;
+        for (String key : new ArrayList<>(stack.getAllKeys())) stack.remove(key);
+        stack.merge(migrated);
+        return true;
+    }
+    private static boolean optionalWood(String id) {
+        return id.contains("_biomesoplenty_") || id.contains("_byg_")
+                || id.contains("_immersiveengineering_");
+    }
+    static boolean unavailableProviderItem(CompoundTag stack) {
+        if (!stack.contains("Count") && !stack.contains("count")) return false;
+        String id = stack.getString("id");
+        if (!(id.startsWith("ironagefurniture:") || id.startsWith("iafbygaddon:")) || !optionalWood(id)) return false;
+        // A retired raw ID can be absent even though its provider and current
+        // coloured replacement are present. Inspect a copy, never the saved item.
+        CompoundTag candidate = stack.copy();
+        rewriteItemCompound(candidate);
+        ResourceLocation key = ResourceLocation.tryParse(candidate.getString("id"));
+        return key == null || !net.minecraft.core.Registry.ITEM.containsKey(key);
+    }
 
-	public static ItemStack migrate(ItemStack original) {
-		if (original.isEmpty()) {
-			return original;
-		}
-		CompoundTag serialized = original.save(new CompoundTag());
-		return migrateItemCompound(serialized) ? ItemStack.of(serialized) : original;
-	}
-
-	/** Migrates serialized item stacks before vanilla flattens a legacy chunk. */
-	static boolean migrateChunkContents(CompoundTag level) {
-		return migrateNested(level);
-	}
-
-	static boolean migrateItemCompound(CompoundTag stack) {
-		boolean changed = false;
-		if (stack.contains("id", Tag.TAG_STRING)) {
-			ResourceLocation id = new ResourceLocation(stack.getString("id"));
-			if (LegacyPaddedBenchIds.isLegacyNamespace(id.getNamespace())) {
-				CompoundTag tag = stack.contains("tag", Tag.TAG_COMPOUND) ? stack.getCompound("tag") : null;
-				String colour = tag != null && tag.contains(LegacyPaddedBenchIds.COLOR_TAG, Tag.TAG_STRING)
-						? tag.getString(LegacyPaddedBenchIds.COLOR_TAG) : "red";
-				String targetPath = null;
-				if (LegacyPaddedBenchIds.isLegacyPaddedPath(id.getPath())) {
-					targetPath = LegacyPaddedBenchIds.modernPaddedPath(id, colour);
-				} else if (LegacyPaddedBenchIds.isModernRedPaddedPath(id.getPath())
-						&& tag != null && tag.contains(LegacyPaddedBenchIds.COLOR_TAG, Tag.TAG_STRING)) {
-					targetPath = LegacyPaddedBenchIds.colouredPathFromModernRed(id.getPath(), colour);
-				}
-				ResourceLocation targetId = targetPath != null
-						? new ResourceLocation(Ironagefurniture.MODID, targetPath)
-						: LegacyPaddedBenchIds.currentId(id);
-				if (!targetId.equals(id)) {
-					Item target = ForgeRegistries.ITEMS.getValue(targetId);
-					if (target != null) {
-						stack.putString("id", targetId.toString());
-						if (tag != null) {
-							tag.remove(LegacyPaddedBenchIds.COLOR_TAG);
-						}
-						changed = true;
-					}
-				}
-			}
-		}
-
-		for (String key : new ArrayList<>(stack.getAllKeys())) {
-			Tag child = stack.get(key);
-			if (child instanceof CompoundTag) {
-				CompoundTag compound = (CompoundTag)child;
-				if (compound.contains("id", Tag.TAG_STRING) && compound.contains("Count", Tag.TAG_BYTE)) {
-					changed |= migrateItemCompound(compound);
-				} else {
-					changed |= migrateNested(compound);
-				}
-			} else if (child instanceof ListTag) {
-				changed |= migrateList((ListTag)child);
-			}
-		}
-		return changed;
-	}
-
-	private static boolean migrateNested(CompoundTag compound) {
-		boolean changed = false;
-		for (String key : new ArrayList<>(compound.getAllKeys())) {
-			Tag child = compound.get(key);
-			if (child instanceof CompoundTag) {
-				CompoundTag nested = (CompoundTag)child;
-				changed |= nested.contains("id", Tag.TAG_STRING) && nested.contains("Count", Tag.TAG_BYTE)
-						? migrateItemCompound(nested) : migrateNested(nested);
-			} else if (child instanceof ListTag) {
-				changed |= migrateList((ListTag)child);
-			}
-		}
-		return changed;
-	}
-
-	private static boolean migrateList(ListTag list) {
-		boolean changed = false;
-		for (int index = 0; index < list.size(); ++index) {
-			Tag child = list.get(index);
-			if (child instanceof CompoundTag) {
-				CompoundTag compound = (CompoundTag)child;
-				changed |= compound.contains("id", Tag.TAG_STRING) && compound.contains("Count", Tag.TAG_BYTE)
-						? migrateItemCompound(compound) : migrateNested(compound);
-			} else if (child instanceof ListTag) {
-				changed |= migrateList((ListTag)child);
-			}
-		}
-		return changed;
-	}
+    private static boolean rewriteItemCompound(CompoundTag stack) {
+        String id = LegacyNbt.string(stack, "id", "");
+        if (!id.startsWith("ironagefurniture:") && !id.startsWith("iafbygaddon:")) return false;
+        String old = stack.toString();
+        if (id.startsWith("iafbygaddon:")) {
+            id = LegacyPaddedBenchIds.currentId(new ResourceLocation(id)).toString();
+            stack.putString("id", id);
+        }
+        CompoundTag legacy = LegacyNbt.compound(stack, "tag");
+        CompoundTag components = LegacyNbt.compound(stack, "components");
+        CompoundTag custom = LegacyNbt.compound(components, "minecraft:custom_data");
+        CompoundTag colourData = legacy.contains("Color") ? legacy : custom;
+        String path = id.substring("ironagefurniture:".length());
+        if (path.startsWith("light_metal_ironage_candle_")) {
+            stack.putString("id", "minecraft:candle");
+            stack.remove("Damage");
+        } else if (path.startsWith("light_metal_ironage_sconce_floor_empty_")) {
+            String saved = legacy.contains("Metal") ? LegacyNbt.string(legacy, "Metal", "iron") : LegacyNbt.string(custom, "Metal", "iron");
+            SconceMetal metal = path.equals(SconceMetalData.FRAME)
+                    ? legacy.contains("Metal") || custom.contains("Metal") ? SconceMetal.byName(saved)
+                            : SconceMetal.byLegacyMetadata(LegacyNbt.integer(stack, "Damage", 0)) : SconceMetal.byName(path.substring(path.lastIndexOf('_') + 1));
+            stack.putString("id", SconceMetalData.itemId(metal).toString());
+            stack.remove("Damage"); legacy.remove("Metal"); custom.remove("Metal");
+        } else if (LegacyPaddedBenchIds.isModernRedPaddedPath(path) && colourData.contains("Color")) {
+            stack.putString("id", LegacyPaddedBenchIds.currentId(new ResourceLocation("ironagefurniture",
+                    LegacyPaddedBenchIds.colouredPathFromModernRed(path, LegacyNbt.string(colourData, "Color", "red")))).toString());
+            legacy.remove("Color"); custom.remove("Color");
+        } else if (LegacyPaddedBenchIds.isLegacyPaddedPath(path)) {
+            String colour = LegacyNbt.string(colourData, "Color", "red");
+            stack.putString("id", "ironagefurniture:" + LegacyPaddedBenchIds.modernPaddedPath(path, colour));
+            legacy.remove("Color"); custom.remove("Color"); stack.remove("Damage");
+        } else if (LegacyUpholsteryMigration.isUpholsteredPath(path)) {
+            UpholsteryColour fixed = null;
+            for (UpholsteryColour value : UpholsteryColour.values()) if (value != UpholsteryColour.RED && path.endsWith("_" + value.getName())
+                    && (fixed == null || value.getName().length() > fixed.getName().length())) fixed = value;
+            UpholsteryColour colour = fixed != null ? fixed : colourData.contains("Color") ? UpholsteryColour.byName(LegacyNbt.string(colourData, "Color", "red"))
+                    : UpholsteryColour.byItemMetadata(LegacyNbt.integer(stack, "Damage", LegacyNbt.integer(legacy, "Damage", LegacyNbt.integer(custom, "Damage", 0))));
+            if (fixed != null) path = path.substring(0, path.length() - fixed.getName().length() - 1);
+            path = LegacyPaddedBenchIds.currentId(new ResourceLocation("ironagefurniture", path)).getPath()
+                    .replace("bed_canopy_foot_right_lower_", "bed_canopy_foot_left_lower_");
+            stack.putString("id", "ironagefurniture:" + path + (colour == UpholsteryColour.RED ? "" : "_" + colour.getName()));
+            stack.remove("Damage"); legacy.remove("Color"); legacy.remove("Damage"); custom.remove("Color"); custom.remove("Damage");
+        } else {
+            stack.putString("id", LegacyPaddedBenchIds.currentId(new ResourceLocation(id)).toString());
+        }
+        if (stack.contains("tag")) { if (legacy.isEmpty()) stack.remove("tag"); else stack.put("tag", legacy); }
+        if (components.contains("minecraft:custom_data")) {
+            if (custom.isEmpty()) components.remove("minecraft:custom_data"); else components.put("minecraft:custom_data", custom);
+            stack.put("components", components);
+        }
+        return !old.equals(stack.toString());
+    }
+    private LegacyPaddedItemMigration() { }
 }

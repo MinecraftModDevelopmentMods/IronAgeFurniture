@@ -1,0 +1,51 @@
+{
+    "advancements": [
+        {
+            "conditions": [
+                {
+                    "type": "ironagefurniture:feature_enabled",
+                    "feature": "lights"
+                },
+                {
+                    "type": "forge:not",
+                    "value": {
+                        "type": "forge:tag_empty",
+                        "tag": "forge:nuggets/copper"
+                    }
+                }
+            ],
+            "advancement": {
+                "parent": "minecraft:recipes/root",
+                "criteria": {
+                    "has_ingredient": {
+                        "trigger": "minecraft:inventory_changed",
+                        "conditions": {
+                            "items": [
+                                {
+                                    "tag": "forge:nuggets/copper"
+                                }
+                            ]
+                        }
+                    },
+                    "has_the_recipe": {
+                        "trigger": "minecraft:recipe_unlocked",
+                        "conditions": {
+                            "recipe": "ironagefurniture:light_metal_ironage_sconce_floor_empty_copper"
+                        }
+                    }
+                },
+                "requirements": [
+                    [
+                        "has_ingredient",
+                        "has_the_recipe"
+                    ]
+                ],
+                "rewards": {
+                    "recipes": [
+                        "ironagefurniture:light_metal_ironage_sconce_floor_empty_copper"
+                    ]
+                }
+            }
+        }
+    ]
+}

@@ -1,0 +1,27 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "ironagefurniture:chair_wood_ironage_classic_oak",
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "cfm"
+        },
+        {
+            "type": "forge:item_exists",
+            "item": "cfm:oak_chair"
+        },
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "classicChairs"
+        }
+    ],
+    "ingredients": [
+        {
+            "item": "cfm:oak_chair"
+        }
+    ],
+    "result": {
+        "item": "ironagefurniture:chair_wood_ironage_classic_oak",
+        "count": 1
+    }
+}

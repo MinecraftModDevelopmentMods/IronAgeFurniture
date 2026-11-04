@@ -1,6 +1,6 @@
 {
     "type": "minecraft:crafting_shaped",
-    "group": "sconce",
+    "group": "ironagefurniture:light_metal_ironage_sconce_floor_empty_iron",
     "pattern": [
         "xxx",
         "x  ",
@@ -12,7 +12,13 @@
         }
     },
     "result": {
-        "item": "ironagefurniture:light_metal_ironage_sconce_floor_empty_iron",
-        "count": 5
-    }
+        "count": 4,
+        "item": "ironagefurniture:light_metal_ironage_sconce_floor_empty_iron"
+    },
+    "conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "lights"
+        }
+    ]
 }

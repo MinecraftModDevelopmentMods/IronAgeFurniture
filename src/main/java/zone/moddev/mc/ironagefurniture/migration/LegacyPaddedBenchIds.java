@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Locale;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
 
 import net.minecraft.resources.ResourceLocation;
@@ -12,6 +14,7 @@ import zone.moddev.mc.ironagefurniture.Ironagefurniture;
 /** Stable names shared by the pre-flattening padded-bench migration. */
 public final class LegacyPaddedBenchIds {
 	public static final String COLOR_TAG = "Color";
+	public static final String BYG_ADDON_MODID = "iafbygaddon";
 	public static final ResourceLocation BLOCK_ENTITY_ID =
 			new ResourceLocation(Ironagefurniture.MODID, "padded_bench_colour");
 
@@ -20,6 +23,16 @@ public final class LegacyPaddedBenchIds {
 	private static final Set<String> COLOURS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
 			"red", "orange", "magenta", "light_blue", "yellow", "lime", "pink", "gray",
 			"light_gray", "cyan", "purple", "blue", "brown", "green", "white", "black")));
+	private static final Map<String, String> RETIRED_BYG_WOODS = new LinkedHashMap<>();
+
+	static {
+		RETIRED_BYG_WOODS.put("frozen_oak", "byg_aspen");
+		RETIRED_BYG_WOODS.put("great_oak", "oak");
+		RETIRED_BYG_WOODS.put("hawthorn", "byg_cherry");
+		RETIRED_BYG_WOODS.put("ironwood", "byg_ebony");
+		RETIRED_BYG_WOODS.put("palm", "byg_baobab");
+		RETIRED_BYG_WOODS.put("rowan", "byg_maple");
+	}
 
 	private LegacyPaddedBenchIds() {
 	}
@@ -77,6 +90,7 @@ public final class LegacyPaddedBenchIds {
 	}
 
 	public static ResourceLocation currentId(ResourceLocation oldId) {
+		if (BYG_ADDON_MODID.equals(oldId.getNamespace())) return oldId;
 		if (!Ironagefurniture.MODID.equals(oldId.getNamespace())) {
 			return oldId;
 		}
@@ -88,6 +102,27 @@ public final class LegacyPaddedBenchIds {
 
 	public static boolean isLegacyNamespace(String namespace) {
 		return Ironagefurniture.MODID.equals(namespace);
+	}
+
+	public static String retiredBygFallback(String path) {
+		for (Map.Entry<String, String> fallback : RETIRED_BYG_WOODS.entrySet()) {
+			if (path.endsWith("_byg_" + fallback.getKey())) {
+				return fallback.getKey() + " -> " + fallback.getValue();
+			}
+		}
+		return null;
+	}
+
+	private static String renameBygAddonWood(String path) {
+		for (Map.Entry<String, String> fallback : RETIRED_BYG_WOODS.entrySet()) {
+			String suffix = "_byg_" + fallback.getKey();
+			if (path.endsWith(suffix)) {
+				String target = fallback.getValue();
+				String targetSuffix = "oak".equals(target) ? "_oak" : "_" + target;
+				return path.substring(0, path.length() - suffix.length()) + targetSuffix;
+			}
+		}
+		return path;
 	}
 
 	private static String renameFlattenedWood(String path) {

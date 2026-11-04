@@ -1,6 +1,6 @@
 {
     "type": "minecraft:crafting_shaped",
-    "group": "obsidian",
+    "group": "minecraft:obsidian",
     "pattern": [
         "yyy",
         "yyy",
@@ -12,7 +12,13 @@
         }
     },
     "result": {
-        "item": "minecraft:obsidian",
-        "count": 1
-    }
+        "count": 1,
+        "item": "minecraft:obsidian"
+    },
+    "conditions": [
+        {
+            "type": "ironagefurniture:feature_enabled",
+            "feature": "lights"
+        }
+    ]
 }
