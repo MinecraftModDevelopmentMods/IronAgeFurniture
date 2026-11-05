@@ -45,9 +45,9 @@ public class LightSourceSconceTorchFloorUnlit extends LightSourceSconceTorchFloo
 	}
 
 	private void Light(BlockState state, World world, BlockPos pos) {
-		world.setBlockState(pos, GetLitVariant().getDefaultState()
+		world.setBlockState(pos, zone.moddev.mc.ironagefurniture.api.SconceMetalData.preserve(state, GetLitVariant().getDefaultState()
 				 .with(DIRECTION, state .get(BlockStateProperties.HORIZONTAL_FACING))
-				 .with(WATERLOGGED, state .get(BlockStateProperties.WATERLOGGED)).with(zone.moddev.mc.ironagefurniture.api.SconceMetalData.METAL, zone.moddev.mc.ironagefurniture.api.SconceMetalData.get(state)), 3);
+				 .with(WATERLOGGED, state .get(BlockStateProperties.WATERLOGGED))), 3);
 	}
 
 	@Override
@@ -75,9 +75,9 @@ public class LightSourceSconceTorchFloorUnlit extends LightSourceSconceTorchFloo
 		}
 
 		if (player.isCreative() && (stackInHand.getItem() == Blocks.TORCH.asItem() || stackInHand.isEmpty())) {
-			world.setBlockState(pos, GetEmptyVariant().getDefaultState()
+			world.setBlockState(pos, zone.moddev.mc.ironagefurniture.api.SconceMetalData.preserve(state, GetEmptyVariant().getDefaultState()
 					 .with(DIRECTION, state .get(BlockStateProperties.HORIZONTAL_FACING))
-					 .with(WATERLOGGED, state .get(BlockStateProperties.WATERLOGGED)).with(zone.moddev.mc.ironagefurniture.api.SconceMetalData.METAL, zone.moddev.mc.ironagefurniture.api.SconceMetalData.get(state)), 3);
+					 .with(WATERLOGGED, state .get(BlockStateProperties.WATERLOGGED))), 3);
 
 			return true;
 		}

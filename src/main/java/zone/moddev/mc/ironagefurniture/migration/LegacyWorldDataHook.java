@@ -200,6 +200,7 @@ public final class LegacyWorldDataHook {
 			level.putString("Status", "full");
 			level.remove(PRESERVE_CHUNK_MARKER);
 		}
+		LegacySconceMigration.migrate(level);
 		return root;
 	}
 

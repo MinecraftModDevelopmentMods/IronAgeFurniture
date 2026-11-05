@@ -57,7 +57,7 @@ public final class PhaseFourRuntimeProbe {
         // Leave that integrated server running until the render checks finish.
         if (Boolean.getBoolean("iaf.probe.liveBaseMetalsClient") || Boolean.getBoolean("iaf.probe.inWorldClient")) return;
         MinecraftServer server = event.getServer();
-        if (Boolean.getBoolean("iaf.probe.twinTorchRedstone")) {
+        if (Boolean.getBoolean("iaf.probe.sconceRedstone") || Boolean.getBoolean("iaf.probe.twinTorchRedstone")) {
             SconceRedstoneRuntimeProbe.start(server);
             return;
         }
@@ -89,6 +89,16 @@ public final class PhaseFourRuntimeProbe {
         int chairs = 0;
         int states = 0;
         try {
+            if (Boolean.getBoolean("iaf.probe.candleBuckets")) {
+                int cases = CandleBucketRuntimeProbe.run(world, player);
+                Files.write(Paths.get("phase-four-pass.properties"), ("status=PASS\ncandle_bucket_cases=" + cases + "\n").getBytes(StandardCharsets.UTF_8));
+                return;
+            }
+            if (Boolean.getBoolean("iaf.probe.wallLavaMiningOnly")) {
+                int cases = WallLavaMiningRuntimeProbe.run(world, player);
+                Files.write(Paths.get("phase-four-pass.properties"), ("status=PASS\nwall_lava_mining_cases=" + cases + "\n").getBytes(StandardCharsets.UTF_8));
+                return;
+            }
             if (Boolean.getBoolean("iaf.probe.directSconceOnly")) {
                 int harvests = DirectSconceHarvestRuntimeProbe.run(world, player);
                 Files.write(Paths.get("phase-four-pass.properties"), ("status=PASS\ndirect_sconce_cases=" + harvests + "\n").getBytes(StandardCharsets.UTF_8));
@@ -140,6 +150,7 @@ public final class PhaseFourRuntimeProbe {
                 chairs++;
             }
             require(chairs >= 6, "Vanilla shield chairs did not register");
+            int wallLavaMining = WallLavaMiningRuntimeProbe.run(world, player);
             verifyLavaHarvest(world, player);
             int placements = ChairPlacementRuntimeProbe.run(world, player);
             int upholstery = UpholsteryRuntimeProbe.run(server, world, player);
@@ -151,7 +162,8 @@ public final class PhaseFourRuntimeProbe {
             Files.write(Paths.get("phase-four-pass.properties"), ("status=PASS\nshield_chairs=" + chairs
                     + "\nshield_states=" + states + "\nupholstered_forms=" + upholstery + "\ncandle_cases=" + candles
                     + "\nsconce_cases=" + sconces + "\nrocksalt_cases=" + rockSalt + "\ntrap_cases=" + traps
-                    + "\ncfm_cases=" + cfm + "\nmetal_cases=" + metals + "\nchair_placements=" + placements + "\n").getBytes(StandardCharsets.UTF_8));
+                    + "\ncfm_cases=" + cfm + "\nmetal_cases=" + metals + "\nchair_placements=" + placements
+                    + "\nwall_lava_mining_cases=" + wallLavaMining + "\n").getBytes(StandardCharsets.UTF_8));
             org.apache.logging.log4j.LogManager.getLogger().info("IAF PHASE FOUR SHIELD PROBE PASSED: {} chairs, {} states", chairs, states);
         } catch (Exception failure) {
             throw new IllegalStateException("Phase 4 runtime probe failed", failure);
@@ -280,35 +292,55 @@ public final class PhaseFourRuntimeProbe {
     }
 
     private static void verifyLavaHarvest(ServerWorld world, FakePlayer player) {
+        player.setHeldItem(Hand.MAIN_HAND, ItemStack.EMPTY);
+        player.clearActivePotions();
+        player.onGround = true;
+        int glassLamps = 0;
+        for (Block lamp : ForgeRegistries.BLOCKS.getValues()) {
+            String path = lamp.getRegistryName().getPath();
+            if (!"ironagefurniture".equals(lamp.getRegistryName().getNamespace())
+                    || !path.startsWith("light_metal_ironage_block_floor_")
+                    || !(path.contains("_lava_") || path.contains("_glow_") || path.contains("_red_"))) continue;
+            BlockState state = lamp.getDefaultState();
+            BlockPos pos = new BlockPos(64, 80, 96);
+            require(state.getMaterial() == net.minecraft.block.material.Material.GLASS
+                    && Math.abs(state.getBlockHardness(world, pos) - .3F) < .00001F,
+                    "Standalone vial lost its glass settings: " + path);
+            require(state.getPlayerRelativeBlockHardness(player, world, pos) >= .1F,
+                    "Standalone vial takes too long to mine by hand: " + path);
+            glassLamps++;
+        }
+        require(glassLamps == 18, "Not all glass lamps were checked");
         // Clear only this probe's mining area, including drops left by a failed
         // previous test run. The server directory is always disposable.
-        for (int index = 0; index < 4; index++) {
+        for (int index = 0; index < 5; index++) {
             BlockPos old = new BlockPos(64 + index * 4, 80, 96);
             world.removeBlock(old, false);
             world.removeBlock(old.down(), false);
             world.removeBlock(old.south(), false);
         }
-        world.getEntitiesWithinAABB(ItemEntity.class, new AxisAlignedBB(62, 78, 94, 80, 84, 100))
+        world.getEntitiesWithinAABB(ItemEntity.class, new AxisAlignedBB(62, 78, 94, 84, 84, 100))
                 .forEach(Entity::remove);
         String[] paths = { "light_metal_ironage_block_floor_lava_clear",
                 "light_metal_ironage_sconce_floor_lava_iron", "light_metal_ironage_sconce_wall_lava_iron" };
         for (String path : paths) {
             Block lamp = ForgeRegistries.BLOCKS.getValue(new ResourceLocation("ironagefurniture", path));
             boolean sconce = path.contains("sconce");
-            for (int toolCase = 0; toolCase < 4; toolCase++) {
+            for (int toolCase = 0; toolCase < 5; toolCase++) {
                 BlockPos pos = new BlockPos(64 + toolCase * 4, 80, 96);
                 world.setBlockState(pos.down(), Blocks.STONE.getDefaultState());
                 world.setBlockState(pos.south(), Blocks.STONE.getDefaultState());
                 BlockState state = lamp.getDefaultState().with(ShieldChair.DIRECTION, Direction.NORTH)
                         .with(ShieldChair.WATERLOGGED, false);
                 world.setBlockState(pos, state);
-                ItemStack tool = new ItemStack(Items.DIAMOND_PICKAXE);
+                ItemStack tool = toolCase == 4 ? ItemStack.EMPTY : new ItemStack(Items.DIAMOND_PICKAXE);
                 if (toolCase == 1) tool.addEnchantment(Enchantments.EFFICIENCY, 2);
                 if (toolCase == 2) tool.addEnchantment(Enchantments.SILK_TOUCH, 1);
                 player.interactionManager.setGameType(toolCase == 3 ? net.minecraft.world.GameType.CREATIVE : net.minecraft.world.GameType.SURVIVAL);
                 player.setHeldItem(Hand.MAIN_HAND, tool);
                 player.setPosition(pos.getX(), pos.getY(), pos.getZ());
                 require(player.interactionManager.tryHarvestBlock(pos), "Cannot mine lava light " + path);
+                WallLavaMiningRuntimeProbe.settleReleased(world, pos);
                 // Removed entities stay in chunk lists until the next world tick.
                 List<ItemEntity> drops = world.getEntitiesWithinAABB(ItemEntity.class,
                         new AxisAlignedBB(pos).grow(2), item -> !item.removed);
@@ -322,7 +354,7 @@ public final class PhaseFourRuntimeProbe {
                         + ", tool " + toolCase + ": " + intact + ", drops " + drops.stream()
                         .map(item -> item.getItem().toString()).collect(java.util.stream.Collectors.joining(", ")));
                 require(frames == (sconce && toolCase != 3 ? 1 : 0), "Wrong sconce drop count for " + path);
-                require(world.getBlockState(pos).getBlock() == (toolCase < 2 ? Blocks.FIRE : Blocks.AIR),
+                require(world.getBlockState(pos).getBlock() == (toolCase < 2 || toolCase == 4 ? Blocks.FIRE : Blocks.AIR),
                         "Wrong lava shatter result for " + path + " with tool " + toolCase
                         + ": " + world.getBlockState(pos));
                 drops.forEach(Entity::remove);

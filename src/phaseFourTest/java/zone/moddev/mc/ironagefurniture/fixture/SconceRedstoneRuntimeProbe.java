@@ -35,8 +35,10 @@ final class SconceRedstoneRuntimeProbe {
         world = server.getWorld(DimensionType.OVERWORLD);
         for (boolean wall : new boolean[]{false, true}) for (Direction facing : Direction.Plane.HORIZONTAL) {
             for (boolean wet : new boolean[]{false, true}) {
-                for (SconceMetal metal : SconceMetal.values()) add(wall, facing, wet, metal, true, 2);
-                for (int count = 1; count <= 4; count++) add(wall, facing, wet, SconceMetal.IRON, false, count);
+                for (SconceMetal metal : SconceMetal.values()) {
+                    add(wall, facing, wet, metal, true, 2);
+                    for (int count = 1; count <= 4; count++) add(wall, facing, wet, metal, false, count);
+                }
             }
         }
         for (Fixture fixture : fixtures) {
@@ -44,7 +46,7 @@ final class SconceRedstoneRuntimeProbe {
             world.getChunk(fixture.pos);
             BlockState saved = world.getBlockState(fixture.pos);
             if (saved.getBlock() instanceof AdditionalSconce)
-                require(saved == fixture.state(fixture.twin || !fixture.wet), "Saved powered sconce changed", fixture);
+                require(saved == fixture.state(true), "Saved powered sconce changed", fixture);
             // Keep flowing water inside each cell so neighbouring dry cases stay dry.
             for (Direction side : Direction.values())
                 world.setBlockState(fixture.pos.offset(side), Blocks.GLASS.getDefaultState(), 3);
@@ -69,7 +71,7 @@ final class SconceRedstoneRuntimeProbe {
 
     private void add(boolean wall, Direction facing, boolean wet, SconceMetal metal, boolean twin, int count) {
         int index = fixtures.size();
-        fixtures.add(new Fixture(new BlockPos(400 + index % 24 * 3, 80, 400 + index / 24 * 3),
+        fixtures.add(new Fixture(new BlockPos(1200 + index % 24 * 3, 104, 1200 + index / 24 * 3),
                 wall, facing, wet, metal, twin, count));
     }
 
@@ -86,25 +88,25 @@ final class SconceRedstoneRuntimeProbe {
             }
             if (++ticks % 8 != 0) return;
             for (Fixture fixture : fixtures) {
-                boolean poweredLit = fixture.twin || !fixture.wet;
+                boolean poweredLit = true;
                 if (ticks == 8) {
-                    check(fixture, poweredLit, "Redstone did not light waterlogged twin torch");
+                    check(fixture, poweredLit, "Redstone did not light sconce");
                     power(fixture, false);
                 } else if (ticks == 16) {
-                    check(fixture, !fixture.wet, "Waterlogged twin stayed lit after losing power");
+                    check(fixture, !fixture.wet, "Waterlogged sconce stayed lit after losing power");
                     power(fixture, true);
-                    if (fixture.twin) world.setBlockState(fixture.pos, fixture.state(false), 3);
+                    world.setBlockState(fixture.pos, fixture.state(false), 3);
                 } else if (ticks == 24) {
                     check(fixture, poweredLit, "Placement in existing signal did not light sconce");
-                    if (fixture.twin && !fixture.wet) {
+                    if (!fixture.wet) {
                         BlockState state = world.getBlockState(fixture.pos);
                         require(((AdditionalSconce)state.getBlock()).receiveFluid(world, fixture.pos, state,
-                                Fluids.WATER.getStillFluidState(false)), "Powered twin refused water", fixture);
+                                Fluids.WATER.getStillFluidState(false)), "Powered sconce refused water", fixture);
                     }
                 } else if (ticks == 32) {
-                    if (fixture.twin && !fixture.wet) {
+                    if (!fixture.wet) {
                         require(world.getBlockState(fixture.pos) == fixture.state(true).with(Candle.WATERLOGGED, true),
-                                "Adding water extinguished a powered twin", fixture);
+                                "Adding water extinguished a powered sconce", fixture);
                     } else check(fixture, poweredLit, "Powered state changed without a signal change");
                     power(fixture, false);
                     world.setBlockState(fixture.pos, fixture.state(false), 3);
@@ -155,8 +157,8 @@ final class SconceRedstoneRuntimeProbe {
             this.metal = metal; this.twin = twin; this.count = count;
         }
         private BlockState state(boolean lit) {
-            return PhaseFourLighting.sconce(wall, lit, twin, count).getDefaultState()
-                    .with(Candle.DIRECTION, facing).with(Candle.WATERLOGGED, wet).with(SconceMetalData.METAL, metal);
+            return SconceMetalData.withMetal(PhaseFourLighting.sconce(wall, lit, twin, count).getDefaultState()
+                    .with(Candle.DIRECTION, facing).with(Candle.WATERLOGGED, wet), metal);
         }
     }
 }

@@ -23,7 +23,7 @@ import net.minecraftforge.fml.config.ModConfig;
 public class Ironagefurniture
 {
     public static final String MODID = "ironagefurniture";
-    public static final String VERSION = "0.4.0.114041";
+    public static final String VERSION = "0.4.1.114041";
     public static final CommonProxy PROXY = DistExecutor.runForDist(() -> zone.moddev.mc.ironagefurniture.proxy.ClientProxy::new, () -> CommonProxy::new);
 
     public static final ItemGroup IAF_CHAIRS_GROUP = furnitureGroup("chairs", "chair_wood_ironage_classic_dark_oak", Items.OAK_STAIRS);

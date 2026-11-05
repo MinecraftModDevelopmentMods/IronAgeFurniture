@@ -45,7 +45,7 @@ final class DirectSconceHarvestRuntimeProbe {
         // Start with the reported case so the old jar fails on the actual twin-torch drop.
         sconces.add(PhaseFourLighting.sconce(false, true, true, 2));
         for (Block block : ForgeRegistries.BLOCKS.getValues())
-            if (block instanceof LightHolderSconce && !sconces.contains(block)) sconces.add(block);
+            if (block instanceof LightHolderSconce && SconceMetalData.get(block.getDefaultState()) == SconceMetal.IRON && !sconces.contains(block)) sconces.add(block);
         require(sconces.size() == (MineralogyCompat.isEnabled() ? 68 : 66), "Unexpected sconce catalog");
         player.interactionManager.setGameType(GameType.SURVIVAL);
         player.setPosition(POS.getX() + 2, POS.getY(), POS.getZ() + .5);
@@ -102,7 +102,7 @@ final class DirectSconceHarvestRuntimeProbe {
     }
 
     private static BlockState state(Block block, SconceMetal metal, Direction facing, boolean wet) {
-        return block.getDefaultState().with(SconceMetalData.METAL, metal)
+        return SconceMetalData.withMetal(block.getDefaultState(), metal)
                 .with(FurnitureBlock.DIRECTION, facing).with(FurnitureBlock.WATERLOGGED, wet);
     }
 
@@ -120,6 +120,7 @@ final class DirectSconceHarvestRuntimeProbe {
         require(state.getHarvestTool() == ToolType.PICKAXE
                 && state.getHarvestLevel() == SconceMetalData.get(state).harvestLevel(), "Metal/tool policy changed");
         require(player.interactionManager.tryHarvestBlock(POS), "Direct breaking failed: " + state);
+        WallLavaMiningRuntimeProbe.settleReleased(world, POS);
         Map<Item, Integer> expected = new LinkedHashMap<>();
         if (!creative && tileDrops) {
             expected.put(SconceMetalData.create(BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron,
@@ -138,7 +139,9 @@ final class DirectSconceHarvestRuntimeProbe {
                 + ", expected=" + expected + ", actual=" + actual);
         boolean shatters = !creative && state.getBlock().getRegistryName().getPath().contains("_lava_")
                 && net.minecraft.enchantment.EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, tool) == 0;
-        require(world.getBlockState(POS).getBlock() == (shatters ? Blocks.FIRE
+        boolean wetWallLava = shatters && state.get(FurnitureBlock.WATERLOGGED)
+                && state.getBlock().getRegistryName().getPath().contains("_wall_lava_");
+        require(world.getBlockState(POS).getBlock() == (wetWallLava ? BlockObjectHolder.obsidian_chunk : shatters ? Blocks.FIRE
                 : state.get(FurnitureBlock.WATERLOGGED) ? Blocks.WATER : Blocks.AIR), "Wrong remaining block: " + state);
         world.notifyNeighborsOfStateChange(POS, state.getBlock());
         require(drops(world).stream().mapToInt(drop -> drop.getItem().getCount()).sum()

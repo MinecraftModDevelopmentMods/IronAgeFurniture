@@ -60,6 +60,18 @@ public final class PhaseFourClientProbe {
         if (complete || !inWorld()
                 || event.phase != net.minecraftforge.event.TickEvent.Phase.END
                 || game.world == null || game.player == null || ++worldTicks < 40) return;
+        if (Boolean.getBoolean("iaf.probe.lampMiningClient")) {
+            complete = true;
+            try {
+                int cases = LampMiningClientProbe.run(game);
+                Files.write(Paths.get("phase-four-client-pass.properties"),
+                        ("status=PASS\nlamp_mining_cases=" + cases + "\n").getBytes(StandardCharsets.UTF_8));
+                org.apache.logging.log4j.LogManager.getLogger().info("IAF LAMP MINING CLIENT PROBE PASSED: {} cases", cases);
+            } catch (Exception failure) {
+                throw new IllegalStateException("Client lamp mining failed", failure);
+            } finally { game.shutdown(); }
+            return;
+        }
         if (Boolean.getBoolean("iaf.probe.throneDiscovery")) {
             if (!discoveryStarted) {
                 discoveryStarted = true;
@@ -263,7 +275,8 @@ public final class PhaseFourClientProbe {
                     "Shield tile renderer not registered");
             int metalModels = 0;
             for (Block block : ForgeRegistries.BLOCKS.getValues()) {
-                if (!(block instanceof zone.moddev.mc.ironagefurniture.api.blocks.base.LightHolderSconce)) continue;
+                if (!(block instanceof zone.moddev.mc.ironagefurniture.api.blocks.base.LightHolderSconce) || zone.moddev.mc.ironagefurniture.api.SconceMetalData.get(block.getDefaultState())
+                        != zone.moddev.mc.ironagefurniture.api.enumerations.SconceMetal.IRON) continue;
                 for (zone.moddev.mc.ironagefurniture.api.enumerations.SconceMetal metal
                         : zone.moddev.mc.ironagefurniture.api.enumerations.SconceMetal.values()) {
                     net.minecraft.util.ResourceLocation expected = game.getBlockRendererDispatcher().getModelForState(
@@ -303,8 +316,9 @@ public final class PhaseFourClientProbe {
                             verifyMetalUvs(renderedQuads, expected, "Rendered " + metal + "/" + transform);
                         }
                     }
-                    for (net.minecraft.block.BlockState state : block.getStateContainer().getValidStates()) {
-                        if (state.get(zone.moddev.mc.ironagefurniture.api.SconceMetalData.METAL) != metal) continue;
+                    Block variant = zone.moddev.mc.ironagefurniture.api.SconceMetalData.withMetal(block.getDefaultState(), metal).getBlock();
+                    require(zone.moddev.mc.ironagefurniture.api.SconceMetalData.get(variant.getDefaultState()) == metal, "Wrong registered metal model: " + variant.getRegistryName());
+                    for (net.minecraft.block.BlockState state : variant.getStateContainer().getValidStates()) {
                         IBakedModel model = game.getBlockRendererDispatcher().getModelForState(state);
                         java.util.List<net.minecraft.client.renderer.model.BakedQuad> quads = model.getQuads(state, null, new Random(0));
                         require(quads.stream().anyMatch(quad -> expected.equals(quad.getSprite().getName())),
@@ -340,7 +354,7 @@ public final class PhaseFourClientProbe {
             Files.write(Paths.get("phase-four-client-pass.properties"),
                     ("status=PASS\nshield_chairs=" + chairs + "\nupholstered_forms=" + upholstery
                             + "\nmetal_models=" + metalModels + "\nchair_placements=" + placementCases
-                            + "\ntwin_torch_particle_cases=" + torchParticles + "\n").getBytes(StandardCharsets.UTF_8));
+                            + "\nsconce_particle_cases=" + torchParticles + "\n").getBytes(StandardCharsets.UTF_8));
             org.apache.logging.log4j.LogManager.getLogger().info("IAF PHASE FOUR CLIENT PROBE PASSED: {} chairs", chairs);
         } catch (Exception failure) {
             throw new IllegalStateException("Phase 4 client probe failed", failure);

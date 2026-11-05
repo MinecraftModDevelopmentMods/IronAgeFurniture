@@ -58,7 +58,7 @@ public final class PhaseFourFurniture {
             for (SconceMetal metal : SconceMetal.values()) if (metal != SconceMetal.IRON) {
                 Item.Properties properties = new Item.Properties();
                 if (item.getGroup() != null) properties.group(item.getGroup());
-                event.getRegistry().register(new MetalSconceBlockItem(block, properties, metal)
+                event.getRegistry().register(new MetalSconceBlockItem(SconceVariants.material(block, metal), properties, metal)
                         .setRegistryName(SconceMetalData.itemId(item.getRegistryName(), metal)));
             }
         }

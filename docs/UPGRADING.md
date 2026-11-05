@@ -86,3 +86,10 @@ An independently saved 1.12 fixture covering all 23 sconce metals, four facings,
 initial upgrade and a second load with these mods installed. This complements
 the absent-mod migration tests; it does not certify upgrades of unrelated
 Base Metals machinery or an entire old modpack.
+
+## Updating sconces from the previous release
+
+Open a copy of the world with 0.4.1.114041. Sconces move to a separate block ID for
+each metal as their chunks load, keeping their facing, water and installed
+light. Existing item IDs still work. Keep Mineralogy installed if your world
+uses rock-salt sconces.

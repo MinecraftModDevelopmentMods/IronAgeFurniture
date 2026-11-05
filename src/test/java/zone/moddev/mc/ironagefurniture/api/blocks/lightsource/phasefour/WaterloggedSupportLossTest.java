@@ -21,9 +21,10 @@ public class WaterloggedSupportLossTest {
     @Test public void twinTorchesAndCandleSconcesRequestNormalDestructionInEveryState() {
         for (boolean wall : new boolean[]{false, true}) for (boolean lit : new boolean[]{false, true})
             for (boolean twin : new boolean[]{true, false}) for (int count = twin ? 2 : 1; count <= (twin ? 2 : 4); count++) {
-                Block block = new AdditionalSconce("ironagefurniture:support_test", wall, lit, twin, count);
+                int candles = count;
+                Block block = SconceTestFamily.create(name -> new AdditionalSconce(name, wall, lit, twin, candles));
                 for (SconceMetal metal : SconceMetal.values())
-                    verify(block.getDefaultState().with(SconceMetalData.METAL, metal), wall);
+                    verify(SconceMetalData.withMetal(block.getDefaultState(), metal), wall);
             }
     }
 
@@ -34,9 +35,9 @@ public class WaterloggedSupportLossTest {
 
     @Test public void rockSaltSconcesRequestNormalDestructionWithEveryMetal() {
         for (boolean wall : new boolean[]{false, true}) {
-            Block block = new RockSaltSconce("ironagefurniture:support_test", wall);
+            Block block = SconceTestFamily.create(name -> new RockSaltSconce(name, wall));
             for (SconceMetal metal : SconceMetal.values())
-                verify(block.getDefaultState().with(SconceMetalData.METAL, metal), wall);
+                verify(SconceMetalData.withMetal(block.getDefaultState(), metal), wall);
         }
     }
 

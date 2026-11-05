@@ -81,3 +81,21 @@ tasks.register('verifyPhaseFourMetals') {
 }
 tasks.named('updateFurnitureCatalog') { dependsOn 'updatePhaseFourMetals' }
 tasks.named('check') { dependsOn 'verifyPhaseFourMetals' }
+
+// Fixed metal block IDs share the iron geometry. The baked model supplies
+// the frame texture from the registered metal and the installed provider.
+def ironSconceStates = fileTree('src/main/resources/assets/ironagefurniture/blockstates') {
+    include 'light_metal_ironage_sconce_*_iron*.json'
+}
+def blockMetalSuffixes = metalNames.collect { metal -> metal in ['gold', 'copper'] ? metal : 'basemetals_' + metal }
+def metalSconceStates = tasks.register('generateMetalSconceBlockstates', Sync) {
+    into layout.buildDirectory.dir('generated/sconce-blockstates')
+    inputs.property('blockMetalSuffixes', blockMetalSuffixes)
+    blockMetalSuffixes.each { suffix ->
+        from(ironSconceStates) {
+            into 'assets/ironagefurniture/blockstates'
+            rename(/_iron(?=_|\.)/, '_' + suffix)
+        }
+    }
+}
+sourceSets.main.resources.srcDir(metalSconceStates)

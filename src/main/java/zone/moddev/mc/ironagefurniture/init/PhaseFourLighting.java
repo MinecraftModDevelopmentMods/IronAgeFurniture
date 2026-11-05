@@ -70,7 +70,7 @@ public final class PhaseFourLighting {
         return true;
     }
     public static boolean addSecondTorch(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand) {
-        String path = state.getBlock().getRegistryName().getPath();
+        String path = zone.moddev.mc.ironagefurniture.api.SconceMetalData.ironPath(state.getBlock().getRegistryName().getPath());
         boolean single = path.equals("light_metal_ironage_sconce_floor_torch_iron") || path.equals("light_metal_ironage_sconce_wall_torch_iron");
         if (!single || player.getHeldItem(hand).getItem() != net.minecraft.item.Items.TORCH) return false;
         if (!world.isRemote) {
@@ -84,13 +84,17 @@ public final class PhaseFourLighting {
     }
     @SubscribeEvent public static void registerBlocks(RegistryEvent.Register<Block> event) {
         if (MineralogyCompat.isEnabled()) for (boolean wall : new boolean[]{false, true})
-            event.getRegistry().register(new RockSaltSconce(rockSaltId(wall), wall));
+            SconceVariants.register(event.getRegistry()::register, rockSaltId(wall), name -> new RockSaltSconce(name, wall));
         for (boolean wall : new boolean[]{false, true}) for (boolean lit : new boolean[]{false, true})
             event.getRegistry().register(new Candle(candleId(wall, lit), wall, lit));
         for (boolean wall : new boolean[]{false, true}) for (boolean lit : new boolean[]{false, true}) {
-            event.getRegistry().register(new AdditionalSconce(sconceId(wall, lit, true, 2), wall, lit, true, 2));
-            for (int count = 1; count <= 4; count++)
-                event.getRegistry().register(new AdditionalSconce(sconceId(wall, lit, false, count), wall, lit, false, count));
+            SconceVariants.register(event.getRegistry()::register, sconceId(wall, lit, true, 2),
+                    name -> new AdditionalSconce(name, wall, lit, true, 2));
+            for (int count = 1; count <= 4; count++) {
+                int candles = count;
+                SconceVariants.register(event.getRegistry()::register, sconceId(wall, lit, false, candles),
+                        name -> new AdditionalSconce(name, wall, lit, false, candles));
+            }
         }
     }
     @SubscribeEvent public static void registerItems(RegistryEvent.Register<Item> event) {
@@ -101,7 +105,9 @@ public final class PhaseFourLighting {
         }
         event.getRegistry().register(new Item(new Item.Properties().group(Ironagefurniture.IAF_LIGHTS_GROUP))
                 .setRegistryName(Ironagefurniture.MODID, "tallow"));
-        for (Block block : ForgeRegistries.BLOCKS.getValues()) if (block instanceof AdditionalSconce || block instanceof RockSaltSconce)
+        for (Block block : ForgeRegistries.BLOCKS.getValues()) if ((block instanceof AdditionalSconce || block instanceof RockSaltSconce)
+                && zone.moddev.mc.ironagefurniture.api.SconceMetalData.material(block.getRegistryName().getPath())
+                        == zone.moddev.mc.ironagefurniture.api.enumerations.SconceMetal.IRON)
             event.getRegistry().register(new zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem(block, new Item.Properties()).setRegistryName(block.getRegistryName()));
     }
 }

@@ -65,7 +65,7 @@ public class LightSourceLava extends LightSourceGlowdust {
 
 
 	public LightSourceLava(float hardness, float blastResistance, SoundType sound, String name) {
-		super(Block.Properties.create(Material.IRON).hardnessAndResistance(hardness, blastResistance).sound(sound).lightValue(15));
+		super(Block.Properties.create(Material.GLASS).hardnessAndResistance(hardness, blastResistance).sound(sound).lightValue(15));
 
 		this.setDefaultState(this.getStateContainer().getBaseState() .with(DIRECTION, Direction.NORTH) .with(WATERLOGGED, false));
 		this.generateShapes(this.getStateContainer().getValidStates());
@@ -100,13 +100,14 @@ public class LightSourceLava extends LightSourceGlowdust {
 		boolean isSilkTouch = EnchantmentHelper.getEnchantmentLevel(
                 Enchantments.SILK_TOUCH, player.getHeldItemMainhand()) > 0;
 
-		if (isSilkTouch && !player.isCreative())
-			Block.spawnAsEntity(level, pos, new ItemStack(state.getBlock().asItem(), 1));
-
 		boolean destroyed = super.removedByPlayer(state, level, pos, player, willHarvest, fluid);
 
-		if (!isSilkTouch && !player.isCreative())
-			breakIntoFire(level, pos, player);
+		// The final client mining swing still draws particles from this position.
+		// Let it remove the lamp normally; only the server replaces it with fire.
+		if (destroyed && !level.isRemote && !player.isCreative()) {
+			if (isSilkTouch) Block.spawnAsEntity(level, pos, new ItemStack(state.getBlock().asItem(), 1));
+			else breakIntoFire(level, pos, player);
+		}
 
 		return destroyed;
 	}

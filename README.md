@@ -9,7 +9,7 @@ olde-style furniture to Minecraft. Seating is functional, furniture supports
 the appropriate vanilla and optional-mod materials, and lighting includes
 falling and throwable lava lamps.
 
-This branch contains Phase 4, `0.4.0.114041`, for Minecraft
+This branch contains the Phase 4 update `0.4.1.114041` for Minecraft
 1.14.4 and Forge 28.2.26. It requires Java 8 on clients and dedicated servers.
 Back up your world before upgrading and try a separate copy first. The
 [upgrade guide](docs/UPGRADING.md) explains which older furniture can be recovered
@@ -58,6 +58,10 @@ item. Wooden beds burn like the wooden seating.
 
 ## Candles
 
+Click a candle or torch sconce with a water bucket to put its flames out without
+pouring water or emptying the bucket. This also works for standalone candles.
+Water placed around the holder still waterlogs and extinguishes it normally.
+
 Smelt cooked meat or rotten flesh into tallow, then craft one tallow with one
 string to make eight candles. Cooked pork gives three tallow; beef and mutton
 give two; chicken, rabbit and rotten flesh give one.
@@ -68,9 +72,9 @@ and steel to relight them. An empty sconce holds up to four candles; use an empt
 hand to remove them, or add a candle to a full sconce to take them all back.
 Adding a second torch to a lit torch sconce makes a brighter twin-torch sconce.
 These sconces also extinguish underwater and retain their contents until removed.
-Like single-torch sconces, waterlogged twin torches light while receiving a
-redstone signal and go out again when the signal stops. Dry torches stay lit
-afterwards; waterlogged candles still cannot be relit by redstone.
+Like single-torch sconces, waterlogged twin torches and candle sconces light
+while receiving a redstone signal and go out again when the signal stops.
+Dry torch and candle sconces stay lit afterwards.
 Breaking a torch or candle sconce, or its support, returns its frame and all its contents,
 even when unlit. Rock-salt sconces return their lamp and frame too. Waterlogged
 lights leave their water behind, and the dropped frame keeps its metal type.
@@ -80,9 +84,14 @@ feature such as OptiFine's Dynamic Lights option.
 
 ## Recovering lava lamps
 
+Standalone glass lamps are quick to break by hand. A metal sconce takes longer,
+depending on its material; adding a glass lamp does not soften the frame.
+
 Breaking a lava-filled sconce returns its empty sconce in Survival. A Silk
-Touch tool also returns the intact lamp. Without Silk Touch the lamp breaks and
-starts a fire, whether the sconce was standing on the floor or mounted on a wall.
+Touch tool also returns the intact lamp. Without Silk Touch, a wall-mounted lamp
+falls before shattering on dry ground, or cooling into an obsidian chunk in
+water. A floor-mounted lamp shatters where it stands. Right-click removal is
+safe and returns the intact lamp without breaking the frame.
 Creative-mode breaking produces neither drops nor fire.
 
 Wall-mounted lava sconces also work as traps: a redstone signal releases the
@@ -200,7 +209,7 @@ The supported Java source namespace is now
 `zone.moddev.mc.ironagefurniture`. Add-ons compiled against the former
 `com.mcmoddev.ironagefurniture` packages must update their imports. The Maven
 coordinate is
-`zone.moddev.mc:iron-age-furniture:0.4.0.114041`.
+`zone.moddev.mc:iron-age-furniture:0.4.1.114041`.
 
 See [CHANGELOG.md](CHANGELOG.md) for the release notes and
 [docs/VERSIONS.md](docs/VERSIONS.md) for the versioning scheme. Bugs can be
