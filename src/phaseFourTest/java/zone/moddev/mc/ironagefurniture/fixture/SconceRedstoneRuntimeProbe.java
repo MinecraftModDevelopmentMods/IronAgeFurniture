@@ -157,8 +157,8 @@ final class SconceRedstoneRuntimeProbe {
             this.metal = metal; this.twin = twin; this.count = count;
         }
         private BlockState state(boolean lit) {
-            return PhaseFourLighting.sconce(wall, lit, twin, count).defaultBlockState()
-                    .setValue(Candle.DIRECTION, facing).setValue(Candle.WATERLOGGED, wet).setValue(SconceMetalData.METAL, metal);
+            return SconceMetalData.withMetal(PhaseFourLighting.sconce(wall, lit, twin, count).defaultBlockState()
+                    .setValue(Candle.DIRECTION, facing).setValue(Candle.WATERLOGGED, wet), metal);
         }
     }
 }

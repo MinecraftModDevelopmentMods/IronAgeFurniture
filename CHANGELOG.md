@@ -1,3 +1,8 @@
+# IronAgeFurniture 0.4.1.115021
+
+- Keep the metal, facing, water and installed light when existing sconces are loaded. Existing sconce items still work.
+- Fix Creative mode drops when breaking the support under a non-iron lava sconce.
+
 # IronAgeFurniture 0.4.0.115021
 
 Phase 4 furniture and lighting for Minecraft 1.15.2 and Forge 31.2.57.

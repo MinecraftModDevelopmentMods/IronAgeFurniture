@@ -275,7 +275,8 @@ public final class PhaseFourClientProbe {
                     "Shield tile renderer not registered");
             int metalModels = 0;
             for (Block block : ForgeRegistries.BLOCKS.getValues()) {
-                if (!(block instanceof zone.moddev.mc.ironagefurniture.api.blocks.base.LightHolderSconce)) continue;
+                if (!(block instanceof zone.moddev.mc.ironagefurniture.api.blocks.base.LightHolderSconce) || zone.moddev.mc.ironagefurniture.api.SconceMetalData.get(block.defaultBlockState())
+                        != zone.moddev.mc.ironagefurniture.api.enumerations.SconceMetal.IRON) continue;
                 for (zone.moddev.mc.ironagefurniture.api.enumerations.SconceMetal metal
                         : zone.moddev.mc.ironagefurniture.api.enumerations.SconceMetal.values()) {
                     net.minecraft.util.ResourceLocation expected = game.getBlockRenderer().getBlockModel(
@@ -315,8 +316,9 @@ public final class PhaseFourClientProbe {
                             verifyMetalUvs(renderedQuads, expected, "Rendered " + metal + "/" + transform);
                         }
                     }
-                    for (net.minecraft.block.BlockState state : block.getStateDefinition().getPossibleStates()) {
-                        if (state.getValue(zone.moddev.mc.ironagefurniture.api.SconceMetalData.METAL) != metal) continue;
+                    Block variant = zone.moddev.mc.ironagefurniture.api.SconceMetalData.withMetal(block.defaultBlockState(), metal).getBlock();
+                    require(zone.moddev.mc.ironagefurniture.api.SconceMetalData.get(variant.defaultBlockState()) == metal, "Wrong registered metal model: " + variant.getRegistryName());
+                    for (net.minecraft.block.BlockState state : variant.getStateDefinition().getPossibleStates()) {
                         IBakedModel model = game.getBlockRenderer().getBlockModel(state);
                         java.util.List<net.minecraft.client.renderer.model.BakedQuad> quads = model.getQuads(state, null, new Random(0));
                         require(quads.stream().anyMatch(quad -> expected.equals(quad.getSprite().getName())),

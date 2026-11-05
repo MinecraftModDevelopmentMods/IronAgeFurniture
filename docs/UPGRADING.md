@@ -119,3 +119,10 @@ disposable copy, check a few familiar rooms and stored items first:
   shattering and the redstone release trap can intentionally start fires.
 - Save, close and reopen. Check furniture parts, colours, metals and inventories
   again, and review any missing-mod prompt before proceeding.
+
+## Updating sconces from the previous release
+
+Open a copy of the world with 0.4.1.115021. Sconces move to a separate block ID for
+each metal as their chunks load, keeping their facing, water and installed
+light. Existing item IDs still work. Keep Mineralogy installed if your world
+uses rock-salt sconces.

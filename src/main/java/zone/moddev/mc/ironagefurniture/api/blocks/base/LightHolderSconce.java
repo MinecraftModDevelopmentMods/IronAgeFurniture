@@ -3,7 +3,6 @@ package zone.moddev.mc.ironagefurniture.api.blocks.base;
 import net.minecraft.util.Direction;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.state.StateContainer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -14,11 +13,14 @@ import net.minecraft.world.IWorldReader;
 import net.minecraft.world.Explosion;
 import net.minecraftforge.common.ToolType;
 import zone.moddev.mc.ironagefurniture.api.SconceMetalData;
+import zone.moddev.mc.ironagefurniture.api.enumerations.SconceMetal;
 
 public abstract class LightHolderSconce extends LightHolder {
-    @Override protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
-        super.createBlockStateDefinition(builder);
-        builder.add(SconceMetalData.METAL);
+    @Override public String getDescriptionId() {
+        if (getRegistryName() == null) return super.getDescriptionId();
+        SconceMetal metal = SconceMetalData.material(getRegistryName().getPath());
+        String family = SconceMetalData.ironPath(getRegistryName().getPath());
+        return "block.ironagefurniture." + family + (metal == SconceMetal.IRON ? "" : "." + metal.getName());
     }
     @Override public float getDestroySpeed(BlockState state, IBlockReader world, BlockPos pos) {
         return SconceMetalData.get(state).hardness(super.getDestroySpeed(state, world, pos));
@@ -42,8 +44,7 @@ public abstract class LightHolderSconce extends LightHolder {
 		super(properties);
 
 		this.registerDefaultState(this.defaultBlockState().setValue(DIRECTION, Direction.NORTH)
-                .setValue(WATERLOGGED, false).setValue(SconceMetalData.METAL,
-                        zone.moddev.mc.ironagefurniture.api.enumerations.SconceMetal.IRON));
+                .setValue(WATERLOGGED, false));
         this.generateShapes(this.getStateDefinition().getPossibleStates());
 	}
 }

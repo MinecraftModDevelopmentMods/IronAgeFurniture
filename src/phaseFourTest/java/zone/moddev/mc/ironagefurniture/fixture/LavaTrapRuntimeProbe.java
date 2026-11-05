@@ -53,9 +53,7 @@ final class LavaTrapRuntimeProbe {
                     world.setBlock(source.relative(facing.getOpposite()), Blocks.STONE.defaultBlockState(), 2);
                     player.setPos(source.getX() + 2, source.getY(), source.getZ() + .5);
                     player.gameMode.setGameModeForPlayer(creative ? GameType.CREATIVE : GameType.SURVIVAL);
-                    BlockState state = sconce.defaultBlockState().setValue(FurnitureBlock.DIRECTION, facing)
-                            .setValue(zone.moddev.mc.ironagefurniture.api.SconceMetalData.METAL,
-                                    zone.moddev.mc.ironagefurniture.api.enumerations.SconceMetal.GOLD);
+                    BlockState state = zone.moddev.mc.ironagefurniture.api.SconceMetalData.withMetal(sconce.defaultBlockState().setValue(FurnitureBlock.DIRECTION, facing), zone.moddev.mc.ironagefurniture.api.enumerations.SconceMetal.GOLD);
                     world.setBlock(source, state, 2);
                     int before = listener.spawned.size();
                     sconce.tick(state, world, source, world.random);
@@ -68,7 +66,8 @@ final class LavaTrapRuntimeProbe {
                     sconce.tick(state, world, source, world.random);
                     require(listener.spawned.size() == before + 1, "Powered wall sconce did not release exactly one lamp");
                     ReleasedLavaLamp released = listener.spawned.get(before);
-                    require(world.getBlockState(source).getBlock() == BlockObjectHolder.light_metal_ironage_sconce_wall_empty_iron
+                    require(world.getBlockState(source).getBlock() == zone.moddev.mc.ironagefurniture.api.SconceMetalData.withMetal(
+                                    BlockObjectHolder.light_metal_ironage_sconce_wall_empty_iron.defaultBlockState(), zone.moddev.mc.ironagefurniture.api.enumerations.SconceMetal.GOLD).getBlock()
                             && world.getBlockState(source).getValue(FurnitureBlock.DIRECTION) == facing
                             && zone.moddev.mc.ironagefurniture.api.SconceMetalData.get(world.getBlockState(source))
                                     == zone.moddev.mc.ironagefurniture.api.enumerations.SconceMetal.GOLD,

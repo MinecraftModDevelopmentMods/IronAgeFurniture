@@ -69,7 +69,7 @@ final class TaggedItemMigrationProbe {
                 Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(id));
                 BlockPos pos = furniturePosition(index);
                 world.setBlock(pos.below(), Blocks.STONE.defaultBlockState(), 2);
-                world.setBlock(pos, block.defaultBlockState().setValue(SconceMetalData.METAL, metal), 2);
+                world.setBlock(pos, SconceMetalData.withMetal(block.defaultBlockState(), metal), 2);
             }
             records.setProperty("count", Integer.toString(stacks.size()));
         } else {
@@ -107,8 +107,8 @@ final class TaggedItemMigrationProbe {
                 BlockPos pos = furniturePosition(index);
                 Block expected = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(records.getProperty(index + ".id")));
                 BlockState state = world.getBlockState(pos);
-                require(state.getBlock() == expected, "Placed identity changed: " + index);
                 if (records.getProperty(index + ".kind").equals("Color")) {
+                    require(state.getBlock() == expected, "Placed identity changed: " + index);
                     UpholsteryColour colour = UpholsteryColour.byName(records.getProperty(index + ".variant"));
                     require(state.getValue(UpholsteryItemData.COLOUR) == colour, "Placed colour changed: " + index);
                     require(state.getValue(FurnitureBed.DIRECTION) == Direction.from2DDataValue(colour.ordinal() % 4), "Facing changed");
@@ -116,7 +116,11 @@ final class TaggedItemMigrationProbe {
                     for (Map.Entry<BlockPos, BlockState> part : parts(expected, pos, state).entrySet()) {
                         require(world.getBlockState(part.getKey()) == part.getValue(), "Structure part changed: " + part.getKey()); checks++;
                     }
-                } else require(state.getValue(SconceMetalData.METAL).getName().equals(records.getProperty(index + ".variant")), "Placed metal changed");
+                } else {
+                    SconceMetal metal = SconceMetal.byName(records.getProperty(index + ".variant"));
+                    require(state.getBlock() == SconceMetalData.withMetal(expected.defaultBlockState(), metal).getBlock()
+                            && SconceMetalData.get(state) == metal, "Placed metal changed: " + index);
+                }
                 checks++;
             }
         }
