@@ -63,8 +63,8 @@ final class SconceFlameClientProbe {
                     for (SconceMetal metal : SconceMetal.values()) for (boolean twin : new boolean[]{false, true})
                         for (int count = twin ? 2 : 1; count <= (twin ? 2 : 4); count++) {
                         AdditionalSconce sconce = (AdditionalSconce)PhaseFourLighting.sconce(wall, lit, twin, count);
-                        BlockState state = sconce.defaultBlockState().setValue(Candle.WATERLOGGED, wet)
-                                .setValue(Candle.DIRECTION, facing).setValue(SconceMetalData.METAL, metal);
+                        BlockState state = SconceMetalData.withMetal(sconce.defaultBlockState().setValue(Candle.WATERLOGGED, wet)
+                                .setValue(Candle.DIRECTION, facing), metal);
                         flames.clear(); smokes.clear();
                         sconce.animateTick(state, game.level, pos, new Random(0));
                         List<Vec3d> expectedSmoke = new ArrayList<>();

@@ -9,7 +9,7 @@ sconces in an old-fashioned style. Furniture supports
 the appropriate vanilla and optional-mod materials, and lighting includes
 falling and throwable lava lamps.
 
-This branch provides IronAgeFurniture `0.4.0.115021` for Minecraft 1.15.2 and
+This branch provides IronAgeFurniture `0.4.1.115021` for Minecraft 1.15.2 and
 Forge 31.2.57. It requires Java 8 and can be installed on both clients and
 dedicated servers.
 
@@ -94,7 +94,7 @@ The supported Java source namespace is now
 `zone.moddev.mc.ironagefurniture`. Add-ons compiled against the former
 `com.mcmoddev.ironagefurniture` packages must update their imports. The Maven
 coordinate is
-`zone.moddev.mc:iron-age-furniture:0.4.0.115021`.
+`zone.moddev.mc:iron-age-furniture:0.4.1.115021`.
 
 See [CHANGELOG.md](CHANGELOG.md) for the release notes and
 [docs/VERSIONS.md](docs/VERSIONS.md) for the versioning scheme. Bugs can be

@@ -47,18 +47,19 @@ public class AdditionalSconceRedstoneTest {
             AdditionalSconce target = sconce(wall, !lit, twin, count);
             for (Direction facing : Direction.Plane.HORIZONTAL) for (SconceMetal metal : SconceMetal.values()) {
                 BlockState state = source.defaultBlockState().setValue(Candle.WATERLOGGED, true)
-                        .setValue(Candle.DIRECTION, facing).setValue(SconceMetalData.METAL, metal);
+                        .setValue(Candle.DIRECTION, facing);
+                state = SconceMetalData.withMetal(state, metal);
                 BlockState replaced = LightInteractions.replacement(state, target);
                 assertTrue(replaced.getValue(Candle.WATERLOGGED));
                 assertEquals(facing, replaced.getValue(Candle.DIRECTION));
-                assertEquals(metal, replaced.getValue(SconceMetalData.METAL));
-                assertEquals(target, replaced.getBlock());
+                assertEquals(metal, SconceMetalData.get(replaced));
+                assertEquals(SconceMetalData.withMetal(target.defaultBlockState(), metal).getBlock(), replaced.getBlock());
                 assertEquals(count, ((AdditionalSconce)replaced.getBlock()).contentsCount());
             }
         }
     }
 
     private static AdditionalSconce sconce(boolean wall, boolean lit, boolean twin, int count) {
-        return new AdditionalSconce("ironagefurniture:redstone_test", wall, lit, twin, count);
+        return SconceTestFamily.create(name -> new AdditionalSconce(name, wall, lit, twin, count));
     }
 }
