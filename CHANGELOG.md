@@ -1,4 +1,11 @@
-# IronAgeFurniture 0.4.0.116051
+# IronAgeFurniture 0.4.1.116051
+
+- Give each sconce metal its own block, as in 1.17.1.
+- Convert existing sconces when a 1.16.5 world loads. Their metal, facing, water and installed light carry over.
+- Keep existing sconce items, including Base Metals copper sconces.
+- Fix Creative mode drops when breaking the support under a non-iron lava sconce.
+
+## Previous release: 0.4.0.116051
 
 Phase 4 furniture and lighting for Minecraft 1.16.5 and Forge 36.2.34.
 Requires Java 8 on clients and servers.

@@ -20,6 +20,17 @@ variants hide from Creative and crafting until a compatible provider returns.
 Keep the migration sidecar with the save: later chunks may still need its old
 numeric registry mapping. A second load should not repeat conversion.
 
+## Updating an existing 1.16.5 Phase 4 world
+
+Open a copy of the world with 0.4.1.116051. As each chunk loads, old sconces move
+their saved metal into a separate block ID for that metal. Their facing, water
+and installed light stay with the frame. Existing item IDs still work,
+including the Base Metals copper item. Keep Mineralogy installed for rock-salt
+sconces.
+
+Save and reopen the copy to check the result. Keep the pre-update backup if you
+need to go back to an older IronAgeFurniture build.
+
 ## The 1.12 Oh The Biomes add-on
 
 This version has embedded BYG support. Furniture from `iafbygaddon` becomes

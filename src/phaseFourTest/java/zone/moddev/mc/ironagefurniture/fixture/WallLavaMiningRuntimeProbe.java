@@ -23,6 +23,7 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import zone.moddev.mc.ironagefurniture.BlockObjectHolder;
+import zone.moddev.mc.ironagefurniture.api.CreativeModeBreakTracker;
 import zone.moddev.mc.ironagefurniture.api.SconceMetalData;
 import zone.moddev.mc.ironagefurniture.api.blocks.base.FurnitureBlock;
 import zone.moddev.mc.ironagefurniture.api.blocks.lightsource.lava.LightSourceSconceLavaWall;
@@ -64,8 +65,7 @@ final class WallLavaMiningRuntimeProbe {
                         if (water) world.setBlock(landing, Blocks.WATER.defaultBlockState(), 2);
                         world.setBlock(source.relative(facing.getOpposite()), Blocks.STONE.defaultBlockState(), 2);
                         clearDrops(world, source);
-                        BlockState original = sconce.defaultBlockState().setValue(FurnitureBlock.DIRECTION, facing)
-                                .setValue(SconceMetalData.METAL, metal);
+                        BlockState original = SconceMetalData.withMetal(sconce.defaultBlockState().setValue(FurnitureBlock.DIRECTION, facing), metal);
                         world.setBlock(source, original, 2);
                         player.setPos(source.getX() + 2, source.getY(), source.getZ() + .5);
                         player.gameMode.setGameModeForPlayer(mode == 4 ? GameType.CREATIVE : GameType.SURVIVAL);
@@ -80,9 +80,10 @@ final class WallLavaMiningRuntimeProbe {
                         int before = listener.released.size();
                         String context = metal + "/" + facing + "/water=" + water + "/mode=" + mode;
                         if (mode == 5 || mode == 6) {
-                            sconce.use(original, world, source, player, Hand.MAIN_HAND,
+                            original.getBlock().use(original, world, source, player, Hand.MAIN_HAND,
                                     new BlockRayTraceResult(Vector3d.atLowerCornerOf(source), facing, source, false));
-                            require(world.getBlockState(source).getBlock() == BlockObjectHolder.light_metal_ironage_sconce_wall_empty_iron
+                            require(world.getBlockState(source).getBlock() == SconceMetalData.withMetal(
+                                    BlockObjectHolder.light_metal_ironage_sconce_wall_empty_iron.defaultBlockState(), metal).getBlock()
                                     && SconceMetalData.get(world.getBlockState(source)) == metal
                                     && world.getBlockState(source).getValue(FurnitureBlock.DIRECTION) == facing,
                                     "Safe removal changed the holder: " + context);
@@ -130,6 +131,17 @@ final class WallLavaMiningRuntimeProbe {
                         cases++;
                     }
             org.apache.logging.log4j.LogManager.getLogger().info("IAF WALL LAVA MINING PROBE PASSED: {} cases", cases);
+            BlockPos support = new BlockPos(850, 84, 240);
+            BlockPos lamp = support.above();
+            world.setBlock(support, Blocks.STONE.defaultBlockState(), 2);
+            BlockState gold = SconceMetalData.withMetal(
+                    BlockObjectHolder.light_metal_ironage_sconce_floor_lava_iron.defaultBlockState(), SconceMetal.GOLD);
+            world.setBlock(lamp, gold, 2);
+            player.gameMode.setGameModeForPlayer(GameType.CREATIVE);
+            require(player.gameMode.destroyBlock(support), "Creative support break failed");
+            require(CreativeModeBreakTracker.shouldSuppressFallingLavaBreak(world, support.below(4)),
+                    "Creative support break lost its non-iron lava lamp");
+            cases++;
             return cases;
         } finally {
             world.getGameRules().getRule(GameRules.RULE_DOBLOCKDROPS).set(oldDrops, world.getServer());

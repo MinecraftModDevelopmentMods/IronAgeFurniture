@@ -163,8 +163,8 @@ final class SconceRedstoneRuntimeProbe {
                             : zone.moddev.mc.ironagefurniture.BlockObjectHolder.light_metal_ironage_sconce_wall_torch_iron_unlit
                     : lit ? zone.moddev.mc.ironagefurniture.BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron
                             : zone.moddev.mc.ironagefurniture.BlockObjectHolder.light_metal_ironage_sconce_floor_torch_iron_unlit;
-            return block.defaultBlockState()
-                    .setValue(Candle.DIRECTION, facing).setValue(Candle.WATERLOGGED, wet).setValue(SconceMetalData.METAL, metal);
+            return SconceMetalData.withMetal(block.defaultBlockState()
+                    .setValue(Candle.DIRECTION, facing).setValue(Candle.WATERLOGGED, wet), metal);
         }
     }
 }

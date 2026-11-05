@@ -17,15 +17,15 @@ public class LightRendering {
 	@SubscribeEvent
 	public static void clientSetup(FMLClientSetupEvent event) {
 		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_block_floor_glow_clear, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_floor_glow_iron, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_wall_glow_iron, RenderType.cutout());
+		setSconceCutout(BlockObjectHolder.light_metal_ironage_sconce_floor_glow_iron);
+		setSconceCutout(BlockObjectHolder.light_metal_ironage_sconce_wall_glow_iron);
 		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_block_floor_lava_clear, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_floor_lava_iron, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_wall_lava_iron, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_wall_redtorch_iron, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_wall_redtorch_iron_unlit, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_floor_redtorch_iron, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_floor_redtorch_iron_unlit, RenderType.cutout());
+		setSconceCutout(BlockObjectHolder.light_metal_ironage_sconce_floor_lava_iron);
+		setSconceCutout(BlockObjectHolder.light_metal_ironage_sconce_wall_lava_iron);
+		setSconceCutout(BlockObjectHolder.light_metal_ironage_sconce_wall_redtorch_iron);
+		setSconceCutout(BlockObjectHolder.light_metal_ironage_sconce_wall_redtorch_iron_unlit);
+		setSconceCutout(BlockObjectHolder.light_metal_ironage_sconce_floor_redtorch_iron);
+		setSconceCutout(BlockObjectHolder.light_metal_ironage_sconce_floor_redtorch_iron_unlit);
 		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_block_floor_red_clear, RenderType.cutout());
 		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_block_floor_red_clear_one, RenderType.cutout());
 		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_block_floor_red_clear_two, RenderType.cutout());
@@ -42,37 +42,43 @@ public class LightRendering {
 		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_block_floor_red_clear_thirteen, RenderType.cutout());
 		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_block_floor_red_clear_fourteen, RenderType.cutout());
 		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_block_floor_red_clear_fifteen, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_one, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_two, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_three, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_four, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_five, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_six, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_seven, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_eight, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_nine, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_ten, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_eleven, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_twelve, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_thirteen, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_fourteen, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_fifteen, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_one, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_two, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_three, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_four, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_five, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_six, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_seven, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_eight, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_nine, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_ten, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_eleven, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_twelve, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_thirteen, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_fourteen, RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_fifteen, RenderType.cutout());
+		setSconceCutout(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron);
+		setSconceCutout(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_one);
+		setSconceCutout(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_two);
+		setSconceCutout(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_three);
+		setSconceCutout(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_four);
+		setSconceCutout(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_five);
+		setSconceCutout(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_six);
+		setSconceCutout(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_seven);
+		setSconceCutout(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_eight);
+		setSconceCutout(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_nine);
+		setSconceCutout(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_ten);
+		setSconceCutout(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_eleven);
+		setSconceCutout(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_twelve);
+		setSconceCutout(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_thirteen);
+		setSconceCutout(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_fourteen);
+		setSconceCutout(BlockObjectHolder.light_metal_ironage_sconce_floor_red_iron_fifteen);
+		setSconceCutout(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron);
+		setSconceCutout(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_one);
+		setSconceCutout(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_two);
+		setSconceCutout(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_three);
+		setSconceCutout(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_four);
+		setSconceCutout(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_five);
+		setSconceCutout(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_six);
+		setSconceCutout(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_seven);
+		setSconceCutout(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_eight);
+		setSconceCutout(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_nine);
+		setSconceCutout(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_ten);
+		setSconceCutout(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_eleven);
+		setSconceCutout(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_twelve);
+		setSconceCutout(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_thirteen);
+		setSconceCutout(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_fourteen);
+		setSconceCutout(BlockObjectHolder.light_metal_ironage_sconce_wall_red_iron_fifteen);
 	}
+    private static void setSconceCutout(net.minecraft.block.Block iron) {
+        for (zone.moddev.mc.ironagefurniture.api.enumerations.SconceMetal metal
+                : zone.moddev.mc.ironagefurniture.api.enumerations.SconceMetal.values()) {
+            RenderTypeLookup.setRenderLayer(zone.moddev.mc.ironagefurniture.init.SconceVariants.material(iron, metal), RenderType.cutout());
+        }
+    }
 }

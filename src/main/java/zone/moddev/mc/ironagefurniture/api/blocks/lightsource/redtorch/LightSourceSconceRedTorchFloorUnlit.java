@@ -40,9 +40,9 @@ public class LightSourceSconceRedTorchFloorUnlit extends LightSourceSconceRedTor
 			list.remove(0);
 
 		level.setBlock(pos,
-				BlockObjectHolder.light_metal_ironage_sconce_floor_redtorch_iron.defaultBlockState()
+				zone.moddev.mc.ironagefurniture.api.SconceMetalData.preserve(state, BlockObjectHolder.light_metal_ironage_sconce_floor_redtorch_iron.defaultBlockState()
 						 .setValue(FurnitureBlock.DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
-						 .setValue(FurnitureBlock.WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)).setValue(zone.moddev.mc.ironagefurniture.api.SconceMetalData.METAL, zone.moddev.mc.ironagefurniture.api.SconceMetalData.get(state)),
+						 .setValue(FurnitureBlock.WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED))),
 				3);
 	}
 

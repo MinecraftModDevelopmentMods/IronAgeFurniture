@@ -14,6 +14,7 @@ import org.junit.Test;
 import zone.moddev.mc.ironagefurniture.api.blocks.lightholder.LightHolderSconceFloor;
 import zone.moddev.mc.ironagefurniture.api.enumerations.SconceMetal;
 import zone.moddev.mc.ironagefurniture.api.SconceMetalData;
+import zone.moddev.mc.ironagefurniture.api.blocks.lightsource.phasefour.SconceTestFamily;
 import zone.moddev.mc.ironagefurniture.api.recipes.SconceMetalCondition;
 
 public class SconceMetalDataTest {
@@ -38,13 +39,14 @@ public class SconceMetalDataTest {
         assertEquals(SconceMetal.IRON, SconceMetal.byLegacyMetadata(23));
     }
     @Test public void unavailableMetalsRemainValidSavedStatesAndDefaultsAreIron() {
-        LightHolderSconceFloor block = new LightHolderSconceFloor(net.minecraft.block.Block.Properties.copy(Blocks.IRON_BLOCK));
+        LightHolderSconceFloor block = SconceTestFamily.create(name -> new LightHolderSconceFloor(8, 8, net.minecraft.block.SoundType.METAL, name));
         assertEquals(SconceMetal.IRON, SconceMetalData.get(block.defaultBlockState()));
-        assertEquals(184, block.getStateDefinition().getPossibleStates().size());
+        assertEquals(8, block.getStateDefinition().getPossibleStates().size());
         for (SconceMetal metal : SconceMetal.values()) {
-            BlockState state = block.defaultBlockState().setValue(SconceMetalData.METAL, metal);
+            BlockState state = SconceMetalData.withMetal(block.defaultBlockState(), metal);
+            assertFalse(state.getProperties().stream().anyMatch(property -> property.getName().equals("metal")));
             assertEquals(metal, SconceMetalData.get(SconceMetalData.preserve(state, block.defaultBlockState())));
-            assertEquals(metal.hardness(Blocks.IRON_BLOCK.defaultBlockState().getDestroySpeed(null, null)),
+            assertEquals(metal.hardness(8),
                     block.getDestroySpeed(state, null, null), .001F);
             if (metal != SconceMetal.IRON && metal != SconceMetal.GOLD) assertFalse(SconceMetalData.available(metal));
         }

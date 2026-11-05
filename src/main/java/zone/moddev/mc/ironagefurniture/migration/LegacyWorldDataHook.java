@@ -241,6 +241,7 @@ public final class LegacyWorldDataHook {
 			level.remove(PRESERVE_CHUNK_MARKER);
 		}
         LegacyPaddedPaletteMigration.migrate(level);
+        LegacySconceMigration.migrate(level);
 		return root;
 	}
 

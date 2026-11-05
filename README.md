@@ -9,7 +9,7 @@ sconces in an old-fashioned style. Furniture supports
 the appropriate vanilla and optional-mod materials, and lighting includes
 falling and throwable lava lamps.
 
-This branch provides IronAgeFurniture `0.4.0.116051` for Minecraft 1.16.5 and
+This branch provides IronAgeFurniture `0.4.1.116051` for Minecraft 1.16.5 and
 Forge 36.2.34. It requires Java 8 and can be installed on both clients and
 dedicated servers.
 
@@ -70,7 +70,8 @@ replaced with IAF chairs. Recovery is also provided when CFM has been removed.
 
 The persistent mod ID, registry names, resource paths, configuration names,
 entities, and saved-world identity remain under `ironagefurniture`. Existing
-1.16.5 worlds therefore retain the same runtime identities.
+1.16.5 worlds keep their furniture. On load, sconces move their saved metal
+into the matching block ID while keeping their facing and installed light.
 
 The upgrade bridge imports supported Phase 2, 3 and 4 furniture across
 Minecraft's flattening. It keeps facing, connected benches, structure parts,
@@ -94,7 +95,7 @@ The supported Java source namespace is now
 `zone.moddev.mc.ironagefurniture`. Add-ons compiled against the former
 `com.mcmoddev.ironagefurniture` packages must update their imports. The Maven
 coordinate is
-`zone.moddev.mc:iron-age-furniture:0.4.0.116051`.
+`zone.moddev.mc:iron-age-furniture:0.4.1.116051`.
 
 See [CHANGELOG.md](CHANGELOG.md) for the release notes and
 [docs/VERSIONS.md](docs/VERSIONS.md) for the versioning scheme. Bugs can be
