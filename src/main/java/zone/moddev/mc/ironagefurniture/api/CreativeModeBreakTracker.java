@@ -14,6 +14,8 @@ import net.minecraft.block.Block;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import zone.moddev.mc.ironagefurniture.BlockObjectHolder;
+import zone.moddev.mc.ironagefurniture.api.blocks.lightsource.lava.LightSourceSconceLavaFloor;
+import zone.moddev.mc.ironagefurniture.api.blocks.lightsource.lava.LightSourceSconceLavaWall;
 
 /**
  * Associates a falling lava light with the creative-mode support break that
@@ -80,8 +82,8 @@ public final class CreativeModeBreakTracker {
 
     private static boolean isLavaFallingLight(Block block) {
         return block == BlockObjectHolder.light_metal_ironage_block_floor_lava_clear
-                || block == BlockObjectHolder.light_metal_ironage_sconce_floor_lava_iron
-                || block == BlockObjectHolder.light_metal_ironage_sconce_wall_lava_iron;
+                || block instanceof LightSourceSconceLavaFloor
+                || block instanceof LightSourceSconceLavaWall;
     }
 
     private static final class BreakRecord {

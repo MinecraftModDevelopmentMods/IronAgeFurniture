@@ -38,10 +38,10 @@ final class CandleBucketRuntimeProbe {
                     cases++;
                     for (SconceMetal metal : SconceMetal.values()) for (boolean twin : new boolean[]{false, true})
                         for (int count = twin ? 2 : 0; count <= (twin ? 2 : 4); count++) {
-                            BlockState sconce = sconce(wall, lit, twin, count).defaultBlockState()
-                                    .setValue(Candle.DIRECTION, facing).setValue(Candle.WATERLOGGED, wet).setValue(SconceMetalData.METAL, metal);
-                            BlockState extinguished = sconce(wall, false, twin, count).defaultBlockState()
-                                    .setValue(Candle.DIRECTION, facing).setValue(Candle.WATERLOGGED, wet).setValue(SconceMetalData.METAL, metal);
+                            BlockState sconce = SconceMetalData.withMetal(sconce(wall, lit, twin, count).defaultBlockState()
+                                    .setValue(Candle.DIRECTION, facing).setValue(Candle.WATERLOGGED, wet), metal);
+                            BlockState extinguished = SconceMetalData.withMetal(sconce(wall, false, twin, count).defaultBlockState()
+                                    .setValue(Candle.DIRECTION, facing).setValue(Candle.WATERLOGGED, wet), metal);
                             click(world, player, pos, hand, sconce, extinguished);
                             cases++;
                         }

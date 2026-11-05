@@ -133,10 +133,9 @@ public class LightSourceSconceLavaWall extends LightSourceSconceGlowWall {
 			return success;
 		}
 
-		world.setBlock(pos, EmptyVariant().defaultBlockState()
+		world.setBlock(pos, zone.moddev.mc.ironagefurniture.api.SconceMetalData.preserve(blockState, EmptyVariant().defaultBlockState()
 			.setValue(FurnitureBlock.DIRECTION, blockState.getValue(BlockStateProperties.HORIZONTAL_FACING))
-			.setValue(FurnitureBlock.WATERLOGGED, true)
-            .setValue(zone.moddev.mc.ironagefurniture.api.SconceMetalData.METAL, zone.moddev.mc.ironagefurniture.api.SconceMetalData.get(blockState)), 3);
+			.setValue(FurnitureBlock.WATERLOGGED, true)), 3);
 
 		world.playSound(null, pos, SoundEvents.GLASS_BREAK, SoundCategory.BLOCKS, friction, explosionResistance);
 		world.playSound(null, pos, SoundEvents.LAVA_EXTINGUISH, SoundCategory.BLOCKS, friction, explosionResistance);

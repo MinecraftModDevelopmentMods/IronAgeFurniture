@@ -201,9 +201,9 @@ public class LightHolderSconceFloor extends LightHolderSconce {
 	}
 
 	private static ActionResultType getInteractionResult(BlockState state, World world, BlockPos pos, PlayerEntity player, ItemStack stackInHand, Block sconce) {
-		world.setBlock(pos, sconce.defaultBlockState()
+		world.setBlock(pos, zone.moddev.mc.ironagefurniture.api.SconceMetalData.preserve(state, sconce.defaultBlockState()
 			 .setValue(DIRECTION, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
-			 .setValue(WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED)).setValue(zone.moddev.mc.ironagefurniture.api.SconceMetalData.METAL, zone.moddev.mc.ironagefurniture.api.SconceMetalData.get(state)), 3);
+			 .setValue(WATERLOGGED, state.getValue(BlockStateProperties.WATERLOGGED))), 3);
 
 		if (!player.isCreative())
 			stackInHand.setCount(stackInHand.getCount() - 1);

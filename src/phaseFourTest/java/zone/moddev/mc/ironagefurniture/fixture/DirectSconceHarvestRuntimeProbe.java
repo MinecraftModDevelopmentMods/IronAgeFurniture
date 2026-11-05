@@ -45,7 +45,7 @@ final class DirectSconceHarvestRuntimeProbe {
         // Start with the reported case so the old jar fails on the actual twin-torch drop.
         sconces.add(PhaseFourLighting.sconce(false, true, true, 2));
         for (Block block : ForgeRegistries.BLOCKS.getValues())
-            if (block instanceof LightHolderSconce && !sconces.contains(block)) sconces.add(block);
+            if (block instanceof LightHolderSconce && SconceMetalData.get(block.defaultBlockState()) == SconceMetal.IRON && !sconces.contains(block)) sconces.add(block);
         require(sconces.size() == (MineralogyCompat.isEnabled() ? 70 : 68), "Unexpected sconce catalog");
         player.gameMode.setGameModeForPlayer(GameType.SURVIVAL);
         player.setPos(POS.getX() + 2, POS.getY(), POS.getZ() + .5);
@@ -102,7 +102,7 @@ final class DirectSconceHarvestRuntimeProbe {
     }
 
     private static BlockState state(Block block, SconceMetal metal, Direction facing, boolean wet) {
-        return block.defaultBlockState().setValue(SconceMetalData.METAL, metal)
+        return SconceMetalData.withMetal(block.defaultBlockState(), metal)
                 .setValue(FurnitureBlock.DIRECTION, facing).setValue(FurnitureBlock.WATERLOGGED, wet);
     }
 
