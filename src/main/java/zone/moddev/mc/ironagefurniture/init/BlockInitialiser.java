@@ -88,80 +88,80 @@ public class BlockInitialiser {
 
 	@SubscribeEvent
 	public static void registerBlocks(RegistryEvent.Register<Block> event) {
-		event.getRegistry().register(new LightHolderSconceFloor(1, 10, SoundType.METAL, "light_metal_ironage_sconce_floor_empty_iron"));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_floor_empty_iron", name -> new LightHolderSconceFloor(1, 10, SoundType.METAL, name));
 
-		event.getRegistry().register(new LightSourceSconceTorchFloor(1, 10, SoundType.METAL, "light_metal_ironage_sconce_floor_torch_iron"));
-		event.getRegistry().register(new LightSourceSconceTorchFloorUnlit(1, 10, SoundType.METAL, "light_metal_ironage_sconce_floor_torch_iron_unlit"));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_floor_torch_iron", name -> new LightSourceSconceTorchFloor(1, 10, SoundType.METAL, name));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_floor_torch_iron_unlit", name -> new LightSourceSconceTorchFloorUnlit(1, 10, SoundType.METAL, name));
 
-		event.getRegistry().register(new LightSourceSconceRedTorchFloor(1, 10, SoundType.METAL, "light_metal_ironage_sconce_floor_redtorch_iron"));
-		event.getRegistry().register(new LightSourceSconceRedTorchFloorUnlit(1, 10, SoundType.METAL, "light_metal_ironage_sconce_floor_redtorch_iron_unlit"));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_floor_redtorch_iron", name -> new LightSourceSconceRedTorchFloor(1, 10, SoundType.METAL, name));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_floor_redtorch_iron_unlit", name -> new LightSourceSconceRedTorchFloorUnlit(1, 10, SoundType.METAL, name));
 
-		event.getRegistry().register(new LightHolderSconceWall(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_empty_iron"));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_wall_empty_iron", name -> new LightHolderSconceWall(1, 10, SoundType.METAL, name));
 
-		event.getRegistry().register(new LightSourceSconceTorchWall(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_torch_iron"));
-		event.getRegistry().register(new LightSourceSconceTorchWallUnlit(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_torch_iron_unlit"));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_wall_torch_iron", name -> new LightSourceSconceTorchWall(1, 10, SoundType.METAL, name));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_wall_torch_iron_unlit", name -> new LightSourceSconceTorchWallUnlit(1, 10, SoundType.METAL, name));
 
-		event.getRegistry().register(new LightSourceSconceRedTorchWall(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_redtorch_iron"));
-		event.getRegistry().register(new LightSourceSconceRedTorchWallUnlit(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_redtorch_iron_unlit"));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_wall_redtorch_iron", name -> new LightSourceSconceRedTorchWall(1, 10, SoundType.METAL, name));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_wall_redtorch_iron_unlit", name -> new LightSourceSconceRedTorchWallUnlit(1, 10, SoundType.METAL, name));
 
-		event.getRegistry().register(new LightSourceGlowdust(1, 10, SoundType.GLASS, "light_metal_ironage_block_floor_glow_clear"));
-		event.getRegistry().register(new LightSourceSconceGlowFloor(1, 10, SoundType.METAL, "light_metal_ironage_sconce_floor_glow_iron"));
-		event.getRegistry().register(new LightSourceSconceGlowWall(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_glow_iron"));
+		event.getRegistry().register(new LightSourceGlowdust(.3F, .3F, SoundType.GLASS, "light_metal_ironage_block_floor_glow_clear"));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_floor_glow_iron", name -> new LightSourceSconceGlowFloor(1, 10, SoundType.METAL, name));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_wall_glow_iron", name -> new LightSourceSconceGlowWall(1, 10, SoundType.METAL, name));
 
-		event.getRegistry().register(new LightSourceLava(1, 10, SoundType.GLASS, "light_metal_ironage_block_floor_lava_clear"));
-		event.getRegistry().register(new LightSourceSconceLavaFloor(1, 10, SoundType.METAL, "light_metal_ironage_sconce_floor_lava_iron"));
-		event.getRegistry().register(new LightSourceSconceLavaWall(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_lava_iron"));
+		event.getRegistry().register(new LightSourceLava(.3F, .3F, SoundType.GLASS, "light_metal_ironage_block_floor_lava_clear"));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_floor_lava_iron", name -> new LightSourceSconceLavaFloor(1, 10, SoundType.METAL, name));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_wall_lava_iron", name -> new LightSourceSconceLavaWall(1, 10, SoundType.METAL, name));
 
-		event.getRegistry().register(new LightSourceRed(1, 10, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear"));
-		event.getRegistry().register(new LightSourceRedOne(1, 10, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_one"));
-		event.getRegistry().register(new LightSourceRedTwo(1, 10, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_two"));
-		event.getRegistry().register(new LightSourceRedThree(1, 10, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_three"));
-		event.getRegistry().register(new LightSourceRedFour(1, 10, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_four"));
-		event.getRegistry().register(new LightSourceRedFive(1, 10, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_five"));
-		event.getRegistry().register(new LightSourceRedSix(1, 10, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_six"));
-		event.getRegistry().register(new LightSourceRedSeven(1, 10, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_seven"));
-		event.getRegistry().register(new LightSourceRedEight(1, 10, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_eight"));
-		event.getRegistry().register(new LightSourceRedNine(1, 10, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_nine"));
-		event.getRegistry().register(new LightSourceRedTen(1, 10, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_ten"));
-		event.getRegistry().register(new LightSourceRedEleven(1, 10, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_eleven"));
-		event.getRegistry().register(new LightSourceRedTwelve(1, 10, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_twelve"));
-		event.getRegistry().register(new LightSourceRedThirteen(1, 10, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_thirteen"));
-		event.getRegistry().register(new LightSourceRedFourteen(1, 10, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_fourteen"));
-		event.getRegistry().register(new LightSourceRedFifteen(1, 10, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_fifteen"));
+		event.getRegistry().register(new LightSourceRed(.3F, .3F, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear"));
+		event.getRegistry().register(new LightSourceRedOne(.3F, .3F, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_one"));
+		event.getRegistry().register(new LightSourceRedTwo(.3F, .3F, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_two"));
+		event.getRegistry().register(new LightSourceRedThree(.3F, .3F, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_three"));
+		event.getRegistry().register(new LightSourceRedFour(.3F, .3F, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_four"));
+		event.getRegistry().register(new LightSourceRedFive(.3F, .3F, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_five"));
+		event.getRegistry().register(new LightSourceRedSix(.3F, .3F, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_six"));
+		event.getRegistry().register(new LightSourceRedSeven(.3F, .3F, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_seven"));
+		event.getRegistry().register(new LightSourceRedEight(.3F, .3F, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_eight"));
+		event.getRegistry().register(new LightSourceRedNine(.3F, .3F, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_nine"));
+		event.getRegistry().register(new LightSourceRedTen(.3F, .3F, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_ten"));
+		event.getRegistry().register(new LightSourceRedEleven(.3F, .3F, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_eleven"));
+		event.getRegistry().register(new LightSourceRedTwelve(.3F, .3F, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_twelve"));
+		event.getRegistry().register(new LightSourceRedThirteen(.3F, .3F, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_thirteen"));
+		event.getRegistry().register(new LightSourceRedFourteen(.3F, .3F, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_fourteen"));
+		event.getRegistry().register(new LightSourceRedFifteen(.3F, .3F, SoundType.GLASS, "light_metal_ironage_block_floor_red_clear_fifteen"));
 
-		event.getRegistry().register(new LightSourceSconceRedFloor(1, 10, SoundType.METAL, "light_metal_ironage_sconce_floor_red_iron"));
-		event.getRegistry().register(new LightSourceSconceRedFloorOne(1, 10, SoundType.METAL, "light_metal_ironage_sconce_floor_red_iron_one"));
-		event.getRegistry().register(new LightSourceSconceRedFloorTwo(1, 10, SoundType.METAL, "light_metal_ironage_sconce_floor_red_iron_two"));
-		event.getRegistry().register(new LightSourceSconceRedFloorThree(1, 10, SoundType.METAL, "light_metal_ironage_sconce_floor_red_iron_three"));
-		event.getRegistry().register(new LightSourceSconceRedFloorFour(1, 10, SoundType.METAL, "light_metal_ironage_sconce_floor_red_iron_four"));
-		event.getRegistry().register(new LightSourceSconceRedFloorFive(1, 10, SoundType.METAL, "light_metal_ironage_sconce_floor_red_iron_five"));
-		event.getRegistry().register(new LightSourceSconceRedFloorSix(1, 10, SoundType.METAL, "light_metal_ironage_sconce_floor_red_iron_six"));
-		event.getRegistry().register(new LightSourceSconceRedFloorSeven(1, 10, SoundType.METAL, "light_metal_ironage_sconce_floor_red_iron_seven"));
-		event.getRegistry().register(new LightSourceSconceRedFloorEight(1, 10, SoundType.METAL, "light_metal_ironage_sconce_floor_red_iron_eight"));
-		event.getRegistry().register(new LightSourceSconceRedFloorNine(1, 10, SoundType.METAL, "light_metal_ironage_sconce_floor_red_iron_nine"));
-		event.getRegistry().register(new LightSourceSconceRedFloorTen(1, 10, SoundType.METAL, "light_metal_ironage_sconce_floor_red_iron_ten"));
-		event.getRegistry().register(new LightSourceSconceRedFloorEleven(1, 10, SoundType.METAL, "light_metal_ironage_sconce_floor_red_iron_eleven"));
-		event.getRegistry().register(new LightSourceSconceRedFloorTwelve(1, 10, SoundType.METAL, "light_metal_ironage_sconce_floor_red_iron_twelve"));
-		event.getRegistry().register(new LightSourceSconceRedFloorThirteen(1, 10, SoundType.METAL, "light_metal_ironage_sconce_floor_red_iron_thirteen"));
-		event.getRegistry().register(new LightSourceSconceRedFloorFourteen(1, 10, SoundType.METAL, "light_metal_ironage_sconce_floor_red_iron_fourteen"));
-		event.getRegistry().register(new LightSourceSconceRedFloorFifteen(1, 10, SoundType.METAL, "light_metal_ironage_sconce_floor_red_iron_fifteen"));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_floor_red_iron", name -> new LightSourceSconceRedFloor(1, 10, SoundType.METAL, name));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_floor_red_iron_one", name -> new LightSourceSconceRedFloorOne(1, 10, SoundType.METAL, name));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_floor_red_iron_two", name -> new LightSourceSconceRedFloorTwo(1, 10, SoundType.METAL, name));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_floor_red_iron_three", name -> new LightSourceSconceRedFloorThree(1, 10, SoundType.METAL, name));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_floor_red_iron_four", name -> new LightSourceSconceRedFloorFour(1, 10, SoundType.METAL, name));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_floor_red_iron_five", name -> new LightSourceSconceRedFloorFive(1, 10, SoundType.METAL, name));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_floor_red_iron_six", name -> new LightSourceSconceRedFloorSix(1, 10, SoundType.METAL, name));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_floor_red_iron_seven", name -> new LightSourceSconceRedFloorSeven(1, 10, SoundType.METAL, name));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_floor_red_iron_eight", name -> new LightSourceSconceRedFloorEight(1, 10, SoundType.METAL, name));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_floor_red_iron_nine", name -> new LightSourceSconceRedFloorNine(1, 10, SoundType.METAL, name));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_floor_red_iron_ten", name -> new LightSourceSconceRedFloorTen(1, 10, SoundType.METAL, name));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_floor_red_iron_eleven", name -> new LightSourceSconceRedFloorEleven(1, 10, SoundType.METAL, name));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_floor_red_iron_twelve", name -> new LightSourceSconceRedFloorTwelve(1, 10, SoundType.METAL, name));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_floor_red_iron_thirteen", name -> new LightSourceSconceRedFloorThirteen(1, 10, SoundType.METAL, name));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_floor_red_iron_fourteen", name -> new LightSourceSconceRedFloorFourteen(1, 10, SoundType.METAL, name));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_floor_red_iron_fifteen", name -> new LightSourceSconceRedFloorFifteen(1, 10, SoundType.METAL, name));
 
-		event.getRegistry().register(new LightSourceSconceRedWall(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_red_iron"));
-		event.getRegistry().register(new LightSourceSconceRedWallOne(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_red_iron_one"));
-		event.getRegistry().register(new LightSourceSconceRedWallTwo(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_red_iron_two"));
-		event.getRegistry().register(new LightSourceSconceRedWallThree(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_red_iron_three"));
-		event.getRegistry().register(new LightSourceSconceRedWallFour(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_red_iron_four"));
-		event.getRegistry().register(new LightSourceSconceRedWallFive(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_red_iron_five"));
-		event.getRegistry().register(new LightSourceSconceRedWallSix(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_red_iron_six"));
-		event.getRegistry().register(new LightSourceSconceRedWallSeven(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_red_iron_seven"));
-		event.getRegistry().register(new LightSourceSconceRedWallEight(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_red_iron_eight"));
-		event.getRegistry().register(new LightSourceSconceRedWallNine(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_red_iron_nine"));
-		event.getRegistry().register(new LightSourceSconceRedWallTen(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_red_iron_ten"));
-		event.getRegistry().register(new LightSourceSconceRedWallEleven(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_red_iron_eleven"));
-		event.getRegistry().register(new LightSourceSconceRedWallTwelve(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_red_iron_twelve"));
-		event.getRegistry().register(new LightSourceSconceRedWallThirteen(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_red_iron_thirteen"));
-		event.getRegistry().register(new LightSourceSconceRedWallFourteen(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_red_iron_fourteen"));
-		event.getRegistry().register(new LightSourceSconceRedWallFifteen(1, 10, SoundType.METAL, "light_metal_ironage_sconce_wall_red_iron_fifteen"));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_wall_red_iron", name -> new LightSourceSconceRedWall(1, 10, SoundType.METAL, name));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_wall_red_iron_one", name -> new LightSourceSconceRedWallOne(1, 10, SoundType.METAL, name));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_wall_red_iron_two", name -> new LightSourceSconceRedWallTwo(1, 10, SoundType.METAL, name));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_wall_red_iron_three", name -> new LightSourceSconceRedWallThree(1, 10, SoundType.METAL, name));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_wall_red_iron_four", name -> new LightSourceSconceRedWallFour(1, 10, SoundType.METAL, name));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_wall_red_iron_five", name -> new LightSourceSconceRedWallFive(1, 10, SoundType.METAL, name));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_wall_red_iron_six", name -> new LightSourceSconceRedWallSix(1, 10, SoundType.METAL, name));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_wall_red_iron_seven", name -> new LightSourceSconceRedWallSeven(1, 10, SoundType.METAL, name));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_wall_red_iron_eight", name -> new LightSourceSconceRedWallEight(1, 10, SoundType.METAL, name));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_wall_red_iron_nine", name -> new LightSourceSconceRedWallNine(1, 10, SoundType.METAL, name));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_wall_red_iron_ten", name -> new LightSourceSconceRedWallTen(1, 10, SoundType.METAL, name));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_wall_red_iron_eleven", name -> new LightSourceSconceRedWallEleven(1, 10, SoundType.METAL, name));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_wall_red_iron_twelve", name -> new LightSourceSconceRedWallTwelve(1, 10, SoundType.METAL, name));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_wall_red_iron_thirteen", name -> new LightSourceSconceRedWallThirteen(1, 10, SoundType.METAL, name));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_wall_red_iron_fourteen", name -> new LightSourceSconceRedWallFourteen(1, 10, SoundType.METAL, name));
+		SconceVariants.register(event.getRegistry()::register, "light_metal_ironage_sconce_wall_red_iron_fifteen", name -> new LightSourceSconceRedWallFifteen(1, 10, SoundType.METAL, name));
 
 		event.getRegistry().register(new ObsideanLump(1, 10, SoundType.STONE, "obsidian_chunk"));
 

@@ -57,14 +57,15 @@ public class LightSourceSconceLavaFloor extends LightSourceSconceGlowFloor imple
 		boolean isSilkTouch = EnchantmentHelper.getEnchantmentLevel(
                 Enchantments.SILK_TOUCH, player.getHeldItemMainhand()) > 0;
 
-		if (isSilkTouch && !player.isCreative())
-			Block.spawnAsEntity(level, pos, new ItemStack(LightDrop(), 1));
-
 		boolean destroyed = super.removedByPlayer(state, level, pos, player, willHarvest, fluid);
 
-		if (!isSilkTouch && !player.isCreative()) {
-			level.playSound(player, pos, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
-			level.setBlockState(pos, Blocks.FIRE.getDefaultState(), 3);
+		// Shattering on the client would leave fire's empty shape under the final hit particles.
+		if (destroyed && !level.isRemote && !player.isCreative()) {
+			if (isSilkTouch) Block.spawnAsEntity(level, pos, new ItemStack(LightDrop(), 1));
+			else {
+				level.playSound(player, pos, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
+				level.setBlockState(pos, Blocks.FIRE.getDefaultState(), 3);
+			}
 		}
 
 		return destroyed;
@@ -126,10 +127,9 @@ public class LightSourceSconceLavaFloor extends LightSourceSconceGlowFloor imple
 			return success;
 		}
 
-		world.setBlockState(pos, EmptyVariant().getDefaultState()
+		world.setBlockState(pos, zone.moddev.mc.ironagefurniture.api.SconceMetalData.preserve(blockState, EmptyVariant().getDefaultState()
 			.with(FurnitureBlock.DIRECTION, blockState.get(BlockStateProperties.HORIZONTAL_FACING))
-			.with(FurnitureBlock.WATERLOGGED, true)
-            .with(zone.moddev.mc.ironagefurniture.api.SconceMetalData.METAL, zone.moddev.mc.ironagefurniture.api.SconceMetalData.get(blockState)), 3);
+			.with(FurnitureBlock.WATERLOGGED, true)), 3);
 
 		world.playSound(null, pos, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
 		world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 0.5F, 2.6F);

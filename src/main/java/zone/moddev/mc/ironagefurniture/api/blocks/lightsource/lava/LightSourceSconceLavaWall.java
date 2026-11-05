@@ -3,7 +3,6 @@ package zone.moddev.mc.ironagefurniture.api.blocks.lightsource.lava;
 import zone.moddev.mc.ironagefurniture.api.blocks.base.FurnitureBlock;
 import zone.moddev.mc.ironagefurniture.api.blocks.lightsource.glow.LightSourceSconceGlowWall;
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.state.properties.BlockStateProperties;
@@ -57,15 +56,20 @@ public class LightSourceSconceLavaWall extends LightSourceSconceGlowWall {
                 || !canRelease(world.isBlockPowered(pos), world.isAirBlock(pos.down()))) return;
         BlockState empty = LightInteractions.replacement(state, EmptyVariant());
         if (!world.setBlockState(pos, empty, 3)) return;
-        Direction outwards = state.get(FurnitureBlock.DIRECTION).getOpposite();
         PlayerEntity nearest = world.getClosestPlayer(pos.getX() + .5, pos.getY() + .5, pos.getZ() + .5, -1, false);
+        if (!releaseLamp(world, pos, state, nearest != null && nearest.isCreative())
+                && world.getBlockState(pos).getBlock() == empty.getBlock())
+            world.setBlockState(pos, state, 3);
+    }
+
+    private boolean releaseLamp(World world, BlockPos pos, BlockState state, boolean preserveOnLanding) {
+        Direction outwards = state.get(FurnitureBlock.DIRECTION).getOpposite();
         ReleasedLavaLamp lamp = new ReleasedLavaLamp(world,
                 pos.getX() + .5 + .27 * outwards.getXOffset(), pos.getY() + 5.0 / 16.0,
                 pos.getZ() + .5 + .27 * outwards.getZOffset(),
                 LightDrop().getDefaultState().with(FurnitureBlock.DIRECTION, state.get(FurnitureBlock.DIRECTION)),
-                pos.getY(), nearest != null && nearest.isCreative());
-        if (!world.addEntity(lamp) && world.getBlockState(pos).getBlock() == empty.getBlock())
-            world.setBlockState(pos, state, 3);
+                pos.getY(), preserveOnLanding);
+        return world.addEntity(lamp);
     }
 
 	@Override
@@ -85,14 +89,15 @@ public class LightSourceSconceLavaWall extends LightSourceSconceGlowWall {
 		boolean isSilkTouch = EnchantmentHelper.getEnchantmentLevel(
                 Enchantments.SILK_TOUCH, player.getHeldItemMainhand()) > 0;
 
-		if (isSilkTouch && !player.isCreative())
-			Block.spawnAsEntity(level, pos, new ItemStack(LightDrop(), 1));
-
 		boolean destroyed = super.removedByPlayer(state, level, pos, player, willHarvest, fluid);
 
-		if (!isSilkTouch && !player.isCreative()) {
-			level.playSound(player, pos, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
-			level.setBlockState(pos, Blocks.FIRE.getDefaultState(), 3);
+		// Shattering on the client would leave fire's empty shape under the final hit particles.
+		if (destroyed && !level.isRemote && !player.isCreative()) {
+			if (isSilkTouch) Block.spawnAsEntity(level, pos, new ItemStack(LightDrop(), 1));
+			else if (!releaseLamp(level, pos, state, false)) {
+                level.setBlockState(pos, state, 3);
+                return false;
+			}
 		}
 
 		return destroyed;
@@ -125,10 +130,9 @@ public class LightSourceSconceLavaWall extends LightSourceSconceGlowWall {
 			return success;
 		}
 
-		world.setBlockState(pos, EmptyVariant().getDefaultState()
+		world.setBlockState(pos, zone.moddev.mc.ironagefurniture.api.SconceMetalData.preserve(blockState, EmptyVariant().getDefaultState()
 			.with(FurnitureBlock.DIRECTION, blockState.get(BlockStateProperties.HORIZONTAL_FACING))
-			.with(FurnitureBlock.WATERLOGGED, true)
-            .with(zone.moddev.mc.ironagefurniture.api.SconceMetalData.METAL, zone.moddev.mc.ironagefurniture.api.SconceMetalData.get(blockState)), 3);
+			.with(FurnitureBlock.WATERLOGGED, true)), 3);
 
 		world.playSound(null, pos, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
 		world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 0.5F, 2.6F);

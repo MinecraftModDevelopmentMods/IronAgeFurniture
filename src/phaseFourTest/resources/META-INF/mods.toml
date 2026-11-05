@@ -10,6 +10,6 @@ displayName="Iron Age Furniture Phase 4 Runtime Tests"
 [[dependencies.ironagefurniturephasefourprobe]]
 modId="ironagefurniture"
 mandatory=true
-versionRange="[0.4.0.114041]"
+versionRange="[0.4.0.114041,0.6)"
 ordering="AFTER"
 side="BOTH"

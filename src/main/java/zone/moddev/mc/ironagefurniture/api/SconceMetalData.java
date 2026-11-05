@@ -6,7 +6,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.state.EnumProperty;
+import net.minecraft.state.IProperty;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
@@ -16,10 +16,10 @@ import zone.moddev.mc.ironagefurniture.api.blocks.base.LightHolderSconce;
 import zone.moddev.mc.ironagefurniture.api.enumerations.SconceMetal;
 import zone.moddev.mc.ironagefurniture.api.items.MetalSconceBlockItem;
 import net.minecraftforge.registries.ForgeRegistries;
+import zone.moddev.mc.ironagefurniture.init.SconceVariants;
 
 /** Storage keeps an absent metal intact; only its recipe, tab entry and appearance depend on availability. */
 public final class SconceMetalData {
-    public static final EnumProperty<SconceMetal> METAL = EnumProperty.create("metal", SconceMetal.class);
     public static final String TAG = "Metal";
     private SconceMetalData() { }
     public static ResourceLocation nuggets(SconceMetal metal) { return new ResourceLocation("forge", "nuggets/" + metal.getName()); }
@@ -43,7 +43,44 @@ public final class SconceMetalData {
         }
         return stack.hasTag() ? SconceMetal.byName(stack.getTag().getString(TAG)) : SconceMetal.IRON;
     }
-    public static SconceMetal get(BlockState state) { return state.has(METAL) ? state.get(METAL) : SconceMetal.IRON; }
+    public static SconceMetal get(BlockState state) {
+        ResourceLocation id = state.getBlock().getRegistryName();
+        return id == null ? SconceMetal.IRON : material(id.getPath());
+    }
+    public static SconceMetal material(String path) {
+        if (!path.startsWith("light_metal_ironage_sconce_")) return SconceMetal.IRON;
+        for (SconceMetal metal : SconceMetal.values()) {
+            String token = blockMetalToken(metal);
+            int start = path.indexOf(token, "light_metal_ironage_sconce_".length());
+            if (start >= 0) {
+                int end = start + token.length();
+                if (end == path.length() || path.charAt(end) == '_') return metal;
+            }
+        }
+        return SconceMetal.IRON;
+    }
+    public static String ironPath(String path) {
+        SconceMetal metal = material(path);
+        if (metal == SconceMetal.IRON) return path;
+        return path.replaceFirst(blockMetalToken(metal) + "(?=_|$)", "_iron");
+    }
+    public static String blockPath(String ironPath, SconceMetal metal) {
+        return ironPath.replaceFirst("_iron(?=_|$)", blockMetalToken(metal));
+    }
+    private static String blockMetalToken(SconceMetal metal) {
+        // Copper uses the same saved block identity as 1.17.1. Keep the historical Base Metals item ID below.
+        return "_" + (metal.isBaseMetal() && metal != SconceMetal.COPPER ? "basemetals_" : "") + metal.getName();
+    }
+    public static BlockState withMetal(BlockState state, SconceMetal metal) {
+        Block variant = SconceVariants.material(state.getBlock(), metal);
+        if (variant == state.getBlock()) return state;
+        BlockState result = variant.getDefaultState();
+        for (IProperty<?> property : state.getProperties()) result = copyProperty(state, result, property);
+        return result;
+    }
+    private static <T extends Comparable<T>> BlockState copyProperty(BlockState from, BlockState to, IProperty<T> property) {
+        return to.has(property) ? to.with(property, from.get(property)) : to;
+    }
     public static ItemStack set(ItemStack stack, SconceMetal metal) {
         if (stack.getItem() instanceof MetalSconceBlockItem) {
             ItemStack result = create(((MetalSconceBlockItem)stack.getItem()).getBlock(), metal);
@@ -66,11 +103,12 @@ public final class SconceMetalData {
         return stack;
     }
     public static ResourceLocation itemId(ResourceLocation iron, SconceMetal metal) {
-        return new ResourceLocation(iron.getNamespace(), iron.getPath().replaceFirst("_iron(?=_|$)",
-                metal.isBaseMetal() ? "_basemetals_" + metal.getName() : "_" + metal.getName()));
+        String path = ironPath(iron.getPath()).replaceFirst("_iron(?=_|$)",
+                "_" + (metal.isBaseMetal() ? "basemetals_" : "") + metal.getName());
+        return new ResourceLocation(iron.getNamespace(), path);
     }
     public static BlockState preserve(BlockState old, BlockState replacement) {
-        return replacement.has(METAL) ? replacement.with(METAL, get(old)) : replacement;
+        return replacement.getBlock() instanceof LightHolderSconce ? withMetal(replacement, get(old)) : replacement;
     }
     public static List<ItemStack> preserveDrops(BlockState state, List<ItemStack> drops) {
         for (int index = 0; index < drops.size(); index++)

@@ -160,9 +160,9 @@ public class LightSourceSconceRedWall extends LightSourceSconceTorchWall {
 			LightSourceSconceRedWall newBlock = getBlockBySignalLevel(signal);
 
 			level.setBlockState(pos,
-				newBlock.getDefaultState()
+				zone.moddev.mc.ironagefurniture.api.SconceMetalData.preserve(state, newBlock.getDefaultState()
 					 .with(DIRECTION, state .get(BlockStateProperties.HORIZONTAL_FACING))
-					 .with(WATERLOGGED, state .get(BlockStateProperties.WATERLOGGED)).with(zone.moddev.mc.ironagefurniture.api.SconceMetalData.METAL, zone.moddev.mc.ironagefurniture.api.SconceMetalData.get(state)),
+					 .with(WATERLOGGED, state .get(BlockStateProperties.WATERLOGGED))),
 				3);
 
 			Block block = level.getBlockState(pos).getBlock();

@@ -1,3 +1,30 @@
+# IronAgeFurniture 0.4.1.114041
+
+- Sconces now save their metal as part of the block ID. Existing sconces update
+  as their chunks load, keeping their metal, facing, water and installed light.
+- Fix the Creative-mode handling when breaking the support under a non-iron lava
+  sconce.
+
+- Let a water-bucket click extinguish standalone candles, candle sconces and
+  twin-torch sconces without placing water or emptying the bucket. Keep their
+  facing, contents and metal; existing waterlogging is unchanged.
+
+- Let redstone relight waterlogged candle sconces, just like torch sconces.
+  They go out again when the signal stops; dry candles stay lit. Keep every
+  candle count, frame metal and facing through the change, including its flame
+  and smoke effects.
+
+- Make a wall-mounted lava lamp fall out when its sconce is mined without
+  Silk Touch. It shatters on landing, lighting dry ground or cooling into an
+  obsidian chunk in water. The empty frame keeps its metal; right-click removal
+  and Silk Touch still return an intact lamp.
+
+- Fix the crash when mining a lava lamp, including lamps in floor and wall
+  sconces. The lamp still shatters and starts a fire without Silk Touch;
+  Silk Touch still returns it intact, and the sconce keeps its original metal.
+- Make standalone lava, glowdust and redstone glass lamps quick to break by
+  hand. Metal sconces retain their material's toughness.
+
 # IronAgeFurniture 0.4.0.114041
 
 Phase 4 for Minecraft 1.14.4 and Forge 28.2.26. Requires Java 8 on clients and servers.

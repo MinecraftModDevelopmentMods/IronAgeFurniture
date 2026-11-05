@@ -103,9 +103,9 @@ public class LightSourceSconceRedTorchFloor extends LightSourceSconceTorchFloor 
 
 		if (flag) {
 			level.setBlockState(pos,
-					BlockObjectHolder.light_metal_ironage_sconce_floor_redtorch_iron_unlit.getDefaultState()
+					zone.moddev.mc.ironagefurniture.api.SconceMetalData.preserve(state, BlockObjectHolder.light_metal_ironage_sconce_floor_redtorch_iron_unlit.getDefaultState()
 							 .with(FurnitureBlock.DIRECTION, state .get(BlockStateProperties.HORIZONTAL_FACING))
-							 .with(FurnitureBlock.WATERLOGGED, state .get(BlockStateProperties.WATERLOGGED)).with(zone.moddev.mc.ironagefurniture.api.SconceMetalData.METAL, zone.moddev.mc.ironagefurniture.api.SconceMetalData.get(state)),
+							 .with(FurnitureBlock.WATERLOGGED, state .get(BlockStateProperties.WATERLOGGED))),
 					3);
 
 			if (isToggledTooFrequently(level, pos, true)) {

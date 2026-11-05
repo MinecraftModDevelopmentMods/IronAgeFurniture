@@ -37,13 +37,13 @@ final class SupportLossRuntimeProbe {
             for (Block support : wall ? new Block[]{Blocks.STONE} : new Block[]{Blocks.STONE, Blocks.OAK_FENCE})
                 for (boolean wet : new boolean[]{true, false}) for (boolean lit : new boolean[]{false, true}) {
                     for (SconceMetal metal : SconceMetal.values()) {
-                        BlockState twin = PhaseFourLighting.sconce(wall, lit, true, 2).getDefaultState()
-                                .with(Candle.DIRECTION, facing).with(Candle.WATERLOGGED, wet).with(SconceMetalData.METAL, metal);
+                        BlockState twin = SconceMetalData.withMetal(PhaseFourLighting.sconce(wall, lit, true, 2).getDefaultState()
+                                .with(Candle.DIRECTION, facing).with(Candle.WATERLOGGED, wet), metal);
                         verify(world, player, pos, twin, wall, support, Items.TORCH, 2, metal, true);
                         cases++;
                         for (int count = 1; count <= 4; count++) {
-                            BlockState candles = PhaseFourLighting.sconce(wall, lit, false, count).getDefaultState()
-                                    .with(Candle.DIRECTION, facing).with(Candle.WATERLOGGED, wet).with(SconceMetalData.METAL, metal);
+                            BlockState candles = SconceMetalData.withMetal(PhaseFourLighting.sconce(wall, lit, false, count).getDefaultState()
+                                    .with(Candle.DIRECTION, facing).with(Candle.WATERLOGGED, wet), metal);
                             verify(world, player, pos, candles, wall, support,
                                     PhaseFourLighting.candle(false, true).asItem(), count, metal, true);
                             cases++;
@@ -54,8 +54,8 @@ final class SupportLossRuntimeProbe {
                     verify(world, player, pos, candle, wall, support, PhaseFourLighting.candle(false, true).asItem(), 1, null, true);
                     cases++;
                     if (lit && MineralogyCompat.isEnabled()) for (SconceMetal metal : SconceMetal.values()) {
-                        BlockState rockSalt = PhaseFourLighting.rockSalt(wall).getDefaultState()
-                                .with(Candle.DIRECTION, facing).with(Candle.WATERLOGGED, wet).with(SconceMetalData.METAL, metal);
+                        BlockState rockSalt = SconceMetalData.withMetal(PhaseFourLighting.rockSalt(wall).getDefaultState()
+                                .with(Candle.DIRECTION, facing).with(Candle.WATERLOGGED, wet), metal);
                         verify(world, player, pos, rockSalt, wall, support, MineralogyCompat.getRockSaltLamp().asItem(), 1, metal, true);
                         cases++;
                     }
@@ -64,8 +64,8 @@ final class SupportLossRuntimeProbe {
         try {
             world.getGameRules().get(GameRules.DO_TILE_DROPS).set(false, world.getServer());
             for (boolean wall : new boolean[]{false, true}) for (boolean wet : new boolean[]{false, true}) {
-                BlockState twin = PhaseFourLighting.sconce(wall, false, true, 2).getDefaultState()
-                        .with(Candle.DIRECTION, Direction.NORTH).with(Candle.WATERLOGGED, wet).with(SconceMetalData.METAL, SconceMetal.GOLD);
+                BlockState twin = SconceMetalData.withMetal(PhaseFourLighting.sconce(wall, false, true, 2).getDefaultState()
+                        .with(Candle.DIRECTION, Direction.NORTH).with(Candle.WATERLOGGED, wet), SconceMetal.GOLD);
                 verify(world, player, pos, twin, wall, Blocks.STONE, Items.TORCH, 2, SconceMetal.GOLD, false);
                 cases++;
             }

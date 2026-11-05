@@ -43,16 +43,17 @@ final class SconceMetalRuntimeProbe {
         world.setBlockState(pos.down(), Blocks.STONE.getDefaultState(), 2);
         int cases = 0, blocks = 0;
         for (Block block : ForgeRegistries.BLOCKS.getValues()) {
-            if (!(block instanceof LightHolderSconce)) continue;
+            if (!(block instanceof LightHolderSconce) || SconceMetalData.get(block.getDefaultState()) != SconceMetal.IRON) continue;
             blocks++;
             require(SconceMetalData.get(block.getDefaultState()) == SconceMetal.IRON, "Legacy default is not iron");
             require(!block.getDefaultState().get(FurnitureBlock.WATERLOGGED), "Default sconce is wet: " + block.getRegistryName());
             require(!block.hasTileEntity(block.getDefaultState()), "Metal added a tile entity");
             for (SconceMetal metal : SconceMetal.values()) for (Direction facing : Direction.Plane.HORIZONTAL) {
-                BlockState state = block.getDefaultState().with(SconceMetalData.METAL, metal).with(FurnitureBlock.DIRECTION, facing);
+                BlockState state = SconceMetalData.withMetal(block.getDefaultState(), metal).with(FurnitureBlock.DIRECTION, facing);
                 require(NBTUtil.readBlockState(NBTUtil.writeBlockState(state)) == state, "Saved metal state changed");
                 BlockRayTraceResult hit = new BlockRayTraceResult(new Vec3d(pos), facing, pos, false);
-                ItemStack picked = block.getPickBlock(state, hit, world, pos, player);
+                require(SconceMetalData.get(state) == metal, "Wrong registered metal: " + state);
+                ItemStack picked = state.getBlock().getPickBlock(state, hit, world, pos, player);
                 require(!picked.isEmpty() && SconceMetalData.get(picked) == metal, "Pick block lost metal: " + state);
                 List<ItemStack> drops = state.getDrops(new LootContext.Builder(world));
                 require(drops.stream().anyMatch(stack -> Block.getBlockFromItem(stack.getItem()) instanceof LightHolderSconce),
@@ -87,16 +88,16 @@ final class SconceMetalRuntimeProbe {
                 Block block = wall ? BlockObjectHolder.light_metal_ironage_sconce_wall_empty_iron
                         : BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron;
                 world.setBlockState(pos.offset(facing.getOpposite()), Blocks.STONE.getDefaultState(), 2);
-                BlockState state = block.getDefaultState().with(FurnitureBlock.DIRECTION, facing).with(SconceMetalData.METAL, metal);
+                BlockState state = SconceMetalData.withMetal(block.getDefaultState().with(FurnitureBlock.DIRECTION, facing), metal);
                 world.setBlockState(pos, state, 2);
                 player.interactionManager.setGameType(GameType.SURVIVAL);
                 player.setHeldItem(Hand.MAIN_HAND, new ItemStack(Items.IRON_PICKAXE));
                 player.setPosition(pos.getX(), pos.getY(), pos.getZ());
-                BlockState iron = state.with(SconceMetalData.METAL, SconceMetal.IRON);
+                BlockState iron = SconceMetalData.withMetal(state, SconceMetal.IRON);
                 require(Math.abs(state.getBlockHardness(world, pos)
                         - metal.hardness(iron.getBlockHardness(world, pos))) < 0.0001F,
                         "Mining hardness ignores the metal: " + metal);
-                require(Math.abs(block.getExplosionResistance(state, world, pos, null, null)
+                require(Math.abs(state.getBlock().getExplosionResistance(state, world, pos, null, null)
                         - metal.resistance(block.getExplosionResistance(iron, world, pos, null, null))) < 0.0001F,
                         "Blast resistance ignores the metal: " + metal);
                 if (metal == SconceMetal.ADAMANTINE || metal == SconceMetal.STARSTEEL)
@@ -117,8 +118,7 @@ final class SconceMetalRuntimeProbe {
                 cases++;
             }
             BlockPos saved = new BlockPos(800 + metal.ordinal() * 3, 80, 224);
-            BlockState expected = BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron.getDefaultState()
-                    .with(SconceMetalData.METAL, metal).with(FurnitureBlock.DIRECTION, Direction.EAST).with(FurnitureBlock.WATERLOGGED, true);
+            BlockState expected = SconceMetalData.withMetal(BlockObjectHolder.light_metal_ironage_sconce_floor_empty_iron.getDefaultState(), metal).with(FurnitureBlock.DIRECTION, Direction.EAST).with(FurnitureBlock.WATERLOGGED, true);
             if (!world.getBlockState(saved).isAir()) require(world.getBlockState(saved) == expected, "Reload changed metal frame");
             world.setBlockState(saved.down(), Blocks.STONE.getDefaultState(), 2);
             world.setBlockState(saved, expected, 2);
@@ -219,7 +219,7 @@ final class SconceMetalRuntimeProbe {
         }, 3, 3);
     }
     private static void sameMetal(BlockState old, BlockState current) {
-        require(current.has(SconceMetalData.METAL) && SconceMetalData.get(old) == SconceMetalData.get(current),
+        require(current.getBlock() instanceof LightHolderSconce && SconceMetalData.get(old) == SconceMetalData.get(current),
                 "Lighting change lost metal: " + old + " -> " + current);
     }
     private static void require(boolean passed, String message) { if (!passed) throw new IllegalStateException(message); }

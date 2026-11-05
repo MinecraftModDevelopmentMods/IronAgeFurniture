@@ -17,20 +17,22 @@ public class SconceHarvestTest {
 
     @Test public void twinTorchesAndEveryCandleCountAllowDropsWithoutRequiringATool() {
         for (boolean wall : new boolean[]{false, true}) for (boolean lit : new boolean[]{false, true}) {
-            verify(new AdditionalSconce("ironagefurniture:harvest_test", wall, lit, true, 2));
-            for (int count = 1; count <= 4; count++)
-                verify(new AdditionalSconce("ironagefurniture:harvest_test", wall, lit, false, count));
+            verify(SconceTestFamily.create(name -> new AdditionalSconce(name, wall, lit, true, 2)));
+            for (int count = 1; count <= 4; count++) {
+                int candles = count;
+                verify(SconceTestFamily.create(name -> new AdditionalSconce(name, wall, lit, false, candles)));
+            }
         }
     }
 
     @Test public void rockSaltFramesAllowDropsWithoutRequiringATool() {
-        for (boolean wall : new boolean[]{false, true}) verify(new RockSaltSconce("ironagefurniture:harvest_test", wall));
+        for (boolean wall : new boolean[]{false, true}) verify(SconceTestFamily.create(name -> new RockSaltSconce(name, wall)));
     }
 
     private static void verify(LightHolderSconce block) {
         for (SconceMetal metal : SconceMetal.values()) for (Direction facing : Direction.Plane.HORIZONTAL)
             for (boolean wet : new boolean[]{false, true}) {
-                BlockState state = block.getDefaultState().with(SconceMetalData.METAL, metal)
+                BlockState state = SconceMetalData.withMetal(block.getDefaultState(), metal)
                         .with(Candle.DIRECTION, facing).with(Candle.WATERLOGGED, wet);
                 // Eligibility is deliberately independent of the player's held tool.
                 assertTrue(state.toString(), block.canHarvestBlock(state, null, BlockPos.ZERO, null));

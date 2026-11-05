@@ -110,6 +110,12 @@ public final class AdditionalSconce extends LightHolderSconceFloor {
     @Override protected boolean ActivateSconce(BlockState state, World world, BlockPos pos, PlayerEntity player,
             Hand hand, BlockRayTraceResult hit) {
         ItemStack held = player.getHeldItem(hand);
+        // Match single-torch sconces: extinguish without pouring or emptying the bucket.
+        if (held.getItem() == Items.WATER_BUCKET) {
+            if (!world.isRemote)
+                LightInteractions.replace(world, pos, state, variant(count, false, wall));
+            return true;
+        }
         // Lighting an extinguished sconce does not consume another candle or torch.
         // Do this before the insertion/removal branches, as in the legacy release.
         if (!lit && !state.get(WATERLOGGED) && (held.getItem() == Items.FLINT_AND_STEEL
@@ -136,14 +142,13 @@ public final class AdditionalSconce extends LightHolderSconceFloor {
         return PhaseFourLighting.isLightItem(held);
     }
     boolean litAfterRedstone(boolean waterlogged, boolean powered) {
-        // Waterlogged torches need continuous power; dry flames stay lit afterwards.
-        if (twinTorch && waterlogged) return powered;
-        return lit || !waterlogged && powered;
+        // Power keeps submerged flames burning; dry flames stay lit afterwards.
+        return waterlogged ? powered : lit || powered;
     }
     @Override public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState previous, boolean moving) {
         super.onBlockAdded(state, world, pos, previous, moving);
-        // Placement, adding the second torch and waterlogging can leave an existing signal unchanged.
-        if (twinTorch && previous.getBlock() != this)
+        // Filling the holder or adding water needn't change an existing signal.
+        if (previous.getBlock() != this)
             neighborChanged(state, world, pos, previous.getBlock(), pos, moving);
     }
     @Override public void neighborChanged(BlockState state, World world, BlockPos pos, Block changed, BlockPos from, boolean moving) {
@@ -158,7 +163,7 @@ public final class AdditionalSconce extends LightHolderSconceFloor {
     }
     @Override public boolean canConnectRedstone(BlockState state, IBlockReader world, BlockPos pos, Direction side) { return true; }
     @Override public void animateTick(BlockState state, World world, BlockPos pos, Random random) {
-        if (!lit || !twinTorch && state.get(WATERLOGGED)) return;
+        if (!lit) return;
         for (int index = 0; index < count; index++) {
             Vec3d flame = getFlameOffset(state, index);
             double x = pos.getX() + flame.x, y = pos.getY() + flame.y, z = pos.getZ() + flame.z;
