@@ -1,3 +1,7 @@
+# IronAgeFurniture 0.4.3.118021
+
+- Remove the old tallow recipes so raw meat cooks normally again.
+
 # IronAgeFurniture 0.4.2.118021
 
 - Fix players floating above chairs, benches and stools when sitting down.

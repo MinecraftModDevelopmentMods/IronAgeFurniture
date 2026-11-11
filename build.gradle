@@ -735,7 +735,7 @@ tasks.register('verifyReleaseConfiguration') {
     dependsOn tasks.named('verifyMavenizerCompatibilityFixture')
     doLast {
         Map<String, String> expected = [
-                mod_version            : '0.4.2.118021',
+                mod_version            : '0.4.3.118021',
                 mod_group              : 'zone.moddev.mc',
                 mod_archive_name       : 'iron-age-furniture',
                 mod_id                 : 'ironagefurniture',
@@ -815,8 +815,8 @@ tasks.register('verifyResourceJson') {
             include 'pack.mcmeta'
         }.files.sort { it.path }
         // The native catalog has eight vanilla wood families, one fewer than 1.19.
-        if (jsonFiles.size() != 51620) {
-            throw new GradleException("Expected 51620 runtime JSON documents, found ${jsonFiles.size()}")
+        if (jsonFiles.size() != 51608) {
+            throw new GradleException("Expected 51608 runtime JSON documents, found ${jsonFiles.size()}")
         }
         jsonFiles.each { candidate ->
             try {
