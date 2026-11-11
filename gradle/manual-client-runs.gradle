@@ -9,8 +9,8 @@ def bopRuntimeDirectory = providers.gradleProperty('bopRuntimeDirectory').orElse
 
 // Pin the matching 26.2 add-on and actual published 26.2 dependencies.
 Map<String, String> bopRuntimeJars = [
-        'iron-age-furniture-biomes-o-plenty-addon-0.4.0.2602002.jar':
-                '885986484781DED5B3E6910221872FDA28423E0D23C945411675F9B1C8D56337',
+        'iron-age-furniture-biomes-o-plenty-addon-0.4.1.2602002.jar':
+                'C28594ED5220338A005D77A0F2B082D07EE5C064DBB34F00E0C61F292C0B7EF1',
         'BiomesOPlenty-neoforge-26.2-26.1.2.0.40.jar':
                 'C98208C568CC893FE32C8CD347FE3CC42A283DA137BBE5BEFF7587753443E561',
         'GlitchCore-neoforge-26.2-26.2.0.0.0.jar':

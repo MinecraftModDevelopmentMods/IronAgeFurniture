@@ -6,6 +6,8 @@ This branch provides Phase 4, version `0.4.1.2602002`, for Minecraft 26.2 with N
 
 This fixes raw meat turning into tallow when cooked. Minecraft has its own candles now, so the old tallow recipes are no longer needed.
 
+If you use the BOP add-on, update it to `0.4.1.2602002` or later on this branch as well.
+
 ## Furniture and lighting
 
 Every registered block and item has a readable name in all seventeen supported language files, including filled sconces, lamp brightness states and hidden parts shown by HUD mods.
