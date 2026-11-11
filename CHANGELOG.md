@@ -1,3 +1,7 @@
+# IronAgeFurniture 0.4.1.2602002
+
+- Remove the old tallow recipes so raw meat cooks normally again.
+
 # IronAgeFurniture 0.4.0.2602002
 
 - Bring the released NeoForge 26.3 Phase 4 furniture and lighting changes to Minecraft 26.2.
