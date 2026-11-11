@@ -1,3 +1,7 @@
+# IronAgeFurniture 0.4.3.2603002
+
+- Remove the old tallow recipes so raw meat cooks normally again.
+
 # Iron Age Furniture 0.4.2.2603002
 
 - Builds against NeoForge `26.3.0.99` while keeping the existing `.77` minimum.
