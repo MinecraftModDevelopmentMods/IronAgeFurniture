@@ -1,3 +1,7 @@
+# IronAgeFurniture 0.4.1.2601022
+
+- Remove the old tallow recipes so raw meat cooks normally again.
+
 # IronAgeFurniture 0.4.0.2601022
 
 - Bring Phase 4 from NeoForge 26.2 to Minecraft 26.1.2 while retaining the built-in optional Biomes O' Plenty integration.

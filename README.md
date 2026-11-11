@@ -2,7 +2,9 @@
 
 IronAgeFurniture adds chairs, stools, benches, lighting, and other ye olde-style furniture to Minecraft.
 
-This branch targets Minecraft 26.1.2 with NeoForge 26.1.2.94. Its current complete version is `0.4.0.2601022` and its Maven coordinate is `zone.moddev.mc:iron-age-furniture:0.4.0.2601022`.
+This branch targets Minecraft 26.1.2 with NeoForge 26.1.2.94. Its current complete version is `0.4.1.2601022` and its Maven coordinate is `zone.moddev.mc:iron-age-furniture:0.4.1.2601022`.
+
+This fixes raw meat turning into tallow when cooked. Minecraft has its own candles now, so the old tallow recipes are no longer needed.
 
 Phase 4 adds wingback chairs, thrones, wooden and canopy beds, double beds, removable shield-chair shields, and candle sconces with four individually stored vanilla candles. Chairs, benches, beds and lights have separate creative tabs. Gameplay settings are synchronized from the server, and placed lighting variants have readable HUD names in all seventeen bundled languages.
 
