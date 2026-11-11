@@ -2,7 +2,11 @@
 
 IronAgeFurniture adds chairs, stools, benches, lighting, and other ye olde-style furniture to Minecraft.
 
-This branch provides Phase 4, version `0.4.0.2602002`, for Minecraft 26.2 with NeoForge 26.2.0.45-beta and Java 25.
+This branch provides Phase 4, version `0.4.1.2602002`, for Minecraft 26.2 with NeoForge 26.2.0.45-beta and Java 25.
+
+This fixes raw meat turning into tallow when cooked. Minecraft has its own candles now, so the old tallow recipes are no longer needed.
+
+If you use the BOP add-on, update it to `0.4.1.2602002` or later on this branch as well.
 
 ## Furniture and lighting
 
@@ -52,6 +56,6 @@ Release publication is initiated manually from the protected default-branch disp
 
 Furniture registrations and their matching blockstates, models, recipes, advancements, and translations are generated from `gradle/furniture-catalog.json`. Normal builds verify committed output without changing it; run `gradlew.bat updateFurnitureCatalog` only when intentionally changing the catalog.
 
-The core has no biome-mod dependency. Its Maven coordinate is `zone.moddev.mc:iron-age-furniture:0.4.0.2602002`. A successful build does not by itself confirm gameplay, world migration or publication.
+The core has no biome-mod dependency. Its Maven coordinate is `zone.moddev.mc:iron-age-furniture:0.4.1.2602002`. A successful build does not by itself confirm gameplay, world migration or publication.
 
 The Java API namespace is `zone.moddev.mc.ironagefurniture`. The persistent runtime mod, registry, resource, data, configuration, and saved-world namespace remains `ironagefurniture`.
