@@ -1,3 +1,7 @@
+# IronAgeFurniture 0.4.2.120061
+
+- Remove the old tallow recipes so raw meat cooks normally again.
+
 # IronAgeFurniture 0.4.1.120061
 
 - Bring Phase 4 to Minecraft 1.20.6 and Forge 50.2.0 on Java 21.
