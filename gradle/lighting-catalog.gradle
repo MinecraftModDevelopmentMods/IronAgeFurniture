@@ -123,9 +123,5 @@ ext.renderLightingCatalog = { File outputRoot, Map language ->
     write("${assets}/items/tallow.json", [model: [type: 'minecraft:model', model: 'ironagefurniture:item/tallow']])
     write("${data}/recipe/candles_from_tallow.json", [type: 'minecraft:crafting_shapeless', ingredients: ['ironagefurniture:tallow', 'minecraft:string'], result: [id: 'minecraft:candle', count: 8], 'forge:conditions': lightConditions])
     discover('candles_from_tallow', 'ironagefurniture:tallow', lightConditions)
-    [porkchop: 3, beef: 2, mutton: 2, rabbit: 1, chicken: 1, rotten_flesh: 1].each { meat, count ->
-        write("${data}/recipe/tallow_from_${meat}.json", [type: 'minecraft:smelting', category: 'food', ingredient: "minecraft:${meat}", result: [id: 'ironagefurniture:tallow', count: count], experience: .1, cookingtime: 200, 'forge:conditions': lightConditions])
-        discover("tallow_from_${meat}".toString(), "minecraft:${meat}".toString(), lightConditions)
-    }
     generated
 }

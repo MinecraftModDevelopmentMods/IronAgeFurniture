@@ -1,3 +1,7 @@
+# IronAgeFurniture 0.4.2.2603001
+
+- Remove the old tallow recipes so raw meat cooks normally again.
+
 # Iron Age Furniture 0.4.1.2603001
 
 - Adds translated names for every registered block and item in all seventeen language files, including filled sconces, lamp brightness states and hidden furniture parts shown by HUD mods.
