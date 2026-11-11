@@ -6,6 +6,8 @@ This branch provides Phase 4, version **0.4.2.2603001**, for Minecraft **26.3**,
 
 This fixes raw meat turning into tallow when cooked. Minecraft has its own candles now, so the old tallow recipes are no longer needed.
 
+If you use the BOP add-on, update it to `0.4.2.2603001` or later on this branch as well.
+
 ## Furniture and lighting
 
 Phase 4 adds wingback chairs, thrones, single and double wooden beds, and canopy beds in all sixteen upholstery colours. Furniture is organised into four creative tabs: Chairs, Benches, Beds and Lights.

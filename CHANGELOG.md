@@ -1,6 +1,7 @@
 # IronAgeFurniture 0.4.2.2603001
 
 - Remove the old tallow recipes so raw meat cooks normally again.
+- Update the BOP add-on to `0.4.2.2603001` or later if you use it.
 
 # Iron Age Furniture 0.4.1.2603001
 
