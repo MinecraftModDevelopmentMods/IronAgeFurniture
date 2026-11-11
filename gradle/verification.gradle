@@ -67,7 +67,7 @@ tasks.register('verifyReleaseConfiguration') {
     dependsOn tasks.named('verifyMavenizerCompatibilityFixture')
     doLast {
         Map<String, String> expected = [
-                mod_version            : '0.4.1.2603001',
+                mod_version            : '0.4.2.2603001',
                 mod_group              : 'zone.moddev.mc',
                 mod_archive_name       : 'iron-age-furniture',
                 mod_id                 : 'ironagefurniture',
@@ -146,8 +146,8 @@ tasks.register('verifyResourceJson') {
             include '**/*.json'
             include 'pack.mcmeta'
         }.files.sort { it.path }
-        if (jsonFiles.size() != 16229) {
-            throw new GradleException("Expected 16229 Phase 4 runtime JSON documents, found ${jsonFiles.size()}")
+        if (jsonFiles.size() != 16217) {
+            throw new GradleException("Expected 16217 Phase 4 runtime JSON documents, found ${jsonFiles.size()}")
         }
         jsonFiles.each { candidate ->
             try {
