@@ -2,7 +2,9 @@
 
 IronAgeFurniture adds chairs, stools, benches, lighting, and other ye olde-style furniture to Minecraft.
 
-This version brings Phase 4 to Minecraft 1.18.2 with Forge 40.3.0 and Java 17. The version is `0.4.2.118021`.
+This version brings Phase 4 to Minecraft 1.18.2 with Forge 40.3.0 and Java 17. The version is `0.4.3.118021`.
+
+This fixes raw meat turning into tallow when cooked. Minecraft has its own candles now, so the old tallow recipes are no longer needed.
 
 ## Furniture and lighting
 
@@ -52,4 +54,4 @@ Furniture registrations and their matching blockstates, models, recipes, advance
 
 The Java API namespace is `zone.moddev.mc.ironagefurniture`. The persistent Forge mod, registry, resource, data, configuration, and saved-world namespace remains `ironagefurniture`.
 
-The Maven coordinate is `zone.moddev.mc:iron-age-furniture:0.4.2.118021`. Local builds do not publish or tag releases.
+The Maven coordinate is `zone.moddev.mc:iron-age-furniture:0.4.3.118021`. Local builds do not publish or tag releases.
