@@ -1,3 +1,7 @@
+# IronAgeFurniture 0.4.1.121112
+
+- Remove the old tallow recipes so raw meat cooks normally again.
+
 # IronAgeFurniture 0.4.0.121112
 
 - Added wooden beds, double beds, canopy beds, wingbacks and thrones to NeoForge 1.21.11, with sixteen upholstery colours and matching wood recipes.

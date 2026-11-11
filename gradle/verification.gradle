@@ -23,7 +23,7 @@ tasks.register('verifyReleaseConfiguration') {
     description = 'Verifies the exact IronAgeFurniture 1.21.11 NeoForge release identity.'
     doLast {
         Map<String, String> expected = [
-                mod_version            : '0.4.0.121112',
+                mod_version            : '0.4.1.121112',
                 mod_group              : 'zone.moddev.mc',
                 mod_archive_name       : 'iron-age-furniture',
                 mod_id                 : 'ironagefurniture',
@@ -104,11 +104,11 @@ tasks.register('verifyResourceJson') {
             include '**/*.json'
             include 'pack.mcmeta'
         }.files.sort { it.path }
-        // 16,229 core documents plus 1,195 documents for each of the retained
+        // 16,217 core documents plus 1,195 documents for each of the retained
         // 14 BOP and 25 BWG wood families (46 states, 609 block models, and
         // 135 each of item models, item definitions, recipes and advancements).
-        if (jsonFiles.size() != 16229 + (14 + 25) * 1195) {
-            throw new GradleException("Expected 62834 integrated Phase 4 runtime JSON documents, found ${jsonFiles.size()}")
+        if (jsonFiles.size() != 16217 + (14 + 25) * 1195) {
+            throw new GradleException("Expected 62822 integrated Phase 4 runtime JSON documents, found ${jsonFiles.size()}")
         }
         jsonFiles.each { candidate ->
             try {

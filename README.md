@@ -2,7 +2,9 @@
 
 IronAgeFurniture adds chairs, stools, benches, lighting, and other ye olde-style furniture to Minecraft.
 
-This branch is for Minecraft 1.21.11 with NeoForge 21.11.45 and Java 21. This release is `0.4.0.121112`. The Maven coordinate is `zone.moddev.mc:iron-age-furniture:0.4.0.121112`.
+This branch is for Minecraft 1.21.11 with NeoForge 21.11.45 and Java 21. This release is `0.4.1.121112`. The Maven coordinate is `zone.moddev.mc:iron-age-furniture:0.4.1.121112`.
+
+This fixes raw meat turning into tallow when cooked. Minecraft has its own candles now, so the old tallow recipes are no longer needed.
 
 ## Furniture and lighting
 
