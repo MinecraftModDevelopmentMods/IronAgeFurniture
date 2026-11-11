@@ -601,7 +601,7 @@ tasks.register('verifyReleaseConfiguration') {
     description = 'Verifies the exact IronAgeFurniture 1.20.6 NeoForge release identity.'
     doLast {
         Map<String, String> expected = [
-                mod_version            : '0.4.0.120062',
+                mod_version            : '0.4.1.120062',
                 mod_group              : 'zone.moddev.mc',
                 mod_archive_name       : 'iron-age-furniture',
                 mod_id                 : 'ironagefurniture',
@@ -679,8 +679,8 @@ tasks.register('verifyResourceJson') {
             include '**/pack.mcmeta'
         }.files.sort { it.path }
         // Includes the copper-ingot fallback recipe and its discovery advancement.
-        if (jsonFiles.size() != 27232) {
-            throw new GradleException("Expected 27232 runtime JSON documents, found ${jsonFiles.size()}")
+        if (jsonFiles.size() != 27220) {
+            throw new GradleException("Expected 27220 runtime JSON documents, found ${jsonFiles.size()}")
         }
         jsonFiles.each { candidate ->
             try {
