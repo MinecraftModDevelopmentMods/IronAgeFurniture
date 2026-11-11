@@ -1,3 +1,7 @@
+# IronAgeFurniture 0.4.2.121111
+
+- Remove the old tallow recipes so raw meat cooks normally again.
+
 # Iron Age Furniture 0.4.1.121111
 
 - Bring the Phase 4 furniture and lighting improvements to Forge 1.21.11.
