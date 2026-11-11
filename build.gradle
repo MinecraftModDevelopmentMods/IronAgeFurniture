@@ -733,13 +733,14 @@ tasks.register('verifyResourceJson') {
             boolean optional = !(metal in ['iron', 'gold', 'copper'])
             [("light_metal_ironage_sconce_floor_empty_${optional ? 'basemetals_' : ''}${metal}.json".toString()): metal]
         }
-        Map<String, Integer> tallowYields = [porkchop: 3, beef: 2, mutton: 2, rabbit: 1, chicken: 1, rotten_flesh: 1]
-        Set<String> waxRecipes = (tallowYields.keySet().collect { "tallow_from_${it}.json".toString() }
-                + ['candles_from_tallow.json']).toSet()
+        Set<String> waxRecipes = ['candles_from_tallow.json'].toSet()
         if (!recipeDocuments.keySet()*.name.containsAll(frameRecipes.keySet() + waxRecipes)) {
-            throw new GradleException('All 23 fixed-material frame recipes and seven tallow/candle recipes are required')
+            throw new GradleException('All 23 fixed-material frame recipes and the legacy tallow-to-candle recipe are required')
         }
         recipeDocuments.each { recipeFile, document ->
+            if (document.result instanceof Map && document.result.id == 'ironagefurniture:tallow') {
+                throw new GradleException("Retired tallow production recipe remains: ${recipeFile}")
+            }
             if (recipeFile.name == 'bed_recolour.json') {
                 if (document != [type: 'ironagefurniture:bed_recolour'])
                     throw new GradleException('Manual bed recolouring must retain its exact special recipe identity')
@@ -793,19 +794,10 @@ tasks.register('verifyResourceJson') {
                 }
             }
             if (waxRecipes.contains(recipeFile.name)) {
-                if (recipeFile.name == 'candles_from_tallow.json') {
-                    if (document.type != 'minecraft:crafting_shapeless'
-                            || document.ingredients != [[item: 'ironagefurniture:tallow'], [item: 'minecraft:string']]
-                            || document.result != [id: 'minecraft:candle', count: 8]) {
-                        throw new GradleException('Tallow plus string must retain the eight native vanilla candles recipe')
-                    }
-                } else {
-                    String meat = recipeFile.name.substring('tallow_from_'.length(), recipeFile.name.length() - 5)
-                    if (document.type != 'minecraft:smelting' || document.ingredient != [item: "minecraft:${meat}".toString()]
-                            || document.result != [id: 'ironagefurniture:tallow', count: tallowYields[meat]]
-                            || document.experience != 0.1 || document.cookingtime != 200) {
-                        throw new GradleException("Tallow smelting input, yield or native cooking contract changed: ${recipeFile}")
-                    }
+                if (document.type != 'minecraft:crafting_shapeless'
+                        || document.ingredients != [[item: 'ironagefurniture:tallow'], [item: 'minecraft:string']]
+                        || document.result != [id: 'minecraft:candle', count: 8]) {
+                    throw new GradleException('Tallow plus string must retain the eight native vanilla candles recipe')
                 }
             }
         }
