@@ -9,9 +9,11 @@ olde-style furniture to Minecraft. Seating is functional, furniture supports
 the appropriate vanilla and optional-mod materials, and lighting includes
 falling and throwable lava lamps.
 
-This branch provides IronAgeFurniture `0.4.1.117011` for Minecraft 1.17.1 and
+This branch provides IronAgeFurniture `0.4.2.117011` for Minecraft 1.17.1 and
 Forge 37.1.1. It requires Java 16 and can be installed on both clients and
 dedicated servers.
+
+This fixes raw meat turning into tallow when cooked. Minecraft has its own candles now, so the old tallow recipes are no longer needed.
 
 ## Phase 4 furniture and lighting
 
@@ -88,7 +90,7 @@ The supported Java source namespace is now
 `zone.moddev.mc.ironagefurniture`. Add-ons compiled against the former
 `com.mcmoddev.ironagefurniture` packages must update their imports. The Maven
 coordinate is
-`zone.moddev.mc:iron-age-furniture:0.4.1.117011`.
+`zone.moddev.mc:iron-age-furniture:0.4.2.117011`.
 
 See [CHANGELOG.md](CHANGELOG.md) for the release notes and
 [docs/VERSIONS.md](docs/VERSIONS.md) for the versioning scheme. Bugs can be
