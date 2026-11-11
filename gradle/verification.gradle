@@ -23,7 +23,7 @@ tasks.register('verifyReleaseConfiguration') {
     description = 'Verifies the exact IronAgeFurniture 26.3 NeoForge release identity.'
     doLast {
         Map<String, String> expected = [
-                mod_version            : '0.4.2.2603002',
+                mod_version            : '0.4.3.2603002',
                 mod_group              : 'zone.moddev.mc',
                 mod_archive_name       : 'iron-age-furniture',
                 mod_id                 : 'ironagefurniture',
@@ -103,8 +103,8 @@ tasks.register('verifyResourceJson') {
             include 'pack.mcmeta'
         }.files.sort { it.path }
         // Fixed-metal states share eight additional floor/wall candle-dish models.
-        if (jsonFiles.size() != 14989 + 56 * 22 + 8) {
-            throw new GradleException("Expected 16229 Phase 4 runtime JSON documents, found ${jsonFiles.size()}")
+        if (jsonFiles.size() != 14977 + 56 * 22 + 8) {
+            throw new GradleException("Expected 16217 Phase 4 runtime JSON documents, found ${jsonFiles.size()}")
         }
         jsonFiles.each { candidate ->
             try {
