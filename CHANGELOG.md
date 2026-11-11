@@ -1,3 +1,7 @@
+# IronAgeFurniture 0.4.1.121012
+
+- Remove the old tallow recipes so raw meat cooks normally again.
+
 # IronAgeFurniture 0.4.0.121012
 
 - Bring Phase 4 to Minecraft 1.21.1, including single and double beds, canopies, wingback chairs and thrones.

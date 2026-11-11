@@ -2,7 +2,9 @@
 
 IronAgeFurniture adds chairs, stools, benches, lighting, and other ye olde-style furniture to Minecraft.
 
-This branch is for Minecraft 1.21.1 with NeoForge 21.1.247. The version is `0.4.0.121012`.
+This branch is for Minecraft 1.21.1 with NeoForge 21.1.247. The version is `0.4.1.121012`.
+
+This fixes raw meat turning into tallow when cooked. Minecraft has its own candles now, so the old tallow recipes are no longer needed.
 
 Phase 4 adds single and double beds, canopies, wingback chairs, thrones, removable shield displays and sconces that hold up to four candles. Shields and candles keep their names and other saved details when removed. Furniture is organised into four creative tabs, with gameplay settings controlled by the server. All 17 translations are included.
 
@@ -33,7 +35,7 @@ gradlew.bat prepareEclipse verifyEclipseProductionClasspath
 
 Run this command from a terminal before the first Eclipse import or Gradle refresh. It records the exact Temurin 21.0.7+6 installation in the machine-local Buildship preferences; otherwise Eclipse may select a different runtime that is rejected by the pinned-toolchain check.
 
-Releases use the manual publication workflow after CI passes. A local build does not publish anything. The Maven coordinate is `zone.moddev.mc:iron-age-furniture:0.4.0.121012`.
+Releases use the manual publication workflow after CI passes. A local build does not publish anything. The Maven coordinate is `zone.moddev.mc:iron-age-furniture:0.4.1.121012`.
 
 Furniture registrations and their matching blockstates, models, recipes, advancements, and translations are generated from `gradle/furniture-catalog.json`. Normal builds verify committed output without changing it; run `gradlew.bat updateFurnitureCatalog` only when intentionally changing the catalog.
 
