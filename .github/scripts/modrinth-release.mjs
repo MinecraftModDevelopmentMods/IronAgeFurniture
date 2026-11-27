@@ -59,6 +59,7 @@ export function matchingVersion(versions, metadata, hashes) {
   assert.ok(matches.length <= 1, 'Multiple Modrinth versions use this release number');
   if (!matches.length) return undefined;
   const existing = matches[0];
+  assert.equal(existing.project_id, project, 'Existing Modrinth project differs');
   assert.deepEqual(existing.game_versions, [metadata.minecraft], 'Existing Modrinth Minecraft metadata differs');
   assert.deepEqual(existing.loaders, [metadata.loader], 'Existing Modrinth loader differs');
   assert.equal(existing.version_type, metadata.releaseType ?? 'release', 'Existing Modrinth release channel differs');
@@ -74,12 +75,18 @@ export function matchingVersion(versions, metadata, hashes) {
   return existing;
 }
 
-async function json(url) {
+async function json(url, { allowNotFound = false } = {}) {
   const headers = { 'User-Agent': 'IronAgeFurniture-release/1.0 (github.com/MinecraftModDevelopmentMods/IronAgeFurniture)' };
   if (url.startsWith('https://api.github.com/')) headers.Authorization = `Bearer ${process.env.GH_TOKEN}`;
   const response = await fetch(url, { headers, signal: AbortSignal.timeout(60000) });
+  if (allowNotFound && response.status === 404) return undefined;
   assert.ok(response.ok, `Request failed (${response.status}): ${url}`);
   return response.json();
+}
+
+export async function findExistingVersion(metadata, hashes, request = json) {
+  const version = await request(`https://api.modrinth.com/v2/project/${project}/version/${encodeURIComponent(metadata.version)}`, { allowNotFound: true });
+  return matchingVersion(version ? [version] : [], metadata, hashes);
 }
 
 async function output(name, value) {
@@ -137,8 +144,7 @@ async function prepare(directory) {
     assert.equal(sha256, checksumFor(manifest, filename), `Published SHA256 mismatch: ${filename}`);
     hashes[filename] = { sha256, sha512: createHash('sha512').update(bytes).digest('hex') };
   }
-  const versions = await json(`https://api.modrinth.com/v2/project/${project}/version`);
-  const existing = matchingVersion(versions, metadata, hashes);
+  const existing = await findExistingVersion(metadata, hashes);
   await writeFile(join(directory, 'modrinth-receipt.json'), JSON.stringify({ metadata, hashes, existingVersion: existing?.id }, null, 2));
   for (const [name, value] of Object.entries({ name: metadata.name, minecraft: metadata.minecraft, loader: metadata.loader,
     files: metadata.files.map(file => join(directory, file)).join('\n'), dependencies: metadata.dependencies.join('\n'),
@@ -149,8 +155,10 @@ async function prepare(directory) {
 
 async function verify(directory) {
   const receipt = JSON.parse(await readFile(join(directory, 'modrinth-receipt.json'), 'utf8'));
-  const versions = await json(`https://api.modrinth.com/v2/project/${project}/version`);
-  const version = matchingVersion(versions, receipt.metadata, receipt.hashes);
+  const id = process.env.MODRINTH_VERSION;
+  assert.match(id ?? '', /^[a-zA-Z0-9]+$/, 'Missing Modrinth version ID');
+  const published = await json(`https://api.modrinth.com/v2/version/${id}`);
+  const version = matchingVersion([published], receipt.metadata, receipt.hashes);
   assert.ok(version, 'Published version is not publicly listed');
   assert.equal(version.status, 'listed');
   for (const file of version.files) {

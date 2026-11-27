@@ -79,6 +79,7 @@ jobs:
         id: prepare
         run: node .github/scripts/modrinth-release.mjs prepare
       - name: Publish Modrinth version
+        id: publish
         if: steps.prepare.outputs.publish == 'true'
         uses: Kira-NT/mc-publish@52307b03863581dec6b652b83e597aec02ebb075 # v3.3.1
         with:
@@ -99,6 +100,8 @@ jobs:
           files: ${{ steps.prepare.outputs.files }}
           fail-mode: fail
       - name: Verify public files against the release checksums
+        env:
+          MODRINTH_VERSION: ${{ steps.publish.outputs.modrinth-version || steps.prepare.outputs.existing_version }}
         run: node .github/scripts/modrinth-release.mjs verify
       - name: Save publication receipt
         if: always()
