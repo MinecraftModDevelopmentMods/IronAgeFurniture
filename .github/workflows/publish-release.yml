@@ -19,7 +19,7 @@ on:
           - beta
           - alpha
       confirm_live_publication:
-        description: Confirm publication to Maven, CurseForge, and GitHub after the build passes.
+        description: Confirm publication to Maven, CurseForge, Modrinth, and GitHub after the build passes.
         required: true
         default: false
         type: boolean
@@ -666,12 +666,28 @@ jobs:
             ${{ runner.temp }}/release-input/${{ needs.preflight.outputs.sources_jar }}
             ${{ runner.temp }}/release-input/${{ needs.preflight.outputs.javadoc_jar }}
 
+  publish_modrinth:
+    name: Publish Modrinth
+    needs:
+      - preflight
+      - build
+      - publish_curseforge
+    uses: ./.github/workflows/publish-modrinth.yml
+    with:
+      release_version: ${{ needs.preflight.outputs.release_version }}
+      artifact_name: ${{ needs.build.outputs.artifact_name }}
+      release_type: ${{ inputs.curseforge_release_level }}
+      confirm_live_publication: ${{ inputs.confirm_live_publication }}
+    secrets:
+      MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+
   publish_github:
     name: Publish GitHub Release
     needs:
       - preflight
       - build
       - publish_curseforge
+      - publish_modrinth
     runs-on: ubuntu-latest
     timeout-minutes: 20
     permissions:

@@ -1,0 +1,110 @@
+name: Publish IronAgeFurniture to Modrinth
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_version:
+        description: Published release version, or latest-phase4 to upload the latest release for each Minecraft version and loader.
+        required: true
+        type: string
+      confirm_live_publication:
+        description: Confirm publication to Modrinth.
+        required: true
+        default: false
+        type: boolean
+  workflow_call:
+    inputs:
+      release_version:
+        required: true
+        type: string
+      artifact_name:
+        default: ''
+        type: string
+      release_type:
+        default: release
+        type: string
+      confirm_live_publication:
+        required: true
+        type: boolean
+    secrets:
+      MODRINTH_TOKEN:
+        required: true
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  select:
+    if: github.repository == 'MinecraftModDevelopmentMods/IronAgeFurniture' && inputs.confirm_live_publication
+    runs-on: ubuntu-latest
+    outputs:
+      versions: ${{ steps.select.outputs.versions }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - id: select
+        name: Select release versions
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_VERSION: ${{ inputs.release_version }}
+        run: node .github/scripts/modrinth-release.mjs select
+
+  publish:
+    name: Publish ${{ matrix.version }}
+    needs: select
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        version: ${{ fromJSON(needs.select.outputs.versions) }}
+    concurrency:
+      group: iron-age-furniture-modrinth-${{ matrix.version }}
+      cancel-in-progress: false
+    env:
+      GH_TOKEN: ${{ github.token }}
+      RELEASE_VERSION: ${{ matrix.version }}
+      RELEASE_ARTIFACT: ${{ inputs.artifact_name }}
+      RELEASE_TYPE: ${{ inputs.release_type || 'release' }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - name: Download verified build artifact
+        if: inputs.artifact_name != ''
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: ${{ inputs.artifact_name }}
+          path: ${{ runner.temp }}/release-input
+      - name: Verify release files and check for an existing upload
+        id: prepare
+        run: node .github/scripts/modrinth-release.mjs prepare
+      - name: Publish Modrinth version
+        if: steps.prepare.outputs.publish == 'true'
+        uses: Kira-NT/mc-publish@52307b03863581dec6b652b83e597aec02ebb075 # v3.3.1
+        with:
+          modrinth-id: 9DsXFooq
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          modrinth-featured: false
+          modrinth-unfeature-mode: none
+          modrinth-retry-attempts: 1
+          modrinth-dependencies: ${{ steps.prepare.outputs.dependencies }}
+          name: ${{ steps.prepare.outputs.name }}
+          version: ${{ matrix.version }}
+          version-type: ${{ inputs.release_type || 'release' }}
+          changelog-file: ${{ runner.temp }}/release-input/CHANGELOG.md
+          loaders: ${{ steps.prepare.outputs.loader }}
+          game-versions: ${{ steps.prepare.outputs.minecraft }}
+          game-version-filter: none
+          environment: client | server
+          files: ${{ steps.prepare.outputs.files }}
+          fail-mode: fail
+      - name: Verify public files against the release checksums
+        run: node .github/scripts/modrinth-release.mjs verify
+      - name: Save publication receipt
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: modrinth-${{ matrix.version }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/release-input/modrinth-receipt.json
+          if-no-files-found: warn
+          retention-days: 90
